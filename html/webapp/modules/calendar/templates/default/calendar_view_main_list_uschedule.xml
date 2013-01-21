@@ -1,0 +1,140 @@
+<{* XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+
+<lists>
+	<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+		<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+		<{assign var="date" value=$smarty.section.timestamp.index|date_format:"%Y%m%d"}>
+
+		<{counter name="total" start=0 skip=1 print=false assign="total"}>
+		<calendar_<{$date}>><![CDATA[
+			<{if ($action.plan_data.$date) }>
+				<{foreach name="user" key="user_id" item="plan_obj" from=$action.plan_data.$date}>
+					<{section name=i loop=$action.plan_data.$date.$user_id}>
+						<{counter name="total"}>
+						<{assign var="plan_obj" value=$action.plan_data.$date.$user_id[i]|smarty:nodefaults}>
+						<{if ($plan_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+							<{assign var="plan_class" value="calendar_plan_public"}>
+						<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+							<{assign var="plan_class" value="calendar_plan_members"}>
+						<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+							<{assign var="plan_class" value="calendar_plan_group"}>
+						<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+							<{assign var="plan_class" value="calendar_plan_private"}>
+						<{/if}>
+						
+						<table class="calendar_plan_content">
+							<tr>
+								<td class="calendar_nopadding">
+									<div class="calendar_user_name">
+										<{if ($smarty.section.i.first) }>
+											<{include file="calendar_view_handle.html" handle=$plan_obj.user_name|smarty:nodefaults user_id=$plan_obj.insert_user_id}>
+										<{else}>
+											&nbsp;
+										<{/if}>
+									</div>
+								</td>
+								
+								<{if ($plan_obj.allday_flag == _OFF || $plan_obj.timezone_offset != $smarty.session._timezone_offset) }>
+									<td>
+										<div class="calendar_plan_time">
+											<{if ($plan_obj.allday_flag == _OFF || $plan_obj.timezone_offset != $smarty.session._timezone_offset) }>
+												<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time_str:$plan_obj.end_time_str}>
+											<{else}>
+												<{$lang.calendar_allday|smarty:nodefaults}>
+											<{/if}>
+										</div>
+									</td>
+								<{/if}>
+								<td>
+									<div class="<{if ($plan_obj.allday_flag == _ON && $plan_obj.timezone_offset == $smarty.session._timezone_offset) }>calendar_plan_allday_title<{else}>calendar_plan_title<{/if}>">
+										<a class="link hover_highlight" href="#" title="<{$lang.calendar_scheduled_title|smarty:nodefaults|sprintf:$plan_obj.short_title|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showDetails(event, <{$plan_obj.calendar_id}>); return false;'>
+											<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+											<{if $plan_obj.title_icon != "" }>
+												<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$plan_obj.title_icon}>" alt="" />
+											<{/if}>
+											<{$plan_obj.short_title}>
+										</a>
+									</div>
+								</td>
+							</tr>
+						</table>
+					<{/section}>
+				<{/foreach}>
+			<{else}>
+				<div class="outerdiv">
+					<{$lang.calendar_noplan|smarty:nodefaults}>
+				</div>
+			<{/if}>
+		]]></calendar_<{$date}>>
+		
+		<calendar_<{$date}>_count><![CDATA[
+			<{if ($total > 0) }>
+				<{$lang.calendar_count_format|smarty:nodefaults|sprintf:$total}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		]]></calendar_<{$date}>_count>
+
+
+		
+		<row>
+			<date><{$date}></date>
+			<{if ($action.count_data.$date) }>
+				<{assign var="count_obj" value=$action.count_data.$date}>
+				<total><{$lang.calendar_count_format|smarty:nodefaults|sprintf:$count_obj.total}></total>
+			<{else}>
+				<total><![CDATA[&nbsp;]]></total>
+			<{/if}>
+			<{if ($action.plan_data.$date) }>
+				<data><![CDATA[
+					<{foreach name="user" key="user_id" item="plan_obj" from=$action.plan_data.$date}>
+						<{section name=i loop=$action.plan_data.$date.$user_id}>
+							<{assign var="plan_obj" value=$action.plan_data.$date.$user_id[i]|smarty:nodefaults}>
+							<{if ($plan_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+								<{assign var="plan_class" value="calendar_plan_public"}>
+							<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+								<{assign var="plan_class" value="calendar_plan_members"}>
+							<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+								<{assign var="plan_class" value="calendar_plan_group"}>
+							<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+								<{assign var="plan_class" value="calendar_plan_private"}>
+							<{/if}>
+							
+							<div class="calendar_plan_content nowrap">
+								<div class="calendar_user_name">
+									<{if ($smarty.section.i.first) }>
+										<{include file="calendar_view_handle.html" handle=$plan_obj.user_name|smarty:nodefaults user_id=$plan_obj.insert_user_id}>
+									<{else}>
+										&nbsp;
+									<{/if}>
+								</div>
+								<div class="calendar_plan_time">
+									<{if ($plan_obj.allday_flag == _OFF || $plan_obj.timezone_offset != $smarty.session._timezone_offset) }>
+										<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time:$plan_obj.end_time}>
+									<{else}>
+										<{$lang.calendar_allday|smarty:nodefaults}>
+									<{/if}>
+								</div>
+								<div class="calendar_plan_title">
+									<a class="link hover_highlight" href="#" title="<{$plan_obj.title}>" onclick='calendarCls["<{$id}>"].showDetails(event, <{$plan_obj.calendar_id}>); return false;'>
+										<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+										<{$plan_obj.title}>
+									</a>
+								</div>
+								<br class="float-clear" />
+							</div>
+						<{/section}>
+					<{/foreach}>
+				]]></data>
+			<{else}>
+				<data><![CDATA[
+					<{$lang.calendar_noplan|smarty:nodefaults}>
+				]]></data>
+			<{/if}>
+		</row>
+	<{/section}>
+</lists>
+
+<{/strip}>

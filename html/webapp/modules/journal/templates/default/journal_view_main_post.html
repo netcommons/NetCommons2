@@ -1,0 +1,97 @@
+<{strip}>
+<div class="outerdiv">
+	<form id="journal_post_form<{$id}>" onsubmit="return false;">
+		<table class="outer" summary="">
+			<tr class="row">
+				<th scope="row"><{$lang.journal_post_date|smarty:nodefaults}></th>
+				<td class="nowrap">
+					<input class="journal_date" id="journal_date<{$id}>" name="journal_date" value="<{$action.post.journal_date|timezone_date_format:$lang._input_date_format}>" size="13" maxlength="10" type="text" />
+
+					<select name="journal_hour" size="1">
+						<{section name=hour loop=24 start=0 step=1}>
+							<{assign var=hour value=$smarty.section.hour.index}>
+							<{assign var=plan_hour value=$action.post.journal_date|timezone_date_format:"His"|substr:0:2|intval}>
+							<option value="<{$hour|string_format:"%02d"}>"<{if ($hour == $plan_hour) }> selected="selected"<{/if}>>
+								<{$hour|string_format:$lang.journal_hour_format|smarty:nodefaults}>
+							</option>
+						<{/section}>
+					</select>
+					&nbsp;
+					<select name="journal_minute" size="1">
+						<{section name=minute loop=60 start=0 step=1}>
+							<{assign var=minute value=$smarty.section.minute.index}>
+							<{assign var=plan_minute value=$action.post.journal_date|timezone_date_format:"His"|substr:2:2|intval}>
+							<option value="<{$minute|string_format:"%02d"}>"<{if ($minute == $plan_minute) }> selected="selected"<{/if}>>
+								<{$minute|string_format:$lang.journal_minute_format|smarty:nodefaults}>
+							</option>
+						<{/section}>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><{$lang.journal_post_title|smarty:nodefaults}></th>
+				<td class="nowrap">
+					<a href="#">
+						<img id="journal_icon_name_img<{$id}>" class="comp_title_icon" alt="" title="" onclick="journalCls['<{$id}>'].showIcon();return false;" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');" />
+					</a>
+					<input id="journal_title<{$id}>" class="text" name="title" value="<{$action.post.title}>" type="text" size="50" />
+					<input id="journal_icon_name_hidden<{$id}>" name="icon_name" type="hidden" value="<{$action.post.icon_name}>"/>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><{$lang.journal_post_category|smarty:nodefaults}></th>
+				<td class="nowrap">
+					<select name="category_id" size="1">
+						<option value="0" <{if ($action.post.category_id=="0")}>selected="selected"<{/if}>><{$lang.journal_nocategory|smarty:nodefaults}></option>
+						<{foreach from=$action.categories item=cat}>
+							<option value="<{$cat.category_id}>" <{if ($action.post.category_id==$cat.category_id)}>selected="selected"<{/if}>><{$cat.category_name}></option>
+						<{/foreach}>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<textarea class="comptextarea textarea<{$id}>" rows="18" cols="60"><{$action.post.content|smarty:nodefaults|wysiwig_convert_url|escape:"html"}></textarea>
+		<label>
+			<input type="checkbox" onclick="journalCls['<{$id}>'].checkMore(this, '<{$lang.journal_delete_confirm|smarty:nodefaults}>');" name="more_checkbox" value="<{$smarty.const._ON}>" <{if $action.post.more_content != "" }>checked=checked<{/if}>/>
+			<{$lang.journal_continue_write|smarty:nodefaults}>
+		</label>
+		<br/>
+		<div id="journal_more_content<{$id}>" <{if $action.post.more_content == "" }>class="display-none"<{/if}>>
+			<label>
+				<input class="" type="text" maxlength="120" value="<{if $action.post.more_content != "" }><{$action.post.more_title}><{else}><{$lang.journal_continue_read|smarty:nodefaults}><{/if}>" name="more_title"/>
+			</label>
+			<br/>
+			<textarea class="comptextarea textarea_more<{$id}>" rows="18" cols="60"><{$action.post.more_content|smarty:nodefaults|wysiwig_convert_url|escape:"html"}></textarea>
+			<{if $action.post.more_content != "" }>
+				<script class="nc_script" type="text/javascript">
+					journalCls['<{$id}>'].moreInit();
+				</script>
+			<{/if}>
+			<label>
+				<input class="" type="text" maxlength="120" value="<{if $action.post.more_content != "" }><{$action.post.hide_more_title}><{else}><{$lang.journal_continue_delete}><{/if}>" name="hide_more_title"/>
+			</label>
+		</div>
+		<{if $action.journal_obj.trackback_transmit_flag == $smarty.const._ON}>
+			<div id="journal_trackback<{$id}>">
+				<{$lang.journal_trackback_desc|smarty:nodefaults}>
+				<br />
+				<textarea name="tb_url" class="journal_trackback_textarea">
+					<{$action.post.tb_url|smarty:nodefaults}>
+				</textarea>
+			</div>
+		<{/if}>
+		<div class="btn-bottom">
+			<input name="temp" type="button" class="tempbtn-width" onclick="journalCls['<{$id}>'].post(this.form, <{$smarty.const._ON}>);" value="<{$lang._temporary|smarty:nodefaults}>" />
+			<input name="regist" type="button" class="btn-width lined_btn" onclick="journalCls['<{$id}>'].post(this.form, <{$smarty.const._OFF}>);" value="<{$lang._regist|smarty:nodefaults}>" />
+			<input name="cancel" type="button" class="btn-width lined_btn" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_init'});" value="<{$lang._cancel|smarty:nodefaults}>" />
+		</div>
+		<input type="hidden" name="journal_id" value="<{$action.journal_obj.journal_id}>"/>
+		<input type="hidden" name="edit_flag" value="<{$action.edit_flag}>"/>
+		<input type="hidden" name="post_id" value="<{$action.post.post_id}>"/>
+	</form>
+</div>
+<{include file="../journal_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("journal_title<{$id}>"));
+</script>
+<{/strip}>

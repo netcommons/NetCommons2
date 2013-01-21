@@ -1,0 +1,49 @@
+<{strip}>
+
+<{if ($explorer_pos == "up_folder") }>
+	<a href="#<{$id}>" title="<{$lang.cabinet_title_up_folder|smarty:nodefaults}>" class="syslink<{if ($smarty.session._auth_id >= _AUTH_CHIEF && $action.reference == _OFF) }> cabinet_dropzone cabinet_dropzone<{$file_id}><{/if}>" onclick='cabinetCls["<{$id}>"].nodeClick("<{$file_id}>");'>
+		<img class="icon" src="<{"up_folder.gif"|get_modules_image}>" alt="" title="" />
+		<{$file_name|smarty:nodefaults}>
+	</a>
+
+<{elseif ($explorer_pos == "right") }>
+	<div class="float-left align_right<{if ($smarty.session._auth_id >= _AUTH_CHIEF && $action.reference == _OFF) }> cabinet_draggable cabinet_draggable<{$file.file_id}><{/if}> cabinet_file_type<{$file.file_type}>">
+		<{if ($action.folder_id != "0")}>
+			&nbsp;&nbsp;&nbsp;
+		<{/if}>
+		<{if ($smarty.session._auth_id >= _AUTH_CHIEF && $action.reference == _OFF) }>
+			<img class="icon cabinet_move_bar" src="<{"move_bar.gif"|get_modules_image}>" alt="" title="" />
+		<{else}>
+			<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_move_bar" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" />
+		<{/if}>
+		<{if ($file.file_type == CABINET_FILETYPE_FOLDER) }>
+			<img class="icon" src="<{"folder.gif"|get_modules_image}>" alt="" title="" />
+		<{else}>
+			<img class="icon" src="<{"file.gif"|get_modules_image}>" alt="" title="" />
+		<{/if}>
+	</div>
+	<{if ($file.file_type == CABINET_FILETYPE_FOLDER) }>
+		<a style="margin-left:24px;" class="display-block link<{if ($smarty.session._auth_id >= _AUTH_CHIEF && $action.reference == _OFF) }> cabinet_dropzone cabinet_dropzone<{$file.file_id}><{/if}>" href="#<{$id}>" title="<{$file.file_name}>" onclick='cabinetCls["<{$id}>"].nodeClick("<{$file.file_id}>");'>
+			<{$file.file_name|smarty:nodefaults}>
+		</a>
+	<{else}>
+		<a style="margin-left:24px;" class="display-block link" href="?action=cabinet_action_main_download&amp;block_id=<{$block_id}>&amp;room_id=<{$file.room_id}>&amp;cabinet_id=<{$file.cabinet_id}>&amp;file_id=<{$file.file_id}>&amp;upload_id=<{$file.upload_id}>" target="_blank" title="<{$file.file_name}>" onclick='cabinetCls["<{$id}>"].download("<{$file.file_id}>",<{$file.download_num}>);'>
+			<{$file.file_name|smarty:nodefaults}>
+		</a>
+	<{/if}>
+<{elseif ($explorer_pos == "left") }>
+	<a id="cabinet_tree_folder<{$file_id}><{$id}>" class="link hover_highlight<{if ($smarty.session._auth_id >= _AUTH_CHIEF && $action.reference == _OFF) }> cabinet_dropzone cabinet_dropzone<{$file_id}><{/if}><{if ($action.folder_id == $file_id) }> highlight<{/if}>" href="#<{$id}>" title="<{$lang._open_title|smarty:nodefaults|sprintf:$file_name}>" onclick='cabinetCls["<{$id}>"].nodeClick("<{$file_id}>");'>
+		<{$file_name|smarty:nodefaults}>
+	</a>
+
+<{elseif ($explorer_pos == "move") }>
+	<{if (in_array($file_id, $action.err_address)) }>
+		<{$file_name|smarty:nodefaults}>
+	<{else}>
+		<a id="cabinet_tree_folder<{$file_id}><{$id}>" class="link hover_highlight" href="#" title="<{$file_name}>" onclick='cabinetCls["<{$id}>"].popupMoveSelect("<{$file_id}>"); return false;'>
+			<{$file_name|smarty:nodefaults}>
+		</a>
+	<{/if}>
+<{/if}>
+
+<{/strip}>

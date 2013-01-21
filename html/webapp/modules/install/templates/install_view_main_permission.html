@@ -1,0 +1,55 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+
+<div class="install_title">
+	<{$smarty.const.INSTALL_PERMISSION_CONFIG_TITLE}>
+</div>
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<{* アクセス権のチェック *}>
+		<tr>
+			<td class="install_save_setting_data">
+				<{foreach name="permission_res" item="permission_res" from=$action.permission_res_arr|smarty:nodefaults}>
+					<div>
+						<{$permission_res|smarty:nodefaults}>
+					</div>
+				<{/foreach}>
+			</td>
+		</tr>
+		<{* 正常メッセージ *}>
+		<{if $action.permission_error_flag == false}>
+			<tr>
+				<td class="install_success_mes" colspan="2">
+					<{$smarty.const.INSTALL_PERMISSION_SUCCESS|smarty:nodefaults}>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="widthmax">
+		<tr>
+			<td class="install_btn_bottom_left">
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_prev_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_general'; return false;" />
+				<span class="install_btn_desc">
+					&lt;&lt;<{$lang.install_modify_settion}>
+				</span>
+			<td>
+			<td class="install_btn_bottom_center">
+				<{if $action.permission_error_flag == true}>
+					<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_reload|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_permission'; return false;" />
+				<{/if}>
+			</td>
+			<td class="install_btn_bottom_right">
+				<{if $action.permission_error_flag == false}>
+				<span class="install_btn_desc">
+					<{$smarty.const.INSTALL_PATH_URL_CHECK_TITLE}>&gt;&gt;
+				</span>
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_urlcheck'; return false;" />
+				<{/if}>
+			<td>
+		</tr>
+	</table>
+</div>
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>

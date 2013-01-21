@@ -1,0 +1,76 @@
+<{strip}>
+<{* 回答一覧画面用テンプレート *}>
+<div class="questionnaire_head">
+	<{include file="questionnaire_view_main_head.html"}>
+</div>
+
+<{include file="questionnaire_view_print.html"}>
+
+<{if $action.chiefItemShow}>
+	<table class="outer questionnaire_summary" summary="<{$lang.questionnaire_summary_list_summary_summary}>">
+		<{include file="questionnaire_view_answer_count.html"}>
+	</table>
+<{/if}>
+
+<table class="grid_header" summary="<{$lang.questionnaire_summary_list_summary}>">
+	<tr>
+		<{if $action.chiefItemShow}>
+			<th class="grid_creator">
+				<{$lang.questionnaire_answerer}>
+			</th>
+		<{/if}>
+
+		<th class="_sort_answer_number questionnaire_grid_answer_number" scope="col">
+			<{$lang.questionnaire_answer_number}>
+		</th>
+
+		<th class="_sort_answer_time questionnaire_grid_answer_time" scope="col">
+			<{$lang.questionnaire_answer_date}>
+		</th>
+
+		<th class="questionnaire_grid_summary_manage">
+		</th>
+	</tr>
+</table>
+
+<table class="grid <{if $action.chiefItemShow}>questionnaire_edit_summary_grid_table<{else}>questionnaire_summary_grid_table<{/if}>" summary="<{$lang.questionnaire_summary_list_summary}>">
+	<{foreach from=$action.summaries item=summary}>
+		<tr class="grid_row">
+			<{if $action.chiefItemShow}>
+				<td class="grid_creator">
+					<{include file = "questionnaire_view_handle.html" handle=$summary.insert_user_name|smarty:nodefaults user_id=$summary.insert_user_id}>
+				</td>
+			<{/if}>
+
+			<td class="questionnaire_grid_answer_number">
+				<{include file="questionnaire_view_number.html" questionnaireNumber=$lang.questionnaire_number|sprintf:$summary.answer_number}>
+			</td>
+
+			<td class="questionnaire_grid_answer_time">
+				<{$summary.answer_time|timezone_date_format:$lang._full_date_format}>
+			</td>
+
+			<td class="questionnaire_grid_summary_manage">
+				<{include file = "questionnaire_view_answer_link.html"}>
+			</td>
+		</tr>
+	<{/foreach}>
+</table>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	questionnaireCls["<{$id}>"].questionnaire_id = <{$action.questionnaire.questionnaire_id}>;
+	var opts = {
+		requestParameters : new Array(
+								"scroll=<{$smarty.const._ON}>",
+								"questionnaire_id=<{$action.questionnaire.questionnaire_id}>",
+								"answer_user_id=<{$smarty.session._user_id}>",
+								"prefix_id_name=<{$action.prefix_id_name}>"
+							),
+		prefetchBuffer:false,
+		sort:true
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.summaryCount}>, "questionnaire_view_main_summary", opts);
+	opts = null;
+</script>
+<{/strip}>

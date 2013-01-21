@@ -1,0 +1,15 @@
+<{strip}>
+<{* 自動スライド画面用テンプレート *}>
+<div id="photoalbum_photo_area<{$id}>" class="photoalbum_photo_area">
+	<img src="<{""|get_image_url}>/images/common/blank.gif" id="photoalbum_photo<{$id}>" class="photoalbum_photo" alt="" title="" />
+</div>
+
+<{include file="../photoalbum_script.html"}>
+<{include file = "photoalbum_view_main_photo_setting.html"}>
+<{if $action.album.photo_count > 0}>
+	<script class="nc_script" type="text/javascript">
+		photoalbumCls["<{$id}>"].selectPhoto();
+		photoalbumCls["<{$id}>"].startSlide(<{$action.photoalbum.slide_time}>);
+	</script>
+<{/if}>
+<{/strip}>

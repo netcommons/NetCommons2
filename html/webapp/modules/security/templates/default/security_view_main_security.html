@@ -1,0 +1,536 @@
+<{strip}>
+
+<div class="outerdiv">
+	<{* セキュリティの一般設定 *}>
+	<div class="tab_setting">
+		<{* セキュリティチェック *}>
+		<table class="outer security_setting" summary="">
+			<tr class="row">
+				<th id="security_check_set_lbl<{$id}>" scope="row">
+					<{$lang.security_check}>
+				</th>
+				<td class="security_indent">
+					<label for="security_check_on<{$id}>">
+						<input type='radio' name='security_check_set' id="security_check_on<{$id}>" value="<{$smarty.const._SECURITY_LEVEL_MEDIUM}>" <{if $action.config.security_level.conf_value != $smarty.const._SECURITY_LEVEL_NONE}>checked="checked"<{/if}> onclick="commonCls.displayVisible($('security_check<{$id}>')); " />
+						<{$lang.security_do}>
+					</label>
+					<label for="security_check_off<{$id}>">
+						<input type='radio' name='security_check_set' id="security_check_off<{$id}>" value="<{$smarty.const._SECURITY_LEVEL_NONE}>" <{if $action.config.security_level.conf_value == $smarty.const._SECURITY_LEVEL_NONE}>checked="checked"<{/if}> onclick="commonCls.displayNone($('security_check<{$id}>')); " />
+						<{$lang.security_donot}>
+					</label>
+				</td>
+			</tr>
+		</table>
+
+		<div class="security_outerdiv">
+			<div id="security_check<{$id}>" class="security_check <{if $action.config.security_level.conf_value == $smarty.const._SECURITY_LEVEL_NONE}>display-none<{/if}>">
+
+			<fieldset>
+				<{* セキュリティレベル *}>
+				<b><legend><{$lang.security_level}></legend></b>
+				<table class="outer security_setting" summary="">
+					<tr class="row">
+						<th id="security_level_lbl<{$id}>" scope="row">
+							<{$lang.security_level}>
+						</th>
+						<td>
+							<span class="security_indent2">
+								<select size="1" id="security_level<{$id}>" name="security_level" onchange="securityCls['<{$id}>'].chgSecurity(this.form);">
+ 									<option value="<{$smarty.const._SECURITY_LEVEL_HIGH}>" <{if $action.config.security_level.conf_value == $smarty.const._SECURITY_LEVEL_HIGH}>selected="selected"<{/if}>><{$lang.security_level_high}></option>
+									<option value="<{$smarty.const._SECURITY_LEVEL_MEDIUM}>" <{if $action.config.security_level.conf_value == $smarty.const._SECURITY_LEVEL_MEDIUM}>selected="selected"<{/if}>><{$lang.security_level_medium}></option>
+									<option value="<{$smarty.const._SECURITY_LEVEL_CUSTOM}>" <{if $action.config.security_level.conf_value == $smarty.const._SECURITY_LEVEL_CUSTOM}>selected="selected"<{/if}>><{$lang.security_level_custom}></option>
+									<{*
+									<option value="<{$smarty.const._SECURITY_LEVEL_NONE}>" <{if $action.config.security_level.conf_value == $smarty.const._SECURITY_LEVEL_NONE}>selected="selected"<{/if}> disabled><{$lang.security_level_none}></option>
+									*}>
+  								</select>
+  							</span>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+
+			<fieldset>
+				<{* セキュリティ設定 *}>
+				<b><legend><{$lang.security_custom}></legend></b>
+
+				<{* セキュリティ設定詳細 *}>
+				<table class="outer security_setting" summary="">
+					<tr class="row">
+						<th scope="row">
+							<img src="<{""|get_image_url}>/images/security/default/menu.gif" />
+							<font color=#0080FF><{$lang.security_details}></font>
+						</th>
+						<td class="security_indent">
+							<input type='button' name='security_custom_set_0' id="security_custom_set_0<{$id}>" value="<{$lang.security_display}>" onclick="commonCls.displayVisible($('security_custom_details<{$id}>')); this.form.security_custom_set_0.disabled=true; this.form.security_custom_set_1.disabled=false;">
+							<input type='button' name='security_custom_set_1' id="security_custom_set_1<{$id}>" value="<{$lang.security_close}>" onclick="commonCls.displayNone($('security_custom_details<{$id}>')); this.form.security_custom_set_1.disabled=true; this.form.security_custom_set_0.disabled=false;" disabled>
+						</td>
+					</tr>
+				</table>
+
+				<div id="security_custom_details<{$id}>" class="security_custom_details display-none">
+
+				<div style="border:solid 1px #666666; padding:5px;">
+					<table class="outer security_setting" summary="">
+						<tr class="row">
+							<{* ログレベル *}>
+							<th id="log_level_lbl<{$id}>" scope="row">
+								<{$lang.security_log_level}>
+							</th>
+							<td>
+								<select size="1" id="log_level<{$id}>" name="log_level" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+									<option value='<{$smarty.const._SECURITY_LOG_LEVEL_NONE}>' <{if $action.config.log_level.conf_value == $smarty.const._SECURITY_LOG_LEVEL_NONE}>selected="selected"<{/if}>><{$lang.security_log_no}></option>
+<{*
+									<option value='<{$smarty.const._SECURITY_LOG_LEVEL_HIGH}>' <{if $action.config.log_level.conf_value == $smarty.const._SECURITY_LOG_LEVEL_HIGH}>selected="selected"<{/if}>><{$lang.security_log_highsec}></option>
+*}>
+	 								<option value='<{$smarty.const._SECURITY_LOG_LEVEL_MEDIUM}>' <{if $action.config.log_level.conf_value == $smarty.const._SECURITY_LOG_LEVEL_MEDIUM}>selected="selected"<{/if}>><{$lang.security_log_lowsec}></option>
+ 									<option value='<{$smarty.const._SECURITY_LOG_LEVEL_LOW}>' <{if $action.config.log_level.conf_value == $smarty.const._SECURITY_LOG_LEVEL_LOW}>selected="selected"<{/if}>><{$lang.security_log_all}></option>
+								</select>
+							</td>
+						</tr>
+
+						<{* 不正リクエスト設定詳細 *}>
+						<tr class="row">
+							<th scope="row">
+								<img src="<{""|get_image_url}>/images/security/default/menu.gif" alt="Illegal Request" title="Illegal Request" />
+								<font color=#0080FF><{$lang.security_illegal_request}></font>
+							</th>
+							<td>
+									<input type='button' name='security_illegal_request_set_0' id="security_illegal_request_set_0<{$id}>" value="<{$lang.security_display}>" onclick="commonCls.displayVisible($('security_san_nullbyte<{$id}>'));
+																												  commonCls.displayVisible($('security_contami_action<{$id}>'));
+																												  commonCls.displayVisible($('security_isocom_action<{$id}>'));
+																												  commonCls.displayVisible($('security_union_action<{$id}>'));
+																												  commonCls.displayVisible($('security_file_dotdot<{$id}>'));
+																												  this.form.security_illegal_request_set_0.disabled=true; this.form.security_illegal_request_set_1.disabled=false;" />
+									<input type='button' name='security_illegal_request_set_1' id="security_illegal_request_set_1<{$id}>" value="<{$lang.security_close}>" onclick="commonCls.displayNone($('security_san_nullbyte<{$id}>'));
+																												  commonCls.displayNone($('security_contami_action<{$id}>'));
+																												  commonCls.displayNone($('security_isocom_action<{$id}>'));
+																												  commonCls.displayNone($('security_union_action<{$id}>'));
+																												  commonCls.displayNone($('security_file_dotdot<{$id}>'));
+																												  this.form.security_illegal_request_set_1.disabled=true; this.form.security_illegal_request_set_0.disabled=false;" disabled />
+							</td>
+						</tr>
+
+						<{* ヌル文字列をスペースに変更する *}>
+						<tr id="security_san_nullbyte<{$id}>" class="security_san_nullbyte display-none">
+							<th id="san_nullbyte_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_san_nullbyte}>
+							</th>
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='san_nullbyte' id="san_nullbyte<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._ON}>' <{if $action.config.san_nullbyte.conf_value == $smarty.const._ON}>selected="selected"<{/if}>><{$lang.security_yes}></option>
+										<option value='<{$smarty.const._OFF}>' <{if $action.config.san_nullbyte.conf_value == $smarty.const._OFF}>selected="selected"<{/if}>><{$lang.security_no}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* 変数汚染が見つかった時の処理 *}>
+						<tr id="security_contami_action<{$id}>" class="security_contami_action display-none">
+							<th id="contami_action_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_contami_action}>
+							</th>
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='contami_action' id="contami_action<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._SECURITY_VALUE_NONE}>' <{if $action.config.contami_action.conf_value == $smarty.const._SECURITY_VALUE_NONE}>selected="selected"<{/if}>><{$lang.security_log_none}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_LOGONLY}>' <{if $action.config.contami_action.conf_value == $smarty.const._SECURITY_VALUE_LOGONLY}>selected="selected"<{/if}>><{$lang.security_log_only}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_CRASH}>' <{if $action.config.contami_action.conf_value == $smarty.const._SECURITY_VALUE_CRASH}>selected="selected"<{/if}>><{$lang.security_forcefin}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* 孤立コメントが見つかった時の処理 *}>
+						<tr id="security_isocom_action<{$id}>" class="security_isocom_action display-none">
+							<th id="isocom_action_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_isocom_action}>
+							</th>
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='isocom_action' id="isocom_action<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._SECURITY_VALUE_NONE}>' <{if $action.config.isocom_action.conf_value == $smarty.const._SECURITY_VALUE_NONE}>selected="selected"<{/if}>><{$lang.security_log_none}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_LOGONLY}>' <{if $action.config.isocom_action.conf_value == $smarty.const._SECURITY_VALUE_LOGONLY}>selected="selected"<{/if}>><{$lang.security_log_only}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_DETOX}>' <{if $action.config.isocom_action.conf_value == $smarty.const._SECURITY_VALUE_DETOX}>selected="selected"<{/if}>><{$lang.security_noeffect}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_CRASH}>' <{if $action.config.isocom_action.conf_value == $smarty.const._SECURITY_VALUE_CRASH}>selected="selected"<{/if}>><{$lang.security_forcefin}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* UNIONが見つかった時の処理 *}>
+						<tr id="security_union_action<{$id}>" class="security_union_action display-none">
+							<th id="union_action_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_union_action}>
+							</th>
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='union_action' id="union_action<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._SECURITY_VALUE_NONE}>' <{if $action.config.union_action.conf_value == $smarty.const._SECURITY_VALUE_NONE}>selected="selected"<{/if}>><{$lang.security_log_none}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_LOGONLY}>' <{if $action.config.union_action.conf_value == $smarty.const._SECURITY_VALUE_LOGONLY}>selected="selected"<{/if}>><{$lang.security_log_only}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_DETOX}>' <{if $action.config.union_action.conf_value == $smarty.const._SECURITY_VALUE_DETOX}>selected="selected"<{/if}>><{$lang.security_noeffect}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_CRASH}>' <{if $action.config.union_action.conf_value == $smarty.const._SECURITY_VALUE_CRASH}>selected="selected"<{/if}>><{$lang.security_forcefin}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* 疑わしいファイル指定の禁止 *}>
+						<tr id="security_file_dotdot<{$id}>" class="security_file_dotdot display-none">
+							<th id="file_dotdot_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_file_dotdot}>
+							</th>
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='file_dotdot' id="file_dotdot<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._ON}>' <{if $action.config.file_dotdot.conf_value == $smarty.const._ON}>selected="selected"<{/if}>><{$lang.security_yes}></option>
+										<option value='<{$smarty.const._OFF}>' <{if $action.config.file_dotdot.conf_value == $smarty.const._OFF}>selected="selected"<{/if}>><{$lang.security_no}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* DoS攻撃設定詳細 *}>
+						<tr class="row">
+							<th scope="row">
+								<img src="<{""|get_image_url}>/images/security/default/menu.gif" alt="DoS" title="DoS" />
+								<font color=#0080FF><{$lang.security_dosattack}></font>
+							</th>
+							<td>
+									<input type='button' name='security_dos_attack_set_0' id="security_dos_attack_set_0<{$id}>" value="<{$lang.security_display}>" onclick="commonCls.displayVisible($('security_dos_expire<{$id}>'));
+																												  commonCls.displayVisible($('security_dos_f5count<{$id}>'));
+																												  commonCls.displayVisible($('security_dos_f5action<{$id}>'));
+																												  commonCls.displayVisible($('security_reliable_ips<{$id}>'));
+																												  commonCls.displayVisible($('security_dos_crcount<{$id}>'));
+																												  commonCls.displayVisible($('security_dos_craction<{$id}>'));
+																												  commonCls.displayVisible($('security_dos_crsafe<{$id}>'));
+																												  commonCls.displayVisible($('security_bip_except<{$id}>'));
+																												  this.form.security_dos_attack_set_0.disabled=true; this.form.security_dos_attack_set_1.disabled=false;" />
+									<input type='button' name='security_dos_attack_set_1' id="security_dos_attack_set_1<{$id}>" value="<{$lang.security_close}>" onclick="commonCls.displayNone($('security_dos_expire<{$id}>'));
+																												  commonCls.displayNone($('security_dos_f5count<{$id}>'));
+																												  commonCls.displayNone($('security_dos_f5action<{$id}>'));
+																												  commonCls.displayNone($('security_reliable_ips<{$id}>'));
+																												  commonCls.displayNone($('security_dos_crcount<{$id}>'));
+																												  commonCls.displayNone($('security_dos_craction<{$id}>'));
+																												  commonCls.displayNone($('security_dos_crsafe<{$id}>'));
+																												  commonCls.displayNone($('security_bip_except<{$id}>'));
+																												  this.form.security_dos_attack_set_1.disabled=true; this.form.security_dos_attack_set_0.disabled=false;" disabled />
+							</td>
+						</tr>
+
+						<{* DoS等の監視時間 *}>
+						<tr id="security_dos_expire<{$id}>" class="security_dos_expire display-none">
+							<th id="dos_expire_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_dos_expire}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<input type='text' name='dos_expire' id="dos_expire<{$id}>" value='<{$action.config.dos_expire.conf_value}>' onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+								</span>
+							</td>
+						</tr>
+
+						<{* F5アタックとみなす回数 *}>
+						<tr id="security_dos_f5count<{$id}>" class="security_dos_f5count display-none">
+							<th id="dos_f5count_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_dos_f5count}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<input type='text' name='dos_f5count' id="dos_f5count<{$id}>" value='<{$action.config.dos_f5count.conf_value}>' onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+								</span>
+							</td>
+						</tr>
+
+						<{* F5アタックの対処 *}>
+						<tr id="security_dos_f5action<{$id}>" class="security_dos_f5action display-none">
+							<th id="dos_f5action_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_dos_f5action}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='dos_f5action' id="dos_f5action<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._SECURITY_VALUE_NONE}>' <{if $action.config.dos_f5action.conf_value == $smarty.const._SECURITY_VALUE_NONE}>selected="selected"<{/if}>><{$lang.security_log_none}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_LOGONLY}>' <{if $action.config.dos_f5action.conf_value == $smarty.const._SECURITY_VALUE_LOGONLY}>selected="selected"<{/if}>><{$lang.security_log_only}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_EXIT}>' <{if $action.config.dos_f5action.conf_value == $smarty.const._SECURITY_VALUE_EXIT}>selected="selected"<{/if}>><{$lang.security_forcefin}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_REJECT_IP}>' <{if $action.config.dos_f5action.conf_value == $smarty.const._SECURITY_VALUE_REJECT_IP}>selected="selected"<{/if}>><{$lang.security_denyiplist}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* 除外するIPアドレス *}>
+						<tr id="security_reliable_ips<{$id}>" class="security_reliable_ips display-none">
+							<th id="reliable_ips_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_reliable_ips}>
+							</th>
+							<td>
+								<span class="security_indent2">
+									<textarea name='reliable_ips' id="reliable_ips<{$id}>" wrap="soft" rows="3" cols="30">
+										<{$action.reliable_ips}>
+									</textarea>
+								</span>
+							</td>
+						</tr>
+
+						<{* 悪意あるクローラーとみなす回数 *}>
+						<tr id="security_dos_crcount<{$id}>" class="security_dos_crcount display-none">
+							<th id="dos_crcount_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_dos_crcount}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<input type='text' name='dos_crcount' id="dos_crcount<{$id}>" value='<{$action.config.dos_crcount.conf_value}>' onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+								</span>
+							</td>
+						</tr>
+
+						<{* 悪意あるクローラーの対処 *}>
+						<tr id="security_dos_craction<{$id}>" class="security_dos_craction display-none">
+							<th id="dos_craction_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_dos_craction}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='dos_craction' id="dos_craction<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._SECURITY_VALUE_NONE}>' <{if $action.config.dos_craction.conf_value == $smarty.const._SECURITY_VALUE_NONE}>selected="selected"<{/if}>><{$lang.security_log_none}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_LOGONLY}>' <{if $action.config.dos_craction.conf_value == $smarty.const._SECURITY_VALUE_LOGONLY}>selected="selected"<{/if}>><{$lang.security_log_only}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_EXIT}>' <{if $action.config.dos_craction.conf_value == $smarty.const._SECURITY_VALUE_EXIT}>selected="selected"<{/if}>><{$lang.security_forcefin}></option>
+										<option value='<{$smarty.const._SECURITY_VALUE_REJECT_IP}>' <{if $action.config.dos_craction.conf_value == $smarty.const._SECURITY_VALUE_REJECT_IP}>selected="selected"<{/if}>><{$lang.security_denyiplist}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* 拒否しない User-Agent *}>
+						<tr id="security_dos_crsafe<{$id}>" class="security_dos_crsafe display-none">
+							<th id="dos_crsafe_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_dos_crsafe}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<textarea name='dos_crsafe' id="dos_crsafe<{$id}>" wrap="soft" rows="3" cols="30"><{$action.config.dos_crsafe.conf_value}></textarea>
+								</span>
+							</td>
+						</tr>
+
+						<{* 拒否IP登録の保護グループ *}>
+						<tr id="security_bip_except<{$id}>" class="security_bip_except display-none">
+							<th id="bip_except_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_bip_except}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<label for="bip_except_admin<{$id}>">
+	 									<input type='checkbox' name="bip_except_admin" id="bip_except_admin<{$id}>" value="<{$smarty.const._ON}>" <{if $action.bip_except[$smarty.const._AUTH_ADMIN] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+	 									<{$smarty.const._AUTH_ADMIN_NAME}>
+	 								</label>
+	 								<label for="bip_except_chief<{$id}>">
+ 										<input type='checkbox' name="bip_except_chief" id="bip_except_chief<{$id}>" value="<{$smarty.const._ON}>" <{if $action.bip_except[$smarty.const._AUTH_CHIEF] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+ 										<{$smarty.const._AUTH_CHIEF_NAME}>
+ 									</label>
+ 									<label for="bip_except_moderate<{$id}>">
+ 										<input type='checkbox' name="bip_except_moderate" id="bip_except_moderate<{$id}>" value="<{$smarty.const._ON}>" <{if $action.bip_except[$smarty.const._AUTH_MODERATE] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+ 										<{$smarty.const._AUTH_MODERATE_NAME}>
+ 									</label>
+ 									<label for="bip_except_general<{$id}>">
+										<input type='checkbox' name="bip_except_general" id="bip_except_general<{$id}>" value="<{$smarty.const._ON}>" <{if $action.bip_except[$smarty.const._AUTH_GENERAL] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+										<{$smarty.const._AUTH_GENERAL_NAME}>
+									</label>
+									<label for="bip_except_guest<{$id}>">
+										<input type='checkbox' name="bip_except_guest" id="bip_except_guest<{$id}>" value="<{$smarty.const._ON}>" <{if $action.bip_except[$smarty.const._AUTH_GUEST] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+										<{$smarty.const._AUTH_GUEST_NAME}>
+									</label>
+ 								</span>
+							</td>
+						</tr>
+
+						<{* 拒否設定詳細 *}>
+						<tr class="row">
+							<th scope="row">
+								<img src="<{""|get_image_url}>/images/security/default/menu.gif" alt="Rejection" title="Rejection" />
+								<font color=#0080FF><{$lang.security_rejection}></font>
+							</th>
+							<td>
+									<input type='button' name='security_rejection_set_0' id="security_rejection_set_0<{$id}>" value="<{$lang.security_display}>" onclick="commonCls.displayVisible($('security_enable_badips<{$id}>'));
+																												  commonCls.displayVisible($('security_bad_ips<{$id}>'));
+																												  commonCls.displayVisible($('security_censor_enable<{$id}>'));
+																												  commonCls.displayVisible($('security_censor_words<{$id}>'));
+																												  commonCls.displayVisible($('security_censor_replace<{$id}>'));
+ 																												  commonCls.displayVisible($('security_extension_allow<{$id}>'));
+ 																												  this.form.security_rejection_set_0.disabled=true; this.form.security_rejection_set_1.disabled=false;" />
+									<input type='button' name='security_rejection_set_1' id="security_rejection_set_1<{$id}>" value="<{$lang.security_close}>" onclick="commonCls.displayNone($('security_enable_badips<{$id}>'));
+																												  commonCls.displayNone($('security_bad_ips<{$id}>'));
+																												  commonCls.displayNone($('security_censor_enable<{$id}>'));
+																												  commonCls.displayNone($('security_censor_words<{$id}>'));
+																												  commonCls.displayNone($('security_censor_replace<{$id}>'));
+																												  commonCls.displayNone($('security_extension_allow<{$id}>'));
+																												  this.form.security_rejection_set_1.disabled=true; this.form.security_rejection_set_0.disabled=false;" disabled />
+ 							</td>
+						</tr>
+
+						<{* IPアクセス拒否の有効 *}>
+						<tr id="security_enable_badips<{$id}>" class="security_enable_badips display-none">
+							<th id="enable_badips_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_enable_badips}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='enable_badips' id="enable_badips<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._ON}>' <{if $action.config.enable_badips.conf_value == $smarty.const._ON}>selected="selected"<{/if}>><{$lang.security_yes}></option>
+										<option value='<{$smarty.const._OFF}>' <{if $action.config.enable_badips.conf_value == $smarty.const._OFF}>selected="selected"<{/if}>><{$lang.security_no}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+ 						<{* アクセス拒否IP *}>
+ 						<tr id="security_bad_ips<{$id}>" class="security_bad_ips display-none">
+							<th id="bad_ips_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_bad_ips}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<textarea name='bad_ips' id="bad_ips<{$id}>" wrap="soft" rows="3" cols="30">
+										<{$action.bad_ips}>
+									</textarea>
+								</span>
+							</td>
+						</tr>
+
+						<{* 禁止用語処理の有効 *}>
+						<tr id="security_censor_enable<{$id}>" class="security_censor_enable display-none">
+							<th id="censor_enable_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_censor_enable}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<select size="1" name='censor_enable' id="censor_enable<{$id}>" onchange="securityCls['<{$id}>'].securityChgCustom(this.form);">
+										<option value='<{$smarty.const._ON}>' <{if $action.config.censor_enable.conf_value == $smarty.const._ON}>selected="selected"<{/if}>><{$lang.security_yes}></option>
+										<option value='<{$smarty.const._OFF}>' <{if $action.config.censor_enable.conf_value == $smarty.const._OFF}>selected="selected"<{/if}>><{$lang.security_no}></option>
+									</select>
+								</span>
+							</td>
+						</tr>
+
+						<{* 禁止用語 *}>
+						<tr id="security_censor_words<{$id}>" class="security_censor_words display-none">
+							<th id="censor_words_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_censor_words}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<textarea name='censor_words' id="censor_words<{$id}>" wrap="soft" rows="3" cols="30"><{$action.config.censor_words.conf_value}></textarea>
+								</span>
+							</td>
+						</tr>
+
+						<{* 禁止用語を置き換える文字列 *}>
+						<tr id="security_censor_replace<{$id}>" class="security_censor_replace display-none">
+							<th id="censor_replace_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_censor_replace}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<input type='text' name='censor_replace' id="censor_replace<{$id}>" value='<{$action.config.censor_replace.conf_value}>'>
+								</span>
+							</td>
+						</tr>
+						<{* アップロードファイルの許可拡張子 *}>
+						<tr id="security_extension_allow<{$id}>" class="security_extension_allow display-none">
+							<th id="allow_extension_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_allow_extension}>
+							</th>
+
+							<td>
+								<span class="security_indent2">
+									<textarea name='allow_extension' id="allow_extension<{$id}>" wrap="soft" rows="3" cols="30"><{$action.config.allow_extension.conf_value}></textarea>
+								</span>
+							</td>
+						</tr>
+						<{* IP変動を禁止するベース権限 *}>
+						<tr class="row">
+							<th id="groups_denyipmove_lbl<{$id}>" class="security_indent" scope="row">
+								<{$lang.security_groups_denyipmove}>
+							</th>
+
+							<td>
+								<label for="groups_denyipmove_admin<{$id}>">
+									<input type='checkbox' name="groups_denyipmove_admin" id="groups_denyipmove_admin<{$id}>" value="<{$smarty.const._ON}>" <{if $action.groups_denyipmove[$smarty.const._AUTH_ADMIN] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+									<{$smarty.const._AUTH_ADMIN_NAME}>
+								</label>
+								<label for="groups_denyipmove_chief<{$id}>">
+									<input type='checkbox' name="groups_denyipmove_chief" id="groups_denyipmove_chief<{$id}>" value="<{$smarty.const._ON}>" <{if $action.groups_denyipmove[$smarty.const._AUTH_CHIEF] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+									<{$smarty.const._AUTH_CHIEF_NAME}>
+								</label>
+								<label for="groups_denyipmove_moderate<{$id}>">
+									<input type='checkbox' name="groups_denyipmove_moderate" id="groups_denyipmove_moderate<{$id}>" value="<{$smarty.const._ON}>" <{if $action.groups_denyipmove[$smarty.const._AUTH_MODERATE] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+									<{$smarty.const._AUTH_MODERATE_NAME}>
+								</label>
+								<label for="groups_denyipmove_general<{$id}>">
+									<input type='checkbox' name="groups_denyipmove_general" id="groups_denyipmove_general<{$id}>" value="<{$smarty.const._ON}>" <{if $action.groups_denyipmove[$smarty.const._AUTH_GENERAL] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+									<{$smarty.const._AUTH_GENERAL_NAME}>
+								</label>
+								<label for="groups_denyipmove_guest<{$id}>">
+									<input type='checkbox' name="groups_denyipmove_guest" id="groups_denyipmove_guest<{$id}>" value="<{$smarty.const._ON}>" <{if $action.groups_denyipmove[$smarty.const._AUTH_GUEST] == $smarty.const._ON}>checked='checked'<{/if}> onchange="securityCls['<{$id}>'].securityChgCustom(this.form);" />
+									<{$smarty.const._AUTH_GUEST_NAME}>
+								</label>
+ 							</td>
+						</tr>
+					</table>
+				</div>
+
+				</div>
+
+			</fieldset>
+
+			</div>
+
+			<fieldset>
+				<{* レスキューパスワード *}>
+				<b><legend><{$lang.security_passwd_disabling_bip}></legend></b>
+
+				<table class="outer security_setting" summary="">
+					<{* レスキューパスワード *}>
+					<tr class="row">
+						<th id="passwd_disabling_bip_lbl<{$id}>" class="security_indent" scope="row">
+							<{$lang.security_passwd_disabling_bip}>
+						</th>
+
+						<td>
+							<span class="security_indent">
+	  							<input type="password" name="passwd_disabling_bip" id="passwd_disabling_bip<{$id}>" value='<{$action.config.passwd_disabling_bip.conf_value}>' size=20>
+							</span>
+						</td>
+					</tr>
+					<tr class="row">
+						<th id="repasswd_disabling_bip_lbl<{$id}>" class="security_indent" scope="row">
+							<{$lang.security_repasswd_disabling_bip}>
+						</th>
+
+						<td>
+							<span class="security_indent">
+	  							<input type="password" name="repasswd_disabling_bip" id="repasswd_disabling_bip<{$id}>" value='<{$action.config.passwd_disabling_bip.conf_value}>' size=20>
+							</span>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+</div>
+<{/strip}>
+<{* Tooltip *}>
+<{include file="security_tooltip_script.html"}>

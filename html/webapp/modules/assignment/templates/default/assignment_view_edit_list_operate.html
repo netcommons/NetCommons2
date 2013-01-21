@@ -1,0 +1,11 @@
+<{strip}>
+<{* （動作／停止列）用テンプレート *}>
+
+<a id="assignment_operate_end<{$assignment.assignment_id}><{$id}>" class="syslink<{if ($assignment.activity == _OFF) }> display-none<{/if}>" href="#" title="<{$lang.assignment_end_title|smarty:nodefaults|sprintf:$assignment.assignment_name}>" onclick="assignmentCls['<{$id}>'].changeActivity(this,'<{$assignment.assignment_id}>', '<{$smarty.const._OFF}>', '<{$lang.assignment_end_mes|sprintf:$assignment.assignment_name|escape:"html"|escape:"javascript"}>');return false;">
+	<{$lang.assignment_end|smarty:nodefaults}>
+</a>
+<a id="assignment_operate_start<{$assignment.assignment_id}><{$id}>" class="syslink<{if ($assignment.activity == _ON) }> display-none<{/if}>" href="#" title="<{$lang.assignment_start_title|smarty:nodefaults|sprintf:$assignment.assignment_name}>" onclick="assignmentCls['<{$id}>'].changeActivity(this, '<{$assignment.assignment_id}>', '<{$smarty.const._ON}>', '<{$lang.assignment_start_mes|sprintf:$assignment.assignment_name|escape:"html"|escape:"javascript"}>');return false;">
+	<{$lang.assignment_start|smarty:nodefaults}>
+</a>
+
+<{/strip}>

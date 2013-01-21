@@ -1,0 +1,41 @@
+<{strip}>
+<div class="outerdiv user_search_main">
+	<{assign var="mode" value="search"}>
+	<div class="top_description">
+		<{* 説明 *}>
+		<{if !$action.room_top_id_name}>
+			<{$lang.user_top_descripton|smarty:nodefaults}>
+		<{else}>
+			<{$lang.user_room_top_descripton|smarty:nodefaults}>
+		<{/if}>
+	</div>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<{include file="user_common_userdetail.html"}>
+		<{* 検索ボタン *}>
+		<div class="btn-bottom">
+			<{if !$action.room_top_id_name}>
+				<input class="btn-width lined_btn" type="button" value="<{$lang.user_search_start|smarty:nodefaults}>" onclick="userCls['<{$id}>'].searchUser(); return false;" />
+			<{else}>
+				<{* ルーム管理-会員絞込み *}>
+				<{if $action.js_class_name}>
+					<input class="btn-width lined_btn" type="button" value="<{$lang.user_search_start|smarty:nodefaults}>" onclick="<{$action.js_class_name}>['<{$action.room_top_id_name}>'].searchUser('<{$id}>'); return false;" />
+				<{else}>
+					<input class="btn-width lined_btn" type="button" value="<{$lang.user_search_start|smarty:nodefaults}>" onclick="roomCls['<{$action.room_top_id_name}>'].searchUser('<{$id}>'); return false;" />
+				<{/if}>
+				<input name="room_parent_id" type="hidden" value="<{$action.room_parent_id}>" />
+				<{if $action.room_current_id}>
+					<input name="room_current_id" type="hidden" value="<{$action.room_current_id}>" />
+				<{/if}>
+			<{/if}>
+		</div>
+	</form>
+</div>
+<{if !$action.room_top_id_name}>
+	<{include file="user_script.html"}>
+<{else}>
+<{* ルーム管理-会員絞込み *}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($('form<{$id}>'));
+</script>
+<{/if}>
+<{/strip}>

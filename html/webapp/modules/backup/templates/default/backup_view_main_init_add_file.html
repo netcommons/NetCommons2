@@ -1,0 +1,37 @@
+<{strip}>
+<{* tableタグにしないと広さが自動的に設定されない *}>
+<table class="backup_dialog" cellspacing="0" cellpadding="0"><tr><td style="<{* style指定ではないとなぜかIEでpaddingされない *}>padding:5px;">
+	<form id="attachment_form<{$id}>" action="#" method="post" target="attachment_form<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+		<table summary="<{$lang.backup_file_add_dialog|smarty:nodefaults}>">
+			<tr>
+				<th class="backup_dialog_title" scope="col">
+					<label for="backup_addfile_name<{$id}>">
+						<{$lang.backup_label_file|smarty:nodefaults}>
+					</label>
+				</th>
+			</tr>
+			<tr>
+				<td class="backup_dialog_content">
+					<input id="backup_addfile_name<{$id}>" name="add_file" type="file" />
+				</td>
+			</tr>
+		</table>
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang.backup_btn_add_file|smarty:nodefaults}>" onclick='parent.backupCls["<{$id}>"].addFile(this.form); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='parent.backupCls["<{$id}>"].popup.closePopup(); return false;' />
+		</div>
+	</form>
+</td></tr></table>
+<script type="text/javascript">
+var popup = parent.commonCls.referComp['addBackup<{$action.top_id_name}>'];
+function Init() {
+	parent.commonCls.stopObserving(window, 'load',Init, false);
+	var form_el = document.getElementsByTagName("form")[0];
+	parent.commonCls.focus(form_el);
+	<{*//リサイズ*}>
+	popup.resize();
+}
+parent.commonCls.observe(window, 'load',Init, false, '<{$id}>');
+</script>
+<{/strip}>

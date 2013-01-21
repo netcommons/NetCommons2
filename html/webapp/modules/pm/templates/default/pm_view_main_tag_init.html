@@ -1,0 +1,127 @@
+<{strip}>
+<{* タグ一覧用テンプレート *}>
+<div class="pm_mua_body clearfix">
+   <form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+   
+   <table class="pm_base">
+		<tr>
+			<td class="pm_base_upperleft">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperleft" />
+			</td>
+			<td class="pm_base_upper"></td>
+			<td class="pm_base_upperright">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperright" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="pm_base_content">	
+				<table class="widthmax">
+					<tr>
+						<td class="pm_hmenu_top_td pm_hmenu_top_td_fix">
+							<ul class="pm_hmenu_ul pm_list_create_btn">
+								<li class="pm_list_menu_li">
+									<a class="syslink pm_head" href="#" title="<{$lang.pm_new_message|smarty:nodefaults}>" alt="<{$lang.pm_new_message|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].showMessagePopup(null,'',event,'<{$smarty.const.PM_NEW_MESSAGE}>');return false;">
+										<div>
+										<img class="icon" src="<{"edit.gif"|get_themes_image}>" />
+										&nbsp;
+										<{$lang.pm_new_message|smarty:nodefaults}>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</td>
+						
+						<td rowspan="2" class="pm_content">
+							<{* コンテンツ *}>
+							<table class="widthmax">
+								<tr>
+									<td class="pm_upd_tabset_head">
+								   		<div>
+									 		<div class="comp_tabset"></div>
+									 		<div class="comp_tabset_content" style="border: 0px;">
+												<div class="tab1" style="border: 0px;"></div>
+												<div class="tab2" style="border: 0px;"></div>
+												<div class="tab3" style="border: 0px;"></div>
+									 		</div>
+								   		</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td class="pm_upd_tabset_body">
+										<p class="pm_upd_list_flt_new">
+											<a class="syslink" href="#" 
+											   onclick="pmCls['<{$id}>'].showTagPopup('','',event,'','','','<{$id}>');return false;">
+											    <img src="<{"edit.gif"|get_themes_image}>" border="0"/>&nbsp;
+											 	<{$lang.pm_tag_new|smarty:nodefaults}>
+											</a>
+										</p>
+										
+										
+										<dl class="pm_upd_list_flt">
+											<dt class="pm_upd_list_flt_dt"><{$lang.pm_tag_list|smarty:nodefaults}></dt>
+											
+											<{if $action.tags}>
+											   <{foreach from=$action.tags item=tag}>	
+												  <dd class="pm_upd_list_flt_dd">
+												  	<table class="pm_upd_list_flt_table">
+														<tr>
+													  		<td class="pm_upd_list_flt_table_data">
+																<{if $tag.tag_name}><{$tag.tag_name}><{else}>&nbsp;<{/if}>
+													  		</td>
+													  		<td class="pm_upd_list_flt_table_edit">
+																<a href="#" class="syslink" onclick="pmCls['<{$id}>'].showTagPopup('<{$tag.tag_id}>','',event,'','','');return false;"><{$lang._edit|smarty:nodefaults}></a>&nbsp;|&nbsp;
+																<a href="#" class="syslink" onclick="pmCls['<{$id}>'].deleteTag('<{$tag.tag_id}>','<{$lang.pm_delete_tag_confirm|smarty:nodefaults|sprintf:$tag.tag_name}>');return false;"><{$lang._delete|smarty:nodefaults}></a>
+													  		</td>
+														</tr>
+												  	</table>
+												 </dd>
+											   <{/foreach}>	
+										   <{else}>
+										   	   <dd class="pm_upd_list_flt_dd">
+												  <table class="pm_upd_list_flt_table">
+													<tr>
+													  <td class="pm_upd_list_flt_table_data">
+													     <{$lang.pm_no_tag|smarty:nodefaults}>
+													  </td>
+													</tr>
+												  </table>
+											   </dd>								
+										   <{/if}>
+										</dl>
+										
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="pm_menu">
+							<{* 左メニュー *}>
+							<{include file = "pm_view_left_menu.html"}>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="pm_hmenu_bottom_td">
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td class="pm_base_right">
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_base_belowleft"></td>
+			<td class="pm_base_below"></td>
+			<td class="pm_base_belowright"></td>
+		</tr>
+   </table>
+   </form>
+</div>
+
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+	pmCls["<{$id}>"].createSettingTabset(2, '<{$lang.pm_tab_mail_title|smarty:nodefaults}>', '<{$lang.pm_tab_filter_title|smarty:nodefaults}>', '<{$lang.pm_tab_tag_title|smarty:nodefaults}>');
+</script>
+<{/strip}>

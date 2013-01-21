@@ -1,0 +1,65 @@
+<{strip}>
+<{* 会員検索結果 *}>
+<{include file="pm_view_main_pager.html"}>
+<br class="float-clear" />
+<div class="pm_user_select">
+	<{if !empty($action.users|smarty:nodefaults)}>
+		<ul>
+			<{foreach item=user from=$action.users name=user}>
+				<li>
+					<a id="<{$user.user_id}><{$id}>" href="#" onclick="commonCls.displayChange(this);commonCls.displayChange(this.nextSibling);pmCls['<{$id}>'].select('<{$user.user_id}>');return false;">
+						<div class="pm_user_photo">
+							<span style="background-image:url(
+									<{if $user.user_id != $smarty.session._user_id 
+											&& (empty($user.icon_path|smarty:nodefaults) 
+										|| $user.public_flag == $smarty.const._OFF 
+											&& $smarty.session._user_auth_id != _AUTH_ADMIN 
+										|| ($user.user_authority_id <= $smarty.session._user_auth_id && $user.under_public_flag == USER_NO_PUBLIC) 
+										|| ($user.user_authority_id == $smarty.session._user_auth_id && $user.self_public_flag == USER_NO_PUBLIC) 
+										|| ($user.user_authority_id > $smarty.session._user_auth_id && $user.over_public_flag == USER_NO_PUBLIC)) }>
+										<{""|get_image_url}>/images/common/avatar_thumbnail.gif
+									<{else}>
+										<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}><{$user.icon_path}>&amp;thumbnail_flag=1
+									<{/if}>
+								);">
+							</span>
+						</div>
+						<div class="pm_user_select_name">
+							<{$user.name}>
+						</div>
+						<input type="hidden" name="user_ids[]" id="pm_user_select_id<{$id}>" value="<{$user.user_id}>" />
+						<input type="hidden" name="handle" id="pm_user_select_handle<{$id}>" value="<{$user.name}>" />
+					</a>
+					<div class="display-none">
+						<div class="pm_user_photo">
+							<span style="background-image:url(
+									<{if $user.user_id != $smarty.session._user_id 
+											&& (empty($user.icon_path|smarty:nodefaults) 
+										|| $user.public_flag == $smarty.const._OFF 
+											&& $smarty.session._user_auth_id != _AUTH_ADMIN 
+										|| ($user.user_authority_id <= $smarty.session._user_auth_id && $user.under_public_flag == USER_NO_PUBLIC) 
+										|| ($user.user_authority_id == $smarty.session._user_auth_id && $user.self_public_flag == USER_NO_PUBLIC) 
+										|| ($user.user_authority_id > $smarty.session._user_auth_id && $user.over_public_flag == USER_NO_PUBLIC)) }>
+										<{""|get_image_url}>/images/common/avatar_thumbnail.gif
+									<{else}>
+										<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}><{$user.icon_path}>&amp;thumbnail_flag=1
+									<{/if}>
+								);">
+							</span>
+						</div>
+						<div class="pm_user_select_name">
+							<{$user.name}>
+						</div>
+						<div class="pm_user_select_name"><{$lang.pm_user_selected|smarty:nodefaults}></div>
+					</div>
+				</li>
+			<{/foreach}>
+		</ul>
+	<{else}>
+		<div class="pm_user_none_search">
+			<{$lang.pm_user_none_search|smarty:nodefaults}>
+		</div>
+	<{/if}>
+	<br class="float-clear" />
+</div>
+<{/strip}>

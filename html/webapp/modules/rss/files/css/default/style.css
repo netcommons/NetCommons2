@@ -1,0 +1,34 @@
+table.rss_site_info {
+	margin:10px 0px;
+}
+
+table.rss_site_info td {
+	padding:3px;
+}
+
+ul.rss_item {
+	list-style-type:disc;
+	padding-left:20px;
+	margin:0px;
+}
+
+ul.rss_item li {
+	padding:3px 0px;
+}
+
+span.rss_update_date {
+	font-size:80%;
+}
+
+input.rss_url {
+	width:380px;
+}
+
+form.rss_imagine_form {
+	display: inline;
+}
+input.rss_imagine {
+	vertical-align:top;
+	margin-left:8px;
+	margin-top:2px;
+}

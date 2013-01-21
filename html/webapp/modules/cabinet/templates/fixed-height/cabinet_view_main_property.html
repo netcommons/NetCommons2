@@ -1,0 +1,143 @@
+<{strip}>
+
+<table summary="">
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_title|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_nonover">
+			<div>
+				<{$action.cabinet.cabinet_name}>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="cabinet_property_hr">
+			<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_grid_name|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_nonover">
+			<div>
+				<{$action.file.file_name}>
+			</div>
+		</td>
+	</tr>
+	<{if ($action.file.file_type == CABINET_FILETYPE_FILE) }>
+		<tr>
+			<td class="cabinet_property_title">
+				<{$lang.cabinet_count_title|smarty:nodefaults}>
+			</td>
+			<td class="cabinet_property_value">
+				<{$lang.cabinet_popup_count|smarty:nodefaults|sprintf:$action.file.download_num}>
+			</td>
+		</tr>
+	<{/if}>
+	<tr>
+		<td colspan="2" class="cabinet_property_hr">
+			<div class="hr"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" /></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_type|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<{if ($action.file.file_type == CABINET_FILETYPE_FOLDER) }>
+				<img class="icon" src="<{"folder.gif"|get_modules_image}>" alt="" title="" />
+				<{$lang.cabinet_folder|smarty:nodefaults}>
+			<{else}>
+				<img class="icon" src="<{"file.gif"|get_modules_image}>" alt="" title="" />
+				<{$lang.cabinet_file|smarty:nodefaults}>
+			<{/if}>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_address|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<div id="cabinet_property_address<{$id}>"></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_size|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<div id="cabinet_property_size<{$id}>"></div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="cabinet_property_hr">
+			<div class="hr"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" /></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_comment|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_nonover">
+			<div>
+				<{$action.file.comment}>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="cabinet_property_hr">
+			<div class="hr"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" /></div>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_insert_user|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<{include file="cabinet_view_handle.html" handle=$action.file.insert_user_name|smarty:nodefaults user_id=$action.file.insert_user_id}>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_insert_date|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<{$action.file.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_update_user|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<{include file="cabinet_view_handle.html" handle=$action.file.update_user_name|smarty:nodefaults user_id=$action.file.update_user_id}>
+		</td>
+	</tr>
+	<tr>
+		<td class="cabinet_property_title">
+			<{$lang.cabinet_update_date|smarty:nodefaults}>
+		</td>
+		<td class="cabinet_property_value">
+			<{$action.file.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="cabinet_property_hr">
+			<div class="hr"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" /></div>
+		</td>
+	</tr>
+</table>
+
+<div class="btn-bottom">
+	<input class="btn-width" type="button" value="<{$lang._close_btn|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+</div>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].propertyAddress("<{$action.cabinet.cabinet_id}>", "<{$action.file.parent_id}>");
+	cabinetCls["<{$id}>"].propertySize("<{$action.cabinet.cabinet_id}>", "<{$action.file.file_id}>");
+</script>
+
+<{/strip}>

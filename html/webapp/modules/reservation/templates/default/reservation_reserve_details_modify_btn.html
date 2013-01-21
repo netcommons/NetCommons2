@@ -1,0 +1,39 @@
+<{strip}>
+
+<{if ($action.reserve.rrule == "") }>
+	<input class="btn-width" type="button" value="<{$lang._edit|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].showModifyReserve(event, "<{$action.reserve.reserve_id}>",<{$smarty.const.RESERVATION_RESERVE_EDIT_ALL}>); return false;' />
+
+<{else}>
+	<input class="btn-width" type="button" value="<{$lang._edit|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].showRepeatReserve(this); return false;' />
+	<div class="popupClass nowrap">
+		<form action="#" method="post" onsubmit="return false;">
+			<label for="reservation_edit_this<{$id}>">
+				<input id="reservation_edit_this<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.RESERVATION_RESERVE_EDIT_THIS}>" checked="checked" />
+				<{$lang.reservation_edit_this|smarty:nodefaults}>
+			</label>
+			<br />
+			<label for="reservation_edit_after<{$id}>">
+				<input id="reservation_edit_after<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.RESERVATION_RESERVE_EDIT_AFTER}>" />
+				<{$lang.reservation_edit_after|smarty:nodefaults}>
+			</label>
+			<br />
+			<label for="reservation_edit_all<{$id}>">
+				<input id="reservation_edit_all<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.RESERVATION_RESERVE_EDIT_ALL}>" />
+				<{$lang.reservation_edit_all|smarty:nodefaults}>
+			</label>
+
+			<input type="hidden" name="reserve_id" value="<{$action.reserve.reserve_id}>" />
+			<input type="hidden" name="rrule_reserve_id" value="<{$action.rrule_reserve_id}>" />
+
+			<div class="btn-bottom">
+				<input class="btn-width" type="button" value="<{$lang._edit|smarty:nodefaults}>" onclick='parent.reservationCls["<{$id}>"].popupModifyReserve(event,this.form); return false;' />
+				&nbsp;
+				<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='parent.reservationCls["<{$id}>"].popup.closePopup(); return false;' />
+			</div>
+		</form>
+	</div>
+<{/if}>
+
+&nbsp;
+
+<{/strip}>

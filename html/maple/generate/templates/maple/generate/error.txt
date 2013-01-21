@@ -1,0 +1,6 @@
+Error:
+<?php 
+foreach($errorList->getAllMessages() as $message) {
+	echo " - $message\n";
+}
+?>

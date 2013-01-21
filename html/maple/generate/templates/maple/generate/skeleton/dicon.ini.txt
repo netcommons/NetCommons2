@@ -1,0 +1,3 @@
+[DIContainer]
+<?php if($skeleton->action_type == "action" || $skeleton->action_type == "view") print $skeleton->dir_name."View = \"modules://".$skeleton->dir_name.".components.view\"\n"; ?>
+<?php if($skeleton->action_type == "action") print $skeleton->dir_name."Action = \"modules://".$skeleton->dir_name.".components.action\"\n"; ?>

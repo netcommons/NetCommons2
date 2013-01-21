@@ -1,0 +1,163 @@
+body {line-height:1.5}
+
+.container {
+	border-collapse:collapse;
+}
+
+.leftcolumn {
+	border: 0px none;
+	/*width:auto;*/
+	width:20%;
+	/*width:1px;*/
+}
+
+.centercolumn {
+	border: 0px none;
+	/*width:300px;*/
+	width:80%;
+}
+
+.rightcolumn {
+	border: 0px none;
+	/*width:auto;*/
+	width:20%;
+	/*width:1px;*/
+}
+
+.headercolumn {
+	border: 0px none;
+	width:auto;
+}
+
+.footercolumn {
+	border: 0px none;
+	width:auto;
+}
+
+/*カラム*/
+.main_column {
+}
+
+.headercolumn_on {
+	border-bottom:1px solid #cccccc;
+}
+
+.leftcolumn_on {
+	border-right:1px solid #cccccc;
+}
+.rightcolumn_on {
+	border-left:1px solid #cccccc;
+}
+
+/*拡大表示*/
+.enlarged_display {
+	padding:10px;
+}
+
+/*ドラッグ中-移動先表示*/
+.column_movedummy div {
+	border:2px dashed #ffd700;
+	overflow:hidden;
+}
+
+/*グループ化選択中のスタイル*/
+.select_leftcolumn {
+	border:2px solid #ffd700;
+}
+.select_centercolumn {
+	border:2px solid #ffd700;
+}
+.select_rightcolumn {
+	border:2px solid #ffd700;
+}
+
+.select_headercolumn {
+	border:2px solid #ffd700;
+}
+
+/* モジュール追加ボックス */
+.addmobule_box {
+	padding:8px 8px 2px 8px;
+}
+
+/*
+ * ヘッダーメニュー定義
+ */
+div.headercolumn_menu {
+	background-color:#ffffff;
+}
+table#header_menu a.menulink,
+table#header_menu a.menulink:link,
+table#header_menu a.menulink:visited,
+table#header_menu a.menulink:active,
+table#header_menu a.menulink:hover {
+	color:#7a858f;
+}
+
+table#header_menu {
+	width:100%;
+	text-align:left;
+}
+table#header_menu td.menu_right {
+	text-align:right;
+	vertical-align:middle;
+	white-space:nowrap;
+	padding:4px 0px 4px 4px;
+	/*padding:0px 5px 0px 0px;*/
+}
+
+table#header_menu td.menu_left {
+	text-align:left;
+	vertical-align:middle;
+	padding:0px;
+	white-space:nowrap;
+}
+
+table#header_menu .header_btn_left {
+	vertical-align:middle;
+	padding:0px 6px;
+}
+/*ヘッダーボタン*/
+table#header_menu .header_btn {
+	vertical-align:middle;
+	padding:0px 6px;
+	border-left:1px solid #9999cc;
+}
+
+table#header_menu .header_icon {
+	margin:0px 2px;
+}
+
+table#header_menu .setting_end_btn {
+	color:#74ad69;
+}
+
+/*
+ * フッター部定義
+ */
+table#footerbar {
+	text-align:right;
+	color:#a3a3a3;
+	vertical-align:middle;
+	font-size:80%;
+	font-weight:bold;
+	width:100%;
+	/*border-top:1px #a9a9d1 solid;*/
+}
+table#footerbar .copyright {text-align:right; color:#a3a3a3; vertical-align:middle; font-size:90%; font-weight:bold;}
+
+/* センターカラム　情報メッセージ */
+div#centercolumn_inf_mes {
+	padding:5px;
+	border:1px solid #cccccc;
+	margin:5px;
+	text-align:center;
+}
+
+div#centercolumn_inf_mes div {
+	padding:3px;
+}
+
+div.centercolumn_active_center {
+	padding:8px 15px;
+}

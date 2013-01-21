@@ -1,0 +1,59 @@
+<{strip}>
+<form onsubmit="return false;">
+<div class="outerdiv">
+	<table class="outer" cellspacing="1">
+		<tr class="row">
+			<td class="head"><{$lang.url|smarty:nodefaults}></td>
+			<td>
+				<input type="text" size="60" value="<{$action.iframe_obj.url}>" name="url" />
+			</td>
+		</tr>
+		<tr class="row display-none _iframe_detail">
+			<td class="head"><{$lang.height_width|smarty:nodefaults}></td>
+			<td class="nowrap">
+				<input type="text" size="8" value="<{$action.iframe_obj.frame_height}>" name="frame_height" />
+				×
+				<input type="text" size="8" value="<{$action.iframe_obj.frame_width}>" name="frame_width" />
+			</td>
+		</tr>
+		<tr class="row display-none _iframe_detail">
+			<td class="head"><{$lang.scrollbar|smarty:nodefaults}></td>
+			<td class="nowrap">
+				<label for="_iframe_scrollbar_show1<{$id}>">
+				<input id="_iframe_scrollbar_show1<{$id}>" type="radio" value="1" name="scrollbar_show"<{if ($action.iframe_obj.scrollbar_show==1)}> checked="checked"<{/if}> />
+				<{$lang.ari|smarty:nodefaults}>
+				</label>
+				&nbsp;&nbsp;&nbsp;
+				<label for="_iframe_scrollbar_show0<{$id}>">
+				<input id="_iframe_scrollbar_show0<{$id}>" type="radio" value="0" name="scrollbar_show"<{if ($action.iframe_obj.scrollbar_show==0)}> checked="checked"<{/if}> />
+				<{$lang.nasi|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+		<tr class="row display-none _iframe_detail">
+			<td class="head"><{$lang.scrollframe|smarty:nodefaults}></td>
+			<td class="nowrap">
+				<label for="_iframe_scrollframe_show0<{$id}>">
+				<input id="_iframe_scrollframe_show0<{$id}>" type="radio" value="1" name="scrollframe_show"<{if ($action.iframe_obj.scrollframe_show==1)}> checked="checked"<{/if}>>
+				<{$lang.ari|smarty:nodefaults}>
+				</label>
+				&nbsp;&nbsp;&nbsp;
+				<label for="_iframe_scrollframe_show1<{$id}>">
+				<input id="_iframe_scrollframe_show1<{$id}>" type="radio" value="0" name="scrollframe_show"<{if ($action.iframe_obj.scrollframe_show==0)}> checked="checked"<{/if}> />
+				<{$lang.nasi|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+	</table>
+	<div class="iframe_detail_setting align-right">
+		<a class="link" href="#" title="<{$lang.detail_setting_title|smarty:nodefaults}>" onclick="iframeCls['<{$id}>'].showDetail(this); return false;"><{$lang.detail_setting|smarty:nodefaults}></a>
+	</div>
+	<div class="align-center" style="margin-top:5px;">
+		<input class="btn-width" type="button" onclick="iframeCls['<{$id}>'].iframeRegist(); return false;" value="<{$lang._regist|smarty:nodefaults}>" />
+		&nbsp;
+		<input class="btn-width" type="button" onclick="commonCls.sendView('<{$id}>','iframe_view_main_init'); return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+	</div>
+</div>
+</form>
+<{include file="iframe_script.html"}>
+<{/strip}>

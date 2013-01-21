@@ -1,0 +1,26 @@
+<{strip}>
+<{* PHP5ではvar="config"が問題を引き起こすのでvalueの変数を``で囲む *}>
+<{assign var="config" value="`$action.config`"}>
+<div class="outerdiv system_main">
+	<form id="form<{$id}>" action="" onsubmit="return false;" enctype="multipart/form-data">
+	<{if $action_name}>
+		<{include file="$action_name.html"}>
+	<{/if}>
+		<{* 決定ボタン *}>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang.system_submit}>" onclick="systemCls['<{$id}>'].setConfig('<{$action_name}>'); return false;" />
+			&nbsp;
+			<input class="btn-width lined_btn" type="button" value="<{$lang.system_reset}>" onclick="commonCls.sendRefresh('<{$id}>');" />
+		</div>	
+	</form>
+	<{include file="system_script.html"}>
+	<script class="nc_script" type="text/javascript">
+		commonCls.focus($('form<{$id}>'));
+	</script>
+</div>
+<script class="nc_script" type="text/javascript">
+commonCls.closeCallbackFuncEvent["<{$id}>"] = function() {
+	location.reload(true);
+};
+</script>
+<{/strip}>

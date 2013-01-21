@@ -1,0 +1,113 @@
+<{strip}>
+<{*携帯会員情報詳細画面*}>
+<{* 詳細部 *}>
+
+<h2 style="text-align:center;"><{$lang.userinf_detail_summary}><{$lang._edit}></h2>
+
+<{if $action.error_exists == _ON}>
+	<span style="color:red;">
+	<{$lang.userinf_input_error_exists|smarty:nodefaults}>
+	<br />
+	<{$action.main_errmsg|smarty:nodefaults}>
+	</span>
+<{/if}>
+<form action=".<{$smarty.const.INDEX_FILE_NAME}>"  method="post" <{if $smarty.session._mobile_info.currier!="EZweb"}>enctype="multipart/form-data"<{/if}> data-ajax="false">
+	<{foreach from=$action.items item=item_list}>
+
+
+		<{foreach from=$item_list item=item}>
+
+			<{assign var="item_id" value=$item.item_id}>
+
+			<{assign var="public_flag_colname" value=$action.public_flag_colname}>
+
+			<{if $item.type != "label" &&
+					$item.$public_flag_colname != USER_NO_PUBLIC &&
+					($smarty.session._user_id == $action.user_id || $smarty.session._user_auth_id == _AUTH_ADMIN || $item.allow_public_flag == _OFF || $item.public_flag == _ON)}>
+
+				<{* 会員詳細 *}>
+				<{if $item.tag_name != "" && $item.is_users_tbl_fld == true}>
+					<{*userテーブルからデータ取得*}>
+					<{assign var="tag_name" value=$item.tag_name}>
+					<{assign var="content" value=$action.user.$tag_name|smarty:nodefaults}>
+				<{else}>
+					<{assign var="content" value=$item.content|smarty:nodefaults}>
+				<{/if}>
+
+				<{if $content != "" && (($item.tag_name=="previous_login_time") ||
+					($item.tag_name=="last_login_time") ||
+					($item.tag_name=="password_regist_time") ||
+					($item.tag_name=="insert_time") ||
+					($item.tag_name=="update_time")) }>
+					<{* 日付変換 *}>
+					<{assign var="content" value=$content|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{/if}>
+
+				<{if ($smarty.session._smartphone_flag == _ON) }>
+					<h3 class="ui-bar-<{$smartphone_theme_color}> ui-title">
+						<{$item.item_name}>
+				<{else}>
+					<br />
+					<div style="text-align:center;background-color:<{$color_text}>;">
+						<span style="color:<{$color_back}>;">
+							<{$item.item_name}>
+						</span>
+				<{/if}>
+					<{* 必須 *}>
+					<{if ($action.user_id != $smarty.session._system_user_id || $smarty.session._user_id == $smarty.session._system_user_id) && $item.$public_flag_colname == USER_EDIT && !($item.tag_name=="active_flag_lang" || $item.tag_name=="role_authority_name" || $item.tag_name=="login_id") && !($item.tag_name == "active_flag_lang" && ($content == USER_ITEM_ACTIVE_FLAG_PENDING || $content == USER_ITEM_ACTIVE_FLAG_MAILED))}>
+						<{if $item.require_flag == _ON}>
+							<span style="color:red;">
+								<{$lang.userinf_require_flag|smarty:nodefaults}>
+							</span>
+						<{/if}>
+					<{/if}>
+				<{if ($smarty.session._smartphone_flag == _ON) }>
+					</h3>
+				<{else}>
+					</div>
+				<{/if}>
+
+				<div>
+					<{if ($action.user_id != $smarty.session._system_user_id || $smarty.session._user_id == $smarty.session._system_user_id) && $item.$public_flag_colname == USER_EDIT && !($item.tag_name=="active_flag_lang" || $item.tag_name=="role_authority_name" || $item.tag_name=="login_id") && !($item.tag_name == "active_flag_lang" && ($content == USER_ITEM_ACTIVE_FLAG_PENDING || $content == USER_ITEM_ACTIVE_FLAG_MAILED))}>
+
+						<{if isset($action.items_errmsg[$item_id]|smarty:nodefaults)}>
+							<span style="color:red;font-size:small;">
+								<{$action.items_errmsg[$item.item_id]|smarty:nodefaults}>
+							</span>
+						<{/if}>
+						<{include file="userinf_mobile_edit_comp.html"}>
+					<{else}>
+						<{if $item.type == "file"}>
+							<{if $content == ""}>
+								&nbsp;
+							<{else}>
+								<img src="<{$content}>" title="<{$item.item_name}>" alt="<{$item.item_name}>" <{$item.attribute}> />
+							<{/if}>
+						<{elseif $item.type == "password"}>
+							<{* パスワード(ラベル) *}>
+							<{$lang.userinf_password_label|smarty:nodefaults}>
+						<{elseif $item.type == "textarea"}>
+							<{$content|nl2br}>
+						<{else}>
+							<{$content}>
+						<{/if}>
+
+					<{/if}>
+				<br />
+				</div>
+
+			<{/if}>
+		<{/foreach}>
+	<{/foreach}>
+	<{if $smarty.session._user_id == $action.user_id}>
+	<div style="text-align:center;">
+		<input data-inline="true" type="submit" name="dispatch_userinf_action_mobile_edit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input data-inline="true" type="submit" name="dispatch_userinf_action_mobile_init" value="<{$lang._cancel|smarty:nodefaults}>" />
+		<input type="hidden" name="user_id" value="<{$action.user_id}>" />
+		<input type="hidden" name="unique_id" value="<{$action.user_id}>" />
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+	<{/if}>
+</form>
+<{/strip}>

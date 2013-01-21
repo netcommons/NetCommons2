@@ -1,0 +1,12 @@
+<{strip}>
+<{* 選択肢追加画面用テンプレート *}>
+<table>
+	<{assign var="choice" value=$action.choice}>
+	<{assign var="iteration" value=$action.choice_iteration}>
+	<{include file="questionnaire_view_edit_choice.html"}>
+</table>
+
+<script class="nc_script" type="text/javascript">
+	questionnaireCls["<{$id}>"].changeQuestionType($("questionnaire_question_type<{$id}>").value);
+</script>
+<{/strip}>

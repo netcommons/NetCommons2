@@ -1,0 +1,23 @@
+<{strip}>
+<{* フォトアルバム一覧（管理列）用テンプレート *}>
+<{if $photoalbum.album_count > 0}>
+	<a class="syslink" href="#" title="<{$lang._ref_title|sprintf:$photoalbum.photoalbum_name}>" onclick="photoalbumCls['<{$id}>'].showReference(event, <{$photoalbum.photoalbum_id}>);return false;">
+		<{$lang._ref|smarty:nodefaults}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+<{/if}>
+
+<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$photoalbum.photoalbum_name}>" onclick="commonCls.sendView('<{$id}>', {action:'photoalbum_view_edit_entry', photoalbum_id:<{$photoalbum.photoalbum_id}>});return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+
+<a class="syslink" href="#" title="<{$lang.photoalbum_manage_album_edit_title|sprintf:$photoalbum.photoalbum_name}>" onclick="photoalbumCls['<{$id}>'].showPopupAlbumList(event, <{$photoalbum.photoalbum_id}>, '<{$smarty.const.PHOTOALBUM_PREFIX_ALBUM_LIST}>');return false;">
+	<{$lang.photoalbum_manage_album_edit}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+
+<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$photoalbum.photoalbum_name}>" onclick="photoalbumCls['<{$id}>'].deletePhotoalbum('<{$photoalbum.photoalbum_id}>', '<{$lang._del_confirm|sprintf:"`$photoalbum.photoalbum_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{/strip}>

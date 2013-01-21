@@ -1,0 +1,22 @@
+<{strip}>
+<{* 写真フッター表示用テンプレート *}>
+<{if $action.photo.vote_authority}>
+	<a class="syslink" href="#" title="<{$lang.photoalbum_vote_title}>" onclick="photoalbumCls['<{$id}>'].vote();return false;">
+		<{$lang.photoalbum_vote}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+<{/if}>
+
+<{if $action.album.vote_flag == _ON}>
+	<{$lang.photoalbum_vote_count|sprintf:$action.photo.photo_vote_count}>
+	<{if $action.album.comment_flag == _ON}>
+		<{$lang._separator|smarty:nodefaults}>
+	<{/if}>
+<{/if}>
+
+<{if $action.album.comment_flag == _ON}>
+	<a class="syslink" href="#" title="<{$lang.photoalbum_comment_title}>" onclick="photoalbumCls['<{$id}>'].showComment();return false;">
+		<{$lang.photoalbum_comment_count|sprintf:$action.commentCount}>
+	</a>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,20 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+var errorString = "<{errorList->getMessagesString param=false}>";
+
+var errorArray = errorString.split(":");
+var errorMessage = "";
+for (var i = 1; i < errorArray.length; i++) {
+	errorMessage += errorArray[i];
+}
+
+commonCls.alert(errorMessage);
+
+if(errorArray[0] == "login_id") {
+	var focusElement = parent.$("login_id<{$id}>");
+} else {
+	var focusElement = parent.$("password<{$id}>");
+}
+commonCls.focus(focusElement);
+</script>
+<{/strip}>

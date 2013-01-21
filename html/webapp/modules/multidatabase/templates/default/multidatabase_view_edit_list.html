@@ -1,0 +1,57 @@
+<{strip}>
+<div class="outerdiv">
+	<form action="#">
+		<div class="top_description">
+			<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.mdb_list_name}>
+		</div>
+
+		<div id="_mdb_list<{$id}>">
+			<table class="grid_header" cellspacing="0" summary="<{$lang.mdb_list_summary|smarty:nodefaults}>">
+				<tr>
+					<th class="grid_change_disp" scope="col">&nbsp;</th>
+					<th class="_sort_multidatabase_name grid_name" scope="col"><{$lang.mdb_list_title|smarty:nodefaults}></th>
+					<th class="_sort_insert_user_name grid_creator" scope="col"><{$lang._creator|smarty:nodefaults}></th>
+					<th class="_sort_insert_time grid_create_date" scope="col"><{$lang._create_date|smarty:nodefaults}></th>
+					<th class="mdb_grid_manage" scope="col"><{$lang._manage|smarty:nodefaults}></th>
+				</tr>
+			</table>
+
+			<table class="grid mdb_grid_table" summary="<{$lang.mdb_list_summary|smarty:nodefaults}>">
+				<{foreach from=$action.mdb_list item=mdb}>
+					<tr id="mdb_current_row<{$mdb.multidatabase_id}><{$id}>" class="grid_row">
+						<td class="grid_change_disp">
+							<{include file = "multidatabase_view_edit_list_current.html"}>
+						</td>
+						<td class="grid_name">
+							<{include file = "multidatabase_view_edit_list_name.html"}>
+						</td>
+						<td class="grid_creator">
+							<{include file = "multidatabase_view_handle.html" handle=$mdb.insert_user_name|smarty:nodefaults user_id=$mdb.insert_user_id}>
+						</td>
+						<td class="grid_create_date">
+							<{$mdb.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+						</td>
+						<td class="mdb_grid_manage">
+							<{include file = "multidatabase_view_edit_list_manage.html"}>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+		</div>
+	</form>
+</div>
+<{include file="../multidatabase_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {mdbCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.mdbCount}>, "multidatabase_view_edit_list", opts);
+	opts = null;
+
+	mdbCls["<{$id}>"].currentMdbId = "<{$action.currentMdbId}>";
+	mdbCls["<{$id}>"].checkCurrent();
+</script>
+<{/strip}>

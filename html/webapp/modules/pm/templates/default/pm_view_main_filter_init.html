@@ -1,0 +1,172 @@
+<{strip}>
+<{* フィルタ一覧用テンプレート *}>
+<div class="pm_mua_body clearfix">
+   <form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+
+   <table class="pm_base">
+		<tr>
+			<td class="pm_base_upperleft">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperleft" />
+			</td>
+			<td class="pm_base_upper"></td>
+			<td class="pm_base_upperright">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperright" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="pm_base_content">
+				<table class="widthmax">
+					<tr>
+						<td class="pm_hmenu_top_td pm_hmenu_top_td_fix">
+							<ul class="pm_hmenu_ul pm_list_create_btn">
+								<li class="pm_list_menu_li">
+									<a class="syslink pm_head" href="#" title="<{$lang.pm_new_message|smarty:nodefaults}>" alt="<{$lang.pm_new_message|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].showMessagePopup(null,'',event,'<{$smarty.const.PM_NEW_MESSAGE}>');return false;">
+										<div>
+										<img class="icon" src="<{"edit.gif"|get_themes_image}>" />
+										&nbsp;
+										<{$lang.pm_new_message|smarty:nodefaults}>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</td>
+
+						<td rowspan="2" class="pm_content">
+							<{* コンテンツ *}>
+							<table class="widthmax">
+								<tr>
+									<td class="pm_upd_tabset_head">
+								   		<div>
+									 		<div class="comp_tabset"></div>
+									 		<div class="comp_tabset_content" style="border: 0px;">
+												<div class="tab1" style="border: 0px;"></div>
+												<div class="tab2" style="border: 0px;"></div>
+												<div class="tab3" style="border: 0px;"></div>
+									 		</div>
+								   		</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td class="pm_upd_tabset_body">
+
+										<p class="pm_upd_list_flt_txt"><{$lang.pm_filter_intro|smarty:nodefaults}></p>
+										<p class="pm_upd_list_flt_new">
+										   <a class="syslink" href="#"
+										   	  onclick="pmCls['<{$id}>'].showFilterPopup('',event);return false;">
+											  <img src="<{"edit.gif"|get_themes_image}>" border="0"/>
+											  &nbsp;<{$lang.pm_filter_new|smarty:nodefaults}>
+										   </a>
+										</p>
+
+							 			<dl class="pm_upd_list_flt">
+											<dt class="pm_upd_list_flt_dt"><{$lang.pm_filter_list|smarty:nodefaults}></dt>
+
+											<{if $action.filters}>
+												<{foreach item=filter from=$action.filters}>
+													<dd class="pm_upd_list_flt_dd">
+
+														<table class="pm_upd_list_flt_table">
+															<tr>
+																<th class="pm_upd_list_flt_table_th">
+																	<{$lang.pm_filter_sender|smarty:nodefaults}>
+																</th>
+
+																<td class="pm_upd_list_flt_table_data">
+																	<{foreach item=sender from=$filter.senders_array}>
+																		<{include file="pm_view_handle.html"
+																				  user_id=$sender.id
+																				  handle=$sender.handle|smarty:nodefaults}>&nbsp;
+																	<{/foreach}>
+																</td>
+
+																<td rowspan="4" class="pm_upd_list_flt_table_edit">
+											    					<a class="syslink" href="#"
+																	   onclick="pmCls['<{$id}>'].showFilterPopup('<{$filter.filter_id}>',event);return false;"><{$lang._edit|smarty:nodefaults}></a>│<a href="#" class="syslink" onclick="pmCls['<{$id}>'].deleteFilter('<{$filter.filter_id}>', '<{$lang.pm_del_confirm|sprintf:"`$filter.senders`":"`$filter.subject`":"`$filter.keyword_list`":"`$filter.body`"|smarty:nodefaults|escape:"javascript"|escape:"html"|replace:"\\\\n":"\\n"}>'); return false;"><{$lang._delete|smarty:nodefaults}></a>
+																</td>
+															</tr>
+
+															<tr>
+																<th class="pm_upd_list_flt_table_th">
+																    <{$lang.pm_filter_subject|smarty:nodefaults}>
+																</th>
+																<td class="pm_upd_list_flt_table_data">
+											  						<{if $filter.subject}><{$filter.subject}><{else}>&nbsp;<{/if}>
+																</td>
+															</tr>
+
+															<tr>
+																<th class="pm_upd_list_flt_table_th">
+																    <{$lang.pm_filter_keyword|smarty:nodefaults}>
+																</th>
+																<td class="pm_upd_list_flt_table_data">
+											  						<{if $filter.keyword_list}>
+																		<{$filter.keyword_list}>
+																	<{else}>
+																		&nbsp;
+																	<{/if}>
+																</td>
+															</tr>
+
+															<tr>
+																<th class="pm_upd_list_flt_table_th">
+																	<{$lang.pm_filter_body|smarty:nodefaults}>
+																</th>
+																<td class="pm_upd_list_flt_table_data">
+											    					<{if $filter.body}><{$filter.body}><{else}>&nbsp;<{/if}>
+																</td>
+															</tr>
+														</table>
+													</dd>
+												<{/foreach}>
+											<{else}>
+												<dd class="pm_upd_list_flt_dd">
+												  <table class="pm_upd_list_flt_table">
+													<tr>
+													  <td class="pm_upd_list_flt_table_data">
+														<{$lang.pm_filter_no_filtering|smarty:nodefaults}>
+													  </td>
+													</tr>
+
+												  </table>
+												</dd>
+											<{/if}>
+							 			</dl>
+
+									</td>
+								</tr>
+							</table>
+							<{* コンテンツ *}>
+
+						</td>
+					</tr>
+
+					<tr>
+						<td class="pm_menu">
+							<{* 左メニュー *}>
+							<{include file = "pm_view_left_menu.html"}>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="pm_hmenu_bottom_td">
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td class="pm_base_right">
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_base_belowleft"></td>
+			<td class="pm_base_below"></td>
+			<td class="pm_base_belowright"></td>
+		</tr>
+   </table>
+   </form>
+</div>
+
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+	pmCls["<{$id}>"].createSettingTabset(1, '<{$lang.pm_tab_mail_title|smarty:nodefaults}>', '<{$lang.pm_tab_filter_title|smarty:nodefaults}>', '<{$lang.pm_tab_tag_title|smarty:nodefaults}>');
+</script>
+<{/strip}>

@@ -1,0 +1,35 @@
+<{strip}>
+<{if $action.pager.total_page > 1}>
+	<div class="pm_page_switch">
+		<ul>
+			<{if $action.pager.prev_link}>
+				<li>
+				  	<a class="hover_highlight" href="#" title="" onclick="commonCls.sendPost('<{$id}>', 'action=pm_action_main_searchuser&amp;now_page=<{$action.pager.now_page-1}>&amp;' + Form.serialize($('pm_user_form<{$id}>')), {'target_el':$('pm_user_search_result<{$id}>')}); return false;">
+				  		<{$lang.pm_user_pager_back|smarty:nodefaults}>
+				  	</a>
+			  	</li>
+			<{/if}>
+			<{section name=cnt loop=$action.pager.link_array}>
+				<{if $action.pager.now_page==$action.pager.link_array[cnt]}>
+					<li class="pm_page_active">
+						<span><{$action.pager.link_array[cnt]}></span>
+					</li>
+				<{else}>
+					<li>
+						<a class="hover_highlight" href="#" title="<{$action.pager.link_array[cnt]}>" onclick="commonCls.sendPost('<{$id}>', 'action=pm_action_main_searchuser&amp;now_page=<{$action.pager.link_array[cnt]}>&amp;' + Form.serialize($('pm_user_form<{$id}>')), {'target_el':$('pm_user_search_result<{$id}>')}); return false;">
+							<{$action.pager.link_array[cnt]}>
+						</a>
+					</li>
+				<{/if}>
+			<{/section}>
+			<{if $action.pager.next_link}>
+				<li>
+				  	<a class="hover_highlight" href="#" title="" onclick="commonCls.sendPost('<{$id}>', 'action=pm_action_main_searchuser&amp;now_page=<{$action.pager.now_page+1}>&amp;' + Form.serialize($('pm_user_form<{$id}>')), {'target_el':$('pm_user_search_result<{$id}>')}); return false;">
+				  		<{$lang.pm_user_pager_next|smarty:nodefaults}>
+				  	</a>
+			  	</li>
+			<{/if}>
+		</ul>
+	</div>
+<{/if}>
+<{/strip}>

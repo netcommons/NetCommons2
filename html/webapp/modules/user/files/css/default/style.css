@@ -1,0 +1,225 @@
+/* Css定義ファイル */
+.user_desc {
+	padding-left:5px;
+	color:#af2c4d;
+}
+.user_detail_head {
+	text-align:left;
+	vertical-align:top;
+	padding: 2px 8px !important;
+}
+.user_edit_detail {
+	padding:5px;
+}
+/* 検索 */
+.user_edit_detail_time {
+	padding:2px 0px;
+}
+.user_sel_room{
+	width:190px
+}
+
+/* 検索結果 */
+.user_searchresult_main {}
+
+.user_searchresult_top_description {
+	padding-left:12px;
+}
+
+.user_check {min-height:19px;width:80px;white-space:nowrap;overflow:hidden;text-align:center;}
+.user_handle {width:120px;white-space:nowrap;overflow:hidden;}
+.user_login_id {width:90px;white-space:nowrap;overflow:hidden;}
+.user_user_name {width:110px;white-space:nowrap;overflow:hidden;}
+.user_user_authority_id {width:85px;white-space:nowrap;overflow:hidden;}
+.user_active_flag {width:55px;white-space:nowrap;overflow:hidden;}
+.user_insert_time {width:105px;white-space:nowrap;overflow:hidden;}
+.user_last_login_time {width:105px;white-space:nowrap;overflow:hidden;}
+.user_manage {width:180px;white-space:nowrap;overflow:hidden;}
+.user_searchresult_title {padding:5px;}
+.user_searchresult_none_mes {
+	padding:10px;
+}
+
+/* 項目設定画面 */
+
+.user_item_detail {
+	width:300px;
+	/*border-collapse:separate;*/
+	border:1px solid #cccccc;
+}
+
+.user_setting_type {
+	color: #c0c0c0;
+}
+/* 行tr */
+.user_chg_row {
+	width:300px;
+}
+.user_item_detail td,.user_item_detail th{
+	padding:2px;
+	border:1px solid #cccccc !important;
+	border-left-width:0px !important;
+	border-right-width:0px !important;
+}
+.user_chg_seq {
+	white-space:nowrap;
+	width:15px;
+}
+.user_setting_add_btn {
+	padding:5px;
+	text-align:right;
+	white-space:nowrap;
+}
+.user_setting_manage {
+	white-space:nowrap;
+	text-align:right;
+}
+/* 項目設定詳細画面 */
+.user_items_def_desc {
+	padding:8px;
+}
+.user_items_def {
+	padding:10px;
+	font-weight:bold;
+	white-space:normal;
+	width:700px;
+}
+
+.user_def_item_name {
+	margin-left:5px;
+}
+
+.user_inputtype_label{
+	font-weight:bold;
+	padding:0px 5px;
+}
+
+/* option,select */
+.user_items_options {
+	overflow:auto;
+	height:89px;
+	border:1px solid #cccccc;
+	margin:5px;
+}
+.user_items_option {
+	border:1px solid #cccccc;
+}
+.user_items_option_delete {
+	padding-right:10px;
+}
+.user_items_option td {
+	padding:3px;
+	vertical-align:middle;
+}
+.user_items_option {
+	border-bottom:1px solid #cccccc;
+	border-collapse:collapse;
+	white-space:nowrap;
+	width:100%;
+}
+
+.user_preview_area {
+	border:1px solid #cccccc !important;
+	width:auto !important;
+}
+.user_preview_area th,.user_preview_area td {
+	padding:5px;
+}
+/* 会員登録-編集 */
+.user_preview_file {
+	padding:5px;
+	text-align:right;
+}
+/* 参加者選択 */
+select.user_selectlist {
+	width:250px;
+	height:250px;
+}
+
+/* 権限設定 */
+.user_selectauth_entry_room {
+	width:200px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.user_selectauth_auth_list {
+	width:90px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-align:center;
+}
+.user_selectauth_btnlist {
+	padding-top:5px;
+}
+.user_confirm_auth_list {
+	width:160px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-align:center;
+}
+
+.user_lbl_room_public {
+	color:#04419a;
+}
+.user_lbl_room_group {
+	color:#5da302;
+}
+.user_lbl_room_private {
+	color:#d78f03;
+}
+.user_lbl_subgroup {
+	color:#9e9e9e;
+}
+.user_active_auth_desc {
+	width:auto;
+	border:1px solid #cccccc;
+	padding:3px;
+	margin:2px;
+	white-space:nowrap;
+}
+.user_active_auth_id {
+	background-color:#fff8dc;
+}
+.user_selectauth_moderate_color {
+	color:#999999;
+}
+.user_indent {
+	margin-left:20px;
+}
+.user_outerdiv img {vertical-align:middle; margin-right:4px;}
+th.user_grid_header {
+	padding : 3px 2px 2px 3px;
+	text-align:center;
+	background-color:#e0e0e0;
+	border:1px solid #d5d5d5;
+}
+tr.user_grid_row {
+	margin : 1px;
+	border:1px solid #d5d5d5;
+	height : 22px;
+	overflow : hidden;
+	line-height: 18px;
+}
+td.user_grid_col {
+	padding : 3px 2px 2px 3px;
+	border:1px solid #d5d5d5;
+	padding-left:4px;
+}
+.user_import_error {
+	background-color:#ffe1ff;
+	padding : 3px 2px 2px 3px;
+	border:1px solid #d5d5d5;
+	padding-left:4px;
+}
+.user_import_res_detail_table {
+	width:2000px;
+}
+.user_import_res_detail {
+	width:500px; 
+	height:200px; 
+	overflow:scroll;
+}
+.user_import_option {
+	width:400px;
+}

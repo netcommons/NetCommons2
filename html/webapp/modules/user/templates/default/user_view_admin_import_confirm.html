@@ -1,0 +1,87 @@
+<{strip}>
+	<div class="user_outerdiv">
+		<form id="import_confirm_form<{$id}>" action="" onsubmit="return false;">	
+			<fieldset>				
+				<legend class="bold">
+					<{$lang.user_import_confirm_data|smarty:nodefaults}>
+				</legend>
+
+				<{* インポートファイルの確認結果（サマリー）*}>
+ 				<table>
+					<tr class="user_grid_row">
+						<th class="user_grid_header grid_name"> <{$lang.user_import_chkdata_usersnum|smarty:nodefaults}> </th>
+						<td class="user_grid_col grid_name align-right"> <{$smarty.session.user.import.chkusers_num}>	</td>
+					</tr>				
+					<tr class="user_grid_row">
+						<th class="user_import_error"> <{$lang.user_import_chkdata_errusersnum|smarty:nodefaults}> </th>
+						<td class="user_import_error align-right"> <{$smarty.session.user.import.errUser_cnt}> </td>
+					</tr>		
+				</table>		
+				<br />
+				
+				<{* 詳細結果 *}>
+				<{if $smarty.session.user.import.detail_res == $smarty.const._ON}>
+					<{if $action.errdata == $smarty.const._ON}>
+						<span class="bold"> [<{$lang.user_import_option_detail|smarty:nodefaults}>] </span>
+						<div class="user_import_res_detail">
+							<table class="user_import_res_detail_table">
+								<tr class="user_grid_row">
+									<th class="user_grid_header"> <{$lang.user_import_chkdata_idx|smarty:nodefaults}> </th>
+									<{foreach from=$smarty.session.user.import.dispheader|smarty:nodefaults item=header name=headerloop}>
+										<th class="user_grid_header"> <{$header}> </th>
+									<{/foreach}>
+								</tr>
+								<{assign var="idx" value=0}>
+								<{foreach from=$smarty.session.user.import.dispdata item=datas name=dataloop}>
+									<{assign var="idx" value=$idx+1}>
+									<{if $smarty.session.user.import.dispdata_err.$idx == $smarty.const._ON}>
+										<tr class="user_grid_row">
+											<td class="user_import_error bold"> <{$idx}> </td>
+		
+											<{foreach from=$datas|smarty:nodefaults item=data name=dataloop}>
+												<{if is_array($data)}>
+													<td class="user_import_error">
+														<{foreach from=$data item=dataitem name=dataitemloop}>
+															<{$dataitem}> <br />
+														<{/foreach}>
+													</td>
+												<{else}>
+													<td class="user_import_error"> <{$data}> </td>
+												<{/if}>
+											<{/foreach}>
+										</tr>
+									<{/if}>
+								<{/foreach}>
+							</table>
+						</div>
+					<{/if}>
+				<{/if}>
+			
+				<div class="user_outerdiv">
+					<{* エラー *}>
+					<{if $action.errdata == $smarty.const._ON}>
+						<span class="require">　
+							<{$lang.user_return|smarty:nodefaults}> <br />
+						</span>
+						<{if $smarty.session.user.import.detail_res == $smarty.const._ON}>
+							<{if $smarty.session.user.import.errUser_cnt >= $smarty.const.USER_IMPORT_CHKDATA_MAXERR}>
+								<span class="require">　
+									<{$lang.user_return_maxerr|smarty:nodefaults|sprintf:$smarty.const.USER_IMPORT_CHKDATA_MAXERR}> <br />
+								</span>
+							<{/if}>
+						<{/if}>	
+					<{/if}>
+				</div>
+				<div class="btn-bottom">
+					<{if $action.errdata == $smarty.const._OFF}>
+						<{* 決定 *}>
+						<input class="btn-width lined_btn" type="button" name='user_import_confirm_set_0' id="user_import_confirm_set_0<{$id}>" value="<{$lang._regist|smarty:nodefaults}>" onclick="this.form.user_import_confirm_set_0.disabled=true; this.form.user_import_confirm_set_1.disabled=true; userCls['<{$id}>'].user_importdata(this.form); return false;" />
+					<{/if}>
+					<{* 閉じる *}>
+ 					<input class="btn-width lined_btn" type="button" name='user_import_confirm_set_1' id="user_import_confirm_set_1<{$id}>" value="<{$lang._close_btn|smarty:nodefaults}>" onclick="userCls['<{$id}>'].user_importreturn(this.form); return false;" />
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+<{/strip}>

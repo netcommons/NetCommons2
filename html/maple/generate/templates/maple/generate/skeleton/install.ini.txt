@@ -1,0 +1,39 @@
+version = "2.1.0.0"
+action_name="<?php print $skeleton->action_name; ?>"
+<?php 
+if($skeleton->moduletype == "normal" || $skeleton->moduletype == "full") {
+	print "edit_action_name=\"".$skeleton->edit_action_name."\"\n";
+	print "edit_style_action_name=\"".$skeleton->edit_style_action_name."\"\n";
+}
+if($skeleton->moduletype == "full") {
+	print ";system_flag=0\n";
+	print ";disposition_flag=1\n";
+	print ";default_enable_flag=1\n";
+	print ";module_icon=".$skeleton->dir_name.".gif\n";
+	print ";min_width_size=0\n";
+}
+if($skeleton->theme_name != "") {
+	print "theme_name=\"".$skeleton->theme_name."\"\n";
+}
+if($skeleton->temp_name != "default") {
+	print "temp_name=\"".$skeleton->temp_name."\"\n";
+}
+if($skeleton->moduletype == "normal" || $skeleton->moduletype == "full") {	
+	print "whatnew_flag=".$skeleton->whatnew_flag."\n";
+	print "search_action=\"".$skeleton->search_action."\"\n";
+}
+if($skeleton->moduletype == "full") {
+	print ";backup_action=\"auto\"\n";
+	print ";restore_action=\"auto\"\n";
+	print ";delete_action=\"".$skeleton->delete_action."\"\n";
+	print ";block_add_action=\"".$skeleton->block_add_action."\"\n";
+	print ";block_delete_action=\"auto\"\n";
+	print ";move_action=\"".$skeleton->move_action."\"\n";
+	print ";copy_action=\"".$skeleton->copy_action."\"\n";
+	print ";shortcut_action=\"".$skeleton->shortcut_action."\"\n";
+	print ";personalinf_action=\"".$skeleton->personalinf_action."\"\n";
+	print ";module_install_action=\"".$skeleton->module_install_action."\"\n";
+	print ";module_update_action=\"".$skeleton->module_update_action."\"\n";
+	print ";module_uninstall_action=\"".$skeleton->module_uninstall_action."\"\n";
+}
+?>

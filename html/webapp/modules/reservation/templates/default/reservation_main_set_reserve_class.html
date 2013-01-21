@@ -1,0 +1,13 @@
+<{strip}>
+
+<{if ($reserve_flag == RESERVATION_PUBLIC) }>
+	<{if ($bg_flag == _ON) }>reservation_reserve_mark_public<{else}>reservation_reserve_public<{/if}>
+<{elseif ($reserve_flag == RESERVATION_MEMBERS ) }>
+	<{if ($bg_flag == _ON) }>reservation_reserve_mark_members<{else}>reservation_reserve_members<{/if}>
+<{elseif ($reserve_flag == RESERVATION_GROUP) }>
+	<{if ($bg_flag == _ON) }>reservation_reserve_mark_group<{else}>reservation_reserve_group<{/if}>
+<{elseif ($reserve_flag == RESERVATION_PRIVATE) }>
+	<{if ($bg_flag == _ON) }>reservation_reserve_mark_private<{else}>reservation_reserve_private<{/if}>
+<{/if}>
+
+<{/strip}>

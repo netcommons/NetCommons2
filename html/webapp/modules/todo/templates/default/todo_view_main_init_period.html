@@ -1,0 +1,16 @@
+<{strip}>
+<{* タスク一覧（期限）用テンプレート *}>
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	<a class="link display-block" href="#" title="<{$lang.todo_period_edit|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].showPopup('<{$task.task_id}>', '<{$smarty.const.TODO_PERIOD}>', event);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);">
+<{/if}>
+
+<{if !empty($task.period|smarty:nodefaults)}>
+	<{$task.display_period_date}>
+<{else}>
+	<{$lang.todo_period_none|smarty:nodefaults}>
+<{/if}>
+
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	</a>
+<{/if}>
+<{/strip}>		

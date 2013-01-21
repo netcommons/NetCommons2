@@ -1,0 +1,65 @@
+<{strip}>
+
+<{include file="calendar_mobile_init_header.html"}>
+
+<a href="?action=calendar_view_mobile_init&amp;date=<{$action.prev_week}><{$session_param}>">
+	<{$lang.calendar_alt_prev_week|smarty:nodefaults}>
+</a>
+&nbsp;
+<{$action.date_string}>
+&nbsp;
+<a href="?action=calendar_view_mobile_init&amp;date=<{$action.next_week}><{$session_param}>">
+	<{$lang.calendar_alt_next_week|smarty:nodefaults}>
+</a>
+<br />
+
+<{assign var="wday_array" value="|"|explode:$smarty.const.CALENDAR_WEEK}>
+<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+	<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+	<{assign var="date" value="Ymd"|date:$timestamp}>
+	<{assign var="index" value="w"|date:$timestamp}>
+
+	<a href="?action=calendar_view_mobile_init&amp;dtype=<{$smarty.const.CALENDAR_DAILY}>&amp;date=<{$date}><{$session_param}>">
+		<{$lang.calendar_mobile_monthly_day|smarty:nodefaults|date:$timestamp}>
+		<{$lang.calendar_mobile_monthly_week|smarty:nodefaults|sprintf:$wday_array.$index}>
+	</a>
+	<{if ($action.plan_data.$date) }>
+		<{assign var="plan_data" value=$action.plan_data.$date}>
+		<ul>
+			<{section name=i loop=$plan_data}>
+				<li>
+					<{if ($plan_data[i].allday_flag != _ON || $plan_data[i].timezone_offset != $smarty.session._timezone_offset) }>
+						<{$lang.calendar_mobile_time_format|smarty:nodefaults|sprintf:$plan_data[i].start_time_str:$plan_data[i].end_time_str}>
+						<br />
+					<{/if}>
+					<{assign var="plan_color" value=""}>
+					<{if ($plan_data[i].plan_flag == CALENDAR_PLAN_PUBLIC) }>
+						<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PUBLIC}>
+					<{elseif ($plan_data[i].plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+						<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_MEMBERS}>
+					<{elseif ($plan_data[i].plan_flag == CALENDAR_PLAN_GROUP) }>
+						<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_GROUP}>
+					<{elseif ($plan_data[i].plan_flag == CALENDAR_PLAN_PRIVATE) }>
+						<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PRIVATE}>
+					<{/if}>
+					<span style="color:<{$plan_color}>;">
+						<{$lang.calendar_mobile_plan_mark|smarty:nodefaults}>
+					</span>
+					<{if $plan_data[i].title_icon != "" && $action.html_flag == _ON}>
+						<img src="<{""|get_image_url}>/images/comp/textarea/<{$plan_data[i].title_icon}>" />
+					<{/if}>
+					<a href="?action=calendar_view_main_plan_details&amp;cal_id=<{$plan_data[i].calendar_id}><{$session_param}>">
+						<{$plan_data[i].title|smarty:nodefaults|truncate:$smarty.const.CALENDAR_MOBILE_WEEKLY_STRLEN:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+					</a>
+				</li>
+			<{/section}>
+		</ul>
+	<{else}>
+		<br />
+	<{/if}>
+<{/section}>
+
+<br />
+<{include file="calendar_mobile_init_footer.html"}>
+
+<{/strip}>

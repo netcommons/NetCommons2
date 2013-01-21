@@ -1,0 +1,83 @@
+<{* XML内容テンプレート *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.users item=users}>
+	<{if ($action.parent_page.space_type == _SPACE_TYPE_PUBLIC && $users.public_createroom_flag == _ON) || ($action.parent_page.space_type == _SPACE_TYPE_GROUP && $users.group_createroom_flag == _ON)}>
+		<{assign var="createroom_flag" value=1}>
+	<{else}>
+		<{assign var="createroom_flag" value=0}>
+	<{/if}>
+	<row>
+		<handle>
+			<![CDATA[
+				<a class="link" href="#" onclick="commonCls.showUserDetail(event, '<{$users.user_id}>');return false;">
+					<{$users.handle}>
+				</a>
+			]]>
+		</handle>
+		<{if $action.edit_current_page_id != _SELF_TOPPUBLIC_ID && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)}>
+		<auth_list_other<{if $users.authority_id == _ROLE_AUTH_OTHER}> class="room_active_auth_id"<{/if}>>
+			<![CDATA[
+				<label class="display-block" for="auth_list_other<{$users.user_id}>_<{$id}>">
+					<input id="auth_list_other<{$users.user_id}>_<{$id}>" onclick="if(this.disabled != true) {var createroom_el = $('create_room_flag<{$users.user_id}>_<{$id}>');if(createroom_el){createroom_el.checked=false;Element.removeClassName(Element.getParentElement(createroom_el,3), 'room_active_auth_id');}roomCls['<{$id}>'].chkRadioSelectauth(this);}" type="radio" name="room_authority['<{$users.user_id}>']" value="<{$smarty.const._ROLE_AUTH_OTHER}>" <{if $users.authority_id == _ROLE_AUTH_OTHER}>checked="checked" <{/if}><{if ($users.user_authority_id==_AUTH_ADMIN && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)) || ($users.user_id == $smarty.session._user_id)}>disabled="true"<{/if}>/>
+				</label>
+			]]>
+		</auth_list_other>
+		<auth_list_sep>
+		</auth_list_sep>
+		<{/if}>
+		<{* 主担 *}>
+		<auth_list_chief<{if ($users.authority_id == _ROLE_AUTH_ADMIN || $users.authority_id == _ROLE_AUTH_CHIEF)}> class="room_active_auth_id"<{/if}>>
+			<![CDATA[
+				<{if ($action.parent_page.thread_num == 1 || $users.hierarchy>=_HIERARCHY_CHIEF || $createroom_flag == _ON || ($users.authority_id == _ROLE_AUTH_ADMIN || $users.authority_id == _ROLE_AUTH_CHIEF))}>
+					<label class="display-block" for="auth_list_chief<{$users.user_id}>_<{$id}>">
+						<input id="auth_list_chief<{$users.user_id}>_<{$id}>" onclick="if(this.disabled != true) {roomCls['<{$id}>'].chkRadioSelectauth(this);}" type="radio" name="room_authority['<{$users.user_id}>']" value="<{$smarty.const._ROLE_AUTH_CHIEF}>" <{if $users.authority_id == _ROLE_AUTH_ADMIN || ($users.authority_id == _ROLE_AUTH_ADMIN || $users.authority_id == _ROLE_AUTH_CHIEF)}>checked="checked" <{/if}><{if ($users.user_authority_id==_AUTH_ADMIN && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)) || ($users.user_id == $smarty.session._user_id)}>disabled="true"<{/if}>/>
+					</label>
+				<{/if}>
+			]]>
+		</auth_list_chief>
+		<{* モデレータ *}>
+		<{assign var="edit_current_page_id" value=$action.edit_current_page_id}>
+		<{foreach from=$smarty.session.room.$edit_current_page_id.authorities item=authority}>
+			<auth_list_moderate<{if $users.authority_id == $authority.role_authority_id}> class="room_active_auth_id"<{/if}>>
+				<![CDATA[
+					<{if ($action.parent_page.thread_num == 1 || $users.hierarchy>=$authority.hierarchy || $createroom_flag == _ON || $users.authority_id == $authority.role_authority_id)}>
+						<label class="display-block" for="auth_list_moderate<{$users.user_id}>_<{$id}>_<{$authority.role_authority_id}>">
+							<input id="auth_list_moderate<{$users.user_id}>_<{$id}>_<{$authority.role_authority_id}>" onclick="if(this.disabled != true) {roomCls['<{$id}>'].chkRadioSelectauth(this);}" type="radio" name="room_authority['<{$users.user_id}>']" value="<{$authority.role_authority_id}>" <{if $users.authority_id == $authority.role_authority_id}>checked="checked" <{/if}><{if ($users.user_authority_id==_AUTH_ADMIN && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)) || ($users.user_id == $smarty.session._user_id)}>disabled="true"<{/if}>/>
+						</label>
+					<{/if}>
+				]]>
+			</auth_list_moderate>
+		<{/foreach}>
+		<auth_list_general<{if $users.authority_id == _ROLE_AUTH_GENERAL}> class="room_active_auth_id"<{/if}>>
+			<![CDATA[
+				<{if ($action.parent_page.thread_num == 1 || $users.hierarchy>=_HIERARCHY_GENERAL || $createroom_flag == _ON || $users.authority_id == _ROLE_AUTH_GENERAL)}>
+					<label class="display-block" for="auth_list_general<{$users.user_id}>_<{$id}>">
+						<input id="auth_list_general<{$users.user_id}>_<{$id}>" onclick="if(this.disabled != true) {roomCls['<{$id}>'].chkRadioSelectauth(this);}" type="radio" name="room_authority['<{$users.user_id}>']" value="<{$smarty.const._ROLE_AUTH_GENERAL}>" <{if $users.authority_id == _ROLE_AUTH_GENERAL}>checked="checked" <{/if}><{if ($users.user_authority_id==_AUTH_ADMIN && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)) || ($users.user_id == $smarty.session._user_id)}>disabled="true"<{/if}>/>
+					</label>
+				<{/if}>
+			]]>
+		</auth_list_general>
+		<auth_list_guest<{if $users.authority_id == _ROLE_AUTH_GUEST}> class="room_active_auth_id"<{/if}>>
+			<![CDATA[
+				<label class="display-block" for="auth_list_guest<{$users.user_id}>_<{$id}>">
+					<input id="auth_list_guest<{$users.user_id}>_<{$id}>" onclick="if(this.disabled != true) {roomCls['<{$id}>'].chkRadioSelectauth(this);}" type="radio" name="room_authority['<{$users.user_id}>']" value="<{$smarty.const._ROLE_AUTH_GUEST}>" <{if $users.authority_id == _ROLE_AUTH_GUEST}>checked="checked" <{/if}><{if ($users.user_authority_id==_AUTH_ADMIN && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)) || ($users.user_id == $smarty.session._user_id)}>disabled="true"<{/if}>/>
+				</label>
+			]]>
+		</auth_list_guest>
+		<{if $action.edit_current_page_id != _SELF_TOPPUBLIC_ID && ($action.parent_page.thread_num == 0 && $action.parent_page.private_flag == _OFF && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC) && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)}>
+		<create_room_flag<{if $users.createroom_flag || $users.authority_id==_ROLE_AUTH_ADMIN}> class="room_active_auth_id"<{/if}>>
+			<![CDATA[
+				<{if $users.role_authority_id!=_ROLE_AUTH_GUEST && ($action.parent_page.thread_num == 1 || ($users.user_authority_id==_AUTH_ADMIN || $users.user_authority_id==_AUTH_CHIEF) || $createroom_flag == _ON)}>
+					<label class="display-block" for="create_room_flag<{$users.user_id}>_<{$id}>">
+						<input id="create_room_flag<{$users.user_id}>_<{$id}>" onclick="if(!this.disabled){roomCls['<{$id}>'].chkCheckboxCreateroom(this);}" name="room_createroom_flag['<{$users.user_id}>']" type="checkbox" value="1"<{if $users.createroom_flag || $users.authority_id==_ROLE_AUTH_ADMIN}>checked="checked"<{/if}> <{if $users.user_authority_id==_AUTH_ADMIN || ($action.parent_page.thread_num == 1 && $users.user_id == $smarty.session._user_id)}>disabled="true"<{/if}>/>
+					</label>
+				<{/if}>
+			]]>
+		</create_room_flag>
+		<{/if}>
+	</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

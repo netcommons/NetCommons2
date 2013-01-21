@@ -1,0 +1,156 @@
+<{strip}>
+<table class="widthmax">
+	<tr>
+		<th class="journal_list_date" scope="row">
+			<{$item.journal_date|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+			<{if $action.journal_obj.new_period != 0 && $action.journal_obj.new_period_time <= $item.journal_date}>
+				<img class="icon" src="<{"new.gif"|get_modules_image}>" alt="<{$lang._new|smarty:nodefaults}>" title="<{$lang._new|smarty:nodefaults}>" />
+			<{/if}>
+		</th>
+		<td class="journal_list_title">
+			<h4 class="journal_list_title_h">
+				<{if $from == "list"}>
+					<{if strpos($id, JOURNAL_REFERENCE_PREFIX_NAME)}>
+						<a class="syslink" title="<{$lang.journal_list_title|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail','journal_id':<{$action.journal_obj.journal_id}>, 'post_id':<{$item.post_id}>, 'comment_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+					<{else}>
+						<{if ($item.short_url != "") }>
+							<{include file="../../../../templates/main/abbreviate_url.html" short_url=$item.short_url assign=short_url}>
+							<a class="syslink"  title="<{$lang.journal_list_title|smarty:nodefaults}>" href="<{$short_url}>" onclick="if (_nc_current_url.match('<{$item.short_url}>')) {location.reload(); return false;}">
+						<{else}>
+							<{assign var="short_url" value=".`$smarty.const.INDEX_FILE_NAME`?active_action=journal_view_main_detail&post_id=`$item.post_id`&block_id=`$block_id`&comment_flag=`$smarty.const._ON`#`$smarty.session._id`"}>
+							<a class="syslink"  title="<{$lang.journal_list_title|smarty:nodefaults}>" href="<{$short_url}>" onclick="if (_nc_current_url.match('post_id=<{$item.post_id}>') && _nc_current_url.match('block_id=<{$block_id}>')) {location.reload(); return false;}">
+						<{/if}>
+					<{/if}>
+				<{/if}>
+
+				<{if !empty($item.icon_name|smarty:nodefaults)}>
+					<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$item.icon_name}>" alt="" title=""/>
+				<{/if}>
+				<{$item.title}>
+				<{if $item.status != $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE}>
+					<span class="deadline journal_font_normal"><{$lang._temporary_state|smarty:nodefaults}></span>
+				<{/if}>
+				<{if $item.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE && $item.agree_flag == $smarty.const._ON}>
+					<span class="deadline journal_font_normal"><{$lang.journal_wait_agree|smarty:nodefaults}></span>
+				<{/if}>
+
+				<{if $from == "list"}>
+					</a>
+				<{/if}>
+			</h4>
+		</td>
+		<td class="align-right journal_list_user">
+			<{if $action.journal_obj.sns_flag == _ON}>
+				<a class="journal_bookmark_icon" href="javascript:void window.open('http://twitter.com/intent/tweet?text='+encodeURIComponent('<{$item.title|smarty:nodefaults|escape:"javascript"|escape:"html"}> <{include file="../../../../templates/main/abbreviate_url.html" short_url=$item.short_url}>'), '_blank');">
+					<img class="icon" src="<{"t_mini-a.gif"|get_modules_image}>" alt="<{$lang.journal_tweet_this|smarty:nodefaults}>" title="<{$lang.journal_tweet_this|smarty:nodefaults}>" />
+				</a>
+				<a class="journal_bookmark_icon" href="javascript:void window.open('http://www.facebook.com/share.php?u='+encodeURIComponent('<{include file="../../../../templates/main/abbreviate_url.html" short_url=$item.short_url anchor=0}>')+'&amp;t='+encodeURIComponent('<{$item.title|smarty:nodefaults|escape:"javascript"|escape:"html"}>'), '_blank');">
+					<img class="icon" src="<{"f_mini.gif"|get_modules_image}>" alt="<{$lang.journal_send_to_facebook|smarty:nodefaults}>" title="<{$lang.journal_send_to_facebook|smarty:nodefaults}>" />
+				</a>
+			<{/if}>
+			<{$lang._separator|smarty:nodefaults}>
+			<{$lang.journal_from|smarty:nodefaults}>
+			<a href="#" title="<{if $smarty.session._login_id == ''}><{$lang.journal_add_user_title|smarty:nodefaults|sprintf:$item.insert_user_name}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$item.insert_user_name}><{/if}>" class="syslink" onclick="commonCls.showUserDetail(event, '<{$item.insert_user_id}>');return false;">
+				<{$item.insert_user_name}>
+			</a>
+		</td>
+	</tr>
+</table>
+<{if $action.journal_obj.active_flag == $smarty.const._ON && $item.has_edit_auth}>
+<div class="journal_content" title="<{$smarty.const._DBLCLICK_EDIT}>" ondblclick="journalCls['<{$id}>'].showEditPost(this, '<{$item.post_id}>');" onmouseover="commonCls.blockNotice(event, this);">
+<{else}>
+<div class="journal_content">
+<{/if}>
+	<{$item.content|smarty:nodefaults|wysiwig_convert_url}>
+	<br class="float-clear" />
+	<{if $item.more_content != "" }>
+		<div id="journal_more_none<{$id}>_<{$item.post_id}>">
+			<a class="syslink" title="<{$item.more_title}>" href="#" onclick="commonCls.displayChange($('journal_more_block<{$id}>_<{$item.post_id}>')); commonCls.displayChange($('journal_more_none<{$id}>_<{$item.post_id}>')); return false;">
+				<{$item.more_title}>
+			</a>
+		</div>
+		<div id="journal_more_block<{$id}>_<{$item.post_id}>" class="display-none">
+			<{$item.more_content|smarty:nodefaults|wysiwig_convert_url}>
+			<br class="float-clear" />
+			<a class="syslink" title="<{$item.hide_more_title}>" href="#" onclick="commonCls.displayChange($('journal_more_block<{$id}>_<{$item.post_id}>')); commonCls.displayChange($('journal_more_none<{$id}>_<{$item.post_id}>')); return false;">
+				<{$item.hide_more_title}>
+			</a>
+		</div>
+	<{/if}>
+</div>
+
+<{if isset($action.trackback_url|smarty:nodefaults) && $action.journal_obj.trackback_receive_flag == $smarty.const._ON}>
+	<div class="journal_content journal_trackback">
+		<span><{$lang.journal_trackback_url|smarty:nodefaults}></span>
+		<span class="journal_trackback_url"><{$action.trackback_url}></span>
+	</div>
+<{/if}>
+<{if $action.journal_obj.active_flag == $smarty.const._ON}>
+	<table class="widthmax">
+		<tr>
+			<td class="align-left journal_list_bottom journal_content_operate journal_right_space">
+				<{if $item.has_edit_auth}>
+					<a class="syslink" title="<{$lang.journal_edit_title|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_post','post_id':<{$item.post_id}>}, {'loading_el':this}); return false;">
+						<{$lang._edit|smarty:nodefaults}>
+					</a>
+					<{$lang._separator|smarty:nodefaults}>
+					<a class="syslink" title="<{$lang.journal_delete_title}>" href="#" onclick="journalCls['<{$id}>'].deletePost(this, '<{$item.post_id}>', '<{$lang.journal_delete_confirm|smarty:nodefaults}>'); return false;">
+						<{$lang._delete|smarty:nodefaults}>
+					</a>
+				<{/if}>
+				<{if $item.agree_flag == $smarty.const._ON && $item.has_confirm_auth && $item.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE}>
+					<{$lang._separator|smarty:nodefaults}>
+					<a class="syslink" title="<{$lang.journal_confirm}>" href="#" onclick="journalCls['<{$id}>'].postConfirm(this, '<{$item.post_id}>', '<{$lang.journal_confirm_confirm|smarty:nodefaults}>'); return false;">
+						<{$lang.journal_confirm|smarty:nodefaults}>
+					</a>
+				<{/if}>
+			</td>
+			<td class="align-right journal_list_bottom">
+				<{$item.journal_date|timezone_date_format:$lang._short_time_format|smarty:nodefaults}>
+				<{if $item.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE && $item.agree_flag != $smarty.const._ON}>
+					<{if $action.journal_obj.vote_flag == $smarty.const._ON}>
+						<{$lang._separator|smarty:nodefaults}>
+						<span class="journal_block_style">
+							<{if $item.voted}>
+								<{$lang.journal_voted|smarty:nodefaults}>
+							<{else}>
+								<a class="syslink" title="<{$lang.journal_vote_title|smarty:nodefaults}>" href="#" onclick="journalCls['<{$id}>'].vote(this, '<{$item.post_id}>'); return false;" >
+									<{$lang.journal_vote|smarty:nodefaults}>
+								</a>
+							<{/if}>
+						</span>
+						<{$lang._separator|smarty:nodefaults}>
+						<{$lang.journal_vote_num|smarty:nodefaults}>(<{$item.vote_count}>)
+					<{/if}>
+					<{if $action.journal_obj.comment_flag == $smarty.const._ON}>
+						<{$lang._separator|smarty:nodefaults}>
+						<{if $from == "list"}>
+						<a class="syslink" title="<{$lang.journal_comment_title|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail', 'post_id':<{$item.post_id}>, 'comment_flag':<{$smarty.const._ON}>, 'comment_href_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+						<{elseif $from == "detail"}>
+						<a class="syslink" title="<{$lang.journal_comment_show_hide_title|smarty:nodefaults}>" href="#" onclick="commonCls.displayNone($('journal_trackback<{$id}>')); commonCls.displayChange($('journal_comment<{$id}>')); commonCls.focus($('journal_comment_textarea<{$id}>')); return false;">
+						<{/if}>
+							<{$lang.journal_comment|smarty:nodefaults}>(<{$item.comment_count}>)
+						</a>
+					<{/if}>
+					<{if $action.journal_obj.trackback_transmit_flag == $smarty.const._ON || $action.journal_obj.trackback_receive_flag == $smarty.const._ON}>
+						<{$lang._separator|smarty:nodefaults}>
+						<{if $from == "list"}>
+						<a class="syslink" title="<{$lang.journal_trackback|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail','post_id':<{$item.post_id}>, 'trackback_flag':<{$smarty.const._ON}>, 'comment_href_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+						<{elseif $from == "detail"}>
+						<a class="syslink" title="<{$lang.journal_trackback|smarty:nodefaults}>" href="#" onclick="commonCls.displayNone($('journal_comment<{$id}>')); commonCls.displayChange($('journal_trackback<{$id}>')); return false;">
+						<{/if}>
+							<{$lang.journal_trackback|smarty:nodefaults}>(<{$item.trackback_count}>)
+						</a>
+					<{/if}>
+				<{/if}>
+				<{if $item.category_name != null}>
+					<{$lang._separator|smarty:nodefaults}>
+					<a class="syslink" title="<{$item.category_name}><{$lang.journal_category_sort_title|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_init','category_id':<{$item.category_id}>}, {'loading_el':this}); return false;">
+						<{$item.category_name}>
+					</a>
+				<{/if}>
+			</td>
+		</tr>
+	</table>
+<{/if}>
+<{/strip}>

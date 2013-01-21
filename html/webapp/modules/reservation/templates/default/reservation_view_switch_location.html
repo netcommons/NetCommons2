@@ -1,0 +1,24 @@
+<{strip}>
+
+<{if ($action.allow_add_rooms) }>
+	<select id="reservation_reserve_flag<{$id}>" class="reservation_style_select" name="reserve_room_id" onchange='reservationCls["<{$id}>"].displayReserveBtn(this.form, this);' class='reservation_reserve_room_id'>
+		<option value='0'<{if ($action.reserve.room_id=="0") }> selected="selected"<{/if}>>
+			<{$lang.reservation_no_reserve_flag|smarty:nodefaults}>
+		</option>
+
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<{include file="reservation_view_recursive_room.html" next_thread_num=$next_thread_num next_parent_id=$next_parent_id room_list=$room_list}>
+	</select>
+	<div id="reservation_reserve_error<{$id}>" class="errorstr display-none">
+		<{$lang.reservation_error_reserve_flag|smarty:nodefaults}>
+	</div>
+<{else}>
+	<span id="reservation_reserve_flag<{$id}>" class="errorstr">
+		<{$lang.reservation_no_reserve|smarty:nodefaults}>
+	</span>
+	<input type="hidden" name="reserve_room_id" value="0" />
+<{/if}>
+
+<{/strip}>

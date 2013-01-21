@@ -1,0 +1,30 @@
+<{strip}>
+<{* ページデータフラット表示用テンプレート *}>
+
+<{if empty($parents|smarty:nodefaults) && count($action.pageTree) > 0}>
+	<{assign var="parents" value=$action.topPage}>
+<{/if}>
+<{foreach from=$parents|smarty:nodefaults key=pageID item=page}>
+	<{if ($page.disabled == false) }>
+
+		<{if $page.mobileModule == true && $page.visible == true}>
+			<li>
+				<{if $page.blockCount > 1 }>
+					<a href="./?action=menu_view_mobile_detail&amp;page_id=<{$page.page_id}>&amp;t=<{$smarty.const._ON}><{$session_param}>">
+						<{$page.page_name}>
+					</a>
+				<{else}>
+					<a href="./?action=pages_view_mobile&amp;block_id=<{$page.block_id}><{$session_param}>">
+						<{$page.page_name}>
+					</a>
+				<{/if}>
+			</li>
+		<{/if}>
+	<{/if}>
+
+	<{if !empty($action.pageTree.$pageID|smarty:nodefaults)}>
+		<{assign var="parents" value=$action.pageTree.$pageID}>
+		<{include file="menu_mobile_recursive_page_smart_flat.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

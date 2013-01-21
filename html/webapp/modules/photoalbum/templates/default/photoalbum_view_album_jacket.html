@@ -1,0 +1,8 @@
+<{strip}>
+<{* アルバムジャケット用テンプレート *}>
+<{if empty($action.album.upload_id|smarty:nodefaults)}>
+	<img id="photoalbum_album_jacket<{$id}>" class="photoalbum_album_jacket" src="<{$smarty.const.PHOTOALBUM_SAMPLR_JACKET_DIR|cat:$action.album.album_jacket|get_modules_image}>" alt="<{$lang.photoalbum_album_jacket_preview_title}>" title="<{$lang.photoalbum_album_jacket_preview_title}>" style="<{$action.album.jacket_style}>" />
+<{else}>
+	<img id="photoalbum_album_jacket<{$id}>" class="photoalbum_album_jacket" src=".<{$smarty.const.INDEX_FILE_NAME}><{$action.album.album_jacket}>" alt="<{$lang.photoalbum_album_jacket_preview_title}>" title="<{$lang.photoalbum_album_jacket_preview_title}>" style="<{$action.album.jacket_style}>" />
+<{/if}>
+<{/strip}>

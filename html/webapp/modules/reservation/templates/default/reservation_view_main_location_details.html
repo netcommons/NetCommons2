@@ -1,0 +1,108 @@
+<{strip}>
+
+<table class="outer" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+	<tr class="row">
+		<th scope="row" class="nowrap">
+			<{$lang.reservation_location_name|smarty:nodefaults}>
+		</th>
+		<td>
+	 		<{$action.location.location_name}>
+			<{if ($smarty.session._user_auth_id == _AUTH_ADMIN && $action.location.duplication_flag == _ON) }>
+				<div class="reservation_duplication_flag">
+					<{$lang.reservation_duplication_flag|smarty:nodefaults}>
+				</div>
+			<{/if}>
+			<{if ($smarty.session._user_auth_id == _AUTH_ADMIN && $action.location.use_private_flag == _ON) }>
+				<div class="reservation_use_private_flag">
+					<{$lang.reservation_use_private_flag|smarty:nodefaults}>
+				</div>
+			<{/if}>
+		</td>
+	</tr>
+
+	<tr class="row">
+		<th scope="row" class="nowrap">
+			<{$lang.reservation_time_table|smarty:nodefaults}>
+		</th>
+		<td class="nowrap">
+			<{$action.location.time_table_str}>
+			&nbsp;
+			&nbsp;
+			<{assign var="start_time" value=$action.location.start_time_str}>
+			<{assign var="end_time" value=$action.location.end_time_str}>
+			<{$lang.reservation_time_range|smarty:nodefaults|sprintf:$start_time:$end_time}>
+			<{if ($smarty.session._timezone_offset != $action.location.timezone_offset) }>
+				<div class="reservation_timezone">
+					<{$action.location.timezone_string}>
+				</div>
+			<{/if}>
+		</td>
+	</tr>
+
+	<{if ($smarty.session._user_auth_id == _AUTH_ADMIN) }>
+		<tr class="row">
+			<th scope="row" class="nowrap">
+				<{$lang.reservation_add_authority|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{if ($action.location.add_authority >= _AUTH_CHIEF) }>
+					<{$lang.reservation_authority|smarty:nodefaults|sprintf:$smarty.const._AUTH_CHIEF_NAME}>
+				<{elseif ($action.location.add_authority >= _AUTH_MODERATE) }>
+					<{$lang.reservation_authority|smarty:nodefaults|sprintf:$smarty.const._AUTH_MODERATE_NAME}>
+				<{elseif ($action.location.add_authority >= _AUTH_GENERAL) }>
+					<{$lang.reservation_authority|smarty:nodefaults|sprintf:$smarty.const._AUTH_GENERAL_NAME}>
+				<{/if}>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row" class="nowrap">
+				<{$lang.reservation_category|smarty:nodefaults}>
+			</th>
+			<td>
+				<{if ($action.location.category_name == "") }>
+					<{$lang.reservation_no_category|smarty:nodefaults}>
+				<{else}>
+					<{$action.location.category_name}>
+				<{/if}>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row" class="nowrap">
+				<{$lang.reservation_room_select|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{if ($action.location.allroom_flag == _ON) }>
+					<{$lang.reservation_allroom_flag|smarty:nodefaults}>
+				<{elseif ($action.select_rooms) }>
+					<div class="reservation_room_select">
+						<{assign var="next_thread_num" value=0}>
+						<{assign var="next_parent_id" value=0}>
+						<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+						<{include file="./reservation_view_recursive_room.html" next_thread_num=$next_thread_num next_parent_id=$next_parent_id room_list=$room_list}>
+					</div>
+				<{/if}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if ($action.location.contact != "") }>
+		<tr class="row">
+			<th scope="row" class="nowrap">
+				<{$lang.reservation_contact|smarty:nodefaults}>
+			</th>
+			<td>
+		 		<{$action.location.contact}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if ($action.location.description != "") }>
+		<tr>
+			<td colspan="2" class="nowrap row">
+				<{$action.location.description|smarty:nodefaults|wysiwig_convert_url}>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+
+<{/strip}>

@@ -1,0 +1,108 @@
+<{strip}>
+<div class="outerdiv">
+<table border="0" cellspacing="0" cellpadding="0" class="align-center counter_preview" align="center">
+	<tr>
+		<td id="_counter_preview<{$id}>" class="counter_preview_area">
+		</td>
+	</tr>
+</table>
+<form onsubmit="return false;">
+<table class="outer" cellspacing=1>
+	<tbody>
+	    <tr class="row">
+    		<th class="nowrap" scope="row">
+				<label for="counter_digit<{$id}>">
+					<{$lang.counter_digit_char|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="valign-middle">
+				<select id="counter_digit<{$id}>" name="counter_digit" onchange="counterCls['<{$id}>'].counterPreview();">
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+				</select>
+			</td>
+		</tr>
+
+		<{* 画像選択 *}>
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="show_type_char<{$id}>">
+					<{$lang.show_type_char|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="valign-middle">
+				<select id="show_type_char<{$id}>" name="show_type" onchange="counterCls['<{$id}>'].counterPreview();" size=1>
+					<{section name=i loop=$action.picture_arry}>
+						<option value="<{$action.picture_arry[i]}>" name="show_type_var"><{$action.picture_arry[i]}></option>
+					<{/section}>
+				</select>
+			</td>
+		</tr>
+
+		<{* 文字(前) *}>
+	    <tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="show_char_before_char<{$id}>">
+					<{$lang.show_char_before_char|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="valign-middle">
+				<input id="show_char_before_char<{$id}>" type="text" name="show_char_before" onchange="counterCls['<{$id}>'].counterPreview();" size=25 value="<{$action.counter.show_char_before}>" />
+			</td>
+		</tr>
+
+		<{* 文字(後) *}>
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="show_char_after_char<{$id}>">
+					<{$lang.show_char_after_char|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="valign-middle">
+				<input id="show_char_after_char<{$id}>" type="text" name="show_char_after" onchange="counterCls['<{$id}>'].counterPreview();" size=25 value="<{$action.counter.show_char_after}>" />
+			</td>
+		</tr>
+
+		<{* 上記以外に表示したい文字 *}>
+	    <tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="other_disp_charr<{$id}>">
+					<{$lang.other_disp_char|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="valign-middle">
+				<input id="other_disp_charr<{$id}>" type="text" name="comment" onchange="counterCls['<{$id}>'].counterPreview();" size=25 value="<{$action.counter.comment}>" />
+			</td>
+		</tr>
+
+	</tbody>
+</table>
+</div>
+
+<div class="align-center">
+	<input class="btn-width" type="button" onclick="counterCls['<{$id}>'].counterRegist(<{$smarty.const._OFF}>);" value="<{$lang._regist|smarty:nodefaults}>" />&nbsp;
+	<input class="btn-width" type="button" onclick="counterCls['<{$id}>'].counterMainShow();" value="<{$lang._cancel|smarty:nodefaults}>" />&nbsp;
+</div>
+
+<div class="align-right">
+	<a href="#" title="<{$lang.zeroclear_title|smarty:nodefaults}>" class="syslink" onclick="if(commonCls.confirm('<{$lang.confirm_zero_clear|smarty:nodefaults|escape:"javascript"|escape:"html"}>')){counterCls['<{$id}>'].counterRegist(<{$smarty.const._ON}>);} return false;"><{$lang.zeroclear|smarty:nodefaults}></a>
+</div>
+</form>
+
+<{include file="counter_script.html"}>
+<script class="nc_script" type="text/javascript">
+	$("counter_digit<{$id}>").value = "<{$action.counter.counter_digit}>";
+	$("show_type_char<{$id}>").value = "<{$action.counter.show_type}>";
+	counterCls["<{$id}>"].counterPreview();
+</script>
+<{/strip}>

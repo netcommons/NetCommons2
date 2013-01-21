@@ -1,0 +1,89 @@
+<{strip}>
+<{* 写真設定用テンプレート *}>
+<{if $action.album.photo_count > 0}>
+	<script class="nc_script" type="text/javascript">
+		<{if $action.photoalbum.size_flag == _ON}>
+			var photoArea = $("photoalbum_photo_area<{$id}>");
+			Element.setStyle(photoArea, {"width":"<{$action.photoalbum.width}>px"});
+			Element.setStyle(photoArea, {"height":"<{$action.photoalbum.height}>px"});
+			photoArea = null;
+			photoalbumCls["<{$id}>"].size_flag = true;
+		<{else}>
+			photoalbumCls["<{$id}>"].size_flag = false;
+		<{/if}>
+
+		photoalbumCls["<{$id}>"].photos = new Array();
+		photoalbumCls["<{$id}>"].photo_count = <{$action.album.photo_count}>;
+
+		if (browser.isIE) {
+			<{if $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_FADE}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_FADE_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_BLINDS}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_BLINDS_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_CHECKERBOARD}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_CHECKERBOARD_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_STRIPS}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_STRIPS_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_BARN}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_BARN_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_GRADIENTWIPE}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_GRADIENTWIPE_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_IRIS}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_IRIS_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_WHEEL}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_WHEEL_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_PIXELATE}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_PIXELATE_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_RADIALWIPE}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RADIALWIPE_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_RANDOMBARS}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOMBARS_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_SLIDE}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_SLIDE_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_RANDOMDISSOLVE}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOMDISSOLVE_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_SPIRAL}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_SPIRAL_VALUE}>";
+			<{elseif $action.photoalbum.slide_type == PHOTOALBUM_SLIDE_TYPE_STRETCH}>
+				photoalbumCls["<{$id}>"].slide_type = "<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_STRETCH_VALUE}>";
+			<{else}>
+				photoalbumCls["<{$id}>"].slide_type = new Array(
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_FADE_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_BLINDS_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_CHECKERBOARD_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_STRIPS_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_BARN_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_GRADIENTWIPE_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_IRIS_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_WHEEL_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_PIXELATE_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RADIALWIPE_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOMBARS_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_SLIDE_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOMDISSOLVE_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_SPIRAL_VALUE}>",
+															"<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_STRETCH_VALUE}>"
+														);
+			<{/if}>
+		}
+
+	</script>
+
+	<{foreach item=photo from=$action.photos name=photo}>
+		<script class="nc_script" type="text/javascript">
+			var photo = {
+				"photo_id":"<{$photo.photo_id}>",
+				"photo_name":"<{$photo.photo_name|escape:"javascript"}>",
+				"src":".<{$smarty.const.INDEX_FILE_NAME}><{$photo.photo_path}>",
+				"photo_description":"<{$photo.photo_description|nl2br|escape:"javascript"}>",
+				"photo_vote_count":"<{$photo.photo_vote_count}>",
+				"width":"<{$photo.width}>",
+				"height":"<{$photo.height}>",
+				"vote_authority":"<{$photo.vote_authority}>"
+			};
+			photoalbumCls["<{$id}>"].photos.push(photo);
+			photo = null;
+		</script>
+	<{/foreach}>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,137 @@
+<{strip}>
+<{* 解答欄表示用テンプレート *}>
+<{if $question.question_type == QUIZ_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>" />
+
+		<label class="quiz_choice" for="quiz_answer<{$choice.choice_id}><{$id}>">
+			<input id="quiz_answer<{$choice.choice_id}><{$id}>" type="radio" name="answer_value[<{$question.question_id}>]" value="<{$choice.choice_id}>" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{if !empty($question.answer|smarty:nodefaults)}>
+			<{include file="quiz_view_answer_check.html" answer=$question.answer}>
+		<{/if}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label>
+			<input type="radio"<{if $choice.correct == _ON}> checked="checked"<{else}> onclick="if (this.checked) {this.checked = false;}"<{/if}> />
+			<{$choice.choice_value|nl2br}>
+		</label>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label class="quiz_choice" for="quiz_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>">
+			<input id="quiz_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>" type="radio" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{include file="quiz_view_answer_check.html"}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>" />
+
+		<label class="quiz_choice" for="quiz_answer<{$choice.choice_id}><{$id}>">
+			<input id="quiz_answer<{$choice.choice_id}><{$id}>" type="checkbox" name="answer_value[<{$question.question_id}>][<{$choice.choice_id}>]" value="<{$choice.choice_id}>" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{if !empty($question.answer|smarty:nodefaults)}>
+			<{include file="quiz_view_answer_check.html" answer=$question.answer}>
+		<{/if}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label>
+			<input type="checkbox"<{if $choice.correct == _ON}> checked="checked"<{/if}> onclick="return false;" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label class="quiz_choice" for="quiz_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>">
+			<input id="quiz_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>" type="checkbox" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{include file="quiz_view_answer_check.html"}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_WORD_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<label>
+		<input type="text" class="quiz_word_text" name="answer_value[<{$question.question_id}>]"<{if !empty($question.answer|smarty:nodefaults)}> value="<{$question.answer.answer_value|smarty:nodefaults}>"<{/if}> />
+	</label>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_WORD_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<{if ($smarty.request.prefix_id_name == QUIZ_PREFIX_ID_NAME_REFERENCE) }>
+		<label>
+			<input type="text" class="quiz_word_text" name="answer_value[<{$question.question_id}>]" onkeydown="if (event.keyCode!=9) {this.blur();return false;}" />
+		</label>
+	<{else}>
+		<{foreach from=$question.choice_words item=choice name="choice"}>
+			<label>
+				<input type="text" class="quiz_word_text" value="<{$choice.choice_value}>" onkeydown="if (event.keyCode!=9) {this.blur();return false;}" />
+			</label>
+			<br />
+		<{/foreach}>
+	<{/if}>
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_WORD_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<label>
+		<input value="<{$answer.answer_value|smarty:nodefaults}>" type="text" class="quiz_word_text" readOnly='true' />
+	</label>
+
+<{elseif $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<textarea cols="61" rows="4" class="textarea" name="answer_value[<{$question.question_id}>]">
+		<{if !empty($question.answer|smarty:nodefaults)}>
+			<{$question.answer.answer_value|smarty:nodefaults}>
+		<{/if}>
+	</textarea>
+
+<{elseif $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<textarea cols="61" rows="4" class="textarea" onkeydown="if (event.keyCode!=9) {this.blur();return false;}"></textarea>
+
+<{elseif $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<textarea cols="61" rows="4" class="textarea" readOnly='true'><{$answer.answer_value|smarty:nodefaults}></textarea>
+
+<{/if}>
+
+<{if $question.question_type == QUIZ_QUESTION_TYPE_TEXTAREA_VALUE && $action.scoreItemShow}>
+	<br />
+
+	<label class="quiz_answer_flag" for="quiz_answer_flag_not_mark<{$answer.answer_id}><{$id}>">
+		<input id="quiz_answer_flag_not_mark<{$answer.answer_id}><{$id}>" type="radio" name="answer_flag[<{$answer.answer_id}>]" value="<{$smarty.const.QUIZ_ANSWER_NOT_MARK_VALUE}>" onclick="quizCls['<{$id}>'].disableScore(<{$answer.answer_id}>);" />
+		<{$lang.quiz_answer_not_mark}>
+	</label>
+	<label class="quiz_answer_flag" for="quiz_answer_flag_correct<{$answer.answer_id}><{$id}>">
+		<input id="quiz_answer_flag_correct<{$answer.answer_id}><{$id}>" type="radio" name="answer_flag[<{$answer.answer_id}>]" value="<{$smarty.const.QUIZ_ANSWER_CORRECT_VALUE}>" onclick="$('quiz_answer_score<{$answer.answer_id}><{$id}>').disabled = false;" />
+		<{$lang.quiz_answer_correct}>
+	</label>
+	<label class="quiz_answer_flag" for="quiz_answer_flag_wrong<{$answer.answer_id}><{$id}>">
+		<input id="quiz_answer_flag_wrong<{$answer.answer_id}><{$id}>" type="radio" name="answer_flag[<{$answer.answer_id}>]" value="<{$smarty.const.QUIZ_ANSWER_WRONG_VALUE}>" onclick="quizCls['<{$id}>'].disableScore(<{$answer.answer_id}>);" />
+		<{$lang.quiz_answer_wrong}>
+	</label>
+	<label class="quiz_allotment" for="quiz_answer_score<{$answer.answer_id}><{$id}>">
+		<input id="quiz_answer_score<{$answer.answer_id}><{$id}>" class="quiz_allotment" type="text" name="score[<{$answer.answer_id}>]" value="<{$answer.score}>" />
+		<{$lang.quiz_point_allocation|sprintf:null:$question.allotment}>
+	</label>
+
+	<script class="nc_script" type="text/javascript">
+		<{if $answer.answer_flag == QUIZ_ANSWER_NOT_MARK_VALUE}>
+			$("quiz_answer_flag_not_mark<{$answer.answer_id}><{$id}>").checked = true;
+			$("quiz_answer_score<{$answer.answer_id}><{$id}>").disabled = true;
+		<{elseif $answer.answer_flag == QUIZ_ANSWER_CORRECT_VALUE}>
+			$("quiz_answer_flag_correct<{$answer.answer_id}><{$id}>").checked = true;
+		<{else}>
+			$("quiz_answer_flag_wrong<{$answer.answer_id}><{$id}>").checked = true;
+			$("quiz_answer_score<{$answer.answer_id}><{$id}>").disabled = true;
+		<{/if}>
+	</script>
+<{/if}>
+<{/strip}>

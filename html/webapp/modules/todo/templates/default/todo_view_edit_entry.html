@@ -1,0 +1,66 @@
+<{strip}>
+<{* Todo登録画面用テンプレート *}>
+<form id="todo_form<{$id}>" action="#" onsubmit="return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="todo_id" />
+	
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="todo_name<{$id}>">
+					<{$lang.todo_todo_name|smarty:nodefaults}>
+				</label>
+			</th>
+			
+			<td>
+		 		<input id="todo_name<{$id}>" class="text" type="text" name="todo_name" />
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.todo_task_authority|smarty:nodefaults}>
+			</th>
+			
+			<td>
+				<label class="disable_lbl">
+			 		<input type="checkbox" disabled="disabled" checked="checked" />
+			 		<input type="hidden" name="task_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				</label>
+				<label for="todo_task_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+			 		<input id="todo_task_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="task_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				</label>
+				<label for="todo_task_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+					<input id="todo_task_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="task_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				</label>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>', Form.serialize($('todo_form<{$id}>')), {'target_el':$('<{$id}>'),'focus_flag':true});" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'todo_view_edit_list');" />
+	</div>
+</form>
+
+<{include file="../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var todoForm = $("todo_form<{$id}>");
+	todoForm["action"].value = "todo_action_edit_entry";
+	todoForm["todo_id"].value = "<{$action.todo.todo_id}>";
+	
+	<{if empty($action.todo.todo_id|smarty:nodefaults)}>
+		todoForm["todo_name"].value = "<{$lang.todo_new_name|smarty:nodefaults|sprintf:$action.todoNumber}>";
+	<{else}>
+		todoForm["todo_name"].value = "<{$action.todo.todo_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+	
+	todoForm["task_authority[<{$action.todo.task_authority}>]"].checked = true;
+	commonCls.changeAuthority(todoForm["task_authority[<{$action.todo.task_authority}>]"], "<{$id}>");
+
+	todoForm = null;
+</script>
+<{/strip}>

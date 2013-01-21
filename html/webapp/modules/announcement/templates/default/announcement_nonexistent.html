@@ -1,0 +1,8 @@
+<{if $smarty.session._auth_id >=_AUTH_CHIEF}>
+<div title="<{$smarty.const._DBLCLICK_EDIT}>" ondblclick="announcementCls['<{$id}>'].announcementEditShow();" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.blockNotice(event, this);}">
+<{else}>
+<div>
+<{/if}>
+<{$lang.announcement_noexists|smarty:nodefaults}>
+</div>
+<{include file="announcement_script.html"}>

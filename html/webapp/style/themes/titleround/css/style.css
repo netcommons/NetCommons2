@@ -1,0 +1,48 @@
+/* 
+ * ブロック定義
+ */
+
+/* title */
+.th_titleround_default_title_color {
+	background-color:#aac05e;
+	color:#ffffff;
+}
+
+.th_titleround_default_left {
+	width:33px;
+	height:24px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/titleround/images/default/left.gif") no-repeat scroll right top;
+}
+
+.th_titleround_default_right {
+	width:11px;
+	height:24px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/titleround/images/default/right.gif") no-repeat scroll left top;
+}
+
+.th_titleround_default_title_color .highlight {
+	color:#ffff99;
+	background-color:#aac05e;
+}
+
+.th_titleround_default_title_color a.hover_highlight:hover {
+	color:#ffff99;
+	background-color:#aac05e;
+	text-decoration:none;
+}
+
+/* 一般 */
+.th_titleround_content {
+	padding: 0px;
+}
+
+.th_titleround_maincontent {
+	padding: 5px 5px 0px 10px;
+}
+
+.th_titleround_title {
+	white-space:nowrap;
+	text-align: left;
+	padding: 1px 0px;
+	margin:0px;
+}

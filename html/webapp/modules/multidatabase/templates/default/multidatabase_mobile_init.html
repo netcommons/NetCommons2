@@ -1,0 +1,82 @@
+<{strip}>
+<{* 携帯用コンテンツ一覧画面用テンプレート *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+	<{if !$action.metadata_exists}>
+		<{$lang.mdb_noneexists_metadata|smarty:nodefaults}>
+	<{else}>
+		<{* ページ最下行から一発で戻ってくるためのタグ *}>
+		<a id="pagetop"></a>
+		<{* 汎用データベース名称 *}>
+		<h3>
+			<{$action.mdb_obj.multidatabase_name}>
+		</h3>
+		<{* もし登録できる権限あるなら、「コンテンツを書く」を表示 Header *}>
+		<{if $action.mdb_obj.post_auth && $action.mdb_obj.active_flag == $smarty.const._ON}>
+			<a data-role="button" data-inline="true" href="?action=multidatabase_view_main_content_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+				<{$lang.mdb_new_content|smarty:nodefaults}>
+			</a>
+			<{* PCの「表示順位変更」は「一部DragAndDropを使っている」「一般の人にも並替え機能が提供されている」の２点から携帯では実装しない。 *}>
+			<{if $smarty.session._smartphone_flag != _ON}>
+				<{$lang._separator|smarty:nodefaults}>
+			<{/if}>
+		<{/if}>
+
+		<{* 検索 *}>
+		<a data-role="button" data-inline="true" data-icon="search" href="?action=multidatabase_view_main_search_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+			<{$lang.mdb_search|smarty:nodefaults}>
+		</a>
+		<hr />
+		<{include file="multidatabase_mobile_init_displaychange.html"}>
+		<hr />
+		<{if !$action.exists}>
+			<br /><{$lang.mdb_noneexists_data|smarty:nodefaults}>
+		<{else}>
+			<{if $action.mdblist.metadata == ""}>
+				<br /><{$lang.mdb_noneexists_list_metadata|smarty:nodefaults}>
+			<{else}>
+				<{assign var="mode" value="list"}>
+				<{assign var="data_pos_1" value=$action.mdblist.metadata.1}>
+				<{assign var="data_pos_2" value=$action.mdblist.metadata.2}>
+				<{assign var="data_pos_3" value=$action.mdblist.metadata.3}>
+				<{assign var="data_pos_4" value=$action.mdblist.metadata.4}>
+				<{foreach item=item key=key from=$action.mdblist.value}>
+					<{* 詳細部 *}>
+					<{include file="multidatabase_mobile_metadata.html"}>
+					<hr />
+				<{/foreach}>
+				<{include file="multidatabase_mobile_init_displaychange.html"}>
+			<{/if}>
+		<{/if}>
+
+		<{if $smarty.session._smartphone_flag != _ON}>
+			<{* ページTOPへ一発で戻ってくるためのリンク スマートフォンでは使えない*}>
+			<div style="text-align:right"><a href="#pagetop">▲PageTop▲</a></div>
+		<{/if}>
+		<hr />
+		<{* もし登録できる権限あるなら、「コンテンツを書く」を表示 Footer *}>
+		<{if $action.mdb_obj.post_auth && $action.mdb_obj.active_flag == $smarty.const._ON}>
+			<a data-role="button" data-inline="true" href="?action=multidatabase_view_main_content_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+				<{$lang.mdb_new_content|smarty:nodefaults}>
+			</a>
+			<{* PCの「表示順位変更」は「一部DragAndDropを使っている」「一般の人にも並替え機能が提供されている」の２点から携帯では実装しない。 *}>
+			<{if $smarty.session._smartphone_flag != _ON}>
+				<{$lang._separator|smarty:nodefaults}>
+			<{/if}>
+		<{/if}>
+		<a data-role="button" data-inline="true" data-icon="search" href="?action=multidatabase_view_main_search_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+			<{$lang.mdb_search|smarty:nodefaults}>
+		</a>
+
+		<br />
+		<br />
+		<div style="text-align:right">
+			<{if ($action.block_num == 1 ) }>
+				<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+			<{else}>
+				<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+			<{/if}>
+				<{$lang._btn_prev_arrow|smarty:nodefaults}>
+			</a>
+		</div>
+	<{/if}>
+<{/strip}>

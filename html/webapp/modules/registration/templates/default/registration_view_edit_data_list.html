@@ -1,0 +1,121 @@
+<{strip}>
+<{* 入力データ一覧画面用テンプレート *}>
+<div class="registration_name">
+	<{$action.registration.registration_name}>
+</div>
+
+<form id="registration_data_list_form<{$id}>" action="#" onsubmit="return false;">
+	<div class="registration_data_list_operation">
+		<{if $action.totalDataCount > $action.visibleRow}>
+			<span class="registration_page_switch">
+				<{if $action.pageNumber > 0}>
+			  		<a class="syslink" href="#" title="<{$lang.registration_page_title|sprintf:$lang.registration_page_previous}>" onclick="registrationCls['<{$id}>'].showDataList({'pageNumber':'<{$action.pagePrevious}>'});return false;">
+			  			<img class="icon" src="<{"previous.gif"|get_modules_image}>" alt="" title="" />
+			  			<{$lang.registration_page_previous}>
+			  		</a>
+				<{/if}>
+				<{section name=page start=$action.pageStart loop=$action.pageEnd}>
+					<a class="syslink<{if $action.pageNumber == $smarty.section.page.index}> current<{/if}>" href="#" title="<{$lang.registration_page_title|sprintf:$smarty.section.page.index+1}>" onclick="registrationCls['<{$id}>'].showDataList({'pageNumber':'<{$smarty.section.page.index}>'});return false;">
+						<{$smarty.section.page.index+1}>
+					</a>
+				<{/section}>
+				<{if $action.pageNext < $action.pageEnd}>
+			  		<a class="syslink" title="<{$lang.registration_page_title|sprintf:$lang.registration_page_next}>" href="#" onclick="registrationCls['<{$id}>'].showDataList({'pageNumber':'<{$action.pageNext}>'});return false;">
+			  			<{$lang.registration_page_next}>
+			  			<img class="icon" src="<{"next.gif"|get_modules_image}>" alt="" title="" />
+			  		</a>
+				<{/if}>
+			</span>
+		<{/if}>
+
+		<select id="registration_sort_item<{$id}>" name="sort_item" onchange="registrationCls['<{$id}>'].showDataList({'sort_item':this.value});return false;">
+			<option value="<{$smarty.const.REGISTRATION_ALBUM_SORT_DESCEND}>">
+				<{$lang.registration_sort_descend}>
+			</option>
+			<option value="<{$smarty.const.REGISTRATION_ALBUM_SORT_ASCEND}>">
+				<{$lang.registration_sort_ascend}>
+			</option>
+			<{foreach from=$action.items item=item}>
+				<{if $item.sort_flag == _ON}>
+					<option value="<{$item.item_id}>">
+						<{$lang.registration_sort|sprintf:$item.item_name}>
+					</option>
+				<{/if}>
+			<{/foreach}>
+		</select>
+		<select id="registration_visible_row<{$id}>" name="visible_row" onchange="registrationCls['<{$id}>'].showDataList({'visible_row':this.value});return false;">
+			<option value="1"><{$lang.registration_visible_row_unit|sprintf:"1"}></option>
+			<option value="5"><{$lang.registration_visible_row_unit|sprintf:"5"}></option>
+			<option value="10"><{$lang.registration_visible_row_unit|sprintf:"10"}></option>
+			<option value="20"><{$lang.registration_visible_row_unit|sprintf:"20"}></option>
+			<option value="50"><{$lang.registration_visible_row_unit|sprintf:"50"}></option>
+			<option value="100"><{$lang.registration_visible_row_unit|sprintf:"100"}></option>
+			<{* <option value="0"><{$lang.registration_visible_row_all}></option> *}>
+		</select>
+	</div>
+</form>
+
+<table class="grid_header" summary="<{$lang.registration_data_list_summary}>">
+	<tr>
+		<th class="nowrap" scope="col">
+			<{$lang.registration_data_id}>
+		</th>
+
+		<{foreach from=$action.items item=item}>
+			<th class="nowrap" scope="col">
+				<{$item.item_name}>
+			</th>
+		<{/foreach}>
+
+		<th class="nowrap" scope="col">
+			<{$lang.registration_entry_date}>
+		</th>
+
+		<th class="nowrap" scope="col">
+			<{$lang._delete|smarty:nodefaults}>
+		</th>
+	</tr>
+
+	<{foreach from=$action.datas item=data}>
+		<tr class="grid_row">
+			<td class="nowrap align-right">
+				<{$data.data_id}>
+			</td>
+
+			<{foreach from=$data.itemDatas item=itemData}>
+				<td class="nowrap">
+					<{if $itemData.item_type == $smarty.const.REGISTRATION_TYPE_FILE}>
+						<a href=".<{$smarty.const.INDEX_FILE_NAME}><{$itemData.item_data_value}>" target="_blank" title="<{$itemData.file_name}>">
+							<{$itemData.file_name}>
+						</a>
+					<{else}>
+						<{$itemData.item_data_value}>
+					<{/if}>
+				</td>
+			<{/foreach}>
+
+			<td class="nowrap">
+				<{$data.insert_time|timezone_date_format:$lang._full_date_format}>
+			</td>
+
+			<td class="nowrap">
+				<a class="syslink" href="#" title="<{$lang.registration_data_delete_title}>" onclick="registrationCls['<{$id}>'].deleteData('<{$action.registration.registration_id}>', '<{$data.data_id}>', '<{$lang.registration_data_delete_confirm}>');return false;">
+					<img class="icon" src="<{"trash.gif"|get_themes_image}>" alt="<{$lang.registration_data_delete_title}>" title="" />
+				</a>
+			</td>
+		</tr>
+	<{/foreach}>
+</table>
+
+<{include file="../registration_script.html"}>
+<script class="nc_script" type="text/javascript">
+	registrationCls["<{$id}>"].registration_id = "<{$action.registration.registration_id}>";
+
+	var registrationForm = $("registration_data_list_form<{$id}>");
+	registrationForm["sort_item"].value = "<{$action.sort_item}>";
+	registrationForm["visible_row"].value = "<{$action.visible_row}>";
+
+	commonCls.focus($("registration_sort_item<{$id}>"));
+	registrationForm = null;
+</script>
+<{/strip}>

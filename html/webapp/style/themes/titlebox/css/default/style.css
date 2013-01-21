@@ -1,0 +1,37 @@
+/* 
+ * ブロック定義
+ */
+
+/* title */
+.th_titlebox_default_line_color {
+	background-color:#677571;
+}
+
+.th_titlebox_default_title_color {
+	background-color:#c2c6c9;
+	color:#ffffff;
+}
+
+/* 一般 */
+.th_titlebox_content {
+	padding: 0px 2px;
+}
+
+.th_titlebox_titletop {
+	margin-bottom:5px;
+	width:100%;
+}
+.th_titlebox_line {
+	white-space:nowrap;
+	width:8px;
+}
+
+.th_titlebox_title {
+	white-space:nowrap;
+	text-align: left;
+	padding: 3px 10px;
+	margin:0px;
+}
+.th_titlebox_content_detail {
+	margin-left:5px;
+}

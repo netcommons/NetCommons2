@@ -1,0 +1,40 @@
+<{strip}>
+<{* 記事一覧画面用テンプレート *}>
+<div class="outerdiv">
+	<div class="bbs_bbs_name">
+		<{$action.bbs.bbs_name}>
+		<{include file = "bbs_view_main_display.html"}>
+	</div>
+
+	<{assign var="operationPosition" value="head"}>
+	<{include file = "bbs_view_main_init_operation.html"}>
+	
+	<{if $action.bbs.topic_authority}>
+		<{include file = "bbs_view_main_form.html"}>
+	<{/if}>
+
+	<{if $action.postExists}>
+		<{if $action.expand == BBS_EXPAND_THREAD_VALUE}>
+			<{include file = "bbs_view_main_thread.html"}>
+		<{elseif $action.expand == BBS_EXPAND_FLAT_VALUE}>
+			<{include file = "bbs_view_main_flat.html"}>
+		<{/if}>
+		
+		<{assign var="operationPosition" value="foot"}>
+		<{include file = "bbs_view_main_init_operation.html"}>
+	<{else}>
+		<{$lang.bbs_no_post|smarty:nodefaults}>
+	<{/if}>
+</div>
+
+<{include file = "../bbs_script.html"}>
+<script class="nc_script" type="text/javascript">
+	bbsCls["<{$id}>"].bbs_id = "<{$action.bbs.bbs_id}>";
+	bbsCls["<{$id}>"].post_id = null;
+	
+	<{if $action.topicCount}>
+		$("bbs_visible_row_head<{$id}>").value = "<{$action.visible_row}>";
+		$("bbs_visible_row_foot<{$id}>").value = "<{$action.visible_row}>";
+	<{/if}>
+</script>
+<{/strip}>

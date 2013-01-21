@@ -1,0 +1,121 @@
+<{strip}>
+<{foreach from=$menus item=menu}>
+	<{* ノードかどうかでクラス変更 *}>
+	<{*
+	<{assign var="display_flag" value=$action.main_active_node_arr.$now_page_id}>
+	*}>
+	<{assign var="now_page_id" value=$menu.page_id}>
+	<{assign var="next_thread_num" value=$menu.thread_num+1}>
+	<{assign var="thread_num" value=$menu.thread_num}>
+	<{assign var="display_flag" value=$action.main_active_node_arr.$now_page_id}>
+	<{*アクティブかどうか*}>
+	<{if $action.main_page_id == $menu.page_id}>
+		<{assign var="class_name" value="nowrap highlight"}>
+	<{else}>
+		<{assign var="class_name" value="nowrap"}>
+	<{/if}>
+	<{* スペースタイプでクラス変更 *}>
+	<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+		<{assign var="top_class_name" value="menu_top_public"}>
+		<{assign var="space_type_class_name" value="menu_public"}>
+	<{elseif $menu.space_type == _SPACE_TYPE_GROUP}>
+		<{assign var="top_class_name" value="menu_top_group"}>
+		<{assign var="space_type_class_name" value="menu_group"}>
+	<{/if}>
+	<{*プライベートかいなか*}>
+	<{if $menu.private_flag}>
+		<{assign var="top_class_name" value="menu_top_private"}>
+		<{assign var="space_type_class_name" value="menu_private"}>
+	<{/if}>
+	<{*マージン*}>
+	<{if $thread_num == 0}>
+		<{assign var="now_margin" value=$thread_num*$conf.menu_edit_top_left_margin}>
+	<{else}>
+		<{assign var="now_margin" value=$thread_num*$conf.menu_edit_left_margin}>
+	<{/if}>
+	<{*ノードで下にページ(ノード)がない場合、表示しない*}>
+	<{if $menu.page_name != "" && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+		<div id="_menu<{$block_id}>_<{$menu.page_id}>_<{if $menu.thread_num == 0}>top<{elseif ($menu.thread_num == 1 && $menu.private_flag == _OFF && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}>group<{elseif ($menu.thread_num == 1 && $menu.space_type == _SPACE_TYPE_PUBLIC && $menu.page_id == $menu.room_id) || ($menu.thread_num == 2 && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}><{$menu.parent_id}><{else}><{$menu.room_id}><{/if}>_<{$menu.space_type}>" class="menu_row_top<{if ($menu.thread_num == 1 && $menu.space_type == _SPACE_TYPE_PUBLIC && $menu.page_id == $menu.room_id) || ($menu.thread_num == 2 && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}> _menu_sub_group<{/if}>" style="margin-left:<{$now_margin}>px;">
+		<table cellspacing="0" cellpadding="0" class="<{$class_name}> menu_edit_top_outer">
+		<tr>
+			<td>
+				<{if $menu.chgseq_flag == true}>
+				<a class="move_bar" href="#" onclick="return false;" title="<{$smarty.const._DRAGANDDROP_MOVE}>">
+					<{if $class_name!="nowrap"}>
+						<img class="_menu_displayseq" src="<{""|get_image_url}>/images/menu/move_bar_active.gif" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+					<{else}>
+						<img class="_menu_displayseq" src="<{""|get_image_url}>/images/menu/move_bar.gif" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+					<{/if}>
+				</a>
+				<{else}>
+					<img class="menu_none_displayseq" src="<{""|get_image_url}>/images/common/blank.gif" alt="" />
+				<{/if}>
+			</td>
+			<td class="_menu_node_type <{if $menu.room_id == $menu.page_id}>menu_room<{elseif $menu.node_flag == 1}>menu_node<{else}>menu_leaf<{/if}>">
+				<{if $menu.room_id == $menu.page_id}>
+					<{*ルーム*}>
+					<{assign var="line_title" value=$lang.menu_img_room|smarty:nodefaults}>
+				<{elseif $menu.node_flag == 1}>
+					<{*カテゴリ*}>
+					<{assign var="line_title" value=$lang.menu_img_category|smarty:nodefaults}>
+				<{else}>
+					<{*ページ*}>
+					<{assign var="line_title" value=$lang.menu_img_page|smarty:nodefaults}>
+				<{/if}>
+				<img class="menu_bar_img" src="<{""|get_image_url}>/images/common/blank.gif" alt="<{$line_title}>" title="<{$line_title}>" />
+			</td>
+			<td class="menu_visibility_td">
+				<{if $menu.visible_flag != false}>
+					<a href="#" onclick="menuCls['<{$id}>'].chgVisibilityPage(this, '<{$menu.page_id}>'); return false;">
+						<{if (isset($visibility_flag|smarty:nodefaults) && $visibility_flag == 0 && ($action.flat_flag == _OFF || $menu.space_type != _SPACE_TYPE_PUBLIC)) || $menu.visibility_flag == 0}>
+							<img class="_menuvisibility valign-middle" id="_menuvisibility<{$id}>_<{$menu.page_id}>" src="<{""|get_image_url}>/images/menu/off.gif" alt="<{$lang.menu_visibility_off|smarty:nodefaults}>" title="<{$lang.menu_visibility_off|smarty:nodefaults}>" />
+						<{else}>
+							<img class="_menuvisibility valign-middle" id="_menuvisibility<{$id}>_<{$menu.page_id}>" src="<{""|get_image_url}>/images/menu/on.gif" alt="<{$lang.menu_visibility_on|smarty:nodefaults}>" title="<{$lang.menu_visibility_on|smarty:nodefaults}>" />
+						<{/if}>
+					</a>
+				<{elseif $menu.edit_flag == true}>
+					<div id="_menuvisibility<{$id}>_<{$menu.page_id}>" class="menu_visibility_img"></div>
+				<{else}>
+					<{* 行の長さ調整のため *}>
+					<div class="menu_visibility_img"></div>
+				<{/if}>
+			</td>
+			<td class="menu_main_edit_td">
+				<a id="_menutop<{$id}>_<{$menu.page_id}>" class="_menutop link menulink <{if $thread_num == 0}><{$top_class_name}><{else}><{$space_type_class_name}><{/if}> _menutop_<{$menu.page_id}> nowrap"<{if $menu.node_flag == 1}> onclick="menuCls['<{$id}>'].menuNodeClick(event,'<{$menu.page_id}>',true,<{if $menu.private_flag==_OFF && $menu.space_type==_SPACE_TYPE_GROUP && $menu.thread_num==0}>false<{else}>true<{/if}>);"<{else}> onclick="menuCls['<{$id}>'].menuleafClick(this,'<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=<{$menu.action_name}>&amp;page_id=<{$menu.page_id}><{if $menu.parameters}>&amp;<{$menu.parameters}><{/if}>','<{$menu.page_id}>',<{if $menu.edit_flag == true}>true<{else}>false<{/if}>);"<{/if}> style="width:<{if $thread_num != 0}>150px;<{else}>170px;<{/if}>overflow:hidden;display:block;">
+					<{if $menu.edit_flag == true && ($menu.edit_mode || $action.main_page_id == $menu.page_id)}>
+						<span><input class="menu_pagename_text" name="page_name" type="text" value="<{$menu.page_name}>" /></span>
+					<{else}>
+						<span<{if $menu.edit_flag == false}> class="menu_lbl_disabled"<{/if}>><{$menu.page_name}></span>
+					<{/if}>
+					<{* 準備中 *}>
+					<{if $menu.page_id == $menu.room_id && $menu.display_flag == _OFF}><span class="menu_prepared"><{$lang.menu_prepared|smarty:nodefaults}></span><{/if}>
+				</a>
+			</td>
+			<{if $thread_num != 0 && $menu.page_id != $menu.room_id && $menu.edit_flag == true}>
+			<td class="menu_del_btn">
+				<a href="#" onclick="if (!commonCls.confirm('<{$lang.menu_delete_confirm|smarty:nodefaults|sprintf:"`$menu.page_name`"|escape:"javascript"|escape:"html"}>')) return false; menuCls['<{$id}>'].delPage('<{$menu.page_id}>','_menu<{$block_id}>_<{$menu.page_id}>_<{if $menu.thread_num == 0}>top<{elseif ($menu.thread_num == 1 && $menu.private_flag == _OFF && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}>group<{else}><{$menu.room_id}><{/if}>_<{$menu.space_type}>'); return false;">
+					<img class="valign-middle" src="<{"trash_silhouette.gif"|get_themes_image}>" alt="<{$lang._delete|smarty:nodefaults}>" title="<{$lang._delete|smarty:nodefaults}>" />
+				</a>
+			</td>
+			<{else}>
+				<{* 行の長さ調整のため *}>
+				<td class="menu_del_btn" onclick="var mene_link = $('_menutop<{$id}>_<{$menu.page_id}>'); if(mene_link) {mene_link.onclick();}">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="menu_trash_img" />
+				</td>
+			<{/if}>
+		</tr>
+		</table>
+		</div>
+	<{/if}>
+	<{if $action.menus.$next_thread_num.$now_page_id && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+		<div id="_menu_<{$menu.page_id}><{$id}>" class="_menu_<{$menu.page_id}><{$id}><{if $display_flag == _OFF}> display-none<{else}><{/if}>">
+		<{assign var="menus" value=$action.menus.$next_thread_num.$now_page_id}>
+		<{if $visibility_flag != 0 && $action.flat_flag != true && $menu.space_type !=_SPACE_TYPE_PUBLIC}>
+			<{assign var="visibility_flag" value=$menu.visibility_flag}>
+		<{/if}>
+		<{include file="menu_view_edit_list.html"}>
+		<{assign var="visibility_flag" value=1}>
+		</div>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

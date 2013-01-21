@@ -1,0 +1,16 @@
+<{strip}>
+<{* 入力データ確認画面用テンプレート *}>
+<div class="top_description">
+	<{$lang.registration_confirm_text|sprintf:$lang._regist}>
+</div>
+
+<{include file="registration_view_main_entry_data.html"}>
+
+<div class="btn-bottom">
+	<input class="btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'registration_view_main_init', 'back':<{$smarty.const._ON}>});" />
+	<input id="registration_regist<{$id}>" class="lined_btn btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="registrationCls['<{$id}>'].enterData();" />
+</div>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("registration_regist<{$id}>"));
+</script>
+<{/strip}>

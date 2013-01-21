@@ -1,0 +1,18 @@
+<{strip}>
+<{* 日誌一覧（管理列）用テンプレート *}>
+<a class="syslink" href="#" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$journal.journal_name}>" onclick="journalCls['<{$id}>'].referenceJournal(event, '<{$journal.journal_id}>'); return false;">
+	<{$lang._ref|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang._edit_title|smarty:nodefaults|sprintf:$journal.journal_name}>" onclick="commonCls.sendView('<{$id}>', {action:'journal_view_edit_modify', journal_id:<{$journal.journal_id}>}); return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang.journal_category_edit|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {action:'journal_view_edit_category', journal_id:<{$journal.journal_id}>}); return false;">
+	<{$lang.journal_category_edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang._del_title|smarty:nodefaults|sprintf:$journal.journal_name}>" onclick="journalCls['<{$id}>'].delJournal('<{$journal.journal_id}>', '<{$lang._del_confirm|sprintf:"`$journal.journal_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>'); return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{/strip}>

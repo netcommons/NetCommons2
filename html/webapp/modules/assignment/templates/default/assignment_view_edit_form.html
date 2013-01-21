@@ -1,0 +1,149 @@
+<{strip}>
+<{* 課題作成(編集)テンプレート *}>
+
+<div class="outerdiv">
+	<form id="assignment_form<{$id}>" onsubmit="return false;">
+		<{if ($action_name == "assignment_view_edit_create") }>
+			<input type="hidden" name="action" value="assignment_action_edit_create" />
+		<{else}>
+			<input type="hidden" name="action" value="assignment_action_edit_modify" />
+			<input type="hidden" name="assignment_id" value="<{$action.assignment.assignment_id}>" />
+		<{/if}>
+
+		<table class="outer" summary="">
+			<{* 課題名称 *}>
+			<tr class="row">
+				<th scope="row">
+					<label for="assignment_assignment_name<{$id}>">
+						<{$lang.assignment_assignment_name|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<a href="#">
+						<img id="assignment_icon_name_img<{$id}>" src="<{""|get_image_url}>/images/comp/textarea/<{if $action.assignment.icon_name != "" }><{$action.assignment.icon_name}><{else}>titleicon/blank.gif<{/if}>" class="comp_title_icon" alt="" title="" onclick="assignmentCls['<{$id}>'].showIcon();return false;" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');" />
+					</a>
+					<input id="assignment_assignment_name<{$id}>" class="text" type="text" name="assignment_name" value="<{$action.assignment.assignment_name}>" />
+					<input id="assignment_icon_name_hidden<{$id}>" name="icon_name" type="hidden" value="<{$action.assignment.icon_name}>" />
+				</td>
+			</tr>
+
+			<{* 課題内容 *}>
+			<tr>
+				<td class="row nowrap" colspan="2">
+					<textarea id="assignment_assignment_body<{$id}>" class="comptextarea">
+						<{$action.assignment.assignment_body|smarty:nodefaults|wysiwig_convert_url|escape:"html"}>
+					</textarea>
+				</td>
+			</tr>
+
+			<{* 期限 *}>
+			<tr class="row">
+				<th scope="row">
+					<label for="assignment_period<{$id}>">
+						<{$lang.assignment_period|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<input class="date assignment_period" id="assignment_period<{$id}>" name="period" size="13" maxlength="10" type="text" value="<{$action.assignment.input_period}>" />
+				</td>
+			</tr>
+
+			<{* 評価権限 *}>
+			<tr class="row">
+				<th scope="row">
+					<label for="assignment_grade_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+						<{$lang.assignment_grade_authority|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<input type="hidden" name="grade_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<label for="assignment_grade_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+				 		<input id="assignment_grade_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="grade_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>"<{if ($action.assignment.grade_authority <= _AUTH_MODERATE) }> checked="checked"<{/if}> />
+						<{$lang.assignment_authority_value|sprintf:$smarty.const._AUTH_MODERATE_NAME}>
+					</label>
+				</td>
+			</tr>
+
+			<{* メール設定 *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.assignment_mail_send|smarty:nodefaults}>
+				</th>
+				<td>
+					<label for="assignment_mail_send<{$smarty.const._ON}><{$id}>">
+						<input id="assignment_mail_send<{$smarty.const._ON}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._ON}>" onclick="Element.removeClassName($('assignment_mail_send_content<{$id}>'),'display-none');"<{if ($action.assignment.mail_send == _ON) }> checked="checked"<{/if}> />
+						<{$lang.assignment_mail_send_on|smarty:nodefaults}>
+					</label>
+					&nbsp;&nbsp;
+					<label for="assignment_mail_send<{$smarty.const._OFF}><{$id}>">
+						<input id="assignment_mail_send<{$smarty.const._OFF}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._OFF}>" onclick="Element.addClassName($('assignment_mail_send_content<{$id}>'),'display-none');"<{if ($action.assignment.mail_send == _OFF) }> checked="checked"<{/if}> />
+						<{$lang.assignment_mail_send_off|smarty:nodefaults}>
+					</label>
+
+					<div id="assignment_mail_send_content<{$id}>"<{if ($action.assignment.mail_send == _OFF) }> class="display-none"<{/if}>>
+						<div class="hr"></div>
+						<label for="assignment_mail_subject<{$id}>">
+							<{$lang.assignment_mail_subject|smarty:nodefaults}>
+							<input id="assignment_mail_subject<{$id}>" class="mail_subject" type="text" name="mail_subject" value="<{if (empty($action.assignment.assignment_id|smarty:nodefaults)) }><{$lang.assignment_mail_subject_default|smarty:nodefaults}><{else}><{$action.assignment.mail_subject}><{/if}>" />
+						</label>
+
+						<div class="hr"></div>
+						<label for="assignment_mail_body<{$id}>">
+							<{$lang.assignment_mail_body|smarty:nodefaults}><br />
+							<textarea id="assignment_mail_body<{$id}>" class="mail_body" name="mail_body">
+								<{if (empty($action.assignment.assignment_id|smarty:nodefaults)) }>
+									<{$lang.assignment_mail_body_default|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}>
+								<{else}>
+									<{$action.assignment.mail_body}>
+								<{/if}>
+							</textarea>
+						</label>
+
+						<div class="note">
+							<{$lang.assignment_mail_note|smarty:nodefaults}>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<{* ボタン *}>
+		<div class="btn-bottom">
+			<{if ($action_name == "assignment_view_edit_create") }>
+				<input name="start_btn" type="button" class="btn-width lined_btn assignment_start_btn" value="<{$lang.assignment_start_btn|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].setAssignment(this.form,'<{$smarty.const._ON}>'); return false;" />
+				<input name="regist_btn" type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].setAssignment(this.form,'<{$smarty.const._OFF}>'); return false;" />
+				<input name="cancel_btn" type="button" class="btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'assignment_view_main_init'}); return false;" />
+			<{else}>
+				<{if ($action.assignment.assignment_id != $action.current_assignment_id) }>
+					<input name="start_btn" type="button" class="btn-width lined_btn assignment_start_btn" value="<{$lang.assignment_start_btn|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].setAssignment(this.form,'<{$smarty.const._ON}>'); return false;" />
+				<{/if}>
+				<input name="regist_btn" type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].setAssignment(this.form, null); return false;" />
+				<input name="cancel_btn" type="button" class="btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'assignment_view_edit_list'}); return false;" />
+			<{/if}>
+		</div>
+	</form>
+</div>
+
+<{include file="../assignment_script.html"}>
+<script class="nc_script" type="text/javascript">
+	assignmentCls["<{$id}>"].titleIcon = null;
+
+	assignmentCls["<{$id}>"].textarea = new compTextarea();
+	assignmentCls["<{$id}>"].textarea.uploadAction = {
+		image    : "assignment_action_edit_upload_image",
+		file     : "assignment_action_edit_upload_file"
+	};
+	assignmentCls["<{$id}>"].textarea.textareaShow("<{$id}>", "comptextarea", "full");
+
+	assignmentCls["<{$id}>"].calendar = new compCalendar("<{$id}>", "assignment_period<{$id}>");
+
+	commonCls.closeCallbackFunc("<{$id}>", function(){
+		assignmentCls["<{$id}>"].calendar = null;
+		assignmentCls["<{$id}>"].textarea = null;
+		assignmentCls["<{$id}>"].titleIcon = null;
+	}.bind(assignmentCls["<{$id}>"]));
+
+	commonCls.focus($('assignment_assignment_name<{$id}>'));
+</script>
+
+<{/strip}>

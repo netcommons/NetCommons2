@@ -1,0 +1,46 @@
+/* 
+ * ブロック定義
+ */
+/* title */
+.th_dotline_violet_title {
+	width:100%;
+	margin-bottom:5px;
+	color:#722f56;
+}
+/* line */
+.th_dotline_violet_line {
+	height:3px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotline/images/violet/dot.gif") repeat-x scroll left top;
+	margin-right:3px;
+}
+
+/* title */
+.th_dotline_violet .highlight {
+	background-color:#eee4ed;
+	color:#6f4d73;
+}
+
+.th_dotline_violet a.hover_highlight:hover {
+	background-color:#eee4ed;
+	color:#6f4d73;
+	text-decoration:none;
+}
+/* 一般 */
+.th_dotline_title_line {
+	width:21px;
+	height:21px;
+}
+
+.th_dotline_content {
+	border: 0px;
+	padding: 10px 10px 20px 10px;
+}
+
+.th_dotline_sub_content {
+	border: 0px;
+	padding: 0px 10px 10px 10px;
+}
+
+.th_dotline_line {
+	padding:5px 0px;
+}

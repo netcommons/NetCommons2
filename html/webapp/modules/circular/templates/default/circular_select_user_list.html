@@ -1,0 +1,10 @@
+<{strip}>
+<{* 回覧先選択部分テンプレート *}>
+<select class="circular_select_user_boxsize" id="group_user_list<{$id}>" name="group_user_list" size="8" multiple >
+	<{foreach from=$action.group_user_list item="group_user"}>
+		<{if ($group_user.user_id != $smarty.session._user_id)}>
+			<option value="<{$group_user.user_id}>"><{$group_user.handle}></option>
+		<{/if}>
+	<{/foreach}>
+</select>
+<{/strip}>

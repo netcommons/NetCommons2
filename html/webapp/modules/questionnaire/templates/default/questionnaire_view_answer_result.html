@@ -1,0 +1,75 @@
+<{strip}>
+<{* 回答画面用テンプレート *}>
+<div class="questionnaire_head">
+	<{include file="questionnaire_view_main_head.html"}>
+</div>
+
+<{if !empty($action.isConfirm|smarty:nodefaults)}>
+	<div class="questionnaire_confirm_message">
+		<{$lang.questionnaire_confirm_message|sprintf:$lang.questionnaire_determine|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<{if $action.answerSummaryShow}>
+	<{include file="questionnaire_view_print.html"}>
+
+	<table class="outer questionnaire_summary" summary="<{$lang.questionnaire_answer_summary}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.questionnaire_answerer}>
+			</th>
+			<td>
+				<{include file = "questionnaire_view_handle.html" handle=$action.summary.insert_user_name|smarty:nodefaults user_id=$action.summary.insert_user_id}>
+				<{include file="questionnaire_view_number.html" questionnaireNumber=$lang.questionnaire_parenthesis_number|sprintf:$action.summary.answer_number}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.questionnaire_answer_date}>
+			</th>
+			<td>
+				<{$action.summary.answer_time|timezone_date_format:$lang._full_date_format}>
+			</td>
+		</tr>
+	</table>
+<{/if}>
+
+<{foreach from=$action.questions item=question name="question"}>
+	<div class="questionnaire_question">
+		<{include file="questionnaire_view_question.html"}>
+
+		<div id="questionnaire_answer_area<{$question.question_id}><{$id}>" class="questionnaire_answer<{if $action.answerHide}> display-none<{/if}>">
+			<{if !empty($question.answer|smarty:nodefaults) }>
+				<{include file="questionnaire_view_answer.html" choiceDisplay=$smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER answer=$question.answer}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		</div>
+
+		<{if empty($action.isConfirm|smarty:nodefaults)}>
+			<{include file="questionnaire_view_description.html"}>
+		<{/if}>
+	</div>
+<{/foreach}>
+
+<{if !empty($action.isConfirm|smarty:nodefaults)}>
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'questionnaire_view_main_init');" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang.questionnaire_determine}>" onclick="questionnaireCls['<{$id}>'].answer(true);" />
+	</div>
+<{elseif empty($action.prefix_id_name|smarty:nodefaults)}>
+	<div class="btn-bottom">
+		<{if $action.nextQuestion}>
+			<input class="btn-width" type="button" value="<{$lang.questionnaire_next_question}>" onclick="commonCls.sendView('<{$id}>', 'questionnaire_view_main_single');" />
+		<{else}>
+			<input class="btn-width" type="button" value="<{$lang.questionnaire_end}>" onclick="commonCls.sendView('<{$id}>', 'questionnaire_view_main_init');" />
+		<{/if}>
+	</div>
+<{/if}>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	questionnaireCls['<{$id}>'].questionnaire_id = "<{$action.questionnaire.questionnaire_id}>";
+</script>
+<{/strip}>

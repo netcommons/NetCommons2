@@ -1,0 +1,28 @@
+<{strip}>
+
+<table class="cabinet_explorer_header" cellspacing="0" cellpadding="0" summary="">
+	<tr>
+		<th scope="col">
+			&nbsp;
+			<{$lang.cabinet_folder|smarty:nodefaults}>
+		</th>
+	</tr>
+	<tr>
+		<td>
+			<{include file="cabinet_view_main_explorer_folder_tree.html"}>
+		</td>
+	</tr>
+</table>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].folder_id = "<{$action.folder_id}>";
+	<{if ($action.reference == _OFF && $smarty.session._auth_id >= _AUTH_CHIEF) }>
+		cabinetCls["<{$id}>"].setDragAndDrop("cabinet_explore_left<{$id}>");
+	<{/if}>
+	if (cabinetCls["<{$id}>"].folder_height > 0) {
+		$('cabinet_explore_folder_tree<{$id}>').style.height = cabinetCls["<{$id}>"].folder_height + "px";
+	}
+</script>
+
+<{/strip}>

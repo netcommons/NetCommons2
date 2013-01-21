@@ -1,0 +1,73 @@
+<{strip}>
+<form id="chat_form<{$id}>"  action="" onsubmit="return false;">
+	<div class="outerdiv">
+		<table class="outer">
+			<tr class="row">
+				<td class="nowrap"><{$lang.chat_height_width|smarty:nodefaults}></td>
+				<td class="nowrap">
+					<input type="text" name="height" size="8" value="<{$action.chat_obj.height}>">×<input type="text" name="width" size="8" value="<{$action.chat_obj.width}>">
+				</td>
+			</tr>
+			<tr class="row">
+				<td class="nowrap"><{$lang.chat_reload|smarty:nodefaults}></td>
+				<td>
+					<select name="reload">
+						<option value="10"<{if ($action.chat_obj.reload==10)}> selected="selected"<{/if}>>10<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="15"<{if ($action.chat_obj.reload==null || $action.chat_obj.reload==15)}> selected="selected"<{/if}>>15<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="20"<{if ($action.chat_obj.reload==20)}> selected="selected"<{/if}>>20<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="25"<{if ($action.chat_obj.reload==25)}> selected="selected"<{/if}>>25<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="30"<{if ($action.chat_obj.reload==30)}> selected="selected"<{/if}>>30<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="35"<{if ($action.chat_obj.reload==35)}> selected="selected"<{/if}>>35<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="40"<{if ($action.chat_obj.reload==40)}> selected="selected"<{/if}>>40<{$lang.chat_second|smarty:nodefaults}></option>
+						<option value="60"<{if ($action.chat_obj.reload==60)}> selected="selected"<{/if}>>60<{$lang.chat_second|smarty:nodefaults}></option>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<td class="nowrap"><{$lang.chat_line|smarty:nodefaults}></td>
+				<td class="nowrap">
+					<input type="text" name="line_num" size="8" value="<{$action.chat_obj.line_num}>">
+				</td>
+			</tr>
+			<tr class="row">
+				<td class="nowrap"><{$lang.chat_status|smarty:nodefaults}></td>
+				<td class="nowrap">
+					<label for="<{$id}>_chat_status_<{$smarty.const._ON}>">
+						<input id="<{$id}>_chat_status_<{$smarty.const._ON}>" type="radio" value="<{$smarty.const._ON}>" name="status" <{if ($action.chat_obj.status == $smarty.const._ON)}> checked="checked"<{/if}>><{$lang.chat_status_open|smarty:nodefaults}>
+					</label>
+					<label for="<{$id}>_chat_status_<{$smarty.const._OFF}>">
+						<input id="<{$id}>_chat_status_<{$smarty.const._OFF}>" type="radio" value="<{$smarty.const._OFF}>" name="status" <{if ($action.chat_obj.status == $smarty.const._OFF)}> checked="checked"<{/if}>><{$lang.chat_status_closed|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+			<tr class="row">
+				<td class="nowrap"><{$lang.chat_display|smarty:nodefaults}></td>
+				<td class="nowrap">
+					<label for="<{$id}>_chat_display_type_<{$smarty.const._OFF}>">
+						<input id="<{$id}>_chat_display_type_<{$smarty.const._OFF}>" type="radio" value="<{$smarty.const._OFF}>" name="display_type" <{if ($action.chat_obj.display_type == $smarty.const._OFF)}> checked="checked"<{/if}>><{$lang.chat_display_block|smarty:nodefaults}>
+					</label>
+					<br />
+					<label for="<{$id}>_chat_display_type_<{$smarty.const._ON}>">
+						<input id="<{$id}>_chat_display_type_<{$smarty.const._ON}>" type="radio" value="<{$smarty.const._ON}>" name="display_type" <{if ($action.chat_obj.display_type == $smarty.const._ON)}> checked="checked"<{/if}>><{$lang.chat_display_window|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+			<{*if $action.space_type == _SPACE_TYPE_PUBLIC}>
+				<tr class="row">
+				<td class="nowrap"><{$lang.anonymous|smarty:nodefaults}></td>
+				<td class="nowrap">
+					<input type="radio" value="1" name="allow_anonymous_chat" class="chat_anonymous_0"<{if ($action.chat_obj.allow_anonymous_chat==0)}> checked="checked"<{/if}>><{$lang.anonymous_0|smarty:nodefaults}>
+					<br />
+					<input type="radio" value="0" name="allow_anonymous_chat" class="chat_anonymous_1"<{if ($action.chat_obj.allow_anonymous_chat==1)}> checked="checked"<{/if}>><{$lang.anonymous_1|smarty:nodefaults}>
+				</td>
+			</tr>
+			<{/if*}>
+		</table>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" name="regist" type="button" onClick="chatCls['<{$id}>'].editChat(this.form); return false;" value="<{$lang._regist|smarty:nodefaults}>">
+			<input class="btn-width lined_btn" name="cancel" type="button" onClick="chatCls['<{$id}>'].chatCancel(); return false;" value="<{$lang._cancel|smarty:nodefaults}>">
+		</div>
+	</div>
+</form>
+<{include file="chat_script.html"}>
+<{/strip}>

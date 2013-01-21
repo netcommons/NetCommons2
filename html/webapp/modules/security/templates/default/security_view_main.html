@@ -1,0 +1,32 @@
+<{strip}>
+<{assign var="config_security" value=$action.config}>
+<div class="outerdiv security_main">
+	<form id="form<{$id}>" action="" onsubmit="return false;">	
+		<{if $action_name}>
+			<{if $action_name == "security_action_prefixmanager" || $action_name == "security_view_main_prefixmanager"}>
+				<{include file="security_view_main_prefixmanager.html"}>
+			<{elseif $action_name == "security_action_displaylog" || $action_name == "security_view_main_displaylog"}>
+				<{include file="security_view_main_displaylog.html"}>
+			<{elseif $action_name == "security_action_security" || $action_name == "security_view_main_security"}>
+				<{include file="security_view_main_security.html"}>
+			<{elseif $action_name == "security_view_main_securityguide"}>
+				<{include file="security_view_main_securityguide.html"}>
+			<{/if}>
+		<{/if}>
+				
+		<div class="btn-bottom">
+			<{if $action_name == "security_view_main_security"}>
+				<{* 決定 *}>
+				<input class="btn-width lined_btn" type="button" value="<{$lang.security_submit}>" onclick="securityCls['<{$id}>'].setSecurityConfig('<{$action_name}>', '<{$lang._update_comp}>'); return false;" />
+				&nbsp;
+				<{* リセット *}>
+				<input class="btn-width lined_btn" type="reset" value="<{$lang.security_reset}>" />
+			<{/if}>
+		</div>	
+	</form>
+	<{include file="security_script.html"}>
+	<script class="nc_script" type="text/javascript">
+		commonCls.focus($('form<{$id}>'));
+	</script>
+</div>
+<{/strip}>

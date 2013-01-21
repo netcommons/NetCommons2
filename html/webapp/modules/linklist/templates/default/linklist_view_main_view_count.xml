@@ -1,0 +1,13 @@
+<{* 参照件数用XMLテンプレート *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<link>
+	<option>
+		<{$action.link.title}>
+		<{$lang.linklist_view_count|smarty:nodefaults|sprintf:$action.link.view_count}>
+	</option>
+	<list>
+		<{$lang.linklist_view_count|smarty:nodefaults|sprintf:$action.link.view_count}>
+	</list>
+</link>
+<{/strip}>

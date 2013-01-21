@@ -1,0 +1,290 @@
+.photoalbum_grid_manage {
+	width:250px;
+}
+div.photoalbum_display_sub_item {
+	margin-left:20px;
+	white-space:nowrap;
+}
+div.photoalbum_display_sub_item a {
+	margin-left:20px;
+}
+label.photoalbum_size_flag_on {
+	margin-right:10px;
+}
+input.photoalbum_slide_size {
+	width:40px;
+	margin-left:5px;
+}
+
+div.photoalbum_photoalbum_name {
+	font-weight:bold;
+	white-space:nowrap;
+}
+div.photoalbum_operation {
+	height:1.8em;
+}
+div.photoalbum_album_operation {
+	float:left;
+}
+div.photoalbum_album_page_operation {
+	text-align:right;
+	margin-left:200px;
+	white-space:nowrap;
+}
+div.photoalbum_album_list_head {
+	margin-top:8px;
+	margin-bottom:10px;
+}
+div.photoalbum_album_list_foot {
+	margin-top:15px;
+}
+span.photoalbum_page_switch a {
+	margin:0px 4px;
+}
+span.photoalbum_page_switch a.current {
+	font-weight:bold;
+	color:#c90505;
+}
+
+select.photoalbum_album_sort {
+	margin-left:3px;
+}
+table.photoalbum_album {
+	border:1px solid #cccccc;
+	width:100%;
+}
+table.photoalbum_album td {
+	border-bottom:1px solid #cccccc;
+	vertical-align:top;
+}
+td.photoalbum_album_jacket,
+div.photoalbum_album_jacket {
+	background-image:url(<{$smarty.const.CORE_BASE_URL}>/images/photoalbum/default/layer.gif);
+	background-position:10px 10px;
+	background-repeat:no-repeat;
+	width:100px;
+	padding:15px 3px 3px 15px;
+}
+a.photoalbum_album_jacket {
+	display:block;
+	height:100px;
+}
+div.photoalbum_album_jacket {
+	float:left;
+	height:100px;
+}
+img.photoalbum_album_jacket {
+	position:absolute;
+}
+div.photoalbum_album_photo_count {
+	text-align:center;
+}
+td.photoalbum_album_data {
+	padding:10px 3px 3px 10px;
+}
+div.photoalbum_album_data_main {
+	float:left;
+}
+div.photoalbum_album_name {
+	font-weight:bold;
+}
+span.photoalbum_public_flag {
+	color:#ff0000;
+}
+span.photoalbum_vote {
+	margin-left:4px;
+}
+div.photoalbum_album_description {
+	min-height:80px;
+}
+img.photoalbum_album_edit {
+	margin:0px 2px;
+}
+div.photoalbum_album_infomation {
+	text-align:right;
+}
+
+div.photoalbum_album_jacket_sample {
+	border:1px solid #cccccc;
+	width:210px;
+	height:150px;
+	overflow:auto;
+}
+img.photoalbum_album_jacket_sample {
+	width:50px;
+	height:50px;
+	margin:6px;
+}
+form.photoalbum_album_form {
+	margin:5px;
+}
+div.photoalbum_album_detail {
+	text-align:right;
+	margin:5px 0px;
+}
+textarea.photoalbum_album_description {
+	width:300px;
+}
+
+div.photoalbum_photo_operation {
+	margin:10px 0px;
+}
+div.photoalbum_slide_link {
+	float:left;
+}
+div.photoalbum_photo_manage {
+	text-align:right;
+	margin-left:200px;
+}
+div.photoalbum_photo_name {
+	text-align:center;
+	margin-bottom:5px;
+}
+div.photoalbum_photo_area {
+	text-align:center;
+}
+img.photoalbum_photo {
+	border:2px solid #a5bbc9;
+}
+div.photoalbum_photo_description {
+	margin-top:5px;
+	text-align:center;
+}
+div.photoalbum_slide_operation {
+	text-align:center;
+	margin-bottom:20px;
+}
+div.photoalbum_slide_operation a {
+	margin:0px 2px;
+}
+div.photoalbum_photo_current {
+	text-align:center;
+	display:none;
+}
+div.photoalbum_thumbnail_area {
+	border:1px solid #888888;
+	padding-bottom:10px;
+}
+div.photoalbum_thumbnail_previous {
+	float:left;
+	margin-top:26px;
+	width:14px;
+}
+div.photoalbum_thumbnail_next {
+	margin-top:26px;
+	float:left;
+	width:14px;
+}
+ol.photoalbum_thumbnail {
+	padding:0px;
+	float:left;
+	display:block;
+	margin:0px;
+}
+ol.photoalbum_thumbnail li  {
+	float:left;
+	margin:5px 0px 5px 7px;
+	list-style-type:none;
+	list-style-position:inside;
+}
+ol.photoalbum_thumbnail a {
+	display:block;
+}
+img.photoalbum_thumbnail {
+	position:absolute;
+}
+ol.photoalbum_thumbnail li.photoalbum_current {
+	border:2px solid #ff8c00;
+}
+
+div.photoalbum_photo_footer {
+	text-align:right;
+}
+
+div.photoalbum_comment_area {
+	margin-top:8px;
+}
+div.photoalbum_comment_head {
+	font-weight:bold;
+}
+div.photoalbum_comment {
+	margin-bottom:20px;;
+}
+div.photoalbum_comment_creator {
+	float:left;
+}
+div.photoalbum_comment_manage {
+	text-align:right;
+	margin-left:100px;
+}
+span.photoalbum_comment_time {
+	margin-right:5px;
+}
+form.photoalbum_comment_form {
+	width:450px;
+}
+
+form.photoalbum_photo_form {
+	margin:3px;
+}
+input.photoalbum_photo_upload {
+	margin-top:2px;
+}
+
+label.photoalbum_photo_list_sort {
+	display:block;
+}
+form.photoalbum_photo_list_form {
+	margin:3px;
+}
+div.photoalbum_photo_list_outer {
+	border:6px solid #e1ecfe;
+	margin:5px 0px;
+	float:left;
+}
+div.photoalbum_photo_list {
+	border:1px solid #aaaaaa;
+	width:500px;
+	float:left;
+}
+div.photoalbum_photo_list_photo_area {
+	border-right:1px solid #e6e6e6;
+	border-bottom:1px solid #e6e6e6;
+	float:left;
+	text-align:center;
+	width:99px;
+	height:120px;
+}
+div.photoalbum_photo_drag {
+	float:left;
+	width:9px;
+	height:120px;
+}
+div.photoalbum_photo_over div.photoalbum_photo_drag {
+	background-image:url(<{$smarty.const.CORE_BASE_URL}>/images/comp/draganddrop/move_bar.gif);
+	background-repeat:repeat-y;
+	cursor:move;
+}
+div.photoalbum_photo_list_photo {
+	padding-top:10px;
+	float:left;
+	width:90px;
+}
+div.photoalbum_photo_list_photo div.photoalbum_photo_name {
+	font-size:12px;
+	float:left;
+	overflow:hidden;
+	white-space:nowrap;
+	margin-top:50px;
+	width:78px;
+}
+a.photoalbum_photo_list_photo {
+	display:block;
+	float:left;
+	margin-left:5px;
+}
+
+textarea.photoalbum_photo_description {
+	width:250px;
+}
+.photoalbum_grid_table {width:580px;}

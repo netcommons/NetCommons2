@@ -1,0 +1,38 @@
+<{strip}>
+<{* 正解作成画面用テンプレート *}>
+<tr>
+	<td class="center">
+		<input type="hidden" name="choice_word_id[<{$iteration}>]" />
+		<{$choice.label}>
+	</td>
+
+	<td>
+		<input id="quiz_correct_word<{$id}>" type="text" class="quiz_word_text" name="choice_word_value[<{$iteration}>]" />
+	</td>
+
+	<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+		<td>
+			<a class="syslink" href="#" onclick="quizCls['<{$id}>'].deleteChoice(this, '<{$lang._del_confirm|sprintf:$lang.quiz_correct_word|sprintf:$choice.label}>', '<{$smarty.const.QUIZ_QUESTION_TYPE_WORD_VALUE}>');return false;">
+				<img class="icon" src="<{"trash.gif"|get_themes_image}>" title="<{$lang.quiz_delete_choice}>" alt="<{$lang.quiz_delete_choice}>" />
+			</a>
+		</td>
+	<{/if}>
+</tr>
+
+<script class="nc_script" type="text/javascript">
+	var quizForm = $("quiz_question_form<{$id}>");
+
+	quizForm["choice_word_id[<{$iteration}>]"].value = "<{$choice.choice_id}>";
+	<{if empty($choice.choice_id|smarty:nodefaults)}>
+		quizForm["choice_word_value[<{$iteration}>]"].value = "<{$lang.quiz_correct_word|sprintf:$choice.label|smarty:nodefaults|escape:"javascript"}>";
+	<{else}>
+		quizForm["choice_word_value[<{$iteration}>]"].value = "<{$choice.choice_value|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.quiz.status != QUIZ_STATUS_INACTIVE_VALUE}>
+		quizForm["choice_word_value[<{$iteration}>]"].disabled = true;
+	<{/if}>
+
+	quizForm = null;
+</script>
+<{/strip}>

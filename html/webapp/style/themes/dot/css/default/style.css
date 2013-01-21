@@ -1,0 +1,18 @@
+/* 
+ * ブロック定義
+ */
+.th_dot_default {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dot/images/default/back.gif") repeat fixed left top;
+}
+
+.th_dot_default_content {
+	padding:10px;
+}
+
+/*ヘッダータイトル*/
+.th_dot_default_title {
+	white-space:nowrap;
+	text-align: left;
+	margin-bottom:10px;
+}
+

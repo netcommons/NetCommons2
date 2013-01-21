@@ -1,0 +1,74 @@
+<{strip}>
+<{* 解答画面用テンプレート *}>
+<{include file="quiz_mobile_head.html"}>
+
+<{if $action.answerSummaryShow}>
+
+	<{$action.summary.insert_user_name}>
+	<{$lang.quiz_parenthesis_number|sprintf:$action.summary.answer_number}>
+	<br />
+	<{$action.summary.answer_time|timezone_date_format:$lang._mobile_date_format}>
+	<br />
+
+	<{if $action.quiz.correct_flag == _ON}>
+		<{$lang.quiz_score}>
+		&nbsp;
+		<{$lang.quiz_mobile_point_allocation|sprintf:$action.summary.summary_score:$action.quiz.perfect_score}>
+		<br />
+	
+		<{$lang.quiz_average}>
+		&nbsp;
+		<{$lang.quiz_average_value|sprintf:$action.summary.average}>
+		<br />
+	
+		<{$lang.quiz_deviation}>
+		&nbsp;
+		<{$lang.quiz_deviation_value|sprintf:$action.summary.deviation}>
+		<br /><br />
+	<{/if}>
+<{/if}>
+
+<form method="get" action=.<{$smarty.const.INDEX_FILE_NAME}>>
+	<div>
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<input type="hidden" name="quiz_id" value="<{$action.quiz.quiz_id}>">
+
+		<{foreach from=$action.questions item=question name="question"}>
+			<div>
+				<{include file="quiz_mobile_question.html"}>
+				<{include file="quiz_mobile_answer.html" choiceDisplay=$smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER answer=$question.answer}>
+				<{if $action.quiz.correct_flag == _ON}>
+					<{include file="quiz_mobile_correct.html"}>
+				<{/if}>
+			</div>
+		<{/foreach}>
+	
+		<{if empty($action.prefix_id_name|smarty:nodefaults)}>
+			<div>
+				<{if $action.nextQuestion}>
+					<input type="hidden" name="action" value="quiz_view_main_single">
+					<input type="submit" value="<{$lang.quiz_next_question}>">
+				<{elseif $action.questionEnd}>
+					<input type="hidden" name="action" value="quiz_view_main_answer">
+					<input type="hidden" name="summary_id" value="<{$action.summary.summary_id}>">
+					<input type="submit" value="<{$lang.quiz_answer_result}>">
+				<{else}>
+					<input type="hidden" name="action" value="quiz_view_main_init">
+					<input type="submit" value="<{$lang.quiz_end}>">
+				<{/if}>
+			</div>
+		<{/if}>
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<{if $action.answerSummaryShow}>
+	<div style="text-align:right">
+		<a href="?action=quiz_view_main_summary&amp;block_id=<{$block_id}>&amp;quiz_id=<{$action.quiz.quiz_id}>&amp;answer_user_id=<{$smarty.session._user_id}><{$session_param}>">
+			<{$lang._btn_prev_arrow|smarty:nodefaults}>
+		</a>
+	</div>
+<{/if}>
+
+<{/strip}>

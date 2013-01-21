@@ -1,0 +1,123 @@
+<{strip}>
+<{* メッセージ検索用テンプレート *}>
+<div class="pm_mua_body clearfix">
+   <form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+   <input type="hidden" name="action" value="pm_action_main_search" />
+   <input type="hidden" name="mailbox" value="<{$action.current_menu}>" />
+   <input type="hidden" name="search_flag" value="search"/>
+   <table class="pm_base">
+		<tr>
+			<td class="pm_base_upperleft">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperleft" />
+			</td>
+			<td class="pm_base_upper"></td>
+			<td class="pm_base_upperright">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperright" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="pm_base_content">	
+				<table class="widthmax">
+					<tr>
+						<td class="pm_hmenu_top_td pm_hmenu_top_td_fix">
+							<ul class="pm_hmenu_ul pm_list_create_btn">
+								<li class="pm_list_menu_li">
+									<a class="syslink pm_head" href="#" title="<{$lang.pm_new_message|smarty:nodefaults}>" alt="<{$lang.pm_new_message|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].showMessagePopup(null,'',event,'<{$smarty.const.PM_NEW_MESSAGE}>');return false;">
+										<div>
+										<img class="icon" src="<{"edit.gif"|get_themes_image}>" />
+										&nbsp;
+										<{$lang.pm_new_message|smarty:nodefaults}>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</td>
+						
+						<td rowspan="2" class="pm_content">
+							<{* コンテンツ *}>
+							<div class="pm_srch">
+							  <dl class="pm_srch_dl clearfix">
+							  	<dt class="pm_srch_item"><label for="pm_form<{$id}>_search_sender"><{$lang.pm_sender|smarty:nodefaults}></label></dt>
+								<dd class="pm_srch_txt_a">
+									<input id="pm_form<{$id}>_search_sender" class="pm_srch_txt_a_input" type="text" name="search_sender" />
+								</dd>
+								
+								<dt class="pm_srch_item"><label for="pm_form<{$id}>_search_cc"><{$lang.pm_search_receiver|smarty:nodefaults}></label></dt>
+								<dd class="pm_srch_txt_a">
+									<input id="pm_form<{$id}>_search_cc" class="pm_srch_txt_a_input" type="text" name="search_cc" />
+								</dd>
+								
+								<dt class="pm_srch_item"><label for="pm_form<{$id}>_search_subject"><{$lang.pm_subject|smarty:nodefaults}></label></dt>
+								<dd class="pm_srch_txt_b">
+									<input id="pm_form<{$id}>_search_subject" class="pm_srch_txt_b_input" type="text" name="search_subject" />
+								</dd>
+								
+								<dt class="pm_srch_item"><label for="pm_form<{$id}>_search_keywords"><{$lang.pm_search_keyword|smarty:nodefaults}></label></dt>
+								<dd class="pm_srch_txt_b">
+									<input id="pm_form<{$id}>_search_keywords" class="pm_srch_txt_b_input" type="text" name="search_keywords" />
+								</dd>
+								
+								<dt class="pm_srch_item"><label for="pm_form<{$id}>_search_range"><{$lang.pm_search_range|smarty:nodefaults}></label></dt>
+								<dd class="pm_srch_txt_c">
+								  <{include file="pm_view_search_range.html" tags=$action.tags}>
+								</dd>
+								
+								<dt class="pm_srch_item"><label for="pm_search_date_from<{$id}>"><{$lang.pm_date|smarty:nodefaults}></label></dt>
+								<dd class="pm_srch_txt_d clearfix">
+								  <input id="pm_search_date_from<{$id}>" type="text" name="search_date_from" value="" />
+								  <{$lang.pm_wave_separator|smarty:nodefaults}>
+								  <input id="pm_search_date_to<{$id}>" type="text" name="search_date_to" value="" />
+								</dd>
+								<dd class="pm_srch_filecheck">
+									<input id="pm_form<{$id}>_search_upload_flag" type="checkbox" name="search_upload_flag" value="<{$smarty.const._ON}>" />
+								</dd>
+								
+								<dt class="pm_srch_filecheck_txt"><label for="pm_form<{$id}>_search_upload_flag"><{$lang.pm_search_attachment|smarty:nodefaults}></label></dt>
+							  </dl>	
+								
+								
+							  <div class="pm_srch_btn clearfix">
+								    <input class="btn-width lined_btn" type="button" value="<{$lang.pm_search|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].searchMessage(this.form);  return false;"/>&nbsp;
+									<input class="btn-width lined_btn" type="reset" value="<{$lang._reset|smarty:nodefaults}>" />
+							  </div>
+							</div>
+							
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="pm_menu">
+							<{* 左メニュー *}>
+							<{include file = "pm_view_left_menu.html"}>
+						</td>
+						
+					</tr>
+					<tr>
+						<td colspan="2" class="pm_hmenu_bottom_td"></td>
+					</tr>
+				</table>
+			</td>
+			<td class="pm_base_right">
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_base_belowleft"></td>
+			<td class="pm_base_below"></td>
+			<td class="pm_base_belowright"></td>
+		</tr>
+   </table>
+   </form>
+</div>
+
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+	pmCls['<{$id}>'].search_date_from = new compCalendar("<{$id}>", "pm_search_date_from<{$id}>");
+	pmCls['<{$id}>'].search_date_to = new compCalendar("<{$id}>", "pm_search_date_to<{$id}>");
+	commonCls.closeCallbackFunc("<{$id}>", function(){
+		pmCls['<{$id}>'].search_date_from = null;
+		pmCls['<{$id}>'].search_date_to = null;
+	}.bind(pmCls['<{$id}>']));
+	
+	commonCls.focus($("pm_form<{$id}>_search_sender"));
+</script>
+<{/strip}>

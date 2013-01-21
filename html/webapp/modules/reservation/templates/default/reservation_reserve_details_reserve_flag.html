@@ -1,0 +1,24 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<{$lang.reservation_reserve_flag|smarty:nodefaults}>
+</th>
+<td>
+	<{include file="reservation_main_set_reserve_class.html" assign="reserve_class" reserve_flag=$action.reserve.reserve_flag}>
+
+	<div class="<{$reserve_class}>">
+		<{if ($action.reserve.reserve_flag == RESERVATION_MEMBERS) }>
+			<{$lang.reservation_no_reserve_flag|smarty:nodefaults}>
+		
+		<{elseif ($action.reserve.reserve_flag == RESERVATION_PRIVATE) }>
+			<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$reserve_class}> reservation_reserve_mark" alt="" title="" />
+			<{$smarty.const.RESERVATION_PRIVATE_RESERVE_FLAG|smarty:nodefaults}>
+		
+		<{else}>
+			<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$reserve_class}> reservation_reserve_mark" alt="" title="" />
+			<{$lang.reservation_reserve_flag_str|smarty:nodefaults|sprintf:$action.reserve.page_name}>
+		<{/if}>
+	</div>
+</td>
+
+<{/strip}>

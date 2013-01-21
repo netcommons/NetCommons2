@@ -1,0 +1,60 @@
+<{strip}>
+<div class="pm_upd_flt_tag_body">  
+  <p class="pm_upd_flt_tag_body_p"><{$lang.pm_filter_new_desc|smarty:nodefaults}></p>
+  <form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+  <input type="hidden" name="action" value="pm_action_main_filter_entry" />
+  <input type="hidden" name="filter_id" value="<{$action.filter.filter_id}>" />
+  
+  <input type="hidden" name="top_id_name" value="<{$action.top_id_name}>" />
+  <div class="pm_upd_flt_tag">
+
+    <dl class="pm_upd_flt_tag_body_dl pm_upd_flt_tag_a">
+      <dt class="pm_upd_flt_tag_a_dt"><label for="pm_form<{$id}>_filter_sender"><{$lang.pm_filter_sender|smarty:nodefaults}></label></dt>
+      <dd class="pm_upd_flt_body_dd"><input class="pm_upd_flt_tag_a_dd_input" id="pm_form<{$id}>_filter_sender" type="text" name="senders" value="<{$action.filter.senders}>"/></dd>
+      <dt class="pm_upd_flt_tag_a_dt"><label for="pm_form<{$id}>_filter_subject"><{$lang.pm_filter_subject|smarty:nodefaults}></label></dt>
+      <dd class="pm_upd_flt_body_dd"><input class="pm_upd_flt_tag_a_dd_input" id="pm_form<{$id}>_filter_subject" type="text" name="subject" value="<{$action.filter.subject}>" /></dd>
+      <dt class="pm_upd_flt_tag_a_dt"><label for="pm_form<{$id}>_filter_keyword"><{$lang.pm_filter_keyword|smarty:nodefaults}></label></dt>
+      <dd class="pm_upd_flt_body_dd"><input class="pm_upd_flt_tag_a_dd_input" id="pm_form<{$id}>_filter_keyword" type="text" name="keyword_list" value="<{$action.filter.keyword_list}>"/></dd>
+      <dd class="pm_upd_flt_body_dd pm_upd_flt_tag_txt"><{$lang.pm_filter_new_keyword_note|smarty:nodefaults}></dd>
+    </dl>
+ 
+    <dl class="pm_upd_flt_tag_body_dl pm_upd_flt_tag_b clearfix">
+      <dt class="pm_upd_flt_tag_process_ttl"><{$lang.pm_filter_body|smarty:nodefaults}></dt>
+      <dd class="pm_upd_flt_body_dd"><{$lang.pm_filter_new_body_note|smarty:nodefaults}></dd>
+      <dd class="pm_upd_flt_body_dd pm_upd_flt_tag_process">
+        <dl class="pm_upd_flt_tag_body_dl pm_upd_flt_tag_process_content clearfix">
+			<{if isset($action.filter.actions|smarty:nodefaults)}>
+			  <{foreach item=filter_action from=$action.filter.actions}>
+			  	<{if $filter_action.template != "" }>
+					<{include file=$filter_action.template action_id=$filter_action.action_id checked=$filter_action.checked  options=$filter_action.options default=$filter_action.default}>
+				<{/if}>
+			  <{/foreach}>
+			<{/if}>
+        </dl>
+		<br/>
+      </dd>
+    </dl>
+    
+	<dl class="pm_upd_flt_tag_c clearix">
+      <dt class="pm_upd_flt_tag_c_dt"><{$lang.pm_filter_new_apply_inbox|smarty:nodefaults}></dt>
+      <dd class="pm_upd_flt_tag_c_dd pm_upd_flt_body_dd"><input id="pm_form<{$id}>_apply_inbox_flag" type="checkbox" name="apply_inbox_flag" value="1" <{if $action.filter.apply_inbox_flag == '1'}>checked<{/if}>/><label for="pm_form<{$id}>_apply_inbox_flag"><{$lang.pm_filter_new_apply_inbox_note|smarty:nodefaults}></label></dd>
+    </dl>
+	
+	<dl class="pm_upd_flt_notice clearix">
+	   <dt class="pm_upd_flt_tag_c_dt">&nbsp;</dt>
+	   <dd><font color="red"><{$lang.pm_filter_apply_alert|smarty:nodefaults}></font></dd>
+	</dl>
+	
+    <ul class="pm_upd_flt_tag_btn clearfix">
+      <li class="pm_upd_flt_tag_btn_li"><input class="btn-width lined_btn" type="button" value="<{$lang.pm_submit|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].enterFilter(this.form, '<{$action.top_id_name}>'); return false;"/></li>
+      <li class="pm_upd_flt_tag_btn_li"><input class="btn-width lined_btn" type="button" value="<{$lang.pm_cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;"/></li>
+    </ul>
+  </div>
+  </form>
+</div>
+
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+  commonCls.focus($("pm_form<{$id}>").senders);
+</script>
+<{/strip}>

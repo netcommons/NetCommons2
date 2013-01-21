@@ -1,0 +1,10 @@
+<{strip}>
+
+<td colspan="2" class="nowrap">
+	<label for="notification_mail<{$id}>">
+		<input id="notification_mail<{$id}>" type="checkbox" name="notification_mail" value="<{$smarty.const._ON}>"<{if ($action.notification_mail == _ON) }> checked="checked"<{/if}> />
+		<{$lang.reservation_notification_mail|smarty:nodefaults}>
+	</label>
+</td>
+
+<{/strip}>

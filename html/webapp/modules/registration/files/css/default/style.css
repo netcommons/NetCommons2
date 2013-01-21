@@ -1,0 +1,135 @@
+textarea.registration_accept_message {
+	width:300px;
+	height:80px;
+}
+input.registration_rcpt_to {
+	width:300px;
+}
+input.registration_limit_number {
+	width:40px;
+	text-align:right;
+}
+
+.registration_grid_data_count {
+	width:65px;
+	text-align:right;
+}
+.registration_grid_operate {
+	width:95px;
+}
+.registration_grid_creator {
+	width:90px;
+}
+.registration_grid_create_date {
+	width:65px;
+}
+.registration_grid_manage {
+	width:360px;
+}
+.registration_grid_table {width:897px;}
+
+div.registration_item_add {
+	text-align:right;
+	white-space:nowrap;
+}
+div.registration_item_add img {
+	margin-right:3px;
+}
+table.registration_item_list {
+	border:1px solid #cccccc;
+	width:450px;
+	margin-top:5px;
+}
+table.registration_item_list td {
+	vertical-align:top;
+	border-bottom:1px solid #cccccc;
+	padding:5px;
+	white-space:nowrap;
+}
+span.registration_type {
+	color:#c0c0c0;
+}
+td.registration_item_list_manage {
+	text-align:right;
+}
+
+table.registration_entry {
+	margin-top:10px;
+}
+
+input.registration_item_name {
+	width:120px;
+}
+div.registration_option_add {
+	text-align:right;
+	white-space:nowrap;
+}
+div.registration_option_add img {
+	margin-right:3px;
+}
+div.registration_option {
+	border:1px solid #cccccc;
+	height:90px;
+	width:250px;
+	overflow:auto;
+}
+div.registration_option td{
+	white-space:nowrap;
+}
+textarea.registration_description {
+	height:80px;
+	width:200px;
+}
+
+div.registration_name {
+	white-space:nowrap;
+	font-weight:bold;
+}
+div.registration_data_list_operation {
+	text-align:right;
+	border-bottom:1px solid silver;
+	margin-bottom:15px;
+	margin-top:8px;
+	padding-bottom:2px;
+}
+span.registration_page_switch a {
+	margin:0px 4px;
+}
+span.registration_page_switch a.current {
+	font-weight:bold;
+	color:#c90505;
+}
+
+th.registration_item_name {
+	text-align:left;
+	vertical-align:top;
+	padding: 5px 8px;
+}
+div.registration_description {
+	padding-left:5px;
+	color:#af2c4d;
+}
+
+input.registration_text {
+	width:200px;
+}
+textarea.registration_textarea {
+	width:250px;
+	height:90px;
+}
+input.registration_email_second {
+	margin-top:3px;
+}
+
+div.registration_accept_message {
+	font-size:15px;
+	font-weight:bold;
+	text-align:center;
+	white-space:nowrap;
+	padding:10px;
+	margin:10px;
+	border:dotted 3px #cccccc;
+}
+input.registration_image_auth {
+	margin-left:5px;
+}

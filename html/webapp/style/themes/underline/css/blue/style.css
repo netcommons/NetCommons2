@@ -1,0 +1,40 @@
+/* line */
+.th_underline_blue_line {
+	height:1px;
+	background-color:#64cbca;
+	margin-right:3px;
+}
+
+.th_underline_blue_title_line {
+	width:6px;
+	height:20px;
+	background-color:#64cbca;
+}
+
+/* highlight */
+.th_underline_blue .highlight {
+	background-color:#e9f2fb;
+	color:#4e62a9;
+}
+
+.th_underline_blue a.hover_highlight:hover {
+	background-color:#e9f2fb;
+	color:#4e62a9;
+	text-decoration:none;
+} 
+/* 一般 */
+.th_underline_title {
+	width:100%;
+	margin-bottom:5px;
+}
+
+.th_underline_title_header {
+	padding-top:2px;
+	vertical-align:top;
+	width:10px;
+}
+
+.th_underline_content {
+	border: 0px;
+	padding: 5px 15px 5px 15px;
+}

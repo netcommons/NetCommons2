@@ -1,0 +1,34 @@
+<{strip}>
+<{* タグ登録テンプレート *}>
+<div class="pm_new_tag_body clearfix">
+  <p class="pm_new_tag_text"><{$lang.pm_entry_tag_header|smarty:nodefaults}></p>
+  <form id="pm_form<{$id}>" action="#" onsubmit="return false;" class="pm_new_tag_form clearfix">
+  	<input type="hidden" name="action" value="pm_action_main_tag_entry" />
+	<input type="hidden" name="tag_id" value="<{$action.tag.tag_id}>"/>
+	<input type="hidden" name="receiver_list" value="<{$action.tag.receiver_list}>"/>
+	<input type="hidden" name="mailbox" value="<{$action.tag.mailbox}>"/>
+	<input type="hidden" name="top_el_id" value="<{$action.top_el_id}>"/>
+	<input type="hidden" name="search_flag" value="<{$action.search_flag}>"/>
+	<input type="hidden" name="select_all_flag" value="<{$action.select_all_flag}>"/>
+	<input type="hidden" name="filter" value="<{$action.filter}>"/>
+	<input type="hidden" name="sortCol" value="<{$action.sortCol}>"/>
+	<input type="hidden" name="sortDir" value="<{$action.sortDir}>"/>
+	<input type="hidden" name="page" value="<{$action.page}>"/>
+    <p class="pm_new_tag_form_p pm_new_tag"><label for="pm_form<{$id}>_tag_name"><{$lang.pm_new_tag|smarty:nodefaults}></label></p>
+    <p class="pm_new_tag_form_p"><input type="text" class="pm_new_tag_form_p_input pm_new_tag_name" name="tag_name" id="pm_form<{$id}>_tag_name" value="<{$action.tag.tag_name}>" /></p>
+    <p class="pm_new_tag_form_p pm_new_tag_btn">
+	  <{if $action.tag.tag_id == ""}>
+      <input class="btn-width lined_btn" type="button" value="<{$lang.pm_submit|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].enterTag(this.form,'1','<{$action.tag.receiver_list}>','<{$action.tag.mailbox}>','<{$action.search_flag}>', '<{$action.top_id_name}>', '<{$action.parent_id_name}>');" />
+	  <{else}>
+	  <input class="btn-width lined_btn" type="button" value="<{$lang.pm_submit|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].enterTag(this.form,'2','<{$action.tag.receiver_list}>','<{$action.tag.mailbox}>','<{$action.search_flag}>', '<{$action.top_id_name}>', '<{$id}>');" />
+	  <{/if}>
+      <input class="btn-width lined_btn" type="button" value="<{$lang.pm_cancel|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].resetOperationBox('<{$action.top_el_id}>'); commonCls.removeBlock('<{$id}>'); return false;"/>
+    </p>
+  </form>
+</div>
+
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+  commonCls.focus($("pm_form<{$id}>").tag_name);
+</script>
+<{/strip}>

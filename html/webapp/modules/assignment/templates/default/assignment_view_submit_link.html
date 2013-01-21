@@ -1,0 +1,13 @@
+<{strip}>
+<{* 提出するリンクテンプレート *}>
+
+<{if ($action.hasAnswerAuthority && ($action.submit_user_id == "" || $action.submit_user_id == $smarty.session._user_id)) }>
+	<a class="syslink" href="#" title="" onclick='assignmentCls["<{$id}>"].showReportForm(event); return false;'>
+		<img class="icon" src="<{"edit.gif"|get_themes_image}>" alt="" />
+		<{$lang.assignment_submit|smarty:nodefaults}>
+	</a>
+<{else}>
+	&nbsp;
+<{/if}>
+
+<{/strip}>

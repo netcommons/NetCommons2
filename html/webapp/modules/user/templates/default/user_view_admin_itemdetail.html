@@ -1,0 +1,150 @@
+<{strip}>
+	<div class="outerdiv">
+		<form action="" id="user_additem_form<{$id}>" onsubmit="return false;">
+			<input name="item_id" type="hidden" value="<{$action.items.item_id}>" />
+			<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>" cellspacing="0" cellpadding="2">
+				<{*項目名*}>
+				<tr>
+					<th class="nowrap valign-top align-left" scope="row"><{$lang.user_head_item_name|smarty:nodefaults}></th>
+					<td class="nowrap">
+						<input name="item_name" type="text" value="<{$action.items.item_name}>" onblur="userCls['<{$id}>'].blurItemName(this, this.form);" />
+						<span class="highlight user_def_item_name"><{$action.items.def_item_name}></span>
+						<div>
+							<{* 必須かどうか *}>
+							<label for="user_item_require_flag_<{$id}><{$action.items.item_id}>">
+								<input name="require_flag" id="user_item_require_flag_<{$id}><{$action.items.item_id}>" type="checkbox" value="<{$smarty.const._ON}>"<{if $action.items.require_flag == _ON}> checked="checked"<{/if}><{if $action.items.type == "label" || $action.items.tag_name == "login_id" || $action.items.tag_name == "handle" || $action.items.tag_name == "password"}> disabled="true"<{/if}> />
+								<{$lang.user_require|smarty:nodefaults}>
+								<{if $action.items.require_flag == _ON && ($action.items.type == "label" || $action.items.tag_name == "login_id" || $action.items.tag_name == "handle" || $action.items.tag_name == "password")}>
+									<input type="hidden" name="require_flag" value="<{$smarty.const._ON}>" />
+								<{/if}>
+							</label>
+							<br />
+							<{* 各自で公開・非公開を設定する *}>
+							<label for="user_item_allow_public_flag_<{$id}><{$action.items.item_id}>">
+								<input name="allow_public_flag" id="user_item_allow_public_flag_<{$id}><{$action.items.item_id}>" type="checkbox" value="<{$smarty.const._ON}>"<{if $action.items.allow_public_flag == _ON}> checked="checked"<{/if}><{if $action.isDisable}> disabled="true"<{/if}> />
+								<{$lang.user_allow_public_flag|smarty:nodefaults}>
+							</label>
+							<br />
+							
+							
+							<label for="user_item_define_<{$id}><{$action.items.item_id}>">
+								<input name="define_flag" id="user_item_define_<{$id}><{$action.items.item_id}>" type="checkbox" value="<{$smarty.const._ON}>"<{if $action.items.define_flag == _ON}> checked="checked"<{/if}> />
+								<{*PHP定義名称を使用する*}>
+								<{$lang.user_use_defined|smarty:nodefaults}>
+							</label>
+							<a href="#" class="link" onclick="commonCls.displayChange(this.nextSibling); return false;">
+								<{* 説明 *}>
+								<{$lang.user_descripton|smarty:nodefaults}>
+							</a>
+							<div class="display-none">
+								<div class="user_items_def_desc">
+									<{$lang.user_php_define_descripton|smarty:nodefaults}>
+								</div>
+								<div class="user_items_def">
+									<{$action.items_def|smarty:nodefaults}>
+								</div>
+								<{$lang.user_php_define_descripton_bottom|sprintf:$action.filepath|smarty:nodefaults}>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<{*入力タイプ*}>
+				<tr class="user_item_padding">
+					<th class="nowrap valign-top" scope="row">
+						<label for="user_inputtype<{$id}><{$action.items.item_id}>">
+							<{$lang.user_head_type|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<{if $action.items.system_flag}>
+							<div class="user_inputtype_label">
+								<{if $action.items.type == $smarty.const.USER_TYPE_TEXT}>
+									<{$lang.user_type_text|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_PASSWORD}>
+									<{$lang.user_type_password|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_LABEL}>
+									<{$lang.user_type_label|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_CHECKBOX}>
+									<{$lang.user_type_checkbox|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_RADIO}>
+									<{$lang.user_type_radio|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_SELECT}>
+									<{$lang.user_type_select|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_TEXTAREA}>
+									<{$lang.user_type_textarea|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_EMAIL}>
+									<{$lang.user_type_email|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+									<{$lang.user_type_mobile_email|smarty:nodefaults}>
+								<{elseif $action.items.type == $smarty.const.USER_TYPE_FILE}>
+									<{$lang.user_type_file|smarty:nodefaults}>
+								<{/if}>
+								<input name="type" type="hidden" value="<{$action.items.type}>" />
+							</div>
+						<{else}>
+							<select id="user_inputtype<{$id}><{$action.items.item_id}>" name="type" onchange="userCls['<{$id}>'].chgItemEditType(this);">
+								<option value="<{$smarty.const.USER_TYPE_TEXT}>"<{if $action.items.type == $smarty.const.USER_TYPE_TEXT}> selected="selected"<{/if}>><{$lang.user_type_text|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.USER_TYPE_RADIO}>"<{if $action.items.type == $smarty.const.USER_TYPE_RADIO}> selected="selected"<{/if}>><{$lang.user_type_radio|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.USER_TYPE_CHECKBOX}>"<{if $action.items.type == $smarty.const.USER_TYPE_CHECKBOX}> selected="selected"<{/if}>><{$lang.user_type_checkbox|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.USER_TYPE_SELECT}>"<{if $action.items.type == $smarty.const.USER_TYPE_SELECT}> selected="selected"<{/if}>><{$lang.user_type_select|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.USER_TYPE_TEXTAREA}>"<{if $action.items.type == $smarty.const.USER_TYPE_TEXTAREA}> selected="selected"<{/if}>><{$lang.user_type_textarea}></option>
+								<option value="<{$smarty.const.USER_TYPE_EMAIL}>"<{if $action.items.type == $smarty.const.USER_TYPE_EMAIL}> selected="selected"<{/if}>><{$lang.user_type_email|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.USER_TYPE_MOBILE_EMAIL}>"<{if $action.items.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}> selected="selected"<{/if}>><{$lang.user_type_mobile_email|smarty:nodefaults}></option>
+							</select>
+							<div class="nowrap<{if $action.items.type != $smarty.const.USER_TYPE_CHECKBOX && $action.items.type != $smarty.const.USER_TYPE_RADIO && $action.items.type != $smarty.const.USER_TYPE_SELECT}> display-none<{/if}>">
+								<{* リスト値 *}>
+								<div class="align-right nowrap">
+									<a class="syslink" href="#" onclick="userCls['<{$id}>'].addOption(this); return false;">
+										<img src="<{"add.gif"|get_themes_image}>" alt="<{$lang.user_add_list|smarty:nodefaults}>" title="<{$lang.user_add_list|smarty:nodefaults}>" />
+										&nbsp;
+										<{* リスト追加 *}>
+										<{$lang.user_add_list|smarty:nodefaults}>
+									</a>
+								</div>
+								<div id="user_items_options<{$id}>" class="user_items_options">
+									<{foreach name=loop from=$action.options item=option}>
+										<{assign var="iteration" value=$smarty.foreach.loop.iteration}>
+										<{include file="user_view_admin_itemdetail_option.html"}>
+									<{/foreach}>
+								</div>
+							</div>
+						<{/if}>
+						<div class="nowrap<{if $action.items.type != $smarty.const.USER_TYPE_EMAIL && $action.items.type != $smarty.const.USER_TYPE_MOBILE_EMAIL}> display-none<{/if}>">
+							<{* 各自でメールの受信可否を設定する *}>
+							<label for="user_allow_email_reception_flag_<{$id}><{$action.items.item_id}>">
+								<input name="allow_email_reception_flag" id="user_allow_email_reception_flag_<{$id}><{$action.items.item_id}>" type="checkbox" value="<{$smarty.const._ON}>"<{if $action.items.allow_email_reception_flag == _ON}> checked="checked"<{/if}> />
+								<{$lang.user_allow_email_reception_flag|smarty:nodefaults}>
+							</label>
+						</div>
+						<input name="options_len" type="hidden" value="<{$action.options_len}>" />
+					</td>
+				</tr>
+				<{* 説明 *}>
+				<tr>
+					<th class="nowrap valign-top align-left" scope="row"><{$lang.user_head_description|smarty:nodefaults}></th>
+					<td class="nowrap">
+						<textarea name="description" rows="2" cols="28">
+							<{$action.items.description}>
+						</textarea>
+					</td>
+				</tr>
+				<{* 属性 *}>
+				<tr>
+					<th class="nowrap valign-top align-left" scope="row"><{$lang.user_head_attribute|smarty:nodefaults}></th>
+					<td class="nowrap">
+						<input name="attribute" type="text" value="<{$action.items.attribute}>" size="35" />
+						<div>
+							<{$lang.user_attribute_example|smarty:nodefaults}>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<div class="btn-bottom align-right">
+				<input class="lined_btn btn-width" type="button" onclick="userCls['<{$id}>'].addItem(this,'<{$module_id}>'); return false;" value="<{$lang._regist|smarty:nodefaults}>" />
+				<input class="lined_btn btn-width" type="button" onclick="userCls['<{$id}>'].previewItem(this); return false;" value="<{$lang.user_preview_btn|smarty:nodefaults}>" />
+				<input class="lined_btn btn-width" type="button" onclick="commonCls.removeBlock('<{$id}>');return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+			</div>
+		</form>
+	</div>
+	<{include file="user_script.html"}>
+<{/strip}>

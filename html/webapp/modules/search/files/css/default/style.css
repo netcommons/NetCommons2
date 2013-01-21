@@ -1,0 +1,38 @@
+.search_result_condition_label{
+	font-weight:bold;
+}
+.search_result_condition_title{
+}
+.search_result_condition_value{
+}
+.search_result_title {
+	padding:5px;
+}
+.search_result_contents {
+	padding: 5px 0px 5px 0px;
+}
+.search_result_content {
+	padding: 0px 5px 10px 15px;
+}
+.search_subject {
+}
+.search_user_name {
+	font-size:90%;
+}
+.search_time {
+	font-size:80%;
+	color: #008000;
+}
+.search_result_prev {
+	padding-bottom:10px;
+}
+.search_result_next {
+	padding-bottom:10px;
+	text-align:right;
+}
+.search_page_count{
+	font-size:80%;
+}
+.search_center_block {
+	padding: 15px;
+}

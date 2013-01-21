@@ -1,0 +1,27 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="widthmax th_<{$main_theme_name}>">
+  <tr>
+    <td class="th_titleline_content">
+    	<{*ヘッダータイトル*}>
+		<table border="0" cellspacing="0" cellpadding="0" class="th_headermenu_title _block_title_event<{if $block_obj.block_name == "" && $smarty.session._layoutmode=="off"}> display-none<{/if}>">
+			<tr>
+				<td rowspan="2" class="th_titleline_line th_<{$main_theme_name}>_color">
+					<div class="th_titleline_line"></div>
+				</td>
+				<td>
+					<h2 class="nc_block_title th_titleline_title" title="<{$dblclick_edit}>"><{$block_obj.block_name}></h2>
+				</td>
+			</tr>
+			<tr>
+				<td class="th_<{$main_theme_name}>_color">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_titleline_underline" />
+				</td>
+			</tr>
+		</table>
+    	<{*ヘッダーメニュー*}>
+		<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+    	<div class="content"><{$content_field|smarty:nodefaults}></div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

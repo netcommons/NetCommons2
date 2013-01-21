@@ -1,0 +1,41 @@
+<{strip}>
+<{* 携帯用のコンテンツを書く画面 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<form action=".<{$smarty.const.INDEX_FILE_NAME}>" method="post" <{if $smarty.session._mobile_info.currier!="EZweb"}>enctype="multipart/form-data"<{/if}> data-ajax="false" data-transition="pop">
+	<{* 携帯用共通hidden *}>
+	<input type="hidden" name="action" value="multidatabase_action_mobile_addcontent">
+	<input type="hidden" name="block_id" value="<{$action.block_id}>">
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+	<{* PC、携帯共通部 *}>
+	<{assign var="mode" value="regist"}>
+	<{assign var="data_pos_1" value=$action.metadatas_layout.1}>
+	<{assign var="data_pos_2" value=$action.metadatas_layout.2}>
+	<{assign var="data_pos_3" value=$action.metadatas_layout.3}>
+	<{assign var="data_pos_4" value=$action.metadatas_layout.4}>
+	<{* 詳細部 *}>
+	<{include file="multidatabase_mobile_metadata.html"}>
+	<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" >
+	<input type="hidden" name="temporary_flag" value="<{$smarty.const._OFF}>" >
+	<br />
+	<div style="text-align:center;">
+	<{if $action.content_id != null && $action.content_id != 0}>
+		<{* 更新なので、content_idをhiddenでセットしておく *}>
+		<input type="hidden" name="content_id" value="<{$action.content_id}>" >
+
+		<input data-inline="true" type="submit" name="temporary" value="<{$lang._temporary|smarty:nodefaults}>">
+		<input data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+		<a data-role="button" data-inline="true" href="?action=multidatabase_view_main_detail&amp;content_id=<{$action.content_id}>&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+			<{$lang._cancel|smarty:nodefaults}>
+		</a>
+	<{else}>
+		<{* 新規なので、content_idのセットは不要 *}>
+		<input data-inline="true" type="submit" name="temporary" value="<{$lang._temporary|smarty:nodefaults}>">
+		<input data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+		<a data-role="button" data-inline="true"  href="?action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+			<{$lang._cancel|smarty:nodefaults}>
+		</a>
+	<{/if}>
+	</div>
+</form>
+<{/strip}>

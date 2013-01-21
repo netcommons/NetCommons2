@@ -1,0 +1,93 @@
+<{strip}>
+<{if ($metadata.type!=MULTIDATABASE_META_TYPE_INSERT_TIME && $metadata.type!=MULTIDATABASE_META_TYPE_UPDATE_TIME)}>
+	<dt>
+		<{$metadata.name}>
+		<{if $metadata.require_flag == $smarty.const._ON}>
+			<{$lang.mdb_mobile_require_flag|smarty:nodefaults}>
+		<{/if}>
+	</dt>
+<{/if}>
+
+<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXT || $metadata.type == MULTIDATABASE_META_TYPE_MAIL || $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
+	<{* テキスト *}>
+	<input name="datas[<{$metadata.metadata_id}>]" type="text" value="<{$content}>">
+	<br />
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_LINK}>
+	<input name="datas[<{$metadata.metadata_id}>]" type="text" value="<{if $content != '' }><{$content}><{else}>http://<{/if}>">
+	<br />
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXTAREA}>
+	<{* テキストエリア *}>
+	<textarea name="datas[<{$metadata.metadata_id}>]" cols="<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_COLS}>" rows="<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_ROWS}>" ><{$content}></textarea>
+	<br />
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE || $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}>
+	<{* 画像とファイル 登録用。upload対応はこちらを実行。upload非対応は、PCからの別途アップロードを勧める。*}>
+
+	<{* docomoはHTML7.2拡張で、accept属性を追加した *}>
+	<{* auはfileのアップロードをサポートしていない。*}>
+	<{* softbankは、type=fileの時は、name属性だけが有効 *}>
+	<input name="files[<{$metadata.metadata_id}>]" type="file" accept="image/jpeg,image/gif,video/3gpp,audio/3gpp" value="" >
+
+	<{* ダウンロード用パスワードの設定ロジックの追加 －ここから－ *}>
+	<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE && $metadata.file_password_flag == $smarty.const._ON}>
+		<{assign var="password_var" value=$lang.mdb_file_password_key|sprintf:$metadata_id}>
+		<{assign var="file_password" value=$smarty.session.multidatabase_content.$block_id.$password_var|smarty:nodefaults}>
+		<br />
+		<input type="checkbox" name="password_checkbox[<{$metadata.metadata_id}>]" <{if $file_password != ""}> checked=checked <{/if}> value="<{$smarty.const._ON}>" >
+		<span style="font-size:small;"><{$lang.mdb_add_file_password_for_mobile|smarty:nodefaults}></span>
+		<input type="text" name="passwords[<{$metadata.metadata_id}>]" maxlength="100" value='<{if $file_password != ""}><{$file_password}><{/if}>'>
+	<{/if}>
+	<{* ダウンロード用パスワードの設定ロジックの追加 －ここまで－ *}>
+
+	<{if $content != ""}>
+		<br /><br />
+		<{if $metadata.require_flag != $smarty.const._ON}>
+			<input type="checkbox" name="datas[<{$metadata.metadata_id}>]" value="<{$smarty.const._ON}>">
+			<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+				<{$lang.mdb_delete_image|smarty:nodefaults}>
+			<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}>
+				<{$lang.mdb_delete_file|smarty:nodefaults}>
+			<{/if}>
+		<{/if}>
+		<br />
+		<{$content|smarty:nodefaults}>
+	<{/if}>
+	<br />
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_SECTION}>
+	<{* セレクトリスト *}>
+	<select name="datas[<{$metadata.metadata_id}>]">
+		<{foreach from=$metadata.select_content_array|smarty:nodefaults item=option name=selectloop}>
+			<option value="<{$option}>" <{if $content == $option}> selected="selected"<{/if}>>
+				<{$option}>
+			</option>
+		<{/foreach}>
+	</select>
+	<br />
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>
+	<{foreach from=$metadata.select_content_array|smarty:nodefaults item=option name=selectloop}>
+		<label class="nowrap" for="mdb_metadatas_<{$metadata.metadata_id}>_<{$smarty.foreach.selectloop.iteration}><{$id}>">
+			<input name="datas[<{$metadata.metadata_id}>][]" type="checkbox" value="<{$option}>" id="mdb_metadatas_<{$metadata.metadata_id}>_<{$smarty.foreach.selectloop.iteration}><{$id}>" <{if isset($content.$option|smarty:nodefaults)}>checked="checked" <{/if}>/>
+			<{$option}><br />
+		</label>
+	<{/foreach}>
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>
+	<{* 携帯ではWYSIWYGテキストエリアは使えないので、通常のテキストエリアを使う *}>
+	<textarea name="datas[<{$metadata.metadata_id}>]" cols=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_COLS}> rows=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_ROWS}> ><{$content|smarty:nodefaults|html_to_text}></textarea>
+	<br />
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_AUTONUM}>
+	<input name="datas[<{$metadata.metadata_id}>]" type="text" size="8" value="<{if ($content != "") }><{$content|intval}><{else}><{$lang.mdb_type_autonum|smarty:nodefaults}><{/if}>" disabled="disabled" />
+	<br />
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+	<input type="text" name="datas[<{$metadata.metadata_id}>][year]" value="<{if ($content != "") }><{$content|timezone_date_format:"Y"}><{/if}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_year|smarty:nodefaults}>
+	<input type="text" name="datas[<{$metadata.metadata_id}>][month]" value="<{if ($content != "") }><{$content|timezone_date_format:"m"}><{/if}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_month|smarty:nodefaults}>
+	<input type="text" name="datas[<{$metadata.metadata_id}>][day]" value="<{if ($content != "") }><{$content|timezone_date_format:"d"}><{/if}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_day|smarty:nodefaults}>
+	<br />
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+<{/if}>
+
+<{if $metadata.type != MULTIDATABASE_META_TYPE_INSERT_TIME && $metadata.type != MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+	<br />
+<{/if}>
+<{/strip}>

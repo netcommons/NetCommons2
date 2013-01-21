@@ -1,0 +1,319 @@
+<{strip}>
+	<div class="tab_setting">
+		<{include file="system_view_main_language.html"}>
+		<fieldset>
+			<legend><{$lang.system_system_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><label for="sitename<{$id}>"><{$lang.system_sitename|smarty:nodefaults}></label><span class="require">*</span></th>
+				<td>
+					<input type="text" name="sitename" id="sitename<{$id}>" value="<{$config.sitename.conf_value}>" size="50" />
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="language<{$id}>"><{$lang.system_default_language|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="language" id="language<{$id}>">
+						<option value="" <{if "" == $config.language.conf_value}>selected="selected"<{/if}>><{$lang.system_default_language_auto|smarty:nodefaults}></option>
+						<{foreach key=key item=item from=$action.languages|smarty:nodefaults}>
+							<option value="<{$key}>" <{if $key == $config.language.conf_value}>selected="selected"<{/if}>><{$item}></option>
+						<{/foreach}>
+					</select>
+					<div class="note">
+						<{$lang.system_default_language_note|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="server_TZ<{$id}>"><{$lang.system_server_timezone|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="server_TZ" id="server_TZ<{$id}>">
+						<option value='-12'<{if $config.server_TZ.conf_value ==-12}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM12}></option>
+						<option value='-11'<{if $config.server_TZ.conf_value ==-11}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM11}></option>
+						<option value='-10'<{if $config.server_TZ.conf_value ==-10}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM10}></option>
+						<option value='-9'<{if $config.server_TZ.conf_value ==-9}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM9}></option>
+						<option value='-8'<{if $config.server_TZ.conf_value ==-8}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM8}></option>
+						<option value='-7'<{if $config.server_TZ.conf_value ==-7}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM7}></option>
+						<option value='-6'<{if $config.server_TZ.conf_value ==-6}> selected="selected"<{/if}>>(<{$smarty.const._TZ_GMTM6}></option>
+						<option value='-5'<{if $config.server_TZ.conf_value ==-5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM5}></option>
+						<option value='-4'<{if $config.server_TZ.conf_value ==-4}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM4}></option>
+						<option value='-3.5'<{if $config.server_TZ.conf_value ==-3.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM35}></option>
+						<option value='-3'<{if $config.server_TZ.conf_value ==-3}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM3}></option>
+						<option value='-2'<{if $config.server_TZ.conf_value ==-2}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM2}></option>
+						<option value='-1'<{if $config.server_TZ.conf_value ==-1}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM1}></option>
+						<option value='0'<{if $config.server_TZ.conf_value ==0}> selected="selected"<{/if}>><{$smarty.const._TZ_GMT0}></option>
+						<option value='1'<{if $config.server_TZ.conf_value ==1}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP1}></option>
+						<option value='2'<{if $config.server_TZ.conf_value ==2}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP2}></option>
+						<option value='3'<{if $config.server_TZ.conf_value ==3}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP3}></option>
+						<option value='3.5'<{if $config.server_TZ.conf_value ==3.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP35}></option>
+						<option value='4'<{if $config.server_TZ.conf_value ==4}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP4}></option>
+						<option value='4.5'<{if $config.server_TZ.conf_value ==4.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP45}></option>
+						<option value='5'<{if $config.server_TZ.conf_value ==5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP5}></option>
+						<option value='5.5'<{if $config.server_TZ.conf_value ==5.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP55}></option>
+						<option value='6'<{if $config.server_TZ.conf_value ==6}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP6}></option>
+						<option value='7'<{if $config.server_TZ.conf_value ==7}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP7}></option>
+						<option value='8'<{if $config.server_TZ.conf_value ==8}> selected="selected"<{/if}>>(<{$smarty.const._TZ_GMTP8}></option>
+						<option value='9'<{if $config.server_TZ.conf_value ==9}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP9}></option>
+						<option value='9.5'<{if $config.server_TZ.conf_value ==9.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP95}></option>
+						<option value='10'<{if $config.server_TZ.conf_value ==10}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP10}></option>
+						<option value='11'<{if $config.server_TZ.conf_value ==11}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP11}></option>
+						<option value='12'<{if $config.server_TZ.conf_value ==12}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP12}></option>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="default_TZ<{$id}>"><{$lang.system_default_timezone|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="default_TZ" id="default_TZ<{$id}>">
+						<option value='-12'<{if $config.default_TZ.conf_value ==-12}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM12}></option>
+						<option value='-11'<{if $config.default_TZ.conf_value ==-11}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM11}></option>
+						<option value='-10'<{if $config.default_TZ.conf_value ==-10}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM10}></option>
+						<option value='-9'<{if $config.default_TZ.conf_value ==-9}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM9}></option>
+						<option value='-8'<{if $config.default_TZ.conf_value ==-8}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM8}></option>
+						<option value='-7'<{if $config.default_TZ.conf_value ==-7}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM7}></option>
+						<option value='-6'<{if $config.default_TZ.conf_value ==-6}> selected="selected"<{/if}>>(<{$smarty.const._TZ_GMTM6}></option>
+						<option value='-5'<{if $config.default_TZ.conf_value ==-5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM5}></option>
+						<option value='-4'<{if $config.default_TZ.conf_value ==-4}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM4}></option>
+						<option value='-3.5'<{if $config.default_TZ.conf_value ==-3.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM35}></option>
+						<option value='-3'<{if $config.default_TZ.conf_value ==-3}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM3}></option>
+						<option value='-2'<{if $config.default_TZ.conf_value ==-2}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM2}></option>
+						<option value='-1'<{if $config.default_TZ.conf_value ==-1}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTM1}></option>
+						<option value='0'<{if $config.default_TZ.conf_value ==0}> selected="selected"<{/if}>><{$smarty.const._TZ_GMT0}></option>
+						<option value='1'<{if $config.default_TZ.conf_value ==1}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP1}></option>
+						<option value='2'<{if $config.default_TZ.conf_value ==2}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP2}></option>
+						<option value='3'<{if $config.default_TZ.conf_value ==3}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP3}></option>
+						<option value='3.5'<{if $config.default_TZ.conf_value ==3.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP35}></option>
+						<option value='4'<{if $config.default_TZ.conf_value ==4}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP4}></option>
+						<option value='4.5'<{if $config.default_TZ.conf_value ==4.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP45}></option>
+						<option value='5'<{if $config.default_TZ.conf_value ==5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP5}></option>
+						<option value='5.5'<{if $config.default_TZ.conf_value ==5.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP55}></option>
+						<option value='6'<{if $config.default_TZ.conf_value ==6}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP6}></option>
+						<option value='7'<{if $config.default_TZ.conf_value ==7}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP7}></option>
+						<option value='8'<{if $config.default_TZ.conf_value ==8}> selected="selected"<{/if}>>(<{$smarty.const._TZ_GMTP8}></option>
+						<option value='9'<{if $config.default_TZ.conf_value ==9}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP9}></option>
+						<option value='9.5'<{if $config.default_TZ.conf_value ==9.5}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP95}></option>
+						<option value='10'<{if $config.default_TZ.conf_value ==10}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP10}></option>
+						<option value='11'<{if $config.default_TZ.conf_value ==11}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP11}></option>
+						<option value='12'<{if $config.default_TZ.conf_value ==12}> selected="selected"<{/if}>><{$smarty.const._TZ_GMTP12}></option>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="first_choice_startpage<{$id}>"><{$lang.system_default_startpage|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="first_choice_startpage" id="first_choice_startpage<{$id}>">
+						<option value="<{$smarty.const.SYSTEM_DEFAULT_START_PAGE_ID}>"<{if $config.first_choice_startpage.conf_value == $smarty.const.SYSTEM_DEFAULT_START_PAGE_VALUE}> selected="selected"<{/if}>><{$smarty.const._SPACE_TYPE_NAME_PRIVATE}></option>
+					<{foreach item=page from=$action.pages}>
+						<{if $page && $page.private_flag == _OFF}>
+							<option value="<{$page.page_id}>"<{if $config.first_choice_startpage.conf_value == $page.page_id}> selected="selected"<{/if}>><{$page.page_name}></option>
+						<{/if}>
+					<{/foreach}>
+					</select>
+					<div class="note system_note_width"><{$lang.system_publicspace_if_nologin|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<{* グループルームのアップロード最大容量 *}>
+			<tr class="row">
+				<th scope="row">
+					<label for="upload_max_capacity_group<{$id}>">
+						<{$lang.system_upload_max_capacity_group|smarty:nodefaults}>
+					</label>
+				</th>
+				<td>
+					<select size="1" name="upload_max_capacity_group" id="upload_max_capacity_group<{$id}>">
+						<{foreach key=key item=size from=$action.upload_capacity}>
+							<option value="<{$key}>"<{if $config.upload_max_capacity_group.conf_value == $key}> selected="selected"<{/if}>>
+								<{if $key == 0}>
+									<{$lang.system_upload_none_capacity|smarty:nodefaults}>
+								<{else}>
+									<{$size}>
+								<{/if}>
+							</option>
+						<{/foreach}>
+					</select>
+					<div class="note system_note_width">
+						<{$lang.system_upload_max_capacity_group_desc|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+
+			</table>
+		</fieldset>
+	</div>
+
+	<div class="tab_room">
+		<fieldset>
+			<legend><{$lang.system_room_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row">
+					<label for="default_entry_role_auth_public<{$id}>"><{$lang.system_default_entry_role_auth_public|smarty:nodefaults}></label>
+				</th>
+				<td>
+					<select size="1" name="default_entry_role_auth_public" id="default_entry_role_auth_public<{$id}>">
+						<option value="<{$smarty.const._ROLE_AUTH_GENERAL}>" <{if $config.default_entry_role_auth_public.conf_value == $smarty.const._ROLE_AUTH_GENERAL}>selected="selected"<{assign var="default_entry_role_auth_public_name" value=$smarty.const._AUTH_GENERAL_NAME}><{/if}>>
+							<{$smarty.const._AUTH_GENERAL_NAME}>
+						</option>
+						<option value="<{$smarty.const._ROLE_AUTH_GUEST}>" <{if $config.default_entry_role_auth_public.conf_value == $smarty.const._ROLE_AUTH_GUEST}>selected="selected"<{assign var="default_entry_role_auth_public_name" value=$smarty.const._AUTH_GUEST_NAME}><{/if}>>
+							<{$smarty.const._AUTH_GUEST_NAME}>
+						</option>
+					</select>
+					<div class="note system_note_width">
+						<{$lang.system_default_entry_role_auth_public_note|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row">
+					<label for="default_entry_role_auth_group<{$id}>"><{$lang.system_default_entry_role_auth_group|smarty:nodefaults}></label>
+				</th>
+				<td>
+					<select size="1" name="default_entry_role_auth_group" id="default_entry_role_auth_group<{$id}>">
+						<option value="<{$smarty.const._ROLE_AUTH_GENERAL}>" <{if $config.default_entry_role_auth_group.conf_value == $smarty.const._ROLE_AUTH_GENERAL}>selected="selected"<{assign var="default_entry_role_auth_group_name" value=$smarty.const._AUTH_GENERAL_NAME}><{/if}>>
+							<{$smarty.const._AUTH_GENERAL_NAME}>
+						</option>
+						<option value="<{$smarty.const._ROLE_AUTH_GUEST}>" <{if $config.default_entry_role_auth_group.conf_value == $smarty.const._ROLE_AUTH_GUEST}>selected="selected"<{assign var="default_entry_role_auth_group_name" value=$smarty.const._AUTH_GUEST_NAME}><{/if}>>
+							<{$smarty.const._AUTH_GUEST_NAME}>
+						</option>
+					</select>
+					<div class="note system_note_width">
+						<{$lang.system_default_entry_role_auth_group_note|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="add_private_space_name<{$id}>"><{$lang.system_private_space_name|smarty:nodefaults}></label><span class="require">*</span></th>
+				<td>
+					<input type="text" name="add_private_space_name" id="add_private_space_name<{$id}>" value="<{$config.add_private_space_name.conf_value}>" size="50" />
+					<div class="note system_note_width">
+						<{$lang.system_private_space_name_note|smarty:nodefaults|sprintf:$smarty.session._handle}>
+					</div>
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+	</div>
+
+	<div class="tab_login">
+		<fieldset>
+			<legend><{$lang.system_login_logout_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><{$lang.system_autologin_use_title|smarty:nodefaults}></th>
+				<td>
+					<label for="autologin_2<{$id}>">
+						<input type="radio" name="autologin_use" value="<{$smarty.const._AUTOLOGIN_OK}>" id="autologin_2<{$id}>" <{if $config.autologin_use.conf_value == $smarty.const._AUTOLOGIN_OK}>checked="checked" <{/if}>onclick="systemCls['<{$id}>'].visible(this, 'system_below')" />
+							<{$lang.system_autologin_use_on|smarty:nodefaults}>
+					</label>
+					<label for="autologin_1<{$id}>">
+						<input type="radio" name="autologin_use" value="<{$smarty.const._AUTOLOGIN_LOGIN_ID}>" id="autologin_1<{$id}>" <{if $config.autologin_use.conf_value == $smarty.const._AUTOLOGIN_LOGIN_ID}>checked="checked" <{/if}>onclick="systemCls['<{$id}>'].visible(this, 'system_below')" />
+						    <{$lang.system_autologin_id_only|smarty:nodefaults}>
+					</label>
+					<label for="autologin_0<{$id}>">
+						<input type="radio" name="autologin_use" value="<{$smarty.const._AUTOLOGIN_NO}>" id="autologin_0<{$id}>" <{if $config.autologin_use.conf_value == $smarty.const._AUTOLOGIN_NO}>checked="checked" <{/if}>onclick="systemCls['<{$id}>'].hidden(this, 'system_below')" />
+						    <{$lang.system_autologin_use_off|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+			<tr class="row system_below <{if $config.autologin_use.conf_value == _OFF}>display-none<{/if}>">
+				<th scope="row"><label for="autologin_login_cookie_name<{$id}>"><{$lang.system_autologin_login_cookie_name|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="autologin_login_cookie_name" id="autologin_login_cookie_name<{$id}>" value="<{$config.autologin_login_cookie_name.conf_value}>" />
+				</td>
+			</tr>
+			<tr class="row system_below <{if $config.autologin_use.conf_value == _OFF}>display-none<{/if}>">
+				<th scope="row"><label for="autologin_pass_cookie_name<{$id}>"><{$lang.system_autologin_pass_cookie_name|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="autologin_pass_cookie_name" id="autologin_pass_cookie_name<{$id}>" value="<{$config.autologin_pass_cookie_name.conf_value}>" />
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="session_gc_maxlifetime<{$id}>"><{$lang.system_session_gc_maxlifetime|smarty:nodefaults}></label></th>
+				<td>
+					<select name="session_gc_maxlifetime" id="session_gc_maxlifetime<{$id}>" size="1">
+					<{*
+						<option value="0" <{if $config.session_gc_maxlifetime.conf_value == 0}>selected="selected"<{/if}>>0</option>
+					*}>
+						<option value="15" <{if $config.session_gc_maxlifetime.conf_value == 15}>selected="selected"<{/if}>><{$lang.system_fifteen_minutes|smarty:nodefaults}></option>
+						<option value="30" <{if $config.session_gc_maxlifetime.conf_value == 30}>selected="selected"<{/if}>><{$lang.system_thirty_minutes|smarty:nodefaults}></option>
+						<option value="45" <{if $config.session_gc_maxlifetime.conf_value == 45}>selected="selected"<{/if}>><{$lang.system_forty_five_minutes|smarty:nodefaults}></option>
+						<option value="60" <{if $config.session_gc_maxlifetime.conf_value == 60}>selected="selected"<{/if}>><{$lang.system_one_hour|smarty:nodefaults}></option>
+						<option value="180" <{if $config.session_gc_maxlifetime.conf_value == 180}>selected="selected"<{/if}>><{$lang.system_three_hours|smarty:nodefaults}></option>
+						<option value="360" <{if $config.session_gc_maxlifetime.conf_value == 360}>selected="selected"<{/if}>><{$lang.system_six_hours|smarty:nodefaults}></option>
+						<option value="720" <{if $config.session_gc_maxlifetime.conf_value == 720}>selected="selected"<{/if}>><{$lang.system_twelve_hours|smarty:nodefaults}></option>
+						<option value="1440" <{if $config.session_gc_maxlifetime.conf_value == 1440}>selected="selected"<{/if}>><{$lang.system_one_day|smarty:nodefaults}></option>
+					<{*
+						<option value="7200" <{if $config.session_gc_maxlifetime.conf_value == 7200}>selected="selected"<{/if}>><{$lang.system_five_days|smarty:nodefaults}></option>
+						<option value="10080" <{if $config.session_gc_maxlifetime.conf_value == 10080}>selected="selected"<{/if}>><{$lang.system_one_week|smarty:nodefaults}></option>
+						<option value="44640" <{if $config.session_gc_maxlifetime.conf_value == 44640}>selected="selected"<{/if}>><{$lang.system_one_month|smarty:nodefaults}></option>
+					*}>
+					</select>
+					<div class="note system_note_width"><{$lang.system_session_gc_maxlifetime_note|smarty:nodefaults}></div>
+				</td>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row">
+					<{$lang.system_login_autocomplete|smarty:nodefaults}>
+				</th>
+				<td>
+					<input id="system_login_autocomplete_yes<{$id}>" type="radio" name="login_autocomplete" value="<{$smarty.const._ON}>" <{if $config.login_autocomplete.conf_value == $smarty.const._ON}>checked="checked"<{/if}> />
+					<label for="system_login_autocomplete_yes<{$id}>">
+						<{$lang.system_yes|smarty:nodefaults}>
+					</label>
+					<input id="system_login_autocomplete_no<{$id}>" type="radio" name="login_autocomplete" value="<{$smarty.const._OFF}>" <{if $config.login_autocomplete.conf_value == $smarty.const._OFF}>checked="checked"<{/if}> />
+					<label for="system_login_autocomplete_no<{$id}>">
+						<{$lang.system_no|smarty:nodefaults}>
+					</label>
+					<div class="note system_note_width">
+						<{$lang.system_login_autocomplete_note|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><{$lang.system_use_ssl|smarty:nodefaults}></th>
+				<td>
+					<label for="use_ssl_1<{$id}>">
+						<input type="radio" name="use_ssl" id="use_ssl_1<{$id}>" value="<{$smarty.const._ON}>" <{if $config.use_ssl.conf_value == $smarty.const._ON}>checked="checked"<{/if}> />
+							<{$lang.system_yes|smarty:nodefaults}>
+					</label>
+					<label for="use_ssl_0<{$id}>">
+						<input type="radio" name="use_ssl" id="use_ssl_0<{$id}>" value="<{$smarty.const._OFF}>" <{if $config.use_ssl.conf_value == $smarty.const._OFF}>checked="checked"<{/if}> />
+							<{$lang.system_no|smarty:nodefaults}>
+					</label>
+					<div class="note system_note_width"><{$lang.system_use_ssl_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+	</div>
+
+	<div class="tab_close">
+		<fieldset>
+			<legend><{$lang.system_closesite_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><{$lang.system_closesite|smarty:nodefaults}></th>
+				<td>
+					<label for="closesite_1<{$id}>">
+						<input type="radio" name="closesite" id="closesite_1<{$id}>" value="<{$smarty.const._ON}>" <{if $config.closesite.conf_value == $smarty.const._ON}>checked="checked"<{/if}> onclick="commonCls.displayVisible($('closesite_text_row<{$id}>'));" />
+							<{$lang.system_yes|smarty:nodefaults}>
+					</label>
+					<label for="closesite_0<{$id}>">
+						<input type="radio" name="closesite" id="closesite_0<{$id}>" value="<{$smarty.const._OFF}>" <{if $config.closesite.conf_value == $smarty.const._OFF}>checked="checked"<{/if}> onclick="commonCls.displayNone($('closesite_text_row<{$id}>'));" />
+							<{$lang.system_no|smarty:nodefaults}>
+					</label>
+					<div class="note system_note_width"><{$lang.system_closesite_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row<{if $config.closesite.conf_value == $smarty.const._OFF}> display-none<{/if}>" id="closesite_text_row<{$id}>">
+				<th scope="row"><label for="closesite_text<{$id}>"><{$lang.system_closesite_text|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="closesite_text" id="closesite_text<{$id}>" rows="5" cols="50"><{$config.closesite_text.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_closesite_text_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+	</div>
+<{/strip}>

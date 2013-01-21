@@ -1,0 +1,67 @@
+<{strip}>
+<table id="_theme_top<{$id}>" class="th_<{$main_theme_name}> widthmax" summary="">
+  <tr class="_block_title_event<{if $block_obj.block_name == "" && $smarty.session._layoutmode == "off"}> display-none<{/if}>">
+    <td class="th_accessibility_<{$dir_name}>_header">
+    	<{*ヘッダータイトル*}>
+    	<table class="_move_bar widthmax<{if $smarty.session._auth_id >=_AUTH_CHIEF}> move_bar<{/if}>" title="<{$draganddrop_move}>" summary="">
+			<tr>
+				<{if $smarty.session._shortcut_flag == _ON}>
+					<td class="th_accessibility_shortcut">
+						<img src="<{""|get_image_url}>/images/common/shortcut.gif" title="<{$smarty.const._SHORTCUT}>" alt="<{$smarty.const._SHORTCUT}>" />
+					</td>
+				<{/if}>
+				<td>
+					<h2 class="nc_block_title th_accessibility_<{$dir_name}>_title" title="<{$dblclick_edit}>">
+						<{$block_obj.block_name}>
+					</h2>
+				</td>
+				<td class="align-right">
+					<{if $smarty.session._auth_id >=_AUTH_CHIEF || (isset($action.headerbtn_edit|smarty:nodefaults) && $action.headerbtn_edit == true)}>
+					<table class="align-right" align="right"><tr>
+						<{* 編集 *}>
+						<{if $smarty.session._shortcut_flag == _OFF}>
+							<{assign var="edit_action_name" value=$module_obj.edit_action_name}>
+						<{else}>
+							<{assign var="edit_action_name" value=$module_obj.edit_style_action_name}>
+						<{/if}>
+						<td>
+						
+						<{if $edit_action_name != ""}>
+							<{if $edit_action_name == $action_name || $header_type == "edit"}>
+								<a class="th_accessibility_<{$dir_name}>_btn link" href="#" title="<{$lang._BLOCK_EDIT_END_TITLE|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','<{$module_obj.action_name}>'); return false;"><{$smarty.const._EDIT_END_BTN}></a>
+							<{else}>
+								<a class="th_accessibility_<{$dir_name}>_btn link" href="#" title="<{$lang._BLOCK_EDIT_TITLE|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','<{$edit_action_name}>'); return false;"><{$smarty.const._EDIT_BTN}></a>
+							<{/if}>
+						<{else}>
+							<{if $header_type == "main"}>
+								<a class="th_accessibility_<{$dir_name}>_btn link" href="#" title="<{$lang._BLOCK_EDIT_END_TITLE|smarty:nodefaults}>" onclick="<{eval var=$smarty.const._BLOCKSTYLE_METHOD_DIALOG|smarty:nodefaults}> return false;"><{$smarty.const._EDIT_BTN}></a>
+							<{else}>
+								<a class="th_accessibility_<{$dir_name}>_btn link" href="#" title="<{$lang._BLOCK_EDIT_TITLE|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','<{$block_obj.action_name}>'); return false;"><{$smarty.const._EDIT_END_BTN}></a>
+							<{/if}>
+						<{/if}>
+						</td>
+						<{if $smarty.session._auth_id >=_AUTH_CHIEF && $smarty.session._layoutmode == "on"}>
+						<{* 削除 *}>
+						<td>
+							<a class="th_accessibility_<{$dir_name}>_btn link" href="#" title="<{$lang._BLOCK_DELETE_TITLE|smarty:nodefaults}>" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'close.gif','close_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'close_over.gif','close.gif');}" onclick="pagesCls.deleteBlock(event, '<{$id}>','<{$smarty.const._DELETE_CONFIRM}>'); return false;">
+								<{$smarty.const._DELETE_BTN}>
+							</a>
+						</td>
+						<{/if}>
+					</tr></table>
+					<{/if}>
+				</td>
+			</tr>
+		</table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+		<{*ヘッダーメニュー*}>
+		<{assign var="_headermenu_class" value="th_accessibility_headermenu"}>
+		<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+    	<div class="th_accessibility_content content"><{$content_field|smarty:nodefaults}></div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

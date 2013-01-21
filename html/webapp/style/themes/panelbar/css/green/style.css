@@ -1,0 +1,77 @@
+/* 
+ * ブロック定義
+ */
+/* line */
+.th_panelbar_green_title {
+	color:#52ab97;
+}
+
+/* line */
+.th_panelbar_green_line {
+	background-color:#d6ffe9;
+}
+
+/* highlight */
+.th_panelbar_green .highlight {
+	background-color:#f2fae5;
+	color:#39811e;
+}
+
+.th_panelbar_green a.hover_highlight:hover {
+	background-color:#f2fae5;
+	color:#39811e;
+	text-decoration:none;
+}
+/* 一般 */
+.th_panelbar_content {
+	border: 0px;
+	padding: 0px 5px 0px 5px;
+	background-color:#ffffff;
+}
+
+.th_panelbar_upperleft {
+	width:20px;
+	height:15px;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/upperleft.gif");
+	background-repeat:no-repeat;
+	background-attachment:scroll;
+	background-position: left bottom;
+}
+.th_panelbar_upper {
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/upper.gif") repeat-x scroll center bottom;
+}
+.th_panelbar_upperright {
+	width:20px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/upperright.gif") no-repeat scroll right bottom;
+}
+.th_panelbar_left {
+	width:20px;
+	height:15px;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/left.gif");
+	background-repeat:repeat-y;
+	background-attachment:scroll;
+	background-position: left;
+}
+.th_panelbar_right {
+	width:20px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/right.gif") repeat-y scroll right center;
+}
+.th_panelbar_belowleft {
+	width:20px;
+	height:15px;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/belowleft.gif");
+	background-repeat:no-repeat;
+	background-attachment:scroll;
+	background-position: left top;
+}
+.th_panelbar_below {
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/below.gif") repeat-x scroll center top;
+}
+.th_panelbar_belowright {
+	width:20px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbar/images/tan/belowright.gif") no-repeat scroll right top;
+}

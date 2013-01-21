@@ -1,0 +1,27 @@
+<{strip}>
+<{* 管理テンプレート *}>
+
+<a class="syslink" href="#" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$assignment.assignment_name}>" onclick="assignmentCls['<{$id}>'].referAssignment(event, '<{$assignment.assignment_id}>');return false;">
+	<{$lang._ref|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._edit_title|smarty:nodefaults|sprintf:$assignment.assignment_name}>" onclick="commonCls.sendView('<{$id}>', {action:'assignment_view_edit_modify', assignment_id:<{$assignment.assignment_id}>});return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._del_title|smarty:nodefaults|sprintf:$assignment.assignment_name}>" onclick="assignmentCls['<{$id}>'].deleteAssignment('<{$assignment.assignment_id}>', '<{$lang._del_confirm|sprintf:"`$assignment.assignment_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+
+<{if ($assignment.submit_count > 0) }>
+	<{$lang._separator|smarty:nodefaults}>
+	<a class="syslink" href="#" title="<{$lang.assignment_statistics_title|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].showSummary(event,'<{$assignment.assignment_id}>');return false;">
+		<{$lang.assignment_statistics|smarty:nodefaults}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+	<a class="syslink" href="#" title="<{$lang.assignment_submitter_list_title|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].showSubmitterList(event,'<{$assignment.assignment_id}>', <{$smarty.const._ON}>);return false;">
+		<{$lang.assignment_submitter_list|smarty:nodefaults}>
+	</a>
+<{/if}>
+
+<{/strip}>

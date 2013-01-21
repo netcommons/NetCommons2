@@ -1,0 +1,38 @@
+<?php print "<?php\n"; ?>
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * [[機能説明]]
+ *
+ * @package     NetCommons Components
+<?php include($this->getTemplate('maple/generate/skeleton/_doc-comment.txt')); ?>
+ * @access      public
+ */
+class <?php print $skeleton->classname . "\n"; ?>
+{
+	/**
+	 * @var DBオブジェクトを保持
+	 *
+	 * @access	private
+	 */
+	var $_db = null;
+	
+	/**
+	 * @var DIコンテナを保持
+	 *
+	 * @access	private
+	 */
+	var $_container = null;
+	
+	/**
+	 * コンストラクター
+	 *
+	 * @access	public
+	 */
+	function <?php print $skeleton->classname; ?>() 
+	{
+		$this->_container =& DIContainerFactory::getContainer();
+		$this->_db =& $this->_container->getComponent("DbObject");
+	}
+}
+<?php print "?>\n"; ?>

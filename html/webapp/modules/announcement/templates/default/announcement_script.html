@@ -1,0 +1,8 @@
+<script class="nc_script" type="text/javascript">
+if(!announcementCls["<{$id}>"]) {
+	announcementCls["<{$id}>"] = new clsAnnouncement("<{$id}>");
+}
+<{if $action_name == "announcement_view_edit_init"}>
+announcementCls["<{$id}>"].announcementEditInit();
+<{/if}>
+</script>

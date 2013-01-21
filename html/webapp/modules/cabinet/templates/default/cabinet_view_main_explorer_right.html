@@ -1,0 +1,113 @@
+<{strip}>
+<{assign var="cabinet_template_name" value="default"}>
+
+<table class="cabinet_explorer_header cabinet_right_header" cellspacing="0" summary="">
+	<tr>
+		<{counter name="cabinet_right" start=1 print=false assign="cabinet_right"}>
+		<{assign var="sort_name" value="file_name"}>
+		<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+			<div class="cabinet_file_name cabinet_<{$cabinet_template_name}>_file_name">
+				<{$lang.cabinet_grid_name|smarty:nodefaults}>
+				<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+			</div>
+		</th>
+		<{if ($action.cabinet.disp_size == _ON) }>
+			<{counter name="cabinet_right"}>
+			<{assign var="sort_name" value="size"}>
+			<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+				<div class="cabinet_file_size cabinet_<{$cabinet_template_name}>_file_size">
+					<{$lang.cabinet_size|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_insert_user == _ON) }>
+			<{counter name="cabinet_right"}>
+			<{assign var="sort_name" value="insert_user_name"}>
+			<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+				<div class="cabinet_file_ins_user cabinet_<{$cabinet_template_name}>_file_ins_user">
+					<{$lang.cabinet_insert_user|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_insert_date == _ON) }>
+			<{counter name="cabinet_right"}>
+			<{assign var="sort_name" value="insert_time"}>
+			<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+				<div class="cabinet_file_ins_date cabinet_<{$cabinet_template_name}>_file_ins_date">
+					<{$lang.cabinet_insert_date|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_update_user == _ON) }>
+			<{counter name="cabinet_right"}>
+			<{assign var="sort_name" value="update_user_name"}>
+			<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+				<div class="cabinet_file_upd_user cabinet_<{$cabinet_template_name}>_file_upd_user">
+					<{$lang.cabinet_update_user|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_update_date == _ON) }>
+			<{counter name="cabinet_right"}>
+			<{assign var="sort_name" value="update_time"}>
+			<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+				<div class="cabinet_file_upd_date cabinet_<{$cabinet_template_name}>_file_upd_date">
+					<{$lang.cabinet_update_date|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_comment == _ON) }>
+			<{counter name="cabinet_right"}>
+			<{assign var="sort_name" value="comment"}>
+			<th class="grid_sort" style="cursor: pointer;" scope="col" onclick="cabinetCls['<{$id}>'].sortBy('<{$sort_name}>'); return false;">
+				<div class="cabinet_file_comment cabinet_<{$cabinet_template_name}>_file_comment">
+					<{$lang.cabinet_comment|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon cabinet_sort_img" id="cabinet_sort_img<{$id}>_<{$sort_name}>" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+		<{/if}>
+		<{counter name="cabinet_right"}>
+		<th scope="col">
+			<div class="cabinet_context cabinet_<{$cabinet_template_name}>_context">
+				&nbsp;
+			</div>
+		</th>
+		<{if ($action.cabinet.disp_download_num == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th scope="col">
+				<div class="cabinet_count cabinet_<{$cabinet_template_name}>_count">
+					<{$lang.cabinet_count|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+	</tr>
+	<{if ($action.fileCount == 0) }>
+		<tr>
+			<td colspan="<{$cabinet_right}>" class="nowrap">
+				<div class="outerdiv"><{$lang.cabinet_no_file|smarty:nodefaults}></div>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+
+<{if ($action.fileCount > 0) }>
+	<div id="cabinet_file_list<{$id}>"></div>
+<{/if}>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].compress_download = "<{$action.cabinet.compress_download}>";
+	cabinetCls["<{$id}>"].cabinet_id = "<{$action.cabinet_id}>";
+	cabinetCls["<{$id}>"].folder_id = "<{$action.folder_id}>";
+	cabinetCls["<{$id}>"].setAddress();
+	<{if ($action.fileCount > 0) }>
+		cabinetCls["<{$id}>"].setOffsetHeight("<{$action.cabinet.disp_folder}>");
+	<{/if}>
+</script>
+
+<{/strip}>

@@ -1,0 +1,533 @@
+/* Common CSS */
+.calendar_head {
+	margin-bottom:2px;
+}
+table.calendar_head {
+	width:100%;
+}
+table.calendar_head td{
+	padding:0px 10px;
+	white-space:nowrap;
+}
+table.calendar_head td.calendar_prev_year,
+table.calendar_head td.calendar_prev_month {
+	text-align:right;
+	width:49%;
+}
+table.calendar_head td.calendar_this_year,
+table.calendar_head td.calendar_this_month {
+	text-align:center;
+}
+.calendar_this_month {
+	font-size:200%;
+}
+table.calendar_head td.calendar_next_year,
+table.calendar_head td.calendar_next_month {
+	text-align:left;
+	width:49%;
+}
+.calendar_body {
+}
+.calendar_foot_switch {
+	margin-top:5px;
+}
+table.calendar_foot {
+	width:100%;
+}
+
+table td.calendar_date_head {
+	text-align:center;
+	padding:2px;
+	font-weight:bold;
+}
+table td.calendar_date {
+	border:1px solid #d6d6d6;
+}
+.calendar_date a{
+	text-decoration:none;
+}
+
+td.calendar_today {
+	background-color: #fff7de;
+}
+td.calendar_plan {
+	background-color: #f6fff4;
+}
+.calendar_outside,
+a.calendar_outside,
+a.calendar_outside:link,
+a.calendar_outside:visited,
+a.calendar_outside:active {
+	color:#dddddd !important;
+}
+.calendar_week_th {
+	width:1px;
+}
+.calendar_weekday,
+a.calendar_weekday,
+a.calendar_weekday:link,
+a.calendar_weekday:visited,
+a.calendar_weekday:active {
+	color:#5e5c5e !important;
+}
+.calendar_saturday,
+a.calendar_saturday,
+a.calendar_saturday:link,
+a.calendar_saturday:visited,
+a.calendar_saturday:active {
+	color:#005dbf !important;
+}
+.calendar_sunday,
+a.calendar_sunday,
+a.calendar_sunday:link,
+a.calendar_sunday:visited,
+a.calendar_sunday:active {
+	color:#c42626 !important;
+}
+.calendar_holiday,
+a.calendar_holiday,
+a.calendar_holiday:link,
+a.calendar_holiday:visited,
+a.calendar_holiday:active {
+	color:#c42626 !important;
+}
+.calendar_lang_holiday {
+	font-size:80%;
+}
+img.calendar_help {
+	margin-right:2px;
+}
+img.calendar_date_move {
+	margin-left:2px;
+}
+img.calendar_move,
+img.calendar_move_highlight {
+	margin-right:2px;
+	margin-left:2px;
+}
+img.calendar_expansion,
+img.calendar_reduction {
+	margin-left:2px;
+	margin-right:2px;
+}
+
+.calendar_plan_time {
+	font-size:90%;
+}
+div.calendar_plan{
+	overflow:hidden;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size:90%;
+}
+img.calendar_plan_smark {
+	width:4px;
+	height:4px;
+	margin:2px 1px 1px 1px;
+}
+img.calendar_plan_mark {
+	height:15px;
+	width:3px;
+	margin-right: 2px;
+}
+
+img.calendar_plan_public {
+	background-color: #04419a;
+}
+.calendar_plan_public,
+a.calendar_plan_public,
+a.calendar_plan_public:link,
+a.calendar_plan_public:visited,
+a.calendar_plan_public:active {
+/*	color: #04419a; */
+}
+img.calendar_plan_members {
+	background-color: #c90505;
+}
+.calendar_plan_members,
+a.calendar_plan_members,
+a.calendar_plan_members:link,
+a.calendar_plan_members:visited,
+a.calendar_plan_members:active {
+/*	color: #c90505; */
+}
+img.calendar_plan_group {
+	background-color: #5da302;
+}
+.calendar_plan_group,
+a.calendar_plan_group,
+a.calendar_plan_group:link,
+a.calendar_plan_group:visited,
+a.calendar_plan_group:active {
+/*	color: #5da302; */
+}
+img.calendar_plan_private {
+	background-color: #d78f03;
+}
+.calendar_plan_private,
+a.calendar_plan_private,
+a.calendar_plan_private:link,
+a.calendar_plan_private:visited,
+a.calendar_plan_private:active {
+/*	color: #d78f03; */
+}
+
+
+/* Yearly Calendar CSS */
+.calendar_yearly table.calendar_head td.calendar_this_year {
+	font-size:200%;
+}
+.calendar_yearly table.calendar_body td.calendar_frame {
+	vertical-align:top;
+	padding:5px;
+}
+.calendar_yearly table.calendar_body span.calendar_month {
+	font-size:200%;
+	margin:0px 2px;
+}
+table.calendar_month td.calendar_date {
+	padding:1px;
+	text-align:center;
+}
+table.calendar_month td.calendar_date a{
+	display:block;
+	width:20px;
+}
+table.calendar_month td.calendar_today {
+	border-width:3px;
+}
+
+
+/* Small Monthly Calendar CSS */
+.calendar_smonthly table.calendar_body td.calendar_date {
+	padding:1px;
+	text-align:center;
+}
+.calendar_smonthly table.calendar_body td.calendar_date a{
+	display:block;
+	width:24px;
+}
+.calendar_smonthly table.calendar_body td.calendar_today {
+	border-width:3px;
+}
+
+
+/* Large Monthly Calendar CSS */
+.calendar_lmonthly table.calendar_head .calendar_this_month {
+	font-size:300%;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date,
+.calendar_lmonthly table.calendar_body th.calendar_weekday {
+	border:1px solid #d6d6d6;
+	padding:1px;
+}
+.calendar_lmonthly table.calendar_body th.calendar_weekday {
+	text-align:center;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date {
+	vertical-align:top;
+	width:90px;
+	height:75px;
+}
+div.calendar_lmonthly table.calendar_body td.calendar_date .calendar_date_num a,
+div.calendar_lmonthly table.calendar_body td.calendar_date_head {
+	text-align:center;
+	font-size: 150%;
+}
+.calendar_lmonthly a.calendar_plan_title {
+	display:block;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date div.calendar_date_num {
+	width: 68px;
+	float: left;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date div.calendar_date_num a{
+	display:block;
+	width:30px;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date div.calendar_date_plan {
+	width: 88px;
+	margin-left:2px;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date div.calendar_plan{
+	width: 85px;
+}
+.calendar_lmonthly table.calendar_body td.calendar_date div.calendar_addplan{
+	text-align:right;
+}
+
+
+/* Weekly Calendar CSS */
+.calendar_weekly table.calendar_head .calendar_this_month {
+	font-size:200%;
+}
+.calendar_weekly table.calendar_body th.calendar_date_head,
+.calendar_weekly table.calendar_body td.calendar_date,
+.calendar_weekly table.calendar_body th.calendar_room_name {
+	padding-right:5px;
+	padding-left:5px;
+}
+.calendar_weekly table.calendar_body th.calendar_date_head {
+	text-align:center;
+	white-space:nowrap;
+}
+.calendar_weekly table.calendar_body th.calendar_date_head span.calendar_date_num{
+	font-size:150%;
+}
+.calendar_weekly table.calendar_body th.calendar_date_head span.calendar_date_wday{
+}
+.calendar_weekly table.calendar_body th.calendar_room_name {
+	padding-top:3px;
+	padding-bottom:3px;
+	border:1px solid #d6d6d6;
+	white-space:normal;
+}
+.calendar_weekly div.calendar_plan_public,
+.calendar_weekly div.calendar_plan_group,
+.calendar_weekly div.calendar_plan_private,
+.calendar_weekly div.calendar_plan_members {
+	white-space:normal;
+	width: 150px;
+	overflow:hidden;
+}
+
+.calendar_weekly table.calendar_body th.calendar_date_head div,
+.calendar_weekly table.calendar_body td.calendar_date div.calendar_plan{
+	width: 80px;
+}
+.calendar_weekly a.calendar_plan_title {
+	display:block;
+}
+
+
+/* Daily Calendar CSS */
+.calendar_daily table.calendar_head td.calendar_date_head {
+	text-align:left;
+	padding:2px;
+	font-weight:normal;
+}
+.calendar_daily table.calendar_head td.calendar_move {
+	text-align:right;
+	padding-bottom:5px;
+	padding-left:20px;
+	vertical-align:bottom;
+}
+.calendar_daily table.calendar_head td.calendar_date_head span.calendar_date_num{
+	font-size:200%;
+}
+div.calendar_daily_allday,
+div.calendar_daily_time {
+	border:1px solid #d6d6d6;
+}
+div.calendar_daily_allday {
+	padding:5px;
+}
+div.calendar_daily_allday div.calendar_plan_title{
+	margin-top:2px;
+	margin-right:8px;
+	margin-bottom:2px;
+	margin-left:8px;
+}
+div.calendar_daily_allday div.calendar_plan_title a{
+	display:block;
+}
+
+div.calendar_daily_time {
+	padding:1px;
+	height:360px;
+	overflow:auto;
+/*	white-space:nowrap; */
+}
+
+.calendar_daily table.calendar_body th.calendar_time,
+.calendar_daily table.calendar_body td.calendar_time {
+	vertical-align:top;
+/*	white-space:nowrap; */
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/calendar/default/daily_bg.gif");
+	background-repeat:repeat;
+}
+.calendar_daily table.calendar_body th.calendar_time {
+	text-align:right;
+	border-right:1px solid #d6d6d6;
+}
+.calendar_daily table.calendar_body th.calendar_time div{
+	font-size:80%;
+	height:60px;
+	width:45px;
+}
+.calendar_daily table.calendar_body th.calendar_time a.calendar_addplan{
+	display:block;
+}
+.calendar_daily table.calendar_body td.calendar_time {
+	width:100%;
+}
+.calendar_daily table.calendar_body td img.calendar_time_blank {
+	width:410px;
+	height:1px;
+}
+.calendar_daily table.calendar_body td.calendar_time div.calendar_plan,
+.calendar_daily table.calendar_body td.calendar_time div.calendar_noplan {
+	width:80px;
+	overflow:hidden;
+	padding-top:0px;
+	padding-right:2px;
+	padding-bottom:0px;
+	padding-left:8px;
+	margin-right:5px;
+	margin-left:5px;
+/*	white-space:nowrap; */
+}
+.calendar_daily table.calendar_body td.calendar_time div.calendar_plan a.calendar_plan_title{
+	display:block;
+}
+.calendar_daily table.calendar_body td.calendar_time div.calendar_plan {
+	background-color:#f4f4f4;
+}
+.calendar_plan_mark_public {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/calendar/default/public.gif");
+	background-repeat:repeat-y;
+}
+.calendar_plan_mark_members {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/calendar/default/members.gif");
+	background-repeat:repeat-y;
+}
+.calendar_plan_mark_group {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/calendar/default/group.gif");
+	background-repeat:repeat-y;
+}
+.calendar_plan_mark_private {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/calendar/default/private.gif");
+	background-repeat:repeat-y;
+}
+
+
+/* Schedule CSS */
+.calendar_schedule table.calendar_head,
+.calendar_schedule table.calendar_foot {
+	margin:0px;
+}
+.calendar_schedule table.calendar_head td {
+	padding:0px;
+}
+.calendar_schedule div.calendar_body div.calendar_plan_frame{
+	margin-left:20px;
+	padding-bottom: 8px;
+	width:370px;
+}
+.calendar_schedule div.calendar_body table.calendar_plan_content td{
+	padding: 2px 5px;
+	white-space: nowrap;
+}
+.calendar_schedule div.calendar_body table.calendar_plan_content td.calendar_nopadding{
+	padding: 0px 0px;
+	white-space: nowrap;
+}
+.calendar_schedule div.calendar_body div.calendar_plan_time{
+/*	width:70px; */
+	font-size: 100%;
+	padding-right:0px;
+}
+.calendar_schedule div.calendar_body div.calendar_plan_title{
+	width: 210px;
+/*	overflow:hidden; */
+}
+.calendar_schedule div.calendar_body div.calendar_plan_allday_title{
+	width:280px;
+/*	overflow:hidden; */
+}
+.calendar_schedule div.calendar_body div.calendar_plan_title a,
+.calendar_schedule div.calendar_body div.calendar_plan_allday_title a{
+	display:block;
+}
+.calendar_schedule div.calendar_body div.calendar_user_name{
+	width:80px;
+	overflow:hidden;
+}
+.calendar_schedule div.calendar_body div.calendar_date {
+	margin-bottom:5px;
+}
+
+
+/* Plan-colored Help CSS */
+.calendar_help {
+	white-space:nowrap;
+}
+.calendar_help div.calendar_plan_public,
+.calendar_help div.calendar_plan_group,
+.calendar_help div.calendar_plan_private,
+.calendar_help div.calendar_plan_members {
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+
+/* Popup Plan CSS */
+div.calendar_plan_popup{
+	width: 180px;
+}
+div.calendar_plan_popup a.calendar_plan_title {
+	display:block;
+}
+div.calendar_easy_addplan {
+	text-align:right;
+	padding-top:5px;
+}
+.calendar_plan_room_id {
+	width:185px;
+}
+
+/* Repeat Plan CSS */
+.calendar_repeat {
+	white-space:nowrap;
+}
+.calendar_repeat div.hr {
+	margin-top:16px;
+}
+.calendar_repeat div.calendar_freq div.hr,
+.calendar_repeat div.calendar_freq div.calendar_r_daily,
+.calendar_repeat div.calendar_freq div.calendar_r_weekly,
+.calendar_repeat div.calendar_freq div.calendar_r_monthly,
+.calendar_repeat div.calendar_freq div.calendar_r_yearly,
+.calendar_repeat div.calendar_freq div.calendar_terminator {
+	margin-left:20px;
+}
+.calendar_repeat div.calendar_freq,
+.calendar_repeat div.calendar_r_daily,
+.calendar_repeat div.calendar_r_weekly,
+.calendar_repeat div.calendar_r_monthly,
+.calendar_repeat div.calendar_r_yearly,
+.calendar_repeat div.calendar_terminator {
+	padding-left:8px;
+	padding-right:5px;
+	white-space:nowrap;
+}
+.calendar_r_margin {
+	margin-bottom:5px;
+}
+
+/* Authority Setting CSS */
+table.calendar_auth tr.row th,
+table.calendar_auth tr.row td {
+	border:1px solid #cccccc;
+}
+
+/* Import CSS */
+div.calendar_ical_row {
+	border-top:1px solid #cccccc;
+	border-right:1px solid #cccccc;
+	border-left:1px solid #cccccc;
+	padding:2px;
+}
+div.calendar_ical_row_last {
+	border-bottom:1px solid #cccccc;
+}
+
+.calendar_selectlist {
+	width:230px;
+	height:250px;
+}
+
+/* timezone CSS */
+.calendar_timezone_offset {
+	width:200px;
+}

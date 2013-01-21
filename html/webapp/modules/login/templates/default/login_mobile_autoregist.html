@@ -1,0 +1,218 @@
+<{strip}>
+<div class="outerdiv" id="target<{$id}>">
+</div>
+
+<div class="top_description">
+	<{$lang.login_top_description|smarty:nodefaults|sprintf:$lang._regist|smarty:nodefaults}>
+	<{if $action.error_exists == _ON}>
+		<br />
+		<span style="color:red">
+			<{$lang.login_mobile_main_errmsg|smarty:nodefaults}>
+			<br />
+			<{$action.main_errmsg}>
+		</span>
+	<{/if}>
+</div>
+<{* 詳細部 *}>
+<form action=".<{$smarty.const.INDEX_FILE_NAME}>"  method="post" <{if $smarty.session._mobile_info.currier!="EZweb"}>enctype="multipart/form-data"<{/if}>  data-ajax="false">
+	<{foreach from=$action.confItems item=item_list}>
+		<{foreach from=$item_list item=item}>
+			<{assign var="item_id" value=$item.item_id}>
+			<{if $action.autoregist_use_items.$item_id == $item.item_id && $item.type != "label" && $item.type != "system"}>
+
+				<br />
+				<div>
+					<span style="color:red">
+					<{$action.items_errmsg[$item_id]|smarty:nodefaults}>
+					</span>
+				</div>
+
+				<div>
+					<{* 会員詳細 *}>
+					<{$item.item_name}>
+					<{* 必須 *}>
+					<{if $item.require_flag == _ON || $action.autoregist_use_items_req.$item_id}>
+						<span style="color:red">
+						<{$lang.login_require_flag|smarty:nodefaults}>
+						</span>
+					<{/if}>
+				</div>
+
+				<div>
+					<{if $item.type == $smarty.const.USER_TYPE_TEXT}>
+						<{* テキスト *}>
+						<input name="items[<{$item.item_id}>]" type="text" value="<{$action.items[$item_id]}>" <{$item.attribute|smarty:nodefaults}> />
+					<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+						<{* email *}>
+						<input name="items[<{$item.item_id}>]" type="text" value="<{$action.items[$item_id]}>" <{$item.attribute|smarty:nodefaults}> />
+						</div>
+						<div>
+							<{* メールアドレス確認 *}>
+							<{if ($item.type == $smarty.const.USER_TYPE_EMAIL) }>
+								<{$lang.login_email_confirm|smarty:nodefaults}>
+							<{elseif ($item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL) }>
+								<{$lang.login_mobile_email_confirm|smarty:nodefaults}>
+							<{/if}>
+							<{* 必須 *}>
+							<{if $item.require_flag == _ON || $action.autoregist_use_items_req.$item_id}>
+								<span style="color:red">
+								<{$lang.login_require_flag|smarty:nodefaults}>
+								</span>
+							<{/if}>
+						</div>
+						<div>
+							<input name="items_mail_confirm[<{$item.item_id}>]" type="text" value="<{$action.items[$item_id]}>" <{$item.attribute|smarty:nodefaults}> />
+						<{if $item.allow_email_reception_flag == _ON}>
+							<{* メールを受け取る *}>
+							<div>
+								<span style="font-size:small">
+								<input name="items_reception[<{$item.item_id}>]" id="items_reception[<{$item.item_id}>]" type="checkbox" value="1" <{if $action.items_reception[$item_id] == "1"}>checked="checked"<{/if}> data-theme="c" />
+								<label for="items_reception[<{$item.item_id}>]"><{$lang.login_reception_email|smarty:nodefaults}></label>
+								</span>
+							</div>
+						<{/if}>
+					<{elseif $item.type == $smarty.const.USER_TYPE_TEXTAREA}>
+						<textarea name="items[<{$item.item_id}>]" <{$item.attribute|smarty:nodefaults}>>
+							<{$action.items[$item_id]|smarty:nodefaults}>
+						</textarea>
+					<{elseif $item.type == $smarty.const.USER_TYPE_FILE}>
+						<{* ファイル *}>
+						<input name="items[<{$item.item_id}>]" type="file" value="<{$action.items[$item_id]}>" <{$item.attribute|smarty:nodefaults}> />
+					<{elseif $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+						<{* チェックボックス *}>
+						<div <{$item.attribute|smarty:nodefaults}> data-role="controlgroup">
+							<{foreach from=$item.set_options item=option name=selectloop}>
+							<{assign var="select_loop_id" value=$smarty.foreach.selectloop.iteration-1}>
+								<input name="items[<{$item.item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]" id="items[<{$item.item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]" type="checkbox"
+								<{if isset($option.options_value|smarty:nodefaults)}>
+									value="<{$option.options_value}>|<{$option.def_options}>"
+								<{else}>
+									value="<{$option.options}>"
+								<{/if}>
+								<{if $action.error_exists == _ON}>
+									<{if isset($option.options_value|smarty:nodefaults)}>
+										<{if $option.options_value|$option.options == $action.items[$item_id][$select_loop_id]}>checked="checked" <{/if}>/>
+									<{else}>
+										<{if $option.options==$action.items[$item_id][$select_loop_id]}> checked="checked" <{/if}> />
+									<{/if}>
+								<{else}>
+									<{if $option.default_selected}> checked="checked" <{/if}>/>
+								<{/if}>
+								<label for="items[<{$item.item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]"><{$option.options}></label>
+								<{if ($smarty.session._smartphone_flag != _ON) }>&nbsp;<{/if}>
+							<{/foreach}>
+						</div>
+					<{elseif $item.type == $smarty.const.USER_TYPE_RADIO}>
+						<{* ラジオボタン *}>
+						<div <{$item.attribute|smarty:nodefaults}>>
+							<fieldset data-role="controlgroup">
+							<{foreach from=$item.set_options item=option name=selectloop}>
+								<input name="items[<{$item.item_id}>]" id="items[<{$item.item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]" type="radio"
+								<{if isset($option.options_value|smarty:nodefaults)}>
+									value="<{$option.options_value}>|<{$option.def_options}>"
+								<{else}>
+									value="<{$option.def_options}>"
+								<{/if}>
+								<{if $action.error_exists == _ON}>
+									<{if isset($option.options_value|smarty:nodefaults)}>
+										<{if $action.items[$item_id]==$option.options_value.$option.options}>checked="checked" <{/if}>
+									<{else}>
+										<{if $action.items[$item_id]==$option.options}>checked="checked" <{/if}>
+									<{/if}>
+								<{else}>
+									<{if $option.default_selected}>checked="checked" <{/if}>
+								<{/if}>
+ 								/>
+								<label for="items[<{$item.item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]"><{$option.options}></label>
+								<{if ($smarty.session._smartphone_flag != _ON) }>&nbsp;<{/if}>
+							<{/foreach}>
+							</fieldset>
+						</div>
+					<{elseif $item.type == $smarty.const.USER_TYPE_SELECT}>
+						<{* セレクトリスト *}>
+						<select name="items[<{$item.item_id}>]" <{$item.attribute|smarty:nodefaults}>>
+							<{foreach from=$item.set_options item=option name=selectloop}>
+								<option value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.def_options}>"
+									<{if $action.error_exists == _ON}>
+										<{if isset($option.options_value|smarty:nodefaults)}>
+											<{if $action.items[$item_id] == $option.options_value|$option.options}> selected="selected"<{/if}>>
+										<{else}>
+											<{if $action.items[$item_id] == $option.options}> selected="selected"<{/if}>>
+										<{/if}>
+									<{else}>
+										<{if $option.default_selected}> selected="selected"<{/if}>>
+									<{/if}>
+									<{$option.options}>
+								</option>
+							<{/foreach}>
+						</select>
+					<{elseif $item.type == $smarty.const.USER_TYPE_PASSWORD}>
+						<{* パスワード *}>
+						<input  name="items[<{$item.item_id}>]" type="password" value="<{$action.items[$item_id]}>" <{$item.attribute|smarty:nodefaults}> />
+						<br />
+						<{$lang.login_password_confirm|smarty:nodefaults}>
+						<{* 必須 *}>
+						<span style="color:red">
+							<{$lang.login_require_flag|smarty:nodefaults}>
+						</span>
+						<input name="items_password_confirm[<{$item.item_id}>]" id="login_items_confirm<{$id}>_<{$item.item_id}>" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+					<{/if}>
+
+					<{if $item.description}>
+						<div style="text-align:right">
+							<span style="color:#AF2C4D;font-size:small;">
+								<{$item.description}>
+							</span>
+						</div>
+					<{/if}>
+
+					<{if $item.allow_public_flag == _ON}>
+						<div>
+							<span style="font-size:small">
+								<input name="items_public[<{$item.item_id}>]" id="items_public[<{$item.item_id}>]" type="checkbox" value="1" data-theme="c"
+								<{if $action.error_exists == _ON}>
+									<{if $action.items_public[$item_id] == "1"}>checked="checked"<{/if}> />
+								<{else}>
+									<{if $item.public_flag == _ON}>checked="checked"<{/if}> />
+								<{/if}>
+								<label for="items_public[<{$item.item_id}>]"><{$lang.login_public_flag|smarty:nodefaults}></label>
+							</span>
+						</div>
+					<{/if}>
+				</div>
+			<{/if}>
+		<{/foreach}>
+	<{/foreach}>
+
+	<{* 利用許諾 *}>
+	<{if $action.autoregist_disclaimer != ""}>
+		<input name="autoregist_disclaimer_ok" type="hidden" value="<{$action.autoregist_disclaimer_ok}>" />
+	<{/if}>
+	<{* 入力キー *}>
+	<{if ($action.autoregist_use_input_key == _ON) }>
+		<br />
+		<div>
+			<{$lang.login_autoregist_input_key|smarty:nodefaults}>
+			<span style="color:red">
+				<{$lang.login_require_flag|smarty:nodefaults}>
+			</span>
+		</div>
+		<div>
+			<input id="login_autoregist_input_key<{$id}>" type="password" name="autoregist_input_key" value="" />
+		</div>
+	<{/if}>
+
+	<{* 各種ボタン *}>
+	<br />
+	<div style="text-align:center">
+		<{* 決定 *}>
+		<input type="submit" name="dispatch_login_action_main_autoregist" value="<{$lang._regist|smarty:nodefaults}>" data-inline="true" />
+		&nbsp;
+		&nbsp;
+		<{* キャンセル *}>
+		<input type="submit" name="dispatch_login_view_mobile_init" value="<{$lang._cancel|smarty:nodefaults}>"  data-inline="true" />
+	</div>
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+</form>
+<{/strip}>

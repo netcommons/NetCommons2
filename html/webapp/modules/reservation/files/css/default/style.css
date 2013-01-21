@@ -1,0 +1,460 @@
+/*
+ * Common CSS
+ */
+.reservation_timetable {
+	font-size:80%;
+}
+.reservation_switch_disp_type {
+	text-align:right;
+}
+.reservation_style_select {
+	width:180px;
+}
+
+/*
+ * CSS of date
+ */
+td.reservation_today {
+	background-color: #fff7de;
+}
+td.reservation_reserve {
+	background-color: #ebf6e9;
+}
+.reservation_outside,
+a.reservation_outside,
+a.reservation_outside:link,
+a.reservation_outside:visited,
+a.reservation_outside:active {
+	color:#dddddd;
+}
+.reservation_weekday,
+a.reservation_weekday,
+a.reservation_weekday:link,
+a.reservation_weekday:visited,
+a.reservation_weekday:active {
+	color:#5e5c5e;
+}
+.reservation_saturday,
+a.reservation_saturday,
+a.reservation_saturday:link,
+a.reservation_saturday:visited,
+a.reservation_saturday:active {
+	color:#005dbf;
+}
+.reservation_sunday,
+a.reservation_sunday,
+a.reservation_sunday:link,
+a.reservation_sunday:visited,
+a.reservation_sunday:active {
+	color:#c42626;
+}
+.reservation_holiday,
+a.reservation_holiday,
+a.reservation_holiday:link,
+a.reservation_holiday:visited,
+a.reservation_holiday:active {
+	color:#c42626;
+}
+.reservation_lang_holiday {
+	font-size:80%;
+}
+
+/*
+ * CSS of Reservation
+ */
+.reservation_time {
+	font-size:90%;
+}
+th div.reservation_time {
+	font-size:80%;
+}
+a.reservation_reserve_title {
+	display:block;
+}
+td.reservation_reserve {
+	background-color: #ebf6e9;
+}
+div.reservation_reserve{
+	overflow:hidden;
+	font-size:90%;
+}
+img.reservation_reserve_public {
+	background-color: #04419a;
+}
+.reservation_reserve_mark_public {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/reservation/default/public.gif");
+	background-repeat:repeat-y;
+}
+img.reservation_reserve_members {
+	background-color: #c90505;
+}
+.reservation_reserve_mark_members {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/reservation/default/members.gif");
+	background-repeat:repeat-y;
+}
+img.reservation_reserve_group {
+	background-color: #5da302;
+}
+.reservation_reserve_mark_group {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/reservation/default/group.gif");
+	background-repeat:repeat-y;
+}
+img.reservation_reserve_private {
+	background-color: #d78f03;
+}
+.reservation_reserve_mark_private {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/reservation/default/private.gif");
+	background-repeat:repeat-y;
+}
+
+img.reservation_reserve_smark {
+	width:4px;
+	height:4px;
+	margin:2px 1px 1px 1px;
+}
+img.reservation_reserve_mark {
+	height:15px;
+	width:3px;
+	margin-right: 2px;
+}
+
+/*
+ * CSS of repetition reserve registration
+ */
+.reservation_repeat {
+	white-space:nowrap;
+}
+.reservation_repeat div.hr {
+	margin-top:16px;
+}
+.reservation_repeat div.reservation_freq div.hr,
+.reservation_repeat div.reservation_freq div.reservation_r_daily,
+.reservation_repeat div.reservation_freq div.reservation_r_weekly,
+.reservation_repeat div.reservation_freq div.reservation_r_monthly,
+.reservation_repeat div.reservation_freq div.reservation_r_yearly,
+.reservation_repeat div.reservation_freq div.reservation_terminator {
+	margin-left:20px;
+}
+.reservation_repeat div.reservation_freq,
+.reservation_repeat div.reservation_r_daily,
+.reservation_repeat div.reservation_r_weekly,
+.reservation_repeat div.reservation_r_monthly,
+.reservation_repeat div.reservation_r_yearly,
+.reservation_repeat div.reservation_terminator {
+	padding-left:8px;
+	padding-right:5px;
+	white-space:nowrap;
+}
+.reservation_r_margin {
+	margin-bottom:5px;
+}
+
+/*
+ * CSS of move reservation
+ */
+img.reservation_move_link,
+img.reservation_move_highlight {
+	margin-right:2px;
+	margin-left:2px;
+}
+
+/*
+ * CSS of location registration or location details
+ */
+.reservation_room_select {
+	overflow:scroll;
+	white-space:nowrap;
+	width:250px;
+	height:150px;
+	border:1px solid #cccccc;
+}
+.reservation_room_select div{
+	border-bottom:1px solid #cccccc;
+	padding:2px;
+	width:225px;
+	overflow:hidden;
+}
+img.reservation_disable {
+	background-color: #CCCCCC;
+}
+.reservation_use_private_desc {
+	font-size:80%;
+}
+
+/*
+ * CSS of location management
+ */
+.reservation_move_category {
+	background-color:#eeffff;
+}
+.reservation_move_location_block {
+	margin-left:20px;
+}
+.reservation_move_category,
+.reservation_move_location {
+	border:solid 1px #cccccc;
+}
+.reservation_move_image img{
+	cursor:move;
+}
+.reservation_move_cate_name div {
+	width:300px;
+	white-space:nowrap;
+}
+.reservation_move_location_name div input {
+	width:180px;
+}
+.reservation_move_cate_name div input {
+	width:220px;
+}
+.reservation_move_location_name div {
+	width:250px;
+	overflow:hidden;
+}
+.reservation_move_manage {
+	width:100px;
+	white-space:nowrap;
+	padding:0px 2px;
+}
+.reservation_move_delete {
+	padding:2px;
+}
+
+/*
+ * CSS of location details
+ */
+.reservation_duplication_flag,
+.reservation_use_private_flag {
+	font-size:80%;
+	padding:2px;
+	margin-left:8px;
+	white-space:nowrap;
+}
+
+/*
+ * CSS of main
+ */
+table.reservation_head td{
+	padding:0px 4px;
+	white-space:nowrap;
+}
+span.reservation_this_date {
+	font-size:200%;
+	margin:0px 2px;
+}
+td.reservation_date_head {
+	padding:2px;
+	font-weight:bold;
+}
+.reservation_move_week {
+	text-align:right;
+}
+
+/*
+ * CSS of monthly reservation
+ */
+div.reservation_monthly table.reservation_body td.reservation_date .reservation_date_num a,
+div.reservation_monthly table.reservation_body td.reservation_date_head {
+	font-size: 150%;
+	text-align:center;
+}
+div.reservation_monthly table.reservation_body th.reservation_weeknum {
+	width: 1%;
+	text-align:center;
+}
+.reservation_monthly table.reservation_body td.reservation_date,
+.reservation_monthly table.reservation_body th.reservation_weeknum {
+	border:1px solid #d6d6d6;
+	padding:1px;
+}
+.reservation_monthly table.reservation_body td.reservation_date {
+	vertical-align:top;
+	width:90px;
+	height:75px;
+}
+.reservation_monthly table.reservation_body td.reservation_date div.reservation_date_num {
+	width: 68px;
+	float: left;
+}
+.reservation_monthly table.reservation_body td.reservation_date div.reservation_addreserve {
+	text-align:right;
+}
+.reservation_monthly table.reservation_body td.reservation_date div.reservation_date_num a{
+	display:block;
+	width:30px;
+}
+.reservation_monthly table.reservation_body td.reservation_date div.reservation_reserve_list {
+	width: 88px;
+	margin-left:2px;
+}
+.reservation_monthly table.reservation_body td.reservation_date div.reservation_reserve{
+	width: 85px;
+}
+
+/*
+ * CSS of weekly reservation
+ */
+.reservation_weekly table.reservation_body {
+	width:auto;
+}
+.reservation_weekly table.reservation_body th{
+	padding:2px;
+	border:0px;
+	white-space:nowrap;
+	font-weight:normal;
+	text-align:left;
+}
+.reservation_weekly table.reservation_body td.reservation_time_head,
+.reservation_weekly table.reservation_reserve_body td.reservation_time_head {
+	padding:0px 2px;
+}
+.reservation_weekly table.reservation_body td.reservation_time_head img.reservation_blank,
+.reservation_weekly table.reservation_reserve_body td.reservation_time_head img.reservation_blank {
+	width:60px;
+	height:1px;
+}
+.reservation_weekly table.reservation_body th.reservation_date_head {
+	text-align:center;
+}
+.reservation_weekly table.reservation_body th.reservation_date_head span.reservation_date_num{
+	font-size:150%;
+}
+.reservation_weekly table.reservation_body th.reservation_date_head img.reservation_blank,
+.reservation_weekly table.reservation_reserve_body td.reservation_date_head img.reservation_blank {
+	width:90px;
+	height:1px;
+}
+/* reserve body */
+.reservation_weekly table.reservation_reserve_body td.reservation_date_head {
+	padding:0px 2px;
+}
+.reservation_weekly table.reservation_reserve_body th.reservation_time_head {
+	text-align:right;
+}
+.reservation_weekly div.reservation_time_frame {
+	overflow:auto;
+	border:1px solid #d6d6d6;
+}
+/* background */
+.reservation_weekly table.reservation_reserve_body th.reservation_background,
+.reservation_weekly table.reservation_reserve_body td.reservation_background {
+	vertical-align:top;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/reservation/default/h_back.gif");
+	background-repeat:repeat;
+}
+.reservation_weekly table.reservation_reserve_body th.reservation_background {
+	border-right:1px solid #d6d6d6;
+	text-align:right;
+}
+.reservation_weekly table.reservation_reserve_body td.reservation_background {
+	border-right:1px dashed #d6d6d6;
+}
+.reservation_weekly table.reservation_reserve_body td.reservation_background_endlineline {
+	border-right:1px solid #d6d6d6;
+}
+.reservation_weekly table.reservation_reserve_body th.reservation_background div {
+	height:60px;
+}
+.reservation_weekly table.reservation_reserve_body td.reservation_background div {
+	width:80px;
+}
+.reservation_weekly table.reservation_reserve_body td.reservation_background div.reservation_reserve {
+	background-color: #f4f4f4;
+	margin-left:5px;
+	padding-left:5px;
+}
+
+/*
+ * CSS of each location reservation
+ */
+.reservation_each_location table.reservation_head td.reservation_date_head {
+	text-align:left;
+	padding:2px;
+	font-weight:normal;
+}
+.reservation_each_location table.reservation_head td.reservation_date_head span.reservation_date_num{
+	font-size:200%;
+}
+
+.reservation_each_location table.reservation_reserve_body {
+	width:auto;
+	border-top:1px solid #d6d6d6;
+	border-right:1px solid #d6d6d6;
+	border-bottom:1px solid #d6d6d6;
+	border-left:1px solid #d6d6d6;
+}
+.reservation_each_location table.reservation_reserve_body td{
+	vertical-align:top;
+}
+.reservation_each_location table.reservation_reserve_body div.reservation_time_frame {
+	overflow:auto;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_location_time_head {
+	border-bottom:1px solid #d6d6d6;
+	border-right:1px solid #d6d6d6;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_location_time_head div {
+	height:20px;
+}
+
+.reservation_each_location table.reservation_reserve_body th.reservation_background,
+.reservation_each_location table.reservation_reserve_body td.reservation_background {
+	vertical-align:top;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/reservation/default/v_back.gif");
+	background-repeat:repeat;
+}
+.reservation_each_location table.reservation_reserve_body th.reservation_background {
+	border-bottom:1px solid #d6d6d6;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_background,
+.reservation_each_location table.reservation_reserve_body td.reservation_location_head,
+.reservation_each_location table.reservation_reserve_body td.reservation_location_addreserve  {
+	border-bottom:1px dashed #d6d6d6;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_location_addreserve  {
+	border-right:1px solid #d6d6d6;
+	vertical-align:top;
+	padding-left:5px;
+}
+.reservation_each_location table.reservation_reserve_body th.reservation_background div.reservation_time {
+	width:80px;
+	height:20px;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_background div.reservation_reserve_time {
+	height:40px;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_location_head div.reservation_location {
+	overflow:hidden;
+	width:120px;
+	height:40px;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_background div.reservation_reserve_dummy,
+.reservation_each_location table.reservation_reserve_body td.reservation_background div.reservation_reserve {
+	float:left;
+}
+.reservation_each_location table.reservation_reserve_body td.reservation_background div.reservation_reserve {
+	background-color: #f4f4f4;
+}
+.reservation_each_location a.reservation_reserve_title {
+	display:block;
+	margin-left:7px;
+}
+
+/* 予約のインポート */
+.reservation_top_description {
+	padding: 5px 5px 15px 5px;
+}
+.reservation_import_help table.outer th{
+	background-color: #e0e0e0;
+	padding: 2px;
+}
+.reservation_import_help table.outer th,
+.reservation_import_help table.outer td{
+	border: 1px solid #d5d5d5;
+}
+.reservation_import_indent {
+	padding: 3px 20px;
+}
+.reservation_reserve_room_id {
+	width:185px;
+}

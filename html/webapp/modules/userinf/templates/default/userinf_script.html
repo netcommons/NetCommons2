@@ -1,0 +1,16 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!userinfCls["<{$id}>"]) {
+	userinfCls["<{$id}>"] = new clsUserinf("<{$id}>","<{$action.user_id}>","<{$action.prefix_id_name}>");
+}
+<{if $action_name == "userinf_view_main_init" }>
+	userinfCls["<{$id}>"].init();
+<{elseif $action_name == "userinf_view_main_monthly" }>
+	userinfCls["<{$id}>"].initMonthly();
+<{elseif $action_name == "userinf_view_main_room" }>
+	userinfCls["<{$id}>"].initRoom(<{$action.count}>, <{$conf.useinf_room_list}>);
+<{elseif $action_name == "userinf_view_main_modulesinfo" }>
+	userinfCls["<{$id}>"].initModulesinfo();
+<{/if}>
+</script>
+<{/strip}>

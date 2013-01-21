@@ -1,0 +1,176 @@
+
+
+/*トップ　パブリックスペース*/
+.side_180_gray01_menu_top_public {
+	/*white-space:nowrap;*/
+	display:block;
+}
+
+/*パブリックスペース*/
+.side_180_gray01_menu_public {
+	display:block;
+}
+
+/*トップ　プライベートスペース*/
+.side_180_gray01_menu_top_private {
+	font-weight:bold;
+	/*white-space:nowrap;*/
+	display:block;
+	padding:2px;
+}
+/*プライベートスペース*/
+.side_180_gray01_menu_private {
+	display:block;
+	padding:2px;
+}
+
+/*トップ　グループスペース*/
+.side_180_gray01_menu_top_group {
+	font-weight:bold;
+	/*white-space:nowrap;*/
+	display:block;
+	padding:2px;
+}
+/*グループスペース*/
+.side_180_gray01_menu_group {
+	display:block;
+	padding:2px;
+}
+
+/* 
+ * メニュー定義
+ */
+
+/* 左メニュー */
+.side_180_gray01_menubar_left dl {
+	margin: 0px;	/* dl内部の左端余白を消す(IE) */
+	padding: 0px;	/* dl内部の左端余白を消す(Fx,Op) */
+}
+
+.side_180_gray01_menubar_left {
+	margin: 0px;			/* 各項目周囲の余白 */
+	padding: 0px;			/* 枠線と内容の距離をゼロに */
+	border-style: none;		/* 項目の枠線 */
+	list-style-type: none;	/* 先頭記号を消す */
+	background-image: url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/ico.gif");	/* 画像(preload) */
+	background-repeat: no-repeat;
+}
+/* メニュー項目のリンクを装飾 */
+.side_180_gray01_menubar_left a.menulink {
+	color:#444;
+	padding:7px 5px 7px 26px;
+	margin:0px;
+	width:147px;
+	line-height:1.4em;
+	white-space:normal !important;
+	border:1px solid #ddd;
+	border-top:1px solid #f7f8f8;
+	text-decoration: none;	/* 下線を消す */
+	display: block;			/* ブロックレベルに */
+	background:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/ico.gif") #efefef 5px 50% no-repeat;
+}
+.side_180_gray01_menubar_left a.menulink:hover {
+	background:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/ico_on.gif") #d9dbde 5px 50% no-repeat;
+}
+
+
+.side_180_gray01_menubar_left_act dl {
+	margin: 0px;	/* dl内部の左端余白を消す(IE) */
+	padding: 0px;	/* dl内部の左端余白を消す(Fx,Op) */
+}
+
+.side_180_gray01_menubar_left_act {
+	margin: 0px;			/* 各項目周囲の余白 */
+	padding: 0px;			/* 枠線と内容の距離をゼロに */
+	border-style: none;		/* 項目の枠線 */
+	list-style-type: none;	/* 先頭記号を消す */
+	background-image: url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/ico_on.gif");/* 画像(preload) */
+	background-repeat: no-repeat;
+}
+/* メニュー項目のリンクを装飾 */
+.side_180_gray01_menubar_left_act a.menulink {
+	color:#444;
+	padding:7px 5px 7px 26px;
+	margin:0px;
+	width:147px;
+	line-height:1.4em;
+	white-space:normal !important;
+	border:1px solid #ddd;
+	border-top:1px solid #f7f8f8;
+	text-decoration: none;	/* 下線を消す */
+	display: block;			/* ブロックレベルに */
+	background:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/ico_on.gif") #d9dbde 5px 50% no-repeat;
+}
+.side_180_gray01_menubar_left_act a.menulink:hover {
+	background:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/ico_on.gif") #d9dbde 5px 50% no-repeat;
+}
+
+
+
+/* 左カテゴリーメニュー */
+.side_180_gray01_menubar_category_left dl {
+	margin: 0px;	/* dl内部の左端余白を消す(IE) */
+	padding: 0px;	/* dl内部の左端余白を消す(Fx,Op) */
+}
+
+.side_180_gray01_menubar_category_left {
+	margin: 0px;			/* 各項目周囲の余白 */
+	padding: 0px;			/* 枠線と内容の距離をゼロに */
+	border-style: none;		/* 項目の枠線 */
+	list-style-type: none;	/* 先頭記号を消す */
+	background-image: url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/bg_category.gif");	/* 画像(preload) */
+	background-repeat: no-repeat;
+}
+/* メニュー項目のリンクを装飾 */
+.side_180_gray01_menubar_category_left a.menulink {
+	padding:7px 0 5px 10px;
+	margin:0px;
+	width:170px;
+	color:#fff;
+	white-space:normal;
+	line-height:1.6em;
+	font-weight:bold;
+	text-decoration: none;	/* 下線を消す */
+	display: block;			/* ブロックレベルに */
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/bg_category.gif");
+	background-repeat : no-repeat;
+}
+.side_180_gray01_menubar_category_left a.menulink:hover {
+	color:#ddd;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/bg_category.gif");
+}
+
+
+.side_180_gray01_menubar_category_left_act dl {
+	margin: 0px;	/* dl内部の左端余白を消す(IE) */
+	padding: 0px;	/* dl内部の左端余白を消す(Fx,Op) */
+}
+
+.side_180_gray01_menubar_category_left_act {
+	margin: 0px;			/* 各項目周囲の余白 */
+	padding: 0px;			/* 枠線と内容の距離をゼロに */
+	border-style: none;		/* 項目の枠線 */
+	list-style-type: none;	/* 先頭記号を消す */
+	background-image: url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/bg_category.gif");	/* 画像(preload) */
+	background-repeat: no-repeat;
+}
+/* メニュー項目のリンクを装飾 */
+.side_180_gray01_menubar_category_left_act a.menulink {
+	padding:7px 0 5px 10px;
+	margin:0px;
+	width:170px;
+	color:#fff;
+	white-space:normal;
+	line-height:1.6em;
+	font-weight:bold;
+	text-decoration: none;	/* 下線を消す */
+	display: block;			/* ブロックレベルに */
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/bg_category.gif");
+	background-repeat : no-repeat;
+}
+.side_180_gray01_menubar_category_left_act a.menulink:hover {
+	color:#ddd;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/menu/side_180_gray01/bg_category.gif");
+}
+
+

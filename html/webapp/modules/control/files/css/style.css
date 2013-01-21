@@ -1,0 +1,66 @@
+body {background-color:#e0dcfc;}
+
+.control_header {
+	background-color: #ffffff;
+	width:100%;
+	text-align:left;
+}
+
+.control_panel_header {
+	background-color:#dee7ec;
+	border:1px solid #9999cc;
+	color:#000000;
+	text-align: center;
+	vertical-align:middle;
+}
+
+.control_panel {
+	background-color: #ffffff;
+}
+
+.control_header_left_menu {
+	text-align:left;
+	vertical-align:middle;
+	padding:0px;
+	white-space:nowrap;
+}
+
+.control_header_right_menu {
+	text-align:right; 
+	vertical-align:middle; 
+	white-space:nowrap; 
+	padding:0px 5px 0px 0px;
+}
+
+.control_header .header_btn_left {
+	vertical-align:top;
+	padding:0px 3px 0px 3px;
+}
+/*ヘッダーボタン*/
+.control_header .header_btn {
+	vertical-align:top;
+	padding:0px 3px 0px 3px;
+	border-left:1px solid #9999cc;
+}
+
+
+.control_panel {
+	height:300px;
+	overflow:auto;
+	vertical-align:top;
+}
+
+.control_system_icon {
+	padding: 20px;
+	float:left;
+	height:55px;
+	text-align:center;
+}
+
+.control_left_menu {
+	text-align:left;
+	vertical-align:middle;
+	padding:0px 0px 0px 20px;
+	white-space:nowrap;
+	font-weight:bold;
+}

@@ -1,0 +1,129 @@
+<{strip}>
+
+	<{if $item.type == $smarty.const.USER_TYPE_TEXT}>
+
+		<{* テキスト *}>
+		<input name="userinf_items[<{$item_id}>]" type="text" value="<{if isset($action.userinf_items.$item_id|smarty:nodefaults)}><{$action.userinf_items.$item_id}><{else}><{$content}><{/if}>" <{$item.attribute|smarty:nodefaults}> />
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+
+		<{* email *}>
+		<input name="userinf_items[<{$item_id}>]" type="email" value="<{if isset($action.userinf_items.$item_id|smarty:nodefaults)}><{$action.userinf_items.$item_id}><{else}><{$content}><{/if}>" <{$item.attribute|smarty:nodefaults}> />
+		<{if $item.allow_email_reception_flag == _ON}>
+			<{* メールを受け取る *}>
+			<{if isset($action.userinf_items_email_reception_flag.$item_id|smarty:nodefaults)}>
+				<{assign var="email_reception_flag" value=$action.userinf_items_email_reception_flag.$item_id}>
+			<{else}>
+				<{assign var="email_reception_flag" value=$item.email_reception_flag}>
+			<{/if}>
+			<div>
+			<label for="userinf_items_email_reception_flag_<{$item_id}>"><{$lang.userinf_reception_email|smarty:nodefaults}></label>
+			<input id="userinf_items_email_reception_flag_<{$item_id}>" name="userinf_items_email_reception_flag[<{$item_id}>]" type="checkbox" value="1" <{if $email_reception_flag == _ON}>checked="checked"<{/if}>/>
+			</div>
+		<{/if}>
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_TEXTAREA}>
+		<textarea name="userinf_items[<{$item_id}>]" <{$item.attribute|smarty:nodefaults}>>
+			<{if isset($action.userinf_items.$item_id|smarty:nodefaults)}><{$action.userinf_items.$item_id}><{else}><{$content}><{/if}>
+		</textarea>
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_FILE}>
+		<{* ファイル *}>
+		<input name="userinf_items[<{$item_id}>]" type="file" value="" <{$item.attribute|smarty:nodefaults}> />
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+		<{* チェックボックス *}>
+		<div <{$item.attribute|smarty:nodefaults}> data-role="controlgroup" >
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<{assign var="options_index" value=$smarty.foreach.selectloop.iteration-1}>
+					<input type="checkbox"
+							value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.options}>"
+							id="userinf_items_<{$item_id}>_<{$smarty.foreach.selectloop.iteration-1}>"
+							name="userinf_items[<{$item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]"
+
+							<{if isset($action.userinf_items.$item_id|smarty:nodefaults)}>
+								<{if isset($action.userinf_items.$item_id.$options_index|smarty:nodefaults)}>checked="checked" <{/if}>
+							<{else}>
+								<{if $content != '' && $option.default_selected}>checked="checked" <{/if}>
+							<{/if}>
+					/>
+					<label for="userinf_items_<{$item_id}>_<{$smarty.foreach.selectloop.iteration-1}>"><{$option.options}>&nbsp;</label>
+			<{/foreach}>
+		</div>
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_RADIO}>
+		<{* ラジオボタン *}>
+		<div <{$item.attribute|smarty:nodefaults}> data-role="controlgroup">
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<{assign var="options_index" value=$smarty.foreach.selectloop.iteration-1}>
+					<input type="radio"
+						value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.options}>"
+						id="userinf_items_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration-1}>"
+						name="userinf_items[<{$item.item_id}>]"
+						<{if isset($action.userinf_items.$item_id|smarty:nodefaults)}>
+							<{if $option.options == $action.userinf_items.$item_id}>checked="checked" <{/if}>
+						<{else}>
+							<{if $option.options == $content}>checked="checked" <{/if}>
+						<{/if}>
+					/>
+					<label for="userinf_items_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration-1}>">
+						<{$option.options}>
+					</label>
+			<{/foreach}>
+		</div>
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_SELECT}>
+		<{* セレクトリスト *}>
+		<select name="userinf_items[<{$item_id}>]" <{if ($smarty.session._smartphone_flag == _OFF)}><{$item.attribute|smarty:nodefaults}><{/if}> ><{* selectにattrをつけるとスマホで操作不可能に *}>
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<{* ログイン会員よりベース権限が管理者かそれ未満のものしか選べない *}>
+				<{assign var="role_def_options" value=$option.def_options}>
+				<{if $item.tag_name != "role_authority_name" || (isset($option.user_authority_id|smarty:nodefaults) && (($smarty.session._role_auth_id ==_ROLE_AUTH_ADMIN || $smarty.session._role_auth_id == $option.options_value) || $smarty.session._user_auth_id > $option.user_authority_id))}>
+					<option value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.options}>"
+						<{if isset($action.userinf_items.$item_id|smarty:nodefaults)}>
+							<{if $option.options == $action.userinf_items.$item_id}> selected="selected"<{/if}>
+						<{else}>
+							<{if $option.options == $content}> selected="selected"<{/if}>
+						<{/if}>
+					>
+						<{$option.options|smarty:nodefaults}>
+					</option>
+				<{/if}>
+			<{/foreach}>
+		</select>
+
+	<{elseif $item.type == $smarty.const.USER_TYPE_PASSWORD}>
+			<{if ($smarty.session._system_user_id==$action.user.user_id) || !($action.public_flag_colname == "under_public_flag")}>
+			<{* システム管理者か、自分より低い権限であれば、現在のパスワードがわからなくても変更を許す *}>
+					<{* 現在のパスワード: *}>
+					<{$smarty.const.USERINF_CURRENT_PASS}>
+					<input name="userinf_items_currentpwd[<{$item.item_id}>]" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+			<{/if}>
+			<div>
+					<{* 新しいパスワード: *}>
+					<{$smarty.const.USERINF_NEW_PASS}>
+				<input name="userinf_items[<{$item.item_id}>]" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+			</div>
+			<div>
+					<{* 新しいパスワードの確認: *}>
+					<{$smarty.const.USERINF_CONFIRM_NEW_PASS}>
+				<input name="userinf_items_confirmpwd[<{$item.item_id}>]" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+			</div>
+	<{/if}>
+	<{if $item.description}>
+		<div>
+			<span style="color:#af2c4d;font-size:small;">
+			<{$item.description}>
+			</span>
+		</div>
+	<{/if}>
+	<{if $item.allow_public_flag == _ON}>
+		<{* TODO:後に修正 *}>
+		<{* 公開するかどうか *}>
+		<{* すでに必ず非公開であるならば、設定させない *}>
+		<div>
+			<input id="userinf_items_public_flag_<{$item.item_id}>" name="userinf_items_public_flag[<{$item.item_id}>]" type="checkbox" value="1" <{if $item.public_flag == _ON}>checked="checked"<{/if}> />
+			<label for="userinf_items_public_flag_<{$item.item_id}>"><{$lang.userinf_public_flag|smarty:nodefaults}></label>
+		</div>
+	<{/if}>
+<{/strip}>

@@ -1,0 +1,68 @@
+<{strip}>
+<tr>
+	<td><table class="widthmax" summary=""><tr>
+	<{if ($main_display_position == _DISPLAY_POSITION_CENTER || $main_display_position == _DISPLAY_POSITION_LEFT) && ($leftcolumn_flag == 1 || $smarty.session._layoutmode == "on")}>
+    <{if $leftcolumn_flag}>
+    <td id="_leftcolumn" class="leftcolumn valign-top align-left" style="<{$leftcolumn_style}>">
+    	<{if $smarty.session._layoutmode == "on"}>
+	   	<div id="leftcolumn_addmodule"  class="valign-top align-left leftcolumn_on">
+	   		<{*モジュール追加ボックス*}>
+	   		<{assign var="arrange_position" value="left"}>
+	   		<{assign var="column_page_id" value=$smarty.session._leftcolumn_page_id}>
+	   		<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_LEFT}>
+	   		<{assign var="auth_id" value=$smarty.session._auth_arr.$display_position}>
+	    	<{assign var="addblock_field" value=$addblock_left_field}>
+	    	<{include file="addblock_box.html"}>
+	   	</div>
+	   	<{/if}>
+    	<{*レフトカラム表示 *}>
+    	<div id="__leftcolumn" class="main_column<{if $smarty.session._layoutmode == "on"}> leftcolumn_on<{/if}>">
+    	<{$content_left_field|smarty:nodefaults}>
+    	</div>
+    </td>
+    <{/if}>
+    <{/if}>
+    <{if $main_display_position == _DISPLAY_POSITION_CENTER}>
+    <td id="_centercolumn" class="centercolumn valign-top align-left" style="<{$centercolumn_style}>">
+    	<a class="hidelink" name="center_column"></a>
+    	<{if $layoutmode == "on" && $active_center_action == null}>
+	   	<div id="centercolumn_addmodule"  class="valign-top align-left">
+	   		<{* モジュール追加ボックス *}>
+	   		<{assign var="arrange_position" value="center"}>
+	   		<{assign var="column_page_id" value=$centercolumn_page_id}>
+	   		<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_CENTER}>
+	   		<{assign var="auth_id" value=$smarty.session._auth_arr.$display_position}>
+	    	<{assign var="addblock_field" value=$addblock_center_field}>
+	    	<{include file="addblock_box.html"}>
+	   	</div>
+	   	<{/if}>
+    	<{* センターカラム表示 *}>
+    	<div id="__centercolumn" class="main_column">
+    	<{$content_center_field|smarty:nodefaults}>
+    	</div>
+    </td>
+    <{/if}>
+    <{if ($main_display_position == _DISPLAY_POSITION_CENTER || $main_display_position == _DISPLAY_POSITION_RIGHT) && ($rightcolumn_flag == 1 || $smarty.session._layoutmode == "on")}>
+    <{if $rightcolumn_flag}>
+    <td id="_rightcolumn" class="rightcolumn valign-top align-left" style="<{$rightcolumn_style}>">
+    	<{if $smarty.session._layoutmode == "on"}>
+		<div id="rightcolumn_addmodule" class="valign-top align-left rightcolumn_on">
+	   		<{* モジュール追加ボックス *}>
+	   		<{assign var="arrange_position" value="right"}>
+	   		<{assign var="column_page_id" value=$smarty.session._rightcolumn_page_id}>
+	   		<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_RIGHT}>
+	   		<{assign var="auth_id" value=$smarty.session._auth_arr.$display_position}>
+	    	<{assign var="addblock_field" value=$addblock_right_field}>
+	    	<{include file="addblock_box.html"}>
+	   	</div>
+	   	<{/if}>
+    	<{*ライトカラム表示 *}>
+    	<div id="__rightcolumn" class="main_column<{if $smarty.session._layoutmode == "on"}> rightcolumn_on<{/if}>">
+    	<{$content_right_field|smarty:nodefaults}>
+    	</div>
+    </td>
+    <{/if}>
+    <{/if}>
+    </tr></table></td>
+</tr>
+<{/strip}>

@@ -1,0 +1,33 @@
+<{strip}>
+<{* 記事本文画面用テンプレート *}>
+
+<{assign var="post" value="`$action.post`"}>
+<{include file = "bbs_mobile_subject.html" display_type="body"}>
+
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<{include file="bbs_mobile_body_smart.html"}>
+	<{else}>
+		<{include file="bbs_mobile_body_feature.html"}>
+	<{/if}>
+
+<{if ($action.post.vote_authority) }>
+	<form method="post" data-transition="fade" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+		<input type="hidden" name="action" value="bbs_action_main_vote">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<input type="hidden" name="bbs_id" value="<{$action.post.bbs_id}>">
+		<input type="hidden" name="post_id" value="<{$action.post.post_id}>">
+		<input data-icon="star" type="submit" name="vote" value="<{$lang.bbs_vote|smarty:nodefaults}>">
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</form>
+<{/if}>
+<hr />
+<{include file = "bbs_mobile_post_list.html"}>
+
+<div style="text-align:right">
+	<a href="?action=bbs_view_main_init&amp;block_id=<{$block_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

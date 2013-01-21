@@ -1,0 +1,18 @@
+<{strip}>
+
+<p>
+<{$action.announcement_obj.content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+</p>
+<br style="clear:both;" />
+
+<{if ($action.announcement_obj.more_content != "") }>
+	<div data-role="collapsible">
+		<h3><{$action.announcement_obj.more_title}></h3>
+		<p>
+			<{$action.announcement_obj.more_content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+		</p>
+		<br style="clear:both;" />
+	</div>
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,11 @@
+<{strip}>
+
+<select id="reservation_location_select<{$id}>" name="timezone_offset">
+	<{section name=i loop=$action.timezone_list}>
+		<option value="<{$action.timezone_list[i]}>"<{if ($action.timezone_list[i] == $timezone_offset) }> selected="selected"<{/if}>>
+			<{"`$action.timezone_list[i]`"|constant}>
+		</option>
+	<{/section}>
+</select>
+
+<{/strip}>

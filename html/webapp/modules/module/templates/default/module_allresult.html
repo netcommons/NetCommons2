@@ -1,0 +1,16 @@
+<{strip}>
+<div class="outerdiv">
+<div class="module_result_str"></div>
+</div>
+<script class="nc_script" type="text/javascript">
+moduleCls["<{$id}>"].moduleAllUpdateGlobal();
+<{foreach item=module_id from=$action.upd_module_id name=moduleIds}>
+	setTimeout(
+		function() {
+			moduleCls["<{$id}>"].moduleAllUpdateDetail(<{$module_id}>);
+		},
+		<{$smarty.const._MODULE_ALLUPDATE_INTERVALTIME}>*<{$smarty.foreach.moduleIds.index}>
+	);
+<{/foreach}>
+</script>
+<{/strip}>

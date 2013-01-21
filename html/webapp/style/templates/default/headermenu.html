@@ -1,0 +1,40 @@
+<{strip}>
+<div id="_headermenu<{$id}>" class="_headermenu <{if isset($_headermenu_class|smarty:nodefaults) && $_headermenu_class != ""}><{$_headermenu_class}><{/if}>">
+<table class="comptabset_tabs comp_tabset_<{$_icon_color}>" cellspacing="0" summary="<{$smarty.const._SUMMARY_TABSET}>"><tr class="comptabset_tabs_tr">
+	<td class="comptabset_linespace"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="comptabset_linespace" /></td>
+	<{foreach from=$headermenu.menu|smarty:nodefaults key=k item=v name=menu_loop}>
+			<td>
+		<{if $smarty.foreach.menu_loop.iteration == $headermenu.active}>
+				<table class="comptabset_tabset comptabset_active" border="0">
+		<{else}>
+				<table class="comptabset_tabset" border="0" summary="">
+		<{/if}>
+					<tr>
+						<td class="comptabset_upperleft"></td>
+					    <td class="comptabset_upper"></td>
+					    <td class="comptabset_upperright"></td>
+					</tr>
+					<tr>
+						<td class="comptabset_left"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="comptabset_sidespace" /></td>
+						<td class="comptabset_content">
+							<a class="link" href="#" onclick="commonCls.tabsetActive(this);<{eval var=$v.click|smarty:nodefaults}> return false;">
+								<{assign var="langKey" value=$v.text}>
+								<{assign var="langValue" value=$lang.$langKey}>
+								<{assign var="smartyConst" value=$smarty.const.$langKey}>
+								<{if isset($langValue|smarty:nodefaults) && $langValue != ""}>
+									<{$lang.$langKey|smarty:nodefaults}>
+								<{elseif isset($smartyConst|smarty:nodefaults) && $smartyConst != ""}>
+									<{$smarty.const.$langKey|smarty:nodefaults}>
+								<{else}>
+									<{$v.text|smarty:nodefaults}>
+								<{/if}>
+							</a>
+						</td>
+					    <td class="comptabset_right"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="comptabset_sidespace" /></td>
+					</tr>
+				</table>
+			</td><td class="comptabset_linespace"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="comptabset_linespace" /></td>
+	<{/foreach}>	
+<td class="comptabset_line"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="comptabset_sidespace" /></td></tr></table>
+</div>
+<{/strip}>

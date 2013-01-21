@@ -1,0 +1,50 @@
+<{strip}>
+<{* 携帯用メタデータ表示枠 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<dl>
+<{if $data_pos_1 != null}>
+	<{assign var="position" value="1"}>
+	<{foreach item=metadata from=$data_pos_1}>
+		<{include file="multidatabase_mobile_metadata_detail.html"}>
+	<{/foreach}>
+<{/if}>
+<{if $data_pos_2 != null}>
+	<{assign var="position" value="2"}>
+	<{foreach item=metadata from=$data_pos_2}>
+		<{include file="multidatabase_mobile_metadata_detail.html"}>
+	<{/foreach}>
+<{/if}>
+<{if $data_pos_3 != null}>
+	<{assign var="position" value="3"}>
+	<{foreach item=metadata from=$data_pos_3}>
+		<{include file="multidatabase_mobile_metadata_detail.html"}>
+	<{/foreach}>
+<{/if}>
+<{if $data_pos_4 != null}>
+	<{assign var="position" value="4"}>
+	<{foreach item=metadata from=$data_pos_4}>
+		<{include file="multidatabase_mobile_metadata_detail.html"}>
+	<{/foreach}>
+<{/if}>
+</dl>
+<{if $mode == "list"}>
+	<br />
+	<{if $item.temporary_flag == $smarty.const._OFF && $item.agree_flag == $smarty.const._OFF && $action.mdb_obj.new_period_time <= $item.insert_time && $action.mdb_obj.new_period > 0}>
+		<span style="color:red;font-size:small;"><{$lang._new|smarty:nodefaults}></span>
+		<{$lang._separator|smarty:nodefaults}>
+	<{/if}>
+	<{if $item.temporary_flag != $smarty.const._OFF}>
+		<span style="color:red;font-size:small;"><{$lang._temporary_state|smarty:nodefaults}></span>
+		<{$lang._separator|smarty:nodefaults}>
+	<{elseif $item.agree_flag == $smarty.const._ON}>
+		<span style="color:red;font-size:small;"><{$lang.mdb_wait_agree|smarty:nodefaults}></span>
+		<{$lang._separator|smarty:nodefaults}>
+	<{/if}>
+	<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+		<span style="font-size:small;"><{$lang.mdb_vote_number|smarty:nodefaults}>(<{$item.vote_count}>)</span>
+		<{$lang._separator|smarty:nodefaults}>
+	<{/if}>
+	<a href="?action=multidatabase_view_main_detail&amp;content_id=<{$item.content_id}>&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>"><{$lang.mdb_detail_link|smarty:nodefaults}></a>
+
+<{/if}>
+<{/strip}>

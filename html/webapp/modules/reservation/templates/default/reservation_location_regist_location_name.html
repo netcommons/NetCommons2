@@ -1,0 +1,20 @@
+<{strip}>
+
+<th scope="row" class="nowrap">
+	<label for="location_name<{$id}>">
+		<{$lang.reservation_location_name|smarty:nodefaults}>
+	</label>
+</th>
+<td>
+	<input id="location_name<{$id}>" class="text" type="text" name="location_name" value="<{$location.location_name}>" />
+	<br />
+	<label for="use_private_flag<{$id}>">
+		<input id="use_private_flag<{$id}>" type="checkbox" name="use_private_flag" value="<{$smarty.const._ON}>"<{if ($location.use_private_flag == _ON) }> checked="checked"<{/if}> />
+		<{$lang.reservation_use_private_flag|smarty:nodefaults}>
+	</label>
+	<div class="reservation_use_private_desc">
+		<{$lang.reservation_use_private_desc|smarty:nodefaults}>
+	</div>
+</td>
+
+<{/strip}>

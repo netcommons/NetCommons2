@@ -1,0 +1,96 @@
+<{strip}>
+
+<h3>
+	<{if $action.calendar_obj.title_icon != "" && $action.html_flag == _ON}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$action.calendar_obj.title_icon}>" />
+	<{/if}>
+	<{$action.calendar_obj.title}>
+</h3>
+<h4>
+	<{if ($action.calendar_obj.start_date == $action.calendar_obj.end_date && $action.calendar_obj.timezone_offset == $smarty.session._timezone_offset) }>
+		<{$action.calendar_obj.start_date_str}>
+		<{if ($action.calendar_obj.allday_flag == _OFF) }>
+			<{$action.calendar_obj.start_time_str}>
+			<{$lang.calendar_mobile_plan_time_pause|smarty:nodefaults}>
+			<{$action.calendar_obj.end_time_str}>
+		<{/if}>
+	<{else}>
+		<{$action.calendar_obj.start_date_str}>
+		<{if ($action.calendar_obj.allday_flag == _OFF || $action.calendar_obj.timezone_offset != $smarty.session._timezone_offset) }>
+			<{$action.calendar_obj.start_time_str}>
+		<{/if}>
+		<{$lang.calendar_mobile_plan_time_pause|smarty:nodefaults}>
+		<{$action.calendar_obj.end_date_str}>
+		<{if ($action.calendar_obj.allday_flag == _OFF || $action.calendar_obj.timezone_offset != $smarty.session._timezone_offset) }>
+			<{$action.calendar_obj.end_time_str}>
+		<{/if}>
+	<{/if}>
+</h4>
+<h5>
+	<{assign var="plan_color" value=""}>
+	<{if ($action.calendar_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PUBLIC}>
+		<{assign var="plan_name" value=$action.calendar_obj.page_name|smarty:nodefaults}>
+
+	<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_MEMBERS}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_ALL_MEMBERS_LANG|smarty:nodefaults}>
+
+	<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_GROUP}>
+		<{assign var="plan_name" value=$action.calendar_obj.page_name|smarty:nodefaults}>
+
+	<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PRIVATE}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_USER_LANG|smarty:nodefaults}>
+	<{/if}>
+
+	<{$lang.calendar_mobile_plan_flag|smarty:nodefaults|sprintf:$plan_color:$lang.calendar_mobile_plan_mark:$plan_name|smarty:nodefaults}>
+</h5>
+<p>
+	<{if ($action.calendar_obj.location != "") }>
+		<{$lang.calendar_mobile_location|smarty:nodefaults}>&nbsp;
+		<{$action.calendar_obj.location}><br />
+	<{/if}>
+
+	<{if ($action.calendar_obj.contact != "") }>
+		<{$lang.calendar_mobile_contact|smarty:nodefaults}>&nbsp;
+		<{$action.calendar_obj.contact}><br />
+	<{/if}>
+
+	<{if ($action.calendar_obj.rrule != "") }>
+		<{$lang.calendar_mobile_rrule|smarty:nodefaults}>&nbsp;
+		<{$action.calendar_obj.rrule_str|smarty:nodefaults}><br />
+	<{/if}>
+</p>
+<p>
+	<{if ($action.calendar_obj.description != "") }>
+		<{$action.calendar_obj.description|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+	<{/if}>
+</p>
+<br style="clear:both;" />
+
+<h5 style="text-align:right;">
+	<{$lang.calendar_mobile_insert_user_name|smarty:nodefaults}>
+	<{$action.calendar_obj.insert_user_name}>
+	&nbsp;
+	<{$action.calendar_obj.update_time|timezone_date_format:$lang.calendar_mobile_update_time|smarty:nodefaults}>
+</h5>
+<{if ($action.calendar_obj.hasModify == _ON) }>
+<div style="text-align:center">
+	<a data-role="button" data-inline="true" data-icon="check" href="?action=calendar_view_main_plan_modify&amp;cal_id=<{$action.calendar_obj.calendar_id}>&amp;rrule=<{$smarty.const.CALENDAR_PLAN_EDIT_THIS}><{$session_param}>">
+		<{$lang._edit|smarty:nodefaults}>
+	</a>
+	<a data-role="button" data-transition="pop" data-inline="true" data-icon="delete" href="?action=calendar_view_mobile_confirm_delete&amp;cal_id=<{$action.calendar_obj.calendar_id}>&amp;rrule=<{$smarty.const.CALENDAR_PLAN_EDIT_THIS}><{$session_param}>">
+		<{$lang._delete|smarty:nodefaults}>
+	</a>
+</div>
+<{/if}>
+
+<div style="text-align:right">
+	<a href="?action=calendar_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

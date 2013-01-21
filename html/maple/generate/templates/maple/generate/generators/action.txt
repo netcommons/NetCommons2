@@ -1,0 +1,12 @@
+Usage: nc [options] action <action_name> [template_type]
+
+Examples:
+
+"action foo_view_main" generates:
+ - MODULE_DIR/foo/view/main/Main.class.php (an Action class)
+ - MODULE_DIR/foo/view/main/maple.ini (a configuration file)
+ 
+"action foo_view_main simple" generates:
+ - MODULE_DIR/foo/view/main/Main.class.php (an Action class)
+
+Type "nc help" to list the general options.

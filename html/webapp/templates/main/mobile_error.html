@@ -1,0 +1,26 @@
+<{strip}>
+
+<span style="color:red">
+	<{errorList->getMessagesString}>
+</span>
+
+<{if ($error_location != "") }>
+	<br />
+	<div style="text-align:right">
+		<a href="<{$error_location}>">
+			<{$lang._btn_prev_arrow|smarty:nodefaults}>
+		</a>
+	</div>
+<{/if}>
+
+<{if ($smarty.session._smartphone_flag == _ON) }>
+<a data-rel="back"
+   data-role="button"
+   data-icon="back"
+   data-inline="true"
+   style="float:right;">
+	<{$lang._btn_prev_arrow_simple|smarty:nodefaults}>
+</a>
+<{/if}>
+
+<{/strip}>

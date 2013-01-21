@@ -1,0 +1,36 @@
+<{strip}>
+<{* リンクリストヘッダ部用テンプレート *}>
+<div class="linklist_head">
+	<{if $action.entry != _ON && $action.linkExists}>
+		<a class="syslink linklist_head" href="#" title="<{$lang.linklist_serarch_title|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].showPopup('linklist_view_main_search', this);return false;">
+			<{$lang.linklist_search|smarty:nodefaults}>
+		</a>
+	<{/if}>
+
+	<{if $action.linklist.link_authority}>
+		<a class="syslink linklist_head" href="#" title="<{$lang.linklist_add_link_title|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].showPopup('linklist_view_main_link', this);return false;">
+			<img class="icon" src="<{"add_file.gif"|get_themes_image}>" alt="" title=""/>
+			<{$lang.linklist_add_link|smarty:nodefaults}>
+		</a>
+	<{/if}>
+
+	<{if $action.entry == _ON && $action.linklist.category_authority}>
+		<a class="syslink linklist_head" href="#" title="<{$lang.linklist_add_category_title|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].showPopup('linklist_view_main_category', this);return false;">
+			<img class="icon" src="<{"add_folder.gif"|get_themes_image}>" alt="" title=""/>
+			<{$lang.linklist_add_category|smarty:nodefaults}>
+		</a>
+	<{/if}>
+
+	<{if $action.linklist.link_authority || $action.linklist.category_authority}>
+		<{if $action.entry != _ON}>
+			<a class="syslink linklist_head" href="#" title="<{$lang.linklist_edit_mode_title|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'linklist_view_main_init','entry':<{$smarty.const._ON}>});return false;">
+				<{$lang.linklist_edit_mode|smarty:nodefaults}>
+			</a>
+		<{else}>
+			<a class="syslink linklist_head" href="#" title="<{$lang.linklist_edit_mode_end_title|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'linklist_view_main_init','entry':<{$smarty.const._OFF}>});return false;">
+				<{$lang.linklist_edit_mode_end|smarty:nodefaults}>
+			</a>
+		<{/if}>
+	<{/if}>
+</div>
+<{/strip}>

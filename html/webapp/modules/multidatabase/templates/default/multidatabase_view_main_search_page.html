@@ -1,0 +1,24 @@
+<{strip}>
+<table class="widthmax" summary="">
+	<tr>
+		<td class="mdb_search_result_prev<{if !$action.prev_link}> disable_lbl<{/if}>">
+			<{if !$action.prev_link}>
+				<{$lang.mdb_search_prev|smarty:nodefaults}>
+			<{else}>
+				<a href="#" title="<{$lang.mdb_search_prev_title}>" class="syslink hover_highlight" onclick="mdbCls['<{$id}>'].toSearchPage(this, '<{$action.now_page-1}>'); return false;">
+					<{$lang.mdb_search_prev|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</td>
+		<td class="mdb_search_result_next<{if !$action.next_link}> disable_lbl<{/if}>">
+			<{if !$action.next_link}>
+				<{$lang.mdb_search_next|smarty:nodefaults}>
+			<{else}>
+				<a href="#" title="<{$lang.mdb_search_next_title}>" class="syslink hover_highlight" onclick="mdbCls['<{$id}>'].toSearchPage(this, '<{$action.now_page+1}>'); return false;">
+					<{$lang.mdb_search_next|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</td>
+	</tr>
+</table>
+<{/strip}>

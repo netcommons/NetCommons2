@@ -1,0 +1,8 @@
+<script class="nc_script" type="text/javascript">
+if(!securityCls['<{$id}>']) {
+	securityCls['<{$id}>'] = new clsSecurity("<{$id}>");
+}
+<{if $action_name == "security_view_main_security"}>
+	securityCls['<{$id}>'].securityInit();
+<{/if}>
+</script>

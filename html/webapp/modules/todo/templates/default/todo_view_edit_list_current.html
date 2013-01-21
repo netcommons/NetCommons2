@@ -1,0 +1,6 @@
+<{strip}>
+<{* Todo一覧（カレント）用テンプレート *}>
+<label for="todo_current<{$todo.todo_id}><{$id}>">
+	<input id="todo_current<{$todo.todo_id}><{$id}>" type="radio" name="current" onclick="todoCls['<{$id}>'].changeCurrent(<{$todo.todo_id}>);" />
+</label>
+<{/strip}>

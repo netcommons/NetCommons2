@@ -1,0 +1,82 @@
+<{strip}>
+<{* 解答欄表示用テンプレート *}>
+
+<{if $question.question_type == QUIZ_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<div data-role="controlgroup">
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>">
+			<input type="radio" id="answer_value_<{$question.question_id}>_<{$smarty.foreach.choice.iteration}>" name="answer_value[<{$question.question_id}>]" value="<{$choice.choice_id}>">
+			<label for="answer_value_<{$question.question_id}>_<{$smarty.foreach.choice.iteration}>""><{$choice.choice_value|nl2br}><br /></label>
+		<{/foreach}>
+	</div>
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $choice.correct == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $answer.answer_value[$choice.choice_id] == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<div data-role="controlgroup">
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>">
+			<input type="checkbox" id="answer_value_<{$question.question_id}>_<{$choice.choice_id}>" name="answer_value[<{$question.question_id}>][<{$choice.choice_id}>]" value="<{$choice.choice_id}>">
+			<label for="answer_value_<{$question.question_id}>_<{$choice.choice_id}>"><{$choice.choice_value|nl2br}><br /></label>
+		<{/foreach}>
+	</div>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $choice.correct == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if !empty($answer|smarty:nodefaults) && !empty($answer.answer_value|smarty:nodefaults) && $answer.answer_value[$choice.choice_id] == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_WORD_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<input type="text" name="answer_value[<{$question.question_id}>]" value="" />
+	<br />
+
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_WORD_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<ul>
+		<{foreach from=$question.choice_words item=choice name="choice"}>
+			<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+		<{/foreach}>
+	</ul>
+<{elseif $question.question_type == QUIZ_QUESTION_TYPE_WORD_VALUE && $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<div style="font-size:small"><{$answer.answer_value|smarty:nodefaults|nl2br}></div>
+
+<{elseif $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_NORMAL}>
+	<textarea name="answer_value[<{$question.question_id}>]" cols="20" rows="5"></textarea>
+	<br />
+
+<{elseif $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+	<{$answer.answer_value|smarty:nodefaults|nl2br}>
+
+<{elseif $choiceDisplay == $smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+	<{$answer.answer_value|smarty:nodefaults|nl2br}>
+
+<{/if}>
+
+<{/strip}>

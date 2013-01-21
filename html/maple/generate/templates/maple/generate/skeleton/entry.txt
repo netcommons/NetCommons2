@@ -1,0 +1,31 @@
+<?php print "<?php\n"; ?>
+error_reporting(E_ALL);
+//error_reporting(0);
+
+/**
+ * MapleのBaseディレクトリの設定
+ */
+define('BASE_DIR', dirname(dirname(__FILE__)));
+
+/**
+ * Debugフィルターを発動させるかどうかの設定
+ */
+define('DEBUG_MODE', 0);
+
+/**
+ * Mapleの設定ファイルの読込み
+ */
+require_once BASE_DIR . "/<?php echo $skeleton->webapp; ?>/config/maple.inc.php";
+
+/**
+ * このアプリの独自設定
+ */
+define('DEFAULT_ACTION', '<?php print $skeleton->defaultAction; ?>');
+define('LOG_LEVEL',      LEVEL_TRACE);
+
+/**
+ * フレームワーク起動
+ */
+$controller =& new Controller();
+$controller->execute();
+<?php print "?>\n"; ?>

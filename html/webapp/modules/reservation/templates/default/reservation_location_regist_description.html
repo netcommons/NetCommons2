@@ -1,0 +1,9 @@
+<{strip}>
+
+<td colspan="2" class="nowrap row">
+	<textarea id="description<{$id}>" class="comptextarea">
+		<{$location.description|smarty:nodefaults|wysiwig_convert_url|escape:"html"}>
+	</textarea>
+</td>
+
+<{/strip}>

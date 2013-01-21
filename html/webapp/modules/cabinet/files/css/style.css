@@ -1,0 +1,120 @@
+/* Cabinet List */
+.cabinet_total_size {
+	width:80px;
+}
+td.cabinet_total_size {
+	text-align:right;
+}
+.cabinet_upload_max_size {
+	font-size:80%;
+}
+
+/* Address Bar */
+td.cabinet_address input {
+	width:100%;
+}
+td.cabinet_address {
+	width:100%;
+	padding-right:6px;
+}
+
+/* Standard Button */
+.cabinet_add_folder,.cabinet_add_file,.cabinet_compression,.cabinet_decompression,.cabinet_trash_box {
+	white-space:nowrap;
+	padding:3px 1px;
+}
+.cabinet_add_folder,.cabinet_add_file,.cabinet_compression,.cabinet_decompression {
+	margin:5px 15px 5px 0px;
+}
+.cabinet_trash_box {
+	margin:5px 0px 5px 0px;
+}
+img.cabinet_standardbtn {
+	vertical-align:bottom;
+	margin-right: 3px;
+}
+
+/* Explorer Header */
+table.cabinet_explorer_header th {
+	padding : 2px;
+	background-color : #f0f4f7;
+	font-weight:normal;
+	text-align:left;
+}
+
+/* Explorer Folder Tree */
+table.cabinet_explore_left {
+	width:200px;
+}
+.cabinet_explore_folder_tree{
+	height:230px;
+	width:200px;
+	overflow:scroll;
+}
+img.cabinet_branch {
+	vertical-align:bottom;
+}
+
+
+/* Explorer Grid */
+.cabinet_file_name {
+	width:190px;
+}
+.cabinet_file_size {
+	width:60px;
+}
+.cabinet_file_comment {
+	width:250px;
+}
+.cabinet_file_ins_user,.cabinet_file_upd_user {
+	width:90px;
+}
+.cabinet_file_ins_date,.cabinet_file_upd_date {
+	width:90px;
+}
+.cabinet_count {
+	width:40px;
+}
+.cabinet_context {
+	width:18px;
+}
+td.cabinet_grid_row {}
+
+.cabinet_grid_table {width:666px;}
+
+.cabinet_draggable {
+	cursor:move;
+	margin-right:1px;
+}
+img.cabinet_sort_img {
+	padding-left:8px;
+}
+
+/* Property */
+.cabinet_property_title {
+	padding:2px 10px;
+	vertical-align:top;
+}
+.cabinet_property_hr {
+	padding:2px 5px;
+}
+.cabinet_property_value,.cabinet_property_nonover {
+	padding:2px 10px 2px 5px;
+	vertical-align:top;
+}
+.cabinet_property_title {
+	white-space:nowrap;
+}
+.cabinet_property_value div{
+	overflow:hidden;
+	width: 220px;
+}
+.cabinet_property_nonover div{
+	width: 220px;
+	white-space:normal;
+}
+
+img.cabinet_move_bar {
+	margin-right:1px;
+	width: 6px;
+}

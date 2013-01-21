@@ -1,0 +1,31 @@
+<{* 回答一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.summaries item=summary}>
+		<row>
+			<{if $action.chiefItemShow}>
+				<answer_user>
+					<![CDATA[
+						<{include file = "questionnaire_view_handle.html" handle=$summary.insert_user_name|smarty:nodefaults user_id=$summary.insert_user_id}>
+					]]>
+				</answer_user>
+			<{/if}>
+			
+			<answer_number>
+				<{include file="questionnaire_view_number.html" questionnaireNumber=$lang.questionnaire_number|sprintf:$summary.answer_number}>
+			</answer_number>
+			
+			<answer_time>
+				<{$summary.answer_time|timezone_date_format:$lang._full_date_format}>
+			</answer_time>
+			
+			<manage>
+				<![CDATA[
+					<{include file = "questionnaire_view_answer_link.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

@@ -1,0 +1,36 @@
+<{strip}>
+<{* 回答一覧画面用テンプレート *}>
+<{include file="questionnaire_mobile_head.html"}>
+
+	<{foreach from=$action.summaries item=summary}>
+		<p>
+		<{if $action.chiefItemShow}>
+			<{if $action.questionnaire.anonymity_flag == _ON}>
+				<span style="color:red">
+					<{$lang.questionnaire_anonymity_name}>
+				</span>
+			<{else}>
+				<{$summary.insert_user_name}>
+			<{/if}>
+			&nbsp;
+		<{/if}>
+
+		<{include file="questionnaire_view_number.html" questionnaireNumber=$lang.questionnaire_number|sprintf:$summary.answer_number}>
+		<{if $action.questionnaire.anonymity_flag == _OFF}>
+			&nbsp;
+		<{/if}>
+
+		<{$summary.answer_time|timezone_date_format:$lang._mobile_date_format}>
+		<br />
+
+		<a data-role="button" href="?action=questionnaire_view_main_answer&amp;prefix_id_name=questionnaire_answer<{$summary.summary_id}>&amp;block_id=<{$block_id}>&amp;questionnaire_id=<{$action.questionnaire.questionnaire_id}>&amp;summary_id=<{$summary.summary_id}><{$session_param}>">
+			<{$lang.questionnaire_answer_result}>
+		</a>
+		<br />
+		</p>
+	<{/foreach}>
+
+
+<{include file = "questionnaire_mobile_goto_main.html"}>
+
+<{/strip}>

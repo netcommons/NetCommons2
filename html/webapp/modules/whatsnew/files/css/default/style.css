@@ -1,0 +1,50 @@
+.whatsnew_results {
+	padding:20px 0px 5px 0px;
+}
+.whatsnew_title {
+	padding:2px 10px 3px 5px;
+	white-space:nowrap;
+}
+tr.whatsnew_unread td a{
+	color:#04419a !important;
+}
+tr.whatsnew_read td a{
+	color:#551a8b;
+}
+
+.whatsnew_description {
+	padding:5px 2px 18px 18px;
+}
+.whatsnew_user_name {
+	font-size:85%;
+	text-align:right;
+	white-space:nowrap;
+	padding:2px 5px 3px 5px;
+	white-space:nowrap;
+}
+.whatsnew_module {
+	font-size:85%;
+	padding:2px 5px 3px 5px;
+	white-space:nowrap;
+}
+.whatsnew_room {
+	font-size:85%;
+	padding:2px 5px 3px 5px;
+	white-space:nowrap;
+}
+.whatsnew_room div{
+	overflow:hidden;
+	width:120px;
+}
+.whatsnew_time {
+	font-size:80%;
+	text-align:right;
+	padding:2px 5px 3px 5px;
+	white-space:nowrap;
+	color: #008000;
+}
+
+.whatsnew_selectlist {
+	width:230px;
+	height:250px;
+}

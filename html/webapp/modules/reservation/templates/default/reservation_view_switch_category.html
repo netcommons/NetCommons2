@@ -1,0 +1,47 @@
+<{strip}>
+
+<{if ($action.location_count > 0) }>
+	<select id="reservation_location_select<{$id}>" class="reservation_style_select" name="location_id"<{if $action_name == "reservation_view_main_reserve_switch_category" || $action_name == "reservation_view_main_reserve_add" || $action_name == "reservation_view_main_reserve_modify" || $action_name == "reservation_view_edit_import_init"}> onchange='reservationCls["<{$id}>"].switchReserveLocation(this.form);'<{/if}>>
+		<{foreach name="location" key="location_id" item="location" from=$action.location_list}>
+			<option value="<{$location.location_id}>"<{if ($action.location_id == $location.location_id) }> selected="selected"<{/if}>>
+				<{$location.location_name}>
+			</option>
+			<{if ($action.location_id == $location.location_id) }>
+				<{assign var="location_name_string" value=$location.location_name}>
+			<{/if}>
+		<{/foreach}>
+	</select>
+	<{if $action_name == "reservation_view_main_reserve_switch_category" || $action_name == "reservation_view_main_reserve_add" || $action_name == "reservation_view_main_reserve_modify" || $action_name == "reservation_view_edit_import_init"}>
+		<a href="#" class="syslink" title="<{$lang.reservation_show_details|smarty:nodefaults|sprintf:"`$location_name_string`"|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].showLocation(event,$("reservation_location_select<{$id}>").value); return false;'>
+			<{$lang._details|smarty:nodefaults}>
+		</a>
+		<div id="reservation_location_timetables<{$id}>">
+			<{foreach name="location" key="location_id" item="location" from=$action.location_list}>
+				<div id="reservation_location_id<{$location.location_id}><{$id}>"<{if ($action.location_id != $location.location_id) }> class="display-none"<{/if}>>
+					<span>
+						<{$lang.reservation_time_table|smarty:nodefaults}>
+					</span>
+					&nbsp;
+					&nbsp;
+					<{$location.time_table_str}>
+					&nbsp;
+					<{assign var="start_time" value=$location.start_time_str}>
+					<{assign var="end_time" value=$location.end_time_str}>
+					<{$lang.reservation_time_range|smarty:nodefaults|sprintf:$start_time:$end_time}>
+					<{if ($smarty.session._timezone_offset != $location.timezone_offset) }>
+						<div class="reservation_timezone">
+							<{$location.timezone_string}>
+						</div>
+					<{/if}>
+				</div>
+			<{/foreach}>
+		</div>
+	<{/if}>
+<{else}>
+	<span id="reservation_location_select<{$id}>" class="errorstr">
+		<{$lang.reservation_select_nolocation|smarty:nodefaults}>
+	</span>
+	<input type="hidden" name="location_id" value="0" />
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,74 @@
+<{strip}>
+<{* メニューの最初の一つを判定。隠しページもあることを考慮 *}>
+<{assign var="first_view_flag" value=true}>
+<{* loopにname属性を追加 *}>
+<{foreach from=$menus item="menu" name="menugen"}>
+	<{* ノードかどうかでクラス変更 *}>
+	<{assign var="now_page_id" value=$menu.page_id}>
+	<{assign var="next_thread_num" value=$menu.thread_num+1}>
+	<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+		<{assign var="thread_num" value=$menu.thread_num-1}>
+		<{if $thread_num <= 0}>
+			<{assign var="display_flag" value=$smarty.const._ON}>
+		<{/if}>
+	<{else}>
+		<{assign var="thread_num" value=$menu.thread_num}>
+	<{/if}>
+	<{if $menu.thread_num != 0 ||
+		($menu.space_type != _SPACE_TYPE_PUBLIC && !($menu.space_type == _SPACE_TYPE_GROUP && $menu.default_entry_flag == _ON) && !($menu.space_type == _SPACE_TYPE_GROUP && $menu.private_flag == _OFF && $menu.thread_num == 0 && !isset($action.menus.$next_thread_num.$now_page_id|smarty:nodefaults)))}>
+		<{assign var="display_flag" value=$action.main_active_node_arr.$now_page_id}>
+		<{*アクティブかどうか*}>
+		<{if $action.main_page_id == $menu.page_id}>
+
+			<{*左端のボタンのみ、menu_headerflat_btn_lを充てる*}>
+			<{if $first_view_flag}>
+				<{assign var="class_name" value="nowrap $left_roundbtn_hover _menu_active"}>
+			<{else}>
+				<{assign var="class_name" value="nowrap $right_roundbtn_hover _menu_active"}>
+			<{/if}>
+
+		<{else}>
+			<{assign var="class_name" value="nowrap"}>
+		<{/if}>
+		<{* スペースタイプでクラス変更 *}>
+		<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+			<{assign var="top_class_name" value=""}>
+			<{assign var="space_type_class_name" value=""}>
+		<{elseif $menu.space_type == _SPACE_TYPE_GROUP}>
+			<{assign var="top_class_name" value=""}>
+			<{assign var="space_type_class_name" value=""}>
+		<{/if}>
+		<{*プライベートかいなか*}>
+		<{if $menu.private_flag}>
+			<{assign var="top_class_name" value=""}>
+			<{assign var="space_type_class_name" value=""}>
+		<{/if}>
+		<{*ノードで下にページ(ノード)がない場合、表示しない*}>
+		<{if $menu.action_name != "" && $menu.page_name != "" && $menu.visibility_flag == _ON && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+			<li>
+			<{*左端のボタンのみ、menu_headerflat_btn_lを充てる*}>
+			<{assign var="menu_headerflat_btn_l" value="$left_roundbtn"}>
+			<{assign var="menu_headerflat_btn_r" value="$right_roundbtn"}>
+			<{if $first_view_flag}>
+				<a class="<{$menu_headerflat_btn_l}> link menulink
+			<{else}>
+				<a class="<{$menu_headerflat_btn_r}> link menulink
+			<{/if}>
+			<{if $thread_num == 0}> <{$top_class_name}><{else}> <{$space_type_class_name}><{/if}> _menutop_<{$menu.page_id}> <{$class_name}> hover_highlight" href="<{include file="../menu_view_main_link_href.html"}>">
+			 	<{$menu.page_name}>
+			 	<{* メニューを表示したら、最初の表示フラグを更新 *}>
+			 	 <{assign var="first_view_flag" value=false}>
+				<{* 準備中 *}>
+				<{if $menu.page_id == $menu.room_id && $menu.display_flag == _OFF}><span class="menu_prepared"><{$lang.menu_prepared|smarty:nodefaults}></span><{/if}>
+			</a>
+			</li>
+		<{/if}>
+	<{/if}>
+	<{if $action.menus.$next_thread_num.$now_page_id && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+		<{*<div id="_menu_<{$menu.page_id}><{$id}>" class="_menu_<{$menu.page_id}><{$id}><{if $display_flag == _OFF}> display-none<{else}><{/if}>">*}>
+		<{assign var="menus" value=$action.menus.$next_thread_num.$now_page_id}>
+		<{include file="menu_view_main_list.html"}>
+		<{*</div>*}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

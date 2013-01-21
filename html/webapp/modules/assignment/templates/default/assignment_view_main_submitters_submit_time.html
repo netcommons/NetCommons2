@@ -1,0 +1,9 @@
+<{strip}>
+
+<{if ($submitter.update_time == "") }>
+	<{$lang.assignment_no_value|smarty:nodefaults}>
+<{else}>
+	<{$submitter.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,48 @@
+<{strip}>
+<div class="outerdiv">
+	<{if $action.show_private_flag == _OFF}>
+	<div class="room_header_btn_list">
+		<{include file="room_view_admin_language.html"}>
+		<div>
+		<{if ($action.show_space_type == _SPACE_TYPE_GROUP && $action.authority.group_createroom_flag == _ON) || ($action.show_space_type == _SPACE_TYPE_PUBLIC && $action.authority.public_createroom_flag == _ON)}>
+			<{* ルーム作成 *}>
+			<a id="room_create<{$id}>" class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_regist_init','parent_page_id':<{$action.show_page_id}>}); return false;">
+				<img src="<{"add.gif"|get_themes_image}>" alt="" title="<{$lang.room_regist}>" />
+				&nbsp;
+				<{$lang.room_regist}>
+			</a>
+		<{/if}>
+		<{* サブグループ作成 *}>
+		<{if $action.subgroup_count > 0}>
+			<{if ($action.show_space_type == _SPACE_TYPE_GROUP && $action.authority.group_createroom_flag == _ON) || ($action.show_space_type == _SPACE_TYPE_PUBLIC && $action.authority.public_createroom_flag == _ON)}>
+				<{$lang._separator|smarty:nodefaults}>
+			<{/if}>
+			<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_regist_init','parent_page_id':<{$action.show_page_id}>,'subgroup_flag':1}); return false;">
+				<{$lang.room_group_regist}>
+			</a>
+		<{/if}>
+		</div>
+		<br class="float-clear" />
+	</div>
+	<{/if}>
+	<{*ヘッダー表示部分*}>
+	<table class="grid_header" summary="">
+		<tr>
+			<th class="room_page_name" scope="col"><{$lang.room_room_name}></th>
+			<th class="room_display_flag" scope="col"><{$lang.room_display_flag}></th>
+			<th class="room_admin" scope="col"><{$lang.room_admin}></th>
+		</tr>
+	</table>
+	<{*メイン表示部分-Grid*}>
+	<table class="userinf_room_grid grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+		<{assign var="room_list" value=$action.pages.0.0}>
+		<{include file="room_view_admin_roomlist.html"}>
+	</table>
+
+	<{* 各種ボタン *}>
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang.room_back_list}>" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_init'}); return false;" />
+	</div>
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

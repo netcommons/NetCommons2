@@ -1,0 +1,47 @@
+<{strip}>
+
+<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+
+	<fieldset data-role="fieldcontain">
+		<label for="year"><{$lang._mobile_year_label|smarty:nodefaults}></label>
+		<input type="text" id="year" name="year" value="<{$smarty.session.calendar_mobile.current_date|substr:0:4}>" maxlength=4  />
+	</fieldset>
+
+	<{if ($smarty.session.calendar_mobile.display_type != CALENDAR_YEARLY) }>
+		<fieldset data-role="fieldcontain">
+			<label for="month"><{$lang._mobile_month_label|smarty:nodefaults}></label>
+			<{assign var="current_month" value="`$smarty.session.calendar_mobile.current_date`"|substr:4:2}>
+			<select id="month" name="month">
+				<{section name=month start=1 loop=13}>
+					<option value="<{$smarty.section.month.index}>" <{if $current_month==$smarty.section.month.index}>selected="selected"<{/if}>><{$smarty.section.month.index}></option>
+				<{/section}>
+			</select>
+		</fieldset>
+	<{/if}>
+
+	<{if ($smarty.session.calendar_mobile.display_type != CALENDAR_YEARLY && $smarty.session.calendar_mobile.display_type != CALENDAR_S_MONTHLY && $smarty.session.calendar_mobile.display_type != CALENDAR_L_MONTHLY) }>
+		<fieldset data-role="fieldcontain">
+			<label for="day"><{$lang._mobile_day_label|smarty:nodefaults}></label>
+			<{assign var="current_day" value="`$smarty.session.calendar_mobile.current_date`"|substr:6:2}>
+			<select id="day" name="day">
+				<{section name=day start=1 loop=32}>
+					<option value="<{$smarty.section.day.index}>" <{if $current_day==$smarty.section.day.index}>selected="selected"<{/if}>><{$smarty.section.day.index}></option>
+				<{/section}>
+			</select>
+		</fieldset>
+	<{/if}>
+	<br />
+	<input type="submit" name="move" value="<{$lang.calendar_move|smarty:nodefaults}>">
+	<input type="hidden" name="action" value="calendar_action_mobile_movedate">
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+</form>
+
+<br />
+<div style="text-align:right">
+	<a href="?action=calendar_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

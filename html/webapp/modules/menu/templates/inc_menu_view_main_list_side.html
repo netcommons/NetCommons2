@@ -1,0 +1,118 @@
+<{strip}>
+
+<{*
+	sidepanel シリーズテンプレートの本体
+	各テンプレートでは使用するスタイルシート変数名を定義し、この本体で使用する
+*}>
+
+<{foreach from=$menus item=menu}>
+	<{* ノードかどうかでクラス変更 *}>
+	<{assign var="now_page_id" value=$menu.page_id}>
+	<{assign var="next_thread_num" value=$menu.thread_num+1}>
+	<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+		<{assign var="thread_num" value=$menu.thread_num-1}>
+		<{if $thread_num <= 0}>
+			<{assign var="display_flag" value=$smarty.const._ON}>
+		<{/if}>
+	<{else}>
+		<{assign var="thread_num" value=$menu.thread_num}>
+	<{/if}>
+	<{if ($menu.thread_num != 0 && !($menu.space_type == _SPACE_TYPE_PUBLIC && $menu.thread_num == 1 && $menu.display_sequence == 1)) || 
+		($menu.space_type != _SPACE_TYPE_PUBLIC && !($menu.space_type == _SPACE_TYPE_GROUP && $menu.default_entry_flag == _ON) && !($menu.space_type == _SPACE_TYPE_GROUP && $menu.private_flag == _OFF && $menu.thread_num == 0 && !isset($action.menus.$next_thread_num.$now_page_id|smarty:nodefaults)))}>
+		<{assign var="display_flag" value=$action.main_active_node_arr.$now_page_id}>		
+		<{*アクティブかどうか*}>
+		<{if $action.main_page_id == $menu.page_id}>
+
+<{* hover の内容変更 *}>
+<{*			<{assign var="class_name" value="nowrap highlight _menu_active"}>	*}>
+			<{assign var="class_name" value="nowrap"}>
+
+		<{else}>
+			<{assign var="class_name" value="nowrap"}>
+		<{/if}>
+		<{* スペースタイプでクラス変更 *}>
+		<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+			<{assign var="top_class_name" value="$menu_top_public"}>
+			<{assign var="space_type_class_name" value="$menu_public"}>
+		<{elseif $menu.space_type == _SPACE_TYPE_GROUP}>
+			<{assign var="top_class_name" value="$menu_top_group"}>
+			<{assign var="space_type_class_name" value="$menu_group"}>
+		<{/if}>
+		<{*プライベートかいなか*}>
+		<{if $menu.private_flag}>
+			<{assign var="top_class_name" value="$menu_top_private"}>
+			<{assign var="space_type_class_name" value="$menu_private"}>
+		<{/if}>
+		<{*マージン*}>
+		<{if $thread_num == 0}>
+			<{assign var="now_margin" value=$thread_num*$conf.menu_top_left_margin}>
+		<{else}>
+			<{assign var="now_margin" value=$thread_num*$conf.menu_left_margin}>
+		<{/if}>
+		<{*ノードで下にページ(ノード)がない場合、表示しない*}>
+		<{*if $menu.page_name != "" && ($menu.action_name!="" || $action.menus.$next_thread_num.$now_page_id)*}>
+		<{if $menu.page_name != "" &&  $menu.visibility_flag == _ON && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+
+<{* 展開中の詳細ページか、カテゴリで表示on の場合に表示。ただし、セッティングモードの場合は全て表示する。パブリックエリア以外も表示する *}>
+<{*if $menu.node_flag == 0 || $display_flag != _OFF || $layoutmode == "on" || $menu.space_type != _SPACE_TYPE_PUBLIC*}>
+
+<{*
+    表示条件(以下の OR 条件)
+    展開中で第2階層以下のページ
+    display_flag が on のもの(カレント)
+    パブリックエリア以外
+*}>
+<{if ( $menu.thread_num > 1 ) || ( $display_flag != _OFF ) || ( $menu.space_type != _SPACE_TYPE_PUBLIC ) }>
+
+
+<{* アクティブページとそうでない場合の表示を切り替える。 *}>
+		<{* カテゴリ or パブリック内ルーム *}>
+		<{if $menu.node_flag == _ON || $menu.parent_id == 1}>
+			<{if $action.main_page_id == $menu.page_id}>
+				<{assign var="menubar_left_class" value="$menubar_category_left_act"}>
+			<{else}>
+				<{assign var="menubar_left_class" value="$menubar_category_left"}>
+			<{/if}>
+		<{* ページ *}>
+		<{else}>
+			<{if $action.main_page_id == $menu.page_id}>
+				<{assign var="menubar_left_class" value="$menubar_left_act"}>
+			<{else}>
+				<{assign var="menubar_left_class" value="$menubar_left"}>
+			<{/if}>
+		<{/if}>
+
+			<div class="<{$menubar_left_class}>"><dl><dt>
+
+			<{if $menu.node_flag == 1 && $menu.action_name==""}>
+				<{assign var="onclick" value=" onclick=\"menuCls['`$id`'].menuNodeClick(event,'`$menu.page_id`');return false;\""}>
+			<{else}>
+				<{assign var="onclick" value=""}>
+			<{/if}>
+			
+			<a class="link menulink <{if $thread_num == 0}><{$top_class_name}><{else}><{$space_type_class_name}><{/if}> _menutop_<{$menu.page_id}> <{$class_name}>" href="<{include file="../menu_view_main_link_href.html"}>"<{$onclick|smarty:nodefaults}>>
+
+			 	<{* アイコン *}>
+<{* アイコンは表示しない *}>
+<{*
+			 	<{if $menu.node_flag == _ON}>
+			 		<img class="icon" src="<{if $display_flag == _OFF}><{"right_arrow.gif"|get_themes_image}><{else}><{"down_arrow.gif"|get_themes_image}><{/if}>" alt="" />
+			 	<{else}>
+			 		<img class="icon" src="<{"dot.gif"|get_themes_image}>" alt="" />
+			 	<{/if}>
+*}>
+				<{$menu.page_name}>
+				<{* 準備中 *}>
+				<{if $menu.page_id == $menu.room_id && $menu.display_flag == _OFF}><span class="menu_prepared"><{$lang.menu_prepared|smarty:nodefaults}></span><{/if}>
+			</a></dt></dl></div>
+		<{/if}>
+<{/if}>
+	<{/if}>
+	<{if $action.menus.$next_thread_num.$now_page_id && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+		<div id="_menu_<{$menu.page_id}><{$id}>" class="_menu_<{$menu.page_id}><{$id}><{if $display_flag == _OFF}> display-none<{else}><{/if}>">
+		<{assign var="menus" value=$action.menus.$next_thread_num.$now_page_id}>
+		<{include file="menu_view_main_list.html"}>
+		</div>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

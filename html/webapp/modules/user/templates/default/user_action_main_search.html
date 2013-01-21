@@ -1,0 +1,121 @@
+<{strip}>
+	<{if $action.count == 0}>
+		<h2 class="user_searchresult_title">
+			<{*検索結果*}><{$lang.user_search_result|smarty:nodefaults}>&nbsp;(0<{$lang.user_number_of_cases_zero|smarty:nodefaults}>)
+		</h2>
+		<div class="user_searchresult_none_mes">
+			<{*条件に合う会員は見つかりませんでした*}>
+			<{$lang.user_none_exists_mes|smarty:nodefaults}>
+		</div>
+	<{else}>
+		<h2 class="user_searchresult_title">
+			<{if $action.count < $conf.user_users_list}>
+				<{assign var="search_count" value=$action.count}>
+			<{else}>
+				<{assign var="search_count" value=$conf.user_users_list}>
+			<{/if}>	
+			<{*検索結果*}><{$lang.user_search_result|smarty:nodefaults}>&nbsp;
+			<{$lang.user_number_of_cases|smarty:nodefaults|sprintf:"<span id=\"user_record_num`$id`\">1 - `$search_count`</span>":$action.count}>
+			
+		</h2>
+		<table class="widthmax user_searchresult_top_description" summary="">
+			<tr>
+				<td class="widthmax nowrap">
+		    		<{$lang.user_search_top_description|smarty:nodefaults}>
+		    		<{if $smarty.session.user.display_flag.manage}>
+		    			<br />
+						<{$lang.user_search_top_description_admin|smarty:nodefaults|sprintf:$lang._delete}>
+					<{/if}>
+				</td>
+				<td class="align-right nowrap bold">
+		    		<{if $smarty.session.user.display_flag.manage}>
+						<a onclick="if(!commonCls.confirm('<{$lang.user_import_confirm_export_exp|smarty:nodefaults|sprintf:$action.authorities_str|escape:"javascript"|escape:"html"}>'))return false; commonCls.sendPost('<{$id}>',{'action':'user_view_admin_import_export', 'chk_count_flag':<{$smarty.const._ON}>},{'method':'GET', 'callbackfunc':function(res){parent.location.href='.<{$smarty.const.INDEX_FILE_NAME}>?action=user_view_admin_import_export&amp;_token='+$('_token<{$id}>').value;}}); return false;" class="syslink" href="#" title="<{$lang.user_import_export_exp|smarty:nodefaults}>">
+							(<{$lang.user_import_export}>)
+						</a>
+					<{/if}>
+				</td>
+			</tr>
+		</table>
+		<{*ヘッダー表示部分*}>
+		<div class="user_searchresult_main">
+		<table class="grid_header" summary="">
+			<tr>
+				<th scope="col" class="_sort_handle user_handle"><div class="user_handle"><{$smarty.const.USER_ITEM_HANDLE}></div></th>
+				<th scope="col" class="_sort_login_id user_login_id"><div class="user_login_id"><{$smarty.const.USER_ITEM_LOGIN}></div></th>
+				<{if $smarty.session.user.display_flag.user_name}>
+					<th scope="col" class="_sort_user_name user_user_name"><div class="user_user_name"><{$smarty.const.USER_ITEM_USER_NAME}></div></th>
+				<{/if}>
+				<{if $smarty.session.user.display_flag.role_authority_name}>
+					<th scope="col" class="_sort_user_authority_id user_user_authority_id"><div class="user_user_authority_id"><{$smarty.const.USER_ITEM_ROLE_AUTHORITY_ID}></div></th>
+				<{/if}>
+				<{if $smarty.session.user.display_flag.active_flag}>
+					<th scope="col" class="_sort_active_flag user_active_flag"><div class="user_active_flag"><{$smarty.const.USER_ITEM_ACTIVE_FLAG}></div></th>
+				<{/if}>
+				<{if $smarty.session.user.display_flag.insert_time}>
+					<th scope="col" class="_sort_insert_time user_insert_time"><div class="user_insert_time"><{$smarty.const.USER_ITEM_INSERT_TIME}></div></th>
+				<{/if}>
+				<{if $smarty.session.user.display_flag.last_login_time}>
+					<th scope="col" class="_sort_last_login_time user_last_login_time"><div class="user_last_login_time"><{$smarty.const.USER_ITEM_LAST_LOGIN_TIME}></div></th>
+				<{/if}>
+				<{if $smarty.session.user.display_flag.manage}>
+					<th scope="col" class="user_manage">
+					<div class="user_manage">
+						<{$lang._manage|smarty:nodefaults}>
+					</div>
+					</th>
+				<{/if}>
+				<{if $smarty.session.user.display_flag.manage}>
+					<th scope="col" class="user_check">
+						<div class="user_check">
+							<{* 全選択 *}>
+							<input id="searchresult_release_all<{$id}>" class="align-center" type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="userCls['<{$id}>'].selAllCheck(this, '<{$lang._btn_release_all|smarty:nodefaults}>');" />
+						</div>
+					</th>
+				<{/if}>
+			</tr>
+		</table>
+		<table id="searchresult_grid<{$id}>" class="grid" summary="<{$smarty.const._SUMMARY_SEARCH_RESULT}>">
+			<{section name="user_list" loop=$conf.user_users_list start="0"}>
+				<{if $smarty.section.user_list.iteration <= $action.count}>
+				<tr class="grid_row">
+					<td class="user_handle"><div class="user_handle"></div></td>
+					<td class="user_login_id"><div class="user_login_id"></div></td>
+					<{if $smarty.session.user.display_flag.user_name}>
+						<td class="user_user_name"><div class="user_user_name"></div></td>
+					<{/if}>
+					<{if $smarty.session.user.display_flag.role_authority_name}>
+						<td class="user_user_authority_id"><div class="user_user_authority_id"></div></td>
+					<{/if}>
+					<{if $smarty.session.user.display_flag.active_flag}>
+						<td class="user_active_flag"><div class="user_active_flag"></div></td>
+					<{/if}>
+					<{if $smarty.session.user.display_flag.insert_time}>
+						<td class="user_insert_time"><div class="user_insert_time"></div></td>
+					<{/if}>
+					<{if $smarty.session.user.display_flag.last_login_time}>
+						<td class="user_last_login_time"><div class="user_last_login_time"></div></td>
+					<{/if}>
+					<{if $smarty.session.user.display_flag.manage}>
+						<td class="user_manage"><div class="user_manage"></div></td>
+					<{/if}>
+					<{if $smarty.session.user.display_flag.manage}>
+						<td class="user_check"><div class="user_check"></div></td>
+					<{/if}>
+				</tr>
+				<{/if}>
+			<{/section}>
+		</table>
+		</div>
+	<{/if}>
+	<{* 削除ボタン *}>
+	<{if $action.count > 0 && $smarty.session.user.display_flag.manage}>
+		<div class="align-right">
+			<input type="button" value="<{$lang.user_search_seldelete|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang.user_confirm_del_seluser|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false; if(!commonCls.confirm('<{$lang.user_confirm_del_seluser_again|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false; userCls['<{$id}>'].delUsers(); return false;" />
+		</div>
+	<{/if}>
+	<{* 再検索 *}>
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang.user_search_re_search|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'user_view_main_search'}); return false;" />
+	</div>
+<{include file="user_script.html"}>
+<{/strip}>

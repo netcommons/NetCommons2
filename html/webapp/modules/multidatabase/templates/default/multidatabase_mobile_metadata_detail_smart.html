@@ -1,0 +1,129 @@
+<{strip}>
+
+<{if ($metadata.type!=MULTIDATABASE_META_TYPE_INSERT_TIME && $metadata.type!=MULTIDATABASE_META_TYPE_UPDATE_TIME)}>
+	<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE || $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE || $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+		<fieldset data-role="fieldcontain">
+		<fieldset data-role="controlgroup" <{if $metadata.type == MULTIDATABASE_META_TYPE_DATE}>data-type="horizontal"<{/if}>>
+		<legend><strong>
+			<{$metadata.name}>
+			<{if $metadata.require_flag == $smarty.const._ON}>
+				<{$lang.mdb_mobile_require_flag|smarty:nodefaults}>
+			<{/if}>
+		</strong></legend>
+	<{else}>
+		<fieldset data-role="fieldcontain">
+		<label for="datas_<{$metadata.metadata_id}>"><strong>
+			<{$metadata.name}>
+			<{if $metadata.require_flag == $smarty.const._ON}>
+				<{$lang.mdb_mobile_require_flag|smarty:nodefaults}>
+			<{/if}>
+		</strong></label>
+		<div class="hr"></div>
+	<{/if}>
+<{/if}>
+
+<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXT}>
+	<{* テキスト *}>
+	<input id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" type="text" value="<{$content}>">
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
+	<{* EMail *}>
+	<input id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" type="email" value="<{$content}>">
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_LINK}>
+	<input id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" type="text" value="<{if $content != '' }><{$content}><{else}>http://<{/if}>">
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXTAREA}>
+	<{* テキストエリア *}>
+	<textarea id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" cols="<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_COLS}>" rows="<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_ROWS}>" ><{$content}></textarea>
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE || $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}>
+	<{* 画像とファイル 登録用。upload対応はこちらを実行。upload非対応は、PCからの別途アップロードを勧める。*}>
+
+	<{* docomoはHTML7.2拡張で、accept属性を追加した *}>
+	<{* auはfileのアップロードをサポートしていない。*}>
+	<{* softbankは、type=fileの時は、name属性だけが有効 *}>
+	<input name="files[<{$metadata.metadata_id}>]" type="file" accept="image/jpeg,image/gif,video/3gpp,audio/3gpp" value="" >
+
+	<{* ダウンロード用パスワードの設定ロジックの追加 －ここから－ *}>
+	<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE && $metadata.file_password_flag == $smarty.const._ON}>
+		<{assign var="password_var" value=$lang.mdb_file_password_key|sprintf:$metadata_id}>
+		<{assign var="file_password" value=$smarty.session.multidatabase_content.$block_id.$password_var|smarty:nodefaults}>
+		<br />
+		<input type="checkbox" id="password_checkbox_<{$metadata.metadata_id}>" name="password_checkbox[<{$metadata.metadata_id}>]" <{if $file_password != ""}> checked=checked <{/if}> value="<{$smarty.const._ON}>" >
+		<label for="password_checkbox_<{$metadata.metadata_id}>"><{$lang.mdb_add_file_password|smarty:nodefaults}></label>
+		<input type="text" name="passwords[<{$metadata.metadata_id}>]" maxlength="100" value='<{if $file_password != ""}><{$file_password}><{/if}>' placeholder="<{$lang.mdb_file_password_display}>">
+	<{/if}>
+	<{* ダウンロード用パスワードの設定ロジックの追加 －ここまで－ *}>
+
+	<{* 登録済み画像/ファイルを削除する *}>
+	<{if $content != ""}>
+		<{if $metadata.require_flag != $smarty.const._ON}>
+			<input type="checkbox" id="file_delete_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" value="<{$smarty.const._ON}>">
+			<label for="file_delete_<{$metadata.metadata_id}>">
+			<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+				<{$lang.mdb_delete_image|smarty:nodefaults}>
+			<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}>
+				<{$lang.mdb_delete_file|smarty:nodefaults}>
+			<{/if}>
+			</label>
+		<{/if}>
+		<{$content|smarty:nodefaults}>
+	<{/if}>
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_SECTION}>
+	<{* セレクトリスト *}>
+	<select id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]">
+		<{foreach from=$metadata.select_content_array|smarty:nodefaults item=option name=selectloop}>
+			<option value="<{$option}>" <{if $content == $option}> selected="selected"<{/if}>>
+				<{$option}>
+			</option>
+		<{/foreach}>
+	</select>
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>
+	<div data-role="controlgroup">
+		<{foreach from=$metadata.select_content_array|smarty:nodefaults item=option name=selectloop}>
+			<label class="nowrap" for="mdb_metadatas_<{$metadata.metadata_id}>_<{$smarty.foreach.selectloop.iteration}><{$id}>">
+				<input name="datas[<{$metadata.metadata_id}>][]" type="checkbox" value="<{$option}>" id="mdb_metadatas_<{$metadata.metadata_id}>_<{$smarty.foreach.selectloop.iteration}><{$id}>" <{if isset($content.$option|smarty:nodefaults)}>checked="checked" <{/if}>/>
+				<{$option}><br />
+			</label>
+		<{/foreach}>
+	</div>
+<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>
+	<{* 携帯ではWYSIWYGテキストエリアは使えないので、通常のテキストエリアを使う *}>
+	<textarea id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" cols=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_COLS}> rows=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_ROWS}> ><{$content|smarty:nodefaults|html_to_text}></textarea>
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_AUTONUM}>
+	<input id="datas_<{$metadata.metadata_id}>" name="datas[<{$metadata.metadata_id}>]" type="text" size="8" value="<{if ($content != "") }><{$content|intval}><{else}><{$lang.mdb_type_autonum|smarty:nodefaults}><{/if}>" disabled="disabled" />
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+	<{if ($content != "") }>
+		<{assign var="s_year" value=$content|timezone_date_format:"Y"}>
+		<{assign var="s_month" value=$content|timezone_date_format:"m"}>
+		<{assign var="s_day" value=$content|timezone_date_format:"d"}>
+	<{else}>
+		<{assign var="s_year" value=""}>
+		<{assign var="s_month" value=""}>
+		<{assign var="s_day" value=""}>
+	<{/if}>
+	<input type="text" name="datas[<{$metadata.metadata_id}>][year]" value="<{$s_year}>" maxlength="4" placeholder="<{$lang._mobile_year|smarty:nodefaults}>" style="width:4em;display:inline;">
+	<select  name="datas[<{$metadata.metadata_id}>][month]">
+		<option value=""><{$lang._mobile_month|smarty:nodefaults}></option>
+		<{section name=s_month start=1 loop=13}>
+			<option value="<{$smarty.section.s_month.index}>" <{if $s_month==$smarty.section.s_month.index}>selected="selected"<{/if}>>
+				<{$smarty.section.s_month.index}>
+			</option>
+		<{/section}>
+	</select>
+	<select name="datas[<{$metadata.metadata_id}>][day]">
+		<option value=""><{$lang._mobile_day|smarty:nodefaults}></option>
+		<{section name=s_day start=1 loop=32}>
+			<option value="<{$smarty.section.s_day.index}>" <{if $s_day==$smarty.section.s_day.index}>selected="selected"<{/if}>>
+				<{$smarty.section.s_day.index}>
+			</option>
+		<{/section}>
+	</select>
+
+<{elseif $metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+<{/if}>
+
+<{if ($metadata.type!=MULTIDATABASE_META_TYPE_INSERT_TIME && $metadata.type!=MULTIDATABASE_META_TYPE_UPDATE_TIME)}>
+	</fieldset>
+	<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE || $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE || $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+	</fieldset>
+	<{/if}>
+<{/if}>
+<{/strip}>

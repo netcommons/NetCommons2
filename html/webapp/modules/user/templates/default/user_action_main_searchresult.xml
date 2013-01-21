@@ -1,0 +1,161 @@
+<{* XML内容用テンプレート *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.users item=users}>
+		<{if $action.user_id == $users.user_id}>
+			<{assign var="public_flag_column" value="self_public_flag"}>
+		<{elseif $action.user_auth_id <= $users.user_authority_id}>
+			<{assign var="public_flag_column" value="over_public_flag"}>
+		<{else}>
+			<{assign var="public_flag_column" value="under_public_flag"}>
+		<{/if}>
+	<row class="<{if $smarty.session.user.display_flag.active_flag && ($action.items.active_flag.$public_flag_column >= USER_PUBLIC && (!$users.system_flag || $smarty.session._system_user_id==$smarty.session._user_id)) && ($users.active_flag == _USER_ACTIVE_FLAG_OFF || $users.active_flag == _USER_ACTIVE_FLAG_PENDING || $users.active_flag == _USER_ACTIVE_FLAG_MAILED)}>deadline<{/if}><{if ($users.user_id != $action.user_id && !($users.user_id == $smarty.session._system_user_id && $smarty.session._user_id != $smarty.session._system_user_id)) && $action.select_user}> highlight<{/if}>">
+		<handle><![CDATA[
+			<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+				<a onclick="commonCls.showUserDetail(event, '<{$users.user_id}>');return false;" href="#" class="link">
+					<{$users.handle}>
+				</a>
+			</label>
+		]]></handle>
+		<login_id><![CDATA[
+			<{if $action.items.login_id.$public_flag_column >= USER_PUBLIC && (!$users.system_flag || $smarty.session._system_user_id==$smarty.session._user_id)}>
+				<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+					<{$users.login_id}>
+				</label>
+			<{/if}>
+		]]></login_id>
+		<{if $smarty.session.user.display_flag.user_name}>
+			<user_name><![CDATA[
+				<{* 各自で会員氏名を非表示にした場合、管理者以外、表示しない *}>
+				<{if $action.user_auth_id == _AUTH_ADMIN || $action.items.user_name.allow_public_flag == _OFF || $users.user_name_public_flag == _ON}> 
+					<{if $action.items.user_name.$public_flag_column >= USER_PUBLIC && (!$users.system_flag || $smarty.session._system_user_id==$smarty.session._user_id)}>
+						<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+							<{$users.user_name}>
+						</label>
+					<{/if}>
+				<{/if}>
+			]]></user_name>
+		<{/if}>
+		<{if $smarty.session.user.display_flag.role_authority_name}>
+			<role_authority_name><![CDATA[
+				<{if $action.items.role_authority_name.$public_flag_column >= USER_PUBLIC}>
+					<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+						<{$users.role_authority_name}>
+					</label>
+				<{/if}>
+			]]></role_authority_name>
+		<{/if}>
+		<{if $smarty.session.user.display_flag.active_flag}>
+			<active_flag><![CDATA[
+				<{if $action.items.active_flag.$public_flag_column >= USER_PUBLIC && (!$users.system_flag || $smarty.session._system_user_id==$smarty.session._user_id)}>
+					<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+					<{if $users.active_flag == _USER_ACTIVE_FLAG_OFF}>
+						<{$smarty.const.USER_ITEM_ACTIVE_FLAG_OFF}>
+					<{elseif $users.active_flag == _USER_ACTIVE_FLAG_ON}>
+						<{$smarty.const.USER_ITEM_ACTIVE_FLAG_ON}>
+					<{elseif $users.active_flag == _USER_ACTIVE_FLAG_PENDING}>
+						<{$smarty.const.USER_ITEM_ACTIVE_FLAG_PENDING}>
+					<{elseif $users.active_flag == _USER_ACTIVE_FLAG_MAILED}>
+						<{$smarty.const.USER_ITEM_ACTIVE_FLAG_MAILED}>
+					<{/if}>
+					</label>
+				<{/if}>
+			]]></active_flag>
+		<{/if}>
+		<{if $smarty.session.user.display_flag.insert_time}>
+			<insert_time><![CDATA[
+				<{if $action.items.insert_time.$public_flag_column >= USER_PUBLIC && (!$users.system_flag || $smarty.session._system_user_id==$smarty.session._user_id)}>
+					<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+					<{if $users.insert_time}>
+						<{$users.insert_time|timezone_date_format:$lang._short_full_date_format|smarty:nodefaults}>
+					<{else}>
+						<{$lang.user_none_date|smarty:nodefaults}>
+					<{/if}>
+					</label>
+				<{/if}>
+			]]></insert_time>
+		<{/if}>
+		<{if $smarty.session.user.display_flag.last_login_time}>
+			<last_login_time><![CDATA[
+				<{if $action.items.last_login_time.$public_flag_column >= USER_PUBLIC && (!$users.system_flag || $smarty.session._system_user_id==$smarty.session._user_id)}>
+					<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+					<{if $users.last_login_time}>
+						<{$users.last_login_time|timezone_date_format:$lang._short_full_date_format|smarty:nodefaults}>
+					<{else}>
+						<{$lang.user_none_date|smarty:nodefaults}>
+					<{/if}>
+					</label>
+				<{/if}>
+			]]></last_login_time>
+		<{/if}>
+		<{if $smarty.session.user.display_flag.manage}>
+			<manage><![CDATA[
+				<{assign var="edit_flag" value=$smarty.const._OFF}>
+				<{if $users.user_id == $smarty.session._system_user_id && $smarty.session._user_id != $smarty.session._system_user_id}>
+					<{* システム管理者をちがう会員が編集している *}>
+					<{$lang.user_none_date|smarty:nodefaults}>
+				<{else}>
+					<{* ログイン会員よりベース権限が管理者かそれ未満のものしか編集できないようにする *}>
+					<{assign var="set_flag" value=$smarty.const._OFF}>
+					<{assign var="role_def_id" value=$users.role_authority_id}>
+					<{if ($smarty.session._user_auth_id == _AUTH_ADMIN && !isset($action.not_chg_role_id_arr.$role_def_id|smarty:nodefaults)) || $users.user_authority_id < $smarty.session._user_auth_id}>
+						<{if $users.active_flag == _USER_ACTIVE_FLAG_PENDING}>
+							<{* 承認メール送信 *}>
+							<a href="#" class="syslink" onclick="if(!commonCls.confirm('<{$lang.user_confirm_send_mail_approver|sprintf:"`$users.handle`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>')) {return false;} commonCls.sendPost('<{$id}>',{'action':'login_action_main_approver', 'user_id':'<{$users.user_id}>', 'activate_key':'<{$users.activate_key}>', 'op':'none_redirect'},{'method':'get','callbackfunc':function(res){userCls['<{$id}>'].grid.resetContents();userCls['<{$id}>'].grid.requestContentRefresh(0);commonCls.alert(res);},'callbackfunc_error':function(res){commonCls.alert(res);}}); return false;">
+								<{$lang.user_send_mail_approver|smarty:nodefaults}>
+								<{$lang._separator|smarty:nodefaults}>
+							</a>
+							<{assign var="set_flag" value=$smarty.const._ON}>
+						<{elseif $users.active_flag == _USER_ACTIVE_FLAG_MAILED}>
+							<{* 承認メール再送信 *}>
+							<a href="#" class="syslink" onclick="if(!commonCls.confirm('<{$lang.user_confirm_send_mail_approver|sprintf:"`$users.handle`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>')) {return false;} commonCls.sendPost('<{$id}>',{'action':'login_action_main_approver', 'user_id':'<{$users.user_id}>', 'activate_key':'<{$users.activate_key}>', 'op':'none_redirect'},{'method':'get','callbackfunc':function(res){userCls['<{$id}>'].grid.resetContents();userCls['<{$id}>'].grid.requestContentRefresh(0);commonCls.alert(res);},'callbackfunc_error':function(res){commonCls.alert(res);}}); return false;">
+								<{$lang.user_retry_send_mail_approver|smarty:nodefaults}>
+								<{$lang._separator|smarty:nodefaults}>
+							</a>
+							<{assign var="set_flag" value=$smarty.const._ON}>
+						<{else}>		
+							<{* メール *}>
+							<{if $users.email && $action.items.email.$public_flag_column >= USER_PUBLIC}>
+								<a class="syslink" href="mailto:<{$users.email}>"><{$lang.user_manage_mail|smarty:nodefaults}></a>
+								<{$lang._separator|smarty:nodefaults}>
+								<{assign var="set_flag" value=$smarty.const._ON}>
+							<{/if}>
+						<{/if}>
+
+						<{* 編集 *}>
+						<a href="#" class="syslink" onclick="userCls['<{$id}>'].showEditUser(event, '<{$users.user_id}>'); return false;">
+							<{$lang._edit|smarty:nodefaults}>
+						</a>
+						<{assign var="set_flag" value=$smarty.const._ON}>
+						<{assign var="edit_flag" value=$smarty.const._ON}>
+						<{if $users.user_id != $action.user_id}>
+							<{$lang._separator|smarty:nodefaults}>
+							<{* 削除 *}>
+							<a href="#" class="syslink" onclick="if(!commonCls.confirm('<{$lang.user_confirm_del_user|sprintf:"`$users.handle`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false; if(!commonCls.confirm('<{$lang.user_confirm_del_user_again|sprintf:"`$users.handle`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false; userCls['<{$id}>'].delUser(event, '<{$users.user_id}>'); return false;">
+								<{$lang._delete|smarty:nodefaults}>
+							</a>
+						<{/if}>
+					<{/if}>
+					<{if $set_flag == _OFF}>
+						<{$lang.user_none_date|smarty:nodefaults}>
+					<{/if}>
+				<{/if}>
+			]]></manage>
+		<{/if}>
+		<{if $smarty.session.user.display_flag.manage}>
+			<delete><![CDATA[
+				<{* 選択チェックボックス *}>
+				<{if $edit_flag && $users.user_id != $action.user_id && !($users.user_id == $smarty.session._system_user_id && $smarty.session._user_id != $smarty.session._system_user_id)}>
+					<label for="user_delete<{$id}>_<{$users.user_id}>" class="display-block">
+						<input id="user_delete<{$id}>_<{$users.user_id}>" type="checkbox" name="delete_users[<{$users.user_id}>]" value="1"  onclick="userCls['<{$id}>'].chgRadioSearchResult(this);" <{if $action.select_user}>checked="checked" <{/if}>/>
+					</label>
+				<{else}>
+					<input type="hidden" name="delete_users['<{$users.user_id}>']" value="0" />
+				<{/if}>
+			]]></delete>
+		<{/if}>
+	</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

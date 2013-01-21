@@ -1,0 +1,157 @@
+<{strip}>
+<{* 項目一覧画面用テンプレート *}>
+<form id="registration_item_form<{$id}>" action="#" onsubmit="registrationCls['<{$id}>'].enterItem();return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="registration_id" />
+	<input type="hidden" name="item_id" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="registration_item_name<{$id}>">
+					<{$lang.registration_item_name}>
+				</label>
+			</th>
+
+			<td>
+				<input id="registration_item_name<{$id}>" class="registration_item_name" type="text" name="item_name" />
+				<span class="highlight">
+					<{$action.item.item_name}>
+				</span><br />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+
+			<td>
+				<label for="registration_require_flag<{$id}>">
+					<input id="registration_require_flag<{$id}>" type="checkbox" name="require_flag" value="<{$smarty.const._ON}>" />
+					<{$lang.registration_require_flag}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+
+			<td>
+				<label for="registration_list_flag<{$id}>">
+					<input id="registration_list_flag<{$id}>" type="checkbox" name="list_flag" value="<{$smarty.const._ON}>" onclick="registrationCls['<{$id}>'].changeListFlag();" />
+					<{$lang.registration_list_flag}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+
+			<td>
+				<label id="registration_sort_flag_label<{$id}>" for="registration_sort_flag<{$id}>">
+					<input id="registration_sort_flag<{$id}>" type="checkbox" name="sort_flag" value="<{$smarty.const._ON}>" />
+					<{$lang.registration_sort_flag}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="registration_item_type<{$id}>">
+					<{$lang.registration_item_type}>
+				</label>
+			</th>
+
+			<td>
+				<select id="registration_item_type<{$id}>" name="item_type" onchange="registrationCls['<{$id}>'].changeItemType();">
+					<option value="<{$smarty.const.REGISTRATION_TYPE_TEXT}>"><{$lang.registration_type_text}></option>
+					<option id="registration_item_type_radio<{$id}>" value="<{$smarty.const.REGISTRATION_TYPE_RADIO}>"><{$lang.registration_type_radio}></option>
+					<option id="registration_item_type_check<{$id}>" value="<{$smarty.const.REGISTRATION_TYPE_CHECKBOX}>"><{$lang.registration_type_checkbox}></option>
+					<option id="registration_item_type_select<{$id}>" value="<{$smarty.const.REGISTRATION_TYPE_SELECT}>"><{$lang.registration_type_select}></option>
+					<option value="<{$smarty.const.REGISTRATION_TYPE_TEXTAREA}>"><{$lang.registration_type_textarea}></option>
+					<option value="<{$smarty.const.REGISTRATION_TYPE_EMAIL}>"><{$lang.registration_type_email}></option>
+					<option value="<{$smarty.const.REGISTRATION_TYPE_FILE}>"><{$lang.registration_type_file}></option>
+				</select>
+
+				<div id="registration_option_area<{$id}>" class="display-none">
+					<div class="registration_option_add">
+						<a class="syslink" href="#" title="<{$lang.registration_add_option_title}>" onclick="registrationCls['<{$id}>'].addOption();return false;">
+							<img src="<{"add.gif"|get_themes_image}>" alt="" title="" />
+							<{$lang.registration_add_option}>
+						</a>
+					</div>
+
+					<div class="registration_option">
+						<table id="registration_option<{$id}>" class="outer" summary="<{$lang.registration_option_list_summary}>">
+							<{foreach from=$action.item.option_values|smarty:nodefaults item=option_value name="option"}>
+								<{include file="registration_view_edit_option.html" iteration=$smarty.foreach.option.iteration}>
+							<{/foreach}>
+						</table>
+
+						<div id="registration_option_add_area<{$id}>" class="display-none">
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="registration_description<{$id}>">
+					<{$lang.registration_description}>
+				</label>
+			</th>
+
+			<td>
+				<textarea id="registration_description<{$id}>" class="registration_description" name="description">
+				</textarea>
+			</td>
+		</tr>
+	</table>
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');" />
+	</div>
+</form>
+
+<{include file="../registration_script.html"}>
+<script class="nc_script" type="text/javascript">
+	registrationCls["<{$id}>"].registration_id = "<{$action.item.registration_id}>";
+	registrationCls["<{$id}>"].item_id = "<{$action.item.item_id}>";
+	registrationCls["<{$id}>"].optionIteration = <{$action.optionNumber}>;
+
+	var registrationForm = $("registration_item_form<{$id}>");
+	registrationForm["action"].value = "registration_action_edit_item_entry";
+	registrationForm["registration_id"].value = "<{$action.item.registration_id}>";
+	registrationForm["item_id"].value = "<{$action.item.item_id}>";
+
+	<{if empty($action.item.item_id|smarty:nodefaults)}>
+		registrationForm["item_name"].value = "<{$lang.registration_new_item_name|sprintf:$action.item.item_sequence}>";
+	<{else}>
+		registrationForm["item_name"].value = "<{$action.item.item_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.item.require_flag == _ON}>
+		registrationForm["require_flag"].checked = true;
+	<{/if}>
+
+	<{if $action.item.list_flag == _ON}>
+		registrationForm["list_flag"].checked = true;
+	<{/if}>
+
+	<{if $action.item.sort_flag == _ON}>
+		registrationForm["sort_flag"].checked = true;
+	<{/if}>
+	registrationCls["<{$id}>"].changeListFlag();
+
+	registrationForm["item_type"].value = "<{$action.item.item_type}>";
+	registrationCls['<{$id}>'].changeItemType();
+
+	registrationForm["description"].value = "<{$action.item.description|smarty:nodefaults|escape:"javascript"}>";
+
+	commonCls.focus("<{$id}>");
+	registrationForm = null;
+</script>
+<{/strip}>

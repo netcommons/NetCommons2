@@ -1,0 +1,13 @@
+<{strip}>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

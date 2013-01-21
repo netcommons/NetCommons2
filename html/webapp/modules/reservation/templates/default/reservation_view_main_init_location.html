@@ -1,0 +1,89 @@
+<{strip}>
+
+<{assign var=view_date value=$action.view_date}>
+
+<div class="reservation_each_location">
+	<{include file="reservation_main_header_location.html"}>
+
+	<div class="reservation_move_week">
+		<{include file="reservation_main_move_week.html" }>
+	</div>
+
+	<table id="reservation_location<{$id}>" class="reservation_reserve_body" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+		<tr>
+			<td colspan="2" class="reservation_location_time_head">
+				<div>&nbsp;</div>
+			</td>
+			<td rowspan="<{$action.rowspan}>">
+				<div id="reservation_time_frame<{$id}>" class="reservation_time_frame" style="width:<{$action.frame_width}>px;">
+					<table summary="">
+						<tr>
+							<{section name=hour loop=24 start=0 step=1}>
+								<{assign var=hour value=$smarty.section.hour.index}>
+								<th class="reservation_background reservation_time_width" scope="col">
+									<div class="reservation_time">
+										<{$lang.reservation_time_format|smarty:nodefaults|sprintf:$hour}>
+									</div>
+								</th>
+							<{/section}>
+						</tr>
+
+						<{foreach name="location_list" key="location_id" item="location" from=$action.location_list}>
+							<tr>
+								<td class="reservation_background" colspan="24">
+									
+									<{if ($action.reserve_data.$location_id.$view_date) }>
+										<{include file="reservation_view_main_list_location.html"}>
+									<{else}>
+										<div class="reservation_reserve_time">&nbsp;</div>
+									<{/if}>
+								</td>
+							</tr>
+						<{/foreach}>
+					</table>
+				</div>
+			</td>
+		</tr>
+
+		<{foreach name="location_list" key="location_id" item="location" from=$action.location_list}>
+			<{if ($smarty.foreach.location_list.first) }>
+				<{assign var=first_location_id value=$location_id}>
+			<{/if}>
+			<tr>
+				<td class="reservation_location_head" scope="row">
+					<div class="reservation_location">
+						<a class="syslink hover_highlight" title="<{$lang.reservation_show_details|smarty:nodefaults|sprintf:$location.location_name|smarty:nodefaults}>" href="#" onclick='reservationCls["<{$id}>"].showLocation(event,"<{$location_id}>"); return false;'>
+							<{$location.location_name}>
+						</a>
+					</div>
+				</td>
+
+				<td class="reservation_location_addreserve" scope="row">
+					<{include file="reservation_main_addreserve.html" view_date=$view_date location_id=$location_id hour=""}>
+				</td>
+			</tr>
+		<{/foreach}>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+	</table>
+
+	<{include file="reservation_main_swicth_display_type.html" display_type=$smarty.const.RESERVATION_DEF_LOCATION}>
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].disp_type = "<{$smarty.const.RESERVATION_DEF_LOCATION}>";
+	reservationCls["<{$id}>"].view_date = "<{$view_date}>";
+	reservationCls["<{$id}>"].category_id = "<{$action.reserve_block.category_id}>";
+	reservationCls["<{$id}>"].location_id = "<{$first_location_id}>";
+	reservationCls["<{$id}>"].today = "<{$action.today}>";
+	<{if ($smarty.session.reservation.popup_move._id.$block_id) }>
+		if(reservationCls["<{$smarty.session.reservation.popup_move._id.$block_id}>"]) {
+			reservationCls["<{$smarty.session.reservation.popup_move._id.$block_id}>"].setMoveDate("<{$id}>", "<{$action.input_date}>");
+		}
+	<{/if}>
+</script>
+<{include file="reservation_main_script.html"}>
+
+<{/strip}>

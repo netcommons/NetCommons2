@@ -1,0 +1,116 @@
+/* 
+ * ブロック定義
+ */
+.th_system {
+	width:100%;
+	height:auto;
+	border-bottom:1px solid #eeeeee;
+}
+
+.th_system_inside {
+	background-color:#ffffff;
+}
+.th_system_upperleft {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_upperleft.gif") no-repeat scroll left bottom;
+}
+.th_system_upper {
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_upper.gif") repeat-x scroll center bottom;
+}
+.th_system_upperright {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_upperright.gif") no-repeat scroll right bottom;
+}
+.th_system_left {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_left.gif") repeat-y scroll left center;
+}
+.th_system_right {
+	width:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_right.gif") repeat-y scroll right center;
+}
+.th_system_belowleft {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_belowleft.gif") no-repeat scroll left top;
+}
+.th_system_below {
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_below.gif") repeat-x scroll center top;
+}
+.th_system_belowright {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_belowright.gif") no-repeat scroll right top;
+}
+/*ヘッダーメニュー*/
+.th_system_header_right {
+	white-space:nowrap;
+}
+.th_system_header_left {
+	white-space:nowrap;
+}
+.th_system_header_center {
+	width:100%;
+	vertical-align:top;
+	padding-left:0px;
+	padding-right:5px;
+	/*
+	font-weight:bold;
+	color:#949494;
+	white-space:nowrap;
+	background-color:#ffffff;*/
+	/*background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_dot.gif") repeat-x scroll left center;*/
+}
+
+.th_system_header_dot {
+	width:100%;
+	vertical-align:top;
+	/*padding-left:5px;
+	padding-right:5px;
+	font-weight:bold;
+	color:#949494;
+	white-space:nowrap;
+	background-color:#ffffff;*/
+	white-space:nowrap;
+}
+
+.th_system_header_move {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/system/images/setting_dot.gif") repeat-x scroll left center;
+}
+
+.th_system_titlecolor {
+	background-color:#ffffff;
+	color:#949494;
+}
+
+.th_system_title {
+	padding-left:5px;
+	font-weight:bold;
+	white-space:nowrap;
+}
+
+/*ヘッダーボタン*/
+.th_system_btn {
+    vertical-align:top;
+	padding:0px 2px;
+}
+
+
+/* 
+ * ヘッダーメニュー(サブメニュー部)
+ */
+/*
+.th_system_headermenu {
+	padding:3px;
+	text-align:right;
+}
+.th_system_headermenu .header_btn {
+	padding-left:3px;
+	padding-right:3px;
+}
+*/

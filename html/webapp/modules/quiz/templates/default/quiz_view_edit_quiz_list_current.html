@@ -1,0 +1,6 @@
+<{strip}>
+<{* 小テスト一覧（カレント）用テンプレート *}>
+<label for="quiz_current<{$quiz.quiz_id}><{$id}>">
+	<input id="quiz_current<{$quiz.quiz_id}><{$id}>" type="radio" name="current" value="<{$quiz.quiz_id}>" onclick="quizCls['<{$id}>'].changeCurrent(<{$quiz.quiz_id}>,'<{$lang.quiz_mes_operate_start|sprintf:$quiz.quiz_name|escape:"html"|escape:"javascript"}>')" <{if $quiz.question_count == 0}>disabled="disabled"<{/if}> />
+</label>
+<{/strip}>

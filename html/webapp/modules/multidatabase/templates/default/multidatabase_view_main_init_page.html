@@ -1,0 +1,21 @@
+<{strip}>
+<span class="mdb_page_switch">
+	<{if $action.prev_link}>
+	  	<a class="syslink" href="#" title="<{$lang.mdb_back|smarty:nodefaults}><{$lang.mdb_page_link_title|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].toPage(this, '<{$action.now_page-1}>', ''); return false;">
+	  		<img class="icon" alt="" src="<{"previous.gif"|get_themes_image}>"/>
+	  		<{$lang.mdb_back|smarty:nodefaults}>
+	  	</a>
+	<{/if}>
+	<{section name=cnt loop=$action.link_array}>
+		<a class="syslink<{if $action.now_page==$action.link_array[cnt]}> current<{/if}>" href="#" title="<{$action.link_array[cnt]}><{$lang.mdb_page_link_title|smarty:nodefaults}>" onclick="<{if $action.now_page!=$action.link_array[cnt]}>mdbCls['<{$id}>'].toPage(this, '<{$action.link_array[cnt]}>', '');<{/if}> return false;">
+			<{$action.link_array[cnt]}>
+		</a>
+	<{/section}>
+	<{if $action.next_link}>
+	  	<a class="syslink" href="#" title="<{$lang.mdb_next|smarty:nodefaults}><{$lang.mdb_page_link_title|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].toPage(this, '<{$action.now_page+1}>', ''); return false;">
+	  		<{$lang.mdb_next|smarty:nodefaults}>
+	  		<img class="icon" alt="" src="<{"next.gif"|get_themes_image}>"/>
+	  	</a>
+	<{/if}>
+</span>
+<{/strip}>

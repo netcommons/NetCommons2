@@ -1,0 +1,42 @@
+<{strip}>
+<{* 記事一覧操作部用テンプレート *}>
+
+<{if $action.topicCount}>
+	<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+		<div data-role="controlgroup" data-type="horizontal" style="margin-bottom:0px;">
+			<input type="hidden" name="action" value="bbs_view_main_init">
+			<input type="hidden" name="block_id" value="<{$block_id}>">
+
+			<select name="visible">
+				<{include file = "bbs_mobile_visible_row_option.html"}>
+			</select>
+
+			<input data-icon="refresh" data-iconpos="right" type="submit" name="switch" value="<{$lang._mobile_switch|smarty:nodefaults}>">
+			<{$session_form|smarty:nodefaults}>
+		</div>
+	</form>
+
+	<{if ($action.pageEnd > 1) }>
+		<div data-role="navbar" data-type="horizontal">
+			<{$lang._mobile_page}>
+			<{if $action.pageStart > 0}>
+				..
+			<{/if}>
+			<{section name=page start=$action.pageStart loop=$action.pageEnd}>
+				<{if $action.pageNumber == $smarty.section.page.index}>
+					<span class="ui-btn-up-d ui-btn-corner-all ui-btn ui-btn-inline" style="padding:12px 3px;cursor:default;"><{$action.pageNumber+1}></span>
+		  		<{else}>
+					<a data-role="button" data-inline="true" class="ui-btn-corner-all " href="?action=bbs_view_main_init&amp;block_id=<{$block_id}>&amp;page=<{$smarty.section.page.index}><{$session_param}>" style="padding-left:3px;padding-right:3px;">
+						<{$smarty.section.page.index+1}>
+					</a>
+					&nbsp;
+		  		<{/if}>
+			<{/section}>
+			<{if $action.pageEnd < $action.pageCount}>
+				..
+			<{/if}>
+		</div>
+	<{/if}>
+<{/if}>
+
+<{/strip}>

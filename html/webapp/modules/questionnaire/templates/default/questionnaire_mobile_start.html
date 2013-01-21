@@ -1,0 +1,22 @@
+<{strip}>
+<{* 質問開始画面用テンプレート *}>
+<{include file="questionnaire_mobile_head.html"}>
+
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<input type="hidden" name="action" value="questionnaire_action_main_start">
+		<input type="hidden" name="questionnaire_id" value="<{$action.questionnaire.questionnaire_id}>">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		
+		<br />
+		<{include file="questionnaire_mobile_image_authentication.html"}>
+		<input type="submit" value="<{$lang.questionnaire_answer_start}>">
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<{include file = "questionnaire_mobile_goto_list.html"}>
+
+<{/strip}>

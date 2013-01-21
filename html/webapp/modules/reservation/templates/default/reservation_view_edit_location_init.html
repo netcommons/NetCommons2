@@ -1,0 +1,37 @@
+<{strip}>
+
+<div class="top_description align-right">
+	<a class="syslink" href="#" title="<{$lang.reservation_add_category_title|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].showPopup(this); return false;'>
+		<img class="icon" src="<{"add.gif"|get_themes_image}>" alt="" title="" />
+		<{$lang.reservation_add_category|smarty:nodefaults}>
+	</a>
+	<{include file="reservation_view_edit_add_category.html"}>
+</div>
+
+<div id="reservation<{$id}>" class="reservation_location_range">
+	<{foreach name="category_list" key="category_id" item="category_name" from=$action.category_list}>
+		<div class="nowrap reservation_move_category_block reservation_category_id<{$category_id}>">
+			<{include file="reservation_view_edit_location_init_category.html" category_id=$category_id category_name=$category_name|smarty:nodefaults}>
+
+			<div class="reservation_category_display">
+				<{assign var="location_list" value=$action.location_list.$category_id}>
+				<{section name=i loop=$location_list}>
+					<div class="nowrap reservation_move_location_block reservation_location_id<{$location_list[i].location_id}>">
+						<{include file="reservation_view_edit_location_init_location.html" location=$location_list[i]}>
+					</div>
+				<{/section}>
+			</div>
+		</div>
+	<{/foreach}>
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].initLocation();
+	reservationCls["<{$id}>"].message["details_title"] = "<{$lang.reservation_details|smarty:nodefaults|escape:"javascript"}>";
+	reservationCls["<{$id}>"].message["edit_title"] = "<{$lang._edit_title|smarty:nodefaults|escape:"javascript"}>";
+	reservationCls["<{$id}>"].message["del_title"] = "<{$lang._del_title|smarty:nodefaults|escape:"javascript"}>";
+	reservationCls["<{$id}>"].message["del_confirm"] = "<{$lang._del_confirm|smarty:nodefaults|escape:"javascript"}>";
+</script>
+
+<{/strip}>

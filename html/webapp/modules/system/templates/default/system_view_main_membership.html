@@ -1,0 +1,264 @@
+<{strip}>
+	<div class="tab_register">
+		<{include file="system_view_main_language.html"}>
+		<fieldset>
+			<legend><{$lang.system_autoregist_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><{$lang.system_autoregist_use|smarty:nodefaults}></th>
+				<td>
+					<label for="autoregist_use_1<{$id}>">
+						<input type="radio" name="autoregist_use" value="<{$smarty.const._ON}>" id="autoregist_use_1<{$id}>" <{if $config.autoregist_use.conf_value == $smarty.const._ON}>checked="checked"<{/if}> onclick="commonCls.displayVisible($('system_autoregist_detail<{$id}>'));" />
+						<{$lang.system_yes|smarty:nodefaults}>
+					</label>
+					<label for="autoregist_use_0<{$id}>">
+						<input type="radio" name="autoregist_use" value="<{$smarty.const._OFF}>" id="autoregist_use_0<{$id}>" <{if $config.autoregist_use.conf_value == $smarty.const._OFF}>checked="checked"<{/if}> onclick="commonCls.displayNone($('system_autoregist_detail<{$id}>'));" />
+						<{$lang.system_no|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+
+		<div id="system_autoregist_detail<{$id}>" class="system_autoregist_detail<{if $config.autoregist_use.conf_value == _OFF}> display-none<{/if}>">
+		<fieldset>
+			<legend><{$lang.system_autoregist_detail_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row">
+					<label for="autoregist_approver<{$id}>"><{$lang.system_autoregist_approver|smarty:nodefaults}></label>
+				</th>
+				<td>
+					<select size="1" name="autoregist_approver" id="autoregist_approver<{$id}>" onchange="systemCls['<{$id}>'].chgAutoregistApprover(this);">
+						<option value="<{$smarty.const._AUTOREGIST_SELF}>" <{if $config.autoregist_approver.conf_value == $smarty.const._AUTOREGIST_SELF}>selected="selected"<{/if}>><{$lang.system_autoregist_self|smarty:nodefaults}></option>
+						<option value="<{$smarty.const._AUTOREGIST_AUTO}>" <{if $config.autoregist_approver.conf_value == $smarty.const._AUTOREGIST_AUTO}>selected="selected"<{/if}>><{$lang.system_autoregist_auto|smarty:nodefaults}></option>
+						<option value="<{$smarty.const._AUTOREGIST_ADMIN}>" <{if $config.autoregist_approver.conf_value == $smarty.const._AUTOREGIST_ADMIN}>selected="selected"<{/if}>><{$lang.system_autoregist_admin|smarty:nodefaults}></option>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row">
+					<label for="system_autoregist_input_key<{$id}>">
+						<{$lang.system_autoregist_input_key|smarty:nodefaults}>
+					</label>
+				</th>
+				<td>
+					<label for="system_autoregist_use_input_key<{$smarty.const._ON}><{$id}>">
+						<input type="radio" name="autoregist_use_input_key" value="<{$smarty.const._ON}>" id="system_autoregist_use_input_key<{$smarty.const._ON}><{$id}>"<{if $config.autoregist_use_input_key.conf_value == _ON}> checked="checked"<{/if}> onclick="$('system_autoregist_input_key<{$id}>').disabled=false; commonCls.focus($('system_autoregist_input_key<{$id}>'))" />
+						<{$lang.system_yes|smarty:nodefaults}>
+					</label>
+					<label for="system_autoregist_use_input_key<{$smarty.const._OFF}><{$id}>">
+						<input type="radio" name="autoregist_use_input_key" value="<{$smarty.const._OFF}>" id="system_autoregist_use_input_key<{$smarty.const._OFF}><{$id}>"<{if $config.autoregist_use_input_key.conf_value == _OFF}> checked="checked"<{/if}> onclick="$('system_autoregist_input_key<{$id}>').disabled=true;" />
+						<{$lang.system_no|smarty:nodefaults}>
+					</label>
+					<br />
+					<input id="system_autoregist_input_key<{$id}>" name="autoregist_input_key" type="text" value="<{$config.autoregist_input_key.conf_value}>"<{if $config.autoregist_use_input_key.conf_value == _OFF}> disabled="disabled"<{/if}> />
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row">
+					<label for="autoregist_author<{$id}>"><{$lang.system_autoregist_author|smarty:nodefaults}></label>
+				</th>
+				<td>
+					<select size="1" name="autoregist_author" id="autoregist_author<{$id}>">
+						<{foreach item=authority from=$action.authorities}>
+							<option value="<{$authority.role_authority_id}>" <{if $config.autoregist_author.conf_value == $authority.role_authority_id}>selected="selected"<{/if}>>
+								<{$authority.role_authority_name}>
+							</option>
+						<{/foreach}>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row">
+					<label for="autoregist_defroom<{$id}>"><{$lang.system_autoregist_defroom|smarty:nodefaults}></label>
+				</th>
+				<td>
+					<label for="autoregist_defroom_1<{$id}>">
+						<input type="radio" name="autoregist_defroom" value="<{$smarty.const._ON}>" id="autoregist_defroom_1<{$id}>" <{if $config.autoregist_defroom.conf_value == $smarty.const._ON}>checked="checked"<{/if}> />
+						<{$lang.system_yes|smarty:nodefaults}>
+					</label>
+					<label for="autoregist_defroom_0<{$id}>">
+						<input type="radio" name="autoregist_defroom" value="<{$smarty.const._OFF}>" id="autoregist_defroom_0<{$id}>" <{if $config.autoregist_defroom.conf_value == $smarty.const._OFF}>checked="checked"<{/if}> />
+						<{$lang.system_no|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+			
+			<tr class="row">
+				<th scope="row"><{$lang.system_autoregist_items|smarty:nodefaults}></th>
+				<td>
+					<div class="nowrap">
+						<div class="align-right nowrap system_autoregist_show_items">
+							<a class="syslink" href="#" onclick="systemCls['<{$id}>'].toggleShowItems(this); return false;">
+								<img src="<{"add.gif"|get_themes_image}>" alt="" title="<{$lang.system_show_all_items}>" />
+									&nbsp;<{$lang.system_show_all_items|smarty:nodefaults|smarty:nodefaults}>
+							</a>
+						</div>
+						<div class="align-right nowrap system_autoregist_show_items display-none">
+							<a class="syslink" href="#" onclick="systemCls['<{$id}>'].toggleShowItems(); return false;">
+								<img src="<{"reduce.gif"|get_themes_image}>" alt="" title="<{$lang.system_show_selected_items}>" />
+									&nbsp;<{$lang.system_show_selected_items|smarty:nodefaults}>
+							</a>
+						</div>
+						<div id="system_autoregist_items<{$id}>" class="system_autoregist_items">
+							<table id="system_membership<{$id}>_item<{$item_id}>" class="system_membership_items">	
+							<{foreach name=loop from=$action.membership_items item=membership_item}>
+								<{assign var="iteration" value=$smarty.foreach.loop.iteration}>
+								<{include file="system_view_main_membershipitems.html"}>								
+							<{/foreach}>
+							</table>
+						</div>
+					</div>
+				</td>
+			</tr>	
+			<tr class="row">
+				<th scope="row"><label for="autoregist_disclaimer<{$id}>"><{$lang.system_autoregist_disclaime|smarty:nodefaults}></label></th>
+				<td>
+				<textarea name="autoregist_disclaimer" id="autoregist_disclaimer<{$id}>" rows="5" cols="50"><{$config.autoregist_disclaimer.conf_value}></textarea>
+				<div class="note system_note_width"><{$lang.system_autoregist_disclaime_note|smarty:nodefaults}></div>
+			</tr>
+			<{* 会員登録承認メールの件名 *}>
+			<{* 管理者の承認、ユーザ自身による承認 *}>
+			<tr class="row system_user_agree<{if $config.autoregist_approver.conf_value == $smarty.const._AUTOREGIST_AUTO}> display-none<{/if}>">
+				<th scope="row"><label for="mail_approval_subject<{$id}>"><{$lang.system_mail_approval_subject|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="mail_approval_subject" id="mail_approval_subject<{$id}>" value="<{$config.mail_approval_subject.conf_value}>" size="50" />
+				</td>
+			</tr>
+			<tr class="row system_user_agree<{if $config.autoregist_approver.conf_value == $smarty.const._AUTOREGIST_AUTO}> display-none<{/if}>">
+				<th scope="row"><label for="mail_approval_body<{$id}>"><{$lang.system_mail_approval_body|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="mail_approval_body" id="mail_approval_body<{$id}>" rows="5" cols="50"><{$config.mail_approval_body.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_mail_approval_body_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			
+			<{* 会員登録受付メールの件名 *}>
+			<{* 管理者の承認 *}>
+			<tr class="row system_admin_agree<{if $config.autoregist_approver.conf_value != $smarty.const._AUTOREGIST_ADMIN}> display-none<{/if}>">
+				<th scope="row"><label for="mail_add_announce_subject<{$id}>"><{$lang.system_mail_add_announce_subject|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="mail_add_announce_subject" id="mail_add_announce_subject<{$id}>" value="<{$config.mail_add_announce_subject.conf_value}>" size="50" />
+				</td>
+			</tr>
+			<tr class="row system_admin_agree<{if $config.autoregist_approver.conf_value != $smarty.const._AUTOREGIST_ADMIN}> display-none<{/if}>">
+				<th scope="row"><label for="mail_add_announce_body<{$id}>"><{$lang.system_mail_add_announce_body|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="mail_add_announce_body" id="mail_add_announce_body<{$id}>" rows="5" cols="50"><{$config.mail_add_announce_body.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_mail_add_announce_body_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<{* 会員登録メールの件名 *}>
+			<{* 常に表示 *}>
+			<tr class="row">
+				<td colspan="2">
+					<div class="hr"></div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="mail_add_user_subject<{$id}>"><{$lang.system_mail_add_user_subject|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="mail_add_user_subject" id="mail_add_user_subject<{$id}>" value="<{$config.mail_add_user_subject.conf_value}>" size="50" />
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="mail_add_user_body<{$id}>"><{$lang.system_mail_add_user_body|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="mail_add_user_body" id="mail_add_user_body<{$id}>" rows="5" cols="50"><{$config.mail_add_user_body.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_mail_add_user_body_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+		</div>
+	</div>
+
+	<div class="tab_password">
+		<fieldset>
+			<legend><{$lang.system_mail_get_password_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><label for="mail_get_password_subject<{$id}>"><{$lang.system_mail_get_password_subject|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="mail_get_password_subject" id="mail_get_password_subject<{$id}>" value="<{$config.mail_get_password_subject.conf_value}>" size="50" />
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="mail_get_password_body<{$id}>"><{$lang.system_mail_get_password_body|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="mail_get_password_body" id="mail_get_password_body<{$id}>" rows="5" cols="50"><{$config.mail_get_password_body.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_mail_get_password_body_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			
+			<tr class="row">
+				<th scope="row"><label for="mail_new_password_subject<{$id}>"><{$lang.system_mail_new_password_subject|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="mail_new_password_subject" id="mail_new_password_subject<{$id}>" value="<{$config.mail_new_password_subject.conf_value}>" size="50" />
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="mail_new_password_body<{$id}>"><{$lang.system_mail_new_password_body|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="mail_new_password_body" id="mail_new_password_body<{$id}>" rows="5" cols="50"><{$config.mail_new_password_body.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_mail_new_password_body_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			
+			</table>
+		</fieldset>
+	</div>
+	
+	<div class="tab_leave">
+		<fieldset>
+			<legend><{$lang.system_withdraw_membership_title|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><label for="withdraw_membership_use<{$id}>"><{$lang.system_withdraw_membership_use|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="withdraw_membership_use" id="withdraw_membership_use<{$id}>" onchange="if (this.selectedIndex == <{$smarty.const._OFF}>)systemCls['<{$id}>'].hidden(this, 'system_leave'); else systemCls['<{$id}>'].visible(this, 'system_leave');">
+						<option value="<{$smarty.const._OFF}>" <{if $config.withdraw_membership_use.conf_value == $smarty.const._OFF}>selected="selected"<{/if}>　onclick="systemCls['<{$id}>'].hidden(this, 'system_leave')"><{$lang.system_withdraw_membership_use_off|smarty:nodefaults}></option>
+						<option value="<{$smarty.const._ON}>"<{if $config.withdraw_membership_use.conf_value == $smarty.const._ON}> selected="selected"<{/if}>　onclick="systemCls['<{$id}>'].visible(this, 'system_leave')"><{$lang.system_withdraw_membership_use_on|smarty:nodefaults}></option>
+					</select>
+				</td>
+			</tr>
+			<tr class="row system_leave<{if $config.withdraw_membership_use.conf_value == _OFF}> display-none<{/if}>">
+				<th scope="row"><label for="withdraw_disclaimer<{$id}>"><{$lang.system_withdraw_disclaimer|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="withdraw_disclaimer" id="withdraw_disclaimer<{$id}>" rows="5" cols="50"><{$config.withdraw_disclaimer.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_withdraw_disclaimer_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row system_leave<{if $config.withdraw_membership_use.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+				<th scope="row"><{$lang.system_withdraw_membership_send_admin}></th>
+				<td>
+					<input type="radio" name="withdraw_membership_send_admin" value="<{$smarty.const._ON}>" id="withdraw_membership_send_admin_1<{$id}>"<{if $config.withdraw_membership_send_admin.conf_value == $smarty.const._ON}> checked="checked"<{/if}> onclick="systemCls['<{$id}>'].visible(this, 'system_leave_mail');" />
+					<label for="withdraw_membership_send_admin_1<{$id}>"><{$lang.system_yes|smarty:nodefaults}></label>
+					<input type="radio" name="withdraw_membership_send_admin" value="<{$smarty.const._OFF}>" id="withdraw_membership_send_admin_0<{$id}>"<{if $config.withdraw_membership_send_admin.conf_value == $smarty.const._OFF}> checked="checked"<{/if}> onclick="systemCls['<{$id}>'].hidden(this, 'system_leave_mail');" />
+					<label for="withdraw_membership_send_admin_0<{$id}>"><{$lang.system_no|smarty:nodefaults}></label>
+				</td>
+			</tr>
+			<tr class="row system_leave<{if $config.withdraw_membership_use.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+				<td colspan="2">
+					<table class="outer system_setting system_leave_mail<{if $config.withdraw_membership_send_admin.conf_value == _OFF}> display-none<{/if}>" summary="">
+						<tr class="row">
+							<th scope="row"><label for="mail_withdraw_membership_subject<{$id}>"><{$lang.system_mail_withdraw_membership_subject|smarty:nodefaults}></label></th>
+							<td>
+								<input type="text" name="mail_withdraw_membership_subject" id="mail_withdraw_membership_subject<{$id}>" value="<{$config.mail_withdraw_membership_subject.conf_value}>" size="32" />
+							</td>
+						</tr>
+						<tr class="row">
+							<th scope="row"><label for="mail_withdraw_membership_body<{$id}>"><{$lang.system_mail_withdraw_membership_body|smarty:nodefaults}></label></th>
+							<td>
+								<textarea name="mail_withdraw_membership_body" id="mail_withdraw_membership_body<{$id}>" rows="5" cols="50"><{$config.mail_withdraw_membership_body.conf_value}></textarea>
+								<div class="note system_note_width"><{$lang.system_mail_withdraw_membership_body_note|smarty:nodefaults}></div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		</fieldset>
+	</div>
+<{/strip}>

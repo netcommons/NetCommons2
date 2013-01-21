@@ -1,0 +1,82 @@
+<{strip}>
+<{* 登録フォーム一覧用テンプレート *}>
+<div class="outerdiv">
+	<form action="#">
+		<div class="top_description">
+			<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.registration_registration}>
+		</div>
+
+		<div id="_registration_list<{$id}>">
+			<table class="grid_header" summary="<{$lang.registration_list_summary}>">
+				<tr>
+					<th class="grid_change_disp" scope="col">
+					</th>
+					<th class="_sort_registration_name grid_name" scope="col">
+						<{$lang.registration_registration_name}>
+					</th>
+					<th class="_sort_data_count registration_grid_data_count">
+						<{$lang.registration_data_count}>
+					</th>
+					<th class="_sort_active_flag registration_grid_operate" scope="col">
+						<{$lang.registration_activity}>
+					</th>
+					<th class="_sort_insert_user_name registration_grid_creator" scope="col">
+						<{$lang._creator|smarty:nodefaults}>
+					</th>
+					<th class="_sort_insert_time registration_grid_create_date" scope="col">
+						<{$lang._create_date|smarty:nodefaults}>
+					</th>
+					<th class="registration_grid_manage">
+						<{$lang._manage|smarty:nodefaults}>
+					</th>
+				</tr>
+			</table>
+
+			<table class="grid registration_grid_table" summary="<{$lang.registration_list_summary}>">
+				<{foreach from=$action.registrations item=registration}>
+					<tr id="registration_current_row<{$registration.registration_id}><{$id}>" class="grid_row">
+						<td class="grid_change_disp">
+							<{include file = "registration_view_edit_registration_list_current.html"}>
+						</td>
+						<td class="grid_name">
+							<{include file = "registration_view_edit_registration_list_name.html"}>
+						</td>
+						<td class="registration_grid_data_count">
+							<{$lang.registration_data_count_unit|sprintf:$registration.data_count}>
+						</td>
+						<td class="registration_grid_operate">
+							<{include file = "registration_view_edit_registration_list_operate.html"}>
+						</td>
+						<td class="registration_grid_creator">
+							<{include file = "registration_view_handle.html" handle=$registration.insert_user_name|smarty:nodefaults user_id=$registration.insert_user_id}>
+						</td>
+						<td class="registration_grid_create_date">
+							<{$registration.insert_time|timezone_date_format:$lang._date_format}>
+						</td>
+						<td class="registration_grid_manage">
+							<{include file = "registration_view_edit_registration_list_manage.html"}>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+		</div>
+	</form>
+</div>
+
+<{include file = "../registration_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {registrationCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.registrationCount}>, "registration_view_edit_registration_list", opts);
+	opts = null;
+
+	registrationCls["<{$id}>"].currentRegistrationID = "<{$action.currentRegistrationID}>";
+	registrationCls["<{$id}>"].checkCurrent();
+
+	commonCls.focus($("registration_current<{$action.currentRegistrationID}><{$id}>"));
+</script>
+<{/strip}>

@@ -1,0 +1,39 @@
+<{strip}>
+<{* 左部メニュー用テンプレート *}>
+<ul class="pm_menu_ul">
+	<li class="pm_menu_li pm_menu_inbox<{if $action.current_menu == $smarty.const.PM_LEFTMENU_INBOX}>_active<{/if}>">
+		<a href="#" onclick="pmCls['<{$id}>'].changeBox('<{$smarty.const.PM_LEFTMENU_INBOX}>','pm_view_main_init');return false;">
+			<{$lang.pm_global_leftmenu_inbox|smarty:nodefaults}>
+		</a>
+	</li>
+	<li class="pm_menu_li pm_menu_send<{if $action.current_menu == $smarty.const.PM_LEFTMENU_OUTBOX}>_active<{/if}>">
+		<a href="#" onclick="pmCls['<{$id}>'].changeBox('<{$smarty.const.PM_LEFTMENU_OUTBOX}>','pm_view_main_init');return false;">
+			<{$lang.pm_global_leftmenu_outbox|smarty:nodefaults}>
+		</a>
+	</li>
+	<li class="pm_menu_li pm_menu_draft<{if $action.current_menu == $smarty.const.PM_LEFTMENU_STOREBOX}>_active<{/if}>">
+		<a href="#" onclick="pmCls['<{$id}>'].changeBox('<{$smarty.const.PM_LEFTMENU_STOREBOX}>','pm_view_main_init');return false;">
+			<{$lang.pm_global_leftmenu_storebox|smarty:nodefaults}>
+		</a>
+	</li>
+	<li class="pm_menu_li pm_menu_trash<{if $action.current_menu == $smarty.const.PM_LEFTMENU_TRASHBOX}>_active<{/if}>">
+		<a href="#" onclick="pmCls['<{$id}>'].changeBox('<{$smarty.const.PM_LEFTMENU_TRASHBOX}>','pm_view_main_init');return false;">
+			<{$lang.pm_global_leftmenu_trashbox|smarty:nodefaults}>
+		</a>
+	</li>
+	<li class="pm_menu_line_li">
+		<div>&nbsp;</div>
+	</li>
+	<li class="pm_menu_li pm_menu_search<{if $action.current_menu == $smarty.const.PM_LEFTMENU_SEARCH}>_active<{/if}>">
+		<a href="#" onclick="pmCls['<{$id}>'].changeBox('<{$smarty.const.PM_LEFTMENU_SEARCH}>','pm_view_main_search_init');return false;">
+			<{$lang.pm_global_leftmenu_search|smarty:nodefaults}>
+		</a>
+	</li>
+	
+	<li class="pm_menu_li pm_menu_upd<{if $action.current_menu == $smarty.const.PM_LEFTMENU_SETTING}>_active<{/if}>">
+		<a href="#" onclick="pmCls['<{$id}>'].changeBox('<{$smarty.const.PM_LEFTMENU_SETTING}>','pm_view_main_forward');return false;">
+			<{$lang.pm_global_leftmenu_setting|smarty:nodefaults}>
+		</a>
+	</li>
+</ul>
+<{/strip}>

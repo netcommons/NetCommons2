@@ -1,0 +1,22 @@
+<{strip}>
+<{* 携帯用入力データ受付画面用テンプレート *}>
+<{if ($block_obj.block_name != "") }>
+	<h3><{$block_obj.block_name}></h3>
+<{/if}>
+<p>
+<{$action.registration.accept_message}>
+</p>
+
+
+<{include file="registration_mobile_entry_data.html"}>
+
+<div style="text-align:right;">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{/if}>
+		<{$lang.registration_back_to_top|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

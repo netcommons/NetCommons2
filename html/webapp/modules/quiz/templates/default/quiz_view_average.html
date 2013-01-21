@@ -1,0 +1,15 @@
+<{strip}>
+<{* 平均項目用テンプレート *}>
+<table class="outer quiz_summary" summary="<{$lang.quiz_summary_list_summary_summary}>">
+	<{include file="quiz_view_answer_count.html"}>
+	
+	<tr class="row">
+		<th class="nowrap" scope="row">
+			<{$lang.quiz_average}>
+		</th>
+		<td>
+			<{$lang.quiz_average_value|sprintf:$action.average}>
+		</td>
+	</tr>
+</table>
+<{/strip}>

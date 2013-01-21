@@ -1,0 +1,107 @@
+<{strip}>
+<{foreach from=$menus item=menu}>
+	<{* ノードかどうかでクラス変更 *}>
+	<{assign var="now_page_id" value=$menu.page_id}>
+	<{assign var="next_thread_num" value=$menu.thread_num+1}>
+	<{assign var="thread_num" value=$menu.thread_num}>
+	<{assign var="display_flag" value=$action.main_active_node_arr.$now_page_id}>
+	<{assign var="class_name" value="nowrap"}>
+	<{* スペースタイプでクラス変更 *}>
+	<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+		<{assign var="top_class_name" value="menu_top_public"}>
+		<{assign var="space_type_class_name" value="menu_public"}>
+	<{elseif $menu.space_type == _SPACE_TYPE_GROUP}>
+		<{assign var="top_class_name" value="menu_top_group"}>
+		<{assign var="space_type_class_name" value="menu_group"}>
+	<{/if}>
+	<{*プライベートかいなか*}>
+	<{if $menu.private_flag}>
+		<{assign var="top_class_name" value="menu_top_private"}>
+		<{assign var="space_type_class_name" value="menu_private"}>
+	<{/if}>
+	<{*マージン*}>
+	<{if $thread_num == 0}>
+		<{assign var="now_margin" value=$thread_num*$conf.menu_top_left_margin}>
+	<{else}>
+		<{assign var="now_margin" value=$thread_num*$conf.menu_left_margin}>
+	<{/if}>
+	<{*ノードで下にページ(ノード)がない場合、表示しない*}>
+	<{if $menu.page_name != ""
+		&& !($menu.page_id == $menu.room_id
+		&& $menu.display_flag == _OFF
+		&& $menu.authority_id < _AUTH_CHIEF)}>
+		<div id="_menu_<{$menu.page_id}>_<{if $menu.thread_num == 0}>top<{elseif ($menu.thread_num == 1 && $menu.private_flag == _OFF && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}>group<{elseif ($menu.thread_num == 1 && $menu.space_type == _SPACE_TYPE_PUBLIC && $menu.page_id == $menu.room_id) || ($menu.thread_num == 2 && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}><{$menu.parent_id}><{else}><{$menu.room_id}><{/if}>" class="menu_row_top<{if ($menu.thread_num == 1 && $menu.space_type == _SPACE_TYPE_PUBLIC && $menu.page_id == $menu.room_id) || ($menu.thread_num == 2 && $menu.space_type == _SPACE_TYPE_GROUP && $menu.page_id == $menu.room_id)}> _menu_sub_group<{/if}>" style="margin-left:<{$now_margin}>px;">
+
+		<table cellspacing="0" cellpadding="0" class="<{$class_name}> mobile_menu_edit_top_outer <{if $menu.disabled == _ON}> mobile_menu_lbl_noblock_disabled <{elseif $menu.hasMobileContent == false }> mobile_menu_lbl_noblock <{/if}>" >
+		<tr>
+			<td id="_menunodetype<{$id}>_<{$menu.page_id}>" class="_menu_node_type <{if $menu.room_id == $menu.page_id}>mobile_menu_room<{elseif $menu.node_flag == 1}>mobile_menu_node<{else}>mobile_menu_leaf<{/if}>">
+				<{if $menu.room_id == $menu.page_id}>
+					<{*ルーム*}>
+					<{assign var="line_title" value=$lang.mobile_menu_img_room|smarty:nodefaults}>
+				<{elseif $menu.node_flag == 1}>
+					<{*カテゴリ*}>
+					<{assign var="line_title" value=$lang.mobile_menu_img_category|smarty:nodefaults}>
+				<{else}>
+					<{*ページ*}>
+					<{assign var="line_title" value=$lang.mobile_menu_img_page|smarty:nodefaults}>
+				<{/if}>
+				<img class="mobile_menu_bar_img" src="<{""|get_image_url}>/images/common/blank.gif" alt="<{$line_title}>" title="<{$line_title}>" />
+			</td>
+			<td class="mobile_menu_visibility_td">
+				<{if $menu.edit_flag == true}>
+					<{if $menu.visible_flag != false}>
+					<a href="#" <{if $menu.disabled == _ON}> onclick="commonCls.alert( '<{$alert_mess_disabled_menu}>' ); return false;" <{else}> onclick="mobileCls['<{$id}>'].chgVisibilityPage(this, '<{$menu.page_id}>', '<{$alert_mess_hidden_menu}>' ); return false;" <{/if}> >
+						<{if (isset($visibility_flag|smarty:nodefaults) && $visibility_flag == 0) || $menu.visibility_flag == 0}>
+							<img class="_menuvisibility valign-middle <{if $menu.force_off_setting == _ON}>force_off_setting<{/if}>" id="_menuvisibility<{$id}>_<{$menu.page_id}>" src="<{""|get_image_url}>/images/mobile/default/off.gif" alt="<{$lang.mobile_menu_visibility_off|smarty:nodefaults}>" title="<{$lang.mobile_menu_visibility_off|smarty:nodefaults}>" />
+						<{else}>
+							<img class="_menuvisibility valign-middle" id="_menuvisibility<{$id}>_<{$menu.page_id}>" src="<{""|get_image_url}>/images/mobile/default/on.gif" alt="<{$lang.mobile_menu_visibility_on|smarty:nodefaults}>" title="<{$lang.mobile_menu_visibility_on|smarty:nodefaults}>" />
+						<{/if}>
+					</a>
+					<{else}>
+					<div id="_menuvisibility<{$id}>_<{$menu.page_id}>" class="_menuvisibility mobile_menu_visibility_img"></div>
+					<{/if}>
+				<{else}>
+					<{* 行の長さ調整のため *}>
+					<div class="mobile_menu_visibility_img"></div>
+				<{/if}>
+			</td>
+			<td class="mobile_menu_main_edit_td">
+				<{if $menu.node_flag == 1}>
+					<a id=
+				<{else}>
+					<span id=
+				<{/if}>
+					"_menutop<{$id}>_<{$menu.page_id}>" class="_menutop link menulink <{if $thread_num == 0}><{$top_class_name}><{else}><{$space_type_class_name}><{/if}> _menutop_<{$menu.page_id}> nowrap"
+				<{if $menu.node_flag == 1 && $menu.private_flag == _OFF}>
+					<{if $menu.disabled == _ON}>
+						onclick="if( !mobileCls['<{$id}>']._isDisplayTypeFlat() ) {commonCls.alert( '<{$alert_mess_disabled_node}>' ); return false;} mobileCls['<{$id}>'].menuNodeClick(event,'<{$menu.page_id}>',true,<{if $menu.private_flag==_OFF && $menu.space_type==_SPACE_TYPE_GROUP && $menu.thread_num==0}>false<{else}>true<{/if}> );"
+					<{else}>
+						onclick="mobileCls['<{$id}>'].menuNodeClick(event,'<{$menu.page_id}>',true,<{if $menu.private_flag==_OFF && $menu.space_type==_SPACE_TYPE_GROUP && $menu.thread_num==0}>false<{else}>true<{/if}> );"
+					<{/if}>
+				<{/if}>
+				 style="width:<{if $thread_num != 0}>150px;<{else}>170px;<{/if}>overflow:hidden;display:block;">
+					<span<{if $menu.edit_flag == false}> class="mobile_menu_lbl_disabled"<{/if}>><{$menu.page_name}></span>
+					<{* 準備中 *}>
+					<{if $menu.page_id == $menu.room_id && $menu.display_flag == _OFF}><span class="mobile_menu_prepared"><{$lang.mobile_menu_prepared|smarty:nodefaults}></span><{/if}>
+				<{if $menu.node_flag == 1}>
+					</a>
+				<{else}>
+					</span>
+				<{/if}>
+			</td>
+		</tr>
+		</table>
+		</div>
+	<{/if}>
+	<{if $action.menus.$next_thread_num.$now_page_id && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+		<div id="_menu_<{$menu.page_id}><{$id}>" class="_menu_<{$menu.page_id}><{$id}><{if $display_flag == _OFF}> display-none<{else}><{/if}>">
+		<{assign var="menus" value=$action.menus.$next_thread_num.$now_page_id}>
+		<{if $visibility_flag != 0}>
+			<{assign var="visibility_flag" value=$menu.visibility_flag}>
+		<{/if}>
+		<{include file="mobile_view_admin_menu_list.html"}>
+		<{assign var="visibility_flag" value=1}>
+		</div>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

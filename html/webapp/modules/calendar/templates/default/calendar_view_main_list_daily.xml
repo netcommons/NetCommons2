@@ -1,0 +1,102 @@
+<{* XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+
+<lists>
+	<{assign var="date" value=$action.date}>
+	<allday><![CDATA[
+		<{assign var="allday_flag" value=$smarty.const._ON}>
+		<{if ($action.plan_data.$date.$allday_flag) }>
+			<{section name=i loop=$action.plan_data.$date.$allday_flag}>
+				<{assign var="plan_obj" value=$action.plan_data.$date.$allday_flag[i]|smarty:nodefaults}>
+				<{if ($plan_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+					<{assign var="plan_class" value="calendar_plan_public"}>
+				<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+					<{assign var="plan_class" value="calendar_plan_members"}>
+				<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+					<{assign var="plan_class" value="calendar_plan_group"}>
+				<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+					<{assign var="plan_class" value="calendar_plan_private"}>
+				<{/if}>
+	
+				<div class="calendar_plan_title">
+					<a class="link hover_highlight" href="#" title="<{$lang.calendar_scheduled_title|smarty:nodefaults|sprintf:$plan_obj.title|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showDetails(event, <{$plan_obj.calendar_id}>); return false;'>
+						<{if ($plan_obj.allday_flag == _OFF || $plan_obj.timezone_offset != $smarty.session._timezone_offset) }>
+							<span class="calendar_plan_time">
+								<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time_str:$plan_obj.end_time_str}>
+							</span>
+							&nbsp;
+							&nbsp;
+						<{/if}>
+						<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+						<{if $plan_obj.title_icon != "" }>
+							<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$plan_obj.title_icon}>" alt="" />
+						<{/if}>
+						<{$plan_obj.title}>
+					</a>
+				</div>
+			<{/section}>
+		<{else}>
+			<div class="calendar_plan_title">
+				<{$lang.calendar_noplan|smarty:nodefaults}>
+			</div>
+		<{/if}>
+	]]></allday>
+	
+	<{assign var="allday_flag" value=$smarty.const._OFF}>
+	<{assign var="total_branch" value="0"}>
+	<{foreach name="branch" key="branch" item="branch_list" from=$action.plan_data.$date.$allday_flag}>
+		<{assign var="before_top" value="0"}>
+		<{assign var="before_height" value="0"}>
+		<{assign var="before_bottom" value="0"}>
+		<{section name=i loop=$branch_list}>
+			<{assign var="plan_obj" value=$branch_list[i]|smarty:nodefaults}>
+			<{if ($plan_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+				<{assign var="plan_class" value="_public"}>
+			<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+				<{assign var="plan_class" value="_members"}>
+			<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+				<{assign var="plan_class" value="_group"}>
+			<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+				<{assign var="plan_class" value="_private"}>
+			<{/if}>
+			
+			<{if ($plan_obj.top-$before_bottom > 0) }>
+				<row>
+					<branch><{$branch}></branch>
+					<height><{$plan_obj.top-$before_bottom}></height>
+					<data class="calendar_noplan" title=""><![CDATA[&nbsp;]]></data>
+				</row>
+			<{/if}>
+			<row>
+				<{if ($total_branch < $branch) }>
+					<{assign var="total_branch" value=$branch}>
+				<{/if}>
+				<branch><{$branch}></branch>
+				<top><{$plan_obj.top}></top>
+				<height><{$plan_obj.height}></height>
+				<bottom><{$bottom}></bottom>
+				<data class="calendar_plan calendar_plan_mark<{$plan_class}>" title="<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time_str:$plan_obj.end_time_str}> <{$plan_obj.title}>"><![CDATA[
+					<div class="calendar_plan_time">
+						<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time_str:$plan_obj.end_time_str}>
+					</div>
+					<div>
+						<a class="link calendar_plan_title hover_highlight" href="#" title="<{$lang.calendar_scheduled_title|smarty:nodefaults|sprintf:$plan_obj.title|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showDetails(event, <{$plan_obj.calendar_id}>); return false;'>
+							<{if $plan_obj.title_icon != "" }>
+								<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$plan_obj.title_icon}>" alt="" />
+							<{/if}>
+							<{$plan_obj.title}>
+						</a>
+					</div>
+				]]></data>
+			</row>
+			<{assign var="before_top" value=$plan_obj.top}>
+			<{assign var="before_height" value=$plan_obj.height}>
+			<{assign var="before_bottom" value=$plan_obj.bottom}>
+		<{/section}>
+	<{/foreach}>
+	
+	<total_branch><{$total_branch}></total_branch>
+</lists>
+
+<{/strip}>

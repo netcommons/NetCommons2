@@ -1,0 +1,52 @@
+<{strip}>
+<{* アルバム一覧操作部用テンプレート *}>
+<div class="photoalbum_operation photoalbum_album_list_<{$operationPosition}>">
+	<div class="photoalbum_album_operation">
+		<{if $action.photoalbum.album_authority}>
+			<{include file = "photoalbum_view_album_create.html"}>
+
+			<{if $action.albumCount > 0}>
+				<{* <{$lang._separator|smarty:nodefaults}> *}>
+				<a class="syslink" href="#" title="<{$lang.photoalbum_change_album_sequence_title}>" onclick="commonCls.sendView('<{$id}>', 'photoalbum_view_main_album_sequence');return false;">
+					<{* <{$lang.photoalbum_change_album_sequence}> *}>
+				</a>
+			<{/if}>
+		<{/if}>
+	</div>
+
+	<{if $action.albumCount > 0}>
+		<div class="photoalbum_album_page_operation">
+			<span class="photoalbum_page_switch">
+				<{if $action.pageNumber > 0}>
+			  		<a class="syslink" href="#" title="<{$lang.photoalbum_page_title|sprintf:$lang.photoalbum_page_previous}>" onclick="photoalbumCls['<{$id}>'].showAlbumList({'pageNumber':'<{$action.pagePrevious}>'});return false;">
+			  			<img class="icon" src="<{"previous.gif"|get_themes_image}>" alt="" title="" />
+			  			<{$lang.photoalbum_page_previous}>
+			  		</a>
+				<{/if}>
+				<{section name=page start=$action.pageStart loop=$action.pageEnd}>
+					<a class="syslink<{if $action.pageNumber == $smarty.section.page.index}> current<{/if}>" href="#" title="<{$lang.photoalbum_page_title|sprintf:$smarty.section.page.index+1}>" onclick="photoalbumCls['<{$id}>'].showAlbumList({'pageNumber':'<{$smarty.section.page.index}>'});return false;">
+						<{$smarty.section.page.index+1}>
+					</a>
+				<{/section}>
+				<{if $action.pageNext < $action.pageEnd}>
+			  		<a class="syslink" href="#" title="<{$lang.photoalbum_page_title|sprintf:$lang.photoalbum_page_next}>" onclick="photoalbumCls['<{$id}>'].showAlbumList({'pageNumber':'<{$action.pageNext}>'});return false;">
+			  			<{$lang.photoalbum_page_next}>
+			  			<img class="icon" src="<{"next.gif"|get_themes_image}>" alt="" />
+			  		</a>
+				<{/if}>
+			</span>
+			
+			<select id="photoalbum_visible_row_<{$operationPosition}><{$id}>" name="visible_row" onchange="photoalbumCls['<{$id}>'].showAlbumList({'visible_row':this.value});return false;">
+				<{include file = "photoalbum_view_visible_row_option.html"}>
+			</select>
+
+			<select id="photoalbum_album_sort_<{$operationPosition}><{$id}>" class="photoalbum_album_sort" name="sort" onchange="photoalbumCls['<{$id}>'].showAlbumList({'sort':this.value});return false;">
+				<option value="<{$smarty.const.PHOTOALBUM_ALBUM_SORT_NONE}>"><{$lang.photoalbum_album_sort_none}></option>
+				<option value="<{$smarty.const.PHOTOALBUM_ALBUM_SORT_NEW}>"><{$lang.photoalbum_album_sort_new}></option>
+				<option value="<{$smarty.const.PHOTOALBUM_ALBUM_SORT_VOTE}>"><{$lang.photoalbum_album_sort_vote}></option>
+			</select>
+		</div>
+	<{/if}>
+	<br class="float-clear" />
+</div>
+<{/strip}>

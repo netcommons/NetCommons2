@@ -1,0 +1,62 @@
+<{strip}>
+<{* ユーザ移動部分テンプレート *}>
+<table <{if $action_name == "circular_view_main_create"}>class="circular_select_member_table"<{/if}>>
+	<tr>
+		<td>
+			<select class="circular_select_room_boxsize" size="1" id="selected_room_id<{$id}>" name="selected_room_id" onchange="circularCls['<{$id}>'].getRoomUser(); return false;">
+				<{include file="circular_select_room_list.html"}>
+			</select>
+		</td>
+		<td class="align-left valign-middle">
+			<{if $action_name == "circular_view_main_create"}>
+				<a class="syslink" href="#" onclick="circularCls['<{$id}>'].popupEditGroup(event);return false;">
+					<img class="icon" src="<{'edit.gif'|get_themes_image}>" title="<{$lang.circular_edit_group_title|smarty:nodefaults}>" alt="<{$lang.circular_edit_group_title|smarty:nodefaults}>" />
+				</a>
+			<{/if}>
+		</td>
+		<td>
+			<{if $action_name == "circular_view_main_group_init"}>
+				<div class="align-right circular_padding">
+					<span class="syslink">
+						<a class="syslink" href="#" title="<{$lang.circular_group_clear_title|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].clearGroupInfo();return false;">
+							<{$lang.circular_group_clear|smarty:nodefaults}>
+						</a>
+					</span>
+				</div>
+			<{/if}>
+		</td>
+	</tr>
+	<tr>
+		<td class="align-center">
+			<div id="room_users<{$id}>">
+				<{include file="circular_select_user_list.html"}>
+			</div>
+			<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].selectAllUser('group'); return false;" />
+		</td>
+		<td class="valign-middle">
+			<input type="button" value="<{$lang._btn_add_arrow|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].moveUser('add'); return false;" /><br /><br />
+			<input type="button" value="<{$lang._btn_del_arrow|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].moveUser('remove'); return false;" /><br /><br />
+		</td>
+		<td class="align-center">
+			<div>
+				<select class="circular_select_user_boxsize" id="selected_user_list<{$id}>" name="selected_user_list" size="8" multiple>
+					<{if $action_name == "circular_view_main_create"}>
+						<{if is_array($action.circular_user_list)}>
+							<{foreach from=$action.circular_user_list item="item"}>
+								<option value="<{$item.receive_user_id}>"><{$item.handle}></option>
+							<{/foreach}>
+						<{/if}>
+					<{else}>
+						<{if is_array($action.group_info.group_member)}>
+							<{foreach from=$action.group_info.group_member item="item"}>
+								<option value="<{$item.user_id}>"><{$item.handle}></option>
+							<{/foreach}>
+						<{/if}>
+					<{/if}>
+				</select>
+			</div>
+			<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].selectAllUser('selected'); return false;" />
+		</td>
+	</tr>
+</table>
+<{/strip}>

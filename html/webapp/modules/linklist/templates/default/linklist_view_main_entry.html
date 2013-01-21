@@ -1,0 +1,198 @@
+<{strip}>
+<{* リンクリスト編集画面用テンプレート *}>
+<{include file="linklist_view_main_head.html"}>
+
+<form id="linklist_form<{$id}>" class="linklist_entry" action="#">
+	<{foreach name=categoryLink item=categoryLink from=$action.categoryLinks}>
+		<div id="linklist_category_link<{$categoryLink.category_id}><{$id}>">
+			<table class="linklist_category" summary="<{$lang.linklist_category_summary|smarty:nodefaults}>">
+				<tr>
+					<{if $action.linklist.category_authority}>
+						<td class="comp_draganddrop linklist_draganddrop">
+						</td>
+					<{/if}>
+
+					<td class="linklist_category_name">
+						<{if $categoryLink.category_id == 0}>
+							<{$lang.linklist_category_none|smarty:nodefaults}>
+						<{elseif $categoryLink.edit_authority}>
+							<a class="link display-block" href="#" onclick="linklistCls['<{$id}>'].showInputElement(this);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event, this);">
+								<{$categoryLink.category_name}>
+							</a>
+							<input class="linklist_category_name display-none" type="text" name="category_name" value="<{$categoryLink.category_name}>" onkeypress="if (event.keyCode == 13) this.blur();" onblur="linklistCls['<{$id}>'].enterCategory(this, <{$categoryLink.category_id}>);" />
+						<{else}>
+							<{$categoryLink.category_name}>
+						<{/if}>
+					</td>
+
+					<td class="linklist_delete_category">
+						<{if $categoryLink.delete_authority}>
+							<a href="#" onclick="linklistCls['<{$id}>'].deleleCategory(<{$categoryLink.category_id}>, '<{$lang.linklist_category_delete_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+								<img class="icon" src="<{"trash.gif"|get_themes_image}>" alt="<{$lang.linklist_delete_category}>" title="<{$lang.linklist_delete_category|smarty:nodefaults}>" />
+							</a>
+						<{/if}>
+					</td>
+				</tr>
+			</table>
+
+			<table id="linklist_link_list<{$categoryLink.category_id}><{$id}>" class="linklist_link" summary="<{$lang.linklist_link_summary|smarty:nodefaults}>">
+				<{foreach item=link from=$categoryLink.links|smarty:nodefaults}>
+					<tr id="linklist_link<{$link.link_id}><{$id}>">
+						<{if $action.linklist.link_authority}>
+							<td class="comp_draganddrop linklist_draganddrop">
+							</td>
+						<{/if}>
+
+						<td>
+							<{if $link.edit_authority}>
+								<a class="link display-block" href="#" title="<{$lang.linklist_title_edit_title|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].showInputElement(this);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event, this);">
+									<{$link.title}>
+								</a>
+								<input class="linklist_title display-block display-none" type="text" name="title" value="<{$link.title}>" onkeypress="if (event.keyCode == 13) this.blur();" onblur="linklistCls['<{$id}>'].enterLink(this, <{$link.link_id}>);" />
+
+								<a class="link display-block" href="#" title="<{$lang.linklist_url_edit_title|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].showInputElement(this);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event, this);">
+									<{$link.url}>
+								</a>
+								<input class="linklist_url display-block display-none" type="text" name="url" value="<{$link.url}>" onkeypress="if (event.keyCode == 13) this.blur();" onblur="linklistCls['<{$id}>'].enterLink(this, <{$link.link_id}>);" /><br />
+
+								<a class="link display-block" href="#" title="<{$lang.linklist_description_edit_title|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].showInputElement(this);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event, this);">
+									<{if $link.description != ""}>
+										<{$link.description}>
+									<{else}>
+										<{$lang.linklist_no_description|smarty:nodefaults}>
+									<{/if}>
+								</a>
+								<div class="display-none">
+									<textarea id="linklist_description<{$link.link_id}><{$id}>" class="linklist_description" name="description">
+										<{$link.description}>
+									</textarea>
+									<div class="btn-bottom">
+										<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].enterLink($('linklist_description<{$link.link_id}><{$id}>'), <{$link.link_id}>);" />
+										<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="linklistCls['<{$id}>'].hideInputElement(this.parentNode.parentNode);" />
+									</div>
+								</div>
+							<{else}>
+								<{$link.title}><br />
+								<{$link.url}><br />
+								<{$link.description}>
+							<{/if}>
+						</td>
+
+						<td class="linklist_delete_category">
+							<{if $link.edit_authority}>
+								<a href="#" title="<{$lang.linklist_delete_link|smarty:nodefaults|sprintf:$link.title|escape:"javascript"|escape:"html"}>" onclick="linklistCls['<{$id}>'].deleleLink(<{$link.link_id}>, '<{$lang._del_confirm|smarty:nodefaults|sprintf:$link.title|escape:"javascript"|escape:"html"}>');return false;">
+									<img class="icon" src="<{"trash.gif"|get_themes_image}>" alt="<{$lang.linklist_delete_link|smarty:nodefaults|sprintf:$link.title|escape:"javascript"|escape:"html"}>" title="" />
+								</a>
+							<{/if}>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+		</div>
+	<{/foreach}>
+</form>
+
+<{include file="../linklist_script.html"}>
+<script class="nc_script" type="text/javascript">
+	linklistCls["<{$id}>"].entry = "<{$smarty.const._ON}>";
+
+	draggable = Class.create();
+	draggable.prototype = Object.extend((new compDraggable), {
+		prestartDrag: function()
+		{
+			var id = this.htmlElement.id;
+			var categoryID = id.match(/\d+/)[0];
+			var target = $("linklist_link_list" + categoryID + "<{$id}>");
+			if (target) {
+				Element.addClassName(target, "display-none");
+			}
+		}
+	});
+
+	dropZone = Class.create();
+	dropZone.prototype = Object.extend((new compDropzone), {
+		showHover: function(event) {
+			if (this.htmlElement.parentNode.id.match("linklist_category_link")) {
+				if (this._showHover(this.getHTMLElement())) {
+					return;
+				}
+				this.showChgSeqHoverInside(event);
+			} else {
+				this.showChgSeqHover(event);
+			}
+		},
+
+		hideHover: function(event) {
+			this.hideChgSeqHover(event);
+		},
+
+		accept: function(draggableObjects) {
+			this.acceptChgSeq(draggableObjects);
+			
+			var drag = draggableObjects[0].getHTMLElement();
+			var id = drag.id;
+			var categoryID = id.match(/\d+/)[0];
+			var target = $("linklist_link_list" + categoryID + "<{$id}>");
+			if (target) {
+				Element.removeClassName(drag.childNodes[1], "display-none");
+			}
+		},
+		
+		save: function(draggableObjects) {
+			if(this.ChgSeqPosition == null) {
+				return false;
+			}
+	    	var drag = draggableObjects[0].getHTMLElement();
+	    	var drop = this.getHTMLElement();
+			if (drop.tagName == "TABLE") {
+				drop = drop.parentNode;
+			}
+
+			var id = this.getParams();
+			linklistCls[id].changeSequence(drag.id, drop.id, this.ChgSeqPosition);
+			return true;
+		}
+	});
+
+	var dragArea = $("linklist_form<{$id}>");
+	dragDropCategory = new compDragAndDrop();
+	dragDropCategory.registerDraggableRange(dragArea);
+	dragDropLink = new compDragAndDrop();
+	dragDropLink.registerDraggableRange(dragArea);
+
+	var categories = dragArea.childNodes;
+	for (var i = 0; i < categories.length; i++) {
+		var drag = categories[i].firstChild.firstChild.firstChild.firstChild;
+		if (Element.hasClassName(drag, "comp_draganddrop")) {
+			dragDropCategory.registerDraggable(new draggable(categories[i], drag));
+		}
+		dragDropCategory.registerDropZone(new dropZone(categories[i], "<{$id}>"));
+
+		dragDropLink.registerDropZone(new dropZone(categories[i].firstChild, "<{$id}>"));
+
+		var linkTable = categories[i].childNodes[1];
+		if (linkTable == null) {
+			continue;
+		}
+
+		var rows = linkTable.getElementsByTagName("tr");
+		for (var j = 0; j < rows.length; j++) {
+			var drag = rows[j].firstChild;
+			if (Element.hasClassName(drag, "comp_draganddrop")) {
+				dragDropLink.registerDraggable(new compDraggable(rows[j], drag));
+			}
+			dragDropLink.registerDropZone(new dropZone(rows[j], "<{$id}>"));
+		}
+	}
+
+	draggable = null;
+	dropZone = null;
+	dragArea = null;
+	dragDropCategory = null;
+	dragDropLink = null;
+	categories = null;
+	linkTable = null;
+	rows = null;
+	drag = null;
+</script>
+<{/strip}>

@@ -1,0 +1,234 @@
+<{strip}>
+<{* tableタグにしないと広さが自動的に設定されない *}>
+<table class="comptextarea_dialog nc_wysiwyg_insertamazon_dialog" cellspacing="0" cellpadding="0"><tr><td style="<{* style指定ではないとなぜかIEでpaddingされない *}>padding:5px;">
+<div class="nc_wysiwyg_insertamazon_title"><{$lang.insert_amazon_title}></div>
+<p class="nc_wysiwyg_insertamazon_desc"><{$lang.insert_amazon_desc|smarty:nodefaults}></p>
+<form class="nc_wysiwyg_insertamazon_form" method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<ul class="nc_wysiwyg_insertamazon_ul_list">
+		<li>
+			<dl>
+				<dt>
+					<label for="nc_wysiwyg_insertamazon_keyword">
+						<{$lang.insert_amazon_keyword}>
+					</label>
+				</dt>
+				<dd>
+					<input type="text" id="nc_wysiwyg_insertamazon_keyword" name="keyword" value="<{$action.keyword}>" />
+				</dd>
+			</dl>
+		</li>
+		<li>
+			<dl>
+				<dt>
+					<label for="nc_wysiwyg_insertamazon_category">
+						<{$lang.insert_amazon_category}>
+					</label>
+				</dt>
+				<dd>
+					<select id="nc_wysiwyg_insertamazon_category" name="category">
+						<option value="Books"<{if $action.category == "Books"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_stripbooks}>
+						<option value="ForeignBooks"<{if $action.category == "ForeignBooks"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_english_books}></option>
+						<option value="DVD"<{if $action.category == "DVD"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_dvd}></option>
+						<option value="Music"<{if $action.category == "Music"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_popular}></option>
+						<option value="Classical"<{if $action.category == "Classical"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_classical}></option>
+						<option value="MusicalInstruments"<{if $action.category == "MusicalInstruments"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_mi}></option>
+						<option value="VideoGames"<{if $action.category == "VideoGames"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_videogames}></option>
+						<option value="Software"<{if $action.category == "Software"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_software}></option>
+						<option value="Electronics"<{if $action.category == "Electronics"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_electronics}></option>
+						<option value="OfficeProducts"<{if $action.category == "OfficeProducts"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_office_products}></option>
+						<option value="Kitchen"<{if $action.category == "Kitchen"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_kitchen}></option>
+						<option value="Grocery"<{if $action.category == "Grocery"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_food_beverage}></option>
+						<option value="HealthPersonalCare"<{if $action.category == "HealthPersonalCare"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_hpc}></option>
+						<option value="Beauty"<{if $action.category == "Beauty"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_beauty}></option>
+						<option value="Baby"<{if $action.category == "Baby"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_baby}></option>
+						<option value="Toys"<{if $action.category == "Toys"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_toys}></option>
+						<option value="Apparel"<{if $action.category == "Apparel"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_apparel}></option>
+						<option value="Shoes"<{if $action.category == "Shoes"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_shoes}></option>
+						<option value="Jewelry"<{if $action.category == "Jewelry"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_jewelry}></option>
+						<option value="Watches"<{if $action.category == "Watches"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_watch}></option>
+						<option value="SportingGoods"<{if $action.category == "SportingGoods"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_sporting}></option>
+						<option value="Automotive"<{if $action.category == "Automotive"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_automotive}></option>
+						<option value="Hobbies"<{if $action.category == "Hobbies"}> selected="selected"<{/if}>><{$lang.insert_amazon_category_diy}></option>
+					</select>
+				</dd>
+			</dl>
+		</li>
+		<li>
+			<dl>
+				<dt>
+					<label for="nc_wysiwyg_insertamazon_image">
+						<{$lang.insert_amazon_image}>
+					</label>
+				</dt>
+				<dd>
+					<select id="nc_wysiwyg_insertamazon_image" name="type">
+						<option value="detail"<{if $action.type == "detail"}> selected="selected"<{/if}>><{$lang.insert_amazon_image_detail}></option>
+						<option value="text"<{if $action.type == "text"}> selected="selected"<{/if}>><{$lang.insert_amazon_image_text}>
+						<option value="small"<{if $action.type == "small"}> selected="selected"<{/if}>><{$lang.insert_amazon_image_small}></option>
+						<option value="medium"<{if $action.type == "medium"}> selected="selected"<{/if}>><{$lang.insert_amazon_image_medium}></option>
+						<option value="large"<{if $action.type == "large"}> selected="selected"<{/if}>><{$lang.insert_amazon_image_large}></option>
+					</select>
+				</dd>
+			</dl>
+		</li>
+		<li>
+			<dl>
+				<dt>
+					<{$lang.insert_amazon_target}>
+				</dt>
+				<dd>
+					<label for="nc_wysiwyg_insertamazon_target">
+						<input id="nc_wysiwyg_insertamazon_target"type="radio" name="target" value="" checked="checked" /><{$lang.insert_amazon_target_normal}>
+					</label>
+					<br />
+					<label for="nc_wysiwyg_insertamazon_target_blank">
+						<input id="nc_wysiwyg_insertamazon_target_blank"type="radio" name="target" value="_blank" /><{$lang.insert_amazon_target_blank}>
+					</label>
+				</dd>
+			</dl>
+		</li>
+	</ul>
+	<div class="nc_wysiwyg_insertamazon_btn">
+		<input type="submit" value="<{$lang.insert_amazon_search}>" class="nc_wysiwyg_btn" name="ok" />
+		<input type="button" value="<{$lang._close_btn}>" class="nc_wysiwyg_btn" name="cancel" id="nc_wysiwyg_insertamazon_cancel" onclick="parent.commonCls.referComp['<{$action.parent_id_name}>'].closePopup('insertamazon'); return false;" />
+	</div>
+	<input type="hidden" name="pageNumber" value="0" />
+
+	<input type="hidden" name="action" value="comp_textarea_view_insertamazon" />
+	<input type="hidden" name="prefix_id_name" value="dialog_insertamazon" />
+	<input type="hidden" name="parent_id_name" value="<{$action.parent_id_name}>" />
+	<input type="hidden" name="top_id_name" value="<{$action.top_id_name}>" />
+	<input type="hidden" name="cmd_name" value="insertamazon" />
+	<input type="hidden" name="page_id" value="<{$action.page_id}>" />
+	<input type="hidden" name="block_id" value="<{$action.block_id}>" />
+	<input type="hidden" name="module_id" value="<{$action.module_id}>" />
+	<input type="hidden" name="_header" value="1" />
+	<input type="hidden" name="_noscript" value="1" />
+	<input type="hidden" name="_change_lang_permalink" value="1" />
+</form>
+<{if $action.amazonList != ""}>
+	<{if $action.amazonList.allcount == 0}>
+		<div class="nc_wysiwyg_insertamazon_noexist">
+			<{$lang.insert_amazon_noexist|smarty:nodefaults}>
+		</div>
+	<{else}>
+		<{include file="./textarea/insert_amazon_pager.html"}>
+		<div id="nc_wysiwyg_insertamazon_results" class="nc_wysiwyg_insertamazon_results">
+			<table class="widthmax">
+			<{foreach item=result name=loop key=key from=$action.amazonList.result}>
+				<tr>
+					<td class="nc_wysiwyg_insertamazon_result">
+					<div>
+						<{if $action.type != 'text' && !empty($result.ImageURL|smarty:nodefaults)}>
+							<a href="<{$result.amazonURL}>"<{if $action.target=="_blank"}> target="_blank"<{/if}>>
+								<img align="left" style="margin:5px;" src="<{$result.ImageURL}>" title="<{$result.title}>" alt="" />
+							</a>
+						<{/if}>
+						<a href="<{$result.amazonURL}>"<{if $action.target=="_blank"}> target="_blank"<{/if}>>
+							<{$result.title}>
+						</a>
+						<br />
+						<{if !empty($result.author|smarty:nodefaults)}>
+							<{$result.author}>
+						<{elseif !empty($result.artist|smarty:nodefaults)}>
+							<{$result.artist}>
+						<{/if}>
+						<{if $action.type == 'detail'}>
+							<{if !empty($result.manufacturer|smarty:nodefaults)}>
+								<{if isset($result.author|smarty:nodefaults) || isset($result.artist|smarty:nodefaults)}>
+									<br />
+								<{/if}>
+								<{$result.manufacturer}>
+							<{/if}>
+							<{if !empty($result.releasedate|smarty:nodefaults)}>
+								(<{$result.releasedate}>)
+							<{elseif !empty($result.publicationdate|smarty:nodefaults)}>
+								(<{$result.publicationdate}>)
+							<{/if}>
+							<br />
+							<{if !empty($result.formattedprice|smarty:nodefaults)}>
+								<{$lang.insert_amazon_price}>:
+								<{$result.formattedprice}><br />
+							<{/if}>
+
+							<{if !empty($result.AverageRating|smarty:nodefaults)}>
+								<{$lang.insert_amazon_rating}>:
+								<{if $result.AverageRating == "1.0"}>
+									<img alt="1.0" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-1-0.gif" />
+								<{elseif $result.AverageRating == "1.5"}>
+									<img alt="1.5" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-1-5.gif" />
+								<{elseif $result.AverageRating == "2.0"}>
+									<img alt="2.0" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-2-0.gif" />
+								<{elseif $result.AverageRating == "2.5"}>
+									<img alt="2.5" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-2-5.gif" />
+								<{elseif $result.AverageRating == "3.0"}>
+									<img alt="3.0" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-3-0.gif" />
+								<{elseif $result.AverageRating == "3.5"}>
+									<img alt="3.5" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-3-5.gif" />
+								<{elseif $result.AverageRating == "4.0"}>
+									<img alt="4.0" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-4-0.gif" />
+								<{elseif $result.AverageRating == "4.5"}>
+									<img alt="4.5" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-4-5.gif" />
+								<{else}>
+									<img alt="5.0" src="<{""|get_image_url}>/images/comp/textarea/stars/stars-5-0.gif" />
+								<{/if}>
+								(<{$result.TotalReviews}>)
+							<{/if}>
+						<{/if}>
+						<br style="clear:both" />
+					</div>
+					</td>
+					<td class="nc_wysiwyg_insertamazon_insert">
+						<input class="nc_wysiwyg_insertamazon_btn" type="button" value="<{$lang.insert_amazon_insert}>" onclick="Insert(this);return false;" />
+						<div class="display-none bold"><{$lang.insert_amazon_inserted}></div>
+					</td>
+				</tr>
+			<{/foreach}>
+			</table>
+		</div>
+		<{include file="./textarea/insert_amazon_pager.html"}>
+	<{/if}>
+<{elseif !empty($action.category|smarty:nodefaults)}>
+	<{* キーワード - 空のまま検索 *}>
+	<div class="nc_wysiwyg_insertamazon_noexist">
+		<{$lang.insert_amazon_noexist|smarty:nodefaults}>
+	</div>
+<{/if}>
+</td></tr></table>
+<{/strip}>
+<script type="text/javascript">
+var htmlarea = parent.commonCls.referComp['<{$action.parent_id_name}>'];
+var popup = htmlarea.popup[htmlarea.popupPrefix + htmlarea.id + 'insertamazon'];
+
+function Init() {
+	parent.commonCls.stopObserving(window, 'load',Init, false);
+	var keyword_el = document.getElementById("nc_wysiwyg_insertamazon_keyword");
+	keyword_el.focus();
+	var results_el = document.getElementById("nc_wysiwyg_insertamazon_results");
+
+	if(results_el) {
+		parent.commonCls.disableLink(results_el, "nc_wysiwyg_insertamazon_btn", true);
+	}
+	<{*//リサイズ*}>
+	popup.resize();
+}
+function Insert(el) {
+	var html = el.parentNode.previousSibling.innerHTML;
+	parent.Element.setStyle(el.parentNode,{'background-color':'#ffffe0'});
+	parent.Element.addClassName(el,'display-none');
+	parent.Element.removeClassName(el.nextSibling,'display-none');
+	htmlarea.addFocus(true);
+	if(parent.browser.isIE)
+		htmlarea.moveToBookmark(htmlarea.bookmark);
+	var result = htmlarea.applyInlineStyle(html, null, true);
+	var br_el = htmlarea.editorDoc.createElement("BR");
+	htmlarea.insertAfter(result, br_el);
+	htmlarea.rangeSelect(br_el);
+	htmlarea.checkTargets();
+	htmlarea.addUndo();
+	htmlarea.collapse();
+	htmlarea.bookmark = htmlarea.getBookmark();
+}
+
+parent.commonCls.observe(window, 'load',Init, false, '<{$id}>');
+</script>

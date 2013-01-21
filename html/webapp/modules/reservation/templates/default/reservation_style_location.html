@@ -1,0 +1,25 @@
+<{strip}>
+
+<th class="nowrap reservation_style_location_th" scope="row">
+	<div><{$lang.reservation_default_location|smarty:nodefaults}></div>
+</th>
+<td class="reservation_style_location_td">
+	<label for="reservation_location<{$id}>">
+		<{if ($action.location_count > 0) }>
+			<select id="reservation_location_select<{$id}>" class="reservation_style_select" name="location_id">
+				<{section name=i loop=$action.location_list}>
+					<option value="<{$action.location_list[i].location_id}>"<{if ($current_location_id==$action.location_list[i].location_id) }> selected="selected"<{/if}>>
+						<{$action.location_list[i].location_name}>
+					</option>
+				<{/section}>
+			</select>
+		<{else}>
+			<span id="reservation_location_select<{$id}>" class="errorstr">
+				<{$lang.reservation_select_nolocation|smarty:nodefaults}>
+			</span>
+			<input type="hidden" name="location_id" value="0" />
+		<{/if}>
+	</label>
+</td>
+
+<{/strip}>

@@ -1,0 +1,35 @@
+<{strip}>
+<tr>
+  <th class="pm_list_inbox_th pm_list_inbox_check_ttl"><input type="checkbox" id="pm_form<{$id}>_select_all_checkbox" name="select_all_checkbox" value="" onclick="pmCls['<{$id}>'].onClickAllDown('pm_form<{$id}>_select_all_flag', this.id, 'pm<{$id}>_select_all_message', '<{$lang.pm_select_all_message|smarty:nodefaults|sprintf:$action.pager.display_rows}>', '<{$lang.pm_select_all_link|smarty:nodefaults|sprintf:$action.pager.total_rows}>', '<{$lang.pm_unselect_all_message|smarty:nodefaults|sprintf:$action.pager.total_rows}>', '<{$lang.pm_unselect_all_link|smarty:nodefaults}>');"/></th>
+  <{if $action.current_menu == $smarty.const.PM_LEFTMENU_INBOX || $action.current_menu == $smarty.const.PM_LEFTMENU_TRASHBOX}>
+	<th class="pm_list_inbox_th pm_list_inbox_sender_ttl" onclick="pmCls['<{$id}>'].sortBy('r.insert_user_name','<{$action.search_flag}>'); return false;">
+	  <{$lang.pm_sender|smarty:nodefaults}>
+	  <img class="icon pm_sort_img display-none" id="pm_sort_img<{$id}>_r.insert_user_name" alt="" title="" />
+	</th>
+  <{else}>
+	<th class="pm_list_inbox_th pm_list_inbox_sender_ttl" onclick="pmCls['<{$id}>'].sortBy('m.receivers_list','<{$action.search_flag}>'); return false;">
+	  <{$lang.pm_receiver|smarty:nodefaults}>
+	  <img class="icon pm_sort_img display-none" id="pm_sort_img<{$id}>_m.receivers_list" alt="" title=""/>
+	</th>
+  <{/if}>
+ 
+  <th class="pm_list_inbox_th pm_list_inbox_subject_ttl" onclick="pmCls['<{$id}>'].sortBy('m.subject','<{$action.search_flag}>'); return false;">
+	 <{$lang.pm_subject|smarty:nodefaults}>
+	 <img class="icon pm_sort_img display-none" id="pm_sort_img<{$id}>_m.subject" alt="" title=""/>
+  </th>
+  <th class="pm_list_inbox_th pm_list_inbox_data_ttl" onclick="pmCls['<{$id}>'].sortBy('m.sent_time','<{$action.search_flag}>'); return false;">
+	 <{$lang.pm_date|smarty:nodefaults}>
+	 <img class="icon pm_sort_img display-none" id="pm_sort_img<{$id}>_m.sent_time" alt="" title=""/>
+  </th>
+</tr>
+<input type="hidden" id="pm_form<{$id}>_select_all_flag" name="select_all_flag" value="0"/>
+<tr>
+  <td id="pm<{$id}>_select_all_message" class="pm_list_inbox_td pm_list_inbox_checked pm_select_all_message display-none" colspan="4">  
+  </td>
+</tr>
+<script class="nc_script" type="text/javascript">
+	if($('pm_form<{$id}>_select_all_checkbox')){
+		$('pm_form<{$id}>_select_all_checkbox').checked = false;
+	}
+</script>
+<{/strip}>

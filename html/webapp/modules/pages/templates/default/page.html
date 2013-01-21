@@ -1,0 +1,71 @@
+<{strip}>
+<{*
+<{if $main_display_position == _DISPLAY_POSITION_CENTER}>
+	<{if $leftcolumn_flag &&  $rightcolumn_flag}>
+		<{assign var="colspan" value="3"}>
+	<{elseif $leftcolumn_flag ||  $rightcolumn_flag}>
+		<{assign var="colspan" value="2"}>
+	<{else}>
+		<{assign var="colspan" value="1"}>
+	<{/if}>
+<{else}>
+	<{assign var="colspan" value="1"}>
+<{/if}>
+*}>
+
+<table id="_container" class="container" summary="" <{if $align != "left"}>align="<{$align}>" <{/if}>
+	style="
+	text-align:<{$align}>;
+	<{if $leftmargin != 0}>margin-left:<{$leftmargin}>px;<{/if}>
+	<{if $rightmargin != 0}>margin-right:<{$rightmargin}>px;<{/if}>
+	<{if $topmargin != 0}>margin-top:<{$topmargin}>px;<{/if}>
+	<{if $bottommargin != 0}>margin-bottom:<{$bottommargin}>px;<{/if}>
+	">
+	<tr>
+		<td class="valign-top align-left">
+			<{if $smarty.session._header_menu_flag == _ON || $smarty.session._layoutmode == "on"}>
+				<div class="headercolumn_menu">
+					<{* ヘッダーメニュー *}>
+					<{include file="headermenu.html"}>
+				</div>
+			<{/if}>
+
+			<{include file = "../login.html"}>
+
+			<{if $main_display_position == _DISPLAY_POSITION_CENTER && ($header_flag || $smarty.session._layoutmode == "on")}>
+				<{if $header_flag}>
+	    			<div id="_headercolumn" class="headercolumn"<{if $header_style != ""}> style="<{$header_style}>"<{/if}>>
+		    			<{if $smarty.session._layoutmode == "on" && ($main_display_position == _DISPLAY_POSITION_CENTER || $main_display_position == _DISPLAY_POSITION_HEADER)}>
+						<div id="headercolumn_addmodule" class="valign-top align-left">
+								<{*モジュール追加ボックス*}>
+								<{assign var="arrange_position" value="header"}>
+							   	<{assign var="column_page_id" value=$smarty.session._headercolumn_page_id}>
+							   	<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_HEADER}>
+							   	<{assign var="auth_id" value=$smarty.session._auth_arr.$display_position}>
+							    <{assign var="addblock_field" value=$addblock_header_field}>
+							    <{include file="addblock_box.html"}>
+						</div>
+						<{/if}>
+		    			<div id="__headercolumn" class="main_column<{if $smarty.session._layoutmode == "on"}> headercolumn_on<{/if}>">
+							<{* ヘッダ表示 *}>
+							<{$content_header_field|smarty:nodefaults}>
+						</div>
+					</div>
+	    	   	<{/if}>
+			<{/if}>
+    	</td>
+   	</tr>
+<{* メイン表示 *}>
+<{include file="main.html"}>
+<{if $main_display_position == _DISPLAY_POSITION_CENTER && ($footer_flag == 1 || $smarty.session._layoutmode == "on")}>
+		<{if $footer_flag}>
+		<tr class="main_column" id="footercolumn">
+	    	<td id="_footercolumn" class="footercolumn valign-top align-left" style="<{$footer_style}>">
+	    		<{* フッタ表示 *}>
+				<{include file="./footer.html"}>
+	    	</td>
+	   	</tr>
+	   	<{/if}>
+<{/if}>
+</table>
+<{/strip}>

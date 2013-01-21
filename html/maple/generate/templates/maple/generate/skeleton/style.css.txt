@@ -1,0 +1,4 @@
+<?php if($skeleton->csstype == "global") print "/* Global Css定義ファイル              */\n"; ?>
+<?php if($skeleton->csstype != "global") print "/* Css定義ファイル                     */\n"; ?>
+<?php                                    print "/* (/^moduledir_*./)の形式で記述すること */\n"; ?>
+<?php print ".".$skeleton->dir_name."_hoge {\n}"; ?>

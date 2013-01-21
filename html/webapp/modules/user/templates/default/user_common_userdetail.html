@@ -1,0 +1,133 @@
+<{strip}>
+<{*共通：会員情報詳細画面*}>
+<{* 詳細部 *}>
+<table class="outer" summary="<{$lang.user_detail_summary|smarty:nodefaults}>">
+	<tr>
+	<{foreach from=$action.items item=item_list key=columnNumber}>
+		<td class="valign-top align-left">
+			<table class="widthauto" summary="">
+				<{foreach from=$item_list item=item}>
+					<{* 非公開の項目,検索させない項目 *}>
+					<{if ($mode != "search"
+								&& $item.type != USER_TYPE_LABEL)
+							|| ($mode == "search"
+								&& $item.type != USER_TYPE_FILE
+								&& $item.tag_name != "password"
+								&& $item.tag_name != "timezone_offset_lang"
+								&& $item.tag_name != "lang_dirname_lang"
+								&& $item.tag_name != "insert_user_name"
+								&& $item.tag_name != "update_user_name"
+								&& $item.tag_name != "previous_login_time"
+								&& ($item.under_public_flag != USER_NO_PUBLIC
+									|| $item.self_public_flag != USER_NO_PUBLIC
+									|| $item.over_public_flag != USER_NO_PUBLIC))}>
+
+						<{assign var="item_id" value=$item.item_id}>
+
+						<{if $mode == "search"}>
+							<{if $action.room_current_id >= 0}>
+								<{* ルーム管理-絞込み検索時 *}>
+								<{assign var="room_current_id" value=$action.room_current_id}>
+								<{if isset($smarty.session.room|smarty:nodefaults)}>
+									<{assign var="content" value=$smarty.session.room.$room_current_id.search.$item_id|smarty:nodefaults}>
+								<{else}>
+									<{assign var="content" value=""}>
+								<{/if}>
+							<{elseif isset($smarty.session.user|smarty:nodefaults)}>
+								<{assign var="content" value=$smarty.session.user.search.$item_id|smarty:nodefaults}>
+							<{else}>
+								<{assign var="content" value=""}>
+							<{/if}>
+							<{assign var="new_flag" value=0}>
+
+						<{else}>
+
+							<{assign var="user_id" value=$action.user_id}>
+							<{if $action_name=="user_view_admin_regist_init" && $action.session_params}>
+								<{assign var="content" value=$action.session_params.$item_id|smarty:nodefaults}>
+								<{assign var="new_flag" value=0}>
+								<{assign var="email_reception_flag" value=$action.session_reception_params.$item_id}>
+								<{assign var="public_flag" value=$action.session_public_params.$item_id}>
+							<{elseif isset($smarty.session.user.regist.$user_id|smarty:nodefaults)}>
+								<{assign var="content" value=$smarty.session.user.regist.$user_id.$item_id|smarty:nodefaults}>
+								<{assign var="new_flag" value=0}>
+								<{assign var="email_reception_flag" value=$smarty.session.user.regist_reception.$user_id.$item_id}>
+								<{assign var="public_flag" value=$smarty.session.user.regist_public.$user_id.$item_id}>
+							<{else}>
+								<{if $action.user_id != "0" && $item.tag_name != "password"}>
+									<{* 編集 *}>
+									<{if $item.tag_name != "" && $item.is_users_tbl_fld != false}>
+										<{*userテーブルからデータ取得*}>
+										<{assign var="tag_name" value=$item.tag_name}>
+										<{assign var="content" value=$action.user.$tag_name|smarty:nodefaults}>
+									<{else}>
+										<{assign var="content" value=$item.content|smarty:nodefaults}>
+									<{/if}>
+									<{assign var="new_flag" value=2}>
+									<{assign var="email_reception_flag" value=$item.email_reception_flag}>
+									<{assign var="public_flag" value=$item.public_flag}>
+								<{else}>
+									<{* 新規 or パスワード *}>
+									<{assign var="content" value=""}>
+									<{assign var="new_flag" value=1}>
+									<{assign var="email_reception_flag" value=$smarty.const._OFF}>
+									<{assign var="public_flag" value=$smarty.const._OFF}>
+								<{/if}>
+							<{/if}>
+						<{/if}>
+
+						<tr>
+							<th class="user_detail_head" scope="row">
+								<label for="user_items<{$id}>_<{$item.item_id}>">
+									<{$item.item_name}>
+								</label>
+								<{if $mode == "regist" || $mode == "confirm"}>
+									<{* 必須 *}>
+									<{if !($action.edit_flag==_ON && $item.tag_name == "password") && $item.require_flag == _ON}>
+										<{$lang.user_require_flag|smarty:nodefaults}>
+									<{/if}>
+								<{/if}>
+							</th>
+							<td class="user_edit_detail" style="width:<{$conf.user_detail_min_width}>px;">
+								<{include file="user_common_edit_comp.html"}>
+								<{if $mode == "confirm"}>
+									<{* Absolute-Body要素を越えた場合、幅が狭くなるためblank画像挿入 *}>
+									<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" style="height:1px; width:<{$conf.user_detail_min_width}>px;"/>
+								<{/if}>
+							</td>
+						</tr>
+					<{/if}>
+				<{/foreach}>
+
+				<{* 参加ルームの検索-現状：固定で一列目の最後尾に表示している *}>
+				<{if $mode == "search" && $columnNumber == 1}>
+					<tr>
+						<th class="user_detail_head" scope="row">
+							<label for="user_items_<{$id}>_sel_room_id">
+								<{$smarty.const.USER_ITEM_ENTRY_ROOM}>
+							</label>
+						</th>
+						<td class="user_edit_detail" style="width:<{$conf.user_detail_min_width}>px;">
+							<select class="user_sel_room" id="user_items_<{$id}>_sel_room_id" name="sel_room_id_list">
+								<option value="">
+									<{$lang.user_none_selected|smarty:nodefaults}>
+								</option>
+								<{if $smarty.session._auth_id == _AUTH_ADMIN
+									|| !empty($action.room_top_id_name|smarty:nodefaults)}>
+									<option value="USER_NOT_ENROLL"<{if ($action.room_top_id_name == null && isset($smarty.session.user.search.0|smarty:nodefaults) && $smarty.session.user.search.0 == 'USER_NOT_ENROLL') || ($action.room_top_id_name != null && isset($smarty.session.room.search.0|smarty:nodefaults) && $smarty.session.room.search.0 == 'USER_NOT_ENROLL')}> selected='selected'<{/if}>>
+										<{$lang.user_not_enroll|smarty:nodefaults}>
+									</option>
+								<{/if}>
+								<{assign var="action_room_list" value=$action.room_list}>
+								<{assign var="room_list" value=$action.room_list.0.0}>
+								<{include file="user_select_room_list.html"}>
+							</select>
+						</td>
+					</tr>
+				<{/if}>
+			</table>
+		</td>
+	<{/foreach}>
+	</tr>
+</table>
+<{/strip}>

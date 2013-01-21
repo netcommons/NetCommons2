@@ -1,0 +1,78 @@
+<{strip}>
+<{* 参加ルームの選択 *}>
+<form action="" id="form<{$id}>" onsubmit="return false;">
+	<{* タイトル *}>
+	<div class="bold">
+		<{if $action.edit_flag == 1}>
+			<{* ルーム参加者修正 *}>
+			<a class="link" href="#"  onclick="userCls['<{$id}>'].selectAllSelectEl($('form<{$id}>'), 'enroll_room[]'); userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', $('form<{$id}>'), $('<{$id}>')); return false;">
+				<{assign var="user_id" value=$action.user_id}>
+				<{$lang.user_view_admin_edit_init|smarty:nodefaults}>[<{* Hangle:item_id=2固定*}><{$smarty.session.user.regist.$user_id.2}>]
+			</a>
+		<{else}>
+			<a class="link" href="#"  onclick="userCls['<{$id}>'].selectAllSelectEl($('form<{$id}>'), 'enroll_room[]'); userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', $('form<{$id}>'), $('<{$id}>')); return false;">
+				<{$lang.user_view_admin_regist_init|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.user_select_room|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<{$lang.user_top_descripton|smarty:nodefaults|sprintf:"`$lang._btn_next_arrow`":"`$lang.user_all_room_list`":"`$lang._btn_add_arrow`":"`$smarty.const._SPACE_TYPE_NAME_PUBLIC`"}>
+	</div>
+	<div align="center">
+		<table summary="<{$smarty.const._SUMMARY_SELECTFORM}>">
+		<tr>
+			<th class="nowrap head align-center" scope="col"><{$lang.user_all_room_list|smarty:nodefaults}></th>
+			<td rowspan="2" class="selectlist_arrow_btn_area nowrap align-center">
+				<{* 追加 *}>
+				<input type="button" value="<{$lang._btn_add_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'not_enroll_room[]','enroll_room[]');" />
+				<br />
+				<br />
+				<{* 削除 *}>
+				<input type="button" value="<{$lang._btn_del_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'enroll_room[]','not_enroll_room[]');" />
+			</td>
+			<th class="nowrap head align-center" scope="col"><{$lang.user_entry_room_list|smarty:nodefaults}></th>
+		</tr>
+		<tr>
+			<td class="selectlist nowrap align-center valign-top">
+				<div>
+					<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'not_enroll_room[]');" />
+					&nbsp;
+					<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'not_enroll_room[]');" />	
+				</div>
+				<select name="not_enroll_room[]" size="14" class="user_selectlist" multiple="multiple" onchange="commonCls.frmAllReleaseList(this.form,'enroll_room[]'); userCls['<{$id}>'].selectOnChange(event, false);return false;">
+					<{assign var="action_room_list" value=$action.not_enroll_room_arr}>
+					<{assign var="room_list" value=$action.not_enroll_room_arr.0.0}>
+					<{include file="user_select_room_list.html"}>
+				</select>
+			</td>
+			<td class="selectlist nowrap align-center valign-top">
+				<div>
+					<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'enroll_room[]', true);" />
+					&nbsp;
+					<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'enroll_room[]');" />	
+				</div>
+				<select name="enroll_room[]" size="14" class="user_selectlist" multiple="multiple" onchange="commonCls.frmAllReleaseList(this.form,'not_enroll_room[]'); userCls['<{$id}>'].selectOnChange(event, true);return false;">
+					<{assign var="action_room_list" value=$action.enroll_room_arr}>
+					<{assign var="room_list" value=$action.enroll_room_arr.0.0}>
+					<{include file="user_select_room_list.html"}>
+				</select>
+			</td>
+		</tr>
+		</table>
+	</div>
+	<div class="note">
+		<{$lang._mes_pluralselecthelp|smarty:nodefaults}>
+	</div>
+	<div class="align-right">
+		<input class="btn-width lined_btn" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].selectAllSelectEl(this.form, 'enroll_room[]'); userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', this.form, $('<{$id}>')); return false;" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].selectAllSelectEl(this.form, 'enroll_room[]'); userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selauth', this.form, this.form.parentNode); return false;" />
+		<{if $action.edit_flag == 1}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang._close_block_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false;commonCls.removeBlock('<{$id}>'); return false;" />
+		<{/if}>
+	</div>
+	<input name="user_id" type="hidden" value="<{$action.user_id}>" />
+</form>
+<{include file="user_script.html"}>
+<{/strip}>

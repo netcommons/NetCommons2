@@ -1,0 +1,39 @@
+<{strip}>
+<{* 評価表示テンプレート *}>
+
+<{if ($report_status != ASSIGNMENT_STATUS_REREASED) }>
+	<span class="require">
+		<{$lang._temporary_state|smarty:nodefaults}>
+	</span>
+
+<{elseif ($submit_flag == ASSIGNMENT_SUBMIT_FLAG_SUBMITTED) }>
+	<{* 提出済 *}>
+	<{if ($submittedUnvalued) }>
+		<{$lang.assignment_submitted_unvalued|smarty:nodefaults}>
+	<{else}>
+		<{$lang.assignment_submitted|smarty:nodefaults}>
+	<{/if}>
+
+<{elseif ($submit_flag == ASSIGNMENT_SUBMIT_FLAG_RESUBMITTED) }>
+	<{* 再提出 *}>
+	<span class="assignment_resubmitted">
+		<{$lang.assignment_resubmitted|smarty:nodefaults}>
+	</span>
+
+<{elseif ($submit_flag == ASSIGNMENT_SUBMIT_FLAG_GRADED) }>
+	<{* 評価 *}>
+	<{$grade_value}>
+
+<{elseif ($action.submit_user_id != "" || $forcedDisplay) }>
+	<{* 未提出 *}>
+	<span class="assignment_yet_submitted">
+		<{$lang.assignment_yet_submitted|smarty:nodefaults}>
+	</span>
+
+<{else}>
+	<{* - *}>
+	<{$lang.assignment_no_value|smarty:nodefaults}>
+
+<{/if}>
+
+<{/strip}>

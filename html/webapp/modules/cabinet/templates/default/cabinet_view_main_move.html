@@ -1,0 +1,26 @@
+<{strip}>
+
+<div class="top_description nowrap">
+	<{$lang.cabinet_move_desc|smarty:nodefaults}>
+</div>
+
+<{include file="cabinet_view_main_explorer_folder_tree.html"}>
+
+<div class="btn-bottom">
+	<form id="cabinet_form<{$id}>" action="#" method="post" onsubmit="return false;">
+		<input class="btn-width" type="button" name="regist" value="<{$smarty.const._OK}>" disabled="disabled" onclick='cabinetCls["<{$id}>"].popupMoveFile("<{$smarty.session.cabinet._id.$block_id}>"); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+	</form>
+</div>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].cabinet_id = "<{$action.cabinet_id}>";
+	cabinetCls["<{$id}>"].movement["file_id"] = "<{$action.file.file_id}>";
+	cabinetCls["<{$id}>"].movement["file_name"] = "<{$action.file.file_name}>";
+	cabinetCls["<{$id}>"].movement["file_type"] = "<{$action.file.file_type}>";
+	cabinetCls["<{$id}>"].messages["move_confirm"] = "<{$lang.cabinet_move_confirm|smarty:nodefaults|escape:"javascript"}>";
+</script>
+
+<{/strip}>

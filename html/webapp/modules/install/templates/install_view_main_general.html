@@ -1,0 +1,268 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+
+<div class="install_title">
+	<{$smarty.const.INSTALL_GENERAL_CONF_TITLE}>
+</div>
+<{* エラーメッセージ　*}>
+<a name="error_mes" />
+<div class="install_error_mes" id="install_error_mes<{$id}>">
+</div>
+<{/strip}>
+<{strip}>
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<tr>
+			<{* サイト名 *}>
+			<th class="install_general_header" scope="row">
+				<label for="sitename<{$id}>">
+					<{$lang.install_general_sitename|smarty:nodefaults}>
+				</label>
+			</th>
+			<td class="install_general_data">
+				<input id="sitename<{$id}>" type="text" value="<{$action.setting_arr.sitename}>" maxlength="100" size="30" name="sitename" />
+			</td>
+		</tr>
+		
+		<tr>
+			<{* データベースサーバ *}>
+			<th class="install_general_header" scope="row">
+				<label for="database<{$id}>">
+					<{$lang.install_general_database|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_database_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<select id="database<{$id}>" name="database" title="">
+				<{foreach name="database" item="database" from=$action.database_type_arr|smarty:nodefaults}>
+					<option value="<{$database}>"<{if $database == $action.setting_arr.database}> selected="selected"<{/if}>>
+						<{$database}>
+					</option>
+				<{/foreach}>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<{* データベースサーバのホスト名 *}>
+			<th class="install_general_header" scope="row">
+				<label for="dbhost<{$id}>">
+					<{$lang.install_general_dbhost|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_dbhost_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="dbhost<{$id}>" type="text" value="<{$action.setting_arr.dbhost}>" maxlength="100" size="30" name="dbhost" />
+			</td>
+		</tr>
+		<tr>
+			<{* データベースユーザ名 *}>
+			<th class="install_general_header" scope="row">
+				<label for="dbusername<{$id}>">
+					<{$lang.install_general_dbusername|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_dbusername_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="dbusername<{$id}>" type="text" value="<{$action.setting_arr.dbusername}>" maxlength="100" size="30" name="dbusername" />
+			</td>
+		</tr>
+		<tr>
+			<{* データベースパスワード *}>
+			<th class="install_general_header" scope="row">
+				<label for="dbpass<{$id}>">
+					<{$lang.install_general_dbpass|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_dbpass_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="dbpass<{$id}>" type="text" value="<{$action.setting_arr.dbpass}>" maxlength="100" size="30" name="dbpass" />
+			</td>
+		</tr>
+		<tr>
+			<{* データベース名 *}>
+			<th class="install_general_header" scope="row">
+				<label for="dbname<{$id}>">
+					<{$lang.install_general_dbname|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_dbname_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="dbname<{$id}>" type="text" value="<{$action.setting_arr.dbname}>" maxlength="100" size="30" name="dbname" />
+			</td>
+		</tr>
+		<tr>
+			<{* テーブル接頭語 *}>
+			<th class="install_general_header" scope="row">
+				<label for="dbprefix<{$id}>">
+					<{$lang.install_general_dbprefix|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_dbprefix_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="dbprefix<{$id}>" type="text" value="<{$action.setting_arr.dbprefix}>" maxlength="100" size="30" name="dbprefix" />
+			</td>
+		</tr>
+		<tr>
+			<{* データベースへ持続的接続 *}>
+			<th class="install_general_header" scope="row">
+				<label for="dbpersist<{$id}>">
+					<{$lang.install_general_dbpersist|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_dbpersist_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<label for="dbpersist_yes<{$id}>">
+					<input id="dbpersist_yes<{$id}>" name="dbpersist" value="<{$smarty.const._ON}>"<{if $action.setting_arr.dbpersist==_ON}> checked="checked"<{/if}> type="radio" /><{$lang.install_general_yes}>
+                </label>
+                <label for="dbpersist_no<{$id}>">
+                	<input id="dbpersist_no<{$id}>" name="dbpersist" value="<{$smarty.const._OFF}>"<{if $action.setting_arr.dbpersist==_OFF}> checked="checked"<{/if}> type="radio" /><{$lang.install_general_no}>
+                </label>
+			</td>
+		</tr>
+		<tr>
+			<{* NetCommonsへのURL *}>
+			<th class="install_general_header" scope="row">
+				<label for="base_url<{$id}>">
+					<{$lang.install_general_base_url|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_base_url_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="base_url<{$id}>" type="text" value="<{$action.setting_arr.base_url}>" size="50" name="base_url" />
+			</td>
+		</tr>
+		<tr class="install_detail_setting">
+			<{* 詳細設定-複数NetCommonsを１つのソースで運用する場合に使用 *}>
+			<th class="install_general_header" colspan="2" scope="col">
+				<a id="install_detail_link<{$id}>" class="install_detail_link" href="#" onclick="commonCls.displayChange($('base_dir_tr<{$id}>')); commonCls.displayChange($('fileuploads_dir_tr<{$id}>')); commonCls.displayChange($('htdocs_dir_select_tr<{$id}>')); <{if $action.setting_arr.htdocs_dir!=START_INDEX_DIR}>commonCls.displayChange($('htdocs_dir_tr<{$id}>'));commonCls.displayChange($('core_base_url_tr<{$id}>'));<{else}>commonCls.displayChange($('style_dir_tr<{$id}>'));<{/if}>return false;">
+					<{$lang.install_general_detail_setting|smarty:nodefaults}>
+				</a>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_detail_setting_desc|smarty:nodefaults}>
+				</div>
+			</th>
+		</tr>
+		<tr class="install_detail_setting display-none" id="base_dir_tr<{$id}>">
+			<{* NetCommonsへのパス *}>
+			<th class="install_general_header" scope="row">
+				<label for="base_dir<{$id}>">
+					<{$smarty.const.INSTALL_URLCHECK_ROOT_DIR|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_base_dir_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="base_dir<{$id}>" type="text" value="<{$action.setting_arr.base_dir}>" size="50" name="base_dir" />
+			</td>
+		</tr>
+		<tr class="install_detail_setting display-none" id="fileuploads_dir_tr<{$id}>">
+			<{* アップロードファイル格納場所 *}>
+			<th class="install_general_header" scope="row">
+				<label for="fileuploads_dir<{$id}>">
+					<{$smarty.const.INSTALL_URLCHECK_UPLOADS_DIR|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_fileuploads_dir_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="fileuploads_dir<{$id}>" type="text" value="<{$action.setting_arr.fileuploads_dir}>" size="50" name="fileuploads_dir" />
+			</td>
+		</tr>
+		<{* 使用する画像、CSSファイルの格納場所 *}>
+		<tr class="install_detail_setting display-none" id="htdocs_dir_select_tr<{$id}>">
+			<th class="install_general_header" scope="row">
+				<label for="htdocs_dir_select_yes<{$id}>">
+					<{$lang.install_general_htdocs_dir_select|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_htdocs_dir_select_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<label for="htdocs_dir_select_yes<{$id}>">
+					<input id="htdocs_dir_select_yes<{$id}>" name="htdocs_dir_select" value="<{$smarty.const._ON}>"<{if $action.setting_arr.htdocs_dir!=START_INDEX_DIR}> checked="checked"<{/if}> type="radio" onclick="commonCls.displayVisible($('core_base_url_tr<{$id}>'));commonCls.displayVisible($('htdocs_dir_tr<{$id}>'));commonCls.displayNone($('style_dir_tr<{$id}>'));" /><{$lang.install_general_yes}>
+                </label>
+                <label for="htdocs_dir_select_no<{$id}>">
+                	<input id="htdocs_dir_select_no<{$id}>" name="htdocs_dir_select" value="<{$smarty.const._OFF}>"<{if $action.setting_arr.htdocs_dir==START_INDEX_DIR}> checked="checked"<{/if}> type="radio" onclick="commonCls.displayNone($('core_base_url_tr<{$id}>'));commonCls.displayNone($('htdocs_dir_tr<{$id}>'));commonCls.displayVisible($('style_dir_tr<{$id}>'));" /><{$lang.install_general_no}>
+                </label>
+			</td>
+		</tr>
+		<{* コアのURL *}>
+		<tr class="install_detail_setting display-none" id="core_base_url_tr<{$id}>">
+			<th class="install_general_header" scope="row">
+				<label for="core_base_url<{$id}>">
+					<{$smarty.const.INSTALL_URLCHECK_BASE_URL|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_core_base_url_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="core_base_url<{$id}>" type="text" value="<{$action.setting_arr.core_base_url}>" size="50" name="core_base_url" />
+			</td>
+		</tr>
+		<{* 使用する画像、CSSファイルの格納場所 *}>
+		<tr class="install_detail_setting display-none" id="htdocs_dir_tr<{$id}>">
+			<th class="install_general_header" scope="row">
+				<label for="htdocs_dir<{$id}>">
+					<{$smarty.const.INSTALL_URLCHECK_HTDOCS_DIR|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_htdocs_dir_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="htdocs_dir<{$id}>" type="text" value="<{$action.setting_arr.htdocs_dir}>" size="50" name="htdocs_dir" />
+			</td>
+		</tr>
+		<{* テーマディレクトリの格納場所 *}>
+		<tr class="install_detail_setting display-none" id="style_dir_tr<{$id}>">
+			<th class="install_general_header" scope="row">
+				<label for="style_dir<{$id}>">
+					<{$smarty.const.INSTALL_URLCHECK_THEME_DIR|smarty:nodefaults}>
+				</label>
+				<div class="install_general_header_desc">
+					<{$lang.install_general_style_dir_desc|smarty:nodefaults}>
+				</div>
+			</th>
+			<td class="install_general_data">
+				<input id="style_dir<{$id}>" type="text" value="<{$action.setting_arr.style_dir}>" size="50" name="style_dir" />
+			</td>
+		</tr>
+	</table>
+	<div class="align-right">
+		<span class="install_btn_desc">
+			<{$smarty.const.INSTALL_GENERAL_CONF_CONFIRM_TITLE|smarty:nodefaults}>&gt;&gt;
+		</span>
+		
+		<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>','action=install_action_main_general&' + Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_confirm';},'callbackfunc_error':function(res){$('install_error_mes<{$id}>').innerHTML = res;location.href='#error_mes';}}); return false;" />
+	</div>
+</div>
+
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>
+<{if $action.detail_flag}>
+	<script class="nc_script" type="text/javascript">
+		$('install_detail_link<{$id}>').onclick();
+	</script>
+<{/if}>

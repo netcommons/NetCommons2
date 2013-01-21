@@ -1,0 +1,60 @@
+<{strip}>
+<{*
+<{if $smarty.session._smartphone_flag == _ON}>
+<script type="text/javascript">
+	var photos = [];
+	var timer = null;
+</script>
+	<{foreach item=photo from=$action.photos name=photo}>
+		<script type="text/javascript">
+			var photo = {
+				"photo_id":"<{$photo.photo_id}>",
+				"photo_name":"<{$photo.photo_name|escape:"javascript"}>",
+				"src":".<{$smarty.const.INDEX_FILE_NAME}><{$photo.photo_path}><{$session_param}>",
+				"photo_description":"<{$photo.photo_description|nl2br|escape:"javascript"}>",
+				"photo_vote_count":"<{$photo.photo_vote_count}>",
+				"width":"<{$photo.width}>",
+				"height":"<{$photo.height}>",
+				"vote_authority":"<{$photo.vote_authority}>"
+			};
+			photos.push(photo);
+			photo = null;
+		</script>
+	<{/foreach}>
+<h3 id="photo_name"><{$action.photos.0.photo_name}></h3>
+<p id="photo_description"><{$action.photos.0.photo_description|nl2br}></p>
+<div style="text-align:center;">
+	<img id="photoimg" src="<{$action.photos.0.photo_path}><{$session_param}>"  />
+</div>
+
+<script type="text/javascript">
+	var photoCount = 0;
+	this.timer = setInterval(
+		function(){
+			if(photoCount==photos.length) {
+				photoCount = 0;
+			}
+			$("#photoimg").fadeOut(function(){
+				$("#photo_name").text(photos[photoCount]["photo_name"]);
+				$("#photoimg").attr("src", ".<{$smarty.const.INDEX_FILE_NAME}>" + photos[photoCount]["src"].replace("&amp;","&"));
+			});
+			$("#photoimg").fadeIn();
+			photoCount++;
+		}.bind(this), <{$action.photoalbum.slide_time}> * 1000);
+</script>
+<{else}>
+*}>
+
+<{$lang.photoalbum_mobile_not_slideshow}>
+<br />
+<div style="text-align:right;">
+    <{if ($action.block_num == 1 ) }>
+        <a href="?action=menu_view_mobile_init<{$session_param}>">
+    <{else}>
+        <a href="?action=menu_view_mobile_detail<{$session_param}>">
+    <{/if}>
+        <{$lang._btn_prev_arrow|smarty:nodefaults}>
+    </a>
+</div>
+<{*<{/if}>*}>
+<{/strip}>

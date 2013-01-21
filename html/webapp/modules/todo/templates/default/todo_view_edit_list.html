@@ -1,0 +1,64 @@
+<{strip}>
+<{* Todo一覧用テンプレート *}>
+<form action="#">
+	<div>
+		<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.todo_todo|smarty:nodefaults}>
+	</div>
+
+	<table class="grid_header" summary="<{$lang.todo_list_summary|smarty:nodefaults}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_todo_name grid_name" scope="col">
+				<{$lang.todo_todo_name|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_user_name grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="todo_grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid todo_grid_table" summary="<{$lang.todo_list_summary|smarty:nodefaults}>">
+		<{foreach from=$action.todos item=todo}>
+			<tr id="todo_current_row<{$todo.todo_id}><{$id}>" class="grid_row">
+				<td class="grid_change_disp">
+					<{include file = "todo_view_edit_list_current.html"}>
+				</td>
+				<td class="grid_name">
+					<{include file = "todo_view_edit_list_name.html"}>
+				</td>
+				<td class="grid_creator">
+					<{include file = "todo_view_handle.html" handle=$todo.insert_user_name|smarty:nodefaults user_id=$todo.insert_user_id}>
+				</td>
+				<td class="grid_create_date">
+					<{$todo.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				</td>
+				<td class="todo_grid_manage">
+					<{include file = "todo_view_edit_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</form>
+
+<{include file = "../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {todoCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.todoCount}>, "todo_view_edit_list", opts);
+	opts = null;
+
+	todoCls["<{$id}>"].currentTodoID = "<{$action.currentTodoID}>";
+	todoCls["<{$id}>"].checkCurrent();
+</script>
+<{/strip}>

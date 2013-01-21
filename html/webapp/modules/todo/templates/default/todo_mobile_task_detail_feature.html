@@ -1,0 +1,45 @@
+<{strip}>
+<p>
+	<h6>
+		<{if $task.priority == TODO_PRIORITY_HIGH}>
+			<{$lang.todo_mobile_priority|smarty:nodefaults|sprintf:$lang.todo_priority_high}>
+		<{elseif $task.priority == TODO_PRIORITY_MIDDLE}>
+			<{$lang.todo_mobile_priority|smarty:nodefaults|sprintf:$lang.todo_priority_middle}>
+		<{else}>
+			<{$lang.todo_mobile_priority|smarty:nodefaults|sprintf:$lang.todo_priority_low}>
+		<{/if}>
+
+		<{$lang.todo_mobile_progress|smarty:nodefaults|sprintf:$task.progress}>
+	</h6>
+	<{if $task.period_class_name == TODO_PERIOD_CLASS_NAME_SOON}>
+		<span style="color:red;font-size:small;">
+			<{$lang.todo_mobile_period|smarty:nodefaults|sprintf:$task.display_period_date}>
+		</span>
+		<br />
+	<{elseif $task.period_class_name == TODO_PERIOD_CLASS_NAME_OVER}>
+		<span style="color:blue;font-size:small;">
+			<{$lang.todo_mobile_period|smarty:nodefaults|sprintf:$task.display_period_date}>
+		</span>
+		<br />
+	<{elseif $task.display_period_date != ""}>
+		<span style="font-size:small;">
+		<{$lang.todo_mobile_period|smarty:nodefaults|sprintf:$task.display_period_date}>
+		</span>
+		<br />
+	<{/if}>
+	<{$task.task_value|nl2br}>
+	<br />
+
+	<{if $task.edit_authority }>
+		<a href="?action=todo_view_main_entry&amp;block_id=<{$block_id}>&amp;task_id=<{$task.task_id}><{$session_param}>">
+			<{$lang._edit|smarty:nodefaults}>
+		</a>
+		<{$lang._mobile_separator|smarty:nodefaults}>
+		<a href="?action=todo_view_mobile_dialog&amp;block_id=<{$block_id}>&amp;task_id=<{$task.task_id}>&amp;target_state=<{$action.target_state}><{$session_param}>">
+			<{$lang._delete|smarty:nodefaults}>
+		</a>
+		<br />
+	<{/if}>
+</p>
+
+<{/strip}>

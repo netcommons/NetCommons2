@@ -1,0 +1,75 @@
+<{strip}>
+<{* タスク一覧（スマホ）用テンプレート *}>
+
+<{* Title *}>
+<h3>
+	<{$action.todo.todo_name}>
+</h3>
+
+<{* 未 / 済 切替 *}>
+<div data-role="controlgroup" data-type="horizontal">
+	<{if $action.target_state == _ON}>
+		<a data-role="button" data-theme="c" href="?action=todo_view_main_init&amp;block_id=<{$block_id}>&amp;target_state=<{$smarty.const._OFF}><{$session_param}>">
+			<{$lang.todo_mobile_state_none|smarty:nodefaults}>
+		</a>
+		<a data-role="button" href="#" class="ui-btn-active "><{$lang.todo_mobile_state|smarty:nodefaults}></a>
+	<{else}>
+		<a data-role="button" href="#" class="ui-btn-active "><{$lang.todo_mobile_state_none|smarty:nodefaults}></a>
+		<a data-role="button" data-theme="c" href="?action=todo_view_main_init&amp;block_id=<{$block_id}>&amp;target_state=<{$smarty.const._ON}><{$session_param}>">
+			<{$lang.todo_mobile_state|smarty:nodefaults}>
+		</a>
+	<{/if}>
+</div>
+
+<br />
+
+<{if $action.taskCount > 0}>
+	<{if ($action.todo.used_category == _ON) }>
+		<ul data-role="listview" data-theme="c" data-split-icon="delete" data-divider-theme="<{$smartphone_theme_color}>">
+			<{foreach from=$action.categories item=category}>
+				<{assign var=category_id value=$category.category_id}>
+				<{if (isset($action.tasks.$category_id|smarty:nodefaults)) }>
+
+					<{if ($category_id == 0) }>
+						<li data-role="list-divider"><{$lang.todo_nocategory|smarty:nodefaults}></li>
+					<{else}>
+						<li data-role="list-divider"><{$category.category_name}></li>
+					<{/if}>
+
+					<{foreach from=$action.tasks.$category_id|smarty:nodefaults item=task}>
+						<{include file="todo_mobile_task_detail_smart.html" task=$task}>
+					<{/foreach}>
+				<{/if}>
+			<{/foreach}>
+		</ul>
+	<{else}>
+		<ul data-role="listview" data-theme="c" data-split-icon="delete">
+			<{foreach from=$action.tasks|smarty:nodefaults item=task}>
+				<{include file="todo_mobile_task_detail_smart.html" task=$task}>
+			<{/foreach}>
+		</ul>
+	<{/if}>
+<{else}>
+	<br /><br />
+	<{$lang.todo_no_task|smarty:nodefaults}>
+	<br /><br /><br />
+<{/if}>
+
+	<br />
+
+	<{if $action.todo.task_authority}>
+		<a data-role="button" href="?action=todo_view_main_entry&amp;block_id=<{$block_id}><{$session_param}>">
+			<{$lang.todo_add_task|smarty:nodefaults}>
+		</a>
+	<{/if}>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init<{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail<{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

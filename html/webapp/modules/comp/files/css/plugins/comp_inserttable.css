@@ -1,0 +1,20 @@
+div.insertTable_title {
+	margin: 5px;
+	text-align: center;
+	white-space:nowrap;
+}
+table.insertTable_dialog {
+	height: 100px;
+	width: 100px;
+}
+table.insertTable_dialog tr td {
+	border: 1px solid #cccccc;
+	height: 20px;
+	width: 20px;
+}
+table.insertTableStyle {
+	border: 1px solid rgb(0, 0, 0);
+	margin: 5px;
+	border-collapse: collapse;
+	width: 200px;
+}

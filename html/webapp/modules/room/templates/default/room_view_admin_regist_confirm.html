@@ -1,0 +1,124 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="bold">
+		<{* タイトル *}>
+		<{$lang.room_regist_confirm|smarty:nodefaults}>[<{$action.page.page_name}>]
+	</div>
+	<div class="top_description">
+		<{$lang.room_top_descripton|smarty:nodefaults|sprintf:$lang.room_continue_regist}>
+	</div>
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+		<div class=comp_tabset></div>
+		<div id="room_tabset_content<{$id}>" class=comp_tabset_content>
+			<{if $action.edit_flag == _OFF}>
+				<div class="outerdiv">
+					<div class="comptabset_caption"><{$lang.room_base_item}></div>
+					<{* 基本項目 *}>
+					<table class="outer" summary="<{$lang.room_edit_init}>">
+						<tr class="row">
+							<th scope="row">
+								<{$lang.room_room_name}>
+							</th>
+							<td>
+								<{$action.page.page_name}>
+								<{if $action.page.default_entry_flag && $action.page.space_type != _SPACE_TYPE_PUBLIC}>
+									<div class="room_confirm_default_entry">
+										<{* すべての会員をデフォルトで参加させる *}>
+										<{$lang.room_space_common}>
+									</div>
+								<{/if}>
+								<input name="page_name" type="hidden" value="<{$action.page.page_name}>" />
+								<input name="default_entry_flag" type="hidden" value="<{$action.page.default_entry_flag}>" />
+							</td>
+						</tr>
+						<tr class="row">
+							<th scope="row">
+								<{$lang.room_display_flag}>
+							</th>
+							<td>
+								<{if $action.page.display_flag}>
+									<{$lang.room_display_flag_on}>
+								<{else}>
+									<{$lang.room_display_flag_off}>
+								<{/if}>
+								<input name="display_flag" type="hidden" value="<{$action.page.display_flag}>" />
+							</td>
+						</tr>
+						<tr class="row">
+							<th scope="row">
+								<{$lang.room_regist_location}>
+							</th>
+							<td>
+								<{if $action.parent_page}>
+									<{$action.parent_page.page_name}>
+								<{else}>
+									<{$action.page.page_name}>
+								<{/if}>
+							</td>
+						</tr>
+					</table>
+				</div>
+			<{/if}>
+			<{if $action.count > 0}>
+				<div class="outerdiv">
+					<{* 参加会員 *}>
+					<div class="comptabset_caption"><{$lang.room_entry_users}></div>
+					<table class="grid_header" summary="">
+					<tr>
+						<th scope="col">
+							<div class="room_confirm_entry_users">
+								<{$lang.room_entry_users|smarty:nodefaults}>
+							</div>
+						</th>
+						<th scope="col">
+							<div class="room_confirm_auth_list">
+								<{$lang.room_auth|smarty:nodefaults}>
+							</div>
+						</th>
+						<{* サブグループ作成許可 *}>
+						<{if (isset($action.page.page_id|smarty:nodefaults) && $action.page.thread_num == 1 && $action.page.space_type != _SPACE_TYPE_PUBLIC) || (!isset($action.page.page_id|smarty:nodefaults) && $action.parent_page.thread_num == 0 && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC)}>
+							<th scope="col">
+								<div class="room_selectauth_auth_list">
+									<{$lang._createroom_flag_name|smarty:nodefaults}>
+								</div>
+							</th>
+						<{/if}>
+					</tr>
+					</table>
+					<table class="grid" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+						<{section name="user_list" loop=$conf.room_users_list start="0"}>
+							<{if $smarty.section.user_list.iteration <= $action.count}>
+							<tr class="grid_row room_grid_rows">
+								<td class="room_confirm_entry_users">
+									<div class="room_confirm_entry_users">
+									</div>
+								</td>
+								<td class="room_confirm_auth_list">
+									<div class="room_confirm_auth_list">
+									</div>
+								</td>
+								<{* サブグループ作成許可 *}>
+								<{if (isset($action.page.page_id|smarty:nodefaults) && $action.page.thread_num == 1 && $action.page.space_type != _SPACE_TYPE_PUBLIC) || (!isset($action.page.page_id|smarty:nodefaults) && $action.parent_page.thread_num == 0 && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC)}>
+									<td class="room_selectauth_auth_list">
+										<div class="room_selectauth_auth_list">
+										</div>
+									</td>
+								<{/if}>
+							</tr>
+							<{/if}>
+						<{/section}>
+					</table>
+				</div>
+			<{/if}>
+		</div>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom align-right">
+			<{* 続けて登録 *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang.room_continue_regist}>" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_regist_selectusers','parent_page_id':<{$action.page.parent_id}>,'edit_current_page_id':<{$action.page.page_id}>,'room_name':'<{$action.page.page_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>','display_flag':<{$action.page.display_flag}>,'space_type_common':<{$action.page.default_entry_flag}>}); return false;" />
+			<{* 一覧へ戻る *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang.room_back_list}>" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_list','show_space_type':<{if $action.parent_page_id != 0}><{$action.parent_page.space_type}><{else}><{$action.page.space_type}><{/if}>,'show_private_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.private_flag}><{else}><{$action.page.private_flag}><{/if}>,'show_default_entry_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.default_entry_flag}><{else}><{$action.page.default_entry_flag}><{/if}>}); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

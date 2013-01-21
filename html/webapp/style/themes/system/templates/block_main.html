@@ -1,0 +1,45 @@
+<{strip}>
+<table class="th_system">
+	<tr>
+		<td class="th_system_upperleft"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_system_upperleft" /></td>
+		<td class="th_system_upper"></td>
+		<td class="th_system_upperright"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_system_upperright" /></td>
+	</tr>
+	<tr id="move_bar<{$id}>" class="_move_bar move_bar" title="<{$smarty.const._DRAGANDDROP_MOVE}>">
+		<td class="th_system_left"></td>
+		<td class="th_system_inside _block_title_event">
+			<table cellspacing="0" cellpadding="0" class="widthmax">
+			<tr>
+				<td class="th_system_header_center">
+					<div class="th_system_header_dot th_system_header_move"><span class="nc_block_title th_system_title th_system_titlecolor"<{if !$system_flag}> title="<{$dblclick_edit}>"<{/if}>><{if isset($lang._dialog_name|smarty:nodefaults)}><{$lang._dialog_name}><{elseif isset($action.dialog_name|smarty:nodefaults)}><{$action.dialog_name}><{elseif isset($block_obj|smarty:nodefaults)}><{$block_obj.block_name}><{elseif isset($module_obj|smarty:nodefaults)}><{$module_obj.module_name}><{/if}></span>&nbsp;</div>
+				</td>
+				<td class="th_system_header_right">
+					<{if $system_flag}>
+						<a href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_close.gif','setting_close_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_close_over.gif','setting_close.gif');}" onclick="<{if isset($_close_popup_func|smarty:nodefaults)}><{eval var=$_close_popup_func|smarty:nodefaults}><{elseif isset($_close_popup_confirm|smarty:nodefaults)}>if(!commonCls.confirm('<{$lang._close_block_confirm}>'))return false;<{/if}>commonCls.removeBlock('<{$id}>');return false;"><img src="<{""|get_image_url}>/themes/system/images/setting_close.gif" title="<{$smarty.const._DELETE_CLOSE}>" alt="<{$smarty.const._DELETE_CLOSE}>" class="th_system_btn" /></a>
+					<{else}>
+						<{include file="../../../templates/default/headerbtn.html"}>
+					<{/if}>
+				</td>
+			</tr>
+			</table>
+		</td>
+		<td class="th_system_right"></td>
+	</tr>
+	<tr>
+		<td class="th_system_left"></td>
+		<td class="th_system_inside">
+			<{*ヘッダーメニュー*}>
+    		<{if $headermenu}><{if $system_flag}><{include file="../../../templates/default/headermenu.html"}><{else}><{include file="../system/headermenu.html"}><{/if}><{/if}>
+    		<div class="content"><{$content_field|smarty:nodefaults}></div>
+		</td>
+		<td class="th_system_right"></td>
+	</tr>
+	<tr>
+		<td class="th_system_belowleft"></td>
+		<td class="th_system_below"></td>
+		<td class="th_system_belowright"></td>
+	</tr>
+</table>
+
+<{/strip}>
+

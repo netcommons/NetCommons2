@@ -1,0 +1,14 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+
+<div class="install_title">
+	<{$smarty.const.INSTALL_COMPLETE_TITLE}>
+</div>
+<div class="install_detail">
+	<{$action.finish|smarty:nodefaults}>
+</div>
+
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>

@@ -1,0 +1,8 @@
+<{strip}>
+<{* 回答確認項目用テンプレート *}>
+<{if ($summary.summary_id > 0) }>
+	<a class="syslink" href="#" title="<{$lang.questionnaire_answer_result_title}>" onclick="questionnaireCls['<{$id}>'].showAnswer(event, <{$summary.summary_id}>);return false;">
+		<{$lang.questionnaire_answer_result}>
+	</a>
+<{/if}>
+<{/strip}>

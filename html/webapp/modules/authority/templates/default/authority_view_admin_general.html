@@ -1,0 +1,116 @@
+<{strip}>
+<{*権限設定画面-権限追加(権限編集)*}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="bold">
+		<{if ($action.authority.role_authority_id > 0) }>
+			<{$lang.authority_general_title|smarty:nodefaults}>
+		<{else}>
+			<{$lang.authority_general_add_title|smarty:nodefaults}>
+		<{/if}>
+	</div>
+	<{* 操作説明 *}>
+	<div class="top_description">
+		<{if ($action.authority.role_authority_id > 0) }>
+			<{$lang.authority_description|smarty:nodefaults}>
+		<{else}>
+			<{$lang.authority_add_description|smarty:nodefaults}>
+		<{/if}>
+	</div>
+
+	<{* 詳細部 *}>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<div class="outerdiv">
+			<table class="outer" summary="<{$lang.authority_general_table|smarty:nodefaults}>">
+				<{* 権限名 *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<label for="role_authority_name<{$id}>">
+							<{$lang.authority_name|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<div id="authority_errorstr<{$id}>" class="errorstr"></div>
+						<input id="role_authority_name<{$id}>"type="text" name="role_authority_name" size="35" value="<{$action.authority.role_authority_name}>"  onblur="onkeyup();" onkeyup="authorityCls['<{$id}>'].authorityNameChange(this);" />
+					</td>
+				</tr>
+	
+				<{* ベース権限 *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<label for="user_authority_id<{$id}>">
+							<{$lang.authority_base_auth|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<{if ($action.authority.system_flag==_ON) }>
+							<{assign var="attribute" value=" disabled='disabled'"}>
+						<{else}>
+							<{assign var="attribute" value=" onchange=\"authorityCls['$id'].chgAuthority(this.form); return false;\""}>
+						<{/if}>
+						<select id="user_authority_id<{$id}>" name="user_authority_id" <{$attribute|smarty:nodefaults}>>
+							<option <{if $action.authority.user_authority_id == _AUTH_ADMIN}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_ADMIN}>"><{$smarty.const._AUTH_ADMIN_NAME}></option>
+							<option <{if $action.authority.user_authority_id == _AUTH_CHIEF}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_CHIEF}>"><{$smarty.const._AUTH_CHIEF_NAME}></option>
+							<option <{if $action.authority.user_authority_id == _AUTH_MODERATE}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_MODERATE}>"><{$smarty.const._AUTH_MODERATE_NAME}></option>
+							<option <{if $action.authority.user_authority_id == _AUTH_GENERAL}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_GENERAL}>"><{$smarty.const._AUTH_GENERAL_NAME}></option>
+							<option <{if $action.authority.user_authority_id == _AUTH_GUEST}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_GUEST}>"><{$smarty.const._AUTH_GUEST_NAME}></option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<{* 権限説明 *}>
+			<table id="authority_auth_desc<{$id}>" class="authority_auth_desc" summary="<{$lang.authority_auth_desc|smarty:nodefaults}>">
+				<tr class="authority_auth_desc_detail<{if $action.authority.user_authority_id == _AUTH_ADMIN}> highlight<{/if}>">
+					<th class="valign-top align-left nowrap" scope="row">
+						<{$smarty.const._AUTH_ADMIN_NAME}><{$smarty.const._SEPARATOR2}>
+					</th>
+					<td>
+						<{$lang.authority_desc_admin|smarty:nodefaults}>
+					</td>
+				</tr>
+				<tr class="authority_auth_desc_detail<{if $action.authority.user_authority_id == _AUTH_CHIEF}> highlight<{/if}>">
+					<th class="valign-top align-left nowrap" scope="row">
+						<{$smarty.const._AUTH_CHIEF_NAME}><{$smarty.const._SEPARATOR2}>
+					</th>
+					<td>
+						<{$lang.authority_desc_chief|smarty:nodefaults}>
+					</td>
+				</tr>
+				<tr class="authority_auth_desc_detail<{if $action.authority.user_authority_id == _AUTH_MODERATE}> highlight<{/if}>">
+					<th class="valign-top align-left nowrap" scope="row">
+						<{$smarty.const._AUTH_MODERATE_NAME}><{$smarty.const._SEPARATOR2}>
+					</th>
+					<td>
+						<{$lang.authority_desc_moderate|smarty:nodefaults}>
+					</td>
+				</tr>
+				<tr class="authority_auth_desc_detail<{if $action.authority.user_authority_id == _AUTH_GENERAL}> highlight<{/if}>">
+					<th class="valign-top align-left nowrap" scope="row">
+						<{$smarty.const._AUTH_GENERAL_NAME}><{$smarty.const._SEPARATOR2}>
+					</th>
+					<td>
+						<{$lang.authority_desc_general|smarty:nodefaults}>
+					</td>
+				</tr>
+				<tr class="authority_auth_desc_detail<{if $action.authority.user_authority_id == _AUTH_GUEST}> highlight<{/if}>">
+					<th class="valign-top align-left nowrap" scope="row">
+						<{$smarty.const._AUTH_GUEST_NAME}><{$smarty.const._SEPARATOR2}>
+					</th>
+					<td>
+						<{$lang.authority_desc_guest|smarty:nodefaults}>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom align-right">
+			<{* 次へボタン *}>
+			<input id="authority_next<{$id}>" class="lined_btn btn-width" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showDetail(); return false;" <{if $action.authority.role_authority_name == ""}>disabled="true" <{/if}>/>
+			<{* キャンセルボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'}); return false;" />
+		</div>
+		<input type="hidden" name="role_authority_id" value="<{$action.role_authority_id}>" />
+	</form>
+</div>
+<{include file="authority_script.html"}>
+<{/strip}>

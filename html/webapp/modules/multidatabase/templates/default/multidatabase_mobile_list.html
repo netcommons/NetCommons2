@@ -1,0 +1,26 @@
+<{strip}>
+<{* 携帯対応汎用ＤＢの一覧 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<h3>
+	<{$current_module_name}>
+</h3>
+
+<ul>
+	<{section name=i loop=$action.multidatabase_list}>
+		<li>
+			<a href="?action=multidatabase_view_main_init&amp;block_id=<{$action.multidatabase_list[i].block_id}><{$session_param}>">
+				<{$action.multidatabase_list[i].multidatabase_name|truncate:$smarty.const._MOBILE_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true}>
+			</a>
+		</li>
+	<{/section}>
+</ul>
+
+<br />
+
+<div style="text-align:right">
+	<a href="?action=menu_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

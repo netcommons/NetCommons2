@@ -1,0 +1,67 @@
+<{strip}>
+<{* 選択肢作成画面用テンプレート *}>
+<tr>
+	<td class="center">
+		<input type="hidden" name="choice_id[<{$iteration}>]" />
+		<{$choice.label}>
+	</td>
+
+	<td>
+		<textarea rows="1" cols="40" class="quiz_choice" name="choice_value[<{$iteration}>]"></textarea>
+	</td>
+
+	<td class="align-center">
+		<label id="quiz_correct_radio_label<{$iteration}><{$id}>" class="display-none" for="quiz_correct_radio<{$iteration}><{$id}>">
+			<input id="quiz_correct_radio<{$iteration}><{$id}>" type="radio" name="correct_radio" value="<{$iteration}>" />
+ 			<{$lang.quiz_choice_correct}>
+ 		</label>
+		<label id="quiz_correct_check_label<{$iteration}><{$id}>" class="display-none" for="quiz_correct_check<{$iteration}><{$id}>">
+			<input id="quiz_correct_check<{$iteration}><{$id}>" type="checkbox" name="correct[<{$iteration}>]" value="<{$smarty.const._ON}>" />
+ 			<{$lang.quiz_choice_correct}>
+ 		</label>
+
+		<div class="comp_color" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');">
+			<a id="quiz_graph<{$iteration}><{$id}>" class="comp_color" href="#" title="<{$lang.quiz_graph}>" onclick="quizCls['<{$id}>'].showGraph(<{$iteration}>);return false;">
+			</a>
+		</div>
+		<input id="quiz_graph_hidden<{$iteration}><{$id}>" type="hidden" name="graph[<{$iteration}>]" />
+	</td>
+
+	<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+		<td>
+			<a class="syslink" href="#" onclick="quizCls['<{$id}>'].deleteChoice(this, '<{$lang._del_confirm|sprintf:$lang.quiz_choice|sprintf:$choice.label}>');return false;">
+				<img class="icon" src="<{"trash.gif"|get_themes_image}>" title="<{$lang.quiz_delete_choice}>" alt="<{$lang.quiz_delete_choice}>" />
+			</a>
+		</td>
+	<{/if}>
+</tr>
+
+<script class="nc_script" type="text/javascript">
+	var quizForm = $("quiz_question_form<{$id}>");
+
+	quizForm["choice_id[<{$iteration}>]"].value = "<{$choice.choice_id}>";
+	<{if empty($choice.choice_id|smarty:nodefaults)}>
+		quizForm["choice_value[<{$iteration}>]"].value = "<{$lang.quiz_choice|sprintf:$choice.label|smarty:nodefaults|escape:"javascript"}>";
+	<{else}>
+		quizForm["choice_value[<{$iteration}>]"].value = "<{$choice.choice_value|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $choice.correct == _ON}>
+		$("quiz_correct_radio<{$iteration}><{$id}>").checked = true;
+		$("quiz_correct_check<{$iteration}><{$id}>").checked = true;
+	<{/if}>
+
+	$("quiz_graph<{$iteration}><{$id}>").style.backgroundColor = "<{$choice.graph}>";
+	quizForm["graph[<{$iteration}>]"].value = "<{$choice.graph}>";
+
+	<{if $action.quiz.status != QUIZ_STATUS_INACTIVE_VALUE}>
+		quizForm["choice_value[<{$iteration}>]"].disabled = true;
+		$("quiz_correct_radio<{$iteration}><{$id}>").disabled = true;
+		$("quiz_correct_check<{$iteration}><{$id}>").disabled = true;
+		Element.addClassName($("quiz_correct_radio_label<{$iteration}><{$id}>"), "disable_lbl");
+		Element.addClassName($("quiz_correct_check_label<{$iteration}><{$id}>"), "disable_lbl");
+	<{/if}>
+	
+	quizForm = null;
+</script>
+<{/strip}>

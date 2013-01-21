@@ -1,0 +1,11 @@
+<{strip}>
+<{*トップページ*}>
+
+<{* トップページのリンクは表示しない *}>
+
+<{assign var="menus" value=$action.menus.0.0}>
+<div class="outerdiv">
+<{include file="menu_view_main_list.html"}>
+</div>
+<{include file="../menu_script.html"}>
+<{/strip}>

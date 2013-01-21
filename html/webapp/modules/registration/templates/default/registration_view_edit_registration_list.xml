@@ -1,0 +1,41 @@
+<{* 登録フォーム一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.registrations item=registration}>
+		<row id="registration_current_row<{$registration.registration_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file = "registration_view_edit_registration_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file = "registration_view_edit_registration_list_name.html"}>
+				]]>
+			</name>
+			<data_count>
+				<{$lang.registration_data_count_unit|sprintf:$registration.data_count}>
+			</data_count>
+			<operate>
+				<![CDATA[
+					<{include file = "registration_view_edit_registration_list_operate.html"}>
+				]]>
+			</operate>
+			<creator>
+				<![CDATA[
+					<{include file = "registration_view_handle.html" handle=$registration.insert_user_name|smarty:nodefaults user_id=$registration.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$registration.insert_time|timezone_date_format:$lang._date_format}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file = "registration_view_edit_registration_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

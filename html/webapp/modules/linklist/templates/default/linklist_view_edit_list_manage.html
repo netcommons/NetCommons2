@@ -1,0 +1,14 @@
+<{strip}>
+<{* リンクリスト一覧（管理列）用テンプレート *}>
+<a class="syslink" href="#" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$linklist.linklist_name}>" onclick="linklistCls['<{$id}>'].referenceLinklist(event, '<{$linklist.linklist_id}>', '<{$smarty.const.LINKLIST_PREFIX_REFERENCE}>');return false;">
+	<{$lang._ref|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._edit_title|smarty:nodefaults|sprintf:$linklist.linklist_name}>" onclick="commonCls.sendView('<{$id}>', {action:'linklist_view_edit_entry', linklist_id:<{$linklist.linklist_id}>});return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._del_title|smarty:nodefaults|sprintf:$linklist.linklist_name}>" onclick="linklistCls['<{$id}>'].deleteLinklist('<{$linklist.linklist_id}>', '<{$lang._del_confirm|sprintf:"`$linklist.linklist_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{/strip}>

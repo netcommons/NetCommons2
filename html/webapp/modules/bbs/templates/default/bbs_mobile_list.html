@@ -1,0 +1,35 @@
+<{strip}>
+
+<h3>
+	<{$current_module_name}>
+</h3>
+
+<ul>
+	<{section name=i loop=$action.bbs_list}>
+		<li>
+			<a href="?action=bbs_view_main_init&amp;block_id=<{$action.bbs_list[i].block_id}><{$session_param}>">
+				<{$action.bbs_list[i].bbs_name|truncate:$smarty.const._MOBILE_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true}>
+			</a>
+			<h6>
+				<{if $action.bbs_list[i].display == BBS_DISPLAY_TOPIC_VALUE}>
+					<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_topic|smarty:nodefaults}>
+				<{elseif $action.bbs_list[i].display == BBS_DISPLAY_NEWEST_VALUE}>
+					<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_newest|smarty:nodefaults}>
+				<{elseif $action.bbs_list[i].display == BBS_DISPLAY_OLD_VALUE}>
+					<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_old|smarty:nodefaults}>
+				<{elseif $action.bbs_list[i].display == BBS_DISPLAY_ALL_VALUE}>
+					<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_all|smarty:nodefaults}>
+				<{/if}>
+			</h6>
+		</li>
+	<{/section}>
+</ul>
+
+<br />
+<div style="text-align:right">
+	<a href="?action=menu_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

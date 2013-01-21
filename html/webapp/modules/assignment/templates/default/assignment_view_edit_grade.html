@@ -1,0 +1,44 @@
+<{strip}>
+<{* 評価ラベルテンプレート *}>
+
+<div class="top_description">
+	<{$lang.assignment_set_grade_value_desc|smarty:nodefaults}>
+</div>
+
+<div class="align-center outerdiv">
+	<form id="assignment_form<{$id}>" onsubmit="return false;">
+		<input type="hidden" name="action" value="assignment_action_edit_setGrade" />
+
+		<table class="outer" summary="<{$lang.assignment_summary|smarty:nodefaults}>">
+			<{section name=i loop=10 start=0 step=1}>
+				<{assign var=i value=$smarty.section.i.index}>
+				<tr class="row">
+					<{* 項目名 *}>
+					<th class="nowrap" scope="row">
+						<label for="assignment_grade_value<{$i}><{$id}>">
+							<{$lang.assignment_set_grade_value_label|sprintf:$smarty.section.i.iteration|smarty:nodefaults}>
+						</label>
+					</th>
+
+					<{* 評価ラベル *}>
+					<td>
+						<input id="assignment_grade_value<{$i}><{$id}>" name="grade_value[<{$i}>]" class="text" type="text" value="<{if (!empty($action.gradeValues.$i|smarty:nodefaults)) }><{$action.gradeValues.$i.grade_value}><{/if}>" />
+					</td>
+				</tr>
+			<{/section}>
+		</table>
+
+		<{* ボタン *}>
+		<div class="btn-bottom">
+			<input name="regist_btn" type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].setGradeValue(this.form); return false;" />
+			<input name="cancel_btn" type="button" class="btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'assignment_view_main_init'}); return false;" />
+		</div>
+	</form>
+</div>
+
+<{include file="../assignment_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("assignment_form<{$id}>"));
+</script>
+
+<{/strip}>

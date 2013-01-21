@@ -1,0 +1,9 @@
+<{strip}>
+<{* 小テスト一覧（名称列）用テンプレート *}>
+<label for="quiz_current<{$quiz.quiz_id}><{$id}>">
+	<{if !empty($quiz.icon_name|smarty:nodefaults)}>
+		<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$quiz.icon_name}>" alt="" />
+	<{/if}>
+	<{$quiz.quiz_name}>
+</label>
+<{/strip}>

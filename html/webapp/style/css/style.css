@@ -1,0 +1,29 @@
+/* 
+ * ブロック定義
+ */
+.move_bar {
+	cursor:move;
+}
+
+/* 
+ * ヘッダータイトル-ライン
+ */
+.th_headermenu_title {
+	width:100%;
+	margin-bottom:5px;
+}
+
+.th_headermenu_line_title_header {
+	padding-top:2px;
+	vertical-align:top;
+	width:10px;
+}
+
+/* 
+ * ヘッダータイトル-ラウンド
+ */
+.th_headermenu_round_title_header {
+	padding-top:2px;
+	vertical-align:top;
+	width:25px;
+}

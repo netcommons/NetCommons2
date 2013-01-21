@@ -1,0 +1,39 @@
+<{strip}>
+
+<div class="reservation_switch_disp_type">
+	<{if $display_type == RESERVATION_DEF_MONTHLY}>
+		<img class="icon" src="<{"monthly_highlight.gif"|get_modules_image}>" alt="<{$lang.reservation_display_monthly|smarty:nodefaults}>" title="<{$lang.reservation_display_monthly|smarty:nodefaults}>" />
+	<{else}>
+		<a class="syslink" href="#" onclick='reservationCls["<{$id}>"].changeReservation(null,"<{$smarty.const.RESERVATION_DEF_MONTHLY}>"); return false;' onmouseover='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "monthly", <{$smarty.const._ON}>);' onmouseout='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "monthly", <{$smarty.const._OFF}>);'>
+			<img class="icon" src="<{"monthly.gif"|get_modules_image}>" alt="<{$lang.reservation_switch_monthly|smarty:nodefaults}>" title="<{$lang.reservation_switch_monthly|smarty:nodefaults}>" />
+		</a>
+	<{/if}>
+
+	&nbsp;&nbsp;
+
+	<{if $display_type == RESERVATION_DEF_WEEKLY}>
+		<img class="icon" src="<{"weekly_highlight.gif"|get_modules_image}>" alt="<{$lang.reservation_display_weekly|smarty:nodefaults}>" title="<{$lang.reservation_display_weekly|smarty:nodefaults}>" />
+	<{else}>
+		<a class="syslink" href="#" onclick='reservationCls["<{$id}>"].changeReservation(null,"<{$smarty.const.RESERVATION_DEF_WEEKLY}>"); return false;' onmouseover='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "weekly", <{$smarty.const._ON}>);' onmouseout='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "weekly", <{$smarty.const._OFF}>);'>
+			<img class="icon" src="<{"weekly.gif"|get_modules_image}>" alt="<{$lang.reservation_switch_weekly|smarty:nodefaults}>" title="<{$lang.reservation_switch_weekly|smarty:nodefaults}>" />
+		</a>
+	<{/if}>
+	
+	&nbsp;&nbsp;
+
+	<{if $display_type == RESERVATION_DEF_LOCATION}>
+		<img class="icon" src="<{"location_highlight.gif"|get_modules_image}>" alt="<{$lang.reservation_display_location|smarty:nodefaults}>" title="<{$lang.reservation_display_location|smarty:nodefaults}>" />
+	<{else}>
+		<a class="syslink" href="#" onclick='reservationCls["<{$id}>"].changeReservation(null,"<{$smarty.const.RESERVATION_DEF_LOCATION}>"); return false;' onmouseover='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "location", <{$smarty.const._ON}>);' onmouseout='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "location", <{$smarty.const._OFF}>);'>
+			<img class="icon" src="<{"location.gif"|get_modules_image}>" alt="<{$lang.reservation_switch_location|smarty:nodefaults}>" title="<{$lang.reservation_switch_location|smarty:nodefaults}>" />
+		</a>
+	<{/if}>
+
+	&nbsp;&nbsp;
+
+	<a class="syslink" href="#" title="" onclick='reservationCls["<{$id}>"].showDateMove(event); return false;' onmouseover='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "move", <{$smarty.const._ON}>);' onmouseout='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "move", <{$smarty.const._OFF}>);'>
+		<img class="icon" src="<{"move.gif"|get_modules_image}>" alt="<{$lang._calendar_menu|smarty:nodefaults}>" title="<{$lang._calendar_menu|smarty:nodefaults}>" />
+	</a>
+</div>
+
+<{/strip}>

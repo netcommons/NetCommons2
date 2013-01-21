@@ -1,0 +1,21 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!roomCls["<{$id}>"]) {
+	roomCls["<{$id}>"] = new clsRoom("<{$id}>");
+}
+<{if $action_name == "room_view_admin_list"}>
+	roomCls["<{$id}>"].initList(<{$conf.room_list_visible_rows}>, <{$action.count}>);
+<{elseif $action_name == "room_view_admin_regist_init"}>
+	commonCls.focus($('room_name<{$id}>'));
+<{elseif $action_name == "room_view_admin_regist_selectusers"}>
+	<{if $action.select_auth_flag == _ON}>
+		roomCls["<{$id}>"].select_auth = -1;	
+	<{/if}>
+	roomCls["<{$id}>"].initSelectUsers(<{$action.count}>, <{$conf.room_users_list}>,<{$action.parent_page_id}>,<{$action.edit_current_page_id}>);
+<{elseif $action_name == "room_view_admin_inf"}>
+	commonCls.focus($('room_name<{$id}>'));
+<{elseif $action_name == "room_view_admin_regist_confirm"}>
+	roomCls["<{$id}>"].initRegistConfirm(<{$action.count}>,<{$conf.room_users_list}>,<{$action.edit_current_page_id}>);
+<{/if}>
+</script>
+<{/strip}>

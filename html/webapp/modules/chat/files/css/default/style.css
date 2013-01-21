@@ -1,0 +1,35 @@
+div.chat_block_color {
+	background-color:#ffffff;
+}
+div.chat_content {
+	margin-top:3px; 
+	margin-bottom:3px;
+	width:100%; 
+	border-width:0px; 
+	margin:0px; 
+	padding:0px; 
+	font-size: small;
+}
+
+div.chat_text {
+	padding:0px;
+	vertical-align:top; 
+	font-family:sans-serif;
+}
+
+div.chat_time {
+	white-space:nowrap; 
+	font-style:italic; 
+	font-size: 80%; 
+	color:#808080;
+}
+
+div.chat_block_title {
+	padding:2px; 
+	border:1px solid #e0e0e0; 
+}
+
+input.chat_text {
+	width:98%;
+}
+

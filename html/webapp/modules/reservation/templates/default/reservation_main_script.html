@@ -1,0 +1,15 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+	<{if ($action.current_time) }>
+		<{assign var="current_time" value="`$action.current_time`"|substr:0:4}>
+	<{elseif ($action.reserve_block.start_time_type == RESERVATION_DEF_START_TIME_FIXATION) }>
+		<{assign var="current_time" value=$action.reserve_block.display_start_time}>
+	<{elseif ($action.reserve_block.start_time_type == RESERVATION_DEF_START_TIME_DEFAULT) }>
+		<{assign var="before_hour" value=$smarty.now-3600}>
+		<{assign var="current_time" value="H00"|date:$before_hour}>
+	<{else}>
+		<{assign var="current_time" value="H00"|date:$smarty.now}>
+	<{/if}>
+	reservationCls["<{$id}>"].setTimeFocus("<{$current_time}>");
+</script>
+<{/strip}>

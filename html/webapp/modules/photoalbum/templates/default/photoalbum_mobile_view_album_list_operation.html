@@ -1,0 +1,46 @@
+<{strip}>
+<{* アルバム一覧操作部用テンプレート *}>
+<form action=".<{$smarty.const.INDEX_FILE_NAME}>" method="get">
+	<div data-role="controlgroup" data-type="horizontal">
+		<select name="sort">
+			<option value="<{$smarty.const.PHOTOALBUM_ALBUM_SORT_NONE}>" <{if $action.sort===$smarty.const.PHOTOALBUM_ALBUM_SORT_NONE}>selected="selected"<{/if}>><{$lang.photoalbum_album_sort_none}></option>
+			<option value="<{$smarty.const.PHOTOALBUM_ALBUM_SORT_NEW}>" <{if $action.sort===$smarty.const.PHOTOALBUM_ALBUM_SORT_NEW}>selected="selected"<{/if}>><{$lang.photoalbum_album_sort_new}></option>
+			<option value="<{$smarty.const.PHOTOALBUM_ALBUM_SORT_VOTE}>" <{if $action.sort===$smarty.const.PHOTOALBUM_ALBUM_SORT_VOTE}>selected="selected"<{/if}>><{$lang.photoalbum_album_sort_vote}></option>
+		</select>
+
+		<input type="hidden" name="action" value="photoalbum_view_main_init">
+		<input type="hidden" name="block_id" value="<{$action.block_id}>">
+		<input type="hidden" name="photoalbum_id" value="<{$action.photoalbum_id}>">
+		<{$session_form|smarty:nodefaults}>
+		<input data-icon="refresh" data-iconpos="right" type="submit" name="switch" value="<{$lang._mobile_switch|smarty:nodefaults}>" >
+	</div>
+</form>
+<{if $action.albumCount > 0}>
+	<div data-role="navbar" data-type="horizontal" style="text-align:right;">
+		<{if $action.pageNumber > 0}>
+			<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=photoalbum_view_main_init&amp;block_id=<{$block_id}>&amp;pageNumber=<{$action.pagePrevious}>">
+				<img src="<{"previous.gif"|get_themes_image}>" alt="" title="" />
+				<{$lang.photoalbum_page_previous}>
+			</a>
+			&nbsp;
+		<{/if}>
+		<{section name=page start=$action.pageStart loop=$action.pageEnd}>
+			<{if $action.pageNumber == $smarty.section.page.index}>
+				<span class="ui-btn-up-d ui-btn-corner-all ui-btn ui-btn-inline" style="padding:12px 3px;cursor:default;"><{$smarty.section.page.index+1}></span>
+			<{else}>
+				<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=photoalbum_view_main_init&amp;block_id=<{$block_id}>&amp;pageNumber=<{$smarty.section.page.index}>">
+					<{$smarty.section.page.index+1}>
+				</a>
+			<{/if}>
+			&nbsp;
+		<{/section}>
+		<{if $action.pageNext < $action.pageEnd}>
+			<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=photoalbum_view_main_init&amp;block_id=<{$block_id}>&amp;pageNumber=<{$action.pageNext}>">
+				<{$lang.photoalbum_page_next}>
+				<img src="<{"next.gif"|get_themes_image}>" alt="" />
+			</a>
+		<{/if}>
+	</div>
+<{/if}>
+
+<{/strip}>

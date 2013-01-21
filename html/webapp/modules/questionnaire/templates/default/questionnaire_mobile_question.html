@@ -1,0 +1,17 @@
+<{strip}>
+<{* 質問表示用テンプレート *}>
+<h4>
+	<{if empty($action.currentSequence|smarty:nodefaults)}>
+		<{$lang.questionnaire_mobile_question|sprintf:$smarty.foreach.question.iteration}>
+	<{else}>
+		<{$lang.questionnaire_mobile_single_question|sprintf:$action.currentSequence:$action.questionCount}>
+	<{/if}>
+	<br />
+	<{$question.question_value|smarty:nodefaults|wysiwig_convert_url}>
+	<br style="clear:both;" />
+	<{if $action.answerItemShow && empty($question.answer|smarty:nodefaults) }>
+		<br />
+		<{$lang.questionnaire_answer_none}>
+	<{/if}>
+</h4>
+<{/strip}>

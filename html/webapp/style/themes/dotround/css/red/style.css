@@ -1,0 +1,58 @@
+/* 
+ * ブロック定義
+ */
+/* highlight */
+.th_dotround_red .highlight {
+	background-color:#fbebf1;
+	color:#752778;
+}
+
+.th_dotround_red a.hover_highlight:hover {
+	background-color:#fbebf1;
+	color:#752778;
+	text-decoration:none;
+}
+
+.th_dotround_red_upperleft {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_dotround_red_upper {
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/upper.gif") repeat-x scroll center bottom;
+}
+.th_dotround_red_upperright {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/upperright.gif") no-repeat scroll right bottom;
+}
+.th_dotround_red_left {
+	width:9px;
+	height:7px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/left.gif") repeat-y scroll left center;
+}
+.th_dotround_red_right {
+	width:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/right.gif") repeat-y scroll right center;
+}
+.th_dotround_red_belowleft {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/belowleft.gif") no-repeat scroll left top;
+}
+.th_dotround_red_below {
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/below.gif") repeat-x scroll center top;
+}
+.th_dotround_red_belowright {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/red/belowright.gif") no-repeat scroll right top;
+}
+/* 一般 */
+.th_dotround_content {
+	border: 0px;
+	padding: 5px 10px 5px 10px;
+	background-color:#ffffff;
+}

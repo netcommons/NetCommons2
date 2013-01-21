@@ -1,0 +1,166 @@
+form.login_popup, form.login_block {
+	background-color:#ffffff;
+	padding:0px 10px;
+}
+form.login_popup {
+	width:230px;
+}
+form.login_block {
+	width:190px;
+}
+
+form.login_popup input.login_input, form.login_block input.login_input {
+	display:block;
+	margin-bottom:10px;
+	border:1px solid #cccccc;
+	border-right:1px solid #ebebeb;
+	border-bottom:1px solid #ebebeb;
+}
+form.login_popup input.login_input {
+	width:230px;
+}
+form.login_block input.login_input {
+	width:180px;
+}
+
+form.login_popup div.login_buttons, form.login_block div.login_buttons {
+	margin-bottom:5px;
+}
+form.login_popup div.login_buttons {
+	margin-left:34px;
+}
+form.login_block div.login_buttons {
+	margin-left:45px;
+}
+
+label.login_label {
+	display:block;
+	margin-bottom:3px;
+}
+
+.login_forgetpass {
+	width:330px;
+}
+
+.login_detail_head {
+	text-align:left;
+	vertical-align:top;
+	padding:2px 8px !important;
+}
+.login_detail_detail {
+	padding:2px;
+}
+.login_desc {
+	padding-left:5px;
+	color:#af2c4d;
+}
+.login_disclaimer {
+	height:150px;
+	width:330px;
+}
+.login_autoregist_comp {
+	text-align:center;
+	font-size:130%;
+	font-weight:bold;
+}
+.login_mes_autoregist_confirm {
+	width:330px;
+	padding:15px;
+	border:1px solid #ca9c93;
+}
+.login_autoregist_content {
+	width:330px;
+	padding:15px;
+	margin-top:10px;
+}
+.login_autoregist_content_textarea {
+	height:150px;
+	width:330px;
+}
+
+iframe.login_popup {
+	border:0px;
+	width:250px;
+}
+iframe.login_block {
+	border:0px;
+	width:200px;
+}
+iframe.login_popup_ie7padding {
+	padding-bottom:7px;
+}
+
+div.login_ssl_outer,
+div.login_ssl_outer iframe,
+form.login_ssl_outer {
+	height:195px;
+}
+div.login_ssl_outer_rememberme,
+div.login_ssl_outer_rememberme iframe,
+form.login_ssl_outer_rememberme {
+	height:220px;
+}
+
+div.login_rememberme {
+	text-align:right;
+}
+
+div.login_ssl_outer_rememberme div.login_popup_sslcancel_btn,
+div.login_ssl_outer div.login_popup_sslcancel_btn {
+	margin-left:136px;
+}
+div.login_ssl_outer div.login_popup_sslcancel_btn {
+	margin-top:-63px;
+}	
+div.login_ssl_outer_rememberme div.login_popup_sslcancel_btn {
+	margin-top:-88px;
+}	
+
+.login_ssl_font {
+	text-align:left;
+	padding:5px 0px 10px 10px;
+	background:white;
+}
+
+input.login_login_button,
+input.login_cancel_button {
+	border:2px solid #95d1e4;
+	background-color:#f9ffff;
+	color:#8299bb;
+	font-family:arial,sans-serif;
+	font-weight:bold;
+	padding-top:3px;
+	padding-bottom:5px;
+	overflow: visible;
+	cursor:pointer;
+}
+input.login_login_button_hover,
+input.login_cancel_button_hover {
+	border:2px solid #fff07a;
+	background-color:#fffbe5;
+	color:#e6b857;
+}
+input.login_login_button {
+	font-size:110%;
+	padding-left:12px;
+	padding-right:12px;
+}
+input.login_cancel_button {
+	font-size:80%;
+	margin-left:5px;
+	padding-left:5px;
+	padding-right:5px;
+}
+div.login_popup {
+	position: absolute;
+	left:-300px;
+}
+
+div.login_forgetpass_link {
+	text-align:right;
+	font-weight:bold;
+	padding-top:5px;
+}
+br.login_offset_height {
+	line-height:2em;
+}

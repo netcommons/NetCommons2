@@ -1,0 +1,9 @@
+/* Css定義ファイル                     */
+.clean_result {
+	height:300px;
+	overflow:auto;
+	width:500px;
+}
+.cleanup_result_detail_str {
+	width:480px;
+}

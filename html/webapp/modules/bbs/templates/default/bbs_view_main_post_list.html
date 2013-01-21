@@ -1,0 +1,19 @@
+<{strip}>
+<{* 記事詳細画面記事一覧用テンプレート *}>
+<table class="widthmax">
+	<tr>
+		<td>
+			<{include file = "bbs_view_main_expand.html"}>
+		</td>
+		<{if $action.expand == BBS_EXPAND_THREAD_VALUE}> 
+			<td id="bbs_move<{$id}>" class="align-right"></td>
+		<{/if}>
+	</tr>
+</table>
+
+<{if $action.expand == BBS_EXPAND_FLAT_VALUE}>
+	<{include file = "bbs_view_main_flat.html"}>
+<{elseif $action.expand == BBS_EXPAND_THREAD_VALUE}> 
+	<{include file = "bbs_view_main_thread.html"}>
+<{/if}>
+<{/strip}>

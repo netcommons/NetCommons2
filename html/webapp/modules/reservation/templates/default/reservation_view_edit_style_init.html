@@ -1,0 +1,45 @@
+<{strip}>
+
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+	<div class="outerdiv">
+		<table class="outer" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<{include file="reservation_style_disp_type.html" display_type=$action.reserve_block.display_type}>
+			</tr>
+
+			<tr class="row">
+				<{if ($action.reserve_block.display_type == RESERVATION_DEF_LOCATION) }>
+					<{include file="reservation_style_category.html" current_category_id=$action.reserve_block.category_id}>
+				<{else}>
+					<{include file="reservation_style_category.html" current_category_id=0}>
+				<{/if}>
+			</tr>
+
+			<tr class="row reservation_style_location_tr">
+				<{include file="reservation_style_location.html" current_location_id=$action.reserve_block.location_id}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_style_default_time.html" reserve_block=$action.reserve_block}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_style_disp_interval.html" display_interval=$action.reserve_block.display_interval}>
+			</tr>
+		</table>
+	</div>
+
+	<div class="btn-bottom">
+		<input class="btn-width" name="regist" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].changeStyle(this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" name="cancel" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.sendView("<{$id}>","reservation_view_main_init"); return false;' />
+	</div>
+</form>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls['<{$id}>'].switchDispType($("form<{$id}>"));
+	reservationCls['<{$id}>'].switchStartTime($("form<{$id}>"));
+</script>
+
+<{/strip}>

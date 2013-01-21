@@ -1,0 +1,28 @@
+<{strip}>
+<div class="outerdiv">
+	<{if $smarty.session.login_forgetpass_count >= 3}>
+		<{$smarty.const.LOGIN_MISS_EMAIL|smarty:nodefaults}>
+		<div class="btn-bottom align-right">
+			<{* キャンセル *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+		</div>
+	<{else}>
+		<form id="form<{$id}>" action="" onsubmit="return false;">
+		<div class="top_description">
+			<{$lang.login_top_description|smarty:nodefaults}>
+		</div>
+		<{$lang.login_email|smarty:nodefaults}>&nbsp;
+		<input id="email<{$id}>" type="text" class="login_forgetpass" name="email" value="" />
+		<{* 各種ボタン *}>
+		<div class="btn-bottom">
+			<{* 送信 *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._send|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>',{'action':'login_action_main_forgetpass','email':this.form.email.value},{'callbackfunc':function(res){commonCls.alert('<{$lang.login_success_sendemail|smarty:nodefaults|escape:"javascript"|escape:"html"}>');commonCls.removeBlock('<{$id}>');},'callbackfunc_error':function(res){commonCls.alert(res);$('form<{$id}>').forgetpass_count.value++;if($('form<{$id}>').forgetpass_count.value>=3){commonCls.removeBlock('<{$id}>');}commonCls.focus($('email<{$id}>'))}}); return false;" />
+			<{* キャンセル *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+		</div>
+		<input name="forgetpass_count" type="hidden" value="<{if $smarty.session.login_forgetpass_count}><{$smarty.session.login_forgetpass_count}><{else}>0<{/if}>" />
+		</form>
+	<{/if}>
+</div>
+<{/strip}>
+<{include file="login_script.html"}>

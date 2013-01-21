@@ -1,0 +1,16 @@
+<{strip}>
+<{* 追記部分テンプレート *}>
+<div>
+	<div class="circular_postscript_line"></div>
+	<span><{$lang.circular_postscript_sequence|sprintf:$postscript.postscript_sequence|smarty:nodefaults}></span>&nbsp;
+	<span><{$postscript.insert_time|timezone_date_format:$lang.circular_date_format|smarty:nodefaults}></span>
+	<{$lang._separator|smarty:nodefaults}>
+	<{$lang.circular_postscript_from|smarty:nodefaults}>
+	<a href="#" title="<{$lang._user_title|smarty:nodefaults|sprintf:$postscript.insert_user_name|smarty:nodefaults}>" class="syslink" onclick="commonCls.showUserDetail(event, '<{$action.postscript.insert_user_id}>');return false;">
+		<{$postscript.insert_user_name}>
+	</a>
+	<div class="circular_detail_content"><{$postscript.postscript_value|nl2br}></div>
+</div>
+<script class="nc_script" type="text/javascript">
+</script>
+<{/strip}>

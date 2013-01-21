@@ -1,0 +1,124 @@
+table.comptabset_tabs {
+	width:100%;
+	border-collapse : separate ;
+}
+td.comptabset_linespace {
+	border-bottom: 1px solid #85ada1;
+	width:3px;
+}
+img.comptabset_linespace {
+	width:3px;
+}
+
+td.comptabset_line {
+	border-bottom: 1px solid #85ada1;
+	width:100%;
+}
+/*
+table.comptabset_tabs ul {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+}
+*/
+
+table.comptabset_tabs td {
+	/*float:left;*/
+	margin:0px;
+	/*line-height:18px;*/
+	/*margin:0pt 2px 0pt 0px;*/
+	padding:0pt;
+}
+
+.comp_tabset_glass img.comptabset_sidespace {
+	width:9px;
+	height:0px;
+}
+
+.comp_tabset_glass .comptabset_upperleft {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/upperleft.gif") no-repeat scroll left top;
+}
+
+.comp_tabset_glass .comptabset_upper {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/upper.gif") repeat-x scroll center top;
+}
+
+.comp_tabset_glass .comptabset_upperright {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/upperright.gif") no-repeat scroll left top;
+}
+
+.comp_tabset_glass .comptabset_left {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/left.gif") repeat-y scroll right center;
+	border-bottom: 1px solid #85ada1;
+}
+
+.comp_tabset_glass .comptabset_content {
+	background-color:#d8dfdf;
+	padding-left:3px;
+	padding-right:3px;
+	padding-bottom:3px;
+	white-space:nowrap;
+	border-bottom: 1px solid #85ada1;
+}
+
+.comp_tabset_glass .comptabset_right {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/right.gif") repeat-y scroll left center;
+	border-bottom: 1px solid #85ada1;
+}
+
+
+.comp_tabset_glass table.comptabset_active .comptabset_upperleft {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/upperleft_sell.gif") no-repeat scroll left top;
+}
+
+.comp_tabset_glass table.comptabset_active .comptabset_upper {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/upper_sell.gif") repeat-x scroll top center;
+}
+
+.comp_tabset_glass table.comptabset_active .comptabset_upperright {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/upperright_sell.gif") no-repeat scroll left top;
+}
+
+.comp_tabset_glass table.comptabset_active .comptabset_left {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/left_sell.gif") repeat-y scroll right center;
+	border-bottom: 1px solid #eff7f7;
+}
+
+.comp_tabset_glass table.comptabset_active .comptabset_content {
+	background-color:#eff7f7;
+	border-bottom: 1px solid #eff7f7;
+}
+
+.comp_tabset_glass table.comptabset_active .comptabset_right {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/glass/right_sell.gif") repeat-y scroll left center;
+	border-bottom: 1px solid #eff7f7;
+}
+
+.comp_tabset {
+}
+
+.comp_tabset_content_glass {
+	/*border-top:1px solid #f2f3f1; */
+	/*border-left:1px solid #f2f3f1; */
+	border-left:1px solid #85ada1;
+	border-bottom:1px outset #85ada1;
+	border-right:1px outset #85ada1;
+	padding:1px;
+	/*clear:left;*/
+}
+
+.comptabset_caption {
+	display:none;
+}

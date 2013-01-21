@@ -1,0 +1,119 @@
+<{strip}>
+
+<h3>
+	<{if $action.calendar_obj.title_icon != "" && $action.html_flag == _ON}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$action.calendar_obj.title_icon}>" />
+	<{/if}>
+	<{$action.calendar_obj.title}>
+</h3>
+<h6>
+	<{$lang.calendar_mobile_insert_user_name|smarty:nodefaults}>
+	<{$action.calendar_obj.update_time|timezone_date_format:$lang.calendar_mobile_update_time|smarty:nodefaults}>
+	<{$action.calendar_obj.insert_user_name}>
+	<br />
+	<{assign var="plan_color" value=""}>
+	<{if ($action.calendar_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PUBLIC}>
+		<{assign var="plan_name" value=$action.calendar_obj.page_name|smarty:nodefaults}>
+
+	<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_MEMBERS}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_ALL_MEMBERS_LANG|smarty:nodefaults}>
+
+	<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_GROUP}>
+		<{assign var="plan_name" value=$action.calendar_obj.page_name|smarty:nodefaults}>
+
+	<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+		<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PRIVATE}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_USER_LANG|smarty:nodefaults}>
+	<{/if}>
+
+	<{$lang.calendar_mobile_plan_flag|smarty:nodefaults|sprintf:$plan_color:$lang.calendar_mobile_plan_mark:$plan_name|smarty:nodefaults}>
+</h6>
+
+<h4>
+	<{if ($action.calendar_obj.start_date == $action.calendar_obj.end_date && $action.calendar_obj.timezone_offset == $smarty.session._timezone_offset) }>
+		<{$action.calendar_obj.start_date_str}>
+		<{if ($action.calendar_obj.allday_flag == _OFF) }>
+			<br />
+			<{$action.calendar_obj.start_time_str}>
+			<{$lang.calendar_mobile_plan_time_pause|smarty:nodefaults}>
+			<{$action.calendar_obj.end_time_str}>
+		<{/if}>
+	<{else}>
+		<{$action.calendar_obj.start_date_str}>
+		<{if ($action.calendar_obj.allday_flag == _OFF || $action.calendar_obj.timezone_offset != $smarty.session._timezone_offset) }>
+			<{$lang._mobile_separator|smarty:nodefaults}><{$action.calendar_obj.start_time_str}>
+		<{/if}>
+		<br />
+		<{$lang.calendar_mobile_plan_time_pause|smarty:nodefaults}>
+		<{$action.calendar_obj.end_date_str}>
+		<{if ($action.calendar_obj.allday_flag == _OFF || $action.calendar_obj.timezone_offset != $smarty.session._timezone_offset) }>
+			<{$lang._mobile_separator|smarty:nodefaults}><{$action.calendar_obj.end_time_str}>
+		<{/if}>
+	<{/if}>
+</h4>
+<h6>
+	<{if ($action.calendar_obj.location != "") }>
+		<br />
+		<{$lang.calendar_mobile_location|smarty:nodefaults}>
+		<br />
+		<{$action.calendar_obj.location}>
+	<{/if}>
+
+	<{if ($action.calendar_obj.contact != "") }>
+		<br />
+		<{$lang.calendar_mobile_contact|smarty:nodefaults}>
+		<br />
+		<{$action.calendar_obj.contact}>
+	<{/if}>
+
+	<{if ($action.calendar_obj.rrule != "") }>
+		<br />
+		<{$lang.calendar_mobile_rrule|smarty:nodefaults}>
+		<br />
+		<{$action.calendar_obj.rrule_str|smarty:nodefaults}>
+	<{/if}>
+
+	<{if ($action.calendar_obj.description != "") }>
+		<h6>
+			<{$lang.calendar_mobile_description|smarty:nodefaults}>
+			<{if ($action.html_flag == _ON) }>
+				<a href="?action=calendar_view_main_plan_details&amp;cal_id=<{$action.calendar_id}>&amp;html_flag=<{$smarty.const._OFF}><{$session_param}>">
+					<{$lang._mobile_view_text|smarty:nodefaults}>
+				</a>
+			<{else}>
+				<a href="?action=calendar_view_main_plan_details&amp;cal_id=<{$action.calendar_id}>&amp;html_flag=<{$smarty.const._ON}><{$session_param}>">
+					<{$lang._mobile_view_html|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</h6>
+		<br />
+		<{if ($action.html_flag == _ON) }>
+			<{$action.calendar_obj.description|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+		<{else}>
+			<{$action.calendar_obj.description|html_to_text|smarty:nodefaults|nl2br}>
+		<{/if}>
+		<br style="clear:both;" />
+	<{/if}>
+</h6>
+
+<{if ($action.calendar_obj.hasModify == _ON) }>
+	<br />
+	<a href="?action=calendar_view_main_plan_modify&amp;cal_id=<{$action.calendar_obj.calendar_id}>&amp;rrule=<{$smarty.const.CALENDAR_PLAN_EDIT_THIS}><{$session_param}>">
+		<{$lang._edit|smarty:nodefaults}>
+	</a>
+	<{$lang._mobile_separator|smarty:nodefaults}>
+	<a href="?action=calendar_view_mobile_confirm_delete&amp;cal_id=<{$action.calendar_obj.calendar_id}>&amp;rrule=<{$smarty.const.CALENDAR_PLAN_EDIT_THIS}><{$session_param}>">
+		<{$lang._delete|smarty:nodefaults}>
+	</a>
+<{/if}>
+
+<div style="text-align:right">
+	<a href="?action=calendar_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

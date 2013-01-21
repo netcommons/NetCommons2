@@ -1,0 +1,32 @@
+<{strip}>
+<form id="announcement_form<{$id}>" onsubmit="return false;">
+	<div class="outerdiv">
+		<textarea class="comptextarea" rows="18" cols="60"><{$action.announcement_obj.content|smarty:nodefaults|wysiwig_convert_url|escape:"html"}></textarea>
+		<label>
+			<input type="checkbox" onclick="announcementCls['<{$id}>'].checkMore(this, '<{$lang.announcement_more_delete_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>');" name="more_checkbox" value="<{$smarty.const._ON}>" <{if $action.announcement_obj.more_content != "" }>checked=checked<{/if}>/>
+			<{$lang.announcement_more_write|smarty:nodefaults}>
+		</label>
+		<br />
+		<div id="announcement_more_content<{$id}>" <{if $action.announcement_obj.more_content == "" }>class="display-none"<{/if}>>
+			<label>
+				<input class="" type="text" maxlength="120" value="<{if $action.announcement_obj.more_content != "" }><{$action.announcement_obj.more_title}><{else}><{$lang.announcement_more_read|smarty:nodefaults}><{/if}>" name="more_title"/>
+			</label>
+			<br />
+			<textarea class="comptextarea textarea_more<{$id}>" rows="18" cols="60"><{$action.announcement_obj.more_content|smarty:nodefaults|wysiwig_convert_url|escape:"html"}></textarea>
+			<{if $action.announcement_obj.more_content != "" }>
+				<script class="nc_script" type="text/javascript">
+					announcementCls['<{$id}>'].moreInit();
+				</script>
+			<{/if}>
+			<label>
+				<input class="" type="text" maxlength="120" value="<{if $action.announcement_obj.more_content != "" }><{$action.announcement_obj.hide_more_title}><{else}><{$lang.announcement_more_hide|smarty:nodefaults}><{/if}>" name="hide_more_title"/>
+			</label>
+		</div>
+		<div class="btn-bottom">
+			<input class="lined_btn btn-width" name="regist" type="button" onclick="announcementCls['<{$id}>'].announcementRegist(this.form);" value="<{$lang._regist|smarty:nodefaults}>">
+			<input class="lined_btn btn-width" name="cancel" type="button" onclick="announcementCls['<{$id}>'].announcementCancel();" value="<{$lang._cancel|smarty:nodefaults}>">
+		</div>
+	</div>
+</form>
+<{include file="announcement_script.html"}>
+<{/strip}>

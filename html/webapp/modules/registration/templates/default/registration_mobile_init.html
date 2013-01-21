@@ -1,0 +1,93 @@
+<{strip}>
+<{* 携帯用データ入力画面用テンプレート *}>
+<{if ($block_obj.block_name != "") }>
+	<h3><{$block_obj.block_name}></h3>
+<{/if}>
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>" <{if $smarty.session._mobile_info.currier!="EZweb"}>enctype="multipart/form-data"<{/if}> data-ajax="false">
+		<{foreach from=$action.items item=item name=item}>
+			<p>
+			<label><{$lang.registration_mobile_item_name|sprintf:$item.item_name}>
+			<{if $item.require_flag == _ON}>
+				<span style="color:red">
+					<{$lang.registration_require_text}>
+				</span>
+			<{/if}>
+			<br />
+			</label>
+
+			<{if $item.item_type == REGISTRATION_TYPE_TEXT}>
+				<input type="text" name="item_data_values[<{$item.item_id}>]" value="<{$action.entryDatas[$item.item_id].item_data_value}>">
+
+			<{elseif $item.item_type == REGISTRATION_TYPE_EMAIL}>
+				<input type="email" name="item_data_values[<{$item.item_id}>][first]" value="<{$action.entryDatas[$item.item_id].item_data_value.first}>">
+				<div><{$lang.registration_email_second}></div>
+				<input type="email" name="item_data_values[<{$item.item_id}>][second]" value="<{$action.entryDatas[$item.item_id].item_data_value.second}>">
+
+			<{elseif $item.item_type == REGISTRATION_TYPE_TEXTAREA}>
+				<textarea name="item_data_values[<{$item.item_id}>]"><{$action.entryDatas[$item.item_id].item_data_value}></textarea>
+
+			<{elseif $item.item_type == REGISTRATION_TYPE_CHECKBOX}>
+				<fieldset data-role="controlgroup">
+				<{foreach from=$item.option_values|smarty:nodefaults item=option_value name=option_value}>
+					<input type="checkbox" id="item_data_values_<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}>" name="item_data_values[<{$item.item_id}>][<{$smarty.foreach.option_value.iteration}>]" value="<{$option_value}>"<{if is_array($action.entryDatas[$item.item_id].checkIterations) && in_array($smarty.foreach.option_value.iteration, $action.entryDatas[$item.item_id].checkIterations)}> checked="checked"<{/if}>>
+						<label for="item_data_values_<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}>"><{$option_value}><br /></label>
+				<{/foreach}>
+				</fieldset>
+
+			<{elseif $item.item_type == REGISTRATION_TYPE_RADIO}>
+				<div data-role="controlgroup">
+				<{foreach from=$item.option_values|smarty:nodefaults item=option_value name=option_value}>
+					<input type="radio" id="item_data_values_<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}>" name="item_data_values[<{$item.item_id}>]" value="<{$option_value}>"<{if $action.entryDatas[$item.item_id].item_data_value == $option_value}> checked="checked"<{/if}>>
+					<label for="item_data_values_<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}>"><{$option_value}><br /></label>
+				<{/foreach}>
+				</div>
+
+			<{elseif $item.item_type == REGISTRATION_TYPE_SELECT}>
+				<select name="item_data_values[<{$item.item_id}>]">
+					<{foreach from=$item.option_values|smarty:nodefaults item=option_value name=option_value}>
+						<option value="<{$option_value}>"<{if $action.entryDatas[$item.item_id].item_data_value == $option_value}> selected=selected<{/if}>>
+							<{$option_value}>
+						</option>
+					<{/foreach}>
+				</select>
+			<{elseif $item.item_type == REGISTRATION_TYPE_FILE}>
+				<input type="file" name="item_data_values[<{$item.item_id}>]">
+
+			<{/if}>
+
+			<{if !empty($item.description|smarty:nodefaults)}>
+				<div><span style="color:#af2c4d;font-size:small;">
+					<{$item.description|nl2br}>
+				</span></div>
+			<{/if}>
+			</p>
+		<{/foreach}>
+
+		<{if $action.registration.image_authentication == _ON}>
+			<{$lang.registration_mobile_item_name|sprintf:$lang.registration_image_authentication}>
+			<br />
+			<img alt="<{$lang.reg_img_auth}>" src=".<{$smarty.const.INDEX_FILE_NAME}>?action=common_imageauth_main&amp;id=<{$id}>&amp;<{$action.imageAuthenticationGenerator}><{$session_param}>">
+			&nbsp;
+			<input name="image_authentication" type="text" value="" size="10" style="width:6em;display:inline;">
+			<input name="id" type="hidden" value="<{$id}>">
+			<br />
+		<{/if}>
+
+		<input type="hidden" name="action" value="registration_action_main_confirm">
+		<input type="submit" value="<{$lang._regist|smarty:nodefaults}>">
+
+		<input type="hidden" name="block_id" value="<{$action.block_id}>">
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+</form>
+<br />
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

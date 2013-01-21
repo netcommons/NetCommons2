@@ -1,0 +1,24 @@
+<{strip}>
+<{* 携帯用入力データ一覧画面用テンプレート *}>
+<{foreach from=$action.items item=item name=item}>
+	<h4>
+	<{$lang.registration_mobile_item_name|sprintf:$item.item_name}>
+	<span style="color:red">
+		<{$lang.registration_require_text}>
+	</span>
+	</h4>
+
+	<p>
+	<{if $item.item_type == REGISTRATION_TYPE_FILE}>
+		<{$action.entryDatas[$item.item_id].item_data_value.file_name}>
+	<{elseif $item.item_type == REGISTRATION_TYPE_EMAIL}>
+		<{$action.entryDatas[$item.item_id].item_data_value.first}>
+	<{elseif $item.item_type == REGISTRATION_TYPE_CHECKBOX && is_array($action.entryDatas[$item.item_id].item_data_value)}>
+		<{$action.entryDatas[$item.item_id].item_data_value|@implode:$smarty.const.REGISTRATION_OPTION_SEPARATOR}>
+	<{else}>
+		<{$action.entryDatas[$item.item_id].item_data_value|nl2br}>
+	<{/if}>
+	</p>
+
+<{/foreach}>
+<{/strip}>

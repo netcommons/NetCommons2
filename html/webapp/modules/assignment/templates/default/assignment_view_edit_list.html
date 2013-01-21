@@ -1,0 +1,72 @@
+<{strip}>
+<{* 一覧表示テンプレート *}>
+
+<div class="top_description">
+	<{$lang._list_desc|sprintf:$lang.assignment_mod_name|smarty:nodefaults}>
+</div>
+
+<form id="assignment_form<{$id}>" action="#" onsubmit="return false;">
+	<table class="grid_header" summary="<{$lang.assignment_list_summary|smarty:nodefaults}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_assignment_name assignment_grid_name" scope="col">
+				<{$lang.assignment_assignment_name|smarty:nodefaults}>
+			</th>
+			<th class="_sort_activity assignment_grid_operate" scope="col">
+				<{$lang.assignment_activity|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_user_name assignment_grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time assignment_grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="assignment_grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid assignment_grid_table" summary="<{$lang.assignment_list_summary|smarty:nodefaults}>">
+		<{foreach from=$action.assignments item=assignment}>
+			<tr id="assignment_row_tr<{$assignment.assignment_id}><{$id}>" class="grid_row<{if ($action.assignment_id == $assignment.assignment_id) }> highlight<{/if}>">
+				<td class="grid_change_disp">
+					<{include file="assignment_view_edit_list_current.html"}>
+				</td>
+				<td class="assignment_grid_name">
+					<{include file="assignment_view_edit_list_name.html"}>
+				</td>
+				<td class="assignment_grid_operate">
+					<{include file="assignment_view_edit_list_operate.html"}>
+				</td>
+				<td class=" assignment_grid_creator">
+					<{include file="assignment_view_handle.html" handle=$assignment.insert_user_name|smarty:nodefaults user_id=$assignment.insert_user_id}>
+				</td>
+				<td class="assignment_grid_create_date">
+					<{$assignment.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				</td>
+				<td class="assignment_grid_manage">
+					<{include file="assignment_view_edit_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</form>
+
+<{include file="../assignment_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {assignmentCls["<{$id}>"].checkCurrent();}
+	};
+	assignmentCls["<{$id}>"].liveGrid = new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.assignmentCount}>, "assignment_view_edit_list", opts);
+	var opts = null;
+
+	assignmentCls["<{$id}>"].assignment_id = "<{$action.assignment_id}>";
+
+</script>
+
+<{/strip}>

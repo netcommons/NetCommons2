@@ -1,0 +1,93 @@
+<{strip}>
+<{* RSS編集画面用テンプレート *}>
+<form id="rss_form<{$id}>" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('rss_form<{$id}>')), {'target_el':$('<{$id}>')});return false">
+	<input type="hidden" name="action" value="rss_action_edit_init" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+	    <tr class="row">
+	      	<th class="nowrap" scope="row">
+	      		<label for="rss_url<{$id}>">
+		      		<{$lang.rss_url|smarty:nodefaults}>
+	      		</label>
+	      	</th>
+	      	<td>
+      			<input id="rss_url<{$id}>" class="rss_url" type="text" name="url" value="<{$action.rss.url}>" />
+	      	</td>
+	    </tr>
+	    
+	    <tr class="row">
+	      	<th class="nowrap" scope="row">
+	      	</th>
+	      	<td>
+				<label for="rss_imagine<{$id}>">
+					<input id="rss_imagine<{$id}>" type="checkbox" name="imagine" value="<{$smarty.const._ON}>" />
+					<{$lang.rss_imagine|smarty:nodefaults}>
+				</label>
+	      	</td>
+	    </tr>
+
+	    <tr class="row">
+	      	<th class="nowrap" scope="row">
+	      		<label for="rss_cache_time<{$id}>">
+		      		<{$lang.rss_cache_time|smarty:nodefaults}>
+				</label>
+	      	</th>
+	      	<td>
+	      		<select id="rss_cache_time<{$id}>" name="cache_time">
+					<{html_options options=$action.cache_times selected=$action.rss.cache_time}>
+				</select>
+	      	</td>
+	    </tr>
+	
+	    <tr class="row">
+	      	<th class="nowrap" scope="row">
+		      	<label for="rss_visible_row<{$id}>">
+		      		<{$lang.rss_visible_row|smarty:nodefaults}>
+				</label>
+	      	</th>
+	      	<td>
+	      		<select id="rss_visible_row<{$id}>" name="visible_row">
+					<{html_options options=$action.visible_rows selected=$action.rss.visible_row}>
+				</select>
+	      	</td>
+	    </tr>
+
+	    <tr class="row">
+	  		<th class="nowrap" scope="row">
+	  			<label for="rss_site_name<{$id}>">
+	  				<{$lang.rss_site_name|smarty:nodefaults}>
+	  			</label>
+	  		</th>
+	  		<td>
+  				<input id="rss_site_name<{$id}>" class="text" type="text" name="site_name" value="<{$action.rss.site_name}>" />
+	  			<br />
+	  			<{$lang.rss_site_name_description|smarty:nodefaults}>
+	  		</td>
+	    </tr>
+	</table>
+
+	<input type="hidden" name="encoding" value="<{$action.rss.encoding}>" />
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />		
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'rss_view_main_init');" />
+	</div>
+</form>
+
+<{if ($block.member_authority == NETCOMMONS_AUTH_ADMIN) }>
+	<div class="note">
+		<{$lang.rss_note|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<script class="nc_script" type="text/javascript">
+	var rssForm = $("rss_form<{$id}>");
+
+	<{if $action.rss.imagine == _ON}>
+		rssForm["imagine"].checked = true;
+	<{/if}>
+
+	commonCls.focus(rssForm);
+	rssForm = null;
+</script>
+<{/strip}>

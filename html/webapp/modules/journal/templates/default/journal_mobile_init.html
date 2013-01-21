@@ -1,0 +1,46 @@
+<{strip}>
+
+<h3><{$action.journal_obj.journal_name}></h3>
+<{include file="journal_mobile_init_switch.html"}>
+<{include file="journal_mobile_init_page.html"}>
+	<{if $action.journal_count == 0}>
+		<p>
+		<{$lang.journal_none_post|smarty:nodefaults}>
+		</p>
+	<{else}>
+		<{foreach item=post from=$action.journal_list}>
+			<p>
+			<h4>
+				<{if ($smarty.session._smartphone_flag == _ON) }>
+					<{include file="journal_mobile_subject_smart.html"}>
+				<{else}>
+					<{include file="journal_mobile_subject_feature.html"}>
+				<{/if}>
+			</h4>
+			</p>
+		<{/foreach}>
+	<{/if}>
+<{if ($action.journal_obj.has_post_auth && $action.journal_obj.active_flag == $smarty.const._ON) }>
+	<br />
+	<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+		<div>
+			<input type="hidden" name="action" value="journal_view_main_post">
+			<input type="hidden" name="block_id" value="<{$block_id}>">
+			<input type="hidden" name="j_id" value="<{$action.journal_id}>">
+			<input type="submit" name="add" value="<{$lang.journal_new|smarty:nodefaults}>">
+			<{$session_form|smarty:nodefaults}>
+		</div>
+	</form>
+<{/if}>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

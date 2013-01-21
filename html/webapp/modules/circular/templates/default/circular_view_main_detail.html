@@ -1,0 +1,131 @@
+<{strip}>
+<{* 回覧詳細画面 *}>
+<{if !empty($action.circular_info.circular_subject|smarty:nodefaults) && !empty($action.circular_info.circular_body|smarty:nodefaults)}>
+<div class="outerdiv">
+	<form id="detail_circular_form<{$id}>" action="#" onsubmit="return false;">
+		<input type="hidden" id="circular_id<{$id}>" name="circular_id" value="<{$action.circular_id}>" />
+		<input type="hidden" id="reply_type<{$id}>" name="reply_type" value="<{$action.circular_info.reply_type}>" />
+
+		<div class="float-left bold circular_detail_head">
+			<{if !empty($action.circular_info.icon_name|smarty:nodefaults)}>
+				<img class="icon" src="<{''|get_image_url}>/images/comp/textarea/<{$action.circular_info.icon_name}>" alt="" title="" />
+			<{/if}>
+			<span><{$action.circular_info.circular_subject}></span>
+		</div>
+		<div class="float-right circular_detail_head">
+			<span><{$lang.circular_from|smarty:nodefaults}></span>
+			<a href="#" title="<{$lang._user_title|smarty:nodefaults|sprintf:$action.circular_info.handle|smarty:nodefaults}>" class="syslink" onclick="commonCls.showUserDetail(event, '<{$action.circular_info.post_user_id}>');return false;">
+				<{$action.circular_info.handle}>
+			</a>
+		</div>
+		<div class="hr float-clear"></div>
+
+		<div class="circular_detail_content">
+			<{$action.circular_info.circular_body|smarty:nodefaults|wysiwig_convert_url}>
+			<div class="float-clear"></div>
+		</div>
+
+		<div class="circular_detail_content" id="circular_postscripts<{$id}>">
+			<{if $action.circular_info.postscripts}>
+				<{foreach from=$action.circular_info.postscripts item=postscript name="postscript"}>
+					<{include file="circular_view_main_postscript_list.html"}>
+				<{/foreach}>
+			<{/if}>
+		</div>
+		<div id="circular_postscript_add<{$id}>" class="display-none"></div>
+		<{if $action.has_create_auth && ($action.has_auth || $smarty.session._user_auth_id >= $smarty.const.CIRCULAR_ALL_VIEW_AUTH) }>
+			<a href="#" title="<{$lang.circular_add_postscript|smarty:nodefaults}>" class="syslink" onclick="circularCls['<{$id}>'].popupPostscript(event); return false;">
+				<{$lang.circular_add_postscript|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{if $action.circular_info.choices }>
+			<div class="circular_detail_choice_title">
+				<{$lang.circular_detail_choice|smarty:nodefaults}>
+			</div>
+			<{foreach from=$action.circular_info.choices|smarty:nodefaults item=choice name="choice"}>
+				<div class="circular_detail_choice_seq"><{$lang.circular_detail_choice_sequence|sprintf:$choice.choice_sequence|smarty:nodefaults}></div>
+				<div class="circular_detail_choice"><{$choice.choice_value|nl2br}></div><br class="float-clear" />
+			<{/foreach}>
+		<{/if}>
+		<div class="float-right">
+			<{if $action.pager.total_page > 1}>
+				<{include file="circular_view_main_init_page.html"}>
+			<{/if}>
+			<select name="visible_row" class="visible_item<{$id}>" onchange="circularCls['<{$id}>'].toPage(this, '<{$action_name}>', 'visible_item<{$id}>', '', '')" id="visible_item<{$id}>" size="1">
+				<{html_options options=$action.visible_row_map selected=$action.visible_row}>
+			</select>
+		</div>
+		<table class="grid circular_detail_table" summary="<{$lang.circular_summary_main_replylist|smarty:nodefaults}>">
+			<tr class="grid_row">
+				<th scope="col" class="user">
+					<div class="nowrap">
+						<{$lang.circular_receive_user|smarty:nodefaults}>
+					</div>
+				</th>
+				<th scope="col" class="status">
+					<div class="nowrap">
+						<{$lang.circular_reply_date|smarty:nodefaults}>
+					</div>
+				</th>
+				<th scope="col" class="reply">
+					<div class="nowrap">
+						<{$lang.circular_comment|smarty:nodefaults}>
+					</div>
+				</th>
+			</tr>
+			<{include file="./circular_view_main_detail_users.html"}>
+		</table>
+		<{if $action.circular_info.period }>
+			<div class="circular_detail_date bold">
+				<label for="circular_period_checkbox<{$id}>">
+					<{$lang.circular_period|smarty:nodefaults}>
+				</label>
+				<label<{if $action.circular_info.periodClassName == CIRCULAR_PERIOD_OVER}> class="circular_reply_period_over"<{/if}>>
+					<{if $action.has_create_auth && ($action.has_auth || $smarty.session._user_auth_id >= $smarty.const.CIRCULAR_ALL_VIEW_AUTH) }>
+						<input id="circular_period<{$id}>" class="comp_calendar_text" type="text" name="period" value="<{$action.circular_info.period}>" onkeypress="if (event.keyCode == 13) {this.onchange();}" onchange="circularCls['<{$id}>'].extendPeriod();" />
+					<{else}>
+						<{$action.circular_info.period|smarty:nodefaults}>
+					<{/if}>
+				</label>
+			</div>
+		<{/if}>
+			<div class="circular_detail_date">
+				<span>
+					<{$lang.circular_create_date|smarty:nodefaults}>
+				</span>
+				<span>
+					<{$action.circular_info.insert_time|timezone_date_format:$lang.circular_date_format|smarty:nodefaults}>
+				</span>
+			</div>
+		<div class="hr"></div>
+		<{if $action.has_create_auth && ($action.has_auth || $smarty.session._user_auth_id >= $smarty.const.CIRCULAR_ALL_VIEW_AUTH) }>
+			<div class="circular_detail_link">
+				<a href="#" title="<{$lang.circular_copy|smarty:nodefaults}>" class="syslink" onclick="circularCls['<{$id}>'].displayEntry(); return false;">
+					<{$lang.circular_copy|smarty:nodefaults}>
+				</a>
+				<span>
+					<{$lang._separator|smarty:nodefaults}>
+				</span>
+				<a href="#" title="<{$lang._delete|smarty:nodefaults}>" class="syslink" onclick="circularCls['<{$id}>'].deleteCircular('<{$lang.circular_delete_confirm|smarty:nodefaults}>'); return false;">
+					<{$lang._delete|smarty:nodefaults}>
+				</a>
+			</div>
+		<{/if}>
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang._back_to_list|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'circular_view_main_init'); return false;" />
+		</div>
+	</form>
+</div>
+<{else}>
+<div>
+	<{$lang.circular_none_post|smarty:nodefaults}>
+</div>
+<{/if}>
+
+<{include file="../circular_script.html"}>
+<{if $action.circular_info.period && $action.has_create_auth && ($action.has_auth || $smarty.session._user_auth_id >= $smarty.const.CIRCULAR_ALL_VIEW_AUTH)}>
+	<script class="nc_script" type="text/javascript">
+		circularCls["<{$id}>"].calendar = new compCalendar("<{$id}>", $("circular_period<{$id}>"), {onClickCallback:circularCls["<{$id}>"].extendPeriod.bind(circularCls["<{$id}>"])});
+	</script>
+<{/if}>
+<{/strip}>

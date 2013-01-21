@@ -1,0 +1,143 @@
+<{include file = "install_header.html"}>
+<script type="text/javascript">
+	_install_onload_end = 0;
+	_install_system_module_cnt = <{$action.install_system_module_cnt}>+1;
+	_install_general_module_cnt = <{$action.install_general_module_cnt}>;
+	function installOnload() {
+		// commonCls.sendPost('<{$id}>','action=install_view_mdinstall_session',{'method':'get', 'callbackfunc':function(res){_install_onload_end = 1;}});
+		//commonCls.sendPost('<{$id}>','action=install_action_mdinstall_session',{'callbackfunc':function(res){_install_onload_end = 1;}});
+		_install_onload_end = 1;
+	}
+	function installRequest(dir_name, system_flag) {
+		system_flag = (system_flag == undefined) ? 0 : system_flag;
+		if(_install_onload_end == 0 || (system_flag == 0 && _install_system_module_cnt != 0)) {
+			<{* 管理系が終わるまで待機 *}>
+			setTimeout("installRequest('"+dir_name+"', "+system_flag+")", 1000);
+			return;
+		}
+
+		commonCls.sendPost('<{$id}>','action=install_action_mdinstall_init&dir_name='+dir_name+'&install_flag=1&_token=<{$action.token_value}>',{'callbackfunc':function(res){installCallback(res,dir_name, system_flag);},'callbackfunc_error':function(res){installCallbackError(res,dir_name,system_flag);}});
+	}
+	function installCallback(res, dir_name, system_flag) {
+		if(system_flag) {
+			_install_system_module_cnt--;
+		} else {
+			_install_general_module_cnt--;
+		}
+		var img_el = $("install_check_img" + dir_name);
+		img_el.src = img_el.src.replace("checking.gif","yes.gif");
+		var mes_el = $("install_result_mes" + dir_name);
+		mes_el.innerHTML = "<{$smarty.const.INSTALL_MDINSTALL_SUCCESS_MODULE_INSTALL|smarty:nodefaults}>";
+		if(_install_general_module_cnt == 0) {
+			_install_general_module_cnt++;
+			<{* すべてのモジュールがインストールされたので終了処理 *}>
+			commonCls.sendPost('<{$id}>','action=install_action_mdinstall_init&dir_name=end&install_flag=1&_token=<{$action.token_value}>',{'callbackfunc':function(res){installCallback(res,'end', 1);},'callbackfunc_error':function(res){installCallbackError(res,'end',1);}});
+
+		} else if(dir_name == "end") {
+			<{* 次へボタン *}>
+			var install_next_el = $("install_next<{$id}>");
+			Element.removeClassName(install_next_el, "display-none");
+		}
+	}
+	function installCallbackError(res, dir_name, system_flag) {
+		var img_el = $("install_check_img" + dir_name);
+		img_el.src = img_el.src.replace("checking.gif","no.gif");
+		var mes_el = $("install_result_mes" + dir_name);
+		mes_el.innerHTML = "<{$smarty.const.INSTALL_MDINSTALL_FAILED_MODULE_INSTALL|smarty:nodefaults}>";
+	}
+</script>
+<{strip}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+<div class="install_title">
+	<{$smarty.const.INSTALL_MODULE_INSTALL_TITLE}>
+</div>
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<tr>
+			<td class="install_save_setting_data">
+				<{* インストール結果を表示 *}>
+				<div>
+					<img id="install_check_imgall" src="./install/checking.gif" alt="result" class="install_img" />&nbsp;
+					<{$smarty.const.INSTALL_MDINSTALL_MODULE_INSTALL|sprintf:$smarty.const.INSTALL_MDINSTALL_GLOBALFILE_INSTALL}>
+					&nbsp;
+					&nbsp;
+					<span id="install_result_mesall" >
+					</span>
+					<script type="text/javascript">
+						installRequest('all', 1);
+					</script>
+				</div>
+				<{foreach name="sys_modules" item="sys_modules" from=$action.sys_modules}>
+					<div>
+						<img id="install_check_img<{$sys_modules.dir_name}>" src="./install/checking.gif" alt="result" class="install_img" />&nbsp;
+						<{$smarty.const.INSTALL_MDINSTALL_MODULE_INSTALL|sprintf:$sys_modules.module_name}>
+						&nbsp;
+						&nbsp;
+						<span id="install_result_mes<{$sys_modules.dir_name}>" >
+						</span>
+						<script type="text/javascript">
+							setTimeout(
+								function() {
+									installRequest('<{$sys_modules.dir_name}>', 1);
+								},
+								<{$smarty.const._MODULE_ALLUPDATE_INTERVALTIME}>*<{$smarty.foreach.sys_modules.index}>
+							);
+						</script>
+					</div>
+				<{/foreach}>
+				<{foreach name="modules" item="modules" from=$action.modules}>
+						<div>
+							<img id="install_check_img<{$modules.dir_name}>" src="./install/checking.gif" alt="checking" class="install_img" />&nbsp;
+							<{$smarty.const.INSTALL_MDINSTALL_MODULE_INSTALL|sprintf:$modules.module_name}>
+							&nbsp;
+							&nbsp;
+							<span id="install_result_mes<{$modules.dir_name}>" >
+							</span>
+							<script type="text/javascript">
+								setTimeout(
+									function() {
+										installRequest('<{$modules.dir_name}>');
+									},
+									<{$smarty.const._MODULE_ALLUPDATE_INTERVALTIME}>*<{$smarty.foreach.modules.index}>
+								);
+							</script>
+						</div>
+				<{/foreach}>
+				<div>
+					<img id="install_check_imgend" src="./install/checking.gif" alt="result" class="install_img" />&nbsp;
+					<{$smarty.const.INSTALL_MDINSTALL_END_PROCESS}>
+					&nbsp;
+					&nbsp;
+					<span id="install_result_mesend" >
+					</span>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="widthmax">
+		<tr>
+			<td class="install_btn_bottom_left">
+				<div id="install_back<{$id}>" class="display-none">
+					<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_prev_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_general'; return false;" />
+					<span class="install_btn_desc">
+						&lt;&lt;<{$lang.install_modify_settion|smarty:nodefaults}>
+					</span>
+				</div>
+			</td>
+			<td class="install_btn_bottom_center">
+
+			</td>
+			<td class="install_btn_bottom_right">
+				<div id="install_next<{$id}>" class="display-none">
+				<span class="install_btn_desc">
+					<{$smarty.const.INSTALL_COMPLETE_TITLE|smarty:nodefaults}>&gt;&gt;
+				</span>
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_complete&' + Form.serialize($('form<{$id}>')); return false;" />
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>

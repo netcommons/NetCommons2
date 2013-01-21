@@ -1,0 +1,10 @@
+<{strip}>
+<{* 質問内容画面用テンプレート *}>
+<div class="questionnaire_question">
+	<{include file="questionnaire_view_question.html"}>
+
+	<div class="questionnaire_answer">
+		<{include file="questionnaire_view_answer.html" choiceDisplay=$action.choiceDisplay}>
+	</div>
+</div>
+<{/strip}>

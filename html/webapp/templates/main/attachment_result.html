@@ -1,0 +1,30 @@
+<{strip}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{$header_field.meta_language}>" lang="<{$header_field.meta_language}>">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$smarty.const._CHARSET}>" />
+<script language="JavaScript" type="text/javascript">
+function Init() {
+	parent.document.getElementById('<{$smarty.request._attachment_callback}>').className = "_attachment_end";
+}
+</script>
+</head>
+<body onload="Init();">
+<{$_attachment_result|smarty:nodefaults|strip}>
+<div class="_attachment_result">
+	<{foreach from=$_attachment_list item=filelist}>
+	<div>
+		<div title="upload_id"><{$filelist.upload_id}></div>
+		<div title="file_name"><{$filelist.file_name}></div>
+		<div title="action_name"><{$filelist.action_name}></div>
+		<div title="file_size"><{$filelist.filesize}></div>
+		<div title="mimetype"><{$filelist.mimetype}></div>
+		<div title="extension"><{$filelist.extension}></div>
+		<div title="insert_time"><{$filelist.insert_time}></div>
+		<div title="error_mes"><{$filelist.error_mes|smarty:nodefaults}></div>
+	</div>
+	<{/foreach}>
+</div>
+</body>
+</html>
+<{/strip}>

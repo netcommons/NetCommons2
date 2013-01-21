@@ -1,0 +1,26 @@
+<{strip}>
+<{* ページング部分テンプレート *}>
+<span class="circular_page_switch">
+	<{if $action.pager.prev_link}>
+		<a class="syslink" title="<{$lang.circular_back|smarty:nodefaults}>" href="#" onclick="circularCls['<{$id}>'].toPage(this, '<{$action_name}>', 'visible_item<{$id}>', '<{$action.pager.now_page-1}>', ''); return false;">
+			<img class="icon" alt="" src="<{'previous.gif'|get_themes_image}>"/>
+			<{$lang.circular_back|smarty:nodefaults}>&nbsp;
+		</a>
+	<{/if}>
+
+	<{section name=cnt loop=$action.pager.link_array}>
+		<{if $action.pager.total_page > 1}>
+			<a class="syslink<{if $action.pager.now_page==$action.pager.link_array[cnt]}> current<{/if}>" href="#" title="<{$action.pager.link_array[cnt]}>" onclick="<{if $action.pager.now_page!=$action.pager.link_array[cnt]}>circularCls['<{$id}>'].toPage(this, '<{$action_name}>', 'visible_item<{$id}>', '<{$action.pager.link_array[cnt]}>', '');<{/if}> return false;">
+				<{$action.pager.link_array[cnt]}>&nbsp;
+			</a>
+		<{/if}>
+	<{/section}>
+
+	<{if $action.pager.next_link}>
+		<a class="syslink" title="<{$lang.circular_next|smarty:nodefaults}>" href="#" onclick="circularCls['<{$id}>'].toPage(this, '<{$action_name}>', 'visible_item<{$id}>', '<{$action.pager.now_page+1}>', ''); return false;">
+			<{$lang.circular_next|smarty:nodefaults}>
+			<img class="icon" alt="" src="<{'next.gif'|get_themes_image}>"/>&nbsp;
+		</a>
+	<{/if}>
+</span>
+<{/strip}>

@@ -1,0 +1,38 @@
+Usage: nc [options] module <moduleName> [moduleType [langDir [sqlDir [themeDir [templateDir]]]]]
+-------------------------------------------------------
+  moduleName:required
+  moduleType:default="normal"
+                    simple | normal | full
+  -----------------------------------------
+  install.ini          * 	   * 	   *
+  view                 * 	   * 	   *
+  language             * 	   * 	   *
+  files                * 	   * 	   *
+  templates            * 	   * 	   *
+  action               * 	   * 	   *
+  components           - 	   * 	   *
+  sql                  - 	   * 	   *
+  config               - 	   - 	   *
+  search_action        - 	   - 	   *
+  delete_action        - 	   - 	   -
+  block_add_action     - 	   - 	   -
+  block_delete_action  - 	   - 	   -
+  move_action          - 	   - 	   *
+  copy_action          - 	   - 	   *
+  shortcut_action      - 	   - 	   *
+  personalinf_action   - 	   - 	   -
+  whatnew_flag         - 	   - 	   *
+  backup_action        - 	   - 	   -
+  restore_action       - 	   - 	   -
+  ------------------------------------------
+  langDir:default="japanese"
+  sqlDir:default="mysql"
+  themeDir:default="classic_default"
+  templateDir:default="default"
+
+Examples:
+
+"nc module hoge"
+"nc module hoge full"
+"nc module hoge simple"
+"nc module hoge full japanese mysql hoge hoge"

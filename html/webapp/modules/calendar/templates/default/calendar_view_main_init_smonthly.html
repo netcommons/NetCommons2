@@ -1,0 +1,141 @@
+<{strip}>
+<{assign var="current_month" value=$action.date|substr:0:6}>
+<{assign var="year_string" value=$action.current_timestamp|date_format:$lang.calendar_monthly_year_format|smarty:nodefaults}>
+
+<table class="calendar_smonthly" align="center" summary="">
+	<tr>
+		<td>
+			<table class="calendar_head" summary="">
+				<tr>
+					<td class="calendar_prev_year">
+						<{if ($smarty.const.CALENDAR_MIN_DATE|substr:0:4 <= $action.prev_year|substr:0:4) }>
+							<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_year}>", null); return false;'>
+								<img class="icon" src="<{"prev.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_year|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_year|smarty:nodefaults}>" />
+							</a>
+						<{else}>
+							&nbsp;
+						<{/if}>
+					</td>
+					<td class="calendar_this_year">
+						<a class="link" href="#" title="<{$lang.calendar_ref_title_year|smarty:nodefaults|sprintf:$year_string}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.this_year}>", "<{$smarty.const.CALENDAR_YEARLY}>"); return false;'>
+							<{$action.current_timestamp|date_format:$lang.calendar_monthly_year_format|smarty:nodefaults}>
+						</a>
+					</td>
+					<td class="calendar_next_year">
+						<{if ($smarty.const.CALENDAR_MAX_DATE|substr:0:4 >= $action.next_year|substr:0:4) }>
+							<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_year}>", null); return false;'>
+								<img class="icon" src="<{"next.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_year|smarty:nodefaults}>" title="<{$lang.calendar_title_next_year|smarty:nodefaults}>" />
+							</a>
+						<{else}>
+							&nbsp;
+						<{/if}>
+					</td>
+				</tr>
+				<tr>
+					<td class="calendar_prev_month">
+						<{if ($smarty.const.CALENDAR_MIN_DATE|substr:0:6 <= $action.prev_month|substr:0:6) }>
+							<a class="link" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_month}>", null); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._OFF}>);'>
+								<img class="icon" src="<{"prev2.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_month|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_month|smarty:nodefaults}>" />
+							</a>
+						<{else}>
+							&nbsp;
+						<{/if}>
+					</td>
+					<td class="calendar_this_month">
+						<{$action.current_timestamp|date_format:$lang.calendar_monthly_month_format|smarty:nodefaults}>
+					</td>
+					<td class="calendar_next_month">
+						<{if ($smarty.const.CALENDAR_MAX_DATE|substr:0:6 >= $action.next_month|substr:0:6) }>
+							<a class="link" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_month}>", null); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "next2", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "next2", <{$smarty.const._OFF}>);'>
+								<img class="icon" src="<{"next2.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_month|smarty:nodefaults}>" title="<{$lang.calendar_title_next_month|smarty:nodefaults}>" />
+							</a>
+						<{else}>
+							&nbsp;
+						<{/if}>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<{assign var="weekArr" value="|"|explode:$lang.calendar_s_week|smarty:nodefaults}>
+			
+			<table id="_calendar_smonthly<{$id}>" class="calendar_body" summary="<{$lang.calendar_summary|smarty:nodefaults}>">
+				<tr>
+					<{section name=wday loop=$weekArr}>
+						<{assign var="index" value=$smarty.section.wday.index}>
+						<{if ($index % 7 == 0) }>
+							<{assign var="day_class" value="calendar_sunday"}>
+						<{elseif ($index % 7 == 6) }>
+							<{assign var="day_class" value="calendar_saturday"}>
+						<{else}>
+							<{assign var="day_class" value="calendar_weekday"}>
+						<{/if}>
+						<td class="calendar_date_head <{$day_class}>">
+							<{$weekArr[wday]}>
+						</td>
+					<{/section}>
+				</tr>
+				<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+					<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+					<{assign var="date" value=$smarty.section.timestamp.index|date_format:"%Y%m%d"}>
+					<{assign var="index" value=$smarty.section.timestamp.iteration-1}>
+
+					<{assign var="year_string" value="`$timestamp`"|date_format:$lang.calendar_monthly_year_format|smarty:nodefaults}>
+					<{assign var="month_string" value="`$timestamp`"|date_format:$lang.calendar_monthly_month_format|smarty:nodefaults}>
+					<{assign var="day_string" value=$lang.calendar_weekly_format|smarty:nodefaults|date:"`$timestamp`"}>
+
+					<{assign var="wday" value="w"|date:"`$timestamp`"}>
+					<{assign var="wday_string" value=$lang.calendar_count_format|smarty:nodefaults|sprintf:"`$weekArr.$wday`"}>
+								
+					<{if (substr($date,0,6) != $current_month) }>
+						<{assign var="day_class" value="calendar_outside"}>
+					<{elseif ($action.holidays.$date) }>
+						<{assign var="day_class" value="calendar_holiday"}>
+					<{elseif ($index % 7 == 0) }>
+						<{assign var="day_class" value="calendar_sunday"}>
+					<{elseif ($index % 7 == 6) }>
+						<{assign var="day_class" value="calendar_saturday"}>
+					<{else}>
+						<{assign var="day_class" value="calendar_weekday"}>
+					<{/if}>
+					
+					<{if ($index % 7 == 0) }>
+						<tr>
+					<{/if}>
+			
+					<td class="carendar_<{$date}> calendar_date<{if ($date == $action.today) }> calendar_today<{/if}><{if ($date != $action.today && $action.plan_data.$date) }> calendar_plan<{/if}>">
+						<a class="<{$day_class}> hover_highlight" title="<{$lang.calendar_ref_title_ymd|smarty:nodefaults|sprintf:$year_string:$month_string:$day_string:$wday_string}>" href="#" onclick='calendarCls["<{$id}>"].showPlanList(event,"<{$date}>","<{$action.popup_calendar_date_topId}>");return false;'>
+							<{$timestamp|date_format:"%e"}>
+							<br />
+							<{if ($action.plan_data.$date) }>
+								<{include file="calendar_view_main_list_smonthly.html"}>
+							<{else}>
+								<img class="calendar_plan_smark" src="<{""|get_image_url}>/images/common/blank.gif" alt="<{$lang.calendar_title_noplan|smarty:nodefaults}>" title="<{$lang.calendar_title_noplan|smarty:nodefaults}>" />
+							<{/if}>
+						</a>
+					</td>
+					
+					<{if ($index % 7 == 6) }>
+						</tr>
+					<{/if}>
+				<{/section}>
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<{include file="calendar_view_main_foot.html"}>
+		</td>
+	</tr>
+</table>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].initMain("<{$action.date}>","<{$smarty.const.CALENDAR_S_MONTHLY}>",null);
+</script>
+
+<{/strip}>

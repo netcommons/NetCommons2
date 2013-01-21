@@ -1,0 +1,39 @@
+/* Explorer Grid */
+.cabinet_fixed-height_file_name {
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_fixed-height_file_size {
+	text-align:right;
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_fixed-height_file_comment {
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_fixed-height_file_ins_user,.cabinet_fixed-height_file_upd_user {
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_fixed-height_file_ins_date,.cabinet_fixed-height_file_upd_date {
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_fixed-height_count {
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_fixed-height_context {
+	white-space:nowrap;
+	overflow : hidden;
+}
+td.cabinet_fixed-height_grid_row {
+	padding : 0px 2px;
+	border-bottom : 0px;
+	border-right : 0px;
+	margin : 0px;
+	height : 23px;
+/*	line-height: 12px; */
+	line-height: 16px;
+}

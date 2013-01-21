@@ -1,0 +1,38 @@
+<{strip}>
+
+	<{if $action.error_flag}>
+		<{assign var="error_path" value=$smarty.const.VIEW_TEMPLATE_DIR|cat:"main/mobile_error.html"}>
+		<{include file=$error_path}>
+	<{else}>
+		<{* 正常終了 *}>
+		<div><{$lang.login_autoregist_comp|smarty:nodefaults}></div>
+		<div>
+			<{if $action.autoregist_approver == _AUTOREGIST_SELF}>
+				<{$lang.login_autoregist_self|smarty:nodefaults}>
+			<{elseif $action.autoregist_approver == _AUTOREGIST_AUTO}>
+				<{$lang.login_autoregist_auto_mobile|smarty:nodefaults}>
+			<{else}>
+				<{$lang.login_autoregist_admin|smarty:nodefaults}>
+			<{/if}>
+		</div>
+		<hr />
+		<{* 登録された内容 *}>
+		<div><{$lang.login_autoregist_confirm_title|smarty:nodefaults}></div>
+		<br />
+		<div>
+			<{$action.post_mail_body|smarty:nodefaults|nl2br}>
+		</div>
+		<hr />
+		<div style="text-align:right">
+			<{if $action.autoregist_approver == _AUTOREGIST_AUTO}>
+				<a href="?action=<{$module_obj.action_name}>">
+					<{$module_obj.module_name}>
+				</a>
+			<{else}>
+				<a href="?action=pages_view_main">
+					<{$lang._btn_prev_arrow|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</div>
+	<{/if}>
+<{/strip}>

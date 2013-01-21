@@ -1,0 +1,37 @@
+<{strip}>
+<form onsubmit="return false;">
+<div class="menu_top_menu">
+<span class="menu_top_menu_btn">
+	<a class="_menu_header_btn syslink" href="#" onclick="menuCls['<{$id}>'].insPage(1); return false;">
+		<img class="icon" src="<{"add_folder.gif"|get_themes_image}>" alt="" title="<{$lang.menu_add_category|smarty:nodefaults}>"/>
+		&nbsp;<{*カテゴリ追加*}><{$lang.menu_add_category|smarty:nodefaults}>
+	</a>
+	<{* TODO:後に削除
+	<span class="_menu_header_disabled_btn display-none" style="color:#aca899;">
+		<img class="icon" src="<{"add_folder.gif"|get_themes_image}>" alt="" title="<{$lang.menu_add_category|smarty:nodefaults}>"/>
+		&nbsp;<{$lang.menu_add_category|smarty:nodefaults}>
+	</span>
+	*}>
+</span>
+<span class="menu_top_menu_btn">
+	<a class="_menu_header_btn syslink" href="#" onclick="menuCls['<{$id}>'].insPage(); return false;">
+		<img class="icon" src="<{"add_file.gif"|get_themes_image}>" alt="" title="<{$lang.menu_add_page|smarty:nodefaults}>"/>
+		&nbsp;<{*ページ追加*}><{$lang.menu_add_page|smarty:nodefaults}>
+	</a>
+	<{* TODO:後に削除
+	<span class="_menu_header_disabled_btn display-none" style="color:#aca899;">
+		<img class="icon" src="<{"add_file.gif"|get_themes_image}>" alt="" title="<{$lang.menu_add_page|smarty:nodefaults}>"/>
+		&nbsp;<{$lang.menu_add_page|smarty:nodefaults}>
+	</span>
+	*}>
+</span>
+</div>
+
+<{assign var="menus" value=$action.menus.0.0}>
+<{assign var="visibility_flag" value=1}>
+<div class="outerdiv" id="_menu_range<{$id}>">
+	<{include file="menu_view_edit_list.html"}>
+</div>
+</form>
+<{include file="menu_script.html"}>
+<{/strip}>

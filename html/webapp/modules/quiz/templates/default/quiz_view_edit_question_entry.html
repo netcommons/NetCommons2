@@ -1,0 +1,160 @@
+<{strip}>
+<{* 問題登録画面用テンプレート *}>
+<form id="quiz_question_form<{$id}>" action="#" onsubmit="return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="quiz_id" />
+	<input type="hidden" name="question_id" />
+	<input type="hidden" name="question_sequence" />
+
+	<div class="bold">
+		<{$lang.quiz_question|sprintf:$action.question.question_sequence}>
+	</div>
+	<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+		<textarea id="quiz_question_value<{$id}>" class="comptextarea quiz_question"></textarea>
+	<{else}>
+		<div>
+			<{$action.question.question_value|smarty:nodefaults|wysiwig_convert_url}>
+			<input type="hidden" name="question_value" value="<{$action.question.question_value}>">
+		</div>
+	<{/if}>
+	<br class="float-clear" />
+
+	<label for="quiz_description_check<{$id}>">
+		<input id="quiz_description_check<{$id}>" type="checkbox" name="description_checkbox" onclick="quizCls['<{$id}>'].changeDescription(this.checked);" />
+		<{$lang.quiz_description}>
+	</label>
+	<div id="quiz_description_area<{$id}>" class="display-none">
+		<textarea id="quiz_description<{$id}>" class="comptextarea quiz_question"></textarea>
+	</div>
+
+	<table class="outer quiz_question" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="quiz_allotment<{$id}>">
+					<{$lang.quiz_allotment}>
+				</label>
+			</th>
+			<td>
+				<input id="quiz_allotment<{$id}>" class="quiz_allotment" type="text" name="allotment" />
+
+				<label id="quiz_require_label<{$id}>" for="quiz_require<{$id}>">
+					<input id="quiz_require<{$id}>" type="checkbox" name="require_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.quiz_require}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="quiz_question_type<{$id}>">
+					<{$lang.quiz_question_type}>
+	 			</label>
+			</th>
+			<td>
+				<select id="quiz_question_type<{$id}>" name="question_type" onchange="quizCls['<{$id}>'].changeQuestionType(this.value);return false;">
+	 				<option id="quiz_question_type_radio<{$id}>" value="<{$smarty.const.QUIZ_QUESTION_TYPE_RADIO_VALUE}>"><{$lang.quiz_question_type_radio}></option>
+	 				<option value="<{$smarty.const.QUIZ_QUESTION_TYPE_CHECKBOX_VALUE}>"><{$lang.quiz_question_type_checkbox}></option>
+	 				<option id="quiz_question_type_word<{$id}>" value="<{$smarty.const.QUIZ_QUESTION_TYPE_WORD_VALUE}>"><{$lang.quiz_question_type_word}></option>
+	 				<option id="quiz_question_type_textarea<{$id}>" value="<{$smarty.const.QUIZ_QUESTION_TYPE_TEXTAREA_VALUE}>"><{$lang.quiz_question_type_textarea}></option>
+	 			</select>
+
+ 				<div id="quiz_choice_area<{$id}>"  class="display-none">
+					<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+						<div class="align-right">
+							<a class="syslink" href="#" title="<{$lang.quiz_add_choice_title|sprintf:$action.question.question_sequence}>" onclick="quizCls['<{$id}>'].addChoice();return false;">
+								<img class="icon" src="<{"add.gif"|get_themes_image}>" alt="" />
+								<{$lang.quiz_add_choice}>
+							</a>
+						</div>
+					<{/if}>
+
+					<table id="quiz_choice<{$id}>" class="quiz_choice">
+						<{foreach from=$action.question.choices|smarty:nodefaults item=choice name="choice"}>
+							<{assign var="iteration" value=$smarty.foreach.choice.iteration}>
+							<{include file="quiz_view_edit_choice.html"}>
+						<{foreachelse}>
+						<{/foreach}>
+					</table>
+
+					<div id="quiz_choice_add<{$id}>" class="display-none">
+					</div>
+				</div>
+
+ 				<div id="quiz_choice_word_area<{$id}>"  class="display-none">
+					<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+						<div class="align-right">
+							<a class="syslink" href="#" title="<{$lang.quiz_add_choice_title|sprintf:$action.question.question_sequence}>" onclick="quizCls['<{$id}>'].addChoice('<{$smarty.const.QUIZ_QUESTION_TYPE_WORD_VALUE}>');return false;">
+								<img class="icon" src="<{"add.gif"|get_themes_image}>" alt="" />
+								<{$lang.quiz_add_word}>
+							</a>
+						</div>
+					<{/if}>
+
+					<table id="quiz_choice_word<{$id}>" class="quiz_choice">
+						<{foreach from=$action.question.choice_words|smarty:nodefaults item=choice name="choice"}>
+							<{assign var="iteration" value=$smarty.foreach.choice.iteration}>
+							<{include file="quiz_view_edit_choice_word.html"}>
+						<{foreachelse}>
+						<{/foreach}>
+					</table>
+
+					<div id="quiz_choice_add<{$id}>" class="display-none">
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="quizCls['<{$id}>'].enterQuestion();" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');return false;" />
+	</div>
+</form>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	quizCls["<{$id}>"].quiz_id = "<{$action.question.quiz_id}>";
+	quizCls["<{$id}>"].question_id = "<{$action.question.question_id}>";
+	quizCls["<{$id}>"].choiceIteration = <{$action.choiceCount}>;
+
+	var quizForm = $("quiz_question_form<{$id}>");
+	quizForm["action"].value = "quiz_action_edit_question_entry";
+	quizForm["quiz_id"].value = "<{$action.question.quiz_id}>";
+	quizForm["question_id"].value = "<{$action.question.question_id}>";
+	quizForm["question_sequence"].value = "<{$action.question.question_sequence}>";
+
+	<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+		<{if empty($action.question.question_id|smarty:nodefaults)}>
+			$("quiz_question_value<{$id}>").value = "<{$lang.quiz_new_question_value|sprintf:$action.question.question_sequence}>";
+		<{else}>
+			$("quiz_question_value<{$id}>").value = "<{$action.question.question_value|smarty:nodefaults|wysiwig_convert_url|escape:"javascript"}>";
+		<{/if}>
+		quizCls['<{$id}>'].createQuestionArea();
+	<{/if}>
+
+	<{if !empty($action.question.description|smarty:nodefaults)}>
+		quizForm["description_checkbox"].checked = true;
+		$("quiz_description<{$id}>").value = "<{$action.question.description|smarty:nodefaults|wysiwig_convert_url|escape:"javascript"}>";
+		quizCls["<{$id}>"].changeDescription(true);
+	<{/if}>
+
+	quizForm["allotment"].value = "<{$action.question.allotment}>";
+
+	<{if $action.question.require_flag == _ON}>
+		$("quiz_require<{$id}>").checked = true;
+	<{/if}>
+
+	quizForm["question_type"].value = "<{$action.question.question_type}>";
+	quizCls["<{$id}>"].changeQuestionType(<{$action.question.question_type}>);
+
+	<{if $action.quiz.status != QUIZ_STATUS_INACTIVE_VALUE}>
+		quizForm["allotment"].disabled = true;
+		quizForm["question_type"].disabled = true;
+
+		$("quiz_require<{$id}>").disabled = true;
+		Element.addClassName($("quiz_require_label<{$id}>"), "disable_lbl");
+	<{/if}>
+
+	quizForm = null;
+</script>
+<{/strip}>

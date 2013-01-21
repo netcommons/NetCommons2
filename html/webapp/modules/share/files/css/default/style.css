@@ -1,0 +1,18 @@
+/* Css定義ファイル                     */
+.share_init_add_btn {
+	padding:5px;
+	text-align:right;
+	white-space:nowrap;
+}
+.share_top_description {
+	width:520px;
+}
+
+.share_url {
+	width:400px;
+	white-space:nowrap;
+}
+.share_manage {
+	width:120px;
+	white-space:nowrap;
+}

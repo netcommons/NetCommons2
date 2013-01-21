@@ -1,0 +1,43 @@
+<{strip}>
+
+<h3>
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+			<{$action.whatsnew.title}>
+		</div>
+	<{else}>
+		<{$action.whatsnew.title|smarty:nodefaults|truncate:$smarty.const.WHATSNEW_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+	<{/if}>
+</h3>
+<h6>
+	<{$action.whatsnew.module_name}>,
+	<{$action.whatsnew.page_name}>,
+	<{$action.whatsnew.insert_user_name}>,
+	<{"`$action.whatsnew.insert_time`"|timezone_date_format:$lang.whatsnew_time_format|smarty:nodefaults}>
+</h6>
+
+<br />
+
+<{if ($smarty.session._smartphone_flag == _ON) }>
+	<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+		<{$action.whatsnew.description}>
+	</div>
+<{else}>
+	<{$action.whatsnew.description|smarty:nodefaults|truncate:$smarty.const.WHATSNEW_DESC_LENGTH:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+<{/if}>
+
+<br /><br />
+<{assign var="parameters" value="/#.*/i"|preg_replace:"":$action.whatsnew.parameters}>
+<a href="?action=<{$action.whatsnew.action_name}><{$session_param}>&amp;<{$parameters|smarty:nodefaults}>">
+	<{$lang.whatsnew_mobile_base_news|smarty:nodefaults}>
+</a>
+
+<br />
+
+<div style="text-align:right">
+	<a href=".<{$smarty.const.INDEX_FILE_NAME}>?action=whatsnew_view_mobile_init&amp;offset=<{$smarty.session.whatsnew.offset}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

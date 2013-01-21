@@ -1,0 +1,65 @@
+<{strip}>
+<{* コメント表示画面用テンプレート *}>
+<{if $action.commentCount > 0}>
+	<div class="photoalbum_comment_head">
+		<{$lang.photoalbum_comment}>
+	</div>
+<{/if}>
+
+<{foreach item=comment from=$action.comments}>
+	<div class="photoalbum_comment">
+		<div class="photoalbum_operation">
+			<div class="photoalbum_comment_creator">
+				<{include file = "photoalbum_view_handle.html" handle=$comment.insert_user_name|smarty:nodefaults user_id=$comment.insert_user_id}>
+			</div>
+				
+			<div class="photoalbum_comment_manage">
+				<span class="photoalbum_comment_time">
+					<{$comment.insert_time|timezone_date_format:$lang._full_date_format}>
+				</span>
+					
+				<{if $comment.edit_authority}>
+					<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$lang.photoalbum_comment}>" onclick="photoalbumCls['<{$id}>'].showCommentEntry('<{$comment.comment_id}>');return false;">
+						<{$lang._edit|smarty:nodefaults}>
+					</a>
+					<{$lang._separator|smarty:nodefaults}>
+					
+					<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$lang.photoalbum_comment}>" onclick="photoalbumCls['<{$id}>'].deleteComment('<{$comment.comment_id}>', '<{$lang._del_confirm|sprintf:"`$lang.photoalbum_comment`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+						<{$lang._delete|smarty:nodefaults}>
+					</a>
+				<{/if}>
+			</div>
+
+			<br class="float-clear" />
+		</div>
+		
+		<div id="photoalbum_comment_value<{$comment.comment_id}><{$id}>">
+			<{$comment.comment_value|nl2br}>
+		</div>
+	</div>
+<{/foreach}>
+	
+<{if $action.photo.comment_authority}>
+	<form id="photoalbum_comment_form<{$id}>" class="photoalbum_comment_form" action="#" onsubmit="photoalbumCls['<{$id}>'].enterComment();return false;">
+		<input type="hidden" name="action" value="photoalbum_action_main_comment_entry" />
+		<input type="hidden" name="photoalbum_id" value="<{$action.album.photoalbum_id}>" />
+		<input type="hidden" name="album_id" value="<{$action.album.album_id}>" />
+		<input type="hidden" name="photo_id" value="<{$action.photo.photo_id}>" />
+		<input type="hidden" name="comment_id" />
+	
+		<label class="bold" for="photoalbum_comment_value<{$id}>">
+			<{$lang.photoalbum_comment_value}><br />
+			<textarea id="photoalbum_comment_value<{$id}>" class="textarea" name="comment_value"></textarea>
+		</label>
+			
+		<div class="btn-bottom">
+			<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="photoalbumCls['<{$id}>'].cancelComment();" />
+		</div>
+	</form>
+<{/if}>
+
+<{include file = "../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("photoalbum_comment_value<{$id}>"));
+</script><{/strip}>

@@ -1,0 +1,54 @@
+<?php print "<?php\n"; ?>
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * [[機能説明]]
+ *
+ * @package     NetCommons.filter
+<?php include($this->getTemplate('maple/generate/skeleton/_doc-comment.txt')); ?>
+ * @access      public
+ */
+class <?php print $skeleton->classname; ?> extends Filter
+{
+    /**
+     * コンストラクター
+     *
+     * @access  public
+     */
+    function <?php print $skeleton->classname; ?>()
+    {
+        parent::Filter();
+    }
+
+    /**
+     * [[機能説明]]
+     *
+     * @access  public
+     */
+    function execute()
+    {
+        $className = get_class($this);
+
+        $log =& LogFactory::getLog();
+        $log->trace("${className}の前処理が実行されました", "{$className}#execute");
+
+        //
+        // ここに前処理を記述
+        //
+
+        //
+        // ここで一旦次のフィルターに制御を移す
+        //
+        $container =& DIContainerFactory::getContainer();
+        $filterChain =& $container->getComponent("FilterChain");
+        $filterChain->execute();
+
+        //
+        // ここに後処理を記述
+        //
+
+        $log->trace("${className}の後処理が実行されました", "${className}#execute");
+    }
+}
+<?php print "?>\n"; ?>

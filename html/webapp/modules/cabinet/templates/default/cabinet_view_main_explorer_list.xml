@@ -1,0 +1,94 @@
+<{* XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+
+<lists>
+	<{if ($action.folder_id != "0" && $action.offset == 0)}>
+		<row>
+			<file_name><![CDATA[
+				<{include file="cabinet_view_main_filename.html" file_id=$action.folder_parent_id file_name=$lang.cabinet_up_folder|smarty:nodefaults explorer_pos="up_folder"}>
+			]]></file_name>
+			<{if ($action.cabinet.disp_size == _ON) }>
+				<size><![CDATA[&nbsp;]]></size>
+			<{/if}>
+			<{if ($action.cabinet.disp_insert_user == _ON) }>
+				<insert_user><![CDATA[&nbsp;]]></insert_user>
+			<{/if}>
+			<{if ($action.cabinet.disp_insert_date == _ON) }>
+				<insert_date><![CDATA[&nbsp;]]></insert_date>
+			<{/if}>
+			<{if ($action.cabinet.disp_update_user == _ON) }>
+				<update_user><![CDATA[&nbsp;]]></update_user>
+			<{/if}>
+			<{if ($action.cabinet.disp_update_date == _ON) }>
+				<update_date><![CDATA[&nbsp;]]></update_date>
+			<{/if}>
+			<{if ($action.cabinet.disp_comment == _ON) }>
+				<comment><![CDATA[&nbsp;]]></comment>
+			<{/if}>
+			<context><![CDATA[&nbsp;]]></context>
+			<{if ($action.cabinet.disp_download_num == _ON) }>
+				<count><![CDATA[&nbsp;]]></count>
+			<{/if}>
+		</row>
+	<{/if}>
+
+	<{section loop=$action.file_list name=i}>
+		<{assign var="file" value=$action.file_list[i]}>
+		<row>
+			<file_name><![CDATA[
+				<{include file="cabinet_view_main_filename.html" explorer_pos="right"}>
+			]]></file_name>
+			<{if ($action.cabinet.disp_size == _ON) }>
+				<size><![CDATA[
+					<{if ($action.file_list[i].file_type != CABINET_FILETYPE_FOLDER) }>
+						<{$action.file_list[i].prefix_size}>
+					<{/if}>
+					&nbsp;&nbsp;
+				]]></size>
+			<{/if}>
+			<{if ($action.cabinet.disp_insert_user == _ON) }>
+				<insert_user><![CDATA[
+					<{include file = "cabinet_view_handle.html" handle=$action.file_list[i].insert_user_name|smarty:nodefaults user_id=$action.file_list[i].insert_user_id}>
+				]]></insert_user>
+			<{/if}>
+			<{if ($action.cabinet.disp_insert_date == _ON) }>
+				<insert_date><![CDATA[
+					<{$action.file_list[i].insert_time|timezone_date_format:$lang.cabinet_date_format|smarty:nodefaults}>
+				]]></insert_date>
+			<{/if}>
+			<{if ($action.cabinet.disp_update_user == _ON) }>
+				<update_user><![CDATA[
+					<{include file = "cabinet_view_handle.html" handle=$action.file_list[i].update_user_name|smarty:nodefaults user_id=$action.file_list[i].update_user_id}>
+				]]></update_user>
+			<{/if}>
+			<{if ($action.cabinet.disp_update_date == _ON) }>
+				<update_date><![CDATA[
+					<{$action.file_list[i].update_time|timezone_date_format:$lang.cabinet_date_format|smarty:nodefaults}>
+				]]></update_date>
+			<{/if}>
+			<{if ($action.cabinet.disp_comment == _ON) }>
+				<comment><![CDATA[
+					<{$action.file_list[i].comment}>
+				]]></comment>
+			<{/if}>
+			<context><![CDATA[
+				<a href="#" onclick="cabinetCls['<{$id}>'].showContext(this,<{$action.file_list[i].file_id}>); return false;">
+					<img src="<{"menu.gif"|get_modules_image}>" alt="<{$lang.cabinet_context_menu|smarty:nodefaults}>" title="<{$lang.cabinet_title_context_menu|smarty:nodefaults}>" />
+				</a>
+			]]></context>
+			<{if ($action.cabinet.disp_download_num == _ON) }>
+				<count><![CDATA[
+					<{if ($action.file_list[i].file_type == CABINET_FILETYPE_FOLDER) }>
+						&nbsp;&nbsp;
+					<{else}>
+						<div id="cabinet_count<{$action.file_list[i].file_id}><{$id}>">
+							<{$lang.cabinet_count_str|smarty:nodefaults|sprintf:$action.file_list[i].download_num}>
+						</div>
+					<{/if}>
+				]]></count>
+			<{/if}>
+		</row>
+	<{/section}>
+</lists>
+<{/strip}>

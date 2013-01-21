@@ -1,0 +1,24 @@
+<{strip}>
+
+<h3>
+	<{$current_module_name}>
+</h3>
+
+<ul>
+	<{section name=i loop=$action.reg_list}>
+		<li>
+			<a href="?action=registration_view_main_init&amp;block_id=<{$action.reg_list[i].block_id}><{$session_param}>">
+				<{$action.reg_list[i].registration_name|truncate:$smarty.const._MOBILE_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true}>
+			</a>
+		</li>
+	<{/section}>
+</ul>
+
+<br />
+<div style="text-align:right">
+	<a href=".<{$smarty.const.INDEX_FILE_NAME}>?action=menu_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

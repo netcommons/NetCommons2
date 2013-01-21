@@ -1,0 +1,10 @@
+<{strip}>
+
+<td colspan="2" class="nowrap">
+	<label for="entry_calendar<{$id}>">
+		<input id="entry_calendar<{$id}>" type="checkbox" name="entry_calendar" value="<{$smarty.const._ON}>"<{if ($reserve.calendar_id != 0 || $action.entry_calendar == _ON) }> checked="checked"<{/if}> />
+		<{$lang.reservation_entry_calendar|smarty:nodefaults}>
+	</label>
+</td>
+
+<{/strip}>

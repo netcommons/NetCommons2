@@ -1,0 +1,12 @@
+<{strip}>
+<{* 提出者リストへ戻るテンプレート *}>
+
+<div class="assignment_title">
+	<a class="syslink" href="#" title="<{$lang.assignment_submitter_list_title|smarty:nodefaults}>" onclick='assignmentCls["<{$id}>"].backSubmitters(); return false;'>
+		<{$lang.assignment_submitter_list}>
+	</a>
+	<{$lang._arrow_separator|smarty:nodefaults}>
+	<{$lang.assignment_submitter_tilte|smarty:nodefaults|sprintf:$action.report.insert_user_name}>
+</div>
+
+<{/strip}>

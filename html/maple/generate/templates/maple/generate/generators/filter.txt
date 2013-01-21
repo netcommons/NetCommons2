@@ -1,0 +1,3 @@
+Usage: nc [options] filter <filter_name>
+
+Type "nc help" to list the general options.

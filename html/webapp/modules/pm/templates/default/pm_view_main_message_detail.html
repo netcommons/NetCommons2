@@ -1,0 +1,158 @@
+<{strip}>
+<{* メッセージ詳細用テンプレート *}>
+<div class="pm_popup_body clearfix">
+  <form id="pm_form<{$id}>_<{$action.message.receiver_id}>" onsubmit="return false;" action="#">
+    <input type="hidden" name="action" value="pm_action_main_message_operation" />
+	<input type="hidden" name="search_flag" value="<{$action.search_flag}>" />
+    <input type="hidden" name="mailbox" value="<{$action.current_menu}>" />
+    <input type="hidden" id="receiver_id" name="receiver_id" value="<{$action.message.receiver_id}>" />
+	<input type="hidden" name="page" value="<{$action.page}>" />
+	<input type="hidden" name="top_el_id" value="<{$action.top_el_id}>" />
+	<table class="pm_popup_base">
+		<tr>
+			<td class="pm_popup_base_upperleft">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperleft" />
+			</td>
+			<td class="pm_popup_base_upper"></td>
+			<td class="pm_popup_base_upperright">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperright" />
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_popup_base_left">
+			</td>
+			<td class="pm_popup_base_content">
+				<table class="widthmax">
+					<tr>
+						<td class="pm_popup_hmenu_top_td">
+							<ul class="pm_hmenu_ul pm_popup_detail_create_btn">
+								<li class="pm_list_menu_li pm_popup_detail_del_btn">
+									<{include file = "pm_view_list_toolbar_delete.html" location="detail" page=$action.page parent_id_name=$id}>
+								</li>
+								<li class="pm_list_menu_li pm_list_operation">
+									<{include file = "pm_view_list_toolbar_operation.html" location="detail" page=$action.page parent_id_name=$id}>
+								</li>
+								<li class="pm_list_menu_li_right">
+									<ul class="pm_hmenu_ul pm_list_create_btn">
+										<li class="pm_list_menu_li">
+											<a href="#" class="syslink pm_head" onclick="pmCls['<{$id}>'].showMessagePopup('<{$action.message.receiver_id}>','<{$action.message.insert_user_name|escape:"html"}>',event, '<{$smarty.const.PM_REPLY_MESSAGE}>', '<{$id}>', '<{$action.top_id_name}>');return false;">
+												<div>
+												<img class="icon" src="<{"edit.gif"|get_themes_image}>" />
+												&nbsp;
+												<{$lang.pm_reply_message|smarty:nodefaults}>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="pm_content">
+							<{* コンテンツ *}>
+							<table class="widthmax pm_det">
+								  <tr>
+									<th class="pm_det_th pm_title_green bold">
+										<{if ($action.message.mailbox == $smarty.const.PM_LEFTMENU_OUTBOX) ||
+											 ($action.message.mailbox == $smarty.const.PM_LEFTMENU_STOREBOX)}>
+											<{$lang.pm_receiver|smarty:nodefaults}>
+										<{else}>
+											<{$lang.pm_sender|smarty:nodefaults}>
+										<{/if}>
+									</th>
+
+									<td class="pm_det_td pm_det_sender">
+										<{if $action.message.importance_flag == $smarty.const.PM_IMPORTANCE_FLAG}>
+										  <img class="pm_det_sender_img" src="<{"flag.gif"|get_modules_image}>" alt="" />
+										<{/if}>
+
+										<{if (($action.message.mailbox == $smarty.const.PM_LEFTMENU_OUTBOX) || ($action.message.mailbox == $smarty.const.PM_LEFTMENU_STOREBOX)) && $action.message.send_all_flag}>
+											<{$lang.pm_all_members|smarty:nodefaults}>
+										<{else}>
+											<{foreach key=user_id item=user_data from=$action.message.handles}>
+												<{include file = "pm_view_handle.html" handle=$user_data.handle|smarty:nodefaults user_id=$user_id}>
+												<{if !$user_data.end}>, <{/if}>
+											<{/foreach}>
+										<{/if}>
+									</td>
+									<td rowspan="4" class="pm_det_td pm_det_avatar" id="pm_form<{$id}>_avatar"></td>
+								  </tr>
+								  <tr>
+									<th class="pm_det_th pm_title_green bold"><{$lang.pm_subject|smarty:nodefaults}></th>
+									<td class="pm_det_td pm_det_subject">
+										<{if $action.message.hasTag}>
+											<img class="pm_det_subject_img" src="<{"tag.gif"|get_modules_image}>" alt="" />
+										<{/if}>
+										<{if $action.message.image_count > 0}>
+											<img class="pm_det_subject_img" src="<{"image.gif"|get_modules_image}>" alt="" />
+										<{/if}>
+										<{if $action.message.file_count > 0}>
+											<img class="pm_det_subject_img" src="<{"upload.gif"|get_modules_image}>" alt="" />
+										<{/if}>
+										<{if $action.message.subject}>
+											<{$action.message.subject}>
+										<{else}>
+											<{$lang.pm_list_no_subject|smarty:nodefaults}>
+										<{/if}>
+									</td>
+								  </tr>
+								  <tr>
+									<th class="pm_det_th pm_title_green bold"><{$lang.pm_date|smarty:nodefaults}></th>
+									<td class="pm_det_td pm_det_data"><{$action.message.sent_time}></td>
+								  </tr>
+								  <tr>
+									<th class="pm_det_th pm_title_green bold"><{$lang.pm_tag|smarty:nodefaults}></th>
+									<td class="pm_det_td pm_det_tag"><{$action.message.tags}></td>
+								  </tr>
+								  <tr>
+									<td colspan="3" class="pm_det_td pm_det_msg"><{$action.message.body|smarty:nodefaults|wysiwig_convert_url}></td>
+								  </tr>
+							</table>
+
+
+						</td>
+					</tr>
+
+					<tr>
+						<td class="pm_popup_hmenu_bottom_td">
+							<ul class="pm_hmenu_ul pm_popup_detail_create_btn">
+								<li class="pm_list_menu_li pm_popup_detail_del_btn">
+									<{include file = "pm_view_list_toolbar_delete.html" location="detail" page=$action.page parent_id_name=$id}>
+								</li>
+								<li class="pm_list_menu_li pm_list_operation">
+									<{include file = "pm_view_list_toolbar_operation.html" location="detail" page=$action.page parent_id_name=$id}>
+								</li>
+							</ul>
+						</td>
+					</tr>
+
+					<{if $action.active_action_name == "pm_view_main_message_detail"}>
+						<tr>
+							<td class="pm_popup_hmenu_bottom_td align-center">
+								<input class="btn-width lined_btn" type="button" value="<{$lang._back_to_list|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].closeDetailsPopup('<{$id}>', '<{$action.message.receiver_id}>', '<{$action.page_id}>');return false;" />
+						   </td>
+						</tr>
+					<{/if}>
+				</table>
+			</td>
+			<td class="pm_popup_base_right"></td>
+		</tr>
+		<tr>
+			<td class="pm_popup_base_belowleft"></td>
+			<td class="pm_popup_base_below"></td>
+			<td class="pm_popup_base_belowright"></td>
+		</tr>
+  </table>
+  </form>
+</div>
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+<{if (($action.message.mailbox == $smarty.const.PM_LEFTMENU_OUTBOX) || ($action.message.mailbox == $smarty.const.PM_LEFTMENU_STOREBOX)) && $action.message.send_all_flag == $smarty.const._ON}>
+pmCls["<{$id}>"].updAvatarBox(true);
+<{else}>
+pmCls["<{$id}>"].loadingAvatar('pm_form<{$id}>_avatar', '<{$action.message.first_user_id}>');
+<{/if}>
+</script>
+<{/strip}>

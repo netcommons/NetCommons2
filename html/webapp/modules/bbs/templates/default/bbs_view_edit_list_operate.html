@@ -1,0 +1,9 @@
+<{strip}>
+<{* 掲示板一覧（動作／停止列）用テンプレート *}>
+<a class="syslink<{if $bbs.activity == _OFF}> display-none<{/if}>" href="#" title="<{$lang.bbs_stop_title|smarty:nodefaults|sprintf:$bbs.bbs_name}>" onclick="bbsCls['<{$id}>'].changeActivity(this, '<{$bbs.bbs_id}>', '<{$smarty.const._OFF}>');return false;">
+	<{$lang.bbs_stop|smarty:nodefaults}>
+</a>
+<a class="syslink<{if $bbs.activity == _ON}> display-none<{/if}>" href="#" title="<{$lang.bbs_activate_title|smarty:nodefaults|sprintf:$bbs.bbs_name}>" onclick="bbsCls['<{$id}>'].changeActivity(this, '<{$bbs.bbs_id}>', '<{$smarty.const._ON}>');return false;">
+	<{$lang.bbs_activate|smarty:nodefaults}>
+</a>
+<{/strip}>

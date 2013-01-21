@@ -1,0 +1,69 @@
+<{strip}>
+<{* 携帯メニュー表示用テンプレート *}>
+
+<{if ($smarty.session._smartphone_flag == _ON) }>
+	<ul data-role="listview" data-inset="false" data-divider-theme="<{$smartphone_theme_color}>" >
+	<li data-role="list-divider">
+		<{$lang.menu_page_select|smarty:nodefaults}>
+	</li>
+<{else}>
+	<h3>
+		<{$lang.menu_page_select|smarty:nodefaults}>
+	</h3>
+	<div>
+<{/if}>
+
+<{if !empty($action.pageTree|smarty:nodefaults)}>
+	<{assign var="pages" value=$action.topPage}>
+	<{assign var="minusIndentFirstCheckLevel" value=1}>
+	<{assign var="minusIndentFirst" value=0}>
+
+    <{if ($smarty.session._smartphone_flag == _ON) }>
+		<{if $action.menu_display_type==$smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+			<{include file="menu_mobile_recursive_page_smart_tree.html" page_counter_param=$page_counter_param}>
+		<{else}>
+			<{include file="menu_mobile_recursive_page_smart_flat.html" page_counter_param=$page_counter_param}>
+		<{/if}>
+    <{else}>
+		<{include file="menu_mobile_recursive_page_feature.html" page_counter_param=$page_counter_param}>
+	<{/if}>
+<{else}>
+	<{$lang.menu_no_page|smarty:nodefaults}>
+<{/if}>
+
+<{if ($smarty.session._smartphone_flag == _ON) }>
+	</ul>
+	<br />
+<{else}>
+	</div>
+<{/if}>
+
+<br />
+
+<{if $action.each_room_flag == $smarty.const._ON }>
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<ul data-role="listview" data-inset="false" data-theme="a" data-divider-theme="a">
+			<li data-role="list-divider">
+				<{$lang.menu_room_select|smarty:nodefaults}>
+			</li>
+	<{else}>
+		<h3>
+			<{$lang.menu_room_select|smarty:nodefaults}>
+		</h3>
+	<{/if}>
+
+	<{assign var="menu_redirect_action" value=$conf.menu_redirect_action}>
+	<{assign var="next_thread_num" value=0}>
+	<{assign var="next_parent_id" value=0}>
+	<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+    <{if ($smarty.session._smartphone_flag == _ON) }>
+		<{include file="menu_mobile_recursive_room_smart.html"}>
+		</ul>
+    <{else}>
+		<div>
+			<{include file="menu_mobile_recursive_room_feature.html"}>
+		</div>
+	<{/if}>
+	<br />
+<{/if}>
+<{/strip}>

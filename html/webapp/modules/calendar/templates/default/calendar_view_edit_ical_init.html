@@ -1,0 +1,56 @@
+<{strip}>
+
+<form id="calendar_form<{$id}>" action="#" method="post" target="attachment_form<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+
+	<div class="top_description">
+		<{$lang.calendar_ical_desc|smarty:nodefaults}>
+	</div>
+
+	<div class="outerdiv nowrap">
+		<div id="calendar_error_message_room<{$id}>" class="errorstr display-none">
+			<{$lang.calendar_error_room|smarty:nodefaults}>
+		</div>
+		<label for="calendar_room<{$id}>">
+			<{$lang.calendar_room|smarty:nodefaults}>
+		</label>
+		&nbsp;
+
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<select id="calendar_room<{$id}>" name="plan_room_id" onchange='calendarCls["<{$id}>"].switchImportRoom();' class="calendar_plan_room_id">
+			<{include file="./calendar_view_recursive_room.html"}>
+		</select>
+		<br />
+		<label for="calendar_all_del<{$id}>">
+			<input type="checkbox" id="calendar_all_del<{$id}>" name="calendar_all_del" value="<{$smarty.const._ON}>" />
+			<{$lang.calendar_all_delete|smarty:nodefaults}>
+		</label>
+	</div>
+	<br />
+	<div class="top_description">
+		<{$lang.calendar_ical_upload|smarty:nodefaults}>
+	</div>
+	<div class="outerdiv nowrap">
+		<label for="calendar_import<{$id}>">
+			<{$lang.calendar_ical_lbl|smarty:nodefaults}>
+		</label>
+		&nbsp;
+		<input id="calendar_import<{$id}>" name="upload" type="file" />
+	</div>
+
+	<div class="btn-bottom">
+		<input class="btn-width" name="regist_btn" type="button" value="<{$lang.calendar_import|smarty:nodefaults}>" disabled="disabled" onclick='calendarCls["<{$id}>"].takingICal(this.form.plan_room_id.value, this.form.calendar_all_del.checked); return false;' />
+		&nbsp;
+		<input class="btn-width" name="cancel_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'calendar_view_main_init'); return false;" />
+	</div>
+</form>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].switchImportRoom();
+	calendarCls["<{$id}>"].setAddPlanRoom($("calendar_room<{$id}>"));
+	commonCls.focus("<{$id}>");
+</script>
+
+<{/strip}>

@@ -1,0 +1,13 @@
+table.outer th.online_title {
+	text-align:right;
+	white-space:nowrap;
+	padding-right:15px;
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/online/separator.gif");
+	background-repeat:no-repeat;
+	background-position:right center;
+}
+
+table.outer td.online_count {
+	text-align:right;
+	white-space:nowrap;
+}

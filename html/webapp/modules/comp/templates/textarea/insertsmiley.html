@@ -1,0 +1,50 @@
+<{strip}>
+
+<table class="comptextarea_dialog"><tr><td style="<{* style指定ではないとなぜかIEでpaddingされない *}>padding:5px;">
+	<form action="">
+	<table class="comptextarea_dialog_insertsmiley">
+		<{foreach from=$action.smiley_list|smarty:nodefaults name=loop key=image_name item=alt_name}>
+			<{if $image_name == "smiley-prefix"}>
+				<{*smiley-prefix altタグに付与*}>
+				<{assign var="alt_prefix" value=$alt_name}>
+			<{else}>
+				<{if $smarty.foreach.loop.iteration+8 % 10 == 0}>
+					<{*10つで下の行へ*}>
+					<tr>
+					<{assign var="count" value=1}>
+				<{/if}>
+				<td onmouseover="if (!parent.Element.hasClassName(this,'comptextarea_dialog_highlight')){parent.Element.addClassName(this, 'comptextarea_dialog_highlight');}" onmouseout="parent.Element.removeClassName(this, 'comptextarea_dialog_highlight');">
+					<img style="margin:2px;width:13px;height:13px;" src="<{""|get_image_url}><{$action.image_path}><{$image_name}>" title="<{$alt_name}>" alt="<{$alt_prefix}><{$alt_name}>" onclick="onOK(this);return false;" />
+				</td>
+				<{if $count % 10 == 0}>
+					<{*10つで下の行へ*}>
+					</tr>
+				<{/if}>
+				<{assign var="count" value=$count+1}>
+			<{/if}>
+		<{/foreach}>
+	</table>
+	</form>
+</td></tr></table>
+<script type="text/javascript">
+var htmlarea = parent.commonCls.referComp['<{$action.parent_id_name}>'];
+var popup = htmlarea.popup[htmlarea.popupPrefix + htmlarea.id + 'insertsmiley'];
+function Init() {
+	<{*//リサイズ*}>
+	if (popup)
+		popup.resize();
+}
+function onOK(el) {
+  var param = new Object();
+  param["f_url"] = el.src;
+  param["f_title"] = el.title;
+  param["f_alt"] = el.alt;
+  param["f_align"] = '';
+  param["f_border"] = '';
+  param["f_horiz"] = '';
+  param["f_vert"] = '';
+  parent.commonCls.referComp['<{$action.parent_id_name}>'].insertImage(param);
+}
+parent.commonCls.observe(window, 'load',Init, false, '<{$id}>');
+</script>
+<{/strip}>

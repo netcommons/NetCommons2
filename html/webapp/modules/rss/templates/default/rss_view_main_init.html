@@ -1,0 +1,107 @@
+<{strip}>
+<{* RSSメイン画面用テンプレート *}>
+<div class="align-right">
+	<a href="#" onclick="commonCls.displayChange('rssSite<{$id}>');return false;">
+		<{$lang.rss_site_info|smarty:nodefaults}>
+	</a>
+</div>
+
+<table id="rssSite<{$id}>" class="outer display-none rss_site_info" summary="<{$smarty.const._SUMMARY_DETAIL}>">
+	<{* サイト名 *}>
+	<tr>
+		<td class="nowrap">
+			<{$lang.rss_site_name|smarty:nodefaults}>
+		</td>
+		<td class="nowrap" colspan="2">
+			<{if strlen($action.rss.xml.channel.title) != 0}>
+				<{$action.rss.xml.channel.title}>
+			<{else}>
+				<{$action.rss.site_name}>
+			<{/if}>
+		</td>
+	</tr>
+
+	<{if strlen($action.rss.xml.channel.lastbuilddate) != 0}>
+		<{* 最終更新時刻 *}>
+		<tr>
+			<td class="nowrap">
+				<{$lang.rss_last_update|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$action.rss.xml.channel.lastbuilddate|date_format:"%Y/%m/%d %H:%M"}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if strlen($action.rss.xml.channel.description) != 0}>
+		<{* サイトの説明 *}>
+		<tr>
+			<td class="nowrap">
+				<{$lang.rss_description|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$action.rss.xml.channel.description}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if strlen($action.rss.xml.channel.generator) != 0}>
+		<{* 作成 *}>
+		<tr>
+			<td class="nowrap">
+				<{$lang.rss_generator|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$action.rss.xml.channel.generator}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if strlen($action.rss.xml.channel.link) != 0}>
+		<{* サイトURL *}>
+		<tr>
+			<td class="nowrap">
+				<{$lang.rss_link|smarty:nodefaults}>
+			</td>
+			<td>
+				<a href="<{$action.rss.xml.channel.link}>">
+					<{$action.rss.xml.channel.link}>
+				</a>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+
+<{if !empty($action.rss.xml.item|smarty:nodefaults)}>
+	<ul class="rss_item">
+		<{foreach name="itemlist" key="key" item="item" from=$action.rss.xml.item}>
+			<li>
+				<a href="#" onclick="commonCls.displayChange('rss_item<{$id}>_<{$key}>');return false;">
+					<{$item.title}>
+				</a>
+				<div id="rss_item<{$id}>_<{$key}>" class="display-none">
+					<{$item.description|smarty:nodefaults}>
+					<{if strlen($item.pubdate) != 0}>
+						<span class="rss_update_date">(<{$item.pubdate|date_format:"%Y/%m/%d %H:%M"}>)</span>
+					<{/if}>
+
+					<div class="align-right">
+						<{if strlen($item.link) != 0}>
+							<a href="<{$item.link}>" target="_blank">
+								<{$lang.rss_more|smarty:nodefaults}>
+							</a>
+						<{/if}>
+
+						<{if $action.rss.imagine == _ON}>
+							<form class="rss_imagine_form" target="imagine" action="<{$smarty.const.RSS_IMAGINE_URL}>" method="post">
+								<input type="hidden" name="freetext" value="<{$item.title|smarty:nodefaults|html_to_text}> <{$item.description|smarty:nodefaults|html_to_text}>" />
+								<input class="rss_imagine" type="image" src="<{"toimagine.gif"|get_modules_image}>" alt="IMAGINE" />
+							</form>
+						<{/if}>
+					</div>
+				</div>
+			</li>
+		<{/foreach}>
+	</ul>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,43 @@
+<{strip}>
+<{* RSSメイン画面用テンプレート *}>
+
+<h3>
+	<{if strlen($action.rss.xml.channel.title) != 0}>
+		<{$action.rss.xml.channel.title}>
+	<{else}>
+		<{$action.rss.site_name}>
+	<{/if}>
+</h3>
+<{if count($action.rss.xml.item) != 0}>
+	<ul>
+		<{foreach name="itemlist" key="key" item="item" from=$action.rss.xml.item}>
+			<li>
+				<h4><{$item.title}></h4>
+				<p>
+				<{if ($item.description != "") }>
+					<span style="font-size:small;"><{$item.description|smarty:nodefaults}></span>
+				<{/if}>
+				</p>
+			    <{if ($smarty.session._smartphone_flag == _ON) }>
+					<{if strlen($item.link) != 0}>
+						<a data-role="button" data-inline="true" href="<{$item.link}>" target="_blank">
+							<{$lang.rss_more|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				<{/if}>
+			</li>
+		<{/foreach}>
+	</ul>
+<{/if}>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

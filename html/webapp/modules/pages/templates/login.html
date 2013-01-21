@@ -1,0 +1,8 @@
+<{strip}>
+<{* ログイン画面用テンプレート *}>
+<{if $smarty.session._user_id == "0"}>
+	<div id="login_popup" class="login_popup">
+		<{$loginHtml|smarty:nodefaults}>
+	</div>
+<{/if}>
+<{/strip}>

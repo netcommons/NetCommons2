@@ -1,0 +1,44 @@
+ul.header_150x32_orange {
+	display:block;
+	margin:0px;
+	padding:0px;
+	width:100%;
+	overflow:hidden;
+	background:url(<{$smarty.const.CORE_BASE_URL}>/images/menu/header_150x32_orange/bg_ul.gif) repeat-x left top;
+}
+
+ul.header_150x32_orange li {
+	display:block;
+	float:left;
+	list-style:none;
+	padding:0px;
+}
+
+a.header_150x32_orange_menu_top_public {
+	height:32px;
+	width:150px;
+	overflow:hidden;
+	display:block;
+	line-height:32px;
+	padding:0px 0px 0px 0px;
+	font-weight:bold;
+	color:#fff !important;
+	font-size:12px;
+	background:url(<{$smarty.const.CORE_BASE_URL}>/images/menu/header_150x32_orange/btn.gif) no-repeat left top;
+	text-align:center;
+}
+
+a.header_150x32_orange_menu_top_public:hover {
+	color:#fff !important;
+	background-position:left bottom;
+}
+
+a.header_150x32_orange_menu_top_public._menu_active{
+	color:#fff !important;
+	background-position:left bottom;
+}
+
+.header_150x32_orange_menu_top_public.menu_headerflat_highlight {
+	color:#fff !important;
+	background-position:left bottom;
+}

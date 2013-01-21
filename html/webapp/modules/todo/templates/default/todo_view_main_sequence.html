@@ -1,0 +1,77 @@
+<{strip}>
+<{* タスク表示順変更用テンプレート *}>
+<div class="todo_head">
+	<a class="syslink todo_head" href="#" title="<{$lang.todo_change_sequence_mode_end_title|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'todo_view_main_init'});return false;">
+		<{$lang.todo_change_sequence_mode_end|smarty:nodefaults}>
+	</a>
+</div>
+
+<table id="todo_task_list<{$id}>" class="todo_task_sequence" summary="<{$lang.todo_task_list_summary|smarty:nodefaults}>">	
+	<{foreach from=$action.tasks item=task}>
+		<tr id="todo_task_row<{$task.task_id}><{$id}>">
+			<td class="comp_draganddrop">
+			</td>
+			
+			<td class="todo_priority">
+				<{include file = "todo_view_main_init_priority.html"}>
+			</td>
+			
+			<td class="todo_state align-center">
+				<{include file = "todo_view_main_init_state.html"}>
+			</td>
+			
+			<td class="todo_period">
+				<{include file = "todo_view_main_init_period.html"}>
+			</td>
+			
+			<td class="todo_task_value">
+				<{include file = "todo_view_main_init_task_value.html"}>
+			</td>
+		</tr>
+	<{/foreach}>
+</table>
+
+<{include file = "../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	dropZone = Class.create();
+	dropZone.prototype = Object.extend((new compDropzone), {
+		showHover: function(event) {
+			this.showChgSeqHover(event);
+		},
+
+		hideHover: function(event) {
+			this.hideChgSeqHover(event);
+		},
+
+		accept: function(draggableObjects) {
+			this.acceptChgSeq(draggableObjects);
+		},
+		
+		save: function(draggableObjects) {
+			if(this.ChgSeqPosition == null) {
+				return false;
+			}
+	    	var drag = draggableObjects[0].getHTMLElement();
+	    	var drop = this.getHTMLElement();
+			
+			var id = this.getParams();
+			todoCls[id].changeSequence(drag.id, drop.id, this.ChgSeqPosition);
+			return true;
+		}
+	});
+
+	var dragArea = $("todo_task_list<{$id}>");
+	dragDrop = new compDragAndDrop();
+	dragDrop.registerDraggableRange(dragArea);
+	var rows = dragArea.getElementsByTagName("tr");
+	for (var i = 0; i < rows.length; i++) {
+		dragDrop.registerDraggable(new compDraggable(rows[i], rows[i].firstChild));
+		dragDrop.registerDropZone(new dropZone(rows[i], "<{$id}>"));
+	}
+
+	dropZone = null;
+	dragArea = null;
+	dragDrop = null;
+	rows = null;
+</script>
+<{/strip}>

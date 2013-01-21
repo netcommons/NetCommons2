@@ -1,0 +1,27 @@
+<{strip}>
+<div<{if $action.return_center == _ON}> class="search_center_block"<{/if}>>
+<{if ($action.center_flag != _ON) }>
+	<div id="search_result<{$id}>">
+		<{$action.result_condition|smarty:nodefaults}>
+		<{$action.active_center_flag}>
+		<{if ($smarty.session.search_select.$block_id.target_modules) }>
+			<{section name=i loop=$smarty.session.search_select.$block_id.target_modules}>
+				<{assign var="module_id" value=$smarty.session.search_select.$block_id.target_modules[i]}>
+				<div id="search_result_content<{$id}>_<{$module_id}>" class="search_result_contents">
+					<{$action.result_contents.$module_id|smarty:nodefaults}>
+				</div>
+			<{/section}>
+		<{/if}>
+	</div>
+<{/if}>
+
+<div id="search_condition<{$id}>">
+	<{include file="search_view_main_condition.html"}>
+</div>
+</div>
+<{include file="../search_script.html"}>
+<script class="nc_script" type="text/javascript">
+	searchCls["<{$id}>"].initMain("<{$action.search_blocks.show_mode}>");
+</script>
+
+<{/strip}>

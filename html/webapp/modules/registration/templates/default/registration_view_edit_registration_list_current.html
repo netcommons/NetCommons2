@@ -1,0 +1,6 @@
+<{strip}>
+<{* 登録フォーム一覧（カレント）用テンプレート *}>
+<label for="registration_current<{$registration.registration_id}><{$id}>">
+	<input id="registration_current<{$registration.registration_id}><{$id}>" type="radio" name="current" value="<{$registration.registration_id}>" onclick="registrationCls['<{$id}>'].changeCurrent(<{$registration.registration_id}>);" />
+</label>
+<{/strip}>

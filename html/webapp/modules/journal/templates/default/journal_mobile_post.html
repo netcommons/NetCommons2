@@ -1,0 +1,30 @@
+<{strip}>
+
+<form method="post" action="./<{$smaryt.const.INDEX_FILE_NAME}>" <{if $smarty.session._mobile_info.currier!="EZweb"}>enctype="multipart/form-data"<{/if}>  data-ajax="false">
+	<div>
+		<input type="hidden" name="action" value="journal_action_mobile_post">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<input type="hidden" name="j_id" value="<{$action.journal_id}>">
+		<{if ($action.post.post_id > 0) }>
+			<input type="hidden" name="p_id" value="<{$action.post.post_id}>">
+		<{/if}>
+
+		<{assign var="journal_date" value=$action.post.journal_date|timezone_date_format:"YmdHis"}>
+
+
+	    <{if ($smarty.session._smartphone_flag == _ON) }>
+			<{include file="journal_mobile_post_smart.html"}>
+		<{else}>
+			<{include file="journal_mobile_post_feature.html"}>
+		<{/if}>
+
+
+		<input data-role="button" data-inline="true" type="submit" name="temporary" value="<{$lang._temporary|smarty:nodefaults}>">
+		<input data-role="button" data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+		<input data-role="button" data-inline="true" type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+<{/strip}>

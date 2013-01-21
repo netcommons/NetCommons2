@@ -1,0 +1,9 @@
+<{strip}>
+<{* 汎用データベース一覧（動作／停止列）用テンプレート *}>
+<a class="syslink<{if $mdb.active_flag == _OFF}> display-none<{/if}>" href="#" title="<{$lang.mdb_stop_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="mdbCls['<{$id}>'].changeActivity(this, '<{$mdb.multidatabase_id}>', '<{$smarty.const._OFF}>');return false;">
+	<{$lang.mdb_stop|smarty:nodefaults}>
+</a>
+<a class="syslink<{if $mdb.active_flag == _ON}> display-none<{/if}>" href="#" title="<{$lang.mdb_activate_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="mdbCls['<{$id}>'].changeActivity(this, '<{$mdb.multidatabase_id}>', '<{$smarty.const._ON}>');return false;">
+	<{$lang.mdb_activate|smarty:nodefaults}>
+</a>
+<{/strip}>

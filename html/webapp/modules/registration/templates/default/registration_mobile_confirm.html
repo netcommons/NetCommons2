@@ -1,0 +1,30 @@
+<{strip}>
+<{* 携帯用入力データ確認画面用テンプレート *}>
+<{if ($block_obj.block_name != "") }>
+	<h3><{$block_obj.block_name}></h3>
+<{/if}>
+<p>
+<{$lang.registration_confirm_text|sprintf:$lang._regist}>
+</p>
+
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<{include file="registration_mobile_entry_data.html"}>
+
+		<input type="hidden" name="action" value="registration_action_main_entry">
+		<input type="hidden" name="block_id" value="<{$action.block_id}>">
+
+		<input type="submit" value="<{$lang._regist|smarty:nodefaults}>">
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+<br /><br />
+
+<div style="text-align:right">
+	<a href=".<{$smarty.const.INDEX_FILE_NAME}>?action=registration_view_main_init&amp;block_id=<{$action.block_id}>&amp;back=<{$smarty.const._ON}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

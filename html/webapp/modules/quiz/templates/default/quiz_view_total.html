@@ -1,0 +1,58 @@
+<{strip}>
+<{* 集計結果画面用テンプレート *}>
+<div class="quiz_head">
+	<{include file="quiz_view_main_head.html"}>
+</div>
+
+<{include file="quiz_view_print.html"}>
+
+<{include file="quiz_view_average.html"}>
+
+<{foreach from=$action.questions item=question name="question"}>
+	<div class="quiz_question">
+		<{include file="quiz_view_question.html"}>
+
+		<table class="quiz_answer quiz_total" summary="<{$lang.quiz_total_summary|sprintf:$smarty.foreach.question.iteration}>">
+			<{foreach from=$question.choices item=choice name="choice"}>
+				<tr>
+					<td class="quiz_choice_mark">
+						<div class="quiz_choice_mark" style="background-color:<{$choice.graph}>;">
+						</div>
+					</td>
+					<td class="quiz_choice_label">
+						<{$lang.quiz_choice_label|sprintf:$choice.label}>
+					</td>
+					<td class="quiz_choice_value">
+						<{if ($question.question_type != QUIZ_QUESTION_TYPE_TEXTAREA_VALUE && $question.question_type != QUIZ_QUESTION_TYPE_WORD_VALUE) }>
+							<{$choice.choice_value}>
+						<{elseif $smarty.foreach.choice.iteration == 1}>
+							<{$lang.quiz_answer_not_mark}>
+						<{elseif $smarty.foreach.choice.iteration == 2}>
+							<{$lang.quiz_answer_correct}>
+						<{else}>
+							<{$lang.quiz_answer_wrong}>
+						<{/if}>
+					</td>
+					<td class="quiz_choice_count">
+						<{$lang.quiz_choice_count|sprintf:$choice.label:$choice.choice_count}>
+					</td>
+					<td class="quiz_graph">
+						<div class="quiz_graph" style="background-color:<{$choice.graph}>;width:<{$choice.share}>%;">
+						</div>
+						<div class="quiz_graph_back" style="width:<{$choice.remain}>%;">
+						</div>
+					</td>
+					<td class="quiz_choice_share">
+						<{$lang.quiz_percent|sprintf:$choice.share}>
+					</td>
+				</tr>
+			<{/foreach}>
+		</table>
+	</div>
+<{/foreach}>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	quizCls["<{$id}>"].quiz_id = <{$action.quiz.quiz_id}>;
+</script>
+<{/strip}>

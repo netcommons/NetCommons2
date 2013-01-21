@@ -1,0 +1,10 @@
+<{strip}>
+<{* 記事詳細画面記事一覧用テンプレート *}>
+
+<{if $action.expand == BBS_EXPAND_THREAD_VALUE}>
+	<{include file = "bbs_mobile_thread.html"}>
+<{elseif $action.expand == BBS_EXPAND_FLAT_VALUE}>
+	<{include file = "bbs_mobile_flat.html"}>
+<{/if}>
+
+<{/strip}>

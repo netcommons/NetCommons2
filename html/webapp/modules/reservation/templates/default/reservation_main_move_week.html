@@ -1,0 +1,25 @@
+<{strip}>
+
+<a class="link hover_highlight" href="#" onclick='reservationCls["<{$id}>"].changeReservation("<{$action.prev_week}>", null); return false;'>
+	<img class="icon" src="<{"prev3.gif"|get_modules_image}>" alt="<{$lang.reservation_alt_prev_week|smarty:nodefaults}>" title="<{$lang.reservation_title_prev_week|smarty:nodefaults}>" />
+</a>
+<a class="link hover_highlight" href="#" onclick='reservationCls["<{$id}>"].changeReservation("<{$action.prev_day}>", null); return false;'>
+	<img class="icon" src="<{"prev.gif"|get_modules_image}>" alt="<{$lang.reservation_alt_prev_day|smarty:nodefaults}>" title="<{$lang.reservation_title_prev_day|smarty:nodefaults}>" />
+</a>
+
+<{if ($action.view_date == $action.today) }>
+	<span class="highlight"><{$lang.reservation_today|smarty:nodefaults}></span>
+<{else}>			
+	<a class="link hover_highlight" href="#" title="<{$lang._show_today|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].changeReservation("<{$action.today}>", null); return false;'>
+		<{$lang.reservation_move_today|smarty:nodefaults}>
+	</a>
+<{/if}>
+
+<a class="link hover_highlight" href="#" onclick='reservationCls["<{$id}>"].changeReservation("<{$action.next_day}>", null); return false;'>
+	<img class="icon" src="<{"next.gif"|get_modules_image}>" alt="<{$lang.reservation_alt_next_day|smarty:nodefaults}>" title="<{$lang.reservation_title_next_day|smarty:nodefaults}>" />
+</a>
+<a class="link hover_highlight" href="#" onclick='reservationCls["<{$id}>"].changeReservation("<{$action.next_week}>", null); return false;'>
+	<img class="icon" src="<{"next3.gif"|get_modules_image}>" alt="<{$lang.reservation_alt_next_week|smarty:nodefaults}>" title="<{$lang.reservation_title_next_week|smarty:nodefaults}>" />
+</a>
+
+<{/strip}>

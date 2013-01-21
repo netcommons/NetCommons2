@@ -1,0 +1,33 @@
+<{strip}>
+
+<{section name=i loop=$room_list}>
+	<{assign var="room_obj" value=$room_list[i]|smarty:nodefaults}>
+	<{assign var="room_name" value=$room_obj.page_name|smarty:nodefaults}>
+	<{assign var="parent_room_name" value=$room_obj.parent_page_name|smarty:nodefaults}>
+	
+	<{if ($room_obj.space_type != _SPACE_TYPE_GROUP || $room_obj.space_type == _SPACE_TYPE_GROUP && ($room_obj.private_flag == _ON || $room_obj.private_flag != _ON && $room_obj.thread_num != 0)) }>
+		<{assign var="room_id" value=$room_obj.page_id}>
+		
+		<{if ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag != _ON) }>
+			<{assign var="indent" value=$room_obj.thread_num-1}>
+		<{else}>
+			<{assign var="indent" value=$room_obj.thread_num}>
+		<{/if}>
+	
+		<option value="<{$room_id}>">
+			<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+			<{$room_name}>
+	
+			<{if (!empty($parent_room_name|smarty:nodefaults)) }>
+				(<{$parent_room_name}>)
+			<{/if}>
+	
+			<{if ($room_obj.space_type == _SPACE_TYPE_PUBLIC) }>
+				<{$lang.whatsnew_public_room|smarty:nodefaults}>
+			<{/if}>
+		</option>
+	<{/if}>
+
+<{/section}>
+
+<{/strip}>

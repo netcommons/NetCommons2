@@ -1,0 +1,133 @@
+<{strip}>
+<{assign var="year_string" value=$action.current_timestamp|date_format:$lang.calendar_monthly_year_format|smarty:nodefaults}>
+<{assign var="month_string" value=$action.current_timestamp|date_format:$lang.calendar_monthly_month_format|smarty:nodefaults}>
+
+<div class="calendar_weekly">
+	<table class="calendar_head" summary="">
+		<tr>
+			<td class="calendar_prev_year">
+				<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_year}>", null); return false;'>
+					<img class="icon" src="<{"prev.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_year|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_year|smarty:nodefaults}>" />
+				</a>
+			</td>
+			<td class="calendar_this_year">
+				<a class="link" href="#" title="<{$lang.calendar_ref_title_year|smarty:nodefaults|sprintf:$year_string}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.this_year}>", "<{$smarty.const.CALENDAR_YEARLY}>"); return false;'>
+					<{$action.current_timestamp|date_format:$lang.calendar_monthly_year_format|smarty:nodefaults}>
+				</a>
+			</td>
+			<td class="calendar_next_year">
+				<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_year}>", null); return false;'>
+					<img class="icon" src="<{"next.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_year|smarty:nodefaults}>" title="<{$lang.calendar_title_next_year|smarty:nodefaults}>" />
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="calendar_prev_month">
+				<a class="link" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_month}>", null); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._OFF}>);'>
+					<img class="icon" src="<{"prev2.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_month|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_month|smarty:nodefaults}>" />
+				</a>
+			</td>
+			<td class="calendar_this_month">
+				<a class="link" href="#" title="<{$lang.calendar_ref_title_month|smarty:nodefaults|sprintf:$year_string:$month_string}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.this_month}>", "<{$smarty.const.CALENDAR_L_MONTHLY}>"); return false;'>
+					<{$month_string}>
+				</a>
+			</td>
+			<td class="calendar_next_month">
+				<a class="link" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_month}>", null); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "next2", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "next2", <{$smarty.const._OFF}>);'>
+					<img class="icon" src="<{"next2.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_month|smarty:nodefaults}>" title="<{$lang.calendar_title_next_month|smarty:nodefaults}>" />
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="align-right print_preview_none">
+				<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_week}>", null); return false;'>
+					<img class="icon" src="<{"prev3.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_week|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_week|smarty:nodefaults}>" />
+				</a>
+				<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_day}>", null); return false;'>
+					<img class="icon" src="<{"prev.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_day|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_day|smarty:nodefaults}>" />
+				</a>
+
+				<{if ($action.date == $action.today) }>
+					<span class="highlight"><{$lang.calendar_today|smarty:nodefaults}></span>
+				<{else}>
+					<a class="link" href="#" title="<{$lang._show_today|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.today}>", null); return false;'>
+						<{$lang.calendar_move_today|smarty:nodefaults}>
+					</a>
+				<{/if}>
+
+				<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_day}>", null); return false;'>
+					<img class="icon" src="<{"next.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_day|smarty:nodefaults}>" title="<{$lang.calendar_title_next_day|smarty:nodefaults}>" />
+				</a>
+				<a class="link hover_highlight" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_week}>", null); return false;'>
+					<img class="icon" src="<{"next3.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_week|smarty:nodefaults}>" title="<{$lang.calendar_title_next_week|smarty:nodefaults}>" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<table id="_calendar_weekly<{$id}>" class="outer calendar_body" summary="<{$lang.calendar_summary|smarty:nodefaults}>">
+		<tr class="row">
+			<td>&nbsp;</td>
+
+			<{assign var="weekArr" value="|"|explode:$lang.calendar_week|smarty:nodefaults}>
+
+			<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+				<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+				<{assign var="date" value=$smarty.section.timestamp.index|date_format:"%Y%m%d"}>
+				<{assign var="index" value=$smarty.section.timestamp.iteration-1}>
+
+				<{assign var="year_string" value="`$timestamp`"|date_format:$lang.calendar_monthly_year_format|smarty:nodefaults}>
+				<{assign var="month_string" value="`$timestamp`"|date_format:$lang.calendar_monthly_month_format|smarty:nodefaults}>
+				<{assign var="day_string" value=$lang.calendar_weekly_format|smarty:nodefaults|date:"`$timestamp`"}>
+
+				<{assign var="wday" value="w"|date:"`$timestamp`"}>
+				<{assign var="wday_string" value=$lang.calendar_wday_format|smarty:nodefaults|sprintf:"`$weekArr.$wday`"}>
+
+				<{if ($action.holidays.$date) }>
+					<{assign var="day_class" value="calendar_holiday"}>
+				<{elseif ($wday == 0) }>
+					<{assign var="day_class" value="calendar_sunday"}>
+				<{elseif ($wday == 6) }>
+					<{assign var="day_class" value="calendar_saturday"}>
+				<{else}>
+					<{assign var="day_class" value="calendar_weekday"}>
+				<{/if}>
+
+				<th class="calendar_date_head" scope="row">
+					<div class="calendar_date">
+						<a class="<{$day_class}> hover_highlight" href="#" title="<{$lang.calendar_ref_title_ymd|smarty:nodefaults|sprintf:$year_string:$month_string:$day_string:$wday_string}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$date}>", "<{$smarty.const.CALENDAR_DAILY}>"); return false;'>
+							<span class='calendar_date_num'><{$day_string}></span>
+							<span class='calendar_date_wday'><{$wday_string}></span>
+						</a>
+						&nbsp;
+						<{if ($smarty.session._user_id && $smarty.session._user_id != "0" && $block_id != "0" && ($smarty.session._user_auth_id > _AUTH_GUEST || $action.calendar_block.myroom_use_flag == _ON)) }>
+							<a class="hover_highlight print_preview_none" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$date}>",null,<{$smarty.const._OFF}>); return false;'>
+								<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" title="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" />
+							</a>
+						<{else}>
+							&nbsp;
+						<{/if}>
+					</div>
+				</th>
+			<{/section}>
+		</tr>
+
+		<{if ($action.calendar_block.select_room == _ON) }>
+			<{include file="calendar_view_recursive_room_flat.html" room_list=$action.enroll_room_arr|smarty:nodefaults}>
+		<{else}>
+			<{assign var="next_thread_num" value=0}>
+			<{assign var="next_parent_id" value=0}>
+			<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+			<{include file="./calendar_view_recursive_room.html"}>
+		<{/if}>
+	</table>
+
+	<{include file="calendar_view_main_foot.html"}>
+</div>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].initMain("<{$action.date}>","<{$smarty.const.CALENDAR_WEEKLY}>",null);
+</script>
+
+<{/strip}>

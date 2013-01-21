@@ -1,0 +1,70 @@
+<{strip}>
+<{* 掲示板一覧用テンプレート *}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.bbs_bbs|smarty:nodefaults}>
+	</div>
+
+	<table class="grid_header" summary="<{$lang.bbs_list_summary|smarty:nodefaults}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_bbs_name grid_name" scope="col">
+				<{$lang.bbs_bbs_name|smarty:nodefaults}>
+			</th>
+			<th class="_sort_activity grid_operate" scope="col">
+				<{$lang.bbs_activity|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_user_name grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid bbs_grid_table" summary="<{$lang.bbs_list_summary|smarty:nodefaults}>">
+		<{foreach from=$action.bbses item=bbs}>
+			<tr id="bbs_current_row<{$bbs.bbs_id}><{$id}>" class="grid_row">
+				<td class="grid_change_disp">
+					<{include file = "bbs_view_edit_list_current.html"}>
+				</td>
+				<td class="grid_name">
+					<{include file = "bbs_view_edit_list_name.html"}>
+				</td>
+				<td class="grid_operate">
+					<{include file = "bbs_view_edit_list_operate.html"}>
+				</td>
+				<td class="grid_creator">
+					<{include file = "bbs_view_handle.html" handle=$bbs.insert_user_name|smarty:nodefaults user_id=$bbs.insert_user_id}>
+				</td>
+				<td class="grid_create_date">
+					<{$bbs.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				</td>
+				<td class="grid_manage">
+					<{include file = "bbs_view_edit_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</div>
+
+<{include file = "../bbs_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {bbsCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.bbsCount}>, "bbs_view_edit_list", opts);
+	opts = null;
+
+	bbsCls["<{$id}>"].currentBbsID = "<{$action.currentBbsID}>";
+	bbsCls["<{$id}>"].checkCurrent();
+</script>
+<{/strip}>

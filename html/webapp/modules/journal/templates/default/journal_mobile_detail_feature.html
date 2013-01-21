@@ -1,0 +1,73 @@
+
+<h6>
+	<{if ($action.html_flag == _ON) }>
+		<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;html_flag=<{$smarty.const._OFF}>&amp;more_flag=<{$action.more_flag}><{$session_param}>">
+			<{$lang._mobile_view_text|smarty:nodefaults}>
+		</a>
+	<{else}>
+		<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;html_flag=<{$smarty.const._ON}>&amp;more_flag=<{$action.more_flag}><{$session_param}>">
+			<{$lang._mobile_view_html|smarty:nodefaults}>
+		</a>
+	<{/if}>
+</h6>
+<br />
+
+<{if ($action.html_flag == _ON) }>
+	<{$action.post.content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+<{else}>
+	<{$action.post.content|html_to_text|smarty:nodefaults|nl2br}>
+<{/if}>
+<br style="clear:both;" />
+
+<{if ($action.post.more_content != "") }>
+	<{if ($action.more_flag == _OFF) }>
+		<br /><br />
+		<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;more_flag=<{$smarty.const._ON}><{if !is_null($action.html_flag)}>&amp;html_flag=<{$action.html_flag}><{/if}><{$session_param}>">
+			<{$action.post.more_title}>
+		</a>
+	<{else}>
+		<br />
+		<{if ($action.html_flag == _ON) }>
+			<{$action.post.more_content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+		<{else}>
+			<{$action.post.more_content|html_to_text|smarty:nodefaults}>
+		<{/if}>
+		<br style="clear:both;" />
+		<br />
+		<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;more_flag=<{$smarty.const._OFF}><{if !is_null($action.html_flag)}>&amp;html_flag=<{$action.html_flag}><{/if}><{$session_param}>">
+			<{$action.post.hide_more_title}>
+		</a>
+	<{/if}>
+<{/if}>
+
+<br />
+<br />
+
+<{if $action.journal_obj.active_flag == $smarty.const._ON}>
+	<div>
+		<{if ($action.journal_obj.vote_flag == $smarty.const._ON) }>
+			<{$lang.journal_vote_num|smarty:nodefaults}>(<{$action.post.vote_count}>)
+		<{/if}>
+
+		<{if ($action.journal_obj.vote_flag == $smarty.const._ON && $action.journal_obj.comment_flag == $smarty.const._ON) }>
+			<{$lang._mobile_separator|smarty:nodefaults}>
+		<{/if}>
+
+		<{if ($action.journal_obj.comment_flag == $smarty.const._ON) }>
+			<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;comment_flag=<{$smarty.const._ON}><{$session_param}>">
+				<{$lang.journal_comment|smarty:nodefaults}>(<{$action.post.comment_count}>)
+			</a>
+		<{/if}>
+
+		<br />
+		<{if $action.post.has_edit_auth }>
+			<a href="?action=journal_view_main_post&amp;block_id=<{$block_id}>&amp;j_id=<{$action.journal_obj.journal_id}>&amp;p_id=<{$action.post.post_id}><{$session_param}>">
+				<{$lang._edit|smarty:nodefaults}>
+			</a>
+			<{$lang._mobile_separator|smarty:nodefaults}>
+			<a href="?action=journal_view_mobile_post_delete&amp;block_id=<{$block_id}>&amp;j_id=<{$action.journal_obj.journal_id}>&amp;p_id=<{$action.post.post_id}><{$session_param}>">
+				<{$lang._delete|smarty:nodefaults}>
+			</a>
+		<{/if}>
+	</div>
+<{/if}>

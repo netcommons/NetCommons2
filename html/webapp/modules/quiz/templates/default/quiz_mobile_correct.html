@@ -1,0 +1,17 @@
+<{strip}>
+<{* 正解項目用テンプレート *}>
+<div data-role="collapsible">
+<{if $question.question_type != QUIZ_QUESTION_TYPE_TEXTAREA_VALUE}>
+	<h4>
+		<{$lang.quiz_correct_answer}>
+	</h4>
+	<{include file="quiz_mobile_answer.html" choiceDisplay=$smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+<{/if}>
+</div>
+<p>
+	<{if !empty($question.description|smarty:nodefaults)}>
+		<{$question.description|smarty:nodefaults|wysiwig_convert_url}>
+	<{/if}>
+</p>
+<br style="clear:both;" />
+<{/strip}>

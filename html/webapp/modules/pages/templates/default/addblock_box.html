@@ -1,0 +1,12 @@
+<{strip}>
+<{if $auth_id >=_AUTH_CHIEF}>
+<div class="addmobule_box">
+	<select onchange="pagesCls.addBlock(event,<{$column_page_id}>,this.value); return false;">
+		<option value="0"><{$lang.pages_add_modules}></option>
+		<{foreach from=$addblock_field item=value}>
+			<option value="<{$value.0}>_<{$value.2}>"><{$value.1}></option>
+		<{/foreach}>
+	</select>
+</div>
+<{/if}>
+<{/strip}>

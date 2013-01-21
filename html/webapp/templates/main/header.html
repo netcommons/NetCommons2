@@ -1,0 +1,91 @@
+
+<{strip}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{$header_field.meta_language}>" lang="<{$header_field.meta_language}>">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$smarty.const._CHARSET}>" />
+<{if $header_field.meta_language}><meta http-equiv="content-language" content="<{$header_field.meta_language}>" /><{/if}>
+<meta name="robots" content="<{$header_field.meta_robots}>" />
+<meta name="keywords" content="<{$header_field.meta_keywords|strip}>" />
+<meta name="description" content="<{$header_field.meta_description|strip}>" />
+<meta name="rating" content="<{$header_field.meta_rating}>" />
+<meta name="author" content="<{$header_field.meta_author}>" />
+<meta name="copyright" content="<{$header_field.meta_copyright}>" />
+<meta http-equiv="content-script-type" content="text/javascript" />
+<meta http-equiv="content-style-type" content="text/css" />
+<{* canonical *}>
+<link rel="canonical" href="<{$smarty.const.PERMALINK_URL}>" />
+<{*<meta http-equiv="imagetoolbar" content="no">*}>
+<title>
+<{if !isset($smarty.session._page_title|smarty:nodefaults)}><{$module_obj.module_name|smarty:nodefaults}> - <{else}><{$smarty.session._page_title}><{if $smarty.session._page_title != ""}> - <{/if}><{/if}><{if $smarty.session._site_name=="" || $smarty.session._site_name == NULL}><{$header_field.sitename}><{else}><{$smarty.session._site_name}><{/if}>
+</title>
+<script type="text/javascript">
+	_nc_lang_name = "<{$smarty.session._lang}>";
+	_nc_layoutmode = "<{if isset($layoutmode|smarty:nodefaults)}><{$layoutmode}><{else}><{$smarty.session._layoutmode}><{/if}>";
+	<{if $smarty.server.HTTPS|lower == 'on'}>
+		_nc_base_url = "<{$smarty.const.BASE_URL_HTTPS|smarty:nodefaults}>";
+	<{else}>
+		_nc_base_url = "<{$smarty.const.BASE_URL|smarty:nodefaults}>";
+	<{/if}>
+	<{if $smarty.server.HTTPS|lower == 'on' && BASE_URL == CORE_BASE_URL}>
+		_nc_core_base_url = "<{$smarty.const.BASE_URL_HTTPS|smarty:nodefaults}>";
+	<{else}>
+		_nc_core_base_url = "<{$smarty.const.CORE_BASE_URL|smarty:nodefaults}>";
+	<{/if}>
+	_nc_index_file_name = "<{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>";
+	_nc_current_url = '<{$smarty.const.CURRENT_URL}>';
+	_nc_allow_attachment = '<{$smarty.session._allow_attachment_flag}>';
+	_nc_allow_htmltag = '<{$smarty.session._allow_htmltag_flag}>';
+	_nc_allow_video = '<{$smarty.session._allow_video_flag}>';
+	_nc_main_page_id = '<{$smarty.session._main_page_id}>';
+	_nc_user_id = '<{$smarty.session._user_id}>';
+	_nc_debug = <{if $smarty.session._php_debug == _ON || $smarty.session._sql_debug == _ON}>1<{else}>0<{/if}>;
+	<{* document.writeの処理で使用(現状：FireFoxでのみ動作) *}>
+	_nc_ajaxFlag = false;
+	_nc_dwScriptCount = 0;
+	_nc_dwScriptList = Array();
+	_nc_js_vs = '<{$smarty.const._JS_VERSION}>';
+	_nc_css_vs = '<{$smarty.const._CSS_VERSION}>';
+</script>
+<link href="<{""|get_image_url}>/images/common/favicon.ico" rel="SHORTCUT ICON" />
+<{if isset($header_field.css_header_pagetheme|smarty:nodefaults)}>
+<{assign var="css_header_pagetheme" value=$header_field.css_header_pagetheme|smarty:nodefaults}>
+<{else}>
+<{assign var="css_header_pagetheme" value=""}>
+<{/if}>
+
+<{assign var="css_header" value="|"|implode:$header_field.css_header|smarty:nodefaults}>
+<{if isset($header_field.css_header_block_id|smarty:nodefaults)}>
+<{assign var="css_header_block_id" value="|"|implode:$header_field.css_header_block_id|smarty:nodefaults}>
+<{else}>
+<{assign var="css_header_block_id" value=""}>
+<{/if}>
+<link class="_common_css" rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?<{$smarty.const.ACTION_KEY}>=common_download_css&amp;page_theme=<{$css_header_pagetheme}>&amp;dir_name=<{$css_header}>&amp;block_id_str=<{$css_header_block_id}>&amp;system_flag=<{$smarty.session._system_flag}>&amp;vs=<{$smarty.const._CSS_VERSION}>" />
+<{*$header_field.css_header|smarty:nodefaults*}>
+<{$header_field.script_header|smarty:nodefaults}>
+<{*$header_field.template_header|smarty:nodefaults*}>
+<{if ($header_field.rss_alternate != "")}>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="<{$header_field.rss_alternate}>" />
+<{/if}>
+<{if isset($add_header_fields|smarty:nodefaults)}>
+<{foreach from=$add_header_fields|smarty:nodefaults item=add_string}>
+<{$add_string|smarty:nodefaults}>
+<{/foreach}>
+<{/if}>
+</head>
+<body style="<{$body_style}>">
+<{if $main_action_name == DEFAULT_ACTION && !$smarty.session._mobile_flag}>
+<noscript>
+	<div class="errorHeaderMsg">
+		<{$smarty.const._NOJAVASCRIPT_ERROR}>
+	</div>
+</noscript>
+<{if ini_get('session.cookie_httponly') != true}>
+<script type="text/javascript">
+	if (document.cookie == "") {
+		document.write(unescape('%3Cdiv class="errorHeaderMsg"%3E<{$smarty.const._NOCOOKIE_ERROR}>%3C/div%3E'));
+	}
+</script>
+<{/if}>
+<{/if}>
+<{/strip}>

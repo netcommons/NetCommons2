@@ -1,0 +1,37 @@
+<{strip}>
+
+<{if ($item_type == "change_disp") }>
+	<label for="cabinet_current<{$cabinet.cabinet_id}><{$id}>" class="display-block">
+		<input id="cabinet_current<{$cabinet.cabinet_id}><{$id}>" name="change_disp" type="radio" value="<{$cabinet.cabinet_id}>" onclick='cabinetCls["<{$id}>"].changeCurrent("<{$cabinet.cabinet_id}>");' />
+	</label>
+<{elseif ($item_type == "cabinet_name") }>
+	<label for="cabinet_current<{$cabinet.cabinet_id}><{$id}>" class="display-block">
+		<{$cabinet.cabinet_name|smarty:nodefaults}>
+	</label>
+<{elseif ($item_type == "total_size") }>
+	<label for="cabinet_current<{$cabinet.cabinet_id}><{$id}>" class="display-block">
+		<{$lang.cabinet_size_value|smarty:nodefaults|sprintf:$cabinet.total_size_format:$cabinet.total_size}>
+	</label>
+<{elseif ($item_type == "creator") }>
+	<label for="cabinet_current<{$cabinet.cabinet_id}><{$id}>" class="display-block">
+		<{include file="cabinet_view_handle.html" handle=$handle|smarty:nodefaults user_id=$user_id}>
+	</label>
+<{elseif ($item_type == "create_date") }>
+	<label for="cabinet_current<{$cabinet.cabinet_id}><{$id}>" class="display-block">
+		<{$cabinet.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+	</label>
+<{elseif ($item_type == "manage") }>
+	<a href="#" class="syslink" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$cabinet_name|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].referCab(event,"<{$cabinet_id}>"); return false;'>
+		<{$lang._ref|smarty:nodefaults}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+	<a href="#" class="syslink" title="<{$lang._edit_title|smarty:nodefaults|sprintf:$cabinet_name|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].modifyCab("<{$cabinet_id}>"); return false;'>
+		<{$lang._edit|smarty:nodefaults}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+	<a href="#" class="syslink" title="<{$lang._del_title|smarty:nodefaults|sprintf:$cabinet_name|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].deleteCab("<{$cabinet_id}>", "<{$lang._del_title|sprintf:"`$cabinet_name`"|escape:"javascript"|escape:"html"}>"); return false;'>
+		<{$lang._delete|smarty:nodefaults}>
+	</a>
+<{/if}>
+
+<{/strip}>

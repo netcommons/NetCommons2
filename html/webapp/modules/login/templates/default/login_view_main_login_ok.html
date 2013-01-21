@@ -1,0 +1,9 @@
+<{strip}>
+<a onclick="commonCls.showUserDetail(event, '<{$smarty.session._user_id}>');return false;" href="#" class="link">
+	<{$smarty.session._handle}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<{*ログアウト*}>
+<a class="menulink header_btn" href="#" onclick="loginCls['<{$id}>'].loginLogout(event);return false;"><{$lang._logout|smarty:nodefaults}></a>				
+<{/strip}>
+<{include file="login_script.html"}>

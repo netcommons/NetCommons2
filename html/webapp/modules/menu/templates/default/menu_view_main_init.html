@@ -1,0 +1,15 @@
+<{strip}>
+<{*トップページ*}>
+<{if $action.top_page_arr.visibility_flag}>
+	<div class="menu_top_page">
+		<a href="<{$smarty.const.BASE_URL|smarty:nodefaults}>/<{if $action.top_page_arr.action_name != DEFAULT_ACTION}>?action=<{$action.top_page_arr.action_name}><{/if}><{if $action.top_page_arr.parameters}>&amp;<{$action.top_page_arr.parameters}><{/if}>" class="menulink <{if $action.main_page_id == $action.top_page_arr.page_id}>highlight<{else}>hover_highlight<{/if}> menu_top_page_href">
+			<{$action.top_page_arr.page_name}>
+		</a>
+	</div>
+<{/if}>
+<{assign var="menus" value=$action.menus.0.0}>
+<div class="outerdiv">
+<{include file="menu_view_main_list.html"}>
+</div>
+<{include file="../menu_script.html"}>
+<{/strip}>

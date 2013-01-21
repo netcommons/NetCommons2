@@ -1,0 +1,75 @@
+<{strip}>
+<{* 小テスト一覧用テンプレート *}>
+<form action="#">
+	<div>
+		<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.quiz_quiz}>
+	</div>
+
+	<table class="grid_header" summary="<{$lang.quiz_list_summary}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_quiz_name quiz_grid_name" scope="col">
+				<{$lang.quiz_quiz_name}>
+			</th>
+			<th class="_sort_status quiz_grid_operate" scope="col">
+				<{$lang.quiz_status}>
+			</th>
+			<th class="_sort_insert_user_name quiz_grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time quiz_grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="quiz_grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid quiz_grid_table" summary="<{$lang.quiz_list_summary}>">
+		<{foreach from=$action.quizzes item=quiz}>
+			<tr id="quiz_current_row<{$quiz.quiz_id}><{$id}>" class="grid_row">
+				<td class="grid_change_disp">
+					<{include file = "quiz_view_edit_quiz_list_current.html"}>
+				</td>
+				<td class="quiz_grid_name">
+					<{include file = "quiz_view_edit_quiz_list_name.html"}>
+				</td>
+				<td class="quiz_grid_operate">
+					<{include file = "quiz_view_edit_quiz_list_operate.html"}>
+				</td>
+				<td class="quiz_grid_creator">
+					<{include file = "quiz_view_handle.html" handle=$quiz.insert_user_name|smarty:nodefaults user_id=$quiz.insert_user_id}>
+				</td>
+				<td class="quiz_grid_create_date">
+					<{$quiz.insert_time|timezone_date_format:$lang._date_format}>
+				</td>
+				<td class="quiz_grid_manage">
+					<{include file = "quiz_view_edit_quiz_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</form>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {quizCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.quizCount}>, "quiz_view_edit_quiz_list", opts);
+	opts = null;
+
+	quizCls["<{$id}>"].currentQuizID = "<{$action.currentQuizID}>";
+	quizCls["<{$id}>"].checkCurrent();
+
+	<{if !empty($action.summary_id|smarty:nodefaults)}>
+		quizCls["<{$id}>"].quiz_id = "<{$action.quiz_id}>";
+		quizCls["<{$id}>"].showAnswer(null, "<{$action.summary_id}>");
+	<{/if}>
+</script>
+<{/strip}>

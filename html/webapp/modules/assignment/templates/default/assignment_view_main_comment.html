@@ -1,0 +1,76 @@
+<{strip}>
+<{* コメントテンプレート *}>
+
+<{if ($action.commentCount > 0) }>
+	<{* コメントリスト *}>
+	<div class="assignment_comment_view">
+		<{* タイトル *}>
+		<div class="assignment_title">
+			<{$lang.assignment_comment_value|smarty:nodefaults}>
+		</div>
+
+		<table class="assignment_comment_view">
+			<{foreach from=$action.comments item=comment}>
+				<tr>
+					<{* 投稿者 *}>
+					<td class="assignment_comment_user">
+						<{include file="assignment_view_handle.html" handle=$comment.insert_user_name|smarty:nodefaults user_id=$comment.insert_user_id}>
+					</td>
+
+					<td class="assignment_comment_operation">
+						<{* 投稿日時 *}>
+						<{$comment.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+
+						<{* 編集・削除 *}>
+						<{if ($comment.hasCommentEditAuthority) }>
+							&nbsp;&nbsp;&nbsp;
+							<a class="syslink" href="#" title="" onclick="assignmentCls['<{$id}>'].showEditComment('<{$comment.comment_id}>'); return false;">
+								<{$lang._edit|smarty:nodefaults}>
+							</a>
+							<{$lang._separator|smarty:nodefaults}>
+							<a class="syslink" href="#" title="" onclick="assignmentCls['<{$id}>'].deleteComment('<{$action.report.submit_id}>','<{$action.report.report_id}>','<{$comment.comment_id}>','<{$lang._del_confirm|sprintf:$lang.assignment_comment_value|smarty:nodefaults}>'); return false;">
+								<{$lang._delete|smarty:nodefaults}>
+							</a>
+						<{/if}>
+					</td>
+				</tr>
+
+				<tr>
+					<{* コメント内容 *}>
+					<td colspan="2" id="assignment_comment_value<{$comment.comment_id}><{$id}>" class="assignment_comment_value">
+						<{$comment.comment_value|nl2br}>
+					</td>
+				</tr>
+			<{/foreach}>
+		</table>
+	</div>
+<{/if}>
+
+<{* コメント書く *}>
+<{if ($action.report.hasCommentWriteAuthority) }>
+	<div id="assignment_comment_write<{$id}>" class="assignment_comment_write">
+		<{* タイトル *}>
+		<div class="assignment_title">
+			<{$lang.assignment_comment_write|smarty:nodefaults}>
+		</div>
+
+		<{* 入力欄 *}>
+		<form id="assignment_comment_write_form<{$id}>" action="#" onsubmit="return false;">
+			<input type="hidden" name="assignment_id" value="<{$action.assignment.assignment_id}>" />
+			<input type="hidden" name="report_id" value="<{$action.report.report_id}>" />
+			<input type="hidden" name="submit_id" value="<{$action.report.submit_id}>" />
+			<input type="hidden" name="comment_id" value="" />
+
+			<textarea name="comment_value" class="assignment_comment_textarea">
+			</textarea>
+
+			<div class="btn-bottom">
+				<input name="write_btn" type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].writeComment(this.form); return false;" />
+				<input name="edit_btn" type="button" class="display-none btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].editComment(this.form); return false;" />
+				<input name="cancel_btn" type="button" class="display-none btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].cancelComment(this.form); return false;" />
+			</div>
+		</form>
+	</div>
+<{/if}>
+
+<{/strip}>

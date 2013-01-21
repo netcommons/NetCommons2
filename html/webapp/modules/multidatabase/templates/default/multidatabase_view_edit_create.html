@@ -1,0 +1,245 @@
+<{strip}>
+<form id="mdb_form<{$id}>" onsubmit="return false;">
+	<div class="outerdiv">
+		<div>
+			<fieldset>
+				<legend><{$lang.mdb_setting_normal|smarty:nodefaults}></legend>
+				<table class="outer" summary="">
+					<{if !empty($action.oldMultidatabases|smarty:nodefaults)}>
+						<tr>
+							<th class="nowrap" scope="row">
+							</th>
+							<td class="nowrap">
+								<label for="multidatabase_old_use<{$id}>">
+									<input id="multidatabase_old_use<{$id}>" type="checkbox" name="old_use" value="<{$smarty.const._ON}>" onclick="mdbCls['<{$id}>'].changeOldUse(this.checked);" />
+									<{$lang.mdb_old_use}>
+								</label>
+								<select id="multidatabase_old<{$id}>" name="old_multidatabase_id" disabled="disabled">
+									<{foreach from=$action.oldMultidatabases item=old_multidatabase name="old_multidatabase"}>
+										<option value="<{$old_multidatabase.multidatabase_id}>"><{$old_multidatabase.multidatabase_name}></option>
+									<{/foreach}>
+								</select>
+							</td>
+						</tr>
+					<{/if}>
+					<tr class="row">
+						<th scope="row">
+							<label for="<{$id}>_mdb_name">
+								<{$lang.mdb_name|smarty:nodefaults}>
+							</label>
+						</th>
+						<td>
+					 		<input id="<{$id}>_mdb_name" type="text" size="25" name="multidatabase_name" value="<{$action.mdb_obj.multidatabase_name}>" />
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.mdb_contents_auth|smarty:nodefaults}>
+						</th>
+						<td>
+							<label class="disable_lbl">
+					 		<input type="checkbox" disabled="disabled" checked="checked" />
+					 		<input type="hidden" name="contents_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+							<{$smarty.const._AUTH_CHIEF_NAME}>
+							</label>
+							<label for="mdb_contents_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+						 		<input id="mdb_contents_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="contents_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');mdbCls['<{$id}>'].chkAuth();" />
+								<{$smarty.const._AUTH_MODERATE_NAME}>
+							</label>
+							<label for="mdb_contents_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+								<input id="mdb_contents_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="contents_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');mdbCls['<{$id}>'].chkAuth();" />
+								<{$smarty.const._AUTH_GENERAL_NAME}>
+							</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.mdb_vote_select|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_mdb_vote_select<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_mdb_vote_select<{$smarty.const._ON}>" type="radio" name="vote_flag" value="<{$smarty.const._ON}>" <{if ($action.mdb_obj.vote_flag == $smarty.const._ON || $action.mdb_obj.vote_flag == "") }>checked="checked"<{/if}>/>
+				 				<{$lang.mdb_on|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_mdb_vote_select<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_mdb_vote_select<{$smarty.const._OFF}>" type="radio" name="vote_flag" value="<{$smarty.const._OFF}>" <{if ($action.mdb_obj.vote_flag == $smarty.const._OFF ) }>checked="checked"<{/if}>/>
+				 				<{$lang.mdb_off|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.mdb_comment_select|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_mdb_comment_select<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_mdb_comment_select<{$smarty.const._ON}>" type="radio" name="comment_flag" value="<{$smarty.const._ON}>" <{if ($action.mdb_obj.comment_flag == $smarty.const._ON || $action.mdb_obj.comment_flag == "") }>checked="checked"<{/if}>/>
+				 				<{$lang.mdb_on|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_mdb_comment_select<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_mdb_comment_select<{$smarty.const._OFF}>" type="radio" name="comment_flag" value="<{$smarty.const._OFF}>" <{if ($action.mdb_obj.comment_flag == $smarty.const._OFF ) }>checked="checked"<{/if}>/>
+				 				<{$lang.mdb_off|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.mdb_mail_setting|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_mdb_mail_setting<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_mdb_mail_setting<{$smarty.const._ON}>" type="radio" name="mail_flag" value="<{$smarty.const._ON}>" <{if ($action.mdb_obj.mail_flag == $smarty.const._ON ) }>checked="checked"<{/if}> onclick="commonCls.displayVisible($('<{$id}>_mdb_mail_setting_detail'));"/>
+				 				<{$lang.mdb_mail_setting_on|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_mdb_mail_setting<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_mdb_mail_setting<{$smarty.const._OFF}>" type="radio" name="mail_flag" value="<{$smarty.const._OFF}>" <{if ($action.mdb_obj.mail_flag == $smarty.const._OFF || $action.mdb_obj.mail_flag == "") }>checked="checked"<{/if}> onclick="commonCls.displayNone($('<{$id}>_mdb_mail_setting_detail'));"/>
+				 				<{$lang.mdb_mail_setting_off|smarty:nodefaults}>
+					 		</label>
+					 		<div id="<{$id}>_mdb_mail_setting_detail" <{if $action.mdb_obj.mail_flag == $smarty.const._OFF || $action.mdb_obj.mail_flag == ""}>class="display-none"<{/if}>>
+					 			<div class="hr"></div>
+								<{$lang.mdb_mail_authority|smarty:nodefaults}><br />
+								<label class="disable_lbl">
+									<input type="checkbox" disabled="disabled" checked="checked" />
+							 		<input type="hidden" name="mail_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+									<{$smarty.const._AUTH_CHIEF_NAME}>
+								</label>
+								<label for="mdb_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+							 		<input id="mdb_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+									<{$smarty.const._AUTH_MODERATE_NAME}>
+								</label>
+								<label for="mdb_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+									<input id="mdb_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+									<{$smarty.const._AUTH_GENERAL_NAME}>
+								</label>
+								<label for="mdb_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>">
+									<input id="mdb_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GUEST}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+									<{$smarty.const._AUTH_GUEST_NAME}>
+								</label>
+					 			<div class="hr"></div>
+					 			<label for="<{$id}>_mdb_mail_subject">
+					 				<{$lang.mdb_mail_subject|smarty:nodefaults}>
+					 			</label>
+					 			<label for="<{$id}>_mdb_mail_subject">
+					 				<input id="<{$id}>_mdb_mail_subject" type="text" name="mail_subject" size="50" value="<{if $action.mdb_obj.mail_subject == ""}><{$lang.mdb_mail_subject_default}><{else}><{$action.mdb_obj.mail_subject}><{/if}>" />
+					 			</label>
+								<div class="hr"></div>
+					 			<{$lang.mdb_mail_send_content_title|smarty:nodefaults}><br/>
+								<label>
+									<textarea class="textarea" name="mail_body"><{if $action.mdb_obj.mail_body == ""}><{$lang.mdb_mail_send_content_detail|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}><{else}><{$action.mdb_obj.mail_body}><{/if}></textarea>
+								</label>
+								<div class="note">
+					 				<{$lang.mdb_mail_send_content_note|smarty:nodefaults}>
+								</div>
+					 		</div>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.mdb_new_period|smarty:nodefaults}>
+						</th>
+						<td>
+							<select name="new_period">
+								<option value="0" <{if ($action.mdb_obj.new_period==0)}>selected="selected"<{/if}>><{$lang.mdb_off|smarty:nodefaults}></option>
+								<option value="1" <{if ($action.mdb_obj.new_period==1)}>selected="selected"<{/if}>>1<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="2" <{if ($action.mdb_obj.new_period==2)}>selected="selected"<{/if}>>2<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="3" <{if ($action.mdb_obj.new_period==3)}>selected="selected"<{/if}>>3<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="5" <{if ($action.mdb_obj.new_period==5)}>selected="selected"<{/if}>>5<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="7" <{if ($action.mdb_obj.new_period==7)}>selected="selected"<{/if}>>7<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="30" <{if ($action.mdb_obj.new_period==30)}>selected="selected"<{/if}>>30<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="90" <{if ($action.mdb_obj.new_period==90)}>selected="selected"<{/if}>>90<{$lang.mdb_new_display_days_mark|smarty:nodefaults}></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+		<div>
+			<fieldset>
+				<legend><{$lang.mdb_setting_confirm|smarty:nodefaults}></legend>
+				<table class="outer" summary="">
+					<tr class="row">
+						<td>
+							<div class="note">
+								<{$lang.mdb_setting_confirm_readme|smarty:nodefaults}>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table class="outer" summary="">
+					<tr class="row">
+						<th scope="row">
+							<{$lang.mdb_contents_comment_setting|smarty:nodefaults}>
+						</th>
+						<td>
+							<label id="<{$id}>_mdb_contents_comment_setting_label<{$smarty.const._ON}>" for="<{$id}>_mdb_contents_comment_setting<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_mdb_contents_comment_setting<{$smarty.const._ON}>" type="radio" name="agree_flag" value="<{$smarty.const._ON}>" <{if $action.mdb_obj.agree_flag == $smarty.const._ON}>checked=checked<{/if}> onclick="commonCls.displayVisible($('<{$id}>_mdb_contents_comment_setting_detail'));" />
+				 				<{$lang.mdb_contents_comment_setting_admin|smarty:nodefaults}>
+					 		</label>
+							<label id="<{$id}>_mdb_contents_comment_setting_label<{$smarty.const._OFF}>" for="<{$id}>_mdb_contents_comment_setting<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_mdb_contents_comment_setting<{$smarty.const._OFF}>" type="radio" name="agree_flag" value="<{$smarty.const._OFF}>" <{if ($action.mdb_obj.agree_flag == $smarty.const._OFF || $action.mdb_obj.agree_flag == "") }>checked=checked<{/if}> " onclick="commonCls.displayNone($('<{$id}>_mdb_contents_comment_setting_detail'));"/>
+				 				<{$lang.mdb_contents_comment_setting_auto|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row" id="<{$id}>_mdb_contents_comment_setting_detail" <{if $action.mdb_obj.agree_flag == $smarty.const._OFF}>style="display:none;"<{/if}>>
+						<th scope="row">
+							<{$lang.mdb_contents_comment_setting_mail|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_mdb_contents_comment_setting_mail<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_mdb_contents_comment_setting_mail<{$smarty.const._ON}>" type="radio" name="agree_mail_flag" value="<{$smarty.const._ON}>" <{if $action.mdb_obj.agree_mail_flag == $smarty.const._ON}>checked=checked<{/if}> onclick="commonCls.displayVisible($('<{$id}>_mdb_contents_comment_setting_mail_detail'));"/>
+				 				<{$lang.mdb_contents_comment_agree_mail_ok|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_mdb_contents_comment_setting_mail<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_mdb_contents_comment_setting_mail<{$smarty.const._OFF}>" type="radio" name="agree_mail_flag" value="<{$smarty.const._OFF}>" <{if ($action.mdb_obj.agree_mail_flag == $smarty.const._OFF || $action.mdb_obj.agree_mail_flag == "") }>checked=checked<{/if}> onclick="commonCls.displayNone($('<{$id}>_mdb_contents_comment_setting_mail_detail'));"/>
+				 				<{$lang.mdb_contents_comment_agree_mail_no|smarty:nodefaults}>
+					 		</label>
+					 		<div id="<{$id}>_mdb_contents_comment_setting_mail_detail" <{if $action.mdb_obj.agree_mail_flag == $smarty.const._OFF || $action.mdb_obj.agree_mail_flag ==""}>class="display-none"<{/if}>;">
+					 			<div class="hr"></div>
+					 			<{$lang.mdb_mail_subject|smarty:nodefaults}>
+					 			<label for="<{$id}>_mdb_contents_comment_setting_mail_subject">
+					 				<input id="<{$id}>_mdb_contents_comment_setting_mail_subject" type="text" size="50" name="agree_mail_subject" value="<{if $action.mdb_obj.agree_mail_subject != ""}><{$action.mdb_obj.agree_mail_subject}><{else}><{$lang.mdb_contents_comment_setting_mail_subject|smarty:nodefaults}><{/if}>" />
+					 			</label>
+								<div class="hr"></div>
+					 			<{$lang.mdb_mail_send_content_title|smarty:nodefaults}><br/>
+								<label>
+									<textarea class="textarea" name="agree_mail_body"><{if $action.mdb_obj.agree_mail_body != ""}><{$action.mdb_obj.agree_mail_body}><{else}><{$lang.mdb_contents_comment_setting_mail_detail|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}><{/if}></textarea>
+								</label>
+					 		</div>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="btn-bottom">
+		<{if ($action.mdb_obj.multidatabase_id > 0) }>
+			<input type="hidden" name="multidatabase_id" value="<{$action.mdb_obj.multidatabase_id}>">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].editMdb(this.form); return false;" />
+		<{else}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='mdbCls["<{$id}>"].insertMdb(this.form); return false;' />
+		<{/if}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'multidatabase_view_edit_list'); return false;" />
+	</div>
+</form>
+
+<{include file="../multidatabase_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus("<{$id}>");
+	var mdbForm = $("mdb_form<{$id}>");
+
+	if (mdbForm["contents_authority[<{$action.mdb_obj.contents_authority}>]"]) {
+		mdbForm["contents_authority[<{$action.mdb_obj.contents_authority}>]"].checked = true;
+		commonCls.changeAuthority(mdbForm["contents_authority[<{$action.mdb_obj.contents_authority}>]"], "<{$id}>");
+	}
+
+	if (mdbForm["mail_authority[<{$action.mdb_obj.mail_authority}>]"]) {
+		mdbForm["mail_authority[<{$action.mdb_obj.mail_authority}>]"].checked = true;
+		commonCls.changeAuthority(mdbForm["mail_authority[<{$action.mdb_obj.mail_authority}>]"], "<{$id}>");
+	}
+
+	mdbForm = null;
+	mdbCls['<{$id}>'].chkAuth();
+</script>
+<{/strip}>

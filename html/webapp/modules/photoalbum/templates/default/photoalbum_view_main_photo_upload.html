@@ -1,0 +1,74 @@
+<{strip}>
+<{* 写真アップロード画面用テンプレート *}>
+<div class="comp_tabset"></div>
+<div class="comp_tabset_content">
+	<form class="photoalbum_photo_form" action="#" target="photoalbum_image<{$id}>" enctype="multipart/form-data">
+		<div class="comptabset_caption">
+			<{$lang.photoalbum_photo_upload}>
+		</div>
+
+		<input type="hidden" name="album_id" value="<{$action.album.album_id}>">
+
+		<div class="top_description">
+			<{$lang.photoalbum_photo_upload_description|smarty:nodefaults|sprintf:$smarty.const._UPLOAD_MAX_WIDTH_IMAGE:$smarty.const._UPLOAD_MAX_HEIGHT_IMAGE}>
+			<{if (!function_exists("gd_info")) }>
+				<{if ($smarty.session._user_auth_id == _AUTH_ADMIN) }>
+					<{$lang.photoalbum_photo_upload_description_no_gd|smarty:nodefaults}>
+				<{/if}>
+			<{else}>
+				<{$lang.photoalbum_photo_upload_description_reduce|smarty:nodefaults}>
+			<{/if}>
+		</div>
+
+		<div id="photoalbum_photo_upload_area<{$id}>">
+			<input id="photoalbum_photo_upload<{$id}>" class="photoalbum_photo_upload" name="upload[]" type="file" size="<{$smarty.const.PHOTOALBUM_INPUT_FILE_SIZE}>" />
+		</div>
+		<div class="align-right">
+			<a class="syslink" href="#" title="<{$lang.photoalbum_add_input_file_title}>" onclick="photoalbumCls['<{$id}>'].addUpload(<{$smarty.const.PHOTOALBUM_INPUT_FILE_SIZE}>);return false;">
+				<img src="<{"add.gif"|get_themes_image}>" alt="" title="" />
+				<{$lang.photoalbum_add_input_file}>
+			</a>
+		</div>
+
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" onclick="photoalbumCls['<{$id}>'].upload('image');" value="<{$lang._regist|smarty:nodefaults}>" />
+			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');" />
+		</div>
+	</form>
+
+	<form class="photoalbum_photo_form" action="#" target="photoalbum_archive<{$id}>" enctype="multipart/form-data">
+		<div class="comptabset_caption">
+			<{$lang.photoalbum_archive_upload}>
+		</div>
+
+		<input type="hidden" name="album_id" value="<{$action.album.album_id}>">
+
+		<div class="top_description">
+			<{$lang.photoalbum_archive_upload_description|smarty:nodefaults}>
+		</div>
+
+		<input type="file" name="upload" size="<{$smarty.const.PHOTOALBUM_INPUT_FILE_SIZE}>" />
+
+		<div class="btn-bottom">
+			<input class="btn-width"  type="button" onclick="photoalbumCls['<{$id}>'].upload('archive');"  value="<{$lang._regist|smarty:nodefaults}>" />
+			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');" />
+		</div>
+
+		<div class="note">
+			<{$lang.photoalbum_archive_upload_note|smarty:nodefaults}>
+		</div>
+	</form>
+</div>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var tabset = new compTabset($("<{$id}>"));
+	tabset.render();
+	tabset = null;
+
+	photoalbumCls["<{$id}>"].photoalbum_id = "<{$action.album.photoalbum_id}>";
+	photoalbumCls["<{$id}>"].album_id = "<{$action.album.album_id}>";
+
+	commonCls.focus($("photoalbum_upload<{$id}>"));
+</script>
+<{/strip}>

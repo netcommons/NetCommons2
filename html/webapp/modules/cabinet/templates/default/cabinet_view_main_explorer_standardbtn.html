@@ -1,0 +1,49 @@
+<{strip}>
+
+<table id="cabinet_standardbtn<{$id}>" summary="">
+	<tr>
+		<td>
+			<div id="cabinet_add_folder<{$id}>" class="cabinet_add_folder">
+				<a href="#" title="<{$lang.cabinet_add_folder_title|smarty:nodefaults}>" class="syslink hover_highlight" onclick='cabinetCls["<{$id}>"].showAddFolder(event); return false;'>
+					<img class="cabinet_standardbtn" src="<{"add_folder.gif"|get_modules_image}>" title="" alt="" />
+					<{$lang.cabinet_add_folder|smarty:nodefaults}>
+				</a>
+			</div>
+		</td>
+		<td>
+			<div id="cabinet_add_file<{$id}>" class="cabinet_add_file">
+				<a href="#" title="<{$lang.cabinet_add_file_title|smarty:nodefaults}>" class="syslink hover_highlight" onclick='cabinetCls["<{$id}>"].showAddFile(event); return false;'>
+					<img class="cabinet_standardbtn" src="<{"add_file.gif"|get_modules_image}>" title="" alt="" />
+					<{$lang.cabinet_add_file|smarty:nodefaults}>
+				</a>
+			</div>
+		</td>
+		
+		<{if ($smarty.session._auth_id >= _AUTH_CHIEF) }>
+			<td>
+				<div id="cabinet_compression<{$id}>" class="cabinet_compression" title="<{$lang.cabinet_compress_desc|smarty:nodefaults}>">
+					<img class="cabinet_standardbtn" src="<{"compress.gif"|get_modules_image}>" title="" alt="" />
+					<{if ($action.cabinet.compress_download == _ON) }>
+						<{$lang.cabinet_compression_download|smarty:nodefaults}>
+					<{else}>
+						<{$lang.cabinet_compress|smarty:nodefaults}>
+					<{/if}>
+				</div>
+			</td>
+			<td>
+				<div id="cabinet_decompression<{$id}>" class="cabinet_decompression" title="<{$lang.cabinet_decompress_desc|smarty:nodefaults}>">
+					<img class="cabinet_standardbtn" src="<{"decompress.gif"|get_modules_image}>" title="" alt="" />
+					<{$lang.cabinet_decompress|smarty:nodefaults}>
+				</div>
+			</td>
+			<td>
+				<div id="cabinet_trash_box<{$id}>" class="cabinet_trash_box" title="<{$lang.cabinet_trash_box_desc|smarty:nodefaults}>">
+					<img class="cabinet_standardbtn" src="<{"trash.gif"|get_modules_image}>" title="" alt="" />
+					<{$lang.cabinet_trash_box|smarty:nodefaults}>
+				</div>
+			</td>
+		<{/if}>
+	</tr>
+</table>
+
+<{/strip}>

@@ -1,0 +1,35 @@
+<{strip}>
+
+<table class="reservation_move_location" cellspacing="0" summary="">
+	<tr>
+		<td class="reservation_move_image">
+			<img class="icon" src="<{"move_bar.gif"|get_modules_image}>" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" title="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+		</td>
+		<td class="reservation_move_location_name">
+			<div>
+				<a id="reservation_location_name<{$location.location_id}><{$id}>" class="link display-block" href="#" onclick='reservationCls["<{$id}>"].showRenameInput(this); return false;' onfocus='this.onmouseover(event);' onmouseover='if (typeof(commonCls) != "undefined") { commonCls.blockNotice(event, this); }'>
+					<{$location.location_name|smarty:nodefaults}>
+				</a>
+				<input class="display-none" name="location_name" type="text" value="<{$location.location_name|smarty:nodefaults}>" onkeypress='reservationCls["<{$id}>"].renameLocation(event,this,<{$location.location_id}>);' />
+			</div>
+			<div class="reservation_timetable disable_lbl">
+				<{$lang.reservation_time_table|smarty:nodefaults|sprintf:"`$location.time_table_str`":"`$location.start_time_str`":"`$location.end_time_str`"}>
+			</div>
+		</td>
+		<td class="reservation_move_manage">
+			<a id="reservation_location_details_<{$location.location_id}><{$id}>" href="#" class="syslink" title="<{$lang.reservation_details|sprintf:$location.location_name}>" onclick='reservationCls["<{$id}>"].showLocation(event,"<{$location.location_id}>"); return false;'>
+				<{$lang._details|smarty:nodefaults}>
+			</a>
+			<{$lang._separator|smarty:nodefaults}>
+			<a id="reservation_location_edit_<{$location.location_id}><{$id}>" href="#" class="syslink" title="<{$lang._edit_title|sprintf:$location.location_name}>" onclick='reservationCls["<{$id}>"].showModifyLocation(event, "<{$location.location_id}>"); return false;'>
+				<{$lang._edit|smarty:nodefaults}>
+			</a>
+			<{$lang._separator|smarty:nodefaults}>
+			<a id="reservation_location_delete_<{$location.location_id}><{$id}>" href="#" class="syslink" title="<{$lang._del_title|sprintf:$location.location_name}>" onclick='reservationCls["<{$id}>"].deleteLocation(<{$location.location_id}>); return false;'>
+				<{$lang._delete|smarty:nodefaults}>
+			</a>
+		</td>
+	</tr>
+</table>
+
+<{/strip}>

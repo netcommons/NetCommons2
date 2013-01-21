@@ -1,0 +1,31 @@
+<{strip}>
+<{* リンクリスト画面用テンプレート *}>
+<{if $action.headerShow}>
+	<{include file="linklist_view_main_head.html"}>
+<{/if}>
+
+<{if !$action.linkExists}>
+	<{$lang.linklist_no_link|smarty:nodefaults}>
+<{/if}>
+
+<{if $action.linklist.display == LINKLIST_DISPLAY_DROPDOWN }>
+	<{include file="linklist_view_main_dropdown.html"}>
+<{else}>
+	<{include file="linklist_view_main_list.html"}>
+<{/if}>
+
+<{include file="../linklist_script.html"}>
+<script class="nc_script" type="text/javascript">
+	linklistCls["<{$id}>"].linklist_id = "<{$action.linklist.linklist_id}>";
+	linklistCls["<{$id}>"].entry = null;
+		
+	<{if $action.linklist.target_blank_flag == _ON}>
+		linklistCls["<{$id}>"].target = "<{$smarty.const.LINKLIST_TARGET}>";
+	<{else}>
+		linklistCls["<{$id}>"].target = null;
+	<{/if}>
+	<{if $action.linklist.view_count_flag == _ON}>
+		linklistCls["<{$id}>"].viewCountFlag = true;
+	<{/if}>
+</script>
+<{/strip}>

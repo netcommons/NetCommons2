@@ -1,0 +1,5 @@
+<?php
+foreach ($action->getFileList() as $filename => $status) {
+	printf("%10s  %s\n", "[${status}]", $filename);
+}
+?>

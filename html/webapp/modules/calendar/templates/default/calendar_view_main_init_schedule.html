@@ -1,0 +1,147 @@
+<{strip}>
+
+<{assign var="weekArr" value="|"|explode:$lang.calendar_week|smarty:nodefaults}>
+<{assign var="schedule_open" value="|"|explode:$action.calendar_block.schedule_open}>
+
+<div class="calendar_schedule">
+	<table class="calendar_head" summary="">
+		<tr>
+			<td>
+				<div class="calendar_t_schedule nowrap<{if ($action.calendar_block.display_type == CALENDAR_U_SCHEDULE) }> display-none<{/if}>">
+					<{$lang.calendar_schedule_time|smarty:nodefaults}>
+					<img class="icon" src="<{"schedule_active.gif"|get_modules_image}>" alt="" title="" />
+					&nbsp;&nbsp;
+					<a class="link" href="#" title="<{$lang.calendar_schedule_sort|smarty:nodefaults|sprintf:$lang.calendar_schedule_user}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.today}>", "<{$smarty.const.CALENDAR_U_SCHEDULE}>"); return false;'>
+						<{$lang.calendar_schedule_user|smarty:nodefaults}>
+						<img class="icon" src="<{"schedule_deactive.gif"|get_modules_image}>" alt="" title="" />
+					</a>
+				</div>
+				<div class="calendar_u_schedule nowrap<{if ($action.calendar_block.display_type == CALENDAR_T_SCHEDULE) }> display-none<{/if}>">
+					<a class="link" href="#" title="<{$lang.calendar_schedule_sort|smarty:nodefaults|sprintf:$lang.calendar_schedule_time|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.today}>", "<{$smarty.const.CALENDAR_T_SCHEDULE}>"); return false;'>
+						<{$lang.calendar_schedule_time|smarty:nodefaults}>
+						<img class="icon" src="<{"schedule_deactive.gif"|get_modules_image}>" alt="" title="" />
+					</a>
+					&nbsp;&nbsp;
+					<{$lang.calendar_schedule_user|smarty:nodefaults}>
+					<img class="icon" src="<{"schedule_active.gif"|get_modules_image}>" alt="" title="" />
+				</div>
+			</td>
+			<td class="align-right">
+				<{if ($smarty.session._user_id && $smarty.session._user_id != "0" && $block_id != "0" && ($smarty.session._user_auth_id > _AUTH_GUEST || $action.calendar_block.myroom_use_flag == _ON)) }>
+					<a class="hover_highlight print_preview_none" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$action.today}>",null,<{$smarty.const._OFF}>); return false;'>
+						<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" title="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" />
+					</a>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			</td>
+		</tr>
+	</table>
+
+	<div class="hr"></div>
+
+	<div id="_calendar_schedule<{$id}>" class="calendar_body">
+		<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+			<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+			<{assign var="date" value=$smarty.section.timestamp.index|date_format:"%Y%m%d"}>
+			<{assign var="index" value=$smarty.section.timestamp.iteration-1}>
+
+			<{assign var="wday" value="w"|date:"`$timestamp`"}>
+			<{assign var="wday_string" value=$lang.calendar_schedule_wday_format|smarty:nodefaults|sprintf:"`$weekArr.$wday`"}>
+
+			<{if ($action.holidays.$date) }>
+				<{assign var="day_class" value="calendar_holiday"}>
+			<{elseif ($wday == 0) }>
+				<{assign var="day_class" value="calendar_sunday"}>
+			<{elseif ($wday == 6) }>
+				<{assign var="day_class" value="calendar_saturday"}>
+			<{else}>
+				<{assign var="day_class" value="calendar_weekday"}>
+			<{/if}>
+
+			<div class="calendar_<{$date}> nowrap calendar_date">
+				<a class="link <{$day_class}> hover_highlight" href="#" onclick='calendarCls["<{$id}>"].switchOpenClose(this); return false;'>
+					<{if (in_array("today", $schedule_open) && $date == $action.today ||
+							in_array("tommorow", $schedule_open) && $date == $action.tommorow ||
+							in_array("after_tommorow", $schedule_open) && $date == $action.after_tommorow ||
+							in_array("all_open", $schedule_open)) }>
+						<img class="icon" src="<{"schedule_open.gif"|get_modules_image}>" alt="" title="<{$lang.calendar_title_closeschedule|smarty:nodefaults}>" />
+					<{else}>
+						<img class="icon" src="<{"schedule_close.gif"|get_modules_image}>" alt="" title="<{$lang.calendar_title_openschedule|smarty:nodefaults}>" />
+					<{/if}>
+
+					<{if ($date == $action.today) }>
+						<{$lang.calendar_today|smarty:nodefaults}>
+					<{elseif ($date == $action.yesterday) }>
+						<{$lang.calendar_yesterday|smarty:nodefaults}>
+					<{elseif ($date == $action.tommorow) }>
+						<{$lang.calendar_tommorow|smarty:nodefaults}>
+					<{else}>
+						<{"`$lang.calendar_schedule_format`$wday_string"|date:$timestamp}>
+					<{/if}>
+					<{if (in_array("today", $schedule_open) && $date == $action.today ||
+							in_array("tommorow", $schedule_open) && $date == $action.tommorow ||
+							in_array("after_tommorow", $schedule_open) && $date == $action.after_tommorow ||
+							in_array("all_open", $schedule_open)) }>
+						<span class="calendar_plan_count display-none"></span>
+					<{else}>
+						<span class="calendar_plan_count"></span>
+					<{/if}>
+				</a>
+				<{if (in_array("today", $schedule_open) && $date == $action.today ||
+						in_array("tommorow", $schedule_open) && $date == $action.tommorow ||
+						in_array("after_tommorow", $schedule_open) && $date == $action.after_tommorow ||
+						in_array("all_open", $schedule_open)) }>
+					<div class="calendar_plan_frame"></div>
+				<{else}>
+					<div class="calendar_plan_frame display-none"></div>
+				<{/if}>
+			</div>
+		<{/section}>
+	</div>
+
+	<div class="hr"></div>
+
+	<table class="calendar_foot" summary="">
+		<tr>
+			<td class="nowrap">
+				<div class="calendar_t_schedule nowrap<{if ($action.calendar_block.display_type == CALENDAR_U_SCHEDULE) }> display-none<{/if}>">
+					<{$lang.calendar_schedule_time|smarty:nodefaults}>
+					<img class="icon" src="<{"schedule_active.gif"|get_modules_image}>" alt="" title="" />
+					&nbsp;&nbsp;
+					<a class="link" href="#" title="<{$lang.calendar_schedule_user|smarty:nodefaults}><{$lang.calendar_schedule_sort|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.today}>", "<{$smarty.const.CALENDAR_U_SCHEDULE}>"); return false;'>
+						<{$lang.calendar_schedule_user|smarty:nodefaults}>
+						<img class="icon" src="<{"schedule_deactive.gif"|get_modules_image}>" alt="" title="" />
+					</a>
+				</div>
+				<div class="calendar_u_schedule nowrap<{if ($action.calendar_block.display_type == CALENDAR_T_SCHEDULE) }> display-none<{/if}>">
+					<a class="link" href="#" title="<{$lang.calendar_schedule_time|smarty:nodefaults}><{$lang.calendar_schedule_sort|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.today}>", "<{$smarty.const.CALENDAR_T_SCHEDULE}>"); return false;'>
+						<{$lang.calendar_schedule_time|smarty:nodefaults}>
+						<img class="icon" src="<{"schedule_deactive.gif"|get_modules_image}>" alt="" title="" />
+					</a>
+					&nbsp;&nbsp;
+					<{$lang.calendar_schedule_user|smarty:nodefaults}>
+					<img class="icon" src="<{"schedule_active.gif"|get_modules_image}>" alt="" title="" />
+				</div>
+			</td>
+			<td class="align-right nowrap">
+				<{if ($smarty.session._user_id && $smarty.session._user_id != "0" && $block_id != "0" && ($smarty.session._user_auth_id > _AUTH_GUEST || $action.calendar_block.myroom_use_flag == _ON)) }>
+					<a class="hover_highlight print_preview_none" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$action.today}>",null,<{$smarty.const._OFF}>); return false;'>
+						<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" title="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" />
+					</a>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].initMain("<{$action.today}>","<{$action.calendar_block.display_type}>",null);
+	calendarCls["<{$id}>"].showMain("<{$action.today}>");
+	calendarCls["<{$id}>"].title_openschedule = "<{$lang.calendar_title_openschedule|smarty:nodefaults|escape:"javascript"}>";
+	calendarCls["<{$id}>"].title_closeschedule = "<{$lang.calendar_title_closeschedule|smarty:nodefaults|escape:"javascript"}>";
+</script>
+<{/strip}>

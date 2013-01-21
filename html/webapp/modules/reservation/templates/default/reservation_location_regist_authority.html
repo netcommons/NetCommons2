@@ -1,0 +1,30 @@
+<{strip}>
+
+<th scope="row" class="nowrap">
+	<label for="add_authority<{$smarty.const._AUTH_CHIEF}><{$id}>">
+		<{$lang.reservation_add_authority|smarty:nodefaults}>
+	</label>
+</th>
+<td class="nowrap">
+	<label class="disable_lbl" for="add_authority<{$smarty.const._AUTH_CHIEF}><{$id}>">
+ 		<input type="checkbox" disabled="disabled" checked="checked" />
+ 		<input type="hidden" name="add_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+		<{$smarty.const._AUTH_CHIEF_NAME}>
+	</label>
+ 		&nbsp;
+ 		&nbsp;
+ 		&nbsp;
+		<label for="add_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+ 		<input id="add_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+		<{$smarty.const._AUTH_MODERATE_NAME}>
+	</label>
+ 		&nbsp;
+ 		&nbsp;
+ 		&nbsp;
+		<label for="add_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+		<input id="add_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+		<{$smarty.const._AUTH_GENERAL_NAME}>
+	</label>
+</td>
+
+<{/strip}>

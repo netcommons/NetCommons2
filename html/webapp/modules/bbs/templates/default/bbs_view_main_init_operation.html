@@ -1,0 +1,47 @@
+<{strip}>
+<{* 記事一覧操作部用テンプレート *}>
+<div class="bbs_post_list_operation bbs_post_list_<{$operationPosition}>">
+	<div class="float-left nowrap">
+		<{if $action.bbs.topic_authority}>
+			<a class="syslink" href="#" title="<{$lang.bbs_post_topic_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].showPostArea();return false;">
+				<img class="icon" src="<{"edit.gif"|get_themes_image}>" alt="" />
+				<{$lang.bbs_post_topic|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{if $action.bbs.topic_authority && $action.postExists}>
+			<{$lang._separator|smarty:nodefaults}>
+		<{/if}>
+		<{if $action.postExists}>
+			<{include file = "bbs_view_main_expand.html"}>
+		<{/if}>
+	</div>
+	<{if $action.topicCount}>
+		<div class="align-right">
+			<span class="bbs_page_switch">
+				<{if $action.pageNumber > 0}>
+			  		<a class="syslink" href="#" onclick="bbsCls['<{$id}>'].showList({'pageNumber':'<{$action.pagePrevious}>'});return false;">
+			  			<img class="icon" src="<{"previous.gif"|get_modules_image}>" alt="" />
+			  			<{$lang.bbs_page_previous|smarty:nodefaults}>
+			  		</a>
+				<{/if}>
+				<{section name=page start=$action.pageStart loop=$action.pageEnd}>
+					<a class="syslink<{if $action.pageNumber == $smarty.section.page.index}> current<{/if}>" href="#" onclick="bbsCls['<{$id}>'].showList({'pageNumber':'<{$smarty.section.page.index}>'});return false;">
+						<{$smarty.section.page.index+1}>
+					</a>
+				<{/section}>
+				<{if $action.pageNext < $action.pageEnd}>
+			  		<a class="syslink" href="#" onclick="bbsCls['<{$id}>'].showList({'pageNumber':'<{$action.pageNext}>'});return false;">
+			  			<{$lang.bbs_page_next|smarty:nodefaults}>
+			  			<img class="icon" src="<{"next.gif"|get_modules_image}>" alt="" />
+			  		</a>
+				<{/if}>
+			</span>
+			
+			<select id="bbs_visible_row_<{$operationPosition}><{$id}>" name="visible_row" onchange="bbsCls['<{$id}>'].showList({'visible_row':this.value});return false;">
+				<{include file = "bbs_view_visible_row_option.html"}>
+			</select>
+		</div>
+	<{/if}>
+	<br class="float-clear" />
+</div>
+<{/strip}>

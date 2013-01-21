@@ -1,0 +1,14 @@
+/* 印刷用スタイルシート */
+.print_header {
+	display:none;
+}
+
+/* 印刷時に非表示にしたい項目には、このクラスを付与する */
+.print_none {
+	display:none;
+}
+
+/* 印刷時に表示したい項目には、このクラスを付与する */
+.print_block {
+	display:block;
+}

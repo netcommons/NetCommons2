@@ -1,0 +1,160 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+<{*
+<form id="form<{$id}>" action=".<{$smarty.const.INDEX_FILE_NAME}>?action=install_action_main_confirm" method="post">
+*}>
+<div class="install_title">
+	<{$smarty.const.INSTALL_GENERAL_CONF_CONFIRM_TITLE}>
+</div>
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<tr>
+			<{* サイト名称 *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_sitename|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.sitename}>
+			</td>
+		</tr>
+		<tr>
+			<{* データベースサーバ *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_database|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.database}>
+			</td>
+		</tr>
+		<tr>
+			<{* データベースサーバのホスト名 *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_dbhost|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.dbhost}>
+			</td>
+		</tr>
+		<tr>
+			<{* データベースユーザ名 *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_dbusername|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.dbusername}>
+			</td>
+		</tr>
+		<tr>
+			<{* データベースパスワード *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_dbpass|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.dbpass}>
+			</td>
+		</tr>
+		<tr>
+			<{* データベース名 *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_dbname|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.dbname}>
+			</td>
+		</tr>
+		<tr>
+			<{* テーブル接頭語 *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_dbprefix|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.dbprefix}>
+			</td>
+		</tr>
+		<tr>
+			<{* データベースへ持続的接続 *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_dbpersist|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{if $smarty.session.dbpersist == _ON}>
+					<{$lang.install_general_yes}>
+				<{else}>
+					<{$lang.install_general_no}>
+				<{/if}>
+			</td>
+		</tr>
+		<tr>
+			<{* NetCommonsへのURL *}>
+			<th class="install_general_header" scope="row">
+				<{$lang.install_general_base_url|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.base_url}>
+			</td>
+		</tr>
+		<{if $smarty.session.detail_flag == _ON}>
+		<tr class="install_detail_setting">
+			<{* NetCommonsへのパス *}>
+			<th class="install_general_header" scope="row">
+				<{$smarty.const.INSTALL_URLCHECK_ROOT_DIR|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.base_dir}>
+			</td>
+		</tr>
+		<tr class="install_detail_setting">
+			<{* アップロードファイル格納場所 *}>
+			<th class="install_general_header" scope="row">
+				<{$smarty.const.INSTALL_URLCHECK_UPLOADS_DIR|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.fileuploads_dir}>
+			</td>
+		</tr>
+		<{* 使用する画像、CSSファイルの格納場所 *}>
+		<tr class="install_detail_setting">
+			<th class="install_general_header" scope="row">
+				<{$smarty.const.INSTALL_URLCHECK_HTDOCS_DIR|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.htdocs_dir}>
+			</td>
+		</tr>
+		<{* テーマディレクトリの格納場所 *}>
+		<tr class="install_detail_setting">
+			<th class="install_general_header" scope="row">
+				<{$smarty.const.INSTALL_URLCHECK_THEME_DIR|smarty:nodefaults}>
+			</th>
+			<td class="install_general_data">
+				<{$smarty.session.style_dir}>
+			</td>
+		</tr>
+		<{/if}>
+	</table>
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="widthmax">
+		<tr>
+			<td class="align-left">
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_prev_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_general'; return false;" />
+				<span class="install_btn_desc">
+					&lt;&lt;<{$lang.install_modify_settion}>
+				</span>
+			<td>
+			<td class="align-right">
+				<span class="install_btn_desc">
+					<{$smarty.const.INSTALL_PERMISSION_CONFIG_TITLE}>&gt;&gt;
+				</span>
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_permission'; return false;" />
+				
+				<{*
+				<input class="btn-width lined_btn" type="submit" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" />
+				<input type="hidden" name="action" value="install_action_main_confirm" />
+				*}>
+			<td>
+		</tr>
+	</table>
+</div>
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>

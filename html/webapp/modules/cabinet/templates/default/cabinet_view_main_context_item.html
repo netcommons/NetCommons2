@@ -1,0 +1,21 @@
+<{strip}>
+
+<a class="link" href="#" onclick='parent.cabinetCls["<{$id}>"].actionContext("<{$item_type}>","<{$file_id}>","<{$file_type}>","<{$file_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>","<{$action.reference}>"); return false;'>
+	<{if ($item_type == "edit") }>
+		<div class="contextRow"><{$lang.cabinet_edit|smarty:nodefaults}></div>
+	<{elseif ($item_type == "move") }>
+		<div class="contextRow"><{$lang.cabinet_move|smarty:nodefaults}></div>
+	<{elseif ($item_type == "delete") }>
+		<div class="contextRow"><{$lang.cabinet_delete|smarty:nodefaults}></div>
+	<{elseif ($item_type == "compress_download") }>
+		<div class="contextRow"><{$lang.cabinet_compression_download|smarty:nodefaults}></div>
+	<{elseif ($item_type == "compress") }>
+		<div class="contextRow"><{$lang.cabinet_compression|smarty:nodefaults}></div>
+	<{elseif ($item_type == "decompress") }>
+		<div class="contextRow"><{$lang.cabinet_decompression|smarty:nodefaults}></div>
+	<{elseif ($item_type == "property") }>
+		<div class="contextRow"><{$lang.cabinet_property|smarty:nodefaults}></div>
+	<{/if}>
+</a>
+
+<{/strip}>

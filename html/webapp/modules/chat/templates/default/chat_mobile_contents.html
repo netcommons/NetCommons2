@@ -1,0 +1,52 @@
+<{strip}>
+
+<{if ($smarty.session._auth_id >= $smarty.const._AUTH_GENERAL) }>
+<div style="text-align:right;">
+	<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+		<input type="hidden" name="action" value="chat_action_mobile_post" />
+		<input type="hidden" name="block_id" value="<{$block_id}>" />
+		<input type="hidden" name="chat_id" value="<{$action.chat_id}>" />
+
+		<input type="text" size="35" name="chat_text" value="" />
+		<input type="submit" name="write" value="<{$lang.chat_mobile_write|smarty:nodefaults}>" />
+		<{if $smarty.session._auth_id >= $smarty.const._AUTH_CHIEF}>
+			<input data-inline="true" type="submit" name="clear" value="<{$lang.chat_clear|smarty:nodefaults}>" />
+		<{/if}>
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</form>
+</div>
+<{/if}>
+<div><span style="font-size:small;">
+	<{$lang.chat_user|smarty:nodefaults}>(<{$action.chat_login_count}><{$lang.chat_item|smarty:nodefaults}>)
+	<br />
+	<{$action.chat_login}>
+</span></div>
+<hr />
+<{foreach from=$action.chat_contents item=content name="chat_contents"}>
+	<p>
+	<div>
+		<strong><{$content.update_user_name}>&nbsp;>>&nbsp;</strong><{$content.chat_text}>
+	</div>
+	<span style="color:gray;font-size:small;">
+		<{$content.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+	</span>
+	</p>
+<{foreachelse}>
+	<p>
+		<{$lang.chat_no_message|smarty:nodefaults}>
+	</p>
+<{/foreach}>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init<{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail<{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

@@ -1,0 +1,39 @@
+<{strip}>
+
+<div class="outerdiv align-center">
+	<form id="assignment_form<{$id}>" onsubmit="return false;">
+		<input type="hidden" name="action" value="assignment_action_main_grade" />
+		<input type="hidden" name="assignment_id" value="<{$action.assignment.assignment_id}>" />
+		<input type="hidden" name="submit_id" value="<{$action.submit_id}>" />
+
+		<table class="outer" summary="">
+			<tr class="row">
+				<th class="nowrap">
+					<{$lang.assignment_grade}>
+				</th>
+				<td>
+					<select name="grade_value">
+						<option value=""<{if ($action.submitter.submit_flag != ASSIGNMENT_SUBMIT_FLAG_GRADED) }> selected="selected"<{/if}>>
+							<{$lang.assignment_resubmitted}>
+						</option>
+
+						<{foreach from=$action.gradeValues item=gradeValue}>
+							<option value="<{$gradeValue.grade_value}>"<{if ($action.submitter.grade_value == $gradeValue.grade_value) }> selected="selected"<{/if}>>
+								<{$gradeValue.grade_value}>
+							</option>
+						<{/foreach}>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<div class="btn-bottom">
+			<input name="regist_btn" type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].gradeReport('<{$smarty.session.assignment.id.$block_id}>', this.form); return false;" />
+			<input name="cancel_btn" type="button" class="btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+		</div>
+	</form>
+</div>
+
+<{include file="../assignment_script.html"}>
+
+<{/strip}>

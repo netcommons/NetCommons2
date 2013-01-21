@@ -1,0 +1,23 @@
+<{strip}>
+<p>
+<{$action.post.body|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+</p>
+<br style="clear:both;" />
+<{if ($action.post.edit_authority || $action.post.reply_authority) }>
+	<div>
+		<{if ($action.post.edit_authority) }>
+			<a data-role="button" data-inline="true" data-icon="check" href="?action=bbs_view_main_post_edit&amp;block_id=<{$block_id}>&amp;bbs_id=<{$action.post.bbs_id}>&amp;post_id=<{$action.post.post_id}><{$session_param}>">
+				<{$lang.bbs_edit_post|smarty:nodefaults}>
+			</a>
+			<a data-role="button" data-inline="true" data-icon="delete" href="?action=bbs_view_mobile_post_delete&amp;block_id=<{$block_id}>&amp;bbs_id=<{$action.post.bbs_id}>&amp;post_id=<{$action.post.post_id}><{$session_param}>">
+				<{$lang.bbs_delete_post|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{if ($action.post.reply_authority) }>
+			<a data-role="button" data-inline="true" href="?action=bbs_view_mobile_post_reply&amp;block_id=<{$block_id}>&amp;bbs_id=<{$action.post.bbs_id}>&amp;post_id=<{$action.post.post_id}><{$session_param}>">
+				<{$lang.bbs_reply|smarty:nodefaults}>
+			</a>
+		<{/if}>
+	</div>
+<{/if}>
+<{/strip}>

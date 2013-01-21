@@ -1,0 +1,45 @@
+<{strip}>
+<{* ページデータツリー表示用テンプレート *}>
+
+<{assign var="smt_color_set" value=""}>
+<{if empty($parents|smarty:nodefaults) && count($action.pageTree) > 0}>
+	<{assign var="parents" value=$action.topPage}>
+<{/if}>
+<{foreach from=$parents|smarty:nodefaults key=pageID item=page}>
+	<{if $page.thread_num != 0 || $page.private_flag == $smarty.const._ON}>
+		<{if $page.mobileModule == true && $page.visible == true}>
+			<{if !empty($action.pageTree.$pageID|smarty:nodefaults)}>
+				<div data-role="collapsible" >
+				<h3><{$page.page_name}></h3>
+				<ul data-role="listview" data-inset="true">
+			<{/if}>
+			<li>
+				<{if $page.disabled == true}>
+					<{$page.page_name}>
+				<{elseif $page.blockCount > 1 }>
+					<a href="./?action=menu_view_mobile_detail&amp;page_id=<{$page.page_id}>&amp;t=<{$smarty.const._ON}><{$session_param}>">
+						<{$page.page_name}>
+					</a>
+				<{else}>
+					<a href="./?action=pages_view_mobile&amp;block_id=<{$page.block_id}><{$session_param}>">
+						<{$page.page_name}>
+					</a>
+				<{/if}>
+			</li>
+		<{/if}>
+	<{/if}>
+
+	<{if !empty($action.pageTree.$pageID|smarty:nodefaults)}>
+		<{if $page.visible == true}>
+			<{assign var="parents" value=$action.pageTree.$pageID}>
+			<{include file="menu_mobile_recursive_page_smart_tree.html"}>
+			<{if $page.thread_num != 0 || $page.private_flag == $smarty.const._ON}>
+				<{if $page.mobileModule == true }>
+					</ul>
+					</div>
+				<{/if}>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

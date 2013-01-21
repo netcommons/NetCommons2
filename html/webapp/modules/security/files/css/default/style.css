@@ -1,0 +1,96 @@
+div.security_main filedset {
+	margin: 0px 0px 6px 0px;
+	padding: 3px;
+}
+
+.security_setting {
+	padding: 2px;
+}
+
+table.security_setting th {
+	margin: 2px 5px 7px 2px;
+	width: 20%;
+	text-align:left;
+	vertical-align:top;
+}
+
+table.security_setting td {
+}
+
+.security_items {
+	padding: 5px;
+	vertical-align: middle;
+	line-height: 120%;
+}
+
+.security_items select {
+	margin:0px 10px;
+}
+
+.security_warning {
+	font-style: italic;
+}
+
+.security_date {
+	padding: 0px 3px;
+	vertical-align: bottom;
+	font-size: 80%;
+	color: #ffb500;
+	background-color:inherit;
+}
+.security_pagetheme_panel {
+	margin:10px;
+}
+.security_pagetheme_panel table td {
+	padding:4px;
+	border:1px solid #ababab;
+	text-align:center;
+}
+.security_pagetheme_name {
+	font-size: 80%;
+}
+.security_pagetheme_icon {
+	margin:5px;
+	width:80px;
+	height:60px;
+}
+table.security_setting th.security_indent,table.security_setting td.security_indent {
+	padding-left:20px;
+}
+.security_indent2 {
+	margin-left:40px;
+}
+.security_outerdiv img {
+	vertical-align:middle;
+	margin-right:4px;
+}
+.security_tooltip {
+	color: #dc143c;
+}
+.security_log {
+	overflow:auto;
+	width:850px;
+	height:200px;
+	border:solid 1px #111; 
+	padding:5px;
+}
+.security_table {
+	padding: 2px;
+	border:solid 1px #222;
+}
+.security_table_header {
+	background-color:#ccc;
+	text-align:center;
+}
+.security_table th,
+.security_table td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left:10px;
+	padding-right:10px;
+	border:solid 1px #222;
+}
+
+.security_database_prefix {
+	color:#00008b;
+}

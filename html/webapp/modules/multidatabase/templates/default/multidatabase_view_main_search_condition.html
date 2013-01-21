@@ -1,0 +1,128 @@
+<{strip}>
+	<div class="outerdiv">
+		<form action="" id="mdb_search_form<{$id}>" onsubmit="return false;">
+			<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>">
+			<input type="hidden" name="now_page" value="<{$action.now_page}>">
+			<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>" cellspacing="0" cellpadding="2">
+				<{*項目名*}>
+				<tr class="row">
+					<th class="nowrap valign-top align-left" scope="row">
+						<label for="mdb_search_keyword<{$id}>"><{$lang.mdb_search_keyword|smarty:nodefaults}></label>
+					</th>
+					<td class="nowrap">
+						<input id="mdb_search_keyword<{$id}>" name="keyword" type="text" class="text" value="<{if $action.keyword != ""}><{$action.keyword}><{/if}>" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');"/>
+					</td>
+				</tr>
+				<{*検索の種類*}>
+				<tr class="row">
+					<th class="nowrap valign-top" scope="row">
+						<label for="mdb_search_type<{$id}>">
+							<{$lang.mdb_search_type|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<select id="mdb_search_type<{$id}>" name="select_kind" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');">
+							<option value="<{$smarty.const.MULTIDATABASE_SEARCH_SELECT_AND}>" <{if $action.select_kind == $smarty.const.MULTIDATABASE_SEARCH_SELECT_AND}> selected="selected"<{/if}>><{$lang.mdb_search_type_and|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_SEARCH_SELECT_OR}>" <{if $action.select_kind == $smarty.const.MULTIDATABASE_SEARCH_SELECT_OR}> selected="selected"<{/if}>><{$lang.mdb_search_type_or|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_SEARCH_SELECT_PHRASE}>" <{if $action.select_kind == $smarty.const.MULTIDATABASE_SEARCH_SELECT_PHRASE}> selected="selected"<{/if}>><{$lang.mdb_search_type_phrase|smarty:nodefaults}></option>
+						</select>
+					</td>
+				</tr>
+				<{* ハンドル *}>
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="mdb_search_handle<{$id}>"><{$lang.mdb_search_handle|smarty:nodefaults}></label>
+					</th>
+					<td class="nowrap">
+						<input id="mdb_search_handle<{$id}>" class="text" type="text" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');" value="<{if $action.handle}><{$action.handle}><{/if}>" name="handle"/>
+					</td>
+				</tr>
+				<{* 対象日 *}>
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="mdb_search_date<{$id}>">
+							<{$lang.mdb_search_date|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<input id="mdb_search_date_from<{$id}>" class="comp_calendar_text" type="text" name="date_from" value="<{$action.date_from}>" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');" />
+						<{$lang.mdb_search_separator|smarty:nodefaults}>
+						<input id="mdb_search_date_to<{$id}>" class="comp_calendar_text" type="text" name="date_to" value="<{$action.date_to}>" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');" />
+					</td>
+				</tr>
+				<{*状態*}>
+				<{if ($smarty.session._auth_id >= _AUTH_CHIEF) }>
+					<tr class="row">
+						<th class="nowrap valign-top" scope="row">
+							<label for="mdb_search_status<{$id}>">
+								<{$lang.mdb_search_status|smarty:nodefaults}>
+							</label>
+						</th>
+						<td class="nowrap">
+							<select id="mdb_search_status<{$id}>" name="status" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');">
+								<option value="<{$smarty.const.MULTIDATABASE_STATUS_ALL}>" <{if $action.status == $smarty.const.MULTIDATABASE_STATUS_ALL || $action.status == ""}> selected="selected"<{/if}>><{$lang.mdb_display_item_all|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.MULTIDATABASE_STATUS_AGREE_VALUE}>" <{if $action.status == $smarty.const.MULTIDATABASE_STATUS_AGREE_VALUE}> selected="selected"<{/if}>><{$lang.mdb_search_open|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.MULTIDATABASE_STATUS_WAIT_AGREE_VALUE}>" <{if $action.status == $smarty.const.MULTIDATABASE_STATUS_WAIT_AGREE_VALUE}> selected="selected"<{/if}>><{$lang.mdb_search_not_ready|smarty:nodefaults}></option>
+							</select>
+						</td>
+					</tr>
+				<{/if}>
+				<{foreach from=$action.section_metadatas item=item key=key}>
+					<tr class="row">
+						<th class="nowrap" scope="row">
+							<label for="mdb_search_item_<{$item.name}><{$id}>">
+								<{$item.name}>
+							</label>
+						</th>
+						<td class="nowrap">
+							<select class="mdb_category" id="mdb_search_item_<{$item.name}><{$id}>" name="sort_section[<{$key}>]" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');">
+								<option value="" <{if !strlen($action.sort_section.$key)}> selected="selected"<{/if}>>
+									<{$lang.mdb_display_item_all|smarty:nodefaults}>
+								</option>
+								<{foreach from=$item.select_content_array|smarty:nodefaults item=option name=selectloop}>
+									<option value="<{$option}>" <{if $action.sort_section.$key === $option}> selected="selected"<{/if}>>
+										<{$option}>
+									</option>
+								<{/foreach}>
+							</select>
+						</td>
+					</tr>
+				<{/foreach}>
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="mdb_search_sort<{$id}>">
+							<{$lang.mdb_search_sort|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<select class="mdb_sort[<{$id}>]" id="mdb_search_sort<{$id}>" name="sort_metadata" onblur="Element.removeClassName(this,'highlight');" onfocus="Element.addClassName(this,'highlight');">
+							<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT || $action.sort_metadata == ""}> selected="selected"<{/if}>>
+								<{$lang.mdb_default_sort|smarty:nodefaults}>
+							</option>
+							<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}> selected="selected"<{/if}>>
+								<{$lang.mdb_date_sort|smarty:nodefaults}>
+							</option>
+							<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}> selected="selected"<{/if}>>
+								<{$lang.mdb_date_asc_sort|smarty:nodefaults}>
+							</option>
+							<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+								<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}> selected="selected"<{/if}>>
+									<{$lang.mdb_vote_sort|smarty:nodefaults}>
+								</option>
+							<{/if}>
+							<{foreach from=$action.sort_metadatas item=option name=selectloop}>
+								<option value="<{$option.metadata_id}>" <{if $action.sort_metadata == $option.metadata_id}> selected="selected"<{/if}>>
+									<{$option.name}><{$lang.mdb_sort_item|smarty:nodefaults}>
+								</option>
+							<{/foreach}>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div class="btn-bottom align-center">
+				<input class="lined_btn btn-width" type="button" onclick="mdbCls['<{$id}>'].searchMdb(this.form)" value="<{$lang.mdb_search|smarty:nodefaults}>" />
+				<input class="lined_btn btn-width" type="button" onclick="commonCls.sendView('<{$id}>', {'action':'multidatabase_view_main_init', multidatabase_id:<{$action.multidatabase_id}>})" value="<{$lang._cancel|smarty:nodefaults}>" />
+			</div>
+		</form>
+	</div>
+<{/strip}>

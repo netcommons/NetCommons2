@@ -1,0 +1,23 @@
+<?php
+if($skeleton->theme_type != "simple") {
+print 	";--------------------------------------------------------------------\n".
+		"; ページテーマ定義                                                   \n".
+		"; 各カラムにどのブロックテーマを割り当てるかの指定                   \n".
+		";--------------------------------------------------------------------\n".
+		";[general]\n".
+		";change_blocktheme = 0\n".
+		"\n".
+		"[headercolumn]\n".
+		"apply_blocktheme = \"noneframe\"\n\n";
+}
+?>
+;--------------------------------------------------------------------
+; 参加カテゴリ-定義ファイル
+;--------------------------------------------------------------------
+[category]
+<?php
+if($skeleton->theme_type != "simple") {
+print 	"block = other					    	;//blockテーマ参加カテゴリ(STYLE_DIR/config/category.ini内[block]カテゴリ名)\n";
+}
+?>
+page  = other							;//pageテーマ参加カテゴリ(STYLE_DIR/config/category.ini内[page]カテゴリ名)

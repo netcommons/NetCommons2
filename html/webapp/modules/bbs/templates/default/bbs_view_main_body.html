@@ -1,0 +1,89 @@
+<{strip}>
+<{* 記事本文画面用テンプレート *}>
+<div class="align-right">
+	<{if !strpos($id, BBS_PREFIX_REFERENCE)}>
+		<{if ($action.short_url != "") }>
+			<a class="syslink bbs_fixed_link" href="<{include file="../../../../templates/main/abbreviate_url.html" short_url=$action.short_url}>">
+		<{else}>
+			 <a class="syslink bbs_fixed_link" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;active_action=bbs_view_main_post&amp;post_id=<{$action.post.post_id}>&amp;block_id=<{$block_id}>#<{$smarty.session._id}>">
+		<{/if}>
+			<{$lang.bbs_fixed_link|smarty:nodefaults}>
+		</a>
+	<{/if}>
+	<a href="#" class="link" onclick="commonCls.print($('bbs_print<{$id}>'));return false;">
+		<img class="icon" src="<{"print.gif"|get_themes_image}>" title="<{$lang._print_icon|smarty:nodefaults}>" alt="<{$lang._print_icon|smarty:nodefaults}>" />
+	</a>
+</div>
+
+<div id="bbs_print<{$id}>">
+	<div class="bbs_post_header">
+		<div class="float-left">
+			<{assign var="post" value="`$action.post`"}>
+			<{include file = "bbs_view_main_subject.html"}>
+		</div>
+		<div class="align-right">
+			<span class="bbs_user">
+				<{include file = "bbs_view_handle.html" handle=$action.post.insert_user_name|smarty:nodefaults user_id=$action.post.insert_user_id}>
+			</span>
+			<span class="bbs_date">
+				<{$action.post.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+			</span>
+			<span class="bbs_note">
+				<{if $action.bbs.vote_flag == _ON}>
+					<{$lang.bbs_vote_unit|smarty:nodefaults|sprintf:$action.post.vote_num}>
+				<{/if}>
+			</span>
+		</div>
+		<br class="float-clear" />
+	</div>
+
+	<div id="bbs_body<{$id}>" class="bbs_body" <{if $action.post.edit_authority}>ondblclick="bbsCls['<{$id}>'].showEditPost()" onmouseover="commonCls.blockNotice(event, this);"<{/if}>>
+		<{$action.post.body|smarty:nodefaults|wysiwig_convert_url}>
+	</div>
+	<br class="float-clear" />
+</div>
+
+<{if $action.post.activity == _ON}>
+	<div class="bbs_post_footer">
+		<div class="float-left">
+			<{if $action.post.edit_authority}>
+				<a class="syslink" href="#" onclick="bbsCls['<{$id}>'].showEditPost();return false;">
+					<{$lang.bbs_edit_post|smarty:nodefaults}>
+				</a>
+				<{$lang._separator|smarty:nodefaults}>
+				<a class="syslink" href="#" onclick="bbsCls['<{$id}>'].deletePost('<{$lang.bbs_post_delete_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+					<{$lang.bbs_delete_post|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</div>
+		<div class="align-right">
+			<{if $action.post.vote_authority}>
+				<a class="syslink bbs_vote" href="#" title="<{$lang.bbs_vote_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].vote();return false;">
+					<{$lang.bbs_vote|smarty:nodefaults}>
+				</a>
+			<{/if}>
+			<{if $action.post.reply_authority}>
+				<span class="bbs_quote">
+					<label for="bbs_quote<{$id}>">
+						<input id="bbs_quote<{$id}>" class="valign-middle" type="checkbox" checked="checked" />
+						<{$lang.bbs_quote|smarty:nodefaults}>
+					</label>
+				</span>
+				<a class="syslink bbs_reply" href="#" title="<{$lang.bbs_reply_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].showPostArea();return false;">
+					<img class="icon" src="<{"reply.gif"|get_modules_image}>" alt="" />
+					<{$lang.bbs_reply|smarty:nodefaults}>
+				</a>
+				<input id="bbs_user_wrote<{$id}>" type="hidden" value="<{$lang.bbs_user_wrote|smarty:nodefaults|sprintf:$action.post.insert_user_name}>" />
+			<{/if}>
+		</div>
+		<br class="float-clear" />
+	</div>
+	<{if $action.post.reply_authority}>
+		<{include file = "bbs_view_main_form.html"}>
+	<{/if}>
+<{/if}>
+<script class="nc_script" type="text/javascript">
+	bbsCls["<{$id}>"].bbs_id = "<{$action.post.bbs_id}>";
+	bbsCls["<{$id}>"].post_id = "<{$action.post.post_id}>";
+</script>
+<{/strip}>

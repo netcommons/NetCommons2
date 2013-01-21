@@ -1,0 +1,64 @@
+<{strip}>
+<{* メインテンプレート *}>
+
+<{* 課題名称 *}>
+<{include file="assignment_view_assignment_name.html"}>
+
+<{* 課題内容 *}>
+<div id="assignment_main_view<{$id}>" class="assignment_main_view"<{if ($action.display_hide == _ON || empty($action.reports|smarty:nodefaults)) }> style="padding-right:0px;"<{/if}>>
+	<table class="assignment_main_view">
+		<tr>
+			<td class="assignment_poster">
+				<{* 提示者 *}>
+				<{include file="assignment_view_handle.html" handle=$action.assignment.insert_user_name|smarty:nodefaults user_id=$action.assignment.insert_user_id}>
+				<{$lang._separator|smarty:nodefaults}>
+
+				<{* 提示日時 *}>
+				<{$action.assignment.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+			</td>
+
+			<{* 状態 *}>
+			<td rowspan="3" class="assignment_main_state">
+				<{include file="assignment_view_state.html"}>
+			</td>
+		</tr>
+
+		<tr>
+			<{* 課題内容 *}>
+			<td class="assignment_body">
+				<{$action.assignment.assignment_body|smarty:nodefaults|wysiwig_convert_url}>
+			</td>
+		</tr>
+
+		<tr>
+			<{* 提出する *}>
+			<td class="assignment_submit_operation">
+				<{include file="assignment_view_submit_link.html"}>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<{if ($action.display_hide == _OFF && !empty($action.reports|smarty:nodefaults)) }>
+	<{* 解答レポート *}>
+	<div id="assignment_reporter_view<{$id}>" class="assignment_reporter_view">
+		<{include file="assignment_view_main_report.html"}>
+	</div>
+
+<{elseif ($action.submit_user_id == "" && $action.hasSubmitListView) }>
+	<{* 解答者リスト *}>
+	<div id="assignment_reporter_view<{$id}>" class="assignment_reporter_view">
+		<{include file="assignment_view_main_submitters.html" displayTitle=false}>
+	</div>
+
+<{/if}>
+
+<{include file="../assignment_script.html"}>
+<script class="nc_script" type="text/javascript">
+	assignmentCls["<{$id}>"].assignment_id = "<{$action.assignment.assignment_id}>";
+	<{if ($action.submit_id == "") }>
+		assignmentCls["<{$id}>"].yet_submitter = "<{$action.yet_submitter}>";
+	<{/if}>
+</script>
+
+<{/strip}>

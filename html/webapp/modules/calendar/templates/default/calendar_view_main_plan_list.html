@@ -1,0 +1,72 @@
+<{strip}>
+
+<div class="outerdiv nowrap">
+
+	<{assign var="weekArr" value="|"|explode:$lang.calendar_week|smarty:nodefaults}>
+	<{assign var="wday" value="w"|date:"`$action.current_timestamp`"}>
+	<{assign var="wday_string" value=$lang.calendar_wday_format|smarty:nodefaults|sprintf:"`$weekArr.$wday`"}>
+	<{assign var="date" value=$action.date}>
+
+	<{if ($action.holidays.$date) }>
+		<{assign var="day_class" value="calendar_holiday"}>
+	<{elseif ($wday % 7 == 0) }>
+		<{assign var="day_class" value="calendar_sunday"}>
+	<{elseif ($wday % 7 == 6) }>
+		<{assign var="day_class" value="calendar_saturday"}>
+	<{else}>
+		<{assign var="day_class" value="calendar_weekday"}>
+	<{/if}>
+	<div class="nowrap calendar_date">
+		<a class="<{$day_class}> hover_highlight" href="#" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar("<{$date}>", "<{$smarty.const.CALENDAR_DAILY}>"); commonCls.removeBlock("<{$id}>"); return false;'>
+			<{"`$lang.calendar_date_format`"|date:"`$action.current_timestamp`"|cat:$wday_string}>
+		</a>
+		<div class="<{$day_class}> calendar_lang_holiday">
+			<{$action.holidays.$date}>
+		</div>
+	</div>
+
+	<div class="hr"></div>
+
+	<{section name=i loop=$action.plan_data.$date}>
+		<{assign var="plan_obj" value=$action.plan_data.$date[i]}>
+		<{if ($plan_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+			<{assign var="plan_class" value="calendar_plan_public"}>
+		<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+			<{assign var="plan_class" value="calendar_plan_members"}>
+		<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+			<{assign var="plan_class" value="calendar_plan_group"}>
+		<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+			<{assign var="plan_class" value="calendar_plan_private"}>
+		<{elseif ($plan_obj.plan_flag == CALENDAR_PLAN_PORTAL) }>
+			<{assign var="plan_class" value="calendar_plan_portal"}>
+		<{/if}>
+
+		<div class="calendar_plan_popup calendar_plan">
+			<{if ($plan_obj.allday_flag == _OFF || $plan_obj.timezone_offset != $smarty.session._timezone_offset) }>
+				<div class="calendar_plan_time">
+					<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time_str:$plan_obj.end_time_str}>
+				</div>
+			<{/if}>
+			<a class="<{$plan_class}> calendar_plan_title hover_highlight" href="#" title="<{$plan_obj.title|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showDetails(event, <{$plan_obj.calendar_id}>,<{$smarty.const._OFF}>); return false;'>
+				<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+				<{if $plan_obj.title_icon != "" }>
+					<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$plan_obj.title_icon}>" alt="" />
+				<{/if}>
+				<{$plan_obj.title|smarty:nodefaults}>
+			</a>
+		</div>
+	<{/section}>
+
+	<{if ($smarty.session._user_id && $smarty.session._user_id != "0" && $block_id != "0" && ($smarty.session._user_auth_id > _AUTH_GUEST || $action.calendar_block.myroom_use_flag == _ON)) }>
+		<div class="calendar_easy_addplan print_preview_none">
+			<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="" title="" />
+			<a class="link" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$date}>",null,<{$smarty.const._OFF}>); return false;'>
+				<{$lang.calendar_easy_addplan|smarty:nodefaults}>
+			</a>
+		</div>
+	<{/if}>
+</div>
+
+<{include file="../calendar_script.html"}>
+
+<{/strip}>

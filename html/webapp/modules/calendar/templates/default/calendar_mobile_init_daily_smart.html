@@ -1,0 +1,74 @@
+<{strip}>
+
+<{assign var="current_date" value=$smarty.session.calendar_mobile.current_date}>
+
+<{include file="calendar_mobile_init_header.html"}>
+<div>
+<fieldset class="ui-bar ui-grid-b">
+	<div class="ui-block-a" style="text-align:left;">
+		<a data-role="button" data-icon="arrow-l" data-iconpos="notext"  data-direction="reverse"
+			href="?action=calendar_view_mobile_init&date=<{$action.prev_day}><{$session_param}>">
+			<{$lang.calendar_alt_prev_day|smarty:nodefaults}>
+		</a>
+	</div>
+
+	<div class="ui-block-b" >
+		<div style="margin:5px auto 0 auto;text-align:center;">
+			<strong><{$action.date_string|smarty:nodefaults}></strong>
+		</div>
+	</div>
+
+	<div class="ui-block-c" style="text-align:right;">
+		<a data-role= "button" data-icon="arrow-r" data-iconpos="notext" href="?action=calendar_view_mobile_init&amp;date=<{$action.next_day}><{$session_param}>">
+			<{$lang.calendar_alt_next_day|smarty:nodefaults}>
+		</a>
+	</div>
+</fieldset>
+</div>
+
+<br />
+
+<{if ($action.plan_data.$current_date) }>
+	<{assign var="plan_data" value=$action.plan_data.$current_date}>
+
+	<ul data-role="listview" data-theme="c">
+
+	<{section name=i loop=$plan_data}>
+		<{assign var="plan_color" value=""}>
+		<{if ($plan_data[i].plan_flag == CALENDAR_PLAN_PUBLIC) }>
+			<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PUBLIC}>
+		<{elseif ($plan_data[i].plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+			<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_MEMBERS}>
+		<{elseif ($plan_data[i].plan_flag == CALENDAR_PLAN_GROUP) }>
+			<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_GROUP}>
+		<{elseif ($plan_data[i].plan_flag == CALENDAR_PLAN_PRIVATE) }>
+			<{assign var="plan_color" value=$smarty.const.CALENDAR_MOBILE_PLAN_PRIVATE}>
+		<{/if}>
+
+		<li >
+
+		<{if ($plan_data[i].allday_flag != _ON || $plan_data[i].timezone_offset != $smarty.session._timezone_offset) }>
+			<div style="margin: 0px 0px -10px 0px;border-left:10px solid <{$plan_color}>;padding:5px 0px 0px 16px;">
+			<{$lang.calendar_mobile_time_format|smarty:nodefaults|sprintf:$plan_data[i].start_time_str:$plan_data[i].end_time_str}>
+			</div>
+		<{/if}>
+
+		<a href="?action=calendar_view_main_plan_details&amp;cal_id=<{$plan_data[i].calendar_id}><{$session_param}>" style="border-left:10px solid <{$plan_color}>;">
+			<{if $plan_data[i].title_icon != ""}>
+				<img class="ui-li-icon" src="<{""|get_image_url}>/images/comp/textarea/<{$plan_data[i].title_icon}>" style="margin-left:.7em;top:45%;" />
+			<{/if}>
+			<{$plan_data[i].title}>
+		</a>
+		</li>
+
+	<{/section}>
+
+	</ul>
+<{else}>
+	<{$lang.calendar_noplan|smarty:nodefaults}><br />
+<{/if}>
+
+<br />
+<{include file="calendar_mobile_init_footer.html"}>
+
+<{/strip}>

@@ -1,0 +1,39 @@
+<{strip}>
+<{* IMAGINE表示方法変更画面用テンプレート *}>
+<form id="imagine_form<{$id}>" action="#">
+	<input type="hidden" name="action" value="imagine_action_edit_style" />
+	
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.imagine_display|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="imagine_display_compact<{$id}>">
+					<input id="imagine_display_compact<{$id}>" type="radio" name="display" value="<{$smarty.const.IMAGINE_DISPLAY_COMPACT}>" />
+					<{$lang.imagine_display_compact|smarty:nodefaults}>
+				</label><br />
+				<label for="imagine_display_full<{$id}>">
+					<input id="imagine_display_full<{$id}>" type="radio" name="display" value="<{$smarty.const.IMAGINE_DISPLAY_FULL}>" />
+					<{$lang.imagine_display_full|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>', Form.serialize($('imagine_form<{$id}>')), {'target_el':$('<{$id}>')});" />
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'imagine_view_main_init');" />
+	</div>
+</form>
+
+<script class="nc_script" type="text/javascript">
+	var imagineForm = $("imagine_form<{$id}>");
+
+	for (var i = 0, length = imagineForm["display"].length; i < length; i++) {
+		if (imagineForm["display"][i].value == "<{$action.display}>") {imagineForm["display"][i].checked = true; break;}
+	}
+
+	imagineForm = null;
+</script>
+<{/strip}>

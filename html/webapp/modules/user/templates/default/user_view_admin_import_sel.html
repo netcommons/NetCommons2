@@ -1,0 +1,75 @@
+<{strip}>
+<div class="user_outerdiv">
+	<form id="user_import_attachment_form<{$id}>" action="#" method="post" target="user_import_attachment<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+		<{* インポート *}>
+		<fieldset>
+			<legend>
+				<span class="bold">
+					<{$lang.user_import|smarty:nodefaults}>
+				</span>
+			</legend>
+				
+			<{* インポート設定 *}>
+			<table>
+				<{* ファイルフォーマットのダウンロード *}>
+				<tr>
+					<td colspan="2" class="align-right">
+						<a class="syslink" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=user_view_admin_import_download&amp;block_id=<{$block_id}>" title="<{$lang.user_import_download_formatfile_exp|smarty:nodefaults}>">
+							<{$lang.user_import_download_formatfile|smarty:nodefaults}> 
+						</a>
+					</td>
+				</tr>
+				<tr class="user_grid_row">
+					<th class="user_grid_header"> <{$lang.user_import_item|smarty:nodefaults}> </th>
+					<th class="user_grid_header"> <{$lang.user_import_contents|smarty:nodefaults}> </th>
+				</tr>
+				<{* インポートファイル名 *}>
+				<tr class="user_grid_row">
+					<td class="user_grid_col"> <{$lang.user_import_file|smarty:nodefaults}> </td>
+					<td class="user_grid_col">
+						<input name="user_import_filename" id="user_import_filename<{$id}>" type="file" size="50">
+					</td>
+				</tr>
+				<{* オプション *}>
+				<tr class="user_grid_row">
+					<td class="user_grid_col"> <{$lang.user_import_option_data|smarty:nodefaults}> </td>
+					<td class="user_grid_col user_import_option">
+						<label for="user_import_option_data_set_on<{$id}>">
+							<input type='radio' name='user_import_option_data_set' id="user_import_option_data_set_on<{$id}>" value="<{$smarty.const._ON}>" />
+							<{$lang.user_import_option_data_overwrite|smarty:nodefaults}>
+						</label>
+						<br />
+						<label for="user_import_option_data_set_off<{$id}>">
+							<input type='radio' name='user_import_option_data_set' id="user_import_option_data_set_off<{$id}>" value="<{$smarty.const._OFF}>" checked="checked" />
+							<{$lang.user_import_option_data_error|smarty:nodefaults}>
+						</label>
+					</td>
+				</tr>
+				<tr class="user_grid_row">
+					<td class="user_grid_col"> <{$lang.user_import_option_detail|smarty:nodefaults}> </td>
+					<td class="user_grid_col user_import_option">
+						<label for="user_import_option_detail_set_on<{$id}>">
+							<input type='radio' name='user_import_option_detail_set' id="user_import_option_detail_set_on<{$id}>" value="<{$smarty.const._ON}>" />
+							<{$lang.user_import_option_detail_on|smarty:nodefaults}>
+						</label>
+						<br />
+						<label for="user_import_option_detail_set_off<{$id}>">
+							<input type='radio' name='user_import_option_detail_set' id="user_import_option_detail_set_off<{$id}>" value="<{$smarty.const._OFF}>" checked="checked" />
+							<{$lang.user_import_option_detail_off|smarty:nodefaults}>
+						</label>
+					</td>
+				</tr>
+			</table>
+						
+			<div class="btn-bottom">
+				<{* 決定 *}>
+				<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="userCls['<{$id}>'].user_uploaddata(this.form); return false;" />
+				&nbsp;
+				<{* リセット *}>
+				<input class="btn-width lined_btn" type="reset" value="<{$lang.user_reset|smarty:nodefaults}>" />
+				
+			</div>
+		</fieldset>
+	</form>
+</div>
+<{/strip}>

@@ -1,0 +1,152 @@
+<{strip}>
+<div class="top_description">
+	<{$lang.system_pagestyle_description|smarty:nodefaults}>
+</div>
+<div class="comp_tabset"></div>
+<div class="comp_tabset_content">
+	<{* テーマ *}>
+	<div>
+		<{assign var="public" value=$config.default_theme_public.conf_value}>
+		<{assign var="private" value=$config.default_theme_private.conf_value}>
+		<{assign var="group" value=$config.default_theme_group.conf_value}>
+		<{assign var="public_category" value=$action.categories.public}>
+		<{assign var="private_category" value=$action.categories.private}>
+		<{assign var="group_category" value=$action.categories.group}>
+		<div class="comptabset_caption"><{$lang.pagestyle_theme|smarty:nodefaults}></div>
+		<div class="system_pagetheme_panels" id="system_pagetheme_panels<{$id}>">
+			<table summary="">
+				<tr>
+					<td id="default_theme_public<{$id}>" class="system_pagetheme_panel highlight">
+						<input type="hidden" name="default_themes[]" id="default_theme_public<{$id}>_input" value="<{$public}>" checked="checked" />
+						<label for="default_theme_public<{$id}>_input"><{$lang.system_public_space|smarty:nodefaults}><br />
+							<img id="default_theme_public<{$id}>_img" src="<{$action.image_path.$public}>" alt="<{$action.pagetheme_list.$public_category.$public}>" title="<{$action.pagetheme_list.$public_category.$public}>" class="icon system_pagetheme_icon" />
+							<span class="system_pagetheme_name"><{$action.pagetheme_list.$public_category.$public}></span>
+						</label>
+					</td>
+					<td id="default_theme_private<{$id}>" class="system_pagetheme_panel">
+						<input type="hidden" name="default_themes[]" id="default_theme_private<{$id}>_input" value="<{$private}>" />
+						<label for="default_theme_private<{$id}>_input"><{$lang.system_private_space|smarty:nodefaults}><br />
+							<img id="default_theme_private<{$id}>_img" src="<{$action.image_path.$private}>" alt="<{$action.pagetheme_list.$private_category.$private}>" title="<{$action.pagetheme_list.$private_category.$private}>" class="icon system_pagetheme_icon" />
+							<span class="system_pagetheme_name"><{$action.pagetheme_list.$private_category.$private}></span>
+						</label>					</td>
+					<td id="default_theme_group<{$id}>" class="system_pagetheme_panel">
+						<input type="hidden" name="default_themes[]" id="default_theme_group<{$id}>_input" value="<{$group}>" />
+						<label for="default_theme_group<{$id}>_input"><{$lang.system_group_space|smarty:nodefaults}><br />
+							<img id="default_theme_group<{$id}>_img" src="<{$action.image_path.$group}>" alt="<{$action.pagetheme_list.$group_category.$group}>" title="<{$action.pagetheme_list.$group_category.$group}>" class="icon system_pagetheme_icon" />
+							<span class="system_pagetheme_name"><{$action.pagetheme_list.$group_category.$group}></span>
+						</label>
+					</td>
+				</tr>
+			</table>
+			<span class="note"><{$lang.system_theme_note|smarty:nodefaults}></span>
+		</div>
+
+		<div id="system_pagestyle_top<{$id}>" class="system_pagestyle_top">
+			<{foreach from=$action.category_list|smarty:nodefaults key=key item=category_name}>
+				<{if $action.pagetheme_list.$key}>
+					<{if $action.act_category.public == $key}>
+						<a class="link system_pagetheme_category" title="<{$lang.pagestyle_down_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+							<img src="<{""|get_image_url}>/images/common/down_arrow.gif" alt="<{$lang.pagestyle_down_arrow}>" class="icon" />&nbsp;<{$category_name}>
+						</a>
+						<div class="system_pagetheme_category_block system_pagetheme_<{$key}>" style="padding-left:20px; padding-right:20px; white-space:nowrap;">
+					<{else}>
+						<a class="link system_pagetheme_category" title="<{$lang.pagestyle_right_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+							<img src="<{""|get_image_url}>/images/common/right_arrow.gif" alt="<{$lang.pagestyle_right_arrow}>" class="icon" />&nbsp;<{$category_name}>
+						</a>
+						<div class="system_pagetheme_category_block system_pagetheme_<{$key}> display-none" style="padding-left:20px; padding-right:20px; white-space:nowrap;">
+					<{/if}>
+						<{foreach name=pagetheme_list from=$action.pagetheme_list.$key|smarty:nodefaults key=theme_name item=lang_theme_name}>
+							<div class="float-left">
+							<a href="#" id="system_<{$theme_name}><{$id}>" class="link system_pagestyle<{if $theme_name == $public}> highlight<{/if}>" style="display:block;" onclick="systemCls['<{$id}>'].setTheme(this, '<{$theme_name}>', '<{$lang_theme_name}>', '<{$key}>'); return false;">
+								<img src="<{$action.image_path.$theme_name}>" alt="<{$lang_theme_name}>" title="<{$lang_theme_name}>" class="icon system_pagetheme_icon" />
+							</a>
+							</div>
+							<{if $smarty.foreach.pagetheme_list.iteration % 6 == 0}>
+								<{*6つで下の行へ*}>
+								<br style="clear:left;" />
+							<{/if}>
+						<{/foreach}>
+					</div>	
+					<div style="clear:left;" class="hr"></div>
+				<{/if}>
+			<{/foreach}>
+		</div>
+	</div>
+	<{* 一般 *}>
+	<div>
+		<div class="comptabset_caption"><{$lang.pagestyle_general|smarty:nodefaults}></div>
+		<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<tr>
+				<th scope="row"><{$lang.pagestyle_align|smarty:nodefaults}></th>
+				<td class="row">
+					<select name="align"">
+						<option value="left"<{if $config.align.conf_value=="left"}> selected="selected"<{/if}>>
+							<{$lang.pagestyle_align_left}>
+						</option>
+						<option value="center"<{if $config.align.conf_value=="center"}> selected="selected"<{/if}>>
+							<{$lang.pagestyle_align_center}>
+						</option>
+						<option value="right"<{if $config.align.conf_value=="right"}> selected="selected"<{/if}>>
+							<{$lang.pagestyle_align_right}>
+						</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><{$lang.pagestyle_margin|smarty:nodefaults}></th>
+				<td class="row">
+					<table cellspacing="0" cellpadding="0" summary="">
+					<tr>
+						<td><{$lang.pagestyle_top|smarty:nodefaults}></td>
+						<td class="row">
+							<input class="align-right" name="topmargin" type="text" value="<{$config.topmargin.conf_value}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" />
+							&nbsp;<{$lang.pagestyle_pixel|smarty:nodefaults}>
+						</td>
+					</tr>
+					<tr>
+						<td><{$lang.pagestyle_right|smarty:nodefaults}></td>
+						<td class="row">
+							<input class="align-right" name="rightmargin" type="text" value="<{$config.rightmargin.conf_value}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" />
+							&nbsp;<{$lang.pagestyle_pixel|smarty:nodefaults}>
+						</td>
+					</tr>
+					<tr>
+						<td><{$lang.pagestyle_bottom|smarty:nodefaults}></td>
+						<td class="row">
+							<input class="align-right" name="bottommargin" type="text" value="<{$config.bottommargin.conf_value}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" />
+							&nbsp;<{$lang.pagestyle_pixel|smarty:nodefaults}>
+						</td>
+					</tr>
+					<tr>
+						<td><{$lang.pagestyle_left|smarty:nodefaults}></td>
+						<td class="row">
+							<input class="align-right" name="leftmargin" type="text" value="<{$config.leftmargin.conf_value}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" />
+							&nbsp;<{$lang.pagestyle_pixel|smarty:nodefaults}>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<{* レイアウト *}>
+	<div>
+		<div class="comptabset_caption"><{$lang.pagestyle_layout|smarty:nodefaults}></div>
+		<table class="_pagestyle_layout" id="_pagestyle_layout<{$id}>" border="0" align="center" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<tr>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'A'); return false;" class="<{if $action.type == "A"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_01.gif" alt="<{$lang.pagestyle_layout_none}>" title="<{$lang.pagestyle_layout_none}>" class="icon" /></a></td>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'B'); return false;" class="<{if $action.type == "B"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_02.gif" alt="<{$lang.pagestyle_layout_header}>" title="<{$lang.pagestyle_layout_header}>" class="icon" /></a></td>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'C'); return false;" class="<{if $action.type == "C"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_03.gif" alt="<{$lang.pagestyle_layout_headerleft}>" title="<{$lang.pagestyle_layout_headerleft}>" class="icon" /></a></td>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'D'); return false;" class="<{if $action.type == "D"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_04.gif" alt="<{$lang.pagestyle_layout_headerright}>" title="<{$lang.pagestyle_layout_headerright}>" class="icon" /></a></td>
+			</tr>
+			<tr>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'E'); return false;" class="<{if $action.type == "E"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_05.gif" alt="<{$lang.pagestyle_layout_all}>" title="<{$lang.pagestyle_layout_all}>" class="icon" /></a></td>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'F'); return false;" class="<{if $action.type == "F"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_06.gif" alt="<{$lang.pagestyle_layout_left}>" title="<{$lang.pagestyle_layout_left}>" class="icon" /></a></td>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'G'); return false;" class="<{if $action.type == "G"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_07.gif" alt="<{$lang.pagestyle_layout_right}>" title="<{$lang.pagestyle_layout_right}>" class="icon" /></a></td>
+				<td><a href="#" onclick="systemCls['<{$id}>'].selectLayout(this, 'H'); return false;" class="<{if $action.type == "H"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_08.gif" alt="<{$lang.pagestyle_layout_leftright}>" title="<{$lang.pagestyle_layout_leftright}>" class="icon" /></a></td>
+			</tr>
+		</table>
+		<input type="hidden" name="system_pagelayout_type" id="system_pagelayout_type<{$id}>" value="<{$action.type}>" />
+	</div>
+</div>
+<{/strip}>

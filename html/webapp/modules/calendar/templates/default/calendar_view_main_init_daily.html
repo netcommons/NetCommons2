@@ -1,0 +1,124 @@
+<{strip}>
+
+<div class="calendar_daily">
+	<table class="calendar_head" summary="">
+		<tr>
+			<td class="calendar_date_head">
+				<{assign var="weekArr" value="|"|explode:$lang.calendar_week|smarty:nodefaults}>
+				<{assign var="timestamp" value="`$action.current_timestamp`"}>
+				<{assign var="date" value=$timestamp|date_format:"%Y%m%d"}>
+				<{assign var="wday" value="w"|date:"`$timestamp`"}>
+				<{assign var="wday_string" value=$lang.calendar_wday_format|smarty:nodefaults|sprintf:"`$weekArr.$wday`"}>
+
+				<{if ($action.holidays.$date) }>
+					<{assign var="day_class" value="calendar_holiday"}>
+				<{elseif ($wday == 0) }>
+					<{assign var="day_class" value="calendar_sunday"}>
+				<{elseif ($wday == 6) }>
+					<{assign var="day_class" value="calendar_saturday"}>
+				<{else}>
+					<{assign var="day_class" value="calendar_weekday"}>
+				<{/if}>
+
+				<a class="link" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.prev_day}>", null); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._OFF}>);'>
+					<img class="icon" src="<{"prev2.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_prev_day|smarty:nodefaults}>" title="<{$lang.calendar_title_prev_day|smarty:nodefaults}>" />
+				</a>
+				&nbsp;
+				<span class="<{$day_class}> calendar_date">
+					<{$lang.calendar_daily_year_format|smarty:nodefaults|date:"`$timestamp`"}>
+					<span class='calendar_date_num'>
+						<{$lang.calendar_daily_date_format|smarty:nodefaults|date:"`$timestamp`"}>
+					</span>
+					<{$wday_string}>
+					<{if ($action.holidays.$date) }>
+						&nbsp;
+						<span class="calendar_lang_holiday"><{$action.holidays.$date}></span>
+					<{/if}>
+					<{if ($smarty.session._user_id && $smarty.session._user_id != "0" && $block_id != "0" && ($smarty.session._user_auth_id > _AUTH_GUEST || $action.calendar_block.myroom_use_flag == _ON)) }>
+						&nbsp;
+						<a class="hover_highlight print_preview_none" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$date}>",null,<{$smarty.const._OFF}>); return false;'>
+							<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" title="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" />
+						</a>
+					<{/if}>
+				</span>
+				&nbsp;
+				<a class="link" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.next_day}>", null); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "next2", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "next2", <{$smarty.const._OFF}>);'>
+					<img class="icon" src="<{"next2.gif"|get_modules_image}>" alt="<{$lang.calendar_alt_next_day|smarty:nodefaults}>" title="<{$lang.calendar_title_next_day|smarty:nodefaults}>" />
+				</a>
+			</td>
+		</tr>
+	</table>
+
+	<div class="calendar_daily_allday">
+		<div class="calendar_plan_title">&nbsp;</div>
+	</div>
+
+	<div class="calendar_daily_time print_preview_none<{if ($action.calendar_block.time_visible == _OFF) }> display-none<{/if}>"<{if ($action.calendar_block.daily_time_height) }> style="height:<{$action.calendar_block.daily_time_height}>"<{/if}>>
+		<table class="calendar_body" summary="">
+			<{section name=hour loop=24 start=0 step=1}>
+				<{assign var=hour value=$smarty.section.hour.index}>
+				<tr>
+					<th class="calendar_time" scope="row">
+						<div class="_calendar_time">
+							<{$hour|string_format:$lang.calendar_daily_time_format|smarty:nodefaults}>
+							<{if ($smarty.session._user_id && $smarty.session._user_id != "0" && $block_id != "0" && ($smarty.session._user_auth_id > _AUTH_GUEST || $action.calendar_block.myroom_use_flag == _ON)) }>
+								<a class="calendar_addplan hover_highlight" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$date}>","<{$hour|string_format:"%02d00"}>",<{$smarty.const._OFF}>); return false;'>
+									<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" title="<{$lang.calendar_easy_addplan|smarty:nodefaults}>" />
+								</a>
+							<{else}>
+								&nbsp;
+							<{/if}>
+						</div>
+					</th>
+					<{if ($smarty.section.hour.first) }>
+						<td rowspan="24" class="calendar_time _calendar_daily">
+						</td>
+					<{/if}>
+				</tr>
+			<{/section}>
+			<tr>
+				<td colspan="2">
+					<img class="calendar_time_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="align-center print_preview_none">
+		<a href="#" title="" onclick='calendarCls["<{$id}>"].visibleTime(this); return false;'>
+			<img class="icon _calendar_time_visible_image"<{if ($action.calendar_block.time_visible == _OFF) }> src="<{"time_visible.gif"|get_modules_image}>" alt="<{$lang.calendar_tileline_visible_title|smarty:nodefaults}>" title="<{$lang.calendar_tileline_visible_title|smarty:nodefaults}>"<{else}> src="<{"time_hidden.gif"|get_modules_image}>" alt="<{$lang.calendar_tileline_hidden_title|smarty:nodefaults}>" title="<{$lang.calendar_tileline_hidden_title|smarty:nodefaults}>"<{/if}> />
+		</a>
+	</div>
+	<{include file="calendar_view_main_foot.html"}>
+</div>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].initMain("<{$action.date}>","<{$smarty.const.CALENDAR_DAILY}>",<{$action.calendar_block.time_visible}>);
+	<{if ($action.calendar_id > 0) }>
+		calendarCls["<{$id}>"].showMain("<{$action.date}>", "<{$action.calendar_id}>");
+	<{else}>
+		calendarCls["<{$id}>"].showMain("<{$action.date}>");
+	<{/if}>
+	<{if ($action.current_time) }>
+		<{assign var="current_time" value="`$action.current_time`"|substr:0:4}>
+	<{else}>
+		<{assign var="type" value="`$action.calendar_block.daily_start_time`"|substr:-1}>
+		<{assign var="hour" value="`$action.calendar_block.daily_start_time`"|substr:0:-1}>
+		<{assign var="current_time" value="`$action.calendar_block.daily_start_time`"}>
+	<{/if}>
+	<{if ($type == "h" && $hour > 1 && $hour <= 12) }>
+		<{assign var="time" value=$smarty.now|date_format:"%H"}>
+		<{assign var="time" value=$time/$hour}>
+		<{assign var="time" value=$time|floor}>
+		<{assign var="time" value=$time*$hour}>
+		calendarCls["<{$id}>"].setTimeFocus("<{"%02d"|sprintf:$time}>00");
+	<{elseif ($current_time >= "0000" && $current_time < "2400") }>
+		calendarCls["<{$id}>"].setTimeFocus("<{$current_time}>");
+	<{else}>
+		calendarCls["<{$id}>"].setTimeFocus("<{$smarty.now|date_format:"%H%M"}>");
+	<{/if}>
+	calendarCls["<{$id}>"].timeline_visible = "<{$lang.calendar_tileline_visible_title|smarty:nodefaults|escape:"javascript"}>";
+	calendarCls["<{$id}>"].timeline_hidden = "<{$lang.calendar_tileline_hidden_title|smarty:nodefaults|escape:"javascript"}>";
+</script>
+
+<{/strip}>

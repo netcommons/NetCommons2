@@ -1,0 +1,30 @@
+<{strip}>
+<{* ポータル画面 *}>
+
+<table class="circular_portal">
+<{foreach from=$action.portal_info item="data"}>
+<tr>
+	<td class="circular_portal_time">
+		<{$data.update_time|smarty:nodefaults}>
+	</td>
+	<td>
+		<img class="icon" src="<{''|get_image_url}>/images/comp/textarea/<{if $data.icon_name}><{$data.icon_name}><{else}>titleicon/blank.gif<{/if}>" alt="" title="" />
+		<a href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;<{$smarty.const.CIRCULAR_PORTAL_FORMAT|sprintf:$data.circular_id:$data.block_id:$data.block_id|smarty:nodefaults}>" title="<{$data.circular_subject|smarty:nodefaults}>">
+			<{$data.circular_subject|smarty:nodefaults|truncate:20:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+		</a>
+		<{$lang.circular_portal_brackets|sprintf:$data.insert_user_name|smarty:nodefaults}>
+		<{if $data.period}>
+			<span class="circular_portal_period">
+				<{$lang.circular_portal_brackets|sprintf:$data.period|smarty:nodefaults}>
+			</span>
+		<{/if}>
+	</td>
+</tr>
+<{foreachelse}>
+	<tr><td>
+		<{$lang.circular_not_found|smarty:nodefaults}>
+	</td></tr>
+<{/foreach}>
+</table>
+<{include file="../circular_script.html"}>
+<{/strip}>

@@ -1,0 +1,55 @@
+<{strip}>
+<{* 写真登録画面用テンプレート *}>
+<form id="photoalbum_photo_entry_form<{$id}>" class="photoalbum_photo_entry_form" action="#" id="form<{$id}>" onsubmit="photoalbumCls['<{$id}>'].enterPhoto();return false;">
+	<input name="action" type="hidden" />
+	<input type="hidden" name="photoalbum_id" />
+	<input type="hidden" name="album_id" />
+	<input name="photo_id" type="hidden" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_photo_name<{$id}>">
+					<{$lang.photoalbum_photo_name}>
+				</label>
+			</th>
+			
+			<td>
+		 		<input id="photoalbum_photo_name<{$id}>" class="text" type="text" name="photo_name" />
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_photo_description<{$id}>">
+					<{$lang.photoalbum_photo_description}>
+				</label>
+			</th>
+
+			<td>
+		 		<textarea id="photoalbum_photo_description<{$id}>" class="photoalbum_photo_description" name="photo_description"></textarea>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');" />
+	</div>
+</form>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var photoalbumForm = $("photoalbum_photo_entry_form<{$id}>");
+	photoalbumForm["action"].value = "photoalbum_action_main_photo_entry";
+	photoalbumForm["photoalbum_id"].value = "<{$action.photoalbum.photoalbum_id}>";
+	photoalbumForm["album_id"].value = "<{$action.album.album_id}>";
+	photoalbumForm["photo_id"].value = "<{$action.photo.photo_id}>";
+
+	photoalbumForm["photo_name"].value = "<{$action.photo.photo_name|smarty:nodefaults|escape:"javascript"}>";
+	photoalbumForm["photo_description"].value = "<{$action.photo.photo_description|smarty:nodefaults|escape:"javascript"}>";
+
+	commonCls.focus("<{$id}>");
+	photoalbumForm = null;
+</script>
+<{/strip}>

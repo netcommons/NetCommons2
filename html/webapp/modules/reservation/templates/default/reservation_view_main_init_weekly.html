@@ -1,0 +1,123 @@
+<{strip}>
+
+<{assign var="lang_year" value=$lang.reservation_monthly_year_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>
+<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>			
+
+<div class="reservation_weekly">
+	<{include file="reservation_main_header_weekly.html"}>
+
+	<div class="reservation_move_week">
+		<{include file="reservation_main_move_week.html"}>
+	</div>
+
+	<table id="reservation_weekly<{$id}>" class="reservation_body" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+		<tr>
+			<td class="reservation_time_head">
+				<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+			</td>
+
+			<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+				<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+				<{assign var="date" value="Ymd"|date:$smarty.section.timestamp.index}>
+				<{if ($smarty.section.timestamp.first) }>
+					<{assign var="first_date" value=$date}>
+				<{/if}>
+				<{assign var="index" value=$smarty.section.timestamp.iteration-1}>
+				<{assign var="wday" value="w"|date:"`$timestamp`"}>
+	
+				<{assign var="wday_data" value=$action.week_list.$wday}>
+				<{assign var="lang_wday" value=$lang.reservation_wday_format|smarty:nodefaults|sprintf:"`$wday_data.name`"}>
+				<{assign var="lang_day" value=$lang.reservation_weekly_format|smarty:nodefaults|date:"`$timestamp`"}>
+
+				<{include file="reservation_main_set_day_class.html" assign="day_class" view_date=$action.view_date set_date=$date wday=$wday}>
+
+				<{assign var="lang_year" value=$lang.reservation_monthly_year_format|smarty:nodefaults|date:"`$timestamp`"}>
+				<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$timestamp`"}>			
+
+				<th class="reservation_date_head" scope="row">
+					<div class="reservation_date">
+						<{if ($date|substr:0:4 >= RESERVATION_SELECT_MIN_YEAR && $date|substr:0:4 < RESERVATION_SELECT_MAX_YEAR) }>
+							<a class="<{$day_class}> hover_highlight" href="#" title="<{$lang.reservation_ref_title_ymd|smarty:nodefaults|sprintf:$lang_year:$lang_month:$lang_day:$lang_wday}>" onclick='reservationCls["<{$id}>"].changeReservation("<{$date}>", "<{$smarty.const.RESERVATION_DEF_LOCATION}>"); return false;'>
+								<span class='reservation_date_num'><{$lang_day|date:$timestamp}></span>
+								<span class='reservation_date_wday'><{$lang_wday}></span>
+							</a>
+							&nbsp;
+							<{include file="reservation_main_addreserve.html" view_date=$date hour=""}>
+						<{else}>
+							<span class='reservation_date_num reservation_outside'><{$lang_day|date:$timestamp}></span>
+							<span class='reservation_date_wday reservation_outside'><{$lang_wday}></span>
+						<{/if}>
+					</div>
+					<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+				</th>
+			<{/section}>
+		</tr>
+	</table>
+
+	<div id="reservation_time_frame<{$id}>" class="reservation_time_frame print_preview_nonescroll" style="height:<{$action.frame_height}>px;">
+		<table class="reservation_reserve_body" summary="">
+			<{section name=hour loop=24 start=0 step=1}>
+				<{assign var=hour value=$smarty.section.hour.index}>
+
+				<tr>
+					<th class="reservation_background reservation_time_height" scope="col">
+						<div class="reservation_time">
+							<{$lang.reservation_time_format|smarty:nodefaults|sprintf:$hour}>
+							<{include file="reservation_main_addreserve.html" view_date=$first_date hour=$hour}>
+						</div>
+					</th>
+
+					<{if ($smarty.section.hour.first) }>
+						<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+							<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+							<{assign var="date" value="Ymd"|date:$smarty.section.timestamp.index}>
+							
+							<td rowspan="24" class="reservation_background<{if ($smarty.section.timestamp.last) }> reservation_background_endline<{/if}>">
+								<div class="reservation_<{$date}>">
+									<{if ($action.reserve_data.$date) }>
+										<{include file="./reservation_view_main_list_weekly.html"}>
+									<{else}>
+										&nbsp;
+									<{/if}>
+								</div>
+							</td>
+							
+						<{/section}>
+					<{/if}>
+				</tr>
+			<{/section}>
+
+			<tr>
+				<td class="reservation_time_head">
+					<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+				</td>
+				<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+					<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+					<{assign var="date" value="Ymd"|date:$smarty.section.timestamp.index}>
+					<td class="reservation_date_head">
+						<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+					</td>
+				<{/section}>
+			</tr>
+		</table>
+	</div>
+
+	<{include file="reservation_main_swicth_display_type.html" display_type=$smarty.const.RESERVATION_DEF_WEEKLY}>
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].disp_type = "<{$smarty.const.RESERVATION_DEF_WEEKLY}>";
+	reservationCls["<{$id}>"].view_date = "<{$action.view_date}>";
+	reservationCls["<{$id}>"].category_id = "<{$action.reserve_block.category_id}>";
+	reservationCls["<{$id}>"].location_id = "<{$action.reserve_block.location_id}>";
+	reservationCls["<{$id}>"].today = "<{$action.today}>";
+	<{if ($smarty.session.reservation.popup_move._id.$block_id) }>
+		if(reservationCls["<{$smarty.session.reservation.popup_move._id.$block_id}>"]) {
+			reservationCls["<{$smarty.session.reservation.popup_move._id.$block_id}>"].setMoveDate("<{$id}>", "<{$action.input_date}>");
+		}
+	<{/if}>
+</script>
+<{include file="reservation_main_script.html"}>
+
+<{/strip}>

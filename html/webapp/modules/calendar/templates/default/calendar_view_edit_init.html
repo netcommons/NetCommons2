@@ -1,0 +1,131 @@
+<{strip}>
+
+<form action="#" method="post" onsubmit="return false;">
+	<div class="outerdiv">
+		<table class="outer" summary="<{$lang.calendar_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="calendar_disp_type<{$id}>">
+						<{$lang.calendar_disp_type|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<select id="calendar_disp_type<{$id}>" size="7" name="display_type" class="calendar_display_type" onchange="calendarCls['<{$id}>'].switchDispType(this.form); return false;">
+						<option value="<{$smarty.const.CALENDAR_YEARLY}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_YEARLY) }> selected="selected"<{/if}>>
+							<{$lang.calendar_yearly|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.CALENDAR_S_MONTHLY}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_S_MONTHLY) }> selected="selected"<{/if}>>
+							<{$lang.calendar_s_monthly|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.CALENDAR_L_MONTHLY}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_L_MONTHLY) }> selected="selected"<{/if}>>
+							<{$lang.calendar_l_monthly|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.CALENDAR_WEEKLY}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_WEEKLY) }> selected="selected"<{/if}>>
+							<{$lang.calendar_weekly|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.CALENDAR_DAILY}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_DAILY) }> selected="selected"<{/if}>>
+							<{$lang.calendar_daily|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.CALENDAR_T_SCHEDULE}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_T_SCHEDULE) }> selected="selected"<{/if}>>
+							<{$lang.calendar_t_schedule|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.CALENDAR_U_SCHEDULE}>"<{if ($action.calendar_block.display_type==$smarty.const.CALENDAR_U_SCHEDULE) }> selected="selected"<{/if}>>
+							<{$lang.calendar_u_schedule|smarty:nodefaults}>
+						</option>
+					</select>
+					<br />
+					<label for="calendar_select_room<{$id}>">
+						<input id="calendar_select_room<{$id}>" type="checkbox" name="select_room" value="<{$smarty.const._ON}>"<{if ($action.calendar_block.select_room == _ON) }> checked="checked"<{/if}> onclick="if (this.checked) { commonCls.displayVisible($('calendar_select_room_link<{$id}>')); commonCls.sendPopupView(event, {'action':'calendar_view_edit_selectroom','prefix_id_name':'popup_calendar'},{'top_el':$('<{$id}>'),'modal_flag':true}); } else { commonCls.displayNone($('calendar_select_room_link<{$id}>')); }" />
+						<{$lang.calendar_select_room|smarty:nodefaults}>
+					</label>
+					&nbsp;&nbsp;
+					<span id="calendar_select_room_link<{$id}>"<{if ($action.calendar_block.select_room != _ON) }> class="display-none"<{/if}>>
+						<a class="syslink" href="#" onclick="commonCls.sendPopupView(event, {'action':'calendar_view_edit_selectroom','prefix_id_name':'popup_calendar'},{'top_el':$('<{$id}>'),'modal_flag':true}); return false;">
+							<{$lang.calendar_select_room_link|smarty:nodefaults}>
+						</a>
+					</span>
+				</td>
+			</tr>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.calendar_start_pos|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<div>
+						<{if ($action.calendar_block.display_type != $smarty.const.CALENDAR_YEARLY) }>
+							<{assign var="disabled" value=" disabled='disabled'"}>
+						<{else}>
+							<{assign var="disabled" value=""}>
+						<{/if}>
+						<label for="calendar_start_this_month<{$id}>">
+							<input id="calendar_start_this_month<{$id}>" class="_calendar_yearly"<{$disabled}> name="start_pos_yearly" type="radio" value="<{$smarty.const.CALENDAR_START_THIS_MONTH}>"<{if ($action.calendar_block.start_pos_yearly == CALENDAR_START_THIS_MONTH) }> checked="checked"<{/if}> />
+							<{$lang.calendar_start_this_month|smarty:nodefaults}>
+						</label>
+						&nbsp;
+						<label for="calendar_start_last_month<{$id}>">
+							<input id="calendar_start_last_month<{$id}>" class="_calendar_yearly"<{$disabled}> name="start_pos_yearly" type="radio" value="<{$smarty.const.CALENDAR_START_LAST_MONTH}>"<{if ($action.calendar_block.start_pos_yearly == CALENDAR_START_LAST_MONTH) }> checked="checked"<{/if}> />
+							<{$lang.calendar_start_last_month|smarty:nodefaults}>
+						</label>
+						&nbsp;
+						<label for="calendar_start_january<{$id}>">
+							<input id="calendar_start_january<{$id}>" class="_calendar_yearly"<{$disabled}> name="start_pos_yearly" type="radio" value="<{$smarty.const.CALENDAR_START_JANUARY}>"<{if ($action.calendar_block.start_pos_yearly == CALENDAR_START_JANUARY) }> checked="checked"<{/if}> />
+							<{$lang.calendar_start_january|smarty:nodefaults}>
+						</label>
+						&nbsp;
+						<label for="calendar_start_april<{$id}>">
+							<input id="calendar_start_april<{$id}>" class="_calendar_yearly"<{$disabled}> name="start_pos_yearly" type="radio" value="<{$smarty.const.CALENDAR_START_APRIL}>"<{if ($action.calendar_block.start_pos_yearly == CALENDAR_START_APRIL) }> checked="checked"<{/if}> />
+							<{$lang.calendar_start_april|smarty:nodefaults}>
+						</label>
+					</div>
+					<div>
+						<{if ($action.calendar_block.display_type != $smarty.const.CALENDAR_WEEKLY && $action.calendar_block.display_type != $smarty.const.CALENDAR_T_SCHEDULE && $action.calendar_block.display_type != $smarty.const.CALENDAR_U_SCHEDULE) }>
+							<{assign var="disabled" value=" disabled='disabled'"}>
+						<{else}>
+							<{assign var="disabled" value=""}>
+						<{/if}>
+						<label for="calendar_start_today<{$id}>">
+							<input id="calendar_start_today<{$id}>" class="_calendar_weekly"<{$disabled}> name="start_pos_weekly" type="radio" value="<{$smarty.const.CALENDAR_START_TODAY}>"<{if ($action.calendar_block.start_pos_weekly == CALENDAR_START_TODAY) }> checked="checked"<{/if}> />
+							<{$lang.calendar_start_today|smarty:nodefaults}>
+						</label>
+						&nbsp;
+						<label for="calendar_start_yesterday<{$id}>">
+							<input id="calendar_start_yesterday<{$id}>" class="_calendar_weekly"<{$disabled}> name="start_pos_weekly" type="radio" value="<{$smarty.const.CALENDAR_START_YESTERDAY}>"<{if ($action.calendar_block.start_pos_weekly == CALENDAR_START_YESTERDAY) }> checked="checked"<{/if}> />
+							<{$lang.calendar_start_yesterday|smarty:nodefaults}>
+						</label>
+					</div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="display_count<{$id}>">
+						<{$lang.calendar_display_count|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<{if ($action.calendar_block.display_type != $smarty.const.CALENDAR_T_SCHEDULE && $action.calendar_block.display_type != $smarty.const.CALENDAR_U_SCHEDULE) }>
+						<{assign var="disabled" value=" disabled='disabled'"}>
+					<{else}>
+						<{assign var="disabled" value=""}>
+					<{/if}>
+					<select id="display_count<{$id}>"<{$disabled}> name="display_count">
+						<{section name=display_count loop=15 start=1 step=1}>
+							<{assign var=count value=$smarty.section.display_count.index}>
+							<option value="<{$count}>"<{if ($count == $action.calendar_block.display_count) }> selected="selected"<{/if}>>
+								<{$smarty.section.display_count.index|string_format:$lang.calendar_display_count_format|smarty:nodefaults}>
+							</option>
+						<{/section}>
+					</select>
+				</td>
+			</tr>
+		</table>	
+	</div>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].changeStyle(this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'calendar_view_main_init'); return false;" />
+	</div>
+</form>
+
+<{include file="../calendar_script.html"}>
+<{/strip}>

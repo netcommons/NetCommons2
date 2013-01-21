@@ -1,0 +1,31 @@
+<{strip}>
+<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+	<{$lang._mobile_node|smarty:nodefaults}>
+	<{if $post.icon_name != "" && $action.html_flag}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$post.icon_name}>" />&nbsp;
+	<{/if}>
+	<{if $action.post_id && $action.post_id==$post.post_id}>
+		<strong><{$post.subject}></strong>
+	<{else}>
+		<a href="?action=bbs_view_main_post&amp;block_id=<{$block_id}>&amp;bbs_id=<{$post.bbs_id}>&amp;post_id=<{$post.post_id}><{$session_param}>">
+			<{$post.subject}>
+		</a>
+	<{/if}>
+	<{if $post.parent_id == "0" && $action.bbs.child_flag == _ON}>
+		<{$lang.bbs_child_number_unit|smarty:nodefaults|sprintf:$post.child_num}>
+	<{/if}>
+	<{if ($post.status != BBS_STATUS_RELEASED_VALUE) }>
+		<br />
+		<{if !empty($depth|smarty:nodefaults) }>
+			<{"&nbsp;"|str_repeat:$depth}>
+		<{/if}>
+		&nbsp;
+		<{$lang._mobile_temporary_state|smarty:nodefaults}>
+	<{elseif ($action.bbs.new_period_time <= $post.insert_time) }>
+		<{$lang._mobile_new|smarty:nodefaults}>
+	<{elseif ($action.bbs.new_period_time <= $post.newest_time) }>
+		<{$lang._mobile_child_new|smarty:nodefaults}>
+	<{/if}>
+	<br />
+</div>
+<{/strip}>

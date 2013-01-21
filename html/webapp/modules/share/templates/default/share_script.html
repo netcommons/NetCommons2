@@ -1,0 +1,10 @@
+<script class="nc_script" type="text/javascript">
+if(!shareCls["<{$id}>"]) {
+	shareCls["<{$id}>"] = new clsShare("<{$id}>");
+}
+<{if $action_name == "share_view_admin_init"}>
+	shareCls['<{$id}>'].initMain(<{$conf.share_limit_pagenum}>, <{$action.maxNum}>);
+<{elseif $action_name == "share_view_admin_regist"}>
+	shareCls['<{$id}>'].initRegist();
+<{/if}>
+</script>

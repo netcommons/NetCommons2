@@ -1,0 +1,38 @@
+<{strip}>
+<{* 件名用テンプレート *}>
+<{if $display_type == "list"}>
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<{include file="bbs_mobile_subject_smart.html"}>
+	<{else}>
+		<{include file="bbs_mobile_subject_feature.html"}>
+	<{/if}>
+<{else}>
+	<h3>
+		<{if $post.icon_name != "" && $action.html_flag == _ON}>
+			<img src="<{""|get_image_url}>/images/comp/textarea/<{$post.icon_name}>" />&nbsp;
+		<{/if}>
+		<{$post.subject}>
+		<{if ($post.status != BBS_STATUS_RELEASED_VALUE) }>
+		<{elseif ($action.bbs.new_period_time <= $post.insert_time) }>
+			<{$lang._mobile_new|smarty:nodefaults}>
+		<{elseif ($action.bbs.new_period_time <= $post.newest_time) }>
+			<{$lang._mobile_child_new|smarty:nodefaults}>
+		<{/if}>
+		<{if ($post.status != BBS_STATUS_RELEASED_VALUE) }>
+			<span style="font-size:small;"><{$lang._mobile_temporary_state|smarty:nodefaults}></span>
+		<{/if}>
+	</h3>
+	<span style="font-size:small;">
+		<{$action.post.insert_time|timezone_date_format:$lang._mobile_date_format|smarty:nodefaults}>
+		&nbsp;
+		&nbsp;
+		<{$lang._mobile_user|smarty:nodefaults}>
+		<{$action.post.insert_user_name}>
+		&nbsp;
+		<{if $action.bbs.vote_flag == _ON}>
+			<{$lang.bbs_vote_unit|smarty:nodefaults|sprintf:$action.post.vote_num}>
+		<{/if}>
+	</span>
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,69 @@
+<{strip}>
+<{* 解答レポート入力欄テンプレート *}>
+
+<div class="outerdiv">
+	<{* 課題名称 *}>
+	<{if ($action_name == "assignment_view_main_submit") }>
+		<div class="assignment_title">
+			<{$action.assignment.assignment_name}>
+		</div>
+	<{/if}>
+
+	<{* 入力欄 *}>
+	<form id="assignment_form<{$id}>" onsubmit="return false;">
+		<{if ($action_name == "assignment_view_main_submit") }>
+			<input type="hidden" name="action" value="assignment_action_main_submit" />
+
+		<{elseif ($action_name == "assignment_view_main_modify") }>
+			<input type="hidden" name="action" value="assignment_action_main_modify" />
+			<input type="hidden" name="submit_id" value="<{$action.report.submit_id}>" />
+			<input type="hidden" name="report_id" value="<{$action.report.report_id}>" />
+		<{/if}>
+
+		<input type="hidden" name="assignment_id" value="<{$action.assignment.assignment_id}>" />
+
+		<table class="outer" summary="">
+			<tr>
+				<td class="row nowrap" colspan="2">
+					<textarea class="comptextarea">
+						<{if ($action_name == "assignment_view_main_modify") }>
+							<{$action.report.report_body|smarty:nodefaults|wysiwig_convert_url|escape:"html"}>
+						<{/if}>
+					</textarea>
+				</td>
+			</tr>
+		</table>
+
+		<div class="btn-bottom">
+			<{if ($action_name == "assignment_view_main_submit") }>
+				<input name="temporary_btn" type="button" class="tempbtn-width" value="<{$lang._temporary|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].submitReport('<{$smarty.session.assignment.id.$block_id}>', this.form,'<{$smarty.const._ON}>'); return false;">
+				<input name="regist_btn" type="button" class="btn-width lined_btn" value="<{$lang.assignment_submit|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].submitReport('<{$smarty.session.assignment.id.$block_id}>', this.form,'<{$smarty.const._OFF}>'); return false;" />
+				<input name="cancel_btn" type="button" class="btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+
+			<{elseif ($action_name == "assignment_view_main_modify") }>
+				<input name="temporary_btn" type="button" class="tempbtn-width" value="<{$lang._temporary|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].modifyReport(this.form,'<{$smarty.const._ON}>'); return false;">
+				<input name="regist_btn" type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].modifyReport(this.form,'<{$smarty.const._OFF}>'); return false;" />
+				<input name="cancel_btn" type="button" class="btn-width lined_btn" value="<{$lang._cancel|smarty:nodefaults}>" onclick="assignmentCls['<{$id}>'].showPastReport('<{$action.report.submit_id}>','<{$action.report.report_id}>'); return false;" />
+			<{/if}>
+		</div>
+	</form>
+</div>
+
+<{include file="../assignment_script.html"}>
+<script class="nc_script" type="text/javascript">
+	assignmentCls["<{$id}>"].assignment_id = "<{$action.assignment.assignment_id}>";
+
+	assignmentCls["<{$id}>"].textarea = new compTextarea();
+	assignmentCls["<{$id}>"].textarea.uploadAction = {
+		image    : "assignment_action_main_upload_image",
+		file     : "assignment_action_main_upload_file"
+	};
+	assignmentCls["<{$id}>"].textarea.focus = true;
+	assignmentCls["<{$id}>"].textarea.textareaShow("<{$id}>", "comptextarea", "full");
+
+	commonCls.closeCallbackFunc("<{$id}>", function(){
+		assignmentCls["<{$id}>"].textarea = null;
+	}.bind(assignmentCls["<{$id}>"]));
+</script>
+
+<{/strip}>

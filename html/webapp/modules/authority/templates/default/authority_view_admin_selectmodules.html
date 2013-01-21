@@ -1,0 +1,107 @@
+<{strip}>
+<{***************************}>
+<{*権限設定画面             *}>
+<{*　(配置可能なモジュール) *}>
+<{***************************}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="bold">
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_general'); return false;">
+			<{if ($action.authority.role_authority_id > 0) }>
+				<{$lang.authority_general_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{else}>
+				<{$lang.authority_general_add_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{/if}>
+		</a>
+		<{if $action.user_authority_id == _AUTH_MODERATE}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showDetail(true); return false;">
+			<{$lang.authority_setlevel_title|smarty:nodefaults}>
+		</a>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<a class="link" href="#" onclick="commonCls.frmAllSelectList($('form<{$id}>'),'not_enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); authorityCls['<{$id}>'].showDetail(<{if $action.user_authority_id == _AUTH_MODERATE}>false<{/if}>); return false;">
+			<{$lang.authority_detail_title|smarty:nodefaults}>
+		</a>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.authority_privateModule_title|smarty:nodefaults}>
+	</div>
+
+	<{* 操作説明 *}>
+	<div class="top_description">
+		<{$lang.authority_description|smarty:nodefaults}>
+	</div>
+
+	<{* モジュール選択 *}>
+	<form id="form<{$id}>">
+		<table summary="<{$smarty.const._SUMMARY_SELECTFORM}>">
+			<tr>
+				<th class="nowrap align-center" scope="col">
+					<{$lang.authority_selectable_modules|smarty:nodefaults}>
+				</th>
+				<td rowspan="2" class="selectlist_arrow_btn_area nowrap align-center">
+					<input type="button" value="<{$lang._btn_add_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'not_enroll_modules[]','enroll_modules[]'); authorityCls['<{$id}>'].chkSelectModules(this.form);" />
+					<br />
+					<br />
+					<input type="button" value="<{$lang._btn_del_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'enroll_modules[]','not_enroll_modules[]'); authorityCls['<{$id}>'].chkSelectModules(this.form);" />
+				</td>
+				<th class="nowrap align-center">
+					<{$lang.authority_available_modules_present|smarty:nodefaults}>
+				</th>
+			</tr>
+			<tr>
+				<td class="selectlist nowrap align-center valign-top">
+					<div>
+						<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'not_enroll_modules[]');" />
+						&nbsp;
+						<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'not_enroll_modules[]')" />
+					</div>
+					<select name="not_enroll_modules[]" class="selectlist" multiple="multiple">
+						<{if (count($action.modules_obj.not_enroll) > 0) }>
+							<{section name=not_enroll loop=$action.modules_obj.not_enroll_id}>
+								<option value="<{$action.modules_obj.not_enroll_id[not_enroll]}>"><{$action.modules_obj.not_enroll_name[not_enroll]}></option>
+							<{/section}>
+						<{/if}>
+					</select>
+				</td>
+				<td class="selectlist nowrap align-center valign-top">
+					<div>
+						<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'enroll_modules[]');" />
+						&nbsp;
+						<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'enroll_modules[]');" />
+					</div>
+					<select name="enroll_modules[]" class="selectlist" multiple="multiple">
+						<{if (count($action.modules_obj.enroll) > 0) }>
+							<{section name=enroll loop=$action.modules_obj.enroll_id}>
+								<option value="<{$action.modules_obj.enroll_id[enroll]}>"><{$action.modules_obj.enroll_name[enroll]}></option>
+							<{/section}>
+						<{/if}>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<{* note *}>
+		<div class="note">
+			<{$lang._mes_pluralselecthelp|smarty:nodefaults}>
+			<br />
+			<{$lang.authority_mes_note|smarty:nodefaults}>
+		</div>
+		<input type="hidden" name="role_authority_id" value="<{$action.role_authority_id}>" />
+		<input type="hidden" name="role_authority_name" value="<{$action.role_authority_name}>" />
+		<input type="hidden" name="user_authority_id" value="<{$action.user_authority_id}>" />
+		<{* 各種ボタン *}>
+		<div class="btn-bottom align-right">
+			<{* 戻るボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList($('form<{$id}>'),'not_enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); authorityCls['<{$id}>'].showDetail(<{if $action.user_authority_id == _AUTH_MODERATE}>false<{/if}>); return false;" />
+			<{* 次へボタン *}>
+			<input class="lined_btn btn-width" type="button" name="next_arrow" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList($('form<{$id}>'),'not_enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.sendView('<{$id}>','action=authority_view_admin_confirm&amp;aaa=1&amp;'+Form.serialize($('form<{$id}>')),{'method':'post'}); return false;" />
+			<{* キャンセルボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'}); return false;" />
+		</div>
+	</form>
+</div>
+
+<{include file="authority_script.html"}>
+
+<{/strip}>

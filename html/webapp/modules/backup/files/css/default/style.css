@@ -1,0 +1,153 @@
+/* Css定義ファイル                     */
+.backup_side_top {
+	vertical-align:top;
+}
+.backup_header_btn {
+	text-align:right;
+	padding:5px;
+}
+.backup_side_menu {
+	border:1px solid #666666;
+	width:200px;
+	height:300px;
+	overflow:auto;
+}
+
+.backup_side_menu_header {
+	border: 1px solid #cccccc;
+	padding:2px;
+	background-color:#f0f4f7;
+	white-space:nowrap;
+	width:196px;
+}
+
+.backup_full_backup{
+	border: 1px solid #cccccc;
+	border-top: 0px none;
+	padding:5px;
+	white-space:nowrap;
+	font-weight:bold;
+	background-color: #fef7d3;
+}
+
+.backup_page_name {
+	border: 1px solid #cccccc;
+	border-top: 0px none;
+	padding:3px;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.backup_main {
+	vertical-align:top;
+	padding-top:1px;
+}
+
+img.backup_room_prefix_icon {
+	height:15px;
+	width:3px;
+	margin-right:2px;
+}
+.backup_room_public {
+	border-top:4px solid #04419a;
+}
+.backup_room_group {
+	border-top:4px solid #5da302;
+}
+.backup_room_private {
+	border-top:4px solid #d78f03;
+}
+
+.backup_lbl_room_public {
+	color:#04419a;
+}
+.backup_lbl_room_group {
+	color:#5da302;
+}
+.backup_lbl_room_private {
+	color:#d78f03;
+}
+.backup_lbl_subgroup {
+	color:#9e9e9e;
+}
+
+.backup_file_name {
+	width:200px;
+}
+
+.backup_size {
+	width:110px;
+}
+
+.backup_insert_user_name {
+	width:120px;
+}
+
+.backup_create_time {
+	width:120px;
+}
+
+.backup_admin {
+	width:120px;
+}
+
+a.backup_btn:link,a.backup_btn:visited,a.backup_btn:active {
+	background-color:#feed97;
+	color:#666666;
+}
+a.backup_btn:hover {
+	background-color:#e0d185;
+	color:#616161;
+}
+
+a.backup_btn {
+	display:block;
+	white-space:nowrap;
+	font-weight:bold;
+	padding:13px 0px 14px 0px;
+	border:2px solid #666666;
+	border-left:1px solid #cccccc;
+	border-top:0px solid #ffffff;
+	text-align:center;
+	text-decoration:none;
+}
+
+.backup_backing {
+	color:#ff0000;
+}
+
+.backup_dialog_title {
+	white-space:nowrap;
+	padding:3px;
+	text-align:left;
+	background-color:#f2f3f1;
+	margin:3px;
+}
+
+.backup_dialog_content {
+	padding:3px;
+}
+
+/* 登録内容確認 */
+.backup_confirm_default_entry {
+	font-weight:bold;
+	padding:8px;
+}
+/* Grid */
+.backup_confirm_entry_users {
+	width:290px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+.backup_confirm_entry_users_admin {
+	width:150px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.backup_dialog {
+	border: 1px solid;
+	border-color: #cccccc #aca899 #aca899 #cccccc;
+	background-color: #ffffff;
+	border-collapse: separate;
+}

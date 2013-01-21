@@ -1,0 +1,64 @@
+<{strip}>
+
+<{if ($whatsnew) }>
+	<{section name=i loop=$whatsnew}>
+		<tr<{if ($smarty.session._user_id != "0") }><{if ($whatsnew[i].read_flag == _OFF) }> class="whatsnew_unread"<{else}> class="whatsnew_read"<{/if}><{/if}>>
+			<td class="whatsnew_title">
+				<{assign var="link_param" value=$whatsnew[i].action_name}>
+				<{assign var="link_param" value=$link_param|cat:"&amp;"|cat:$whatsnew[i].parameters|smarty:nodefaults}>
+
+				<{assign var="title" value=$whatsnew[i].title|truncate:$smarty.const.WHATSNEW_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true|smarty:nodefaults}>
+				<a href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;<{$link_param|smarty:nodefaults}>" title="<{$lang._move_title|smarty:nodefaults|sprintf:$title}>" onclick='whatsnewCls["<{$id}>"].showOriginal("<{$whatsnew[i].whatsnew_id}>", "action=<{$smarty.const.DEFAULT_ACTION}>&amp;<{$link_param|smarty:nodefaults}>"); return false;'>
+					<{$title}><{if ($whatsnew[i].count_num) }>(<{if ($whatsnew[i].dir_name == "photoalbum") }><{$lang.whatsnew_photo_count|smarty:nodefaults|sprintf:$whatsnew[i].count_num}><{else}><{$whatsnew[i].count_num}><{/if}>)<{/if}>
+				</a>
+			</td>
+
+			<{if ($action.whatsnew_obj.display_module_name == _ON) }>
+				<td class="whatsnew_module">
+					<{$whatsnew[i].module_name}>
+				</td>
+			<{/if}>
+
+			<{if ($action.whatsnew_obj.display_room_name == _ON) }>
+				<td class="whatsnew_room">
+					<div><{$whatsnew[i].page_name}></div>
+				</td>
+			<{/if}>
+
+			<{if ($action.whatsnew_obj.display_user_name == _ON) }>
+				<td class="whatsnew_user_name">
+					<{if ($whatsnew[i].insert_user_id != "") }>
+						<a href="#" title="<{$lang._user_title|smarty:nodefaults|sprintf:$whatsnew[i].insert_user_name}>" class="syslink" onclick='commonCls.showUserDetail(event,"<{$whatsnew[i].insert_user_id}>");return false;'>
+							<{$whatsnew[i].insert_user_name}>
+						</a>
+					<{else}>
+						<{$whatsnew[i].insert_user_name}>
+					<{/if}>
+				</td>
+			<{/if}>
+
+			<{if ($action.whatsnew_obj.display_insert_time == _ON) }>
+				<td class="whatsnew_time">
+					<{"`$whatsnew[i].insert_time`"|timezone_date_format:$lang.whatsnew_time_format|smarty:nodefaults}>
+				</td>
+			<{/if}>
+		</tr>
+		<{if ($action.whatsnew_obj.display_description == _ON && $whatsnew[i].description != "") }>
+			<tr>
+				<td colspan="<{$action.display_count}>" class="whatsnew_description">
+					<{$whatsnew[i].description|smarty:nodefaults|truncate:$smarty.const.WHATSNEW_DESC_LENGTH:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+				</td>
+			</tr>
+		<{/if}>
+	<{/section}>
+<{else}>
+	<tr>
+		<td colspan="<{$action.display_count}>">
+			<div class="whatsnew_subject">
+				<{$lang.whatsnew_nothing|smarty:nodefaults}>
+			</div>
+		</td>
+	</tr>
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,21 @@
+<{strip}>
+<{* 追加ポップアップ開始 *}>
+<div class="popupClass">
+	<form action="post" onsubmit="return false;">
+	<table class="outer" summary="<{$lang.journal_cat_add|smarty:nodefaults}>">
+		<tr class="row">
+			<th scope="row"><label for="journal_add_category<{$id}>"><{$lang.journal_cat_name|smarty:nodefaults}></label></th>
+			<td class="nowrap">
+				<input id="journal_add_category<{$id}>" name="category_name" value="" type="text" />
+			</td>
+		</tr>
+	</table>
+	<input name="journal_id" type="hidden" value="<{$action.journal_id}>" />
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="parent.journalCls['<{$id}>'].addCategory(); return false;">
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="parent.journalCls['<{$id}>'].popupLnk.closePopup(); return false;">
+	</div>
+	</form>
+</div>
+<{/strip}>

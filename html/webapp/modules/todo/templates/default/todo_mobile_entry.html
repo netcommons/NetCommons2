@@ -1,0 +1,7 @@
+<{strip}>
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<{include file="todo_mobile_entry_smart.html"}>
+	<{else}>
+		<{include file="todo_mobile_entry_feature.html"}>
+	<{/if}>
+<{/strip}>

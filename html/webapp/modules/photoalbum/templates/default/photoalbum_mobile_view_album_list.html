@@ -1,0 +1,79 @@
+<{strip}>
+<h3>
+	<{$action.photoalbum.photoalbum_name}>
+</h3>
+
+<{include file = "photoalbum_mobile_view_album_list_operation.html" operationPosition="head"}>
+
+<{if $action.albumCount > 0}>
+	<table>
+		<{foreach key=key item=album from=$action.albums}>
+			<tr>
+				<td>
+					<a href="?action=photoalbum_view_mobile_list&amp;block_id=<{$block_id}>&amp;album_id=<{$album.album_id}>)">
+						<{if empty($album.upload_id|smarty:nodefaults)}>
+							<img src="<{$smarty.const.PHOTOALBUM_SAMPLR_JACKET_DIR|cat:$album.album_jacket|get_modules_image}>" width="85" height="85" alt="<{$lang.photoalbum_album_jacket_title|sprintf:$album.album_name}>" />
+						<{else}>
+							<img src=".<{$smarty.const.INDEX_FILE_NAME}><{$album.album_jacket}>&amp;w=85&amp;h=85<{$session_param}>" width="85" height="85" alt="<{$lang.photoalbum_album_jacket_title|sprintf:$album.album_name}>" />
+						<{/if}>
+					</a>
+					<div style="text-align:center;font-size:small;">
+						<{$lang.photoalbum_photo_count|sprintf:$album.photo_count}>
+					</div>
+				</td>
+
+				<td>
+					<div>
+						<a href="?action=photoalbum_view_mobile_list&amp;block_id=<{$block_id}>&amp;album_id=<{$album.album_id}>">
+							<{$album.album_name}>
+							<{if $album.public_flag == _OFF}>
+								<span style="color:#ff0000;font-size:small;">
+									<{$lang.photoalbum_public_flag_off_notice}>
+								</span>
+							<{/if}>
+						</a>
+
+						<{if $action.photoalbum.album_new_period_time <= $album.insert_time}>
+							<span style="font-size:small;">
+								<{$lang._mobile_new|smarty:nodefaults}>
+							</span>
+						<{elseif $album.photo_count > 0 && $album.photo_new_period_time <= $album.photo_upload_time}>
+							<span style="font-size:small;">
+								<{$lang._mobile_child_new|smarty:nodefaults}>
+							</span>
+						<{/if}>
+					</div>
+
+					<div>
+						<{$album.album_description|nl2br}>
+					</div>
+
+					<span style="font-size:small;">
+						<{include file = "photoalbum_mobile_view_handle.html" handle=$album.insert_user_name|smarty:nodefaults user_id=$album.insert_user_id}>
+						<{$lang._separator|smarty:nodefaults}>
+						<{$album.insert_time|timezone_date_format:$lang._short_date_format}>
+
+						<{if $album.vote_flag == _ON}>
+							<{$lang.photoalbum_vote_unit|sprintf:$album.album_vote_count}>
+						<{/if}>
+					</span>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+
+	<{include file = "photoalbum_mobile_view_album_list_operation.html" operationPosition="foot"}>
+<{else}>
+	<{$lang.photoalbum_no_album}>
+<{/if}>
+<br />
+<div style="text-align:right;">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init<{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail<{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

@@ -1,0 +1,24 @@
+<{strip}>
+
+<{if ($display_type == RESERVATION_DEF_MONTHLY) }>
+	<{$lang.reservation_monthly_format|smarty:nodefaults|sprintf:$lang_year:$lang_month}>
+
+<{elseif ($display_type == RESERVATION_DEF_WEEKLY)}>
+	<a class="link hover_highlight" title="<{$lang.reservation_monthly_link_title|smarty:nodefaults|sprintf:$lang_year:$lang_month}>" href="#" onclick='reservationCls["<{$id}>"].changeReservation(null, "<{$smarty.const.RESERVATION_DEF_MONTHLY}>"); return false;'>
+		<{$lang.reservation_monthly_format|smarty:nodefaults|sprintf:$lang_year:$lang_month}>
+	</a>
+<{elseif ($display_type == RESERVATION_DEF_LOCATION)}>
+	<span class="<{$day_class}> reservation_date">
+		<{$lang_year}>
+		<span class='reservation_date_num'>
+			<{$lang_date}>
+		</span>
+		<{$lang_wday}>
+		<{if ($action.holiday_list.$view_date) }>
+			&nbsp;
+			<span class="reservation_lang_holiday"><{$action.holiday_list.$view_date}></span>
+		<{/if}>
+	</span>
+<{/if}>
+
+<{/strip}>

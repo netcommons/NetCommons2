@@ -1,0 +1,29 @@
+.th_sideline_red_line {
+	width:3px;
+	background-color:#ef9ede;
+}
+
+.th_sideline_red_title {
+	white-space:nowrap;
+	text-align: left;
+	margin-bottom:10px;
+}
+
+/* highlight */
+.th_sideline_red .highlight {
+	background-color:#f5dae0;
+	color:#967294;
+}
+
+.th_sideline_red a.hover_highlight:hover {
+	background-color:#f5dae0;
+	color:#967294;
+	text-decoration:none;
+}
+.th_sideline_content {
+	border:0px;
+	padding-left:20px;
+	padding-top:3px;
+	padding-bottom:3px;
+	width:100%;
+}

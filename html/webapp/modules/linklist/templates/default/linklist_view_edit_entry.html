@@ -1,0 +1,92 @@
+<{strip}>
+<{* リンクリスト登録画面用テンプレート *}>
+<form id="linklist_form<{$id}>" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('linklist_form<{$id}>')), {'target_el':$('<{$id}>'),'focus_flag':true});return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="linklist_id" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_name<{$id}>">
+					<{$lang.linklist_linklist_name|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+		 		<input id="linklist_name<{$id}>" class="text" type="text" name="linklist_name" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.linklist_category_authority|smarty:nodefaults}>
+			</th>
+
+			<td>
+				<label class="disable_lbl">
+			 		<input type="checkbox" disabled="disabled" checked="checked" />
+			 		<input type="hidden" name="category_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				</label>
+				<label for="linklist_category_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+			 		<input id="linklist_category_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="category_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				</label>
+				<label for="linklist_category_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+					<input id="linklist_category_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="category_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.linklist_link_authority|smarty:nodefaults}>
+			</th>
+
+			<td>
+				<label class="disable_lbl">
+			 		<input type="checkbox" disabled="disabled" checked="checked" />
+			 		<input type="hidden" name="link_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				</label>
+				<label for="linklist_link_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+			 		<input id="linklist_link_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="link_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				</label>
+				<label for="linklist_link_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+					<input id="linklist_link_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="link_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				</label>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'linklist_view_main_init');" />
+	</div>
+</form>
+
+<{include file="../linklist_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var linklistForm = $("linklist_form<{$id}>");
+	linklistForm["action"].value = "linklist_action_edit_entry";
+	linklistForm["linklist_id"].value = "<{$action.linklist.linklist_id}>";
+
+	<{if empty($action.linklist.linklist_id|smarty:nodefaults)}>
+		linklistForm["linklist_name"].value = "<{$lang.linklist_new_name|smarty:nodefaults|sprintf:$action.linklistNumber}>";
+	<{else}>
+		linklistForm["linklist_name"].value = "<{$action.linklist.linklist_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	linklistForm["category_authority[<{$action.linklist.category_authority}>]"].checked = true;
+	commonCls.changeAuthority(linklistForm["category_authority[<{$action.linklist.category_authority}>]"], "<{$id}>");
+
+	linklistForm["link_authority[<{$action.linklist.link_authority}>]"].checked = true;
+	commonCls.changeAuthority(linklistForm["link_authority[<{$action.linklist.link_authority}>]"], "<{$id}>");
+
+	commonCls.focus(linklistForm);
+	linklistForm = null;
+</script>
+<{/strip}>

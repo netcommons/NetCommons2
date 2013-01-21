@@ -1,0 +1,98 @@
+<{strip}>
+<{* 解答一覧画面用テンプレート *}>
+<div class="quiz_head">
+	<{include file="quiz_view_main_head.html"}>
+</div>
+
+<{include file="quiz_view_print.html"}>
+
+<{if $action.chiefItemShow}>
+	<{include file="quiz_view_average.html"}>
+<{/if}>
+
+<table class="grid_header" summary="<{$lang.quiz_summary_list_summary}>">
+	<tr>
+		<{if $action.chiefItemShow}>
+			<th class="grid_creator">
+				<{$lang.quiz_answerer}>
+			</th>
+		<{/if}>
+
+		<th class="_sort_answer_number quiz_grid_answer_number" scope="col">
+			<{$lang.quiz_answer_number}>
+		</th>
+
+		<th class="_sort_answer_time quiz_grid_answer_time" scope="col">
+			<{$lang.quiz_answer_date}>
+		</th>
+
+		<th class="_sort_summary_score quiz_grid_score" scope="col">
+			<{$lang.quiz_score}>
+		</th>
+
+		<th class="_sort_summary_score quiz_grid_deviation" scope="col">
+			<{$lang.quiz_deviation}>
+		</th>
+
+		<th class="quiz_grid_summary_manage">
+		</th>
+	</tr>
+</table>
+
+<table class="grid <{if $action.chiefItemShow}>quiz_edit_summary_grid_table<{else}>quiz_summary_grid_table<{/if}>" summary="<{$lang.quiz_summary_list_summary}>">
+	<{foreach from=$action.summaries item=summary}>
+		<tr class="grid_row">
+			<{if $action.chiefItemShow}>
+				<td class="grid_creator">
+					<{include file = "quiz_view_handle.html" handle=$summary.insert_user_name|smarty:nodefaults user_id=$summary.insert_user_id}>
+					<{include file = "quiz_view_main_answer_none.html"}>
+				</td>
+			<{/if}>
+
+			<td class="quiz_grid_answer_number">
+				<{$lang.quiz_number|sprintf:$summary.answer_number}>
+				<{if !$action.chiefItemShow}>
+					<{include file = "quiz_view_main_answer_none.html"}>
+				<{/if}>
+			</td>
+
+			<td class="quiz_grid_answer_time">
+				<{$summary.answer_time|timezone_date_format:$lang._full_date_format}>
+			</td>
+
+			<td class="quiz_grid_score">
+				<{$lang.quiz_point_allocation|sprintf:$summary.summary_score:$action.quiz.perfect_score}>
+			</td>
+
+			<td class="quiz_grid_deviation">
+				<{$lang.quiz_deviation_value|sprintf:$summary.deviation}>
+			</td>
+
+			<td class="quiz_grid_summary_manage">
+				<{include file = "quiz_view_answer_link.html"}>
+			</td>
+		</tr>
+	<{/foreach}>
+</table>
+
+<div class="note">
+	<{$lang.quiz_none_answer_message}>
+</div>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	quizCls["<{$id}>"].quiz_id = <{$action.quiz.quiz_id}>;
+	var opts = {
+		requestParameters : new Array(
+								"scroll=<{$smarty.const._ON}>",
+								"quiz_id=<{$action.quiz.quiz_id}>",
+								"answer_user_id=<{$smarty.session._user_id}>",
+								"prefix_id_name=<{$action.prefix_id_name}>"
+							),
+		prefetchBuffer:false,
+		sort:true
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.summaryCount}>, "quiz_view_main_summary", opts);
+	opts = null;
+</script>
+<{/strip}>

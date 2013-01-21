@@ -1,0 +1,76 @@
+.menu_edit_top_outer {
+	border:1px solid #cccccc; 
+	border-collapse: separate;
+	margin-bottom:1px;
+}
+
+.menu_room {
+	background-color:#659ada;
+}
+
+.menu_node {
+	background-color:#d767af;
+}
+
+.menu_leaf {
+	background-color:#aca899;
+}
+
+/* 準備中 */
+.menu_prepared {
+	color:#fe8d9e;
+	font-weight:400;
+}
+
+.menu_none_displayseq {
+	width:10px;
+	height:24px;
+}
+
+.menu_lbl_disabled {
+	color:#cccccc;
+}
+
+.menu_top_menu {
+	text-align:right;
+	padding:5px;
+}
+
+.menu_top_menu_btn {
+	padding:5px;
+	white-space:nowrap;
+}
+
+.menu_bar_img {
+	width: 3px;
+}
+
+.menu_visibility_td {
+	padding:0px 5px;
+}
+
+.menu_visibility_img {
+	width:16px;
+	height:16px;
+}
+
+.menu_main_edit_td {
+	padding-left:5px;
+	vertical-align:middle;
+}
+
+.menu_del_btn {
+	padding-left:5px;
+	padding-right:5px;
+	vertical-align:middle;
+	white-space:nowrap;
+}
+
+.menu_trash_img {
+	width:13px;
+	height:14px;
+}
+	
+.menu_pagename_text {
+	width:120px;
+}

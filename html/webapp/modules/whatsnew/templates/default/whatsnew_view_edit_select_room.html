@@ -1,0 +1,76 @@
+<{strip}>
+<{* 選択ルームの選択 *}>
+
+<div class="outerdiv">
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+		<input type="hidden" name="action" value="whatsnew_action_edit_selectroom" />
+	
+		<div class="top_description">
+			<{$lang.whatsnew_top_descripton|smarty:nodefaults|sprintf:"`$lang._regist`":"`$smarty.const._SPACE_TYPE_NAME_PUBLIC`"}>
+		</div>
+	
+		<div align="center">
+			<table summary="<{$smarty.const._SUMMARY_SELECTFORM}>">
+				<tr>
+					<th class="nowrap head align-center" scope="col">
+						<{$lang.whatsnew_all_room_list|smarty:nodefaults}>
+					</th>
+					<td rowspan="2" class="selectlist_arrow_btn_area nowrap align-center">
+						<{* 追加 *}>
+						<input type="button" value="<{$lang._btn_add_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'not_enroll_room[]','enroll_room[]');" />
+						
+						<br /><br />
+						
+						<{* 削除 *}>
+						<input type="button" value="<{$lang._btn_del_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'enroll_room[]','not_enroll_room[]');" />
+					</td>
+					<th class="nowrap head align-center" scope="col">
+						<{$lang.whatsnew_entry_room_list|smarty:nodefaults}>
+					</th>
+				</tr>
+				<tr>
+					<td class="selectlist nowrap align-center valign-top">
+						<div>
+							<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'not_enroll_room[]');" />
+							&nbsp;
+							<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'not_enroll_room[]');" />	
+						</div>
+						<select name="not_enroll_room[]" size="14" class="whatsnew_selectlist" multiple="multiple" onchange="commonCls.frmAllReleaseList(this.form,'enroll_room[]'); return false;">
+							<{include file="whatsnew_view_recursive_room.html" room_list=$action.not_enroll_room_arr|smarty:nodefaults}>
+						</select>
+					</td>
+					<td class="selectlist nowrap align-center valign-top">
+						<div>
+							<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'enroll_room[]', true);" />
+							&nbsp;
+							<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'enroll_room[]');" />	
+						</div>
+						<select name="enroll_room[]" size="14" class="whatsnew_selectlist" multiple="multiple" onchange="commonCls.frmAllReleaseList(this.form,'not_enroll_room[]'); return false;">
+							<{include file="whatsnew_view_recursive_room.html" room_list=$action.enroll_room_arr|smarty:nodefaults}>
+						</select>
+						<div>
+							<label for="whatsnew_myroom_flag<{$id}>">
+								<input id="whatsnew_myroom_flag<{$id}>" type="checkbox" name="myroom_flag" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.myroom_flag == _ON) }> checked="checked"<{/if}> />
+								<{$lang.whatsnew_myroom_flag|smarty:nodefaults}>
+							</label>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<br />
+		<div class="note">
+			<{$lang._mes_pluralselecthelp|smarty:nodefaults}>
+		</div>
+		
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="whatsnewCls['<{$id}>'].setSelectRoom(this.form); return false;" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+		</div>
+	</form>
+</div>
+
+<{include file="../whatsnew_script.html"}>
+
+<{/strip}>

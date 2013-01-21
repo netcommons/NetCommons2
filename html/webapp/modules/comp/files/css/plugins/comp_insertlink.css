@@ -1,0 +1,55 @@
+div.nc_wysiwyg_insertlink_title {
+	text-align : center;
+	padding:0 0 3px;
+	white-space:nowrap;
+}
+
+input.nc_wysiwyg_insertlink_input {
+	width : 210px;
+}
+
+ul.nc_wysiwyg_insertlink {
+	width : 325px;
+	padding:0;
+	margin:0;
+}
+
+ul.nc_wysiwyg_insertlink * {
+	padding:0;
+	margin:0;
+}
+
+ul.nc_wysiwyg_insertlink li {
+	clear : both;
+	text-align: left;
+	list-style-image:none;
+	list-style-type:none;
+}
+
+ul.nc_wysiwyg_insertlink li dl dt {
+	width : 110px;
+	padding : 2px 0;
+	float : left;
+}
+
+ul.nc_wysiwyg_insertlink li dl dd {
+	width : 215px;
+	padding : 2px 0;
+	float : left;
+}
+
+select.nc_wysiwyg_insertlink_select {
+	width : 129px;
+}
+
+input.nc_wysiwyg_insertlink_other {
+	width : 61px;
+	
+}
+
+div.nc_wysiwyg_insertlink_btn {
+	text-align : center;
+	margin-top : 5px;
+	clear : both;
+	width:325px;
+}

@@ -1,0 +1,88 @@
+<{strip}>
+<div class="user_outerdiv">
+	<form id="user_import_help_form<{$id}>" action="" onsubmit="return false;">	
+		<{* ヘルプ *}>
+		<fieldset>
+			<legend class="bold"> 
+				<{$lang.user_import_help|smarty:nodefaults}> 
+			</legend>
+			<table>
+				<tr>
+					<{* 説明 *}>
+					<td colspan="2">
+						<{$lang.user_import_exp|smarty:nodefaults}> <br />
+						<span class="bold">
+							<{$lang.user_import_exec_exp|smarty:nodefaults}> <br />
+						</span>
+						<{$lang.user_import_form_exp|smarty:nodefaults}> <br />
+						<span class="bold">
+							<{$lang.user_import_formwarning_exp|smarty:nodefaults}> <br />
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<{* 設定項目の詳細の表示選択 *}>
+					<td class="bold">
+						<{$lang.user_import_help_detail|smarty:nodefaults}>
+					</td>
+					<td>
+						<input type='button' name='user_import_help_set_0' id="user_import_help_set_0<{$id}>" value="<{$lang.user_import_display|smarty:nodefaults}>" onclick="commonCls.displayVisible($('user_import_help<{$id}>')); this.form.user_import_help_set_0.disabled=true; this.form.user_import_help_set_1.disabled=false;">
+						<input type='button' name='user_import_help_set_1' id="user_import_help_set_1<{$id}>" value="<{$lang._close_btn|smarty:nodefaults}>" onclick="commonCls.displayNone($('user_import_help<{$id}>')); this.form.user_import_help_set_1.disabled=true; this.form.user_import_help_set_0.disabled=false;" disabled>
+					</td>
+				</tr>
+			</table>
+
+			<{* 設定項目の詳細 *}>
+			<div id="user_import_help<{$id}>" class="user_import_help display-none" style="overflow:auto; border:solid 1px; padding:5px;">
+				<table>
+					<tr class="user_grid_row">
+						<th class="user_grid_header"> <{$lang.user_import_item|smarty:nodefaults}> </th>
+						<th class="user_grid_header"> <{$lang.user_import_contents|smarty:nodefaults}> </th>
+					</tr>
+					<{foreach item=help from=$action.help}>
+						<tr class="user_grid_row">
+							<{* 項目 *}>
+							<td class="user_grid_col"> <{$help.name|smarty:nodefaults}> </td>
+			
+							<td class="user_grid_col">
+								<{* 必須入力項目 *}>
+								<{if $help.need == $smarty.const._ON}>
+									<span class="require">　
+										<{$lang.user_import_need_on|smarty:nodefaults}> <br />
+									</span>　
+								<{/if}>
+								
+								<{* 説明 *}>
+								<{$help.exp|smarty:nodefaults}> <br />
+								<{if $help.desc != null}>
+									（<{$help.desc|smarty:nodefaults}>） <br />
+								<{/if}>
+				
+								<{* デフォルト値 *}>
+								<{if $help.need == $smarty.const._OFF}>
+									<{$lang.user_import_noset_exp|smarty:nodefaults|sprintf:$help.defaultset|smarty:nodefaults}> <br />
+								<{/if}>
+				
+								<{* 選択肢 *}>
+								<{if $help.item != null}>
+									<{$lang.user_import_sel|smarty:nodefaults}> <br />
+									<{foreach item=sel from=$help.item}>
+										<span class="user_indent">
+											<span class="bold">	<{$sel.num}> </span> : <{$sel.name}> <br />
+										</span>
+									<{/foreach}>
+								<{/if}>
+							</td>
+						</tr>
+					<{/foreach}>
+				</table>
+
+				<div class="btn-bottom">
+					<{* 印書 *}>
+					<input class="btn-width lined_btn" type="button" value="<{$lang._print|smarty:nodefaults}>" onclick="commonCls.print(Element.getParentElement(this, 2)); return false;" />
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+<{/strip}>

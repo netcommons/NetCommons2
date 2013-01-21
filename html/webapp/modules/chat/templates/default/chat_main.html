@@ -1,0 +1,12 @@
+<{strip}>
+<div class="chat_block_title">
+	<{$lang.chat_user|smarty:nodefaults}><{$action.chat_login}><{$lang.chat_item|smarty:nodefaults}>
+	<div class="outerdiv">
+		<a href="#" title="<{$lang.chat_join_title|smarty:nodefaults}>" onclick="chatCls['<{$id}>'].openWindow('.<{$smarty.const.INDEX_FILE_NAME}>?action=chat_view_main_block&amp;block_id=<{$block_id}>&amp;page_id=<{$page_id}>', '<{$action.chat_obj.height}>', '<{$action.chat_obj.width}>'); return false;">
+			<img class="icon" alt="" src="<{"chat.gif"|get_modules_image}>"/><br />
+			<{$lang.chat_join|smarty:nodefaults}>
+		</a>
+	</div>
+</div>
+<{include file="chat_script.html"}>
+<{/strip}>

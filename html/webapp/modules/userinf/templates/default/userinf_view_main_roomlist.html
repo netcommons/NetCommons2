@@ -1,0 +1,114 @@
+<{strip}>
+<{foreach name="loop" from=$room_list item=room}>
+	<{assign var="now_page_id" value=$room.page_id}>
+	<{assign var="next_thread_num" value=$room.thread_num+1}>
+		<tr class="grid_row">
+			<td class="userinf_room_name">
+				<{section name=i loop=$room.thread_num}>
+					&nbsp;&nbsp;&nbsp;
+				<{/section}>
+				<{if $room.thread_num == 0}>
+					<{if $room.private_flag == _ON}>
+						<{assign var="top_class_name" value="userinf_room_private"}>
+						<{assign var="top_lbl_class_name" value="userinf_lbl_room_private"}>
+					<{elseif $room.space_type == _SPACE_TYPE_PUBLIC}>
+						<{assign var="top_class_name" value="userinf_room_public"}>
+						<{assign var="top_lbl_class_name" value="userinf_lbl_room_public"}>
+					<{else}>
+						<{assign var="top_class_name" value="userinf_room_group"}>
+						<{assign var="top_lbl_class_name" value="userinf_lbl_room_group"}>
+					<{/if}>
+					<img title="" alt="" class="icon <{$top_class_name}> userinf_room_prefix_icon" src="<{""|get_image_url}>/images/common/blank.gif" />
+					<span class="<{$top_lbl_class_name}>"><{$room.page_name}></span>
+				<{elseif $room.space_type == _SPACE_TYPE_GROUP && $room.thread_num >= 2}>
+					<{* サブグループ *}>
+					<span class="userinf_lbl_subgroup"><{$room.page_name}></span>
+				<{else}>
+					<{$room.page_name}>
+				<{/if}>
+			</td>
+			<td class="userinf_room_authority_id">
+				<{if $room.thread_num == 0 && $room.private_flag == _OFF && $room.space_type == _SPACE_TYPE_GROUP}>
+					<{* グループスペース直下の権限 *}>
+					<div class="align-center">-</div>
+				<{elseif $room.role_authority_id == _ROLE_AUTH_ADMIN}>
+					<{$smarty.const._AUTH_ADMIN_NAME}>
+				<{elseif $room.role_authority_id == _ROLE_AUTH_CHIEF}>
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				<{elseif $room.authority_id == _AUTH_MODERATE}>
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+					<{if $action.authorities_count > 1}>
+						(<{$room.role_authority_name}>)
+					<{/if}>
+				<{elseif $room.role_authority_id == _ROLE_AUTH_GENERAL}>
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				<{else}>
+					<{$smarty.const._AUTH_GUEST_NAME}>
+				<{/if}>
+				<{* TODO:後に削除
+				<{if $room.default_entry_flag == _ON && ($room.authority_id === null || $room.authority_id === "")}>
+					<{if $room.private_flag == _OFF && $room.space_type == _SPACE_TYPE_GROUP}>
+						<{assign var="authority_id" value=$smarty.session.default_entry_auth_group}>
+					<{elseif $room.private_flag == _ON}>
+						<{assign var="authority_id" value=$smarty.session.default_entry_auth_private}>
+					<{else}>
+						<{assign var="authority_id" value=$smarty.session.default_entry_auth_public}>
+					<{/if}>
+				<{else}>
+					<{assign var="authority_id" value=$room.authority_id}>
+				<{/if}>
+				<{if $room.thread_num == 0 && $room.private_flag == _OFF && $room.space_type == _SPACE_TYPE_GROUP}>
+					<div class="align-center">-</div>
+				<{elseif $authority_id == _AUTH_ADMIN}>
+					<{$smarty.const._AUTH_ADMIN_NAME}>
+				<{elseif $authority_id == _AUTH_CHIEF}>
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				<{elseif $authority_id == _AUTH_MODERATE}>
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				<{elseif $authority_id == _AUTH_GENERAL}>
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				<{else}>
+					<{$smarty.const._AUTH_GUEST_NAME}>
+				<{/if}>
+				*}>
+			</td>
+			<td class="userinf_room_createroom_flag">
+				<{if $room.thread_num == 0 && $room.space_type == _SPACE_TYPE_PUBLIC && $action.user.public_createroom_flag == _ON}>
+					<{* パブリックスペースサブグループ作成許可 *}>
+					<div class="align-center"><{$lang.userinf_allowing|smarty:nodefaults}></div>
+				<{elseif $room.thread_num == 0 && $room.private_flag == _OFF && $room.space_type == _SPACE_TYPE_GROUP && $action.user.group_createroom_flag == _ON}>
+					<{* グループスペースサブグループ作成許可 *}>
+					<div class="align-center"><{$lang.userinf_allowing|smarty:nodefaults}></div>
+				<{elseif $room.thread_num == 0 && $room.private_flag == _OFF}>
+					<{* 現状、プライベートスペースではルーム作成不可 *}>
+					<div class="align-center">-</div>
+				<{elseif $room.createroom_flag}>
+					<div class="align-center"><{$lang.userinf_allowing|smarty:nodefaults}></div>
+				<{else}>
+					<div class="align-center">-</div>
+				<{/if}>
+			</td>
+			<td class="userinf_room_display_flag">
+				<{if $room.thread_num == 0}>
+					<{* 深さ0 *}>
+					<div class="align-center">-</div>
+				<{elseif $room.display_flag}>
+					<div class="align-center"><{$lang.userinf_room_display_flag_on|smarty:nodefaults}></div>
+				<{else}>
+					<div class="align-center"><{$lang.userinf_room_display_flag_off|smarty:nodefaults}></div>
+				<{/if}>
+			</td>
+			<td class="userinf_room_last_access_time">
+				<{if $action.monthlynumber.$now_page_id.last_access_time}>
+					<{$action.monthlynumber.$now_page_id.last_access_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{else}>
+					<div class="align-center">-</div>
+				<{/if}>
+			</td>
+		</tr>
+	<{if $action.room_list.$next_thread_num.$now_page_id}>
+		<{assign var="room_list" value=$action.room_list.$next_thread_num.$now_page_id}>
+		<{include file="userinf_view_main_roomlist.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

@@ -1,0 +1,32 @@
+<{strip}>
+
+<{section name=i loop=$action.reserve_data.$date}>
+	<{assign var="reserve" value=$action.reserve_data.$date[i]|smarty:nodefaults}>
+
+	<{include file="reservation_main_set_reserve_class.html" assign="reserve_class" reserve_flag=$reserve.reserve_flag bg_flag=$smarty.const._ON}>
+	
+	<{if ($reserve_class) }>
+		<div class="reservation_reserve <{$reserve_class}> reservation_reserve_time" style="height:<{$reserve.height}>px;">
+			<{assign var="reserve_anchor" value=$lang.reservation_fmto_format|smarty:nodefaults|sprintf:$reserve.start_time_str:$reserve.end_time_str|cat:" "}>
+
+			<{if ($reserve.reserve_flag == RESERVATION_MEMBERS || in_array($reserve.room_id|smarty:nodefaults, $action.room_id_arr)) }>
+				<a class="reservation_reserve_title hover_highlight" href="#" title="<{$reserve_anchor}><{$lang.reservation_reserve_link_title|smarty:nodefaults|sprintf:$reserve.short_title|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].showReserveDetails(event, "<{$reserve.reserve_id}>"); return false;'>
+					<{if $reserve.title_icon != "" }>
+						<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$reserve.title_icon}>" alt="" />
+					<{/if}>
+					<{$reserve.short_title}>
+				</a>
+			<{else}>
+				<a class="reservation_reserve_title hover_highlight" href="#" title="<{$reserve_anchor}><{$reserve.insert_user_name|smarty:nodefaults}>" onclick='commonCls.showUserDetail(event, "<{$reserve.insert_user_id}>"); return false;'>
+					<{$reserve.insert_user_name}>
+				</a>
+			<{/if}>
+		</div>
+	<{else}>
+		<div class="reservation_reserve_dummy" style="height:<{$reserve.height}>px;">
+			&nbsp;
+		</div>
+	<{/if}>
+<{/section}>
+
+<{/strip}>

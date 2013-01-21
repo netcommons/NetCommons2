@@ -1,0 +1,59 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+
+<div class="install_title">
+	<{$smarty.const.INSTALL_TABLE_CREATE_TITLE}>
+</div>
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<tr>
+			<td class="install_save_setting_data">
+				<{foreach name="res" item="res" from=$action.res_arr|smarty:nodefaults}>
+					<div>
+						<{$res|smarty:nodefaults}>
+					</div>
+				<{/foreach}>
+			</td>
+		</tr>
+		<{if $action.error_flag == false}>
+			<tr>
+				<td class="install_save_setting_data align-center" colspan="2">
+					<{$smarty.const.install_tbcreate_success}>
+				</td>
+			</tr>
+		<{else}>
+			<tr>
+				<td class="install_save_setting_data align-center" colspan="2">
+					<{$smarty.const.install_tbcreate_failed}>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="widthmax">
+		<tr>
+			<td class="install_btn_bottom_left">
+				<{if $action.error_flag == true}>
+					<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_prev_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_general'; return false;" />
+					<span class="install_btn_desc">
+						&lt;&lt;<{$lang.install_modify_settion|smarty:nodefaults}>
+					</span>
+				<{/if}>
+			<td>
+			<td class="install_btn_bottom_center">
+				
+			</td>
+			<td class="install_btn_bottom_right">
+				<{if $action.error_flag == false}>
+				<span class="install_btn_desc">
+					<{$smarty.const.INSTALL_ADMIN_SETTING_TITLE|smarty:nodefaults}>&gt;&gt;
+				</span>
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_adminsetting&' + Form.serialize($('form<{$id}>')); return false;" />
+				<{/if}>
+			<td>
+		</tr>
+	</table>
+</div>
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>

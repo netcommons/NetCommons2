@@ -1,0 +1,179 @@
+<{strip}>
+<{* フォトアルバム表示方法変更画面用テンプレート *}>
+<form id="photoalbum_form<{$id}>" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('photoalbum_form<{$id}>')), {'target_el':$('<{$id}>')});return false;">
+	<input type="hidden" name="action" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_DISPCHANGE_FORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.photoalbum_display}>
+			</th>
+
+			<td>
+				<label for="photoalbum_display_list<{$id}>">
+			 		<input id="photoalbum_display_list<{$id}>" type="radio" name="display" value="<{$smarty.const.PHOTOALBUM_DISPLAY_LIST}>" onclick="photoalbumCls['<{$id}>'].selectDisplayList();" />
+	 				<{$lang.photoalbum_display_list}>
+		 		</label><br />
+	 			<div class="photoalbum_display_sub_item">
+		 			<{$lang.photoalbum_display_list_note|smarty:nodefaults}>
+		 		</div>
+
+				<label for="photoalbum_display_slide<{$id}>">
+			 		<input id="photoalbum_display_slide<{$id}>" type="radio" name="display" value="<{$smarty.const.PHOTOALBUM_DISPLAY_SLIDE}>" onclick="photoalbumCls['<{$id}>'].selectDisplaySlide();" />
+	 				<{$lang.photoalbum_display_slide}>
+		 		</label>
+				<div class="photoalbum_display_sub_item">
+ 					<{$lang.photoalbum_display_slide_note|smarty:nodefaults}><br />
+
+	 				<{if !empty($action.albums|smarty:nodefaults)}>
+		 				<select id="photoalbum_display_album_id<{$id}>" name="display_album_id">
+							<{foreach item=album from=$action.albums}>
+								<option value="<{$album.album_id}>"><{$album.album_name}></option>
+							<{/foreach}>
+						</select>
+					<{else}>
+						<span class="errorstr">
+							<{$lang.photoalbum_display_slide_no_album}>
+						</span>
+					<{/if}>
+
+					<{include file = "photoalbum_view_album_create.html"}>
+					<{if !empty($action.albums|smarty:nodefaults)}>
+						<{include file = "photoalbum_view_photo_upload.html"}>
+					<{/if}>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_slide_time<{$id}>">
+					<{$lang.photoalbum_slide_time}>
+				</label>
+			</th>
+
+			<td>
+				<select id="photoalbum_slide_time<{$id}>" name="slide_time">
+					<option value="1"><{$lang.photoalbum_slide_time_unit|sprintf:"1"}></option>
+					<option value="2"><{$lang.photoalbum_slide_time_unit|sprintf:"2"}></option>
+					<option value="3"><{$lang.photoalbum_slide_time_unit|sprintf:"3"}></option>
+					<option value="4"><{$lang.photoalbum_slide_time_unit|sprintf:"4"}></option>
+					<option value="5"><{$lang.photoalbum_slide_time_unit|sprintf:"5"}></option>
+					<option value="10"><{$lang.photoalbum_slide_time_unit|sprintf:"10"}></option>
+				</select>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_slide_type<{$id}>">
+					<{$lang.photoalbum_slide_type}>
+				</label>
+			</th>
+
+			<td>
+				<select id="photoalbum_slide_type<{$id}>" name="slide_type">
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_FADE}>"><{$lang.photoalbum_slide_type_fade}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_BLINDS}>"><{$lang.photoalbum_slide_type_blinds}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_CHECKERBOARD}>"><{$lang.photoalbum_slide_type_checkerboard}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_STRIPS}>"><{$lang.photoalbum_slide_type_strips}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_BARN}>"><{$lang.photoalbum_slide_type_barn}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_GRADIENTWIPE}>"><{$lang.photoalbum_slide_type_gradientwipe}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_IRIS}>"><{$lang.photoalbum_slide_type_iris}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_WHEEL}>"><{$lang.photoalbum_slide_type_wheel}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_PIXELATE}>"><{$lang.photoalbum_slide_type_pixelate}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RADIALWIPE}>"><{$lang.photoalbum_slide_type_radialwipe}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOMBARS}>"><{$lang.photoalbum_slide_type_randombars}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_SLIDE}>"><{$lang.photoalbum_slide_type_slide}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOMDISSOLVE}>"><{$lang.photoalbum_slide_type_randomdissolve}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_SPIRAL}>"><{$lang.photoalbum_slide_type_spirals}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_STRETCH}>"><{$lang.photoalbum_slide_type_stretch}></option>
+					<option value="<{$smarty.const.PHOTOALBUM_SLIDE_TYPE_RANDOM}>"><{$lang.photoalbum_slide_type_random}></option>
+				</select>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.photoalbum_slide_size}>
+			</th>
+
+			<td>
+				<label for="photoalbum_size_flag_off<{$id}>">
+			 		<input id="photoalbum_size_flag_off<{$id}>" type="radio" name="size_flag" value="<{$smarty.const._OFF}>" onclick="photoalbumCls['<{$id}>'].changeSizeFlag(false);" />
+	 				<{$lang.photoalbum_size_flag_off}>
+		 		</label><br />
+
+				<label for="photoalbum_size_flag_on<{$id}>">
+			 		<input id="photoalbum_size_flag_on<{$id}>" type="radio" name="size_flag" value="<{$smarty.const._ON}>" onclick="photoalbumCls['<{$id}>'].changeSizeFlag(true);" />
+			 	</label>
+				<label for="photoalbum_size_size_width<{$id}>" class="photoalbum_size_flag_on">
+		 			<{$lang.photoalbum_slide_size_width}>
+		 			<input id="photoalbum_slide_size_width<{$id}>" class="photoalbum_slide_size" type="text" name="width" />
+			 	</label>
+				<label for="photoalbum_size_size_height<{$id}>" class="photoalbum_size_flag_on">
+		 			<{$lang.photoalbum_slide_size_height}>
+		 			<input id="photoalbum_slide_size_height<{$id}>" class="photoalbum_slide_size" type="text" name="height" />
+			 	</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_album_visible_row<{$id}>">
+					<{$lang.photoalbum_album_visible_row}>
+				</label>
+			</th>
+
+			<td>
+				<select id="photoalbum_album_visible_row<{$id}>" name="album_visible_row">
+					<{include file = "photoalbum_view_visible_row_option.html"}>
+				</select>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'photoalbum_view_edit_list');" />
+	</div>
+</form>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	photoalbumCls["<{$id}>"].photoalbum_id = '<{$action.photoalbum.photoalbum_id}>';
+
+	var photoalbumForm = $("photoalbum_form<{$id}>");
+	photoalbumForm["action"].value = "photoalbum_action_edit_style";
+
+	<{if $action.photoalbum.display == PHOTOALBUM_DISPLAY_LIST}>
+		$("photoalbum_display_list<{$id}>").checked = true;
+		photoalbumCls["<{$id}>"].selectDisplayList();
+	<{else}>
+		$("photoalbum_display_slide<{$id}>").checked = true;
+		photoalbumCls["<{$id}>"].selectDisplaySlide();
+		<{if !empty($action.albums|smarty:nodefaults)}>
+			photoalbumForm["display_album_id"].value = "<{$action.photoalbum.display_album_id}>";
+		<{/if}>
+	<{/if}>
+
+	photoalbumForm["slide_time"].value = "<{$action.photoalbum.slide_time}>";
+	photoalbumForm["slide_type"].value = "<{$action.photoalbum.slide_type}>";
+
+	<{if $action.photoalbum.size_flag == _ON}>
+		$("photoalbum_size_flag_on<{$id}>").checked = true;
+		photoalbumCls["<{$id}>"].changeSizeFlag(true);
+	<{else}>
+		$("photoalbum_size_flag_off<{$id}>").checked = true;
+		photoalbumCls["<{$id}>"].changeSizeFlag(false);
+	<{/if}>
+	photoalbumForm["width"].value = "<{$action.photoalbum.width}>";
+	photoalbumForm["height"].value = "<{$action.photoalbum.height}>";
+	photoalbumForm["album_visible_row"].value = "<{$action.photoalbum.album_visible_row}>";
+
+	photoalbumCls["<{$id}>"].callbackAction = {"action":"photoalbum_view_edit_style", "enteredFlag":<{$smarty.const._ON}>};
+
+	commonCls.focus("<{$id}>");
+	photoalbumForm = null;
+</script>
+<{/strip}>

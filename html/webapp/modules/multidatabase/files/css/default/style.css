@@ -1,0 +1,216 @@
+.mdb_metadata_detail_main {
+	border:0px;
+}
+.mdb_metadata_detail_pos_1 {
+	background:#dbe9ea;
+}
+.mdb_metadata_detail_pos_2 {
+	background:#e9f2fb;
+}
+.mdb_metadata_detail_pos_3 {
+	background:#fff7de;
+}
+.mdb_metadata_detail_pos_4 {
+	background:#eee7de;
+}
+.mdb_metadata_detail {
+	border:1px solid #cccccc;
+	width:276px;
+}
+.mdb_metadata_detail_top_bottom {
+	border:1px solid #cccccc;
+	width:552px;
+}
+.mdb_chg_col {
+	width:276px;
+}
+.mdb_chg_row {
+	width:276px;
+}
+.mdb_metadata_detail td.mdb_metadata_detail_td,.mdb_metadata_detail th.mdb_metadata_detail_td,.mdb_metadata_detail_top_bottom td.mdb_metadata_detail_td,.mdb_metadata_detail_top_bottom th.mdb_metadata_detail_td,.mdb_metadata_table td.mdb_metadata_detail_td,.mdb_metadata_table th.mdb_metadata_detail_td{
+	padding:2px;
+	border-top:1px solid #cccccc !important;
+	font-weight:normal;
+}
+.mdb_drop_event {
+	height:10px;
+}
+.mdb_chg_seq {
+	white-space:nowrap;
+	width:15px;
+}
+.mdb_setting_manage {
+	text-align:right;
+	white-space:nowrap;
+}
+.mdb_metadata_add_btn {
+	padding:5px;
+	text-align:right;
+	white-space:nowrap;
+}
+
+.mdb_grid_table {width:780px;}
+.mdb_grid_manage {width:350px;}
+
+.mdb_metadata_options {
+	border:1px solid #cccccc;
+	width:250px;
+	height:140px;
+	margin:5px;
+	overflow:auto;
+}
+.mdb_detail_head {
+	text-align:left;
+	vertical-align:top;
+	padding: 5px 8px !important;
+}
+.mdb_detail_head_top_bottom {
+	width:20%;
+}
+.mdb_edit_detail {
+	vertical-align:top;
+	padding: 5px 8px !important;
+}
+.mdb_metadata_table {
+	border:1px solid #cccccc;
+	border-bottom-style:none;
+	border-right-style:none;
+	border-left-style:none;
+	border-collapse:collapse;
+	width:100%;
+}
+.mdb_setting_type {
+	color:#c0c0c0;
+}
+.mdb_metadata_image {
+	height:127px;
+}
+.mdb_mdblist_table {
+	width:100%;
+}
+.mdb_detail_block {
+	background-color:#ffffff;
+	border:1px solid #3865b7;
+	color:#3865b7;
+	font-size:85%;
+	font-weight:normal;
+	text-align:center;
+}
+.mdb_comment {
+	margin-left:20px;
+}
+.mdb_comment_content {
+	padding:2px 10px 20px;
+}
+.mdb_comment_list {
+	width:100%;
+}
+.mdb_comment_title {
+	font-weight:bold;
+	margin-top:15px;
+	margin-bottom:2px;
+}
+.mdb_comment_separator {
+	margin:0 5px;
+}
+.mdb_comment_head {
+	background-color:#E6E6E6;
+	padding:2px;
+}
+.mdb_comment_submit {
+	margin-top:10px;
+	padding-bottom:5px;
+	text-align:center;
+	width:450px;
+}
+.mdb_search_result_content {
+	padding:0px 5px 10px 15px;
+}
+.mdb_search_time {
+	color:#008000;
+	font-size:80%;
+}
+.mdb_separator {
+	margin-right:5px;
+}
+.mdb_layout_out_table {
+	margin-top:10px;
+	margin-bottom:5px;
+	border:1px solid #cccccc;
+	border-collapse:collapse;
+	width:100%;
+}
+.mdb_layout_out_table_td {
+	border-top: 0px;
+	border-left: 1px #cccccc;
+	border-right: 1px solid #cccccc;
+}
+.mdb_sequence {
+	padding : 2px 0px 2px 3px;
+	border-top : 1px solid #e0e0e0;
+	border-bottom : 1px solid #e0e0e0;
+	border-right : 1px solid #e0e0e0;
+	height : 22px;
+	overflow : hidden;
+}
+.mdb_sequence_title {
+	width:300px;
+}
+span.mdb_page_switch a {
+	margin:0px 4px;
+}
+.mdb_chgseq {
+	padding:5px 0px;
+}
+.mdb_search_page_count {
+	font-size:80%;
+}
+.mdb_search_user_name {
+	font-size:90%;
+}
+.mdb_search_result_prev {
+	padding-bottom:10px;
+	text-align:left;
+}
+.mdb_search_result_next {
+	padding-bottom:10px;
+	text-align:right;
+}
+.mdb_search_result_contents {
+	padding:5px 0px;
+}
+.mdb_right_space {
+	padding-right: 50px;
+}
+.mdb_comment_input_title {
+	font-weight:bold;
+	margin-bottom:2px;
+	margin-top:15px;
+}
+a.mdb_fixed_link {
+	font-size:80%;
+	margin-right:5px;
+}
+span.mdb_page_switch a.current {
+	font-weight:bold;
+	color:#c90505;
+}
+.multidatabase_filepassword_popup_title{
+	margin-bottom: 5px;
+	width: 190px;
+}
+.mdb_password_popup_input_block {
+	margin-bottom: 5px;
+	width: 180px;
+	border:1px solid #cccccc;
+	border-right:1px solid #ebebeb;
+	border-bottom:1px solid #ebebeb;
+}
+.mdb_file_password_display {
+	font-size:80%;
+	margin-left:5px;
+}
+.mdb_file_download_count_font {
+	font-size:0.9em;
+	padding-left:4px;
+}

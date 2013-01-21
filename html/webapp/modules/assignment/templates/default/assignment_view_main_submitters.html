@@ -1,0 +1,91 @@
+<{strip}>
+<{* 提出者リストテンプレート *}>
+
+<{* 課題名称 *}>
+<{if ($displayTitle) }>
+	<{include file="assignment_view_assignment_name.html"}>
+<{/if}>
+
+<div id="assignment_main_submitters<{$id}>" class="assignment_main_submitters">
+	<{* 未提出者も表示する *}>
+	<div class="assignment_display_yet_submitter">
+		<label for="assignment_display_yet_submitter<{$id}>">
+			<{if ($action.yet_submitter == _ON) }>
+				<{assign var="change_value" value=$smarty.const._OFF}>
+			<{else}>
+				<{assign var="change_value" value=$smarty.const._ON}>
+			<{/if}>
+			<input id="assignment_display_yet_submitter<{$id}>" name="yet_submitted" value="<{$smarty.const._ON}>" type="checkbox"<{if ($action.yet_submitter == _ON) }> checked="checked"<{/if}> onclick='assignmentCls["<{$id}>"].showYetSubmitted("<{$change_value}>","<{$action.popup_flag}>"); return false;' />
+			<{$lang.assignment_display_yet_submitted|smarty:nodefaults}>
+		</label>
+	</div>
+
+	<{if ($action.submitterCount != 0) }>
+		<{* ヘッダー *}>
+		<table class="grid_header" summary="<{$lang.assignment_list_summary|smarty:nodefaults}>">
+			<tr>
+				<{* 提出者 *}>
+				<th class="_sort_submitter assignment_grid_submitter" scope="col">
+					<{$lang.assignment_submitter|smarty:nodefaults}>
+				</th>
+
+				<{* 提出日時 *}>
+				<th class="_sort_submit_time assignment_grid_submit_time" scope="col">
+					<{$lang.assignment_submit_time_head|smarty:nodefaults}>
+				</th>
+
+				<{* 評価 *}>
+				<th class="_sort_grade_value assignment_grid_grade_value" scope="col">
+					<{$lang.assignment_grade|smarty:nodefaults}>
+				</th>
+			</tr>
+		</table>
+
+		<{* データ *}>
+		<table class="grid" summary="<{$lang.assignment_list_summary|smarty:nodefaults}>">
+			<{foreach from=$action.submitters item=submitter}>
+				<tr class="grid_row">
+					<{* 提出者 *}>
+					<td class="assignment_grid_submitter">
+						<{if (!empty($submitter.submit_id|smarty:nodefaults)) }>
+							<{include file="assignment_view_submitter.html" submit_id=$submitter.submit_id handle=$submitter.handle|smarty:nodefaults}>
+						<{else}>
+							<{include file="assignment_view_handle.html" handle=$submitter.handle|smarty:nodefaults user_id=$submitter.user_id}>
+						<{/if}>
+					</td>
+
+					<{* 提出日時 *}>
+					<td class="assignment_grid_submit_time">
+						<{include file="assignment_view_main_submitters_submit_time.html"}>
+					</td>
+
+					<{* 評価 *}>
+					<td class="assignment_grid_grade_value">
+						<{include file="assignment_view_grade_value.html" submit_flag=$submitter.submit_flag grade_value=$submitter.grade_value|smarty:nodefaults forcedDisplay=true submittedUnvalued=true}>
+					</td>
+				</tr>
+			<{/foreach}>
+		</table>
+	<{else}>
+		<div class="outerdiv">
+			<{$lang.assignment_no_submitter}>
+		</div>
+	<{/if}>
+</div>
+
+<{include file="../assignment_script.html"}>
+<script class="nc_script" type="text/javascript">
+	<{if ($action.submitterCount != 0) }>
+		var opts = {
+			prefetchBuffer:false,
+			sort:true,
+			requestParameters:new Array("scroll=<{$smarty.const._ON}>", "yet_submitter=<{$action.yet_submitter}>")
+		};
+		assignmentCls["<{$id}>"].liveGrid = new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.submitterCount}>, "assignment_view_main_submitters", opts);
+		var opts = null;
+	<{/if}>
+
+	assignmentCls["<{$id}>"].assignment_id = "<{$action.assignment.assignment_id}>";
+</script>
+
+<{/strip}>

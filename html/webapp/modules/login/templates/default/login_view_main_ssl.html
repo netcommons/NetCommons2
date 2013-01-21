@@ -1,0 +1,45 @@
+<{strip}>
+<{if $action.error_mes != ""}>
+	<div class="deadline">
+		<{$lang.login_redirect_url_mes|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<div class="<{$action.sslOuterClassName}>">
+	<iframe id="login_ssl_iframe<{$id}>" class="<{$action.formClassName}>" scrolling="no" frameborder="0">
+	</iframe>
+
+	<div class="login_popup_sslcancel_btn">
+		<{include file="login_cancel_button.html"}>
+	</div>
+
+	<{if $action.closesite == _OFF}>
+		<{* パスワード紛失 *}>
+		<{if $action.autologin==1}>
+			<br class="login_offset_height" />
+		<{/if}>
+		<div class="login_forgetpass_link">
+			<a class="link" href="#" onclick="commonCls.sendPopupView(event, {'action':'login_view_main_forgetpass','prefix_id_name':'login_popup_forgetpass'},{'top_el':$('<{$id}>'),center_flag:1});return false;">
+				<{$lang.login_lost_password|smarty:nodefaults}>
+			</a>
+		</div>
+	<{/if}>
+
+</div>
+
+<{include file="login_script.html"}>
+<{/strip}>
+<script class="nc_script" type="text/javascript">
+<!--
+	if (browser.isIE && browser.version == 6 || browser.version == 7) {
+		Element.addClassName($("login_ssl_iframe<{$id}>"), "login_popup_ie7padding");
+	}
+
+	<{if empty($action.block_id|smarty:nodefaults) && empty($action.error_mes|smarty:nodefaults)}>
+		loginCls['<{$id}>'].sslIframeSrc = "<{$action.ssl_base_url}><{$smarty.const.INDEX_FILE_NAME}>?action=login_view_main_init&block_id=<{$action.block_id}>&parent_id=<{$id}>&error_mes=<{$action.error_mes}>&http=<{$smarty.const._ON}>&_redirect_url=<{$action.redirect_url}>";
+	<{else}>
+		$('login_ssl_iframe<{$id}>').src = "<{$action.ssl_base_url}><{$smarty.const.INDEX_FILE_NAME}>?action=login_view_main_init&block_id=<{$action.block_id}>&parent_id=<{$id}>&error_mes=<{$action.error_mes}>&http=<{$smarty.const._ON}>&_redirect_url=<{$action.redirect_url}>";
+	<{/if}>
+	loginCls["<{$id}>"].setButtonStyle($("login_cancel_button<{$id}>"));
+//-->
+</script>

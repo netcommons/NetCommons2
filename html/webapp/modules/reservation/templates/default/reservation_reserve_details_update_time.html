@@ -1,0 +1,10 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<{$lang.reservation_update_time|smarty:nodefaults}>
+</th>
+<td class="nowrap">
+	<{$action.reserve.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+</td>
+
+<{/strip}>

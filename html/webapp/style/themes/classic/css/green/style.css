@@ -1,0 +1,58 @@
+/* 
+ * ブロック定義
+ */
+/* 枠 */
+.th_classic_green {
+	background-color:#ffffff;
+	border:1px solid #b0db67;
+	border-collapse:collapse;
+}
+
+.th_classic_green_header{
+	border:1px solid #b0db67;
+	background-color:#f2ffeb;
+	width:100%;
+	border-collapse:collapse;
+}
+
+.th_classic_green_title {
+	color:#91c830;
+	font-size:90% !important;
+	margin:0px;
+	padding:5px 0px 5px 5px;
+	display:block;
+}
+
+.th_classic_green_btn {
+	border-left:1px solid #b0db67;
+	float:left;
+	display:block;
+	padding: 0px 5px;
+	white-space:nowrap;
+}
+/* highlight */
+.th_classic_green .highlight{
+	background-color:#f2ffef;
+	color:#91c830;
+}
+
+.th_classic_green a.hover_highlight:hover {
+	background-color:#f2ffef;
+	color:#91c830;
+	text-decoration:none;
+} 
+
+/* 一般 */
+.th_classic_content {
+	border:0px;
+	padding:10px;
+}
+
+.th_classic_headermenu {
+	padding-top:5px;
+}
+
+.th_classic_shortcut {
+	width:19px;
+	padding: 0px 2px;
+}

@@ -1,0 +1,10 @@
+<{strip}>
+<{assign var="now_thread_num" value=$action.thread_num}>
+<{assign var="now_parent_id" value=$action.parent_id}>
+<{assign var="menus" value=$action.menus.$now_thread_num.$now_parent_id}>
+<{assign var="alert_mess_hidden_menu" value=$lang.mobile_error_message_1|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="alert_mess_disabled_menu" value=$lang.mobile_error_message_2|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="alert_mess_disabled_node" value=$lang.mobile_error_message_3|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="visibility_flag" value=$action.space_visibility_flag}>
+<{include file="mobile_view_admin_menu_list.html"}>
+<{/strip}>

@@ -1,0 +1,13 @@
+<{strip}>
+<{* 項目名称用テンプレート *}>
+<th class="registration_item_name" scope="row">
+	<label<{if $item.item_type != REGISTRATION_TYPE_CHECKBOX && $item.item_type != REGISTRATION_TYPE_RADIO}> for="registration_item_data_value<{$item.item_id}><{$id}>"<{/if}>>
+		<{$item.item_name}>
+	</label>
+	<{if $item.require_flag == _ON}>
+		<span class="require">
+			<{$lang.registration_require_text}>
+		</span>
+	<{/if}>
+</th>
+<{/strip}>

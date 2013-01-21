@@ -1,0 +1,18 @@
+.dialog_pagestyle_reset {
+	padding:3px;
+	font-size:110%;
+	font-weight:bold;
+}
+.dialog_pagestyle_update_meta {
+	text-align:right;
+	padding:5px;
+}
+.dialog_pagestyle_permalink {
+	width:120px;
+}
+.dialog_pagestyle_titletag {
+	width:260px;
+}
+.dialog_pagestyle_meta_textarea {
+	width:405px;
+}

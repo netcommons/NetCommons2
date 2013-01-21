@@ -1,0 +1,34 @@
+<{strip}>
+
+<{if $smarty.session.login_forgetpass_count >= 3}>
+	<div>
+		<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>" >
+			<{$smarty.const.LOGIN_MISS_EMAIL|smarty:nodefaults}>
+			<{* キャンセル *}>
+			<{* この画面はログイン画面からしか出現しない。ここでキャンセル＝ログイン画面に戻るである *}>
+			<input type="submit" value="<{$lang._cancel|smarty:nodefaults}>" />
+		</form>
+	</div>
+<{else}>
+	<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>" >
+		<div>
+			<{$lang.login_mobile_top_description|smarty:nodefaults}>
+			<span style="color:red">
+				<{errorList->getMessagesString}>
+			</span>
+			<{$lang.login_email|smarty:nodefaults}>&nbsp;
+			<input id="email<{$id}>" type="text" name="email" value="" />
+			</div>
+			<div style="text-align:center">
+			<{* 各種ボタン *}>
+			<{* 送信 *}>
+			<input type="submit" name="dispatch_login_action_main_forgetpass" value="<{$lang._send|smarty:nodefaults}>" data-inline="true" />
+			&nbsp;&nbsp;
+			<{* キャンセル *}>
+			<input type="submit" name="dispatch_login_view_mobile_init" value="<{$lang._cancel|smarty:nodefaults}>" data-inline="true" />
+			<input name="forgetpass_count" type="hidden" value="<{if $smarty.session.login_forgetpass_count}><{$smarty.session.login_forgetpass_count}><{else}>0<{/if}>" />
+			<{$session_form|smarty:nodefaults}>
+		</div>
+	</form>
+<{/if}>
+<{/strip}>

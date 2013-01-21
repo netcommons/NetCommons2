@@ -1,0 +1,202 @@
+<{strip}>
+<{* 写真一覧表示画面用テンプレート *}>
+<form id="photoalbum_photo_list_form<{$id}>" class="photoalbum_photo_list_form" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('photoalbum_photo_list_form<{$id}>')), {'target_el':$('<{$id}>')});return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="photoalbum_id" />
+	<input type="hidden" name="album_id" />
+
+	<label class="photoalbum_photo_list_sort">
+		<select id="photoalbum_photo_sort<{$id}>" name="sort" onchange="photoalbumCls['<{$id}>'].showPhotoList(event, {'sort':this.value});return false;"">
+			<option value="<{$smarty.const.PHOTOALBUM_PHOTO_SORT_NONE}>"><{$lang.photoalbum_photo_sort_none}></option>
+			<option value="<{$smarty.const.PHOTOALBUM_PHOTO_SORT_DATE_DESC}>"><{$lang.photoalbum_photo_sort_date_desc}></option>
+			<option value="<{$smarty.const.PHOTOALBUM_PHOTO_SORT_DATE_ASC}>"><{$lang.photoalbum_photo_sort_date_asc}></option>
+			<option value="<{$smarty.const.PHOTOALBUM_PHOTO_SORT_PHOTO_NAME}>"><{$lang.photoalbum_photo_sort_photo_name}></option>
+			<option value="<{$smarty.const.PHOTOALBUM_PHOTO_SORT_VOTE}>"><{$lang.photoalbum_photo_sort_vote}></option>
+		</select>
+	</label>
+
+	<div class="photoalbum_photo_list_outer">
+		<div id="photoalbum_photo_list<{$id}>" class="photoalbum_photo_list">
+			<{foreach item=photo from=$action.photos}>
+				<div id="photoalbum_photo_list_photo_area<{$photo.photo_id}><{$id}>" class="photoalbum_photo_list_photo_area" onmouseover="photoalbumCls['<{$id}>'].photoMouseOver(this);" onmouseout="photoalbumCls['<{$id}>'].photoMouseOut(this);">
+					<div class="photoalbum_photo_drag">
+					</div>
+	
+					<div class="photoalbum_photo_list_photo">
+						<{assign var="photo_name" value="`$photo.photo_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+						<a class="photoalbum_photo_list_photo syslink" href="#" title="<{$photo_name}>" onclick="commonCls.showPopupImageFullScale(this);return false;">
+							<img class="photoalbum_thumbnail" src=".<{$smarty.const.INDEX_FILE_NAME}><{$photo.photo_path}>" alt="<{$photo_name}>" title="" style="<{$photo.thumbnail_style}>" />
+						</a>
+						
+						<div class="photoalbum_photo_name">
+							<{$photo.photo_name}>
+						</div>
+
+						<{if $photo.edit_authority}>
+							<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$photo_name}>" onclick="photoalbumCls['<{$id}>'].showPhotoEntry(event, '<{$photo.photo_id}>');return false;">
+								<img src="<{"edit_light.gif"|get_themes_image}>" alt="<{$lang._edit_title|sprintf:$photo_name}>" title="" />
+							</a>
+
+							<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$photo_name}>" onclick="photoalbumCls['<{$id}>'].deletePhoto('<{$photo.photo_id}>', '<{$lang._del_confirm|smarty:nodefaults|sprintf:"`$photo_name`"}>');return false;">
+								<img src="<{"trash_silhouette.gif"|get_themes_image}>" alt="<{$lang._del_title|sprintf:$photo_name}>" title="" />
+							</a>
+						<{/if}>
+
+						<input type="hidden" name="photo_ids[]" value="<{$photo.photo_id}>" />
+					</div>
+					
+					<br class="float-clear" />
+				</div>
+			<{/foreach}>
+		</div>
+		<br class="float-clear" />
+	</div>
+	<br class="float-clear" />
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="photoalbumCls['<{$id}>'].redrawPhoto();" />
+	</div>
+</form>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var photoalbumForm = $("photoalbum_photo_list_form<{$id}>");
+	photoalbumForm["action"].value = "photoalbum_action_main_photo_sequence";
+	photoalbumForm["photoalbum_id"].value = "<{$action.photoalbum.photoalbum_id}>";
+	photoalbumForm["album_id"].value = "<{$action.album.album_id}>";
+	photoalbumForm["sort"].value = "<{$action.sort}>";
+
+	var draggable = Class.create();
+	draggable.prototype = Object.extend((new compDraggable), {
+		cancelDrag: function() {
+			Element.setStyle(this.htmlElement, {opacity:""});
+			Element.removeClassName(this.htmlElement, "photoalbum_photo_over");
+		},
+		
+		endDrag: function() {
+			this.cancelDrag();
+		}
+	});
+	
+	var dropZone = Class.create();
+	dropZone.prototype = Object.extend((new compDropzone), {
+		isLastElement: function() {
+			var drop = this.getHTMLElement();
+			if (Element.hasClassName(drop, "photoalbum_photo_list")) {
+				return true;
+			}
+			
+			
+			
+			return false;
+		},
+		
+		showHover: function(event) {
+			if (this.isLastElement()) {
+				var drop = this.getHTMLElement();
+				var offset = Position.cumulativeOffset(drop.lastChild);
+				offset[0] += drop.lastChild.offsetWidth;
+				if(Event.pointerX(event) > offset[0]
+						&& Event.pointerY(event) > offset[1]) {
+					this.showChgSeqHover(event);
+				}
+			} else {
+				this.showChgSeqHover(event);
+			}
+		},
+			
+		hideHover: function(event) {
+			if (this.ChgSeqHover
+					&& this.ChgSeqHover.parentNode) {
+				this.hideChgSeqHover(event);
+			}
+		},
+
+		save: function(draggableObjects) {
+			if (!this.ChgSeqHover || this.ChgSeqPosition == null) {
+				return false;
+			}
+			
+			return true;
+		},
+			
+		showChgSeqHover: function(event, pos) {
+			var drop = this.getHTMLElement();
+			if (this.isLastElement()) {
+				drop = drop.lastChild;
+			}
+
+	 		var id = this.getParams();
+	 		var hoverElement = $("photoalbum_hover" + id);
+	 		if (hoverElement) {
+ 				this.ChgSeqHover = hoverElement;
+ 			} else {
+	 			this.ChgSeqHover = document.createElement("div");
+				this.ChgSeqHover.id = "photoalbum_hover" + id;
+	 			document.body.appendChild(this.ChgSeqHover);
+			}
+
+			var dropOffset = Position.cumulativeOffset(drop);
+	 		this.ChgSeqHover.style.height = drop.offsetHeight + "px";
+	 		this.ChgSeqHover.style.width = "1px";
+	 		this.ChgSeqHover.style.position = "absolute";
+	 		this.ChgSeqHover.style.top = dropOffset[1]  + "px";
+	 		commonCls.max_zIndex++;
+			this.ChgSeqHover.style.zIndex = commonCls.max_zIndex;
+
+	 		var centerX = dropOffset[0] + (drop.offsetWidth / 2);
+			if (centerX < Event.pointerX(event)) {
+				this.ChgSeqPosition = "right";
+				this.ChgSeqHover.style.left = (dropOffset[0] + drop.offsetWidth)  + "px";
+			} else {
+				this.ChgSeqPosition = "left";
+				this.ChgSeqHover.style.left = dropOffset[0]  + "px";
+			}
+
+			this.ChgSeqHover.style.borderLeft = "3px";
+			this.ChgSeqHover.style.borderLeftStyle = "solid";
+			this.ChgSeqHover.style.borderLeftColor = "#ffff00";
+		},
+
+		accept: function(draggableObjects) {
+			var drag = draggableObjects[0].getDroppedGUI();
+			Element.setStyle(drag, {"width":""});
+
+			var drop = this.getHTMLElement();
+			if (this.isLastElement()) {
+				drop = drop.lastChild;
+				drop.parentNode.appendChild(drag);
+			} else if(this.ChgSeqPosition == "left"){
+				drop.parentNode.insertBefore(drag, drop);
+			} else if (this.ChgSeqPosition == "right") {
+				var target = drop.nextSibling;
+				if (target == null) {
+					drop.parentNode.appendChild(drag);
+				} else {
+					drop.parentNode.insertBefore(drag, target);
+				}
+			}
+		}
+	});
+		
+	var dragArea = $("photoalbum_photo_list<{$id}>");
+	photoalbumCls["<{$id}>"].dragDrop = new compDragAndDrop();
+	photoalbumCls["<{$id}>"].dragDrop.registerDraggableRange(dragArea);
+
+	var photos = dragArea.childNodes;
+	for (var i = 0; i < photos.length; i++) {
+		photoalbumCls["<{$id}>"].dragDrop.registerDraggable(new draggable(photos[i], photos[i].firstChild));
+		photoalbumCls["<{$id}>"].dragDrop.registerDropZone(new dropZone(photos[i], "<{$id}>"));
+	}
+	photoalbumCls["<{$id}>"].dragDrop.registerDropZone(new dropZone(dragArea, "<{$id}>"));
+	
+	commonCls.focus(photoalbumForm["sort"]);
+
+	photoalbumForm = null;
+	draggable = null;
+	dropZone = null;
+	dragArea = null;
+	photos = null;
+</script>
+<{/strip}>

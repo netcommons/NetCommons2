@@ -1,0 +1,26 @@
+<{strip}>
+<select class="pm_list_operation_select" id="otherOp<{$id}>" name="otherOp" onchange="pmCls['<{$id}>'].operation(this.form, this.value, '<{$action.top_id_name}>', '<{$parent_id_name}>', '<{$action.current_menu}>','<{$action.filter}>', '<{$page}>','<{$location}>', event);">
+	<option value=""><{$lang.pm_otherop|smarty:nodefaults}></option>
+    <option value="<{$smarty.const.PM_ACTION_READ}>"><{$lang.pm_action_read|smarty:nodefaults}></option>
+    <option value="<{$smarty.const.PM_ACTION_UNREAD}>"><{$lang.pm_action_unread|smarty:nodefaults}></option>
+    <option value="<{$smarty.const.PM_ACTION_ADDFLAG}>"><{$lang.pm_action_add_flag|smarty:nodefaults}></option>
+    <option value="<{$smarty.const.PM_ACTION_REMOVEFLAG}>"><{$lang.pm_action_remove_flag|smarty:nodefaults}></option>
+    <option value="" disabled="true" class="disable_lbl"><{$lang.pm_action_add_tag|smarty:nodefaults}></option>
+    <option value="newtag">&nbsp;&nbsp;<{$lang.pm_action_new_tag|smarty:nodefaults}></option>
+	<option value="" disabled="true" class="disable_lbl">&nbsp;&nbsp;<{$lang.pm_action_add_tag|smarty:nodefaults}></option>
+	<{foreach from=$action.tags_list item=tags}>
+	<{assign var="tagAdd" value=$smarty.const.PM_ACTION_ADDTAG|cat:$smarty.const.PM_SPLIT_CHAR|cat:$tags.tag_id}>
+	<option value="<{$tagAdd}>">&nbsp;&nbsp;&nbsp;&nbsp;<{$tags.tag_name}></option>
+	<{/foreach}>
+	<option value="" disabled="true" class="disable_lbl">&nbsp;&nbsp;<{$lang.pm_action_remove_tag|smarty:nodefaults}></option>
+	<{foreach from=$action.tags_list item=tags}>
+	<{assign var="tagRemove" value=$smarty.const.PM_ACTION_REMOVETAG|cat:$smarty.const.PM_SPLIT_CHAR|cat:$tags.tag_id}>
+	<option value="<{$tagRemove}>">&nbsp;&nbsp;&nbsp;&nbsp;<{$tags.tag_name}></option>
+	<{/foreach}>
+	
+	<{if $action.trash_flag}>
+		<option value="" disabled="true" class="disable_lbl"><{$lang.pm_separator|smarty:nodefaults}></option>
+		<option value="<{$smarty.const.PM_ACTION_RESTORE}>">&nbsp;&nbsp;<{$lang.pm_restore_message|smarty:nodefaults}></option>
+	<{/if}>
+</select>
+<{/strip}>

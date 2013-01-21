@@ -1,0 +1,31 @@
+<{strip}>
+
+<select id="reservation_switch_location<{$id}>" class="reservation_style_select" name="location_id" onchange='reservationCls["<{$main_id}>"].switchMainLocation(this); return false;'>
+	<{foreach name="category" key="category_id" item="category_name" from=$action.category_list}>
+		<{assign var="location_list" value=$action.location_list.$category_id}>
+		<{if ($location_list) }>
+			<option value="-">
+				<{if ($category_name == "") }>
+					<{$lang.reservation_select_location_pause|smarty:nodefaults|sprintf:$lang.reservation_no_category|smarty:nodefaults}>
+				<{else}>
+					<{$lang.reservation_select_location_pause|smarty:nodefaults|sprintf:"`$category_name`"}>
+				<{/if}>
+			</option>
+			<{section name=i loop=$location_list}>
+				<option value="<{$location_list[i].location_id}>"<{if ($view_location_id==$location_list[i].location_id) }> selected="selected"<{/if}>>
+					&nbsp;&nbsp;
+					<{$location_list[i].location_name}>
+					<{if ($view_location_id==$location_list[i].location_id) }>
+						<{assign var="location_name" value=$location_list[i].location_name}>
+					<{/if}>
+				</option>
+			<{/section}>
+		<{/if}>
+	<{/foreach}>
+</select>
+
+<a id="reservation_location_details<{$id}>" href="#" class="syslink" title="<{$lang.reservation_show_details|smarty:nodefaults|sprintf:"`$location_name`"}>" onclick='reservationCls["<{$main_id}>"].showLocation(event,$("reservation_switch_location<{$id}>").value); return false;'>
+	<{$lang._details|smarty:nodefaults}>
+</a>
+
+<{/strip}>

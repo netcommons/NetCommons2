@@ -1,0 +1,37 @@
+<{strip}>
+<{* オンライン状況表示方法変更画面用テンプレート *}>
+<form id="online_form<{$id}>" onsubmit="return false;">
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="col">
+				<{$lang.online_display|smarty:nodefaults}>
+			</th>
+		</tr>
+		<tr class="row">
+			<td>
+				<label for="online_display_user<{$id}>">
+					<input id="online_display_user<{$id}>" type="checkbox" name="user_flag" value="<{$smarty.const._ON}>" <{if ($action.user_flag) }> checked="checked"<{/if}> />
+					<span><{$lang.online_display_user|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="online_display_member<{$id}>">
+					<input id="online_display_member<{$id}>" type="checkbox" name="member_flag" value="<{$smarty.const._ON}>" <{if ($action.member_flag) }> checked="checked"<{/if}> />
+					<span><{$lang.online_display_member|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="online_display_total_member<{$id}>">
+					<input id="online_display_total_member<{$id}>" type="checkbox" name="total_member_flag" value="<{$smarty.const._ON}>" <{if ($action.total_member_flag) }> checked="checked"<{/if}> />
+					<span><{$lang.online_display_total_member|smarty:nodefaults}></span>
+				</label>
+				<br />
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='commonCls.sendPost("<{$id}>", "action=online_action_edit_style&" + Form.serialize($("online_form<{$id}>")), {"target_el":$("<{$id}>")}); return false;' />
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'online_view_main_init');" />
+	</div>
+</form>
+<{/strip}>

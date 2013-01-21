@@ -1,0 +1,53 @@
+<{strip}>
+<{* スレッド表示用テンプレート *}>
+<{if empty($parents|smarty:nodefaults) && count($action.topics) > 0}>
+	<table class="bbs_thread" summary="<{$lang.bbs_post_list_summary|smarty:nodefaults}>">
+	<{assign var="parents" value=$action.topics.0}>
+	<{assign var="depth" value=0}>
+<{/if}>
+
+<{foreach from=$parents|smarty:nodefaults key=postID item=post}>
+	<tr id="bbs_post_row<{$post.post_id}><{$id}>" class="bbs_post_row<{if $post.parent_id == "0"}> bbs_topic<{/if}><{if $post.read_flag == _ON}> bbs_read<{/if}>">
+		<td class="bbs_subject">
+			<{if $post.parent_id == "0" }>
+				<img class="icon" src="<{"topic.gif"|get_modules_image}>" alt="" />
+			<{/if}>
+			<{foreach from=$post.branches item=branch}>
+				<img class="icon" src="<{$branch|cat:".gif"|get_modules_image}>" alt="&nbsp;" />
+			<{/foreach}>
+			<{if empty($action.topics.$postID|smarty:nodefaults) && $post.parent_id != "0"}>
+				<img class="icon" src="<{"-.gif"|get_modules_image}>" alt="&nbsp;" />
+			<{elseif $post.parent_id != "0"}>
+				<img class="icon" src="<{"T.gif"|get_modules_image}>" alt="&nbsp;" />
+			<{/if}>
+			<{include file = "bbs_view_main_subject.html"}>
+		</td>
+		
+		<td class="bbs_user">
+			<{include file = "bbs_view_handle.html" handle=$post.insert_user_name|smarty:nodefaults user_id=$post.insert_user_id}>
+		</td>
+		
+		<td class="bbs_date">
+			<{$post.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+		</td>
+		
+		<td class="bbs_note">
+			<{if $action.bbs.vote_flag == _ON}>
+				<{$lang.bbs_vote_unit|smarty:nodefaults|sprintf:$post.vote_num}>
+			<{/if}>
+		</td>
+	</tr>
+	
+	<{if !empty($action.topics.$postID|smarty:nodefaults)}>
+		<{assign var="parents" value=$action.topics.$postID}>
+		<{assign var="depth" value="`$depth+1`"}>
+		<{include file = "bbs_view_main_thread.html"}>
+		<{assign var="depth" value="`$depth-1`"}>
+	<{/if}>
+<{foreachelse}>
+<{/foreach}>
+
+<{if $depth|smarty:nodefaults === 0}>
+	</table>
+<{/if}>
+<{/strip}>

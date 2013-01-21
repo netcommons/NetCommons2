@@ -1,0 +1,30 @@
+<{strip}>
+<form action=".<{$smarty.const.INDEX_FILE_NAME}>" method="post">
+	<input type="hidden" name="action" value="photoalbum_action_main_comment_entry" />
+	<input type="hidden" name="room_id" value="<{$action.room_id}>">
+	<input type="hidden" name="block_id" value="<{$action.block_id}>">
+	<input type="hidden" name="photoalbum_id" value="<{$action.photoalbum_id}>" />
+	<input type="hidden" name="album_id" value="<{$action.album_id}>" />
+	<input type="hidden" name="photo_id" value="<{$action.photo_id}>" />
+	<input type="hidden" name="seq" value="<{$action.seq}>" />
+	<input type="hidden" name="comment_id" value="<{$action.comment_id}>" />
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+
+	<label class="bold" for="photoalbum_comment_value<{$id}>">
+		<{$lang.photoalbum_comment_value}><br />
+		<textarea id="photoalbum_comment_value<{$id}>" rows="5" name="comment_value"><{if empty($action.comment|smarty:nodefaults)}><{else}><{$action.comment.comment_value|nl2br}><{/if}></textarea>
+	</label>
+	<input data-role="button" data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>" />
+</form>
+<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<input type="hidden" name="action" value="photoalbum_view_mobile_photo">
+	<input type="hidden" name="block_id" value="<{$block_id}>">
+	<input type="hidden" name="photoalbum_id" value="<{$action.photoalbum_id}>" />
+	<input type="hidden" name="album_id" value="<{$action.album_id}>" />
+	<input type="hidden" name="photo_id" value="<{$action.photo_id}>" />
+	<input type="hidden" name="seq" value="<{$action.seq}>" />
+	<{$session_form|smarty:nodefaults}>
+	<input type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+</form>
+<{/strip}>

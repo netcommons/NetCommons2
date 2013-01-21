@@ -1,0 +1,225 @@
+<{strip}>
+
+<div class="outerdiv">
+	<table class="outer" summary="<{$lang.calendar_summary|smarty:nodefaults}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.calendar_plan_title|smarty:nodefaults}>
+			</th>
+			<td>
+				<{if $action.calendar_obj.title_icon != "" }>
+					<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$action.calendar_obj.title_icon}>" alt="" />
+				<{/if}>
+				<{$action.calendar_obj.title}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.calendar_plan_flag|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{if ($action.calendar_obj.plan_flag == CALENDAR_PLAN_PUBLIC) }>
+					<{assign var="plan_class" value="calendar_plan_public"}>
+					<{assign var="plan_name" value=$action.calendar_obj.page_name|smarty:nodefaults}>
+
+				<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_MEMBERS ) }>
+					<{assign var="plan_class" value="calendar_plan_members"}>
+					<{assign var="plan_name" value=$smarty.const.CALENDAR_ALL_MEMBERS_LANG|smarty:nodefaults}>
+
+				<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_GROUP) }>
+					<{assign var="plan_class" value="calendar_plan_group"}>
+					<{assign var="plan_name" value=$action.calendar_obj.page_name|smarty:nodefaults}>
+
+				<{elseif ($action.calendar_obj.plan_flag == CALENDAR_PLAN_PRIVATE) }>
+					<{assign var="plan_class" value="calendar_plan_private"}>
+					<{assign var="plan_name" value=$smarty.const.CALENDAR_USER_LANG|smarty:nodefaults}>
+				<{/if}>
+				<div class="<{$plan_class}>">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+					<{$lang.calendar_plan_flag_str|smarty:nodefaults|sprintf:$plan_name}>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.calendar_start_time|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{$action.calendar_obj.start_time_str}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.calendar_end_time|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{$action.calendar_obj.end_time_str}>
+			</td>
+		</tr>
+
+		<{if ($action.calendar_obj.location != "") }>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.calendar_location|smarty:nodefaults}>
+				</th>
+				<td>
+					<{$action.calendar_obj.location}>
+				</td>
+			</tr>
+		<{/if}>
+
+		<{if ($action.calendar_obj.contact != "") }>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.calendar_contact|smarty:nodefaults}>
+				</th>
+				<td>
+					<{$action.calendar_obj.contact}>
+				</td>
+			</tr>
+		<{/if}>
+
+		<{if ($action.calendar_obj.description != "") }>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.calendar_description|smarty:nodefaults}>
+				</th>
+				<td>
+					<{$action.calendar_obj.description|smarty:nodefaults|wysiwig_convert_url}>
+				</td>
+			</tr>
+		<{/if}>
+
+		<{if ($action.calendar_obj.rrule != "") }>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.calendar_rrule|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<{$action.calendar_obj.rrule_str|smarty:nodefaults}>
+				</td>
+			</tr>
+		<{/if}>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.calendar_insert_user_name|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{include file="calendar_view_handle.html" handle=$action.calendar_obj.user_name|smarty:nodefaults user_id=$action.calendar_obj.insert_user_id}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.calendar_update_time|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<{$action.calendar_obj.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+			</td>
+		</tr>
+
+		<{if ($action.calendar_obj.link_id != 0) }>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.calendar_link|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<{if ($action.calendar_obj.link_module == CALENDAR_LINK_TODO) }>
+						<{$lang.calendar_link_todo|smarty:nodefaults}>
+					<{elseif ($action.calendar_obj.link_module == CALENDAR_LINK_RESERVATION) }>
+						<{$lang.calendar_link_reservation|smarty:nodefaults}>
+					<{else}>
+						<{$action.calendar_obj.link_module}>
+					<{/if}>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+	<{if ($action.calendar_obj.hasModify == _ON) }>
+		<div class="btn-bottom nowrap print_preview_none">
+			<{if ($action.calendar_obj.rrule == "") }>
+				<input class="btn-width" type="button" value="<{$lang._edit|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showModifyPlan(event, <{$action.calendar_obj.calendar_id}>,<{$smarty.const.CALENDAR_PLAN_EDIT_ALL}>); return false;' />
+				&nbsp;
+				<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>");  return false;' />
+				&nbsp;
+				&nbsp;
+				&nbsp;
+				<a href="#" class="hover_highlight" onclick='calendarCls["<{$id}>"].deletePlan(<{$action.calendar_obj.calendar_id}>,<{$smarty.const.CALENDAR_PLAN_EDIT_ALL}>,"<{$lang.calendar_delete_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>"); return false;'>
+					<img class="icon" src="<{"trash_large.gif"|get_themes_image}>" alt="<{$lang._delete|smarty:nodefaults}>" title="<{$lang.calendar_delete_title|smarty:nodefaults}>" />
+				</a>
+			<{else}>
+				<input class="btn-width" type="button" value="<{$lang._edit|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showRRuleEdit(this); return false;' />
+				<div class="popupClass nowrap">
+					<form action="#" method="post" onsubmit="return false;">
+						<label for="calendar_edit_this<{$id}>">
+							<input id="calendar_edit_this<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.CALENDAR_PLAN_EDIT_THIS}>" checked="checked" />
+							<{$lang.calendar_edit_this|smarty:nodefaults}>
+						</label>
+						<br />
+						<label for="calendar_edit_after<{$id}>">
+							<input id="calendar_edit_after<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.CALENDAR_PLAN_EDIT_AFTER}>" />
+							<{$lang.calendar_edit_after|smarty:nodefaults}>
+						</label>
+						<br />
+						<label for="calendar_edit_all<{$id}>">
+							<input id="calendar_edit_all<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.CALENDAR_PLAN_EDIT_ALL}>" />
+							<{$lang.calendar_edit_all|smarty:nodefaults}>
+						</label>
+
+						<input type="hidden" name="calendar_id" value="<{$action.calendar_obj.calendar_id}>" />
+						<input type="hidden" name="rrule_calendar_id" value="<{$action.rrule_calendar_id}>" />
+
+						<div class="btn-bottom">
+							<input class="btn-width" type="button" value="<{$lang._edit|smarty:nodefaults}>" onclick='parent.calendarCls["<{$id}>"].popupModifyPlan(event,this.form); return false;' />
+							&nbsp;
+							<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='parent.calendarCls["<{$id}>"].popup.closePopup(); return false;' />
+						</div>
+					</form>
+				</div>
+				&nbsp;
+				<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>");  return false;' />
+				&nbsp;
+				&nbsp;
+				&nbsp;
+				<a href="#" class="hover_highlight" onclick='calendarCls["<{$id}>"].showRRuleEdit(this); return false;'>
+					<img class="icon" src="<{"trash_large.gif"|get_themes_image}>" alt="<{$lang._delete|smarty:nodefaults}>" title="<{$lang.calendar_delete_title|smarty:nodefaults}>" />
+				</a>
+				<div class="popupClass nowrap">
+					<form action="#" method="post" onsubmit="return false;">
+						<label for="calendar_delete_this<{$id}>">
+							<input id="calendar_delete_this<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.CALENDAR_PLAN_EDIT_THIS}>" checked="checked" />
+							<{$lang.calendar_delete_this|smarty:nodefaults}>
+						</label>
+						<br />
+						<label for="calendar_delete_after<{$id}>">
+							<input id="calendar_delete_after<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.CALENDAR_PLAN_EDIT_AFTER}>" />
+							<{$lang.calendar_delete_after|smarty:nodefaults}>
+						</label>
+						<br />
+						<label for="calendar_delete_all<{$id}>">
+							<input id="calendar_delete_all<{$id}>" type="radio" name="edit_rrule" value="<{$smarty.const.CALENDAR_PLAN_EDIT_ALL}>" />
+							<{$lang.calendar_delete_all|smarty:nodefaults}>
+						</label>
+
+						<input type="hidden" name="calendar_id" value="<{$action.calendar_obj.calendar_id}>" />
+						<input type="hidden" name="rrule_calendar_id" value="<{$action.rrule_calendar_id}>" />
+
+						<div class="btn-bottom">
+							<input class="btn-width" type="button" value="<{$lang._delete|smarty:nodefaults}>" onclick='parent.calendarCls["<{$id}>"].popupDeletePlan(this.form, "<{$lang.calendar_delete_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>"); return false;' />
+							&nbsp;
+							<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='parent.calendarCls["<{$id}>"].popup.closePopup(); return false;' />
+						</div>
+					</form>
+				</div>
+			<{/if}>
+		</div>
+	<{/if}>
+</div>
+
+<{include file="../calendar_script.html"}>
+
+<{/strip}>

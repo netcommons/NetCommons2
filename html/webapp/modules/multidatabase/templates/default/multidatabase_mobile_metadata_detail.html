@@ -1,0 +1,134 @@
+<{strip}>
+<{* 携帯用共通メタデータ詳細 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<{* 変数定義 *}>
+<{assign var="metadata_id" value=$metadata.metadata_id}>
+<{assign var="multidatabase_id" value=$action.multidatabase_id}>
+<{if $action_name=="multidatabase_view_main_init" || $action_name=="multidatabase_view_main_detail"}>
+	<{assign var="content" value=$item.$metadata_id|smarty:nodefaults}>
+	<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE && $content != "" && $metadata.file_count_flag == $smarty.const._ON}>
+		<{assign var="download_count_var" value="download_count"|cat:$metadata_id}>
+		<{assign var="download_count" value=$item.$download_count_var}>
+	<{/if}>
+<{elseif $action_name=="multidatabase_view_main_content_init"}>
+	<{assign var="content" value=$smarty.session.multidatabase_content.$block_id.$metadata_id|smarty:nodefaults}>
+<{/if}>
+<{*ダウンロード回数の表示追加為*}>
+<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE && $content != "" && $metadata.file_count_flag == $smarty.const._ON}>
+	<{assign var="upload_id_var" value="upload_id"|cat:$metadata_id}>
+	<{assign var="download_count_var" value="download_count"|cat:$metadata_id}>
+	<{if $action_name=="multidatabase_view_main_init"}>
+		<{assign var="upload_id" value=$item.$upload_id_var}>
+		<{assign var="download_count" value=$item.$download_count_var}>
+	<{elseif $action_name=="multidatabase_view_main_detail"}>
+		<{assign var="upload_id" value=$action.detail.value.$upload_id_var}>
+		<{assign var="download_count" value=$action.detail.value.$download_count_var}>
+	<{/if}>
+<{/if}>
+
+<{if $mode=="regist"}>
+	<{if $smarty.session._smartphone_flag == _ON}>
+		<{include file="multidatabase_mobile_metadata_detail_smart.html"}>
+	<{else}>
+		<{include file="multidatabase_mobile_metadata_detail_feature.html"}>
+	<{/if}>
+<{else}>
+
+	<{if ($metadata.name_flag==$smarty.const._ON) }>
+		<dt><strong>
+			<{$metadata.name}>:
+		</strong></dt>
+	<{/if}>
+
+	<{if $mode == "preview" }>
+		<{* preview用 *}>
+		<dd>
+		<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+			<img src="<{""|get_image_url}>/<{$smarty.const.MULTIDATABASE_SAMPLE_IMAGE}>" class="mdb_metadata_image" alt="NO IMAGE" />
+		<{else}>
+			<{$content|smarty:nodefaults}>
+		<{/if}>
+		</dd>
+	<{elseif $mode == "list" || $mode == "detail"}>
+		<{* 一覧用 *}>
+		<dd>
+		<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}>
+			<{if $content == ""}>
+				&nbsp;
+			<{else}>
+				<{$content|smarty:nodefaults}><{if $metadata.file_count_flag == $smarty.const._ON}>(<{$download_count}>)<{/if}>
+			<{/if}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+			<br />
+			<{if $content == ""}>
+				<img src="<{""|get_image_url}>/<{$smarty.const.MULTIDATABASE_SAMPLE_IMAGE}>" alt="NO IMAGE" />
+			<{else}>
+				<{$content|smarty:nodefaults}>
+			<{/if}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_LINK}>
+			<a href="<{$content}>" title="<{$lang.mdb_open_title|smarty:nodefaults|sprintf:$content}>" target="_blank"><{$content}></a>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>
+			<{if ($content != "") }>
+				<{if $action.html_flag == _ON}>
+					<{$content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+				<{else}>
+					<{$content|smarty:nodefaults|html_to_text|nl2br}>
+				<{/if}>
+				<br style="clear:both;" />
+			<{else}>
+				&nbsp;
+			<{/if}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXTAREA}>
+			<{if ($content != "") }>
+				<{$content|smarty:nodefaults|nl2br}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		<{elseif $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
+			<{if ($content != "") }>
+				<{assign var="emailArr" value="@"|explode:$content}>
+				<{$emailArr.0|smarty:nodefaults}>
+				<img src="<{"mailmark.gif"|get_modules_image}>" alt="" title="" />
+				<{$emailArr.1|smarty:nodefaults}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		<{elseif $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+			<{if ($content != "") }>
+				<{$content|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		<{elseif $metadata.type == MULTIDATABASE_META_TYPE_AUTONUM}>
+			<{if ($content|intval > 0) }>
+				<{$content|intval}>
+			<{/if}>
+		<{elseif $metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME}>
+			<{if ($item.insert_time != "") }>
+				<{$item.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+			<{/if}>
+		<{elseif $metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+			<{if ($item.update_time != "") }>
+				<{$item.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+			<{/if}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>
+			<{if ($content != "") }>
+				<{foreach from=$content|smarty:nodefaults item=option}>
+					<{$option}><br />
+				<{/foreach}>
+			<{/if}>
+		<{else}>
+			<{if ($content != "") }>
+				<{$content|smarty:nodefaults}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		<{/if}>
+
+		</dd>
+
+	<{/if}>
+
+<{/if}>
+
+<{/strip}>

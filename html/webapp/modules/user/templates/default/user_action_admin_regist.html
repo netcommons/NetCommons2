@@ -1,0 +1,46 @@
+<{strip}>
+<{* 会員新規登録-Mail通達画面 *}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang.user_top_descripton|smarty:nodefaults|sprintf:$lang.user_mailsend}>
+	</div>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<table class="outer" summary="<{$lang.user_send_mail|smarty:nodefaults}>">
+			<tr>
+				<th class="valign-top align-left nowrap" scope="row">
+					<{$lang.user_send_mail_subject|smarty:nodefaults}>
+				</th>
+				<td class="valign-top align-left">
+					<input type="text" size="64" value="<{$action.mail_add_user.subject}>" name="mail_subject" />
+				</td>
+			</tr>
+			<tr>
+				<th class="valign-top align-left nowrap" scope="row">
+					<{$lang.user_send_mail_content|smarty:nodefaults}>
+				</th>
+				<td class="valign-top align-left">
+					<textarea name="mail_content" cols=50 rows=8>
+						<{$action.mail_add_user.body}>
+					</textarea>
+					<div class="note">
+						<{$lang.user_mes_mailnote|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="align-center">
+			<{* 送信 *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang.user_mailsend|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','action=user_action_admin_mail&amp;'+Form.serialize($('form<{$id}>')),{'method':'post'});return false;" />
+		</div>
+		<div class="align-right">
+			<a class="link" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'user_view_admin_regist_init'}, {'method':'post'}); return false;">
+				<{* 送信しないで次の会員を登録する *}>
+				<{$lang.user_mes_not_mailsend|smarty:nodefaults}>
+			</a>
+		</div>
+		<input name="email" type="hidden" value="<{$action.sending_email}>" />
+		<input name="user_id" type="hidden" value="<{$action.user_id}>" />
+	</form>
+<{include file="user_script.html"}>
+</div>
+<{/strip}>

@@ -1,0 +1,9 @@
+<{strip}>
+<{* 登録フォーム一覧（動作／停止列）用テンプレート *}>
+<a class="syslink<{if $registration.active_flag == _OFF}> display-none<{/if}>" href="#" title="<{$lang.registration_stop_title|sprintf:$registration.registration_name}>" onclick="registrationCls['<{$id}>'].changeActivity(this, '<{$registration.registration_id}>', '<{$smarty.const._OFF}>');return false;">
+	<{$lang.registration_stop}>
+</a>
+<a class="syslink<{if $registration.active_flag == _ON}> display-none<{/if}>" href="#" title="<{$lang.registration_activate_title|sprintf:$registration.registration_name}>" onclick="registrationCls['<{$id}>'].changeActivity(this, '<{$registration.registration_id}>', '<{$smarty.const._ON}>');return false;">
+	<{$lang.registration_activate}>
+</a>
+<{/strip}>

@@ -1,0 +1,55 @@
+<{strip}>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].cabinet_id = "<{$action.cabinet_id}>";
+	cabinetCls["<{$id}>"].compress_download = "<{$action.cabinet.compress_download}>";
+
+	cabinetCls["<{$id}>"].messages["move_confirm"] = "<{$lang.cabinet_move_confirm|smarty:nodefaults|escape:"javascript"}>";
+	cabinetCls["<{$id}>"].messages["del_confirm"] = "<{$lang.cabinet_del_confirm|smarty:nodefaults|escape:"javascript"}>";
+	<{if ($action.cabinet.compress_download == _ON) }>
+		cabinetCls["<{$id}>"].messages["compress_confirm"] = "<{$lang.cabinet_compress_download_confirm|smarty:nodefaults|escape:"javascript"}>";
+	<{else}>
+		cabinetCls["<{$id}>"].messages["compress_confirm"] = "<{$lang.cabinet_compress_confirm|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+	cabinetCls["<{$id}>"].messages["decompress_confirm"] = "<{$lang.cabinet_decompress_confirm|smarty:nodefaults|escape:"javascript"}>";
+	cabinetCls["<{$id}>"].messages["decompress_files"] = "<{$smarty.const.CABINET_DECOMPRESS_FILE}>";
+	cabinetCls["<{$id}>"].messages["download_count"] = "<{$lang.cabinet_count_str|smarty:nodefaults|escape:"javascript"}>";
+	
+	<{if ($action.reference == _OFF && $smarty.session._auth_id >= _AUTH_CHIEF) }>
+		cabinetCls["<{$id}>"].initDragAndDrop();
+	<{/if}>
+</script>
+
+<table class="widthmax" summary="">
+	<{if ($action.cabinet.disp_address == _ON) }>
+		<tr>
+			<td id="cabinet_explore_address<{$id}>" <{if ($action.cabinet.disp_folder == _ON) }> colspan="2"<{/if}>>
+				<{include file="cabinet_view_main_explorer_addressbar.html"}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if ($action.cabinet.disp_standard_btn == _ON && $action.cabinet.hasAddAuthority == _ON && $action.reference == _OFF) }>
+		<tr>
+			<td id="cabinet_explore_standardbtn<{$id}>" class="nowrap" <{if ($action.cabinet.disp_folder == _ON) }> colspan="2"<{/if}>>
+				<{include file="cabinet_view_main_explorer_standardbtn.html"}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<tr>
+		<{if ($action.cabinet.disp_folder == _ON) }>
+			<td id="cabinet_explore_left<{$id}>" class="valign-top">
+				<{include file="cabinet_view_main_explorer_left.html"}>
+			</td>
+		<{/if}>
+		<td id="cabinet_explore_right<{$id}>" class="valign-top widthmax">
+			<{include file="cabinet_view_main_explorer_right.html"}>
+		</td>
+	</tr>
+</table>
+
+<a id="cabinet_compress_download_link<{$id}>" name="cabinet_compress_download_link<{$id}>" href="#" onclick="return true;" target="_blank"></a>
+
+<{/strip}>

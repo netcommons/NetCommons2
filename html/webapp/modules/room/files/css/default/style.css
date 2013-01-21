@@ -1,0 +1,133 @@
+/* Css定義ファイル                     */
+.room_top td {
+}
+.room_init_icon {
+	padding: 10px;
+	height:55px;
+	text-align:center;
+}
+
+div.room_init_icon_title {
+	text-align:center;
+	overflow:hidden;
+	width:110px;
+	white-space:nowrap;
+}
+/* ルーム一覧 */
+.room_header_btn_list {
+	text-align:right;
+	padding-bottom: 3px; 
+}
+.room_grid_rows {
+	height:24px;
+}
+.room_page_name {
+	width:230px;
+}
+.room_display_flag {
+	width:120px;
+}
+.room_admin{
+	width:340px;
+}
+img.room_prefix_icon {
+	height:15px;
+	width:3px;
+	margin-right:2px;
+}
+.room_public {
+	background-color:#04419a;
+}
+.room_group {
+	background-color:#5da302;
+}
+.room_private {
+	background-color:#d78f03;
+}
+.room_lbl_public {
+	color:#04419a;
+}
+.room_lbl_group {
+	color:#5da302;
+}
+.room_lbl_private {
+	color:#d78f03;
+}
+.room_lbl_subgroup {
+	color:#9e9e9e;
+}
+/* 準備中 */
+.room_prepared {
+	color:#fe8d9e;
+	font-weight:400;
+}
+/* 参加会員選択 */
+.room_active_auth_desc {
+	width:auto;
+	border:1px solid #cccccc;
+	padding:3px;
+	margin:2px;
+	white-space:nowrap;
+}
+.room_active_auth_id {
+	background-color:#fff8dc;
+}
+
+.room_confirm_entry_users {
+	width:240px;
+	height:19px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+.room_confirm_auth_list {
+	width:150px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-align:center;
+}
+
+.room_selectauth_entry_users {
+	width:160px;
+	height:19px;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.room_selectauth_auth_list {
+	width:90px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-align:center;
+}
+.room_selectauth_noentry {
+	background-color:#c9cccf !important;
+}
+.room_selectauth_sep {
+	width:6px;
+	padding:0px !important;
+	background-color:#ffffff !important;
+	border-width:0px 1px 0px 1px !important;
+}
+.room_header_btn {
+	margin:5px;
+	padding:0.4em;
+}
+/* 登録内容確認 */
+.room_confirm_default_entry {
+	font-weight:bold;
+	padding:8px;
+}
+
+/* 配置モジュール選択 */
+select.room_selectlist {
+	width:150px;
+	height:200px;
+}
+/* ルーム情報 */
+.room_inf {
+	width:auto !important;
+	margin:10px !important;
+}
+.room_inf td {
+	padding:6px;
+}

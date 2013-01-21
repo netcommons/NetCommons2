@@ -1,0 +1,72 @@
+<{strip}>
+<{* 編集画面(回覧板編集) *}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang.circular_entry_note|smarty:nodefaults}>
+	</div>
+	<div class="hr"></div>
+	<form id="edit_circular_form<{$id}>" action="#">
+		<table class="outer" summary="">
+			<tr class="row">
+				<th scope="row">
+					<{$lang.circular_create_auth|smarty:nodefaults}>
+				</th>
+				<td>
+					<label class="disable_lbl">
+				 		<input type="checkbox" disabled="disabled" checked="checked" />
+				 		<input type="hidden" name="create_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+						<{$smarty.const._AUTH_CHIEF_NAME}>
+					</label>
+					<label for="circular_create_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+				 		<input id="circular_create_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="create_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+						<{$smarty.const._AUTH_MODERATE_NAME}>
+					</label>
+					<label for="circular_create_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+						<input id="circular_create_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="create_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+						<{$smarty.const._AUTH_GENERAL_NAME}>
+					</label>
+				</td>
+			</tr>
+			<tr class="row">
+				<th>
+					<span><{$lang.circular_mail_setting|smarty:nodefaults}></span>
+				</th>
+				<td>
+					<div>
+						<{$lang.circular_subject|smarty:nodefaults}>
+					</div>
+					<div>
+						<label for="circular_mail_subject<{$id}>">
+							<input id="circular_mail_subject<{$id}>" class="circular_mail_subject" type="text" name="mail_subject" value="<{$action.config.mail_subject}>" />
+						</label>
+					</div>
+					<div>
+						<{$lang.circular_body|smarty:nodefaults}>
+					</div>
+					<div>
+						<label>
+							<textarea class="circular_mail_body" name="mail_body"><{$action.config.mail_body|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"|escape:"html"}></textarea>
+						</label>
+					</div>
+					<div class="note circular_mail_notice">
+						<{$lang.circular_setting_note|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<div class="align-center">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].editMail(this.form); return false;" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','circular_view_main_init'); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="../circular_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var circularEditForm = $("edit_circular_form<{$id}>");
+
+	if (circularEditForm["create_authority[<{$action.config.create_authority}>]"]) {
+		circularEditForm["create_authority[<{$action.config.create_authority}>]"].checked = true;
+		commonCls.changeAuthority(circularEditForm["create_authority[<{$action.config.create_authority}>]"], "<{$id}>");
+	}
+</script>
+<{/strip}>

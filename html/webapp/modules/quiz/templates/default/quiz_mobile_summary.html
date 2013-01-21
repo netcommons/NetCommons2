@@ -1,0 +1,55 @@
+<{strip}>
+<{* 解答一覧画面用テンプレート *}>
+<{include file="quiz_mobile_head.html"}>
+<{if $action.chiefItemShow}>
+	<{include file="quiz_view_average.html"}>
+<{/if}>
+<span style="font-size:small;">
+<{$lang.quiz_none_answer_message}>
+</span>
+<br />
+	<{foreach from=$action.summaries item=summary}>
+		<p>
+		<dl>
+
+		<dt>
+		<{if $action.chiefItemShow}>
+			<{$summary.insert_user_name}>
+			<{include file = "quiz_mobile_answer_none.html"}>
+			&nbsp;
+		<{/if}>
+
+		<{$lang.quiz_number|sprintf:$summary.answer_number}>
+		<{if !$action.chiefItemShow}>
+			<{include file = "quiz_mobile_answer_none.html"}>
+			&nbsp;
+		<{else}>
+			<br />
+		<{/if}>
+
+		<{$summary.answer_time|timezone_date_format:$lang._mobile_date_format}>
+
+		</dt>
+
+		<dt>
+			<{$lang.quiz_score}>
+			&nbsp;
+			<{$lang.quiz_mobile_point_allocation|sprintf:$summary.summary_score:$action.quiz.perfect_score}>
+		</dt>
+
+		<dt>
+			<{$lang.quiz_deviation}>
+			&nbsp;
+			<{$lang.quiz_deviation_value|sprintf:$summary.deviation}>
+		</dt>
+
+		<a data-role="button" data-inline="true" href="?action=quiz_view_main_answer&amp;prefix_id_name=quiz_answer<{$summary.summary_id}>&amp;block_id=<{$block_id}>&amp;quiz_id=<{$action.quiz.quiz_id}>&amp;summary_id=<{$summary.summary_id}><{$session_param}>">
+			<{$lang.quiz_answer_result}>
+		</a>
+		</dl>
+		</p>
+	<{/foreach}>
+
+<{include file = "quiz_mobile_goto_main.html"}>
+
+<{/strip}>

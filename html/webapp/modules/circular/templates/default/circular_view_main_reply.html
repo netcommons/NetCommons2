@@ -1,0 +1,39 @@
+<{strip}>
+<{* 回覧回答画面 *}>
+<div class="outerdiv">
+	<form id="reply_circular_form<{$id}>" action="#">
+		<input type="hidden" name="circular_id" value="<{$action.circular_id}>" />
+		<input type="hidden" name="now_page" value="<{$action.pager.now_page}>" />
+		<input type="hidden" name="list_type" value="<{$action.list_type}>" />
+		<input type="hidden" name="order_type" value="<{$action.order_type}>" />
+		<input type="hidden" name="reply_type" value="<{$action.circular_info.reply_type}>" />
+		<input type="hidden" name="period" value="<{$action.circular_info.period}>" />
+		<input type="hidden" name="reply_msg" value="<{$lang.circular_passed_period}>" />
+
+		<{if $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE || $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE }>
+			<{foreach name="choice" item="choice" from=$action.choices}>
+				<div class="circular_reply">
+					<label for="circular_choice<{$smarty.foreach.choice.iteration}><{$id}>">
+						<span class="circular_label">
+					 		<input id="circular_choice<{$smarty.foreach.choice.iteration}><{$id}>" type=<{if $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE }>"checkbox"<{elseif $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE }>"radio"<{/if}> name="choices[]" value="<{$choice.choice_sequence}>" <{if $choice.choice_sequence|in_array:$action.reply }> checked="checked" <{/if}> />
+				 		</span>
+						<{$choice.choice_value|nl2br}>
+					</label>
+				</div>
+			<{/foreach}>
+		<{else}>
+			<div>
+				<textarea id="circular_reply<{$id}>" class="circular_reply" name="reply_body"><{$action.reply|smarty:nodefaults}></textarea>
+			</div>
+		<{/if}>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].replyCircular(); return false;" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="../circular_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("circular_reply<{$id}>"));
+</script>
+<{/strip}>

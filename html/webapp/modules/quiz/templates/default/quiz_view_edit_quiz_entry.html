@@ -1,0 +1,297 @@
+<{strip}>
+<{* 小テスト登録画面用テンプレート *}>
+<form id="quiz_form<{$id}>" action="#">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="quiz_id" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<{if !empty($action.oldQuizzes|smarty:nodefaults)}>
+			<tr>
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label for="quiz_old_use<{$id}>">
+						<input id="quiz_old_use<{$id}>" type="checkbox" name="old_use" value="<{$smarty.const._ON}>" onclick="quizCls['<{$id}>'].changeOldUse(this.checked);" />
+						<{$lang.quiz_old_use}>
+					</label>
+					<select id="quiz_old<{$id}>" name="old_quiz_id">
+						<{foreach from=$action.oldQuizzes item=old_quiz name="old_quiz"}>
+							<option value="<{$old_quiz.quiz_id}>"><{$old_quiz.quiz_name}></option>
+						<{/foreach}>
+					</select>
+				</td>
+			</tr>
+		<{/if}>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="quiz_name<{$id}>">
+					<{$lang.quiz_quiz_name}>
+				</label>
+			</th>
+			<td>
+				<a href="#">
+					<img id="quiz_icon_name_img<{$id}>" class="comp_title_icon" alt="" onclick="quizCls['<{$id}>'].showIcon();return false;" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');" />
+				</a>
+				<input id="quiz_icon_name_hidden<{$id}>" type="hidden" name="icon_name" />
+		 		<input id="quiz_name<{$id}>" class="text" type="text" name="quiz_name" />
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.quiz_type}>
+			</th>
+			<td>
+				<label id="quiz_type_list_label<{$id}>" for="quiz_type_list<{$id}>">
+					<input id="quiz_type_list<{$id}>" type="radio" name="quiz_type" value="<{$smarty.const.QUIZ_TYPE_LIST_VALUE}>" onclick="quizCls['<{$id}>'].selectQuizTypeList();" />
+					<{$lang.quiz_type_list}>
+				</label>
+				<br />
+				<label id="quiz_type_sequence_label<{$id}>" for="quiz_type_sequence<{$id}>">
+					<input id="quiz_type_sequence<{$id}>" type="radio" name="quiz_type" value="<{$smarty.const.QUIZ_TYPE_SEQUENCE_VALUE}>" onclick="quizCls['<{$id}>'].selectQuizTypeSequence();" />
+					<{$lang.quiz_type_sequence}>
+				</label>
+				<label id="quiz_type_random_label<{$id}>" for="quiz_type_random<{$id}>">
+					<input id="quiz_type_random<{$id}>" type="checkbox" name="quiz_type_random" value="<{$smarty.const._ON}>" />
+					<{$lang.quiz_type_random}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="quiz_period_checkbox_label<{$id}>" for="quiz_period_checkbox<{$id}>">
+					<input id="quiz_period_checkbox<{$id}>" type="checkbox" name="period_checkbox" value="<{$smarty.const._ON}>" onclick="quizCls['<{$id}>'].changePeriod();" />
+					<{$lang.quiz_period}>
+				</label>
+				<label>
+					<input id="quiz_period<{$id}>" class="date" type="text" name="period" />
+				</label>
+			</td>
+		</tr>
+
+		<{if $smarty.session._space_type != _SPACE_TYPE_PUBLIC && ($smarty.session._main_room_page.private_flag == _OFF || $smarty.session._main_room_page.default_entry_flag == _OFF)}>
+			<input type="hidden" name="nonmember_flag" value="<{$smarty.const._OFF}>" />
+		<{else}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label id="quiz_nonmember_label<{$id}>" for="quiz_nonmember<{$id}>">
+						<input id="quiz_nonmember<{$id}>" type="checkbox" name="nonmember_flag" value="<{$smarty.const._ON}>" onclick="quizCls['<{$id}>'].changeNonmember(this.checked);" />
+		 				<{$lang.quiz_nonmember}>
+		 			</label>
+				</td>
+			</tr>
+		<{/if}>
+		
+		<{if !function_exists("gd_info") || ($smarty.session._space_type != _SPACE_TYPE_PUBLIC && ($smarty.session._main_room_page.private_flag == _OFF || $smarty.session._main_room_page.default_entry_flag == _OFF))}>
+			<input type="hidden" name="image_authentication" value="<{$smarty.const._OFF}>" />
+		<{else}>	
+			<tr class="row">
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label id="quiz_image_authentication_label<{$id}>" for="quiz_image_authentication<{$id}>">
+						<input id="quiz_image_authentication<{$id}>" type="checkbox" name="image_authentication" value="<{$smarty.const._ON}>" />
+		 				<{$lang.quiz_image_authentication}>
+		 			</label>
+				</td>
+			</tr>
+		<{/if}>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="quiz_repeat_label<{$id}>" for="quiz_repeat<{$id}>">
+					<input id="quiz_repeat<{$id}>" type="checkbox" name="repeat_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.quiz_repeat}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="quiz_correct_label<{$id}>" for="quiz_correct<{$id}>">
+					<input id="quiz_correct<{$id}>" type="checkbox" name="correct_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.quiz_correct}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label for="quiz_total<{$id}>">
+					<input id="quiz_total<{$id}>" type="checkbox" name="total_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.quiz_total}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.quiz_mail_send}>
+			</th>
+			<td>
+				<label for="quiz_mail_send_on<{$id}>">
+					<input id="quiz_mail_send_on<{$id}>" type="radio" name="mail_send" value="<{$smarty.const._ON}>" onclick="quizCls['<{$id}>'].changeMailSend(true);" />
+					<{$lang.quiz_mail_send_on}>
+				</label>
+				<label for="quiz_mail_send_off<{$id}>">
+					<input id="quiz_mail_send_off<{$id}>" type="radio" name="mail_send" value="<{$smarty.const._OFF}>" onclick="quizCls['<{$id}>'].changeMailSend(false);" />
+					<{$lang.quiz_mail_send_off}>
+				</label>
+				
+				<div id="quiz_mail_send_content<{$id}>" class="display-none">
+					<div class="hr"></div>
+					<label for="quiz_mail_subject<{$id}>">
+						<{$lang.quiz_mail_subject}>
+						<input id="quiz_mail_subject<{$id}>" class="mail_subject" type="text" name="mail_subject" />
+					</label>
+					
+					<div class="hr"></div>
+					<label for="quiz_mail_body<{$id}>">
+						<{$lang.quiz_mail_body}>
+						<br />
+						<textarea cols="40" rows="11" id="quiz_mail_body<{$id}>" class="mail_body" name="mail_body"></textarea>
+					</label>
+
+					<div class="note">
+						<{$lang.quiz_mail_note|smarty:nodefaults}>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="quizCls['<{$id}>'].enterQuiz();" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'quiz_view_edit_quiz_list');" />
+	</div>
+</form>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var quizForm = $("quiz_form<{$id}>");
+	quizForm["action"].value = "quiz_action_edit_quiz_entry";
+	quizForm["quiz_id"].value = "<{$action.quiz.quiz_id}>";
+	
+	<{if $action.quiz.old_use == _ON}>
+		quizForm["old_use"].checked = true;
+	<{/if}>
+	<{if !empty($action.oldQuizzes|smarty:nodefaults) && empty($action.quiz.quiz_id|smarty:nodefaults)}>
+		quizCls["<{$id}>"].changeOldUse(quizForm["old_use"].checked);
+	<{/if}>
+
+	<{if empty($action.quiz.icon_name|smarty:nodefaults)}>
+		$('quiz_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/titleicon/blank.gif";
+	<{else}>
+		$('quiz_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/" + "<{$action.quiz.icon_name}>";
+	<{/if}>
+
+	<{if empty($action.quiz.quiz_id|smarty:nodefaults)}>
+		quizForm["quiz_name"].value = "<{$lang.quiz_new_name|sprintf:$action.quizNumber}>";
+	<{else}>
+		quizForm["quiz_name"].value = "<{$action.quiz.quiz_name|smarty:nodefaults|escape:"javascript"}>";	
+	<{/if}>
+
+	<{if $action.quiz.quiz_type == QUIZ_TYPE_LIST_VALUE}>
+		$("quiz_type_list<{$id}>").checked = true;
+		quizCls["<{$id}>"].selectQuizTypeList();
+	<{else}>
+		$("quiz_type_sequence<{$id}>").checked = true;
+		quizCls["<{$id}>"].selectQuizTypeSequence();
+	<{/if}>
+	<{if $action.quiz.quiz_type == QUIZ_TYPE_RANDOM_VALUE}>
+		quizForm["quiz_type_random"].checked = true;
+	<{/if}>
+	
+	<{if !empty($action.quiz.period|smarty:nodefaults)}>
+		quizForm["period_checkbox"].checked = true;
+		quizForm["period"].value = "<{$action.quiz.display_period_date}>";
+	<{/if}>	
+	quizCls["<{$id}>"].calendar = new compCalendar("<{$id}>", "quiz_period<{$id}>");
+	quizCls["<{$id}>"].changePeriod();
+	
+	<{if $smarty.session._space_type == _SPACE_TYPE_PUBLIC || ($smarty.session._main_room_page.private_flag == _ON && $smarty.session._main_room_page.default_entry_flag == _ON)}>
+		<{if $action.quiz.nonmember_flag == _ON}>
+			$("quiz_nonmember<{$id}>").checked = true;
+		<{/if}>
+
+		<{if $action.quiz.image_authentication == _ON && function_exists("gd_info")}>
+			$("quiz_image_authentication<{$id}>").checked = true;
+		<{/if}>
+
+		quizCls["<{$id}>"].changeNonmember($("quiz_nonmember<{$id}>").checked);
+	<{/if}>	
+
+	<{if $action.quiz.repeat_flag == _ON}>
+		$("quiz_repeat<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.quiz.correct_flag == _ON}>
+		$("quiz_correct<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.quiz.total_flag == _ON}>
+		$("quiz_total<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.quiz.mail_send == _ON}>
+		$("quiz_mail_send_on<{$id}>").checked = true;
+		quizCls["<{$id}>"].changeMailSend(true);
+	<{else}>
+		$("quiz_mail_send_off<{$id}>").checked = true;
+		quizCls["<{$id}>"].changeMailSend(false);
+	<{/if}>
+
+	<{if empty($action.quiz.quiz_id|smarty:nodefaults)}>
+		quizForm["mail_subject"].value = "<{$lang.quiz_mail_subject_default|smarty:nodefaults}>";
+		quizForm["mail_body"].value = "<{$lang.quiz_mail_body_default|smarty:nodefaults}>";
+	<{else}>
+		quizForm["mail_subject"].value = "<{$action.quiz.mail_subject|smarty:nodefaults|escape:"javascript"}>";
+		quizForm["mail_body"].value = "<{$action.quiz.mail_body|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.quiz.status != QUIZ_STATUS_INACTIVE_VALUE}>
+		Element.addClassName($("quiz_icon_name_img<{$id}>"), "display-none");
+		quizForm["quiz_name"].disabled = true;
+		
+		$("quiz_type_list<{$id}>").disabled = true;
+		$("quiz_type_sequence<{$id}>").disabled = true;
+		quizForm["quiz_type_random"].disabled = true;
+		Element.addClassName($("quiz_type_list_label<{$id}>"), "disable_lbl");
+		Element.addClassName($("quiz_type_sequence_label<{$id}>"), "disable_lbl");
+		Element.addClassName($("quiz_type_random_label<{$id}>"), "disable_lbl");
+
+		<{if $smarty.session._space_type == _SPACE_TYPE_PUBLIC || ($smarty.session._main_room_page.private_flag == _ON && $smarty.session._main_room_page.default_entry_flag == _ON)}>
+			$("quiz_nonmember<{$id}>").disabled = true;
+			Element.addClassName($("quiz_nonmember_label<{$id}>"), "disable_lbl");
+		<{/if}>
+		
+		$("quiz_repeat<{$id}>").disabled = true;
+		Element.addClassName($("quiz_repeat_label<{$id}>"), "disable_lbl");
+
+		$("quiz_correct<{$id}>").disabled = true;
+		Element.addClassName($("quiz_correct_label<{$id}>"), "disable_lbl");
+	<{/if}>	
+	
+	<{if $action.quiz.status == QUIZ_STATUS_END_VALUE}>
+		quizForm["period_checkbox"].disabled = true;
+		Element.addClassName($("quiz_period_checkbox_label<{$id}>"), "disable_lbl");
+		
+		quizForm["period"].disabled = true;
+		quizCls["<{$id}>"].calendar.disabledCalendar(true);
+	<{/if}>	
+	
+	quizForm = null;
+</script>
+<{/strip}>

@@ -1,0 +1,64 @@
+<{strip}>
+
+<div class="outerdiv">
+<{* セキュリティガイド *}>
+	<div class="security_outerdiv">
+		<fieldset>
+			<b><legend><{$lang.security_securityguide}></legend></b>
+			<table class="outer security_setting">
+				<{* register_globals *}>
+				<tr class="row">
+					<th scope="row"><{$lang.security_securityguide_registerglobals}> ：　</th>
+					<td bgcolor="#cccccc"> <b> <{$action.securityguide_register_globals}> </b> </td>
+					<td>
+						<{if $action.securityguide_register_globals == SECURITY_SECURITYGUIDE_ON}>
+							<span style="color:#ff0000;"> <{$lang.security_securityguide_ng}> </span>
+						<{/if}>
+					</td>
+				</tr>
+				<tr class="row">
+					<th scope="row"></th>
+					<td colspan="2">
+						<{$lang.security_securityguide_registerglobals_exposition|smarty:nodefaults}>
+					</td>
+				</tr>
+				<{* allow_url_fopen *}>
+				<tr class="row">
+					<th scope="row"> <{$lang.security_securityguide_allowurlfopen}> ：　</th>
+					<td bgcolor="#cccccc"> <b> <{$action.securityguide_allow_url_fopen}> </b> </td>
+					<td>
+						<{if $action.securityguide_allow_url_fopen == SECURITY_SECURITYGUIDE_ON}>
+							<span style="color:#ff0000;"> <{$lang.security_securityguide_ng}> </span>
+						<{/if}>
+					</td>
+				</tr>
+				</tr>
+				<tr class="row">
+					<th scope="row"></th>
+					<td colspan="2">
+						<{$lang.security_securityguide_allowurlfopen_exposition|smarty:nodefaults}>
+					</td>
+				</tr>
+				<{* プレフィックス *}>
+				<tr class="row">
+					<th scope="row"> <{$lang.security_securityguide_prefix}> ：　</th>
+					<td bgcolor="#cccccc"> <b> <{$action.securityguide_prefix}> </b> </td>
+					<td>
+						<{if $action.securityguide_prefix == INSTALL_DEFAULT_DATABASE_PREFIX}>
+							<span style="color:#ff0000;"> <{$lang.security_securityguide_ng}> </span>
+						<{/if}>
+					</td>
+				</tr>
+				</tr>
+				<tr class="row">
+					<th scope="row"></th>
+					<td colspan="2">
+						<{$lang.security_securityguide_prefix_exposition|smarty:nodefaults|sprintf:$smarty.const.INSTALL_DEFAULT_DATABASE_PREFIX:$smarty.const.INSTALL_DEFAULT_DATABASE_PREFIX}>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+</div>
+
+<{/strip}>

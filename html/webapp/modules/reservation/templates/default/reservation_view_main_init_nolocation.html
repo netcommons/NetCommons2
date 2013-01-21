@@ -1,0 +1,31 @@
+<{strip}>
+
+<{if ($action.reserve_block.display_type == RESERVATION_DEF_MONTHLY) }>
+	<div class="reservation_monthly">
+		<{include file="reservation_main_header_monthly.html"}>
+	</div>
+
+<{elseif ($action.reserve_block.display_type == RESERVATION_DEF_WEEKLY)}>
+	<div class="reservation_weekly">
+		<{include file="reservation_main_header_weekly.html"}>
+	</div>
+
+<{elseif ($action.reserve_block.display_type == RESERVATION_DEF_LOCATION)}>
+	<div class="reservation_each_location">
+		<{include file="reservation_main_header_location.html"}>
+	</div>
+<{/if}>
+
+<div class="outerdiv">
+	<{$lang.reservation_select_nolocation|smarty:nodefaults}>
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].disp_type = "<{$action.reserve_block.display_type}>";
+	reservationCls["<{$id}>"].view_date = "<{$action.this_month}>";
+	reservationCls["<{$id}>"].category_id = "<{$action.reserve_block.category_id}>";
+	reservationCls["<{$id}>"].location_id = "<{$action.reserve_block.location_id}>";
+</script>
+
+<{/strip}>

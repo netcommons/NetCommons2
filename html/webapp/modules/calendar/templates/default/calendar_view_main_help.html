@@ -1,0 +1,14 @@
+<{strip}>
+
+<div class="outerdiv calendar_help">
+	<{if ($action.calendar_block.select_room == _ON) }>
+		<{include file="calendar_view_recursive_room_flat.html" room_list=$action.enroll_room_arr|smarty:nodefaults}>
+	<{else}>
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<{include file="./calendar_view_recursive_room.html"}>
+	<{/if}>
+</div>
+
+<{/strip}>

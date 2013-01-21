@@ -1,0 +1,113 @@
+div.todo_head {
+	white-space:nowrap;
+	text-align:right;
+	margin-bottom:5px;
+}
+a.todo_head {
+	margin-left:10px;
+}
+
+select.todo_priority {
+}
+input.todo_state {
+}
+input.todo_period {
+}
+input.todo_calendar {
+}
+textarea.todo_task_value {
+	width:280px;
+	height:65px;
+}
+
+th.todo_priority, td.todo_priority {
+	width:75px;
+	text-align:center;
+}
+th.todo_state, td.todo_state {
+	width:40px;
+	text-align:center;
+}
+th.todo_period, td.todo_period {
+	width:75px;
+	text-align:center;
+}
+th.todo_task_value, td.todo_task_value {
+	width:280px;
+}
+th.todo_progress, td.todo_progress {
+	white-space:nowrap;
+}
+th.todo_delete, td.todo_delete {
+	width:30px;
+	text-align:center;
+}
+tr.todo_period_soon {
+	background-color:#ffdddd;
+}
+tr.todo_period_over {
+	background-color:#e9f2fb;
+}
+table.todo_task_sequence td {
+	padding : 2px 0px 2px 3px;
+	border-top : 1px solid #e0e0e0;
+	border-bottom : 1px solid #e0e0e0;
+	border-right : 1px solid #e0e0e0;
+	height : 22px;
+	overflow : hidden;
+	line-height: 12px;
+}
+th.task_table_header {
+	background-color:#F0F4F7;
+	border-right:1px solid #B8B8B8;
+	border-top:1px solid #B8B8B8;
+	font-weight:normal;
+	overflow:hidden;
+	padding:2px 2px 2px 3px;
+	text-align:left;
+}
+div.task_table_header_block {
+	overflow: hidden;
+	white-space: nowrap;
+}
+img.todo_sort_img {
+	padding-left:8px;
+}
+.todo_grid_table {width:650px;}
+
+.todo_grid_manage {
+	width: 220px;
+}
+
+table.todo_drag_drop {
+	border:solid 1px #cccccc;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+table.todo_drag_drop td {
+	padding: 4px 2px;
+}
+table.todo_drag_drop .todo_draggable {
+	cursor: move;
+}
+
+table.todo_drag_drop td.todo_draggable,
+table.todo_drag_drop td.todo_draganddrop {
+	width: 10px;
+}
+table.todo_drag_drop .todo_draganddrop img {
+	width:6px;
+}
+table.todo_drag_drop div.todo_category_name {
+	width:350px;
+}
+
+td.todo_category {
+	background-color:#F2F2F2;
+}
+td.grid_row, tr.grid_row td.todo_category {
+	border-color: #B8B8B8 #E0E0E0 #E0E0E0 #B8B8B8;
+	border-style:solid;
+	border-width:1px;
+	padding:0 5px;
+}

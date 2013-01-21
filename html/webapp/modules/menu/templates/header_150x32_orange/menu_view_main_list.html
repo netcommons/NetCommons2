@@ -1,0 +1,20 @@
+<{strip}>
+
+<{*
+	テンプレート本体は以下でinclude する
+	inc_menu_view_main_list_header.html＞＞ヘッダの場合
+	inc_menu_view_main_list_header_round.html＞＞ヘッダ角丸バージョンの場合
+	inc_menu_view_main_list_side.html＞＞サイドメニューの場合
+	以下の変数定義で必要なスタイルシート変数名を定義する
+*}>
+
+<{assign var="menu_top_public"   value="header_150x32_orange_menu_top_public"}>
+<{assign var="menu_public"       value="header_150x32_orange_menu_top_public"}>
+<{assign var="menu_top_group"    value="header_150x32_orange_menu_top_public"}>
+<{assign var="menu_group"        value="header_150x32_orange_menu_top_public"}>
+<{assign var="menu_top_private"  value="header_150x32_orange_menu_top_public"}>
+<{assign var="menu_private"      value="header_150x32_orange_menu_top_public"}>
+
+<{include file="../inc_menu_view_main_list_header.html"}>
+
+<{/strip}>

@@ -1,0 +1,59 @@
+/* 
+ * ブロック定義
+ */
+/* highlight */
+.th_dotround_default .highlight {
+	background-color:#eaeaea;
+	color:#476296;
+}
+
+.th_dotround_default a.hover_highlight:hover {
+	background-color:#eaeaea;
+	color:#476296;
+	text-decoration:none;
+}
+
+/* 一般 */
+.th_dotround_content {
+	border: 0px;
+	padding: 5px 10px 5px 10px;
+	background-color:#ffffff;
+}
+
+.th_dotround_default_upperleft {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_dotround_default_upper {
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/upper.gif") repeat-x scroll center bottom;
+}
+.th_dotround_default_upperright {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/upperright.gif") no-repeat scroll right bottom;
+}
+.th_dotround_default_left {
+	width:9px;
+	height:7px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/left.gif") repeat-y scroll left center;
+}
+.th_dotround_default_right {
+	width:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/right.gif") repeat-y scroll right center;
+}
+.th_dotround_default_belowleft {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/belowleft.gif") no-repeat scroll left top;
+}
+.th_dotround_default_below {
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/below.gif") repeat-x scroll center top;
+}
+.th_dotround_default_belowright {
+	width:9px;
+	height:9px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dotround/images/default/belowright.gif") no-repeat scroll right top;
+}

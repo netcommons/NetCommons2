@@ -1,0 +1,75 @@
+<{strip}>
+<{* アンケート一覧用テンプレート *}>
+<form action="#">
+	<div>
+		<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.questionnaire_questionnaire}>
+	</div>
+
+	<table class="grid_header" summary="<{$lang.questionnaire_list_summary}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_questionnaire_name questionnaire_grid_name" scope="col">
+				<{$lang.questionnaire_questionnaire_name}>
+			</th>
+			<th class="_sort_status questionnaire_grid_operate" scope="col">
+				<{$lang.questionnaire_status}>
+			</th>
+			<th class="_sort_insert_user_name questionnaire_grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time questionnaire_grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="questionnaire_grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid questionnaire_grid_table" summary="<{$lang.questionnaire_list_summary}>">
+		<{foreach from=$action.questionnaires item=questionnaire}>
+			<tr id="questionnaire_current_row<{$questionnaire.questionnaire_id}><{$id}>" class="grid_row">
+				<td class="grid_change_disp">
+					<{include file = "questionnaire_view_edit_questionnaire_list_current.html"}>
+				</td>
+				<td class="questionnaire_grid_name">
+					<{include file = "questionnaire_view_edit_questionnaire_list_name.html"}>
+				</td>
+				<td class="questionnaire_grid_operate">
+					<{include file = "questionnaire_view_edit_questionnaire_list_operate.html"}>
+				</td>
+				<td class="questionnaire_grid_creator">
+					<{include file = "questionnaire_view_handle.html" handle=$questionnaire.insert_user_name|smarty:nodefaults user_id=$questionnaire.insert_user_id}>
+				</td>
+				<td class="questionnaire_grid_create_date">
+					<{$questionnaire.insert_time|timezone_date_format:$lang._date_format}>
+				</td>
+				<td class="questionnaire_grid_manage">
+					<{include file = "questionnaire_view_edit_questionnaire_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</form>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {questionnaireCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.questionnaireCount}>, "questionnaire_view_edit_questionnaire_list", opts);
+	opts = null;
+
+	questionnaireCls["<{$id}>"].currentQuestionnaireID = "<{$action.currentQuestionnaireID}>";
+	questionnaireCls["<{$id}>"].checkCurrent();
+
+	<{if !empty($action.summary_id|smarty:nodefaults)}>
+		questionnaireCls["<{$id}>"].questionnaire_id = "<{$action.questionnaire_id}>";
+		questionnaireCls["<{$id}>"].showAnswer(null, "<{$action.summary_id}>");
+	<{/if}>
+</script>
+<{/strip}>

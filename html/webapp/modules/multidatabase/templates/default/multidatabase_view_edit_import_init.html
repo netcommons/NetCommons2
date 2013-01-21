@@ -1,0 +1,37 @@
+<{strip}>
+<div id="mdb_import_success_result<{$id}>" class="nowrap bold align-center print_preview_none display-none">
+	<{$lang.mdb_import_success|smarty:nodefaults}>
+</div>
+<div class="outerdiv" id="target<{$id}>">
+	<form id="import_form<{$id}>" action="" target="mdb_import_attachment<{$id}>" enctype="multipart/form-data">
+		<table class="outer" summary="<{$lang.mdb_import_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<td>
+					<a class="syslink" href="./<{$smarty.const.INDEX_FILE_NAME}>?action=multidatabase_view_edit_import_sample&amp;block_id=<{$block_id}>&amp;multidatabase_id=<{$action.mdb_obj.multidatabase_id}>" title="<{$lang.mdb_import_sample_export_title|sprintf:"`$action.mdb_obj.multidatabase_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>">
+						<{$lang.mdb_import_sample|smarty:nodefaults}>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<th class="head" scope="col">
+					<{$lang.mdb_import_file|smarty:nodefaults}>
+				</th>
+			</tr>
+			<tr class="row">
+				<td>
+					<input name="file_csv" id="mdb_import<{$id}>" type="file" value="" />
+				</td>
+			</tr>
+		</table>
+		<div class="note">
+			<{$lang.mdb_import_desc|smarty:nodefaults}>
+		</div>
+		<div id="mdb_import_result<{$id}>">
+		</div>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].importCsv(event, this, <{$action.mdb_obj.multidatabase_id}>);"/>
+		</div>
+	</form>
+</div>
+<{include file="../multidatabase_script.html"}>
+<{/strip}>

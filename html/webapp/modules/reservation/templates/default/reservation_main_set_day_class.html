@@ -1,0 +1,13 @@
+<{strip}>
+
+<{if ($action.holiday_list.$set_date) }>
+	reservation_holiday
+<{elseif ($wday % 7 == 0) }>
+	reservation_sunday
+<{elseif ($wday % 7 == 6) }>
+	reservation_saturday
+<{else}>
+	reservation_weekday
+<{/if}>
+
+<{/strip}>

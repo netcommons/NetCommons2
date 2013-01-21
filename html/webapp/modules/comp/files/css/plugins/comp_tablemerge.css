@@ -1,0 +1,34 @@
+.nc_wysiwyg_tablemerge_title {
+	padding : 0 0 6px;
+	white-space:nowrap;
+}
+ul.nc_wysiwyg_tablemerge {
+	margin: 0;
+	padding: 0;width: 200px;
+}
+ul.nc_wysiwyg_tablemerge li {
+	list-style-type: none;
+}
+
+ul.nc_wysiwyg_tablemerge li dl dt {
+	float : left;
+	clear : left;
+	width : 60px;
+	padding: 3px 0 3px 20px;
+}
+
+ul.nc_wysiwyg_tablemerge li dl dd {
+	float: left;
+	padding: 3px;
+}
+
+ul.nc_wysiwyg_tablemerge li dl dd input {
+	width: 60px;
+}
+
+
+.nc_wysiwyg_tablemerge_btn {
+	clear : left;
+	text-align : center;
+	width: 230px;
+}

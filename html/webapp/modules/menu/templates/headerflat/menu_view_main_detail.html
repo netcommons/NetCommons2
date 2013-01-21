@@ -1,0 +1,6 @@
+<{strip}>
+<{assign var="now_thread_num" value=$action.thread_num}>
+<{assign var="now_parent_id" value=$action.parent_id}>
+<{assign var="menus" value=$action.menus.$now_thread_num.$now_parent_id}>
+<{include file="menu_view_main_list.html"}>
+<{/strip}>

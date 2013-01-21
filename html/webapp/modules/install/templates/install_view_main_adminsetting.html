@@ -1,0 +1,77 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+
+<div class="install_title">
+	<{$smarty.const.INSTALL_ADMIN_SETTING_TITLE}>
+</div>
+<div class="install_top_description">
+	<{$lang.install_admin_setting_description|smarty:nodefaults}>
+</div>
+<{* エラーメッセージ　*}>
+<div class="install_error_mes" id="install_error_mes<{$id}>">
+</div>
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<tr>
+			<th class="install_general_header" scope="row">
+				<label for="handle<{$id}>">
+					<{$lang.install_admin_handle|smarty:nodefaults}>
+				</label>
+			</th>
+			<td class="install_general_data">
+				<input id="handle<{$id}>" type="text" value="<{$action.session.install_handle}>" maxlength="100" size="30" name="handle" />
+			</td>
+		</tr>
+		<tr>
+			<th class="install_general_header" scope="row">
+				<label for="login_id<{$id}>">
+					<{$lang.install_admin_login_id|smarty:nodefaults}>
+				</label>
+			</th>
+			<td class="install_general_data">
+				<input id="login_id<{$id}>" type="text" value="<{$action.session.install_login_id}>" maxlength="100" size="30" name="login_id" />
+			</td>
+		</tr>
+		<tr>
+			<th class="install_general_header" scope="row">
+				<label for="password<{$id}>">
+					<{$lang.install_admin_pass|smarty:nodefaults}>
+				</label>
+			</th>
+			<td class="install_general_data">
+				<input id="password<{$id}>" type="password" value="<{$action.session.install_pass}>" maxlength="100" size="30" name="password" />
+				
+			</td>
+		</tr>
+		<tr>
+			<th class="install_general_header" scope="row">
+				<label for="confirm_pass<{$id}>">
+					<{$lang.install_admin_confirm_pass|smarty:nodefaults}>
+				</label>
+			</th>
+			<td class="install_general_data">
+				<input id="confirm_pass<{$id}>" type="password" value="<{$action.session.install_confirm_pass|smarty:nodefaults}>" maxlength="100" size="30" name="confirm_pass" />
+			</td>
+		</tr>
+	</table>
+	<div class="align-right">
+		<span class="install_btn_desc">
+			<{$smarty.const.INSTALL_INSERT_DATA_TITLE|smarty:nodefaults}>&gt;&gt;
+		</span>
+		<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>','action=install_action_main_adminsetting&' + Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){$('form_insertdata<{$id}>').submit();},'callbackfunc_error':function(res){$('install_error_mes<{$id}>').innerHTML = res;}}); return false;" />
+	</div>
+</div>
+
+</form>
+<form id="form_insertdata<{$id}>" action=".<{$smarty.const.INDEX_FILE_NAME}>?action=install_action_main_insertdata" method="post">
+	<{* データ生成のPOST用(不必要?) *}>
+	<input type="hidden" name="action" value="install_action_main_insertdata" />
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>
+<{if $action.detail_flag}>
+	<script class="nc_script" type="text/javascript">
+		$('install_detail_link<{$id}>').onclick();
+	</script>
+<{/if}>

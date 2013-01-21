@@ -1,0 +1,17 @@
+;preExecute以外からの呼び出し禁止
+[RecursiveNocall]
+ValidateDef =
+
+[ValidateDef]
+requiredfalse ="1:lang._invalid_input"
+
+[Action]
+<?php 
+if($skeleton->type == "whatnew" || $skeleton->type == "search" || $skeleton->type == "personalinf") {
+	print $skeleton->dir_name."View = \"ref:".$skeleton->dir_name."View\"\n";
+} else if($skeleton->type == "copy" || $skeleton->type == "move" || $skeleton->type == "shortcut") {
+	print $skeleton->dir_name."View = \"ref:".$skeleton->dir_name."View\"\n";
+	print $skeleton->dir_name."Action = \"ref:".$skeleton->dir_name."Action\"\n";
+} else if($skeleton->type == "delete") {
+	print "db = \"ref:DbObject\"\n";
+}

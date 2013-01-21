@@ -1,0 +1,75 @@
+<{strip}>
+<{* リンク追加用テンプレート *}>
+<form class="popupClass display-block" action="#" onsubmit="parent.linklistCls['<{$id}>'].enterLink(null);return false;">
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_title<{$id}>">
+					<{$lang.linklist_title|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="nowrap">
+				<input class="linklist_title" type="text" name="automatic_title" disabled="disabled" value="<{$lang.linklist_automatic_default|sprintf:$lang.linklist_title|smarty:nodefaults}>" />
+				<input id="linklist_title<{$id}>" class="linklist_title display-none" type="text" name="title" />
+				<label for="linklist_automatic_check<{$id}>">
+					<input id="linklist_automatic_check<{$id}>" type="checkbox" name="automatic_check" value="<{$smarty.const._ON}>" checked="checked" onclick="parent.linklistCls['<{$id}>'].changeAutomatic(this.checked);" />
+					<{$lang.linklist_automatic|smarty:nodefaults}>
+				</label>
+				<a class="link linklist_description" href="#" title="<{$lang.linklist_description_title|smarty:nodefaults}>" onclick="parent.linklistCls['<{$id}>'].changeDescription();return false;">
+					<{$lang.linklist_description|smarty:nodefaults}>
+				</a>
+			</td>
+		</tr>
+
+		<tr class="row display-none">
+			<th class="nowrap" scope="row">
+				<label for="linklist_description<{$id}>">
+					<{$lang.linklist_description|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="nowrap">
+				<textarea class="linklist_description" name="automatic_description" disabled="disabled"><{$lang.linklist_automatic_default|sprintf:$lang.linklist_description|smarty:nodefaults}></textarea>
+				<textarea id="linklist_description<{$id}>" class="linklist_description display-none" name="description"></textarea>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_url<{$id}>">
+					<{$lang.linklist_url|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<input id="linklist_url<{$id}>" class="linklist_url" type="text" name="url" value="<{$smarty.const.LINKLIST_DEFAULT_TITLE}>" onblur="parent.linklistCls['<{$id}>'].getLink();" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_category<{$id}>">
+					<{$lang.linklist_category_name|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td class="nowrap">
+				<select id="linklist_category<{$id}>" name="category_id">
+					<{foreach name=category item=category from=$action.categories}>
+						<option value="<{$category.category_id}>"><{$category.category_name}></option>
+					<{/foreach}>
+				</select>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="parent.linklistCls['<{$id}>'].popup.closePopup();" />
+	</div>
+</form>
+<script class="nc_script" type="text/javascript">
+	parent.linklistCls["<{$id}>"].oldURL = "<{$smarty.const.LINKLIST_DEFAULT_TITLE}>";
+</script>
+<{/strip}>

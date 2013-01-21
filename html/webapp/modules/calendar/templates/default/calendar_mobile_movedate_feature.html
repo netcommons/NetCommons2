@@ -1,0 +1,29 @@
+<{strip}>
+
+<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<input type="text" name="year" value="<{$smarty.session.calendar_mobile.current_date|substr:0:4}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+		<{$lang._mobile_year|smarty:nodefaults}>
+		<{if ($smarty.session.calendar_mobile.display_type != CALENDAR_YEARLY) }>
+			<input type="text" name="month" value="<{$smarty.session.calendar_mobile.current_date|substr:4:2}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+		<{/if}>
+		<{if ($smarty.session.calendar_mobile.display_type != CALENDAR_YEARLY && $smarty.session.calendar_mobile.display_type != CALENDAR_S_MONTHLY && $smarty.session.calendar_mobile.display_type != CALENDAR_L_MONTHLY) }>
+			<{$lang._mobile_month|smarty:nodefaults}>
+			<input type="text" name="day" value="<{$smarty.session.calendar_mobile.current_date|substr:6:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_day|smarty:nodefaults}>
+		<{/if}>
+		<input type="submit" name="move" value="<{$lang.calendar_move|smarty:nodefaults}>">
+		<input type="hidden" name="action" value="calendar_action_mobile_movedate">
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<br />
+<div style="text-align:right">
+	<a href="?action=calendar_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

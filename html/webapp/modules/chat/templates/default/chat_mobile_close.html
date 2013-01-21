@@ -1,0 +1,17 @@
+<{strip}>
+
+<h4>
+	<{$lang.chat_closed|smarty:nodefaults}>
+</h4>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init<{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail<{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

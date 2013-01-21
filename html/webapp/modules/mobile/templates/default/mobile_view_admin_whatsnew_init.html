@@ -1,0 +1,140 @@
+<{strip}>
+<div class="outerdiv">
+
+<{if $action.useable_module_count > 0}>
+<form id="form<{$id}>" action="#" onsubmit="return false;">
+
+	<fieldset>
+	<legend class="bold"><{$lang.mobile_whatsnew_title|smarty:nodefaults}></legend>
+
+	<div class="top_description">
+		<{$lang.mobile_whatsnew_description|smarty:nodefaults}>
+	</div>
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.mobile_whatsnew_display_type|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="whatsnew_display_type<{$id}>">
+					<select id="whatsnew_display_type<{$id}>" name="display_type">
+						<option value="<{$smarty.const.WHATSNEW_DEF_FLAT}>"<{if ($action.config.mobile_whatsnew_display_type.conf_value == WHATSNEW_DEF_FLAT) }> selected="selected"<{/if}> />
+							<{$lang.mobile_whatsnew_display_type_flat|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.WHATSNEW_DEF_MODULE}>"<{if ($action.config.mobile_whatsnew_display_type.conf_value == WHATSNEW_DEF_MODULE) }> selected="selected"<{/if}> />
+							<{$lang.mobile_whatsnew_display_type_module|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.WHATSNEW_DEF_ROOM}>"<{if ($action.config.mobile_whatsnew_display_type.conf_value == WHATSNEW_DEF_ROOM) }> selected="selected"<{/if}> />
+							<{$lang.mobile_whatsnew_display_type_room|smarty:nodefaults}>
+						</option>
+					</select>
+				</label>
+				<br />
+				<label for="whatsnew_select_room<{$id}>">
+					<input id="whatsnew_select_room<{$id}>" type="checkbox" name="select_room_flag" value="<{$smarty.const._ON}>"<{if ($action.config.mobile_whatsnew_select_room_flag.conf_value != _OFF) }> checked="checked"<{/if}> onclick="if (this.checked) { commonCls.displayVisible($('whatsnew_select_room_link<{$id}>')); commonCls.sendPopupView(event, {'action':'mobile_view_admin_whatsnew_selectroom','prefix_id_name':'popup_mobile_whatsnew'},{'top_el':$('form<{$id}>'),'modal_flag':true}); } else { commonCls.displayNone($('whatsnew_select_room_link<{$id}>')); }" />
+					<{$lang.mobile_whatsnew_select_room|smarty:nodefaults}>
+				</label>
+				&nbsp;&nbsp;
+				<span id="whatsnew_select_room_link<{$id}>"<{if ($action.config.mobile_whatsnew_select_room_flag.conf_value == _OFF) }> class="display-none"<{/if}>>
+					<a class="syslink" href="#" onclick="commonCls.sendPopupView(event, {'action':'mobile_view_admin_whatsnew_selectroom','prefix_id_name':'popup_mobile_whatsnew'},{'top_el':$('form<{$id}>'),'modal_flag':true}); return false;">
+						<{$lang.mobile_whatsnew_select_room_link|smarty:nodefaults}>
+					</a>
+				</span>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<label for="whatsnew_display_day<{$id}>">
+					<input id="whatsnew_display_day<{$id}>" type="radio" name="display_flag" value="<{$smarty.const._OFF}>" onclick="mobileCls['<{$id}>'].changeDisplayType(<{$smarty.const._ON}>);"/>
+						<{$lang.mobile_whatsnew_display_days|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<select id="whatsnew_display_days<{$id}>" name="display_days">
+					<{section name=days loop=32 start=0 step=1}>
+						<{assign var=days value=$smarty.section.days.index}>
+						<option value="<{$days}>"<{if ($days == $action.config.mobile_whatsnew_display_days.conf_value) }> selected="selected"<{/if}>>
+							<{if ($days == "0") }>
+								<{$lang.mobile_whatsnew_days_today|smarty:nodefaults}>
+							<{else}>
+								<{$days|string_format:$lang.mobile_whatsnew_days_format}>
+							<{/if}>
+						</option>
+					<{/section}>
+				</select>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<label for="whatsnew_display_num_type<{$id}>">
+					<input id="whatsnew_display_num_type<{$id}>" type="radio" name="display_flag" value="<{$smarty.const._ON}>"  onclick="mobileCls['<{$id}>'].changeDisplayType(<{$smarty.const._OFF}>);" />
+						<{$lang.mobile_whatsnew_the_number_of_display|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<select id="whatsnew_the_number_of_display<{$id}>" name="display_number" >
+				<{assign var="test" value="|"|explode:$smarty.const.MOBILE_WHATSNEW_THE_NUMBER_OF_DISPLAY}>
+				<{foreach name="number" key="key" item="num" from=$test}>
+					<option value="<{$num}>" <{if ($action.config.mobile_whatsnew_display_number.conf_value == $num)}>selected="selected"<{/if}>><{$lang.mobile_whatsnew_display_number|smarty:nodefaults|sprintf:"$num"}></option>
+				<{/foreach}>
+				</select>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<{$lang.mobile_whatsnew_default_module|smarty:nodefaults}>
+			</th>
+			<td>
+				<table summary="<{$smarty.const._SUMMARY_TARGETMODULE}>">
+
+					<{assign var="line" value=3}>
+					<{assign var="disp_mod_count" value=1}>
+					<{foreach name="module" key="module_id" item="module" from=$action.modules}>
+						<{if (($disp_mod_count % $line) == 1) }>
+							<tr>
+						<{/if}>
+								<td class="nowrap">
+									<input id="whatsnew_display_modules<{$id}>_<{$module_id}>" type="checkbox" name="display_modules[]" <{if ($module.use_flag != _ON) }>disabled="disabled"<{/if}> value="<{$module_id}>"<{if isset($action.display_modules[$module_id]|smarty:nodefaults) }> checked="checked"<{/if}> />
+									<label for="whatsnew_display_modules<{$id}>_<{$module_id}>">
+									<{$module.module_name}>
+									</label>
+								</td>
+						<{if (($disp_mod_count % $line) == 0) }>
+							</tr>
+						<{/if}>
+						<{assign var="disp_mod_count" value=$disp_mod_count+1}>
+					<{/foreach}>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	</fieldset>
+
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang.mobile_submit}>" onclick="mobileCls['<{$id}>'].setWhatsnewConfig('mobile_action_admin_whatsnew','<{$lang._update_comp}>'); return false;" />
+		&nbsp;
+		<input class="btn-width lined_btn" type="button" value="<{$lang.mobile_reset}>" onclick="commonCls.sendRefresh('<{$id}>');" />
+	</div>
+
+</form>
+</div>
+<script class="nc_script" type="text/javascript">
+
+    if(<{$action.config.mobile_whatsnew_display_flag.conf_value}> == 0){
+		$("whatsnew_display_day<{$id}>").checked = true;
+		mobileCls["<{$id}>"].changeDisplayType(<{$smarty.const._ON}>);
+	}else{
+		$("whatsnew_display_num_type<{$id}>").checked = true;
+		mobileCls["<{$id}>"].changeDisplayType(<{$smarty.const._OFF}>);
+	}
+
+</script>
+
+<{else}>
+	<div class="top_description">
+		<{$lang.mobile_whatsnew_module_noexists|smarty:nodefaults}>
+	</div>
+<{/if}>
+<{/strip}>

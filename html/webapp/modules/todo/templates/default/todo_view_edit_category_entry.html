@@ -1,0 +1,31 @@
+<{strip}>
+
+<form action="#" method="post" onsubmit="return false;">
+	<input type="hidden" name="todo_id" value="<{$action.todo_id}>" />
+	<input type="hidden" name="category_id" value="<{$action.category_id}>" />
+
+	<table summary="" class="outer">
+		<tr>
+			<th class="nowrap" scope="row">
+				<label for="todo_category_name<{$id}>">
+					<{$lang.todo_category_name|smarty:nodefaults}>
+				</label>
+			</td>
+			<td>
+				<input id="todo_category_name<{$id}>" class="text" name="category_name" type="text" value="<{$action.category_name}>" />
+			</td>
+		</tr>
+	</table>
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='todoCls["<{$id}>"].setCategory("<{$smarty.session.todo._id.$block_id}>",this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+	</div>
+</form>
+
+<{include file="../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($('todo_category_name<{$id}>'));
+</script>
+
+<{/strip}>

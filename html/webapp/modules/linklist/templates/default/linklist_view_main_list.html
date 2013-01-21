@@ -1,0 +1,44 @@
+<{strip}>
+<{* リンクリスト一覧画面用テンプレート *}>
+<{foreach name=categoryLink item=categoryLink from=$action.categoryLinks}>
+	<{if !$smarty.foreach.categoryLink.first && !empty($action.linklist.line|smarty:nodefaults)}>
+		<div class="linklist_line" style="background-image:url('<{""|get_image_url}>/images/common/line/<{$action.linklist.line}>');">
+		</div>
+	<{/if}>
+
+	<{if $categoryLink.default_flag == _OFF || count($action.categoryLinks|smarty:nodefaults) > 1}>
+		<div class="linklist_category_name">
+			<{$categoryLink.category_name}>
+		</div>
+		<{assign var="ul_class_name" value="linklist_link"}>
+	<{else}>
+		<{assign var="ul_class_name" value="linklist_link_none"}>
+	<{/if}>
+
+	<ul class="<{$ul_class_name}>" style="<{$action.linklist.mark_style}>">
+		<{foreach item=link from=$categoryLink.links|smarty:nodefaults}>
+			<li class="linklist_link">
+				<a href="<{$link.url}>"<{if $action.linklist.target_blank_flag == _ON}> title="<{$lang.linklist_blank_title|smarty:nodefaults}>"<{else}>title="<{$lang._open_title|smarty:nodefaults|sprintf:$link.title}>"<{/if}> onclick="parent.linklistCls['<{$id}>'].link(<{$link.link_id}>, '<{$link.url}>', parent.$('linklist_view_count<{$link.link_id}><{$id}>'));return false;">
+					<{$link.title}>
+				</a>
+
+				<{if $action.linklist.view_count_flag && $action_name != "linklist_view_main_search_result"}>
+					<span id="linklist_view_count<{$link.link_id}><{$id}>" class="linklist_view_count">
+						<{$lang.linklist_view_count|smarty:nodefaults|sprintf:$link.view_count}>
+					</span>
+				<{/if}>
+
+				<{if $action.linklist.display == LINKLIST_DISPLAY_DESCRIPTION}>
+					<div class="linklist_description">
+						<{if $link.description != ""}>
+							<{$link.description}>
+						<{else}>
+							<{$lang.linklist_no_description|smarty:nodefaults}>
+						<{/if}>
+					</div>
+				<{/if}>
+			</li>
+		<{/foreach}>
+	</ul>
+<{/foreach}>
+<{/strip}>

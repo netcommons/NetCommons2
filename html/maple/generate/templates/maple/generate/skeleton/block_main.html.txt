@@ -1,0 +1,25 @@
+<{strip}>
+<table class="th_<{$main_theme_name}> widthmax" summary="">
+	<tr>
+		<td class="th_<?php print($skeleton->theme_name);?>_upperleft"><img src="<{$smarty.const.CORE_BASE_URL}>/images/common/blank.gif" alt="" title="" class="th_<?php print($skeleton->theme_name);?>_upperleft" /></td>
+		<td class="th_<?php print($skeleton->theme_name);?>_upper"></td>
+		<td class="th_<?php print($skeleton->theme_name);?>_upperright"><img src="<{$smarty.const.CORE_BASE_URL}>/images/common/blank.gif" alt="" title="" class="th_<?php print($skeleton->theme_name);?>_upperright" /></td>
+	</tr>
+	<tr>
+		<td class="th_<?php print($skeleton->theme_name);?>_left"></td>
+		<td class="th_<?php print($skeleton->theme_name);?>_content">
+			<{*ヘッダータイトル*}>
+			<{include file="../../../templates/headertitle/line/title.html"}>
+			<{*ヘッダーメニュー*}>
+			<{if $headermenu}><{include file="../../../templates/default/headermenu.html"}><{/if}>
+			<div class="content"><{$content_field|smarty:nodefaults}></div>
+		</td>
+		<td class="th_<?php print($skeleton->theme_name);?>_right"></td>
+	</tr>
+	<tr>
+		<td class="th_<?php print($skeleton->theme_name);?>_belowleft"></td>
+		<td class="th_<?php print($skeleton->theme_name);?>_below"></td>
+		<td class="th_<?php print($skeleton->theme_name);?>_belowright"></td>
+	</tr>
+</table>
+<{/strip}>

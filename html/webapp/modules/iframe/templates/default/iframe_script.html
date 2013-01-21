@@ -1,0 +1,10 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!iframeCls["<{$id}>"]) {
+	iframeCls["<{$id}>"] = new clsIframe("<{$id}>");
+}
+<{if $action_name == "iframe_view_edit_init"}>
+iframeCls["<{$id}>"].iframeEditInit();
+<{/if}>
+</script>
+<{/strip}>

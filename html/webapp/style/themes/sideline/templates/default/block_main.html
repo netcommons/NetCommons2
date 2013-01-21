@@ -1,0 +1,16 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="th_<{$main_theme_name}>">
+  <tr>
+  	<td class="th_<{$main_theme_name}>_line">
+    	<img src="<{""|get_image_url}>/images/common/blank.gif" style="width:3px;" alt="" title="" />
+    </td>
+    <td class="th_sideline_content">
+    	<{*ヘッダータイトル*}>
+		<{include file="../../../../templates/headertitle/default/title.html"}>
+    	<{*ヘッダーメニュー*}>
+		<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+    	<div class="content"><{$content_field|smarty:nodefaults}></div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

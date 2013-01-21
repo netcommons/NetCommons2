@@ -1,0 +1,97 @@
+<{strip}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=<{$smarty.const._CHARSET}>" />
+	<title>
+		<{$lang.photoalbum_slideshow_title|sprintf:$action.album.album_name}>
+	</title>
+	<link href="<{""|get_image_url}>/images/common/favicon.ico" rel="SHORTCUT ICON" />
+	<script type="text/javascript">
+		_nc_lang_name = "<{$smarty.session._lang}>";
+		_nc_layoutmode = "<{if isset($layoutmode|smarty:nodefaults)}><{$layoutmode}><{else}><{$smarty.session._layoutmode}><{/if}>";
+		<{if $smarty.server.HTTPS|lower == 'on'}>
+			_nc_base_url = "<{$smarty.const.BASE_URL|smarty:nodefaults|regex_replace:"/^http:\/\//":"https://"}>";
+		<{else}>
+			_nc_base_url = "<{$smarty.const.BASE_URL|smarty:nodefaults}>";
+		<{/if}>
+		<{if $smarty.server.HTTPS|lower == 'on' && BASE_URL == CORE_BASE_URL}>
+			_nc_core_base_url = "<{$smarty.const.BASE_URL_HTTPS|smarty:nodefaults}>";
+		<{else}>
+			_nc_core_base_url = "<{$smarty.const.CORE_BASE_URL|smarty:nodefaults}>";
+		<{/if}>
+		_nc_index_file_name = "<{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>";
+		_nc_current_url = '<{$smarty.const.CURRENT_URL}>';
+		_nc_main_page_id = '<{$smarty.session._main_page_id}>';
+		_nc_user_id = '<{$smarty.session._user_id}>';
+		_nc_debug = <{if $smarty.session._php_debug == _ON || $smarty.session._sql_debug == _ON}>1<{else}>0<{/if}>;
+		<{* document.writeの処理で使用(現状：FireFoxでのみ動作) *}>
+		_nc_ajaxFlag = false;
+		_nc_dwScriptCount = 0;
+		_nc_dwScriptList = Array();
+		_nc_css_vs = '<{$smarty.const._CSS_VERSION}>';
+	</script>
+	<script type="text/javascript" src="<{""|get_image_url}>/<{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=photoalbum&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
+	<{include file = "photoalbum_view_main_slideshow_js.html"}>
+	<{include file="../photoalbum_script.html"}>
+	<{include file = "photoalbum_view_main_photo_setting.html"}>
+	<link href="<{""|get_image_url}>/<{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;header=<{$smarty.const._OFF}>&amp;dir_name=/photoalbum/default/slideshow.css" media="all" type="text/css" rel="stylesheet" />
+</head>
+
+<body onload="photoalbumSlideshowCls.load();" onmousemove="photoalbumSlideshowCls.showNonPhoto(event);">
+
+	<div id="photoalbum_photo_area<{$id}>" class="photoalbum_photo_area photoalbum_slideshow_photo_area">
+		<img id="photoalbum_photo<{$id}>" class="photoalbum_slideshow_photo" alt="" title="" />
+		<div id="photoalbum_photo_current<{$id}>" class="photoalbum_photo_current"></div>
+	</div>
+
+	<div id="photoalbum_slideshow_photo_name" class="photoalbum_slideshow_photo_name visible-hide">
+		<div class="photoalbum_slideshow_photo_name_bg">
+		</div>
+		<div id="photoalbum_photo_name<{$id}>" class="photoalbum_slideshow_photo_name_fg">
+		</div>
+	</div>
+
+	<div id="photoalbum_slideshow_photo_description" class="photoalbum_slideshow_photo_description">
+		<div class="photoalbum_slideshow_photo_description_bg">
+		</div>
+		<div id="photoalbum_photo_description<{$id}>" class="photoalbum_slideshow_photo_description_fg">
+		</div>
+	</div>
+
+	<div id="photoalbum_slideshow_operation" class="photoalbum_slideshow_operation visible-hide">
+		<div class="photoalbum_slideshow_operation_bg">
+		</div>
+		<div class="photoalbum_slideshow_operation_fg">
+			<a href="#" title="<{$lang.photoalbum_photo_previous_title}>" onclick="photoalbumCls['<{$id}>'].showPreviousPhoto();return false;">
+				<img class="icon" src="<{"slideshow/previous.gif"|get_modules_image}>" alt="<{$lang.photoalbum_photo_previous_title}>" title="" />
+			</a>
+
+			<a id="photoalbum_slide_start<{$id}>" href="#" title="<{$lang.photoalbum_slide_start_title}>" onclick="photoalbumCls['<{$id}>'].startSlide(<{$action.photoalbum.slide_time}>);return false;">
+				<img class="icon" src="<{"slideshow/start.gif"|get_modules_image}>" alt="<{$lang.photoalbum_slide_start_title}>" title="" />
+			</a>
+
+			<a id="photoalbum_slide_stop<{$id}>" class="display-none" href="#" title="<{$lang.photoalbum_slide_stop_title}>" onclick="photoalbumCls['<{$id}>'].stopSlide();return false;">
+				<img class="icon" src="<{"slideshow/stop.gif"|get_modules_image}>" alt="<{$lang.photoalbum_slide_stop_title}>" title="" />
+			</a>
+
+			<a href="#" title="<{$lang.photoalbum_photo_next_title}>" onclick="photoalbumCls['<{$id}>'].showNextPhoto();return false;">
+				<img class="icon" src="<{"slideshow/next.gif"|get_modules_image}>" alt="<{$lang.photoalbum_photo_next_title}>" title="" />
+			</a>
+
+			<a id="photoalbum_photo_description_hide" href="#" title="<{$lang.photoalbum_photo_description_hide_title}>" onclick="photoalbumSlideshowCls.changePhotoDescriptionDisplay();return false;">
+				<{$lang.photoalbum_photo_description_hide}>
+			</a>
+
+			<a id="photoalbum_photo_description_show" class="display-none" href="#" title="<{$lang.photoalbum_photo_description_show_title}>" onclick="photoalbumSlideshowCls.changePhotoDescriptionDisplay();return false;">
+				<{$lang.photoalbum_photo_description_show}>
+			</a>
+
+			<a href="#" title="<{$lang.photoalbum_slideshow_close_title}>" onclick="window.close();return false;">
+				<img class="icon" src="<{"slideshow/close.gif"|get_modules_image}>" alt="<{$lang.photoalbum_slideshow_close_title}>" />
+			</a>
+		</div>
+	</div>
+</body>
+</html>
+<{/strip}>

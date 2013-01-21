@@ -1,0 +1,32 @@
+<{strip}>
+<{* 問題表示用テンプレート *}>
+<div class="quiz_question_value">
+	<div class="float-left">
+		<span class="bold">
+			<{if empty($action.currentSequence|smarty:nodefaults)}>
+				<{$lang.quiz_question|sprintf:$smarty.foreach.question.iteration}>
+			<{else}>
+				<{$lang.quiz_single_question|sprintf:$action.currentSequence:$action.questionCount}>
+			<{/if}>
+		</span>
+		<br />
+		<{$question.question_value|smarty:nodefaults|wysiwig_convert_url}>
+		<br class="float-clear" />
+		<{$lang.quiz_allotment_notice|sprintf:$question.allotment}>
+
+		<{if $action.correctItemShow}>
+			<{include file="quiz_view_answer_flag.html" answer=$question.answer}>
+		<{/if}>
+	</div>
+
+	<{if $action.questionaryAnswerLinkShow}>
+		<div class="float-right align-right">
+			<a class="syslink" href="#" title="<{$lang.quiz_answer_question_title|sprintf:$smarty.foreach.question.iteration}>" onclick="quizCls['<{$id}>'].showQuestionaryAnswer(event, <{$question.question_id}>);return false;">
+				<{$lang.quiz_answer_question|sprintf:$smarty.foreach.question.iteration}>
+			</a>
+		</div>
+	<{/if}>
+
+	<br class="float-clear" />
+</div>
+<{/strip}>

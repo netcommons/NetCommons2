@@ -1,0 +1,41 @@
+<{strip}>
+	<div>
+		<{if ($action.offset > 0) }>
+			<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_FLAT) }>
+				<a data-role="button" data-inline="true" data-icon="arrow-l" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=whatsnew_view_mobile_init&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.prev_offset}><{$session_param}>">
+					<{$lang.whatsnew_mobile_prev|smarty:nodefaults|sprintf:$action.limit}>
+				</a>
+			<{/if}>
+			&nbsp;
+		<{/if}>
+
+		<{* X日分 *}>
+		<{if ($action.whatsnew_obj.allow_switch_days == _ON) && ($action.whatsnew_obj.display_flag == _OFF) }>
+			<{$lang.whatsnew_days_prefix|smarty:nodefaults}>
+			<{if $action.whatsnew_obj.display_days==0}>
+				<{$lang.whatsnew_days_today|smarty:nodefaults}>
+			<{else}>
+				<{$action.whatsnew_obj.display_days|string_format:$lang.whatsnew_days_format|smarty:nodefaults}>
+			<{/if}>
+		<{* X件分 *}>
+		<{else}>
+				<{$lang.whatsnew_mobile_offset|smarty:nodefaults|sprintf:$action.offset+1:$action.next_offset}>/
+				<{$lang.whatsnew_display_number|smarty:nodefaults|sprintf:"`$action.whatsnew_obj.display_number`"}>
+		<{/if}>
+
+		<{if ($action.next_offset < $action.whatsnew_total_count) && ($action.whatsnew_obj.display_type == WHATSNEW_DEF_FLAT) }>
+			&nbsp;
+			<a data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="right" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=whatsnew_view_mobile_init&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.next_offset}><{$session_param}>">
+				<{$lang.whatsnew_mobile_next|smarty:nodefaults|sprintf:$action.limit}>
+			</a>
+		<{/if}>
+		<{if ($action.offset > 0) && ($action.whatsnew_obj.display_type != WHATSNEW_DEF_FLAT) }>
+			&nbsp;
+			&nbsp;
+			<a data-role="button" data-inline="true" data-icon="arrow-u" data-iconpos="right" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=whatsnew_view_mobile_init&amp;block_id=<{$action.block_id}>&amp;<{$session_param}>">
+				<{$lang.whatsnew_top|smarty:nodefaults}>
+			</a>
+		<{/if}>
+
+	</div>
+<{/strip}>

@@ -1,0 +1,163 @@
+<{strip}>
+		<div class="tab_memory">
+		<fieldset>
+			<legend><{$lang.system_server_config|smarty:nodefaults}></legend>
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+				<tr>
+					<th scope="row">
+						<label for="memory_limit<{$id}>">
+							<{$lang.system_php_memory_limit|smarty:nodefaults}>
+						</label>
+					</th>
+					<td>
+						<select size="1" name="memory_limit" id="memory_limit<{$id}>">
+							<{* <option value="8"<{if $config.memory_limit.conf_value == 8}> selected="selected"<{/if}>>8M</option> *}>
+							<option value="16"<{if $config.memory_limit.conf_value == 16}> selected="selected"<{/if}>>16M</option>
+							<option value="32"<{if $config.memory_limit.conf_value == 32}> selected="selected"<{/if}>>32M</option>
+							<option value="64"<{if $config.memory_limit.conf_value == 64}> selected="selected"<{/if}>>64M</option>
+							<option value="128"<{if $config.memory_limit.conf_value == 128}> selected="selected"<{/if}>>128M</option>
+							<option value="256"<{if $config.memory_limit.conf_value == 256}> selected="selected"<{/if}>>256M</option>
+							<option value="512"<{if $config.memory_limit.conf_value == 512}> selected="selected"<{/if}>>512M</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="script_compress_gzip_1<{$id}>">
+							<{$lang.system_js_compress_gzip|smarty:nodefaults}>
+						</label>
+					</th>
+					<td>
+						<label for="script_compress_gzip_1<{$id}>">
+							<input id="script_compress_gzip_1<{$id}>" type="radio" name="script_compress_gzip" value="<{$smarty.const._ON}>" <{if $config.script_compress_gzip.conf_value == $smarty.const._ON}> checked="checked"<{/if}> />
+							<{$lang.system_yes|smarty:nodefaults}>
+						</label>
+						<label for="script_compress_gzip_0<{$id}>">
+							<input id="script_compress_gzip_0<{$id}>" type='radio' name='script_compress_gzip' value="<{$smarty.const._OFF}>" <{if $config.script_compress_gzip.conf_value == $smarty.const._OFF}> checked="checked"<{/if}> />
+							<{$lang.system_no|smarty:nodefaults}>
+						</label>
+						<div class="note system_note_width">
+							<{$lang.system_js_compress_gzip_desc|smarty:nodefaults}>
+						</div>
+						<{if !extension_loaded('zlib')}>
+						<div class="note system_note_width bold">
+							<{$lang.system_none_zlib|smarty:nodefaults}>
+						</div>
+						<{/if}>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="tab_proxy">
+			<fieldset>
+				<legend><{$lang.system_session_title|smarty:nodefaults}></legend>
+				<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+				<tr class="row system_below<{if $config.use_mysession.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+					<th scope="row"><label for="session_name<{$id}>"><{$lang.system_session_name|smarty:nodefaults}></label></th>
+					<td>
+						<input type="text" name="session_name" id="session_name<{$id}>" value="<{$config.session_name.conf_value}>" size="30" />
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+
+		<div class="tab_proxy">
+			<fieldset>
+				<legend><{$lang.system_proxy_title|smarty:nodefaults}></legend>
+				<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+				<tr class="row">
+					<th scope="row"><{$lang.system_proxy_mode|smarty:nodefaults}></th>
+					<td class="system_body">
+						<input type="radio" name="proxy_mode" value="<{$smarty.const._ON}>" id="proxy_mode_1<{$id}>"<{if $config.proxy_mode.conf_value == $smarty.const._ON}> checked="checked"<{/if}> onclick="systemCls['<{$id}>'].visible(this, 'system_below')" />
+						<label for="proxy_mode_1<{$id}>"><{$lang.system_yes|smarty:nodefaults}></label>
+						<input type='radio' name='proxy_mode' value="<{$smarty.const._OFF}>" id="proxy_mode_0<{$id}>"<{if $config.proxy_mode.conf_value == $smarty.const._OFF}> checked="checked"<{/if}> onclick="systemCls['<{$id}>'].hidden(this, 'system_below')" />
+						<label for="proxy_mode_0<{$id}>"><{$lang.system_no|smarty:nodefaults}></label>
+					</td>
+				</tr>
+				<tr class="row system_below<{if $config.proxy_mode.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+					<th scope="row"><label for="proxy_host<{$id}>"><{$lang.system_proxy_host|smarty:nodefaults}></label><span class="require">*</span></th>
+					<td >
+						<input type="text" name="proxy_host" id="proxy_host<{$id}>" value="<{$config.proxy_host.conf_value}>" size='30' />
+						<div class="note system_note_width"><{$lang.system_proxy_host_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				<tr class="row system_below<{if $config.proxy_mode.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+					<th scope="row"><label for="proxy_port<{$id}>"><{$lang.system_proxy_port|smarty:nodefaults}></label><span class="require">*</span></th>
+					<td>
+						<input type="text" name="proxy_port" id="proxy_port<{$id}>" value="<{$config.proxy_port.conf_value}>" size='30' />
+						<div class="note system_note_width"><{$lang.system_proxy_port_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				<tr class="row system_below<{if $config.proxy_mode.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+					<th scope="row"><label for="proxy_user<{$id}>"><{$lang.system_proxy_user|smarty:nodefaults}></label></th>
+					<td>
+						<input type="text" name="proxy_user" id="proxy_user<{$id}>" value="<{$config.proxy_user.conf_value}>" size='30' />
+						<div class="note system_note_width"><{$lang.system_proxy_user_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				<tr class="row system_below<{if $config.proxy_mode.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+				<th scope="row"><label for="proxy_pass<{$id}>"><{$lang.system_proxy_pass|smarty:nodefaults}></label></th>
+					<td class="even">
+						<input type="password" name="proxy_pass" id="proxy_pass<{$id}>" value="<{$config.proxy_pass.conf_value}>" size='30' />
+						<div class="note system_note_width"><{$lang.system_proxy_pass_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+
+		<div class="tab_permalink">
+			<fieldset>
+				<legend><{$lang.system_use_permalink_title|smarty:nodefaults}></legend>
+				<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+				<tr class="row">
+					<th scope="row">
+						<label for="permalink_1<{$id}>">
+							<{$lang.system_use_permalink|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="system_body">
+						<input type="radio" name="use_permalink" value="<{$smarty.const._ON}>" id="permalink_1<{$id}>"<{if $config.use_permalink.conf_value == $smarty.const._ON}> checked="checked"<{/if}> />
+						<label for="permalink_1<{$id}>"><{$lang.system_yes|smarty:nodefaults}></label>
+						<input type='radio' name='use_permalink' value="<{$smarty.const._OFF}>" id="permalink_0<{$id}>"<{if $config.use_permalink.conf_value == $smarty.const._OFF}> checked="checked"<{/if}> />
+						<label for="permalink_0<{$id}>"><{$lang.system_no|smarty:nodefaults}></label>
+
+						<div class="note system_note_width"><{$lang.system_use_permalink_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+		<div class="tab_ldap">
+			<fieldset>
+				<legend><{$lang.system_ldap_title|smarty:nodefaults}></legend>
+				<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+				<tr class="row">
+					<th scope="row"><{$lang.system_ldap_uses|smarty:nodefaults}></th>
+					<td class="system_body">
+						<input id="ldap_uses_1<{$id}>" name="ldap_uses" type="radio" value="<{$smarty.const._ON}>" <{if $config.ldap_uses.conf_value == $smarty.const._ON}> checked="checked"<{/if}> onclick="systemCls['<{$id}>'].visible(this, 'system_below')" />
+						<label for="ldap_uses_1<{$id}>"><{$lang.system_yes|smarty:nodefaults}></label>
+						<input id="ldap_uses_0<{$id}>" name="ldap_uses" type="radio" value="<{$smarty.const._OFF}>" <{if $config.ldap_uses.conf_value == $smarty.const._OFF}> checked="checked"<{/if}> onclick="systemCls['<{$id}>'].hidden(this, 'system_below')" />
+						<label for="ldap_uses_0<{$id}>"><{$lang.system_no|smarty:nodefaults}></label>
+					</td>
+				</tr>
+				<tr class="row system_below<{if $config.ldap_uses.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+					<th scope="row"><label for="ldap_server<{$id}>"><{$lang.system_ldap_server|smarty:nodefaults}></label></th>
+					<td>
+						<input id="ldap_server<{$id}>" name="ldap_server" type="text" value="<{$config.ldap_server.conf_value}>" size='30' />
+						<div class="note system_note_width"><{$lang.system_ldap_server_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				<tr class="row system_below<{if $config.ldap_uses.conf_value == $smarty.const._OFF}> display-none<{/if}>">
+					<th scope="row"><label for="ldap_domain<{$id}>"><{$lang.system_ldap_domain|smarty:nodefaults}></label></th>
+					<td>
+						<input id="ldap_domain<{$id}>" name="ldap_domain" type="text" value="<{$config.ldap_domain.conf_value}>" size='30' />
+						<div class="note system_note_width"><{$lang.system_ldap_domain_note|smarty:nodefaults}></div>
+					</td>
+				</tr>
+				</table>
+			</fieldset>
+		</div>
+<{/strip}>

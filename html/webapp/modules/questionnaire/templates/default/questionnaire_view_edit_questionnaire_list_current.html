@@ -1,0 +1,6 @@
+<{strip}>
+<{* アンケート一覧（カレント）用テンプレート *}>
+<label for="questionnaire_current<{$questionnaire.questionnaire_id}><{$id}>">
+	<input id="questionnaire_current<{$questionnaire.questionnaire_id}><{$id}>" type="radio" name="current" value="<{$questionnaire.questionnaire_id}>" onclick="questionnaireCls['<{$id}>'].changeCurrent('<{$questionnaire.questionnaire_id}>','<{$lang.questionnaire_mes_operate_start|sprintf:$questionnaire.questionnaire_name|escape:"html"|escape:"javascript"}>')" <{if $questionnaire.question_count == 0}>disabled="disabled"<{/if}>/>
+</label>
+<{/strip}>

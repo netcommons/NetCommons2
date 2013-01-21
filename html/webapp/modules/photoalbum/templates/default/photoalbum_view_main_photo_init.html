@@ -1,0 +1,126 @@
+<{strip}>
+<{* 写真表示画面用テンプレート *}>
+<div class="photoalbum_operation photoalbum_photo_operation">
+	<{if $action.album.photo_count > 0}>
+		<div class="photoalbum_slide_link">
+			<a class="syslink" href="#" title="<{$lang.photoalbum_slide_title}>" onclick="photoalbumCls['<{$id}>'].showSlide('.<{$smarty.const.INDEX_FILE_NAME}>?action=photoalbum_view_main_slideshow&album_id=<{$action.album.album_id}>&page_id=<{$page_id}>&block_id=<{$block_id}>');return false;">
+				<img class="icon" src="<{"slideshow/small_play.gif"|get_modules_image}>" alt="" title="" />
+				<{$lang.photoalbum_slide}>
+			</a>
+		</div>
+	<{/if}>
+		
+	<{if $action.album.edit_authority}>
+		<div class="photoalbum_photo_manage">
+			<{include file = "photoalbum_view_photo_upload.html"}>
+			<{if $action.album.photo_count > 0}>
+				<{$lang._separator|smarty:nodefaults}>
+				<a class="syslink" href="#" title="<{$lang.photoalbum_photo_list_title}>" onclick="photoalbumCls['<{$id}>'].showPhotoList(event);return false;">
+					<{$lang.photoalbum_photo_list}>
+				</a>
+			<{/if}>
+		</div>
+	<{/if}>
+	
+	<br class="float-clear" />
+</div>
+	
+<{if $action.album.photo_count == 0}>
+	<{$lang.photoalbum_no_photo}>
+<{else}>
+	<div id="photoalbum_photo_name<{$id}>" class="photoalbum_photo_name"></div>
+
+	<div id="photoalbum_photo_area<{$id}>" class="photoalbum_photo_area">
+		<a href="#" title="" onclick="commonCls.showPopupImageFullScale(this);return false;">
+			<img id="photoalbum_photo<{$id}>" src="<{""|get_image_url}>/images/common/blank.gif" class="photoalbum_photo" alt="" title="" />
+		</a>
+	</div>
+
+	<div id="photoalbum_photo_description<{$id}>" class="photoalbum_photo_description"></div>
+
+	<div class="photoalbum_slide_operation">
+		<a class="syslink" href="#" title="<{$lang.photoalbum_photo_previous_title}>" onclick="photoalbumCls['<{$id}>'].showPreviousPhoto();return false;">
+			<img class="icon" src="<{"previous.gif"|get_themes_image}>" alt="<{$lang.photoalbum_photo_previous_title}>" title="" />
+		</a>
+
+		<a id="photoalbum_slide_start<{$id}>" class="syslink" href="#" title="<{$lang.photoalbum_slide_start_title}>" onclick="photoalbumCls['<{$id}>'].startSlide(<{$action.photoalbum.slide_time}>);return false;">
+			<{$lang.photoalbum_slide_start}>
+		</a>
+
+		<a id="photoalbum_slide_stop<{$id}>" class="syslink display-none" href="#" title="<{$lang.photoalbum_slide_stop_title}>" onclick="photoalbumCls['<{$id}>'].stopSlide();return false;">
+			<{$lang.photoalbum_slide_stop}>
+		</a>
+
+		<a class="syslink" href="#" title="<{$lang.photoalbum_photo_next_title}>" onclick="photoalbumCls['<{$id}>'].showNextPhoto();return false;">
+			<img class="icon" src="<{"next.gif"|get_themes_image}>" alt="<{$lang.photoalbum_photo_next_title}>" title="" />
+		</a>
+		
+		<div class="photoalbum_photo_current">
+			<span id="photoalbum_photo_current<{$id}>">
+			</span>
+			<{$lang.photoalbum_photo_current_separator}>
+			<{$action.album.photo_count}>
+		</div>
+	</div>
+	
+	<div class="photoalbum_thumbnail_area" style="height:<{$smarty.const.PHOTOALBUM_THUMBNAIL_HEIGHT}>px;">
+		<div id="photoalbum_thumbnail_previous<{$id}>" class="photoalbum_thumbnail_previous visible-hide">
+			<a href="#" title="<{$lang.photoalbum_thumbnail_previous_title}>" onclick="photoalbumCls['<{$id}>'].showPreviousThumbnail();return false;">
+				<img class="icon" src="<{"previous.gif"|get_themes_image}>" alt="<{$lang.photoalbum_thumbnail_previous_title}>" title="" />
+			</a>
+		</div>
+		
+		<ol id="photoalbum_thumbnail<{$id}>" class="photoalbum_thumbnail">
+			<{foreach item=photo from=$action.photos name=photo}>
+				<li id="photoalbum_photo<{$photo.photo_id}><{$id}>" class="display-block display-none" style="width:<{$smarty.const.PHOTOALBUM_THUMBNAIL_WIDTH}>px;height:<{$smarty.const.PHOTOALBUM_THUMBNAIL_HEIGHT}>px;">
+					<a href="#" title="<{$lang.photoalbum_thumbnail_title|sprintf:$photo.photo_name}>" onclick="photoalbumCls['<{$id}>'].selectPhoto(<{$photo.photo_sequence-1}>);return false;">
+						<img class="photoalbum_thumbnail" src=".<{$smarty.const.INDEX_FILE_NAME}><{$photo.photo_path}>" alt="<{$photo.photo_name}>" title="" style="<{$photo.thumbnail_style}>" />
+					</a>
+				</li>
+			<{/foreach}>
+		</ol>
+		<div id="photoalbum_thumbnail_temporary<{$id}>" class="display-none"></div>
+		
+		<div id="photoalbum_thumbnail_next<{$id}>" class="photoalbum_thumbnail_next visible-hide">
+			<a href="#" title="<{$lang.photoalbum_thumbnail_next_title}>" onclick="photoalbumCls['<{$id}>'].showNextThumbnail();return false;">
+				<img class="icon" src="<{"next.gif"|get_themes_image}>" alt="<{$lang.photoalbum_thumbnail_next_title}>" title="" />
+			</a>
+		</div>
+		
+		<br class="float-clear" />
+	</div>
+	<br class="float-clear" />
+	
+	
+	<div id="photoalbum_photo_footer<{$id}>" class="photoalbum_photo_footer"></div>
+	
+	<div id="photoalbum_comment_area<{$id}>" class="photoalbum_comment_area"></div>
+<{/if}>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	photoalbumCls["<{$id}>"].photoalbum_id = <{$action.album.photoalbum_id}>;
+	photoalbumCls["<{$id}>"].album_id = <{$action.album.album_id}>;
+</script>
+
+<{include file = "photoalbum_view_main_photo_setting.html"}>
+<{if $action.album.photo_count > 0}>
+	<script class="nc_script" type="text/javascript">
+		<{if $action.photoalbum.size_flag == _ON}>
+			photoalbumCls["<{$id}>"].minWidth = null;
+		<{else}>
+			photoalbumCls["<{$id}>"].minWidth = <{$action.minWidth}>;
+		<{/if}>
+
+		<{if $action.album.comment_flag == _ON}>
+			photoalbumCls["<{$id}>"].comment_flag = true;
+		<{else}>
+			photoalbumCls["<{$id}>"].comment_flag = false;
+		<{/if}>
+		
+		photoalbumCls["<{$id}>"].leftIndex = 0;
+		photoalbumCls["<{$id}>"].rightIndex = 0;
+		photoalbumCls["<{$id}>"].initializeThumbnail();
+	</script>
+<{/if}>
+<{/strip}>

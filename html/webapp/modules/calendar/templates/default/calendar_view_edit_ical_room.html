@@ -1,0 +1,15 @@
+<{strip}>
+
+<{if (_AUTH_CHIEF <= $room_obj.authority_id) }>
+<option<{if (_AUTH_CHIEF <= $room_obj.authority_id) }> value="<{$room_id}>"<{else}> value="-" class="disable_lbl"<{/if}><{if ($action.plan_room_id==$room_id) }> selected="selected"<{/if}>>
+	<{if !empty($indent|smarty:nodefaults) }>
+		<{"&nbsp;&nbsp;"|str_repeat:$indent}>
+	<{/if}>
+	<{$plan_name}>
+	<{if ($room_obj.thread_num != 0 && !($room_obj.thread_num == 1 && $room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _OFF)) }>
+		(<{$parent_room_name}>)
+	<{/if}>
+</option>
+<{/if}>
+
+<{/strip}>

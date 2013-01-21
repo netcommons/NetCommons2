@@ -1,0 +1,13 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<{$lang.reservation_reserve_title|smarty:nodefaults}>
+</th>
+<td>
+	<{if $action.reserve.title_icon != "" }>
+		<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$action.reserve.title_icon}>" alt="" />
+	<{/if}>
+	<{$action.reserve.title}>
+</td>
+
+<{/strip}>

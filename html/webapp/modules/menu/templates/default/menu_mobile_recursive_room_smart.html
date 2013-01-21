@@ -1,0 +1,51 @@
+<{strip}>
+<{* ルームデータツリー表示用テンプレート *}>
+
+<{assign var="space_start" value=false}>
+<{foreach name="room_`$next_parent_id`" item="room_obj" from=$room_list}>
+
+	<{assign var="next_thread_num" value=$room_obj.thread_num+1}>
+	<{assign var="next_parent_id" value=$room_obj.page_id}>
+
+	<{if ( $room_obj.visible_flag==_ON ) }>
+
+		<{if ($room_obj.thread_num == 0) }>
+			<{assign var="space_start" value=true}>
+			<div data-role="collapsible" data-theme="a">
+				<h3><{$room_obj.page_name}></h3>
+				<ul data-role="listview" data-inset="true">
+		<{else}>
+			<{if ($action.room_arr.$next_thread_num.$next_parent_id)}>
+				<{assign var="space_start" value=true}>
+				<div data-role="collapsible" >
+				<h3><{$room_obj.page_name}></h3>
+				<ul data-role="listview" data-inset="true">
+			<{/if}>
+		<{/if}>
+
+			<li>
+				<{if ($room_obj.page_id == $action.room_id) }>
+					<{$room_obj.page_name}>
+				<{elseif ($room_obj.disable_flag == _ON) }>
+					<{$room_obj.page_name}>
+				<{else}>
+					<a href="?action=<{$menu_redirect_action}>&amp;page_id=<{$room_obj.page_id}>&amp;room_id=<{$room_obj.room_id}><{if ($room_obj.space_type!=_SPACE_TYPE_PUBLIC || $room_obj.thread_num!=0)}>&amp;t=<{$smarty.const._ON}><{/if}><{$session_param}>">
+						<{$room_obj.page_name}>
+					</a>
+				<{/if}>
+			</li>
+
+	<{/if}>
+
+	<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+	<{if ($room_list) && ($room_obj.visible_flag == _ON) }>
+		<{include file="menu_mobile_recursive_room_smart.html"}>
+		</ul>
+	<{/if}>
+	<{if $space_start!=false}>
+		</div>
+		<{assign var="space_start" value=false}>
+	<{/if}>
+<{/foreach}>
+
+<{/strip}>

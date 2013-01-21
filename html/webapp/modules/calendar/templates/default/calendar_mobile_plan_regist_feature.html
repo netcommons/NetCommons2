@@ -1,0 +1,122 @@
+<{strip}>
+
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<{$lang.calendar_mobile_plan_title|smarty:nodefaults}>
+		<br />
+		<input type="text" name="title" value="<{$action.calendar_obj.title}>">
+		<br /><br />
+
+		<{$lang.calendar_mobile_plan_flag|smarty:nodefaults}>
+		<br />
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<select name="p_r_id">
+			<{include file="./calendar_view_recursive_room.html"}>
+		</select>
+		<br /><br />
+
+		<{$lang.calendar_mobile_plan_time|smarty:nodefaults}>
+		<br />
+		<{if ($action.details_flag == _OFF) }>
+			<{assign var="date" value=$action.calendar_obj.start_date}>
+			<input type="text" name="s_year" value="<{$date|substr:0:4}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_year|smarty:nodefaults}>
+			<input type="text" name="s_month" value="<{$date|substr:4:2}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_month|smarty:nodefaults}>
+			<input type="text" name="s_day" value="<{$date|substr:6:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_day|smarty:nodefaults}>
+			<br />
+			<input type="checkbox" name="allday" value="<{$smarty.const._ON}>"<{if ($action.calendar_obj.allday_flag == _ON) }> checked="checked"<{/if}>>
+			<{$lang.calendar_allday_flag|smarty:nodefaults}>
+			<br />
+			<{assign var="time" value=$action.calendar_obj.start_time}>
+			<input type="text" name="s_hour" value="<{$time|substr:0:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_hour|smarty:nodefaults}>
+			<input type="text" name="s_min" value="<{$time|substr:2:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_minute|smarty:nodefaults}>
+
+			<{$lang.calendar_time_pause|smarty:nodefaults}>
+
+			<{assign var="time" value=$action.calendar_obj.end_time}>
+			<input type="text" name="e_hour" value="<{$time|substr:0:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_hour|smarty:nodefaults}>
+			<input type="text" name="e_min" value="<{$time|substr:2:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_minute|smarty:nodefaults}>
+
+			<br /><br />
+			<input type="submit" name="details" value="<{$lang.calendar_details_addplan|smarty:nodefaults}>">
+		<{else}>
+			<{assign var="date" value=$action.calendar_obj.start_date}>
+			<input type="text" name="s_year" value="<{$date|substr:0:4}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_year|smarty:nodefaults}>
+			<input type="text" name="s_month" value="<{$date|substr:4:2}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_month|smarty:nodefaults}>
+			<input type="text" name="s_day" value="<{$date|substr:6:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_day|smarty:nodefaults}>
+			<br />
+			<{assign var="time" value=$action.calendar_obj.start_time}>
+			<input type="text" name="s_hour" value="<{$time|substr:0:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_hour|smarty:nodefaults}>
+			<input type="text" name="s_min" value="<{$time|substr:2:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_minute|smarty:nodefaults}>
+			&nbsp;
+			<{$lang.calendar_time_pause|smarty:nodefaults}><br />
+
+			<{assign var="date" value=$action.calendar_obj.end_date}>
+			<input type="text" name="e_year" value="<{$date|substr:0:4}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_year|smarty:nodefaults}>
+			<input type="text" name="e_month" value="<{$date|substr:4:2}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_month|smarty:nodefaults}>
+			<input type="text" name="e_day" value="<{$date|substr:6:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_day|smarty:nodefaults}>
+			<br />
+			<{assign var="time" value=$action.calendar_obj.end_time}>
+			<input type="text" name="e_hour" value="<{$time|substr:0:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_hour|smarty:nodefaults}>
+			<input type="text" name="e_min" value="<{$time|substr:2:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt;ja:n&gt;quot;">
+			<{$lang._mobile_minute|smarty:nodefaults}>
+
+			<br />
+			<input type="checkbox" name="allday" value="<{$smarty.const._ON}>"<{if ($action.calendar_obj.allday_flag == _ON) }> checked="checked"<{/if}>>
+			<{$lang.calendar_allday_flag|smarty:nodefaults}>
+			<br /><br />
+
+			<{$lang.calendar_mobile_location|smarty:nodefaults}>
+			<br />
+			<input type="text" name="location" value="<{$action.calendar_obj.location}>">
+			<br /><br />
+
+			<{$lang.calendar_mobile_contact|smarty:nodefaults}>
+			<br />
+			<input type="text" name="contact" value="<{$action.calendar_obj.contact}>">
+			<br /><br />
+
+			<{$lang.calendar_mobile_description|smarty:nodefaults}>
+			<br />
+			<textarea name="description" rows=5><{$action.calendar_obj.description|smarty:nodefaults|html_to_text}></textarea>
+
+			<input type="hidden" name="r_flag" value="<{$smarty.const._OFF}>">
+		<{/if}>
+		<br /><br />
+
+		<{if ($action.calendar_obj.calendar_id > 0) }>
+			<input type="hidden" name="action" value="calendar_action_mobile_plan_modify">
+			<input type="submit" name="regist" value="<{$lang._edit|smarty:nodefaults}>">
+		<{else}>
+			<input type="hidden" name="action" value="calendar_action_mobile_plan_add">
+			<input type="submit" name="regist" value="<{$lang.calendar_mobile_add_plan|smarty:nodefaults}>">
+		<{/if}>
+		<input type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+
+		<input type="hidden" name="cal_id" value="<{$action.calendar_obj.calendar_id}>">
+		<input type="hidden" name="d_flag" value="<{$action.details_flag}>">
+		<input type="hidden" name="edit_rrule" value="<{$action.edit_rrule}>" />
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<{/strip}>

@@ -1,0 +1,8 @@
+<{strip}>
+<{* カレントテンプレート *}>
+
+<label for="assignment_row<{$assignment.assignment_id}><{$id}>">
+	<input id="assignment_row<{$assignment.assignment_id}><{$id}>" type="radio" name="current" onclick="return assignmentCls['<{$id}>'].changeCurrent('<{$assignment.assignment_id}>', '<{$lang.assignment_start_mes|sprintf:$assignment.assignment_name|escape:"html"|escape:"javascript"}>');"<{if ($action.assignment_id == $assignment.assignment_id) }> checked="checked"<{/if}> />
+</label>
+
+<{/strip}>

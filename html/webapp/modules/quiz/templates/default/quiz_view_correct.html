@@ -1,0 +1,20 @@
+<{strip}>
+<{* 正解項目用テンプレート *}>
+<div class="quiz_collect">
+	<{if $question.question_type != QUIZ_QUESTION_TYPE_TEXTAREA_VALUE}>
+		<div class="bold">
+			<{$lang.quiz_correct_answer}>
+		</div>
+		<div>
+			<{include file="quiz_view_answer.html" choiceDisplay=$smarty.const.QUIZ_CHOICE_DISPLAY_REFERENCE}>
+		</div>
+	<{/if}>
+
+	<div class="quiz_description">
+		<{if !empty($question.description|smarty:nodefaults)}>
+			<{$question.description|smarty:nodefaults|wysiwig_convert_url}>
+			<br class="float-clear" />
+		<{/if}>
+	</div>
+</div>
+<{/strip}>

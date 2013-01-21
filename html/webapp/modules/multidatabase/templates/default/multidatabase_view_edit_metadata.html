@@ -1,0 +1,59 @@
+<tr id="mdb_chg_row<{$id}>_<{$metadata.metadata_id}>" class="mdb_chg_row">
+	<{* 表示順変更 *}>
+	<td class="mdb_chg_seq mdb_metadata_detail_td">
+		<a class="move_bar" href="#" onclick="return false;">
+			<img src="<{""|get_image_url}>/images/multidatabase/move_bar.gif" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" title="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+		</a>
+	</td>
+	<th class="nowrap align-left valign-middle mdb_metadata_detail_td" scope="row">
+		<{$metadata.name}>
+		<{if $metadata.require_flag == _ON}>
+			<{$lang.mdb_require_flag|smarty:nodefaults}>
+		<{/if}>
+		&nbsp;
+		<{if $action.mdb_obj.title_metadata_id == $metadata.metadata_id}>
+			<span class="require">(<{$lang.mdb_type_key_metadata|smarty:nodefaults}>)</span>
+		<{/if}>
+		<span class="mdb_setting_type">(
+		<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXT}>
+			<{$lang.mdb_type_text|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXTAREA}>
+			<{$lang.mdb_type_textarea|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_LINK}>
+			<{$lang.mdb_type_link|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_SECTION}>
+			<{$lang.mdb_type_section|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>
+			<{$lang.mdb_type_multiple|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}>
+			<{$lang.mdb_type_file|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+			<{$lang.mdb_type_image|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>
+			<{$lang.mdb_type_wysiwyg|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_AUTONUM}>
+			<{$lang.mdb_type_autonum|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MAIL}>
+			<{$lang.mdb_type_mail|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_DATE}>
+			<{$lang.mdb_type_date|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_INSERT_TIME}>
+			<{$lang.mdb_type_insert_time|smarty:nodefaults}>
+		<{elseif $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+			<{$lang.mdb_type_update_time|smarty:nodefaults}>
+		<{/if}>
+		)</span>
+	</th>
+	<td class="mdb_setting_manage mdb_metadata_detail_td">
+		<a class="syslink" href="#" title="<{$lang.mdb_head_metadata_name_edit_title|sprintf:$metadata.name|escape:"html"}>" onclick="mdbCls['<{$id}>'].showPopupMetadata(event, <{$metadata.metadata_id}>); return false;">
+			<{$lang._edit|smarty:nodefaults}>
+		</a>
+		<{if $action.mdb_obj.title_metadata_id != $metadata.metadata_id}>
+			<{$lang._separator}>
+			<a class="syslink" href="#" title="<{$lang.mdb_head_metadata_name_del_title|sprintf:$metadata.name|escape:"html"}>" onclick="mdbCls['<{$id}>'].delMetadata(<{$metadata.metadata_id}>, '<{$lang._del_confirm|sprintf:"`$metadata.name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>'); return false;">
+				<{$lang._delete|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		&nbsp;
+	</td>
+</tr>

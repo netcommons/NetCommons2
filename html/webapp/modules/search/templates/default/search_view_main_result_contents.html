@@ -1,0 +1,62 @@
+<{strip}>
+
+<h3>
+	<{$action.module_obj.module_name}>
+	<{if ($action.xml_parse.count > 0) }>
+		<span class="search_page_count">
+			<{$lang.search_page_count|smarty:nodefaults|sprintf:"`$action.xml_parse.count`":"`$action.search_result.offset+1`":"`$action.next_offset`"}>
+		</span>
+	<{/if}>
+</h3>
+
+<{if ($action.xml_parse.count > 0) }>
+	<{if ($action.xml_parse.count-$action.xml_parse.offset == 1) }>
+		<{assign var="item" value=$action.xml_parse.channel.item|smarty:nodefaults}>
+		<{include file="search_view_main_result_content.html"}>
+	<{else}>
+		<{foreach name="item" key="key" item="item" from=$action.xml_parse.channel.item}>
+			<{include file="search_view_main_result_content.html"}>
+		<{/foreach}>
+	<{/if}>
+
+	<{if ($action.search_result.offset != 0 || $action.next_offset != $action.xml_parse.count) }>
+		<table class="widthmax" summary="">
+			<tr>
+				<td class="search_result_prev<{if ($action.search_result.offset == 0) }> disable_lbl<{/if}>">
+					<{if ($action.search_result.offset == 0) }>
+						<{$lang.search_prev|smarty:nodefaults}>
+					<{else}>
+						<a href="#" title="<{$lang.search_prev_title|smarty:nodefaults}>" class="syslink hover_highlight" onclick='searchCls["<{$id}>"].getResult("<{$action.search_result.module_id}>","<{$action.search_result.room_id}>","<{$action.prev_offset}>"<{if ($action.prev_offset != 0) }>,"<{$smarty.const.SEARCH_DEF_NEXT_LIMIT}>"<{/if}>); return false;'>
+							<{$lang.search_prev|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				</td>
+				<td class="search_result_next<{if ($action.next_offset == $action.xml_parse.count) }> disable_lbl<{/if}>">
+					<{if ($action.next_offset == $action.xml_parse.count) }>
+						<{$lang.search_next|smarty:nodefaults}>
+					<{else}>
+						<a href="#" title="<{$lang.search_next_title|smarty:nodefaults}>" class="syslink hover_highlight" onclick='searchCls["<{$id}>"].getResult("<{$action.search_result.module_id}>","<{$action.search_result.room_id}>","<{$action.next_offset}>","<{$smarty.const.SEARCH_DEF_NEXT_LIMIT}>"); return false;'>
+							<{$lang.search_next|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				</td>
+			</tr>
+		</table>
+	<{/if}>
+<{else}>
+	<div class="search_result_content">
+		<{$lang.search_mes_noexists_page|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<div class="hr"></div>
+
+<{include file="../search_script.html"}>
+<script class="nc_script" type="text/javascript">
+	searchCls["<{$id}>"].strlen = <{$smarty.const.SEARCH_STR_LENGTH}>;
+	searchCls["<{$id}>"].more_str = "<{$smarty.const._SEARCH_MORE}>";
+	searchCls["<{$id}>"].descriptionMore("<{$action.module_obj.module_id}>","search_subject", "<{$smarty.session.search_select.$block_id.keyword}>","<{$smarty.session.search_select.$block_id.select_kind}>");
+	searchCls["<{$id}>"].descriptionMore("<{$action.module_obj.module_id}>","search_description", "<{$smarty.session.search_select.$block_id.keyword}>","<{$smarty.session.search_select.$block_id.select_kind}>");
+</script>
+
+<{/strip}>

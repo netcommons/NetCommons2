@@ -1,0 +1,21 @@
+<{strip}>
+<span class="journal_page_switch">
+	<{if $action.pager.prev_link}>
+  		<a class="syslink" title="<{$lang.journal_back|smarty:nodefaults}>" href="#" onclick="journalCls['<{$id}>'].toPage(this, '<{$action.journal_id}>', 'category_id<{$id}>', 'visible_item<{$id}>', '<{$action.pager.now_page-1}>',''); return false;">
+  			<img class="icon" alt="" src="<{"previous.gif"|get_themes_image}>"/>
+  			<{$lang.journal_back|smarty:nodefaults}>
+  		</a>
+	<{/if}>
+	<{section name=cnt loop=$action.pager.link_array}>
+		<a class="syslink<{if $action.pager.now_page==$action.pager.link_array[cnt]}> current<{/if}>" href="#" title="<{$action.pager.link_array[cnt]}>" onclick="<{if $action.pager.now_page!=$action.pager.link_array[cnt]}>journalCls['<{$id}>'].toPage(this, '<{$action.journal_id}>', 'category_id<{$id}>', 'visible_item<{$id}>', '<{$action.pager.link_array[cnt]}>','');<{/if}> return false;">
+			<{$action.pager.link_array[cnt]}>
+		</a>
+	<{/section}>
+	<{if $action.pager.next_link}>
+  		<a class="syslink" title="<{$lang.journal_next|smarty:nodefaults}>" href="#" onclick="journalCls['<{$id}>'].toPage(this, '<{$action.journal_id}>', 'category_id<{$id}>', 'visible_item<{$id}>', '<{$action.pager.now_page+1}>', ''); return false;">
+  			<{$lang.journal_next|smarty:nodefaults}>
+  			<img class="icon" alt="" src="<{"next.gif"|get_themes_image}>"/>
+  		</a>
+	<{/if}>
+</span>
+<{/strip}>

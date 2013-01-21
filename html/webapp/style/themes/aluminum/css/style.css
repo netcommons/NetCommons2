@@ -1,0 +1,65 @@
+/* 
+ * ブロック定義
+ */
+.th_aluminum_title_header {
+	padding-top:2px;
+	vertical-align:top;
+	width:13px;
+}
+/* highlight */
+.th_aluminum .highlight {
+	background:#eaeaea url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/back_highlight.gif") repeat scroll left top;
+	color:#476296;
+}
+
+.th_aluminum a.hover_highlight:hover {
+	background:#eaeaea url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/back_highlight.gif") repeat scroll left top;
+	color:#476296;
+	text-decoration:none;
+} 
+
+/* 一般 */
+.th_aluminum_content {
+	border: 0px;
+	padding: 5px 10px 5px 10px;
+	background:#eaeaea url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/back.gif") repeat scroll left top;
+}
+
+.th_aluminum_upperleft {
+	width:7px;
+	height:4px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_aluminum_upper {
+	height:4px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/upper.gif") repeat-x scroll center bottom;
+}
+.th_aluminum_upperright {
+	width:7px;
+	height:4px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/upperright.gif") no-repeat scroll right bottom;
+}
+.th_aluminum_left {
+	width:7px;
+	height:11px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/left.gif") repeat-y scroll left center;
+}
+.th_aluminum_right {
+	width:7px;
+	height:11px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/right.gif") repeat-y scroll right center;
+}
+.th_aluminum_belowleft {
+	width:7px;
+	height:11px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/belowleft.gif") no-repeat scroll left top;
+}
+.th_aluminum_below {
+	height:11px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/below.gif") repeat-x scroll center top;
+}
+.th_aluminum_belowright {
+	width:7px;
+	height:11px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/aluminum/images/belowright.gif") no-repeat scroll right top;
+}

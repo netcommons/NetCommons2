@@ -1,0 +1,100 @@
+<{strip}>
+<{*共通：会員情報詳細画面*}>
+	<{* 詳細部 *}>
+	<table class="outer" summary="<{$lang.userinf_detail_summary|smarty:nodefaults}>">
+		<tr>
+			<{foreach from=$action.items item=item_list}>
+			<td class="valign-top align-left">
+				<table class="widthmax" summary="" cellspacing="0" cellpadding="5">
+					<{foreach from=$item_list item=item}>
+						<{assign var="public_flag_colname" value=$action.public_flag_colname}>
+						<{if $item.$public_flag_colname != USER_NO_PUBLIC && ($smarty.session._user_id == $action.user_id || $smarty.session._user_auth_id == _AUTH_ADMIN || $item.allow_public_flag == _OFF || $item.public_flag == _ON)}>
+							<{* 会員詳細 *}>
+							<{if !$action.user.system_flag
+								|| $smarty.session._system_user_id == $smarty.session._user_id}>
+								<{if $item.tag_name != "" && $item.is_users_tbl_fld == true}>
+									<{*userテーブルからデータ取得*}>
+									<{assign var="tag_name" value=$item.tag_name}>
+									<{assign var="content" value=$action.user.$tag_name|smarty:nodefaults}>
+								<{else}>
+									<{assign var="content" value=$item.content|smarty:nodefaults}>
+								<{/if}>
+							<{/if}>
+							<{if $content != "" && (($item.tag_name=="previous_login_time") ||
+								($item.tag_name=="last_login_time") ||
+								($item.tag_name=="password_regist_time") ||
+								($item.tag_name=="insert_time") ||
+								($item.tag_name=="update_time")) }>
+								<{* 日付変換 *}>
+								<{assign var="content" value=$content|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+							<{/if}>
+
+							<tr>
+								<th class="userinf_detail_head" scope="row" onclick="userinfCls['<{$id}>'].clkLabel(this);return false;">
+									<label for="userinf_items<{$id}>_<{$item.item_id}>">
+										<{$item.item_name}>
+									</label>
+									<{* 必須 *}>
+									<{if $item.type != "label" && $item.$public_flag_colname == USER_EDIT && !($action.user_id == $smarty.session._system_user_id && ($item.tag_name == "active_flag_lang" || $item.tag_name == "role_authority_name")) && !($item.tag_name == "active_flag_lang" && ($content == USER_ITEM_ACTIVE_FLAG_PENDING || $content == USER_ITEM_ACTIVE_FLAG_MAILED))}>
+									<{if $item.require_flag == _ON}>
+										<{$lang.userinf_require_flag|smarty:nodefaults}>
+									<{/if}>
+									<{/if}>
+								</th>
+								<td style="width:<{$conf.userinf_detail_min_width}>px;">
+									<{if ($action.user_id != $smarty.session._system_user_id || $smarty.session._user_id == $smarty.session._system_user_id) && $item.type != "label" && $item.$public_flag_colname == USER_EDIT && !($action.user_id == $smarty.session._system_user_id && ($item.tag_name == "active_flag_lang" || $item.tag_name == "role_authority_name")) && !($item.tag_name == "active_flag_lang" && ($content == USER_ITEM_ACTIVE_FLAG_PENDING || $content == USER_ITEM_ACTIVE_FLAG_MAILED))}>
+										<a class="userinf_edit_item_label link display-block" href="#" title="<{$smarty.const._CLICK_EDIT}>" onclick="userinfCls['<{$id}>'].clkItems(this, <{$item.item_id}>, '<{$item.type}>');return false;" onfocus="this.onmouseover(event);" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.blockNotice(event, this);}">
+											<{if $item.type == "file"}>
+												<img <{if $content == ""}>class="display-none"<{else}>src="<{$content}>"<{/if}> title="<{$item.item_name}>" alt="<{$item.item_name}>" <{$item.attribute}> />
+												<{if $content == ""}>&nbsp;<{/if}>
+											<{elseif $content == ""}>
+												<{if $item.tag_name == "lang_dirname_lang"}>
+													<{$smarty.const.LANG_NAME_AUTO}>
+												<{else}>
+													&nbsp;
+												<{/if}>
+											<{elseif $item.type == "password"}>
+												<{* パスワード(ラベル) *}>
+												<{$lang.userinf_password_label|smarty:nodefaults}>
+											<{elseif $item.type == "textarea"}>
+												<{$content|nl2br}>
+											<{else}>
+												<{$content}>
+											<{/if}>
+										</a>
+										<{* click時の変換コンポーネント *}>
+										<div class="userinf_edit_item display-none">
+											<{include file="userinf_common_edit_comp.html"}>
+											<{if $item.type == $smarty.const.USER_TYPE_PASSWORD || $item.type == $smarty.const.USER_TYPE_TEXTAREA || $item.type == $smarty.const.USER_TYPE_FILE || $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+												<div class="align-right nowrap">
+													<input class="lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="userinfCls['<{$id}>'].updItems(event.type, this, <{$item.item_id}>, '<{$item.type}>'); return false;" />
+													<input class="lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="userinfCls['<{$id}>'].cancelItems(event, this,'<{$item.type}>'); return false;" />
+													<{if $item.type == $smarty.const.USER_TYPE_FILE}>
+														<input class="lined_btn" type="button" value="<{$lang._delete|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>',{'action':'userinf_action_main_delimage', 'user_id':'<{$action.user_id}>', 'item_id':'<{$item.item_id}>'},{'callbackfunc':function(res){userinfCls['<{$id}>'].delImage(event, this,'<{$item.type}>');}.bind(this)}); return false;" />
+													<{/if}>
+												</div>
+											<{/if}>
+										</div>
+									<{else}>
+										<{* 編集不可能(Type=label)*}>
+										<{if $item.type == "file"}>
+											<img <{if $content == ""}>class="display-none"<{else}>src="<{$content}>"<{/if}> title="<{$item.item_name}>" alt="<{$item.item_name}>" <{$item.attribute}> />
+										<{elseif $item.type == "password"}>
+											<{* パスワード(ラベル) *}>
+											<{$lang.userinf_password_label|smarty:nodefaults}>
+										<{else}>
+											<{$content}>
+										<{/if}>
+									<{/if}>
+									<{* Absolute-Body要素を越えた場合、幅が狭くなるためblank画像挿入 *}>
+									<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" style="height:1px; width:<{$conf.userinf_detail_min_width}>px;"/>
+								</td>
+							</tr>
+						<{/if}>
+					<{/foreach}>
+				</table>
+			</td>
+			<{/foreach}>
+		</tr>
+	</table>
+<{/strip}>

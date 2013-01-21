@@ -1,0 +1,3 @@
+<{*テンプレート内容をここに記述*}>
+
+<{include file="<?php print $skeleton->dir_name; ?>_script.html"}>

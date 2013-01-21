@@ -1,0 +1,208 @@
+<{strip}>
+
+<form id="whatsnew_form<{$id}>" action="#" onsubmit="return false;">
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.whatsnew_display_type|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="whatsnew_display_type<{$id}>">
+					<select id="whatsnew_display_type<{$id}>" name="display_type" onchange='whatsnewCls["<{$id}>"].switchDisplayType(this.form);'>
+						<option value="<{$smarty.const.WHATSNEW_DEF_FLAT}>"<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_FLAT) }> selected="selected"<{/if}> />
+							<{$lang.whatsnew_display_type_flat|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.WHATSNEW_DEF_MODULE}>"<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_MODULE) }> selected="selected"<{/if}> />
+							<{$lang.whatsnew_display_type_module|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const.WHATSNEW_DEF_ROOM}>"<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_ROOM) }> selected="selected"<{/if}> />
+							<{$lang.whatsnew_display_type_room|smarty:nodefaults}>
+						</option>
+					</select>
+				</label>
+				<br />
+				<label for="whatsnew_select_room<{$id}>">
+					<input id="whatsnew_select_room<{$id}>" type="checkbox" name="select_room" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.select_room == _ON) }> checked="checked"<{/if}> onclick="if (this.checked) { commonCls.displayVisible($('whatsnew_select_room_link<{$id}>')); commonCls.sendPopupView(event, {'action':'whatsnew_view_edit_selectroom','prefix_id_name':'popup_whatsnew'},{'top_el':$('<{$id}>'),'modal_flag':true}); } else { commonCls.displayNone($('whatsnew_select_room_link<{$id}>')); }" />
+					<{$lang.whatsnew_select_room|smarty:nodefaults}>
+				</label>
+				&nbsp;&nbsp;
+				<span id="whatsnew_select_room_link<{$id}>"<{if ($action.whatsnew_obj.select_room != _ON) }> class="display-none"<{/if}>>
+					<a class="syslink" href="#" onclick="commonCls.sendPopupView(event, {'action':'whatsnew_view_edit_selectroom','prefix_id_name':'popup_whatsnew'},{'top_el':$('<{$id}>'),'modal_flag':true}); return false;">
+						<{$lang.whatsnew_select_room_link|smarty:nodefaults}>
+					</a>
+				</span>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<label for="whatsnew_display_day<{$id}>">
+					<input id="whatsnew_display_day<{$id}>" type="radio" name="display_flag" value="<{$smarty.const._}>" onclick="whatsnewCls['<{$id}>'].changeDisplayType(<{$smarty.const._ON}>);"/>
+						<{$lang.whatsnew_display_days|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<select id="whatsnew_display_days<{$id}>" name="display_days">
+					<{section name=days loop=32 start=0 step=1}>
+						<{assign var=days value=$smarty.section.days.index}>
+						<option value="<{$days}>"<{if ($days == $action.whatsnew_obj.display_days) }> selected="selected"<{/if}>>
+							<{if ($days == "0") }>
+								<{$lang.whatsnew_days_today|smarty:nodefaults}>
+							<{else}>
+								<{$days|string_format:$lang.whatsnew_days_format}>
+							<{/if}>
+						</option>
+					<{/section}>
+				</select>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<label for="whatsnew_display_num_type<{$id}>">
+					<input id="whatsnew_display_num_type<{$id}>" type="radio" name="display_flag" value="<{$smarty.const._ON}>"  onclick="whatsnewCls['<{$id}>'].changeDisplayType(<{$smarty.const._OFF}>);" />
+						<{$lang.whatsnew_the_number_of_display|smarty:nodefaults}>
+				</label>
+			</th>
+				<td>
+					<select id="whatsnew_the_number_of_display<{$id}>" name="display_number" >
+					<{assign var="test" value="|"|explode:$smarty.const.WHATSNEW_THE_NUMBER_OF_DISPLAY}>
+					<{foreach name="number" key="key" item="num" from=$test}>
+						<option value="<{$num}>" <{if ($action.whatsnew_obj.display_number == $num)}>selected="selected"<{/if}>><{$lang.whatsnew_display_number|smarty:nodefaults|sprintf:"$num"}></option>
+					<{/foreach}>
+					</select>
+				</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<{$lang.whatsnew_display_items|smarty:nodefaults}>
+			</th>
+			<td class="nowrap">
+				<label for="whatsnew_display_title<{$id}>">
+					<input id="whatsnew_display_title<{$id}>" type="checkbox" name="display_title" value="<{$smarty.const._ON}>" checked="checked" disabled="disabled" />
+					<span class="disable_lbl"><{$lang.whatsnew_display_title|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="whatsnew_display_description<{$id}>">
+					<input id="whatsnew_display_description<{$id}>" type="checkbox" name="display_description" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.display_description == _ON) }> checked="checked"<{/if}> />
+					<span><{$lang.whatsnew_display_description|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="whatsnew_display_room_name<{$id}>">
+					<input id="whatsnew_display_room_name<{$id}>" type="checkbox" name="display_room_name" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.display_room_name == _ON) }> checked="checked"<{/if}> />
+					<span><{$lang.whatsnew_display_room_name|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="whatsnew_display_module_name<{$id}>">
+					<input id="whatsnew_display_module_name<{$id}>" type="checkbox" name="display_module_name" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.display_module_name == _ON) }> checked="checked"<{/if}> />
+					<span><{$lang.whatsnew_display_module_name|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="whatsnew_display_user_name<{$id}>">
+					<input id="whatsnew_display_user_name<{$id}>" type="checkbox" name="display_user_name" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.display_user_name == _ON) }> checked="checked"<{/if}> />
+					<span><{$lang.whatsnew_display_user_name|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="whatsnew_display_insert_time<{$id}>">
+					<input id="whatsnew_display_insert_time<{$id}>" type="checkbox" name="display_insert_time" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.display_insert_time == _ON) }> checked="checked"<{/if}> />
+					<span><{$lang.whatsnew_display_insert_time|smarty:nodefaults}></span>
+				</label>
+			</td>
+		</tr>
+
+		<{if ($smarty.session._space_type == _SPACE_TYPE_PUBLIC || $action.myportal_user_id != "0") }>
+			<tr class="row">
+				<th scope="row">
+					<{$lang.whatsnew_allow_rss_feed|smarty:nodefaults}>
+				</th>
+				<td>
+					<label for="whatsnew_allow_rss_feed_off<{$id}>">
+						<input id="whatsnew_allow_rss_feed_off<{$id}>" type="radio" name="allow_rss_feed" value="<{$smarty.const._OFF}>"<{if ($action.whatsnew_obj.allow_rss_feed == _OFF) }> checked="checked"<{/if}> onclick='commonCls.displayNone($("whatsnew_rss_title_area<{$id}>")); commonCls.displayNone($("whatsnew_rss_description_area<{$id}>"));' />
+						<{$lang.whatsnew_allow_rss_feed_off|smarty:nodefaults}>
+					</label>
+					&nbsp;&nbsp;
+					<label for="whatsnew_allow_rss_feed_on<{$id}>">
+						<input id="whatsnew_allow_rss_feed_on<{$id}>" type="radio" name="allow_rss_feed" value="<{$smarty.const._ON}>"<{if ($action.whatsnew_obj.allow_rss_feed == _ON) }> checked="checked"<{/if}> onclick='commonCls.displayVisible($("whatsnew_rss_title_area<{$id}>")); commonCls.displayVisible($("whatsnew_rss_description_area<{$id}>"));' />
+						<{$lang.whatsnew_allow_rss_feed_on|smarty:nodefaults}>
+					</label>
+					<div id="whatsnew_rss_title_area<{$id}>"<{if ($action.whatsnew_obj.allow_rss_feed == _OFF) }> class="display-none"<{/if}>>
+						<div class="hr"></div>
+						<label for="whatsnew_rss_title<{$id}>">
+							<{$lang.whatsnew_rss_title|smarty:nodefaults}>
+						</label>
+						<br />
+						<input id="whatsnew_rss_title<{$id}>" class="mail_subject" name="rss_title" type="text" value="<{$action.whatsnew_obj.rss_title}>" />
+					</div>
+
+					<div id="whatsnew_rss_description_area<{$id}>"<{if ($action.whatsnew_obj.allow_rss_feed == _OFF) }> class="display-none"<{/if}>>
+						<div class="hr"></div>
+						<label for="whatsnew_rss_description<{$id}>">
+							<{$lang.whatsnew_rss_description|smarty:nodefaults}>
+						</label>
+						<br />
+						<textarea id="whatsnew_rss_description<{$id}>" class="mail_body" name="rss_description">
+							<{$action.whatsnew_obj.rss_description}>
+						</textarea>
+						<div class="note">
+							<{$lang.whatsnew_note|smarty:nodefaults}>
+						</div>
+					</div>
+				</td>
+			</tr>
+		<{/if}>
+
+		<tr class="row">
+			<th scope="row">
+				<{$lang.whatsnew_default_module|smarty:nodefaults}>
+			</th>
+			<td>
+				<table summary="<{$smarty.const._SUMMARY_TARGETMODULE}>">
+					<{assign var="line" value=2}>
+					<{foreach name="module" key="module_id" item="module" from=$action.modules}>
+						<{assign var="loop_num" value=$smarty.foreach.module.iteration-1}>
+						<{if (($loop_num % $line) == 0) }>
+							<tr>
+						<{/if}>
+
+						<td class="nowrap">
+							<label for="whatsnew_display_modules<{$id}>_<{$module_id}>">
+								<input id="whatsnew_display_modules<{$id}>_<{$module_id}>" type="checkbox" name="display_modules[<{$loop_num}>]" value="<{$module_id}>"<{if ($action.whatsnew_obj.modules.$module_id) }> checked="checked"<{/if}> />
+								<{$module.module_name}>
+							</label>
+						</td>
+
+						<{if ($smarty.foreach.module.last) }>
+							<{assign var="remainder" value=$line-$loop_num%$line}>
+							<{if ($remainder > 0) }>
+								<{section name=i loop=$remainder-1 start=0 step=1}>
+									<td>&nbsp;</td>
+								<{/section}>
+							<{/if}>
+						<{/if}>
+						<{if (($loop_num % $line) == $line-1 || $smarty.foreach.module.last) }>
+							</tr>
+						<{/if}>
+					<{/foreach}>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='whatsnewCls["<{$id}>"].changeStyle(this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'whatsnew_view_main_init'); return false;" />
+	</div>
+</form>
+
+<{include file="../whatsnew_script.html"}>
+<script class="nc_script" type="text/javascript">
+    if(<{$action.whatsnew_obj.display_flag}> == 0){
+		$("whatsnew_display_day<{$id}>").checked = true;
+		whatsnewCls["<{$id}>"].changeDisplayType(<{$smarty.const._ON}>);
+	}else{
+		$("whatsnew_display_num_type<{$id}>").checked = true;
+		whatsnewCls["<{$id}>"].changeDisplayType(<{$smarty.const._OFF}>);
+	}
+	whatsnewCls["<{$id}>"].switchDisplayType($("whatsnew_form<{$id}>"),<{$smarty.const._ON}>);
+
+</script>
+<{/strip}>

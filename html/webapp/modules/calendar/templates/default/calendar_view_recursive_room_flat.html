@@ -1,0 +1,70 @@
+<{strip}>
+
+<{section name=i loop=$room_list}>
+	<{assign var="room_obj" value=$room_list[i]|smarty:nodefaults}>
+
+	<{if ($room_obj.space_type == _SPACE_TYPE_PUBLIC) }>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_PUBLIC}>
+		<{assign var="plan_class" value="calendar_plan_public"}>
+		<{assign var="plan_name" value=$room_obj.page_name|smarty:nodefaults}>
+
+	<{elseif ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _ON) }>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_PRIVATE}>
+		<{assign var="plan_class" value="calendar_plan_private"}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_USER_LANG|smarty:nodefaults}>
+
+	<{elseif ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _OFF) }>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_GROUP}>
+		<{assign var="plan_class" value="calendar_plan_group"}>
+		<{assign var="plan_name" value=$room_obj.page_name|smarty:nodefaults}>
+
+	<{else}>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_MEMBERS}>
+		<{assign var="plan_class" value="calendar_plan_members"}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_ALL_MEMBERS_LANG|smarty:nodefaults}>
+	<{/if}>
+
+	<{assign var="parent_room_name" value=$room_obj.parent_page_name|smarty:nodefaults}>
+	<{if (!empty($parent_room_name|smarty:nodefaults)) }>
+		<{assign var="plan_name" value="`$plan_name`(`$parent_room_name`)"}>
+	<{/if}>
+
+	<{if ($room_obj.space_type == _SPACE_TYPE_PUBLIC) }>
+		<{assign var="plan_name" value="`$plan_name``$lang.calendar_public_room`"}>
+	<{/if}>
+
+	<{if ($room_obj.space_type != _SPACE_TYPE_GROUP || $room_obj.space_type == _SPACE_TYPE_GROUP && ($room_obj.private_flag == _ON || $room_obj.private_flag != _ON && $room_obj.thread_num != 0)) }>
+		<{assign var="room_id" value=$room_obj.page_id}>
+		
+		<{if ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag != _ON) }>
+			<{assign var="indent" value=$room_obj.thread_num-1}>
+		<{else}>
+			<{assign var="indent" value=$room_obj.thread_num}>
+		<{/if}>
+		
+		<{if ($action_name == "calendar_view_edit_selectroom") }>
+			<option value="<{$room_id}>">
+				<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+				<{$plan_name}>
+			</option>
+
+		<{elseif ($action_name == "calendar_view_main_init") }>
+			<{assign var="indent" value=0}>
+			<{include file="calendar_view_main_list_weekly.html"}>
+
+		<{elseif ($action_name == "calendar_view_main_help") }>
+			<{assign var="indent" value=0}>
+			<div class="<{$plan_class}>">
+				<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+				<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+				<{$lang.calendar_plan_flag_str|smarty:nodefaults|sprintf:$plan_name}>
+			</div>
+		<{else}>
+			<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+			<{$plan_name}>
+		<{/if}>
+	<{/if}>
+
+<{/section}>
+
+<{/strip}>

@@ -1,0 +1,9 @@
+<{strip}>
+<{* IMAGINE画面用テンプレート *}>
+<form id="imagine_form<{$id}>" target="imagine" action="<{$smarty.const.IMAGINE_URL}>" method="post">
+	<div class="imagine_<{$action.displayName}>">
+		<textarea cols="20" rows="2" class="imagine_<{$action.displayName}>" name="freetext"><{$lang.imagine_default_text|smarty:nodefaults}></textarea>
+		<input class="imagine_submit_<{$action.displayName}>" type="image" src="<{"button_`$action.displayName`.gif"|get_modules_image}>" alt="IMAGINE" />
+	</div>
+</form>
+<{/strip}>

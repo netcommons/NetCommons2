@@ -1,0 +1,7 @@
+<{strip}>
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<{include file="calendar_mobile_init_weekly_smart.html"}>
+	<{else}>
+		<{include file="calendar_mobile_init_weekly_feature.html"}>
+	<{/if}>
+<{/strip}>

@@ -1,0 +1,65 @@
+<{strip}>
+<{if $action.error_mes != "" && empty($action.iframeSsl|smarty:nodefaults)}>
+	<div class="deadline">
+		<{$lang.login_redirect_url_mes|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<{if !empty($action.iframeSsl|smarty:nodefaults)}>
+	<div class="login_ssl_font">
+		<{$lang.login_ssl|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<form class="<{$action.formClassName}> <{$action.sslOuterClassName}>" id="login_form<{$id}>" method="post" action="<{if $smarty.server.HTTPS|lower == 'on'}><{$smarty.const.BASE_URL_HTTPS}><{else}><{$smarty.const.BASE_URL}><{/if}><{$smarty.const.INDEX_FILE_NAME}>" target="targetFrame<{$id}>">
+	<input type="hidden" name="action" value="login_action_main_init" />
+	<input type="hidden" name="block_id" value="<{$action.block_id}>" />
+	<input type="hidden" name="_redirect_url" value="<{$action.redirect_url}>" />
+	<input type="hidden" name="_token" value="<{$action.token_value}>" />
+
+	<label class="login_label">
+		<{$lang.login_name|smarty:nodefaults}>
+	</label>
+	<input id="login_id<{$id}>" class="login_input" type="text" name="login_id" value="<{$action.login_id}>" maxlength="100" onfocus="Element.addClassName(this, 'highlight');" onblur="Element.removeClassName(this, 'highlight');" />
+
+	<label class="login_label">
+		<{$lang.login_password|smarty:nodefaults}>
+	</label>
+	<input id="password<{$id}>" class="login_input" type="password" name="password" maxlength="100" onfocus="Element.addClassName(this, 'highlight');" onblur="Element.removeClassName(this, 'highlight');" />
+
+	<div class="login_buttons">
+		<input id="login_login_button<{$id}>" class="login_login_button" type="submit" value="<{$lang.login|smarty:nodefaults}>" onmouseover="Element.addClassName(this, 'login_login_button_hover');" onmouseout="Element.removeClassName(this, 'login_login_button_hover');" onfocus="Element.addClassName(this, 'login_login_button_hover');" onblur="Element.removeClassName(this, 'login_login_button_hover');" />
+
+		<{if $action.block_id == 0 && empty($action.iframeSsl|smarty:nodefaults)}>
+			<{include file="login_cancel_button.html"}>
+		<{/if}>
+	</div>
+
+	<{if $action.autologin==1}>
+		<div class="login_rememberme">
+			<input id="login_rememberme<{$id}>" type="checkbox" name="rememberme" value="1" />
+			<label for="login_rememberme<{$id}>">
+				<{$lang.login_rememberme|smarty:nodefaults}>
+			</label>
+		</div>
+	<{/if}>
+
+	<{if $action.closesite == _OFF && !$action.iframeSsl}>
+		<{* パスワード紛失 *}>
+		<div class="login_forgetpass_link">
+			<a class="link" href="#" onclick="commonCls.sendPopupView(event, {'action':'login_view_main_forgetpass','prefix_id_name':'login_popup_forgetpass'},{'top_el':$('<{$id}>'),center_flag:1});return false;">
+				<{$lang.login_lost_password|smarty:nodefaults}>
+			</a>
+		</div>
+	<{/if}>
+</form>
+<iframe id="targetFrame<{$id}>" name="targetFrame<{$id}>" class="display-none"></iframe>
+<{/strip}>
+<{include file="login_script.html"}>
+<script class="nc_script" type="text/javascript">
+	loginCls["<{$id}>"].initializeFocus();
+	loginCls["<{$id}>"].setButtonStyle($("login_login_button<{$id}>"));
+	loginCls["<{$id}>"].setButtonStyle($("login_cancel_button<{$id}>"));
+	$("login_id<{$id}>").setAttribute("autocomplete", "<{$action.autocomplete}>");
+	$("password<{$id}>").setAttribute("autocomplete", "<{$action.autocomplete}>");
+</script>

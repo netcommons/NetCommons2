@@ -1,0 +1,40 @@
+<{strip}>
+<{if ($smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
+	<{$lang.login_mobile_logging|smarty:nodefaults|sprintf:$smarty.session._handle}>
+<{else}>
+	<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>"<{if ($smarty.session._mobile_info.autologin == _AUTOLOGIN_OK) }><{$smarty.session._mobile_info.utn}><{/if}>>
+		<div>
+			<{$lang.login_name|smarty:nodefaults}>
+			<br />
+			<input type="text" name="uid" value="<{$action.login_id}>">
+			<br /><br />
+			<{$lang.login_password|smarty:nodefaults}>
+			<br />
+			<input type="password" name="pass" value="">
+			<br /><br />
+			<{if $smarty.session._mobile_info.autologin == _AUTOLOGIN_OK}>
+				<input type="checkbox" name="mobile_auto_login" value="<{$smarty.const._ON}>" checked="checked" />
+				<{$lang.login_mobile_auto_login|smarty:nodefaults}>
+			<{/if}>
+			<input type="submit" name="login" value="<{$lang.login|smarty:nodefaults}>">
+			<{$token_form|smarty:nodefaults}>
+			<{$session_form|smarty:nodefaults}>
+			<input type="hidden" name="action" value="login_action_mobile_init">
+		</div>
+	</form>
+
+	<br />
+	<div style="text-align:center">
+		<{if $autoregist_use == _ON}>
+			<{if $autoregist_disclaimer != ""}>
+				<a href="?action=login_view_mobile_disclaimer<{$session_param}>"><{$lang.login_mobile_autoregist}></a>
+			<{else}>
+				<a href="?action=login_view_mobile_autoregist<{$session_param}>"><{$lang.login_mobile_autoregist}></a>
+			<{/if}>
+			&nbsp;
+			&nbsp;
+		<{/if}>
+		<a href="?action=login_view_main_forgetpass<{$session_param}>"><{$lang.login_mobile_lost_password}></a>
+	</div>
+<{/if}>
+<{/strip}>

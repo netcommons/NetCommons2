@@ -1,0 +1,31 @@
+<{strip}>
+<{* 記事詳細画面記事移動用テンプレート *}>
+<{if $action.parent_id > 0}>
+	<a href="#" title="" onclick="bbsCls['<{$id}>'].showPost('<{$action.parent_id}>');return false;">
+		<img class="icon" src="<{"parent_on.gif"|get_modules_image}>"  alt="<{$lang.bbs_parent|smarty:nodefaults}>" title="<{$lang.bbs_parent|smarty:nodefaults}>" />
+	</a>
+<{else}>
+	<img class="icon" src="<{"parent_off.gif"|get_modules_image}>" alt="" title=""/>
+<{/if}>
+<{if $action.child_id > 0}>
+	<a href="#" title="" onclick="bbsCls['<{$id}>'].showPost('<{$action.child_id}>');return false;">
+		<img class="icon" src="<{"child_on.gif"|get_modules_image}>"  alt="<{$lang.bbs_child|smarty:nodefaults}>" title="<{$lang.bbs_child|smarty:nodefaults}>" />
+	</a>
+<{else}>
+	<img class="icon" src="<{"child_off.gif"|get_modules_image}>" alt="" title="" />
+<{/if}>
+<{if $action.older_id > 0}>
+	<a href="#" title="" onclick="bbsCls['<{$id}>'].showPost('<{$action.older_id}>');return false;">
+		<img class="icon" src="<{"older_on.gif"|get_modules_image}>"  alt="<{$lang.bbs_older|smarty:nodefaults}>" title="<{$lang.bbs_older|smarty:nodefaults}>" />
+	</a>
+<{else}>
+	<img class="icon" src="<{"older_off.gif"|get_modules_image}>" alt="" title="" />
+<{/if}>
+<{if $action.newer_id > 0}>
+	<a href="#" title="" onclick="bbsCls['<{$id}>'].showPost('<{$action.newer_id}>');return false;">
+		<img class="icon" src="<{"newer_on.gif"|get_modules_image}>"  alt="<{$lang.bbs_newer|smarty:nodefaults}>" title="<{$lang.bbs_newer|smarty:nodefaults}>" />
+	</a>
+<{else}>
+	<img class="icon" src="<{"newer_off.gif"|get_modules_image}>" alt="" title="" />
+<{/if}>
+<{/strip}>

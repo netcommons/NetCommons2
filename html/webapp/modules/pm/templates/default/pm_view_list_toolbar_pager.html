@@ -1,0 +1,7 @@
+<{strip}>
+<{if $from > 0 && $to > 0}>
+	<{if $prev > 0}><a class="pm_link_green" href="#" onclick="pmCls['<{$id}>'].jumpMailBoxPage($('pm_form<{$id}>'), '<{$mailbox}>', '<{$filter}>', '<{$prev}>'); return false;"><{$lang.pm_page_prev|smarty:nodefaults}></a><{/if}>
+	<span class="pm_list_page_span"><{$from}><{$lang.pm_page_items|smarty:nodefaults}><{$lang.pm_wave_separator|smarty:nodefaults}><{$to}><{$lang.pm_page_items|smarty:nodefaults}></span>
+	<{if $next > 0}><a class="pm_link_green" href="#" onclick="pmCls['<{$id}>'].jumpMailBoxPage($('pm_form<{$id}>'), '<{$mailbox}>', '<{$filter}>', '<{$next}>'); return false;"><{$lang.pm_page_next|smarty:nodefaults}></a><{/if}>
+<{/if}>
+<{/strip}>

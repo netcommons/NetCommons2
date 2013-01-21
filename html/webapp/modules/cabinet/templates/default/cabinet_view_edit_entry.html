@@ -1,0 +1,80 @@
+<{strip}>
+
+<form action="#" method="post" onsubmit="return false;">
+	<table class="outer" summary="<{$smarty.const._SUMMARY_DISPSETTING_FORM}>">
+		<tr class="row">
+			<th scope="row">
+				<label for="cabinet_name<{$id}>">
+					<{$lang.cabinet_edit_name|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+		 		<input id="cabinet_name<{$id}>" type="text" name="cabinet_name" value="<{$action.cabinet.cabinet_name}>" />
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<{$lang.cabinet_authority|smarty:nodefaults}>
+			</th>
+			<td>
+				<label class="disable_lbl">
+			 		<input type="checkbox" disabled="disabled" checked="checked" />
+			 		<input type="hidden" name="add_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				</label>
+		 		<br />
+				<label for="cabinet_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+			 		<input id="cabinet_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>"<{if ($action.cabinet.add_authority_id <= _AUTH_MODERATE) }> checked="checked"<{/if}> onclick='commonCls.changeAuthority(this,"<{$id}>");' />
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				</label>
+		 		<br />
+				<label for="cabinet_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+					<input id="cabinet_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>"<{if ($action.cabinet.add_authority_id <= _AUTH_GENERAL) }> checked="checked"<{/if}> onclick='commonCls.changeAuthority(this,"<{$id}>");' />
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				</label>
+			</td>
+		</tr>
+		
+		<{if ($action.private_flag == _OFF) }>
+			<tr class="row">
+				<th scope="row">
+					<{$lang.cabinet_upload_max_size|smarty:nodefaults}>
+				</th>
+				<td>
+					<label for="upload_max_size<{$id}>">
+						<select id="upload_max_size<{$id}>" name="upload_max_size">
+							<{foreach name="maxsize" key="maxsize" item="maxsize_str" from=$action.maxsize_list}>
+								<option value="<{$maxsize}>"<{if ($action.cabinet.upload_max_size==$maxsize) }> selected="selected"<{/if}>>
+									<{$maxsize_str}>
+								</option>
+							<{/foreach}>
+						</select>
+					</label>
+					<div class="cabinet_upload_max_size">
+						<{$lang.cabinet_upload_max_size_note|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+	
+	<div class="btn-bottom">
+		<{if ($action_name == "cabinet_view_edit_create") }>
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].registCab(this.form,"cabinet_action_edit_create"); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.sendView("<{$id}>","cabinet_view_main_init"); return false;' />
+		<{else}>
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].registCab(this.form,"cabinet_action_edit_modify"); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.sendView("<{$id}>","cabinet_view_edit_list"); return false;' />
+			<input type="hidden" name="cabinet_id" value="<{$action.cabinet.cabinet_id}>" />
+		<{/if}>
+	</div>
+</form>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus("<{$id}>");
+</script>
+
+<{/strip}>

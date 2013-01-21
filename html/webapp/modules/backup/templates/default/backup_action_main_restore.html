@@ -1,0 +1,220 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="bold">
+		<{* タイトル *}>
+		<{$lang.backup_restore_title|smarty:nodefaults|sprintf:$action.room_inf.pre_page_name}>
+	</div>
+	<{if $action.restore_type == "subgroup" && count($action.roomList|smarty:nodefaults) == 0}>
+		<{$smarty.const.BACKUP_RESTORE_NONE_TARGET|smarty:nodefaults}>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom">
+			<{* キャンセル *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'backup_view_main_init'}); return false;" />
+		</div>
+	<{else}>
+	<div class="top_description">
+		<{$lang.backup_top_descripton|smarty:nodefaults|sprintf:$lang.backup_btn_restore|smarty:nodefaults}>
+	</div>
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+		<div class=comp_tabset></div>
+		<div class=comp_tabset_content>
+			<div class="outerdiv">
+				<div class="comptabset_caption"><{$lang.backup_restore_base|smarty:nodefaults}></div>
+				<{* 基本項目 *}>
+				<table class="outer" summary="<{$lang.backup_restore_base|smarty:nodefaults}>">
+					<tr class="row">
+						<th scope="row">
+							<{* ルーム名称 *}>
+							<{$lang.backup_room_name|smarty:nodefaults}>
+						</th>
+						<td>
+							<div class="bold"><{$action.room_inf.page_name}></div>
+							<{if $action.room_inf.default_entry_flag && $action.room_inf.space_type != _SPACE_TYPE_PUBLIC}>
+								<div class="backup_confirm_default_entry">
+									<{* すべての会員をデフォルトで参加させる *}>
+									<{$lang.backup_space_common|smarty:nodefaults}>
+								</div>
+							<{/if}>
+							<input name="upload_id" type="hidden" value="<{$action.upload_id}>" />
+							<input name="backup_page_id" type="hidden" value="<{$action.backup_page_id}>" />
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{* スペースタイプ *}>
+							<{$lang.backup_space_type|smarty:nodefaults}>
+						</th>
+						<td>
+							<{if $action.room_inf.private_flag == _ON}>
+								<span class="room_lbl_private"><{$smarty.const._SPACE_TYPE_NAME_PRIVATE}></span>
+							<{elseif $action.room_inf.space_type == _SPACE_TYPE_PUBLIC}>
+								<span class="room_lbl_public"><{$smarty.const._SPACE_TYPE_NAME_PUBLIC}></span>
+							<{else}>
+								<span class="room_lbl_group"><{$smarty.const._SPACE_TYPE_NAME_GROUP}></span>
+							<{/if}>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.backup_display_flag|smarty:nodefaults}>
+						</th>
+						<td>
+							<{if $action.restore_type == "top"}>
+								<{* 公開中 *}>
+								<{$lang.backup_display_flag_on|smarty:nodefaults}>
+							<{else}>
+								<select name="display_flag">
+									<option value="1">
+										<{$lang.backup_display_flag_on|smarty:nodefaults}>
+									</option>
+									<option value="0" selected="selected">
+										<{$lang.backup_display_flag_off|smarty:nodefaults}>
+									</option>
+								</select>
+							<{/if}>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.backup_entry_user|smarty:nodefaults}>
+						</th>
+						<td>
+							<{if $action.restore_type == "top"}>
+								<{* パブリックスペースorプライベートスペースならば、参加者を変更しない *}>
+								<{$lang.backup_entry_user_top|smarty:nodefaults}>
+							<{elseif $action.restore_type == "subgroup"}>
+								<{* サブグループの場合、参加者の項目は初期化させる *}>
+								<div class="bold">
+									<{$lang.backup_entry_user_off|smarty:nodefaults}>
+								</div>
+							<{else}>
+								<select name="entry_user">
+									<option value="0">
+										<{* 初期化する *}>
+										<{$lang.backup_entry_user_off|smarty:nodefaults}>
+									</option>
+									<{* 他サイトからのリストアの場合、「バックアップされた会員を参加させる」を選べないように修正 *}>
+									<{if $action.restore_modules.system.self_flag}>
+									<option value="1" selected="selected">
+										<{* バックアップされた会員を参加させる *}>
+										<{$lang.backup_entry_user_on|smarty:nodefaults}>
+									</option>
+									<{/if}>
+								</select>
+							<{/if}>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{* リストア位置 *}>
+							<{$lang.backup_regist_location|smarty:nodefaults}>
+						</th>
+						<td>
+							<{if $action.restore_type == "top"}>
+								<{* グループスペース内にあるルーム *}>
+								<div class="errorstr bold">
+									<{if $action.room_inf.private_flag == _ON}>
+										<{$lang.backup_regist_location_top|smarty:nodefaults|sprintf:$smarty.const._SPACE_TYPE_NAME_PRIVATE}>
+									<{else}>
+										<{$lang.backup_regist_location_top|smarty:nodefaults|sprintf:$smarty.const._SPACE_TYPE_NAME_PUBLIC}>
+									<{/if}>
+									<{*
+										<{$lang.backup_regist_location_top|smarty:nodefaults|sprintf:$action.room_inf.pre_page_name}>
+									*}>
+									<{if $action.closesite == _OFF && $action.room_inf.private_flag == _OFF}>
+										<br />
+										<{$lang.backup_regist_location_topsub|smarty:nodefaults}>
+									<{/if}>
+								</div>
+							<{elseif $action.restore_type == "subgroup"}>
+								<{* SELECT表示(グループルーム一覧) *}>
+								<select name="regist_location">
+									<{foreach from=$action.roomList item=group_pages}>
+										<option value="<{$group_pages.page_id}>"<{if $action.room_inf.parent_id == $group_pages.page_id}> selected="selected"<{/if}>><{$group_pages.page_name}></option>
+									<{/foreach}>
+								</select>
+							<{elseif $action.restore_type == "public_room"}>
+								<{* パブリックスペース内にあるルーム *}>
+								<div class="bold">
+									<{$lang.backup_regist_location_public|smarty:nodefaults}>
+								</div>
+								<{if $action.closesite == _OFF && $action.room_inf.private_flag == _OFF}>
+									<div class="errorstr bold">
+										<{$lang.backup_regist_location_topsub|smarty:nodefaults}>
+									</div>
+								<{/if}>
+							<{else}>
+								<{* グループスペース内にあるルーム *}>
+								<div class="bold">
+									<{$lang.backup_regist_location_group|smarty:nodefaults}>
+								</div>
+							<{/if}> 
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="outerdiv" id="backup_confirm_entry_users<{$id}>">
+				<{* モジュール *}>
+				<div class="comptabset_caption"><{$lang.backup_restore_module|smarty:nodefaults}></div>
+				<table class="grid_header" summary="">
+				<tr>
+					<th scope="col">
+						<div class="backup_confirm_entry_users">
+							<{$lang.backup_restore_module|smarty:nodefaults}>
+						</div>
+					</th>
+					<th scope="col">
+						<div class="backup_confirm_entry_users_admin">
+							<{$lang.backup_restore_module_result|smarty:nodefaults}>
+						</div>
+					</th>
+				</tr>
+				</table>
+				<table class="grid" summary="<{$lang.backup_restore_module|smarty:nodefaults}>">
+					<{foreach from=$action.restore_modules key=module_dir item=restore_module}>
+						<{if $module_dir != "system"}>
+							<tr class="grid_row">
+								<td>
+									<div class="backup_confirm_entry_users">
+										<{$restore_module.module_name}>
+									</div>
+								</td>
+								<td>
+									<div class="backup_confirm_entry_users_admin">
+										<{if isset($restore_module.error_mes|smarty:nodefaults)}>
+											<span class="errorstr">
+												<{$restore_module.error_mes|smarty:nodefaults}>
+											</span>
+										<{else}>
+											<{* エラーなし *}>
+											<select name="entry_modules[<{$module_dir}>]">
+												<option value="1" selected="selected">
+													<{* リストアする *}>
+													<{$lang.backup_confirm_entry_users_admin_on|smarty:nodefaults}>
+												</option>
+												<option value="0">
+													<{* リストアしない *}>
+													<{$lang.backup_confirm_entry_users_admin_off|smarty:nodefaults}>
+												</option>
+											</select>
+										<{/if}>
+									</div>
+								</td>
+							</tr>
+						<{/if}>
+					<{/foreach}>
+				</table>
+			</div>
+		</div>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom">
+			<{* リストア *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang.backup_btn_restore|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang.backup_restore_confirm_mes|smarty:nodefaults|escape:"javascript"}>'))return false; commonCls.sendPost('<{$id}>','action=backup_action_main_restoreresult&amp;'+Form.serialize($('form<{$id}>')),{'callbackfunc_error':function(res){commonCls.alert(res);commonCls.sendView('<{$id}>',{'action':'backup_view_main_init'});}}); return false;" />
+			<{* キャンセル *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'backup_view_main_init'}); return false;" />
+		</div>
+	</form>
+	<{/if}>
+</div>
+<{include file="backup_script.html"}>
+<{/strip}>

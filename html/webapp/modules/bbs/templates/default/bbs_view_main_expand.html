@@ -1,0 +1,12 @@
+<{strip}>
+<{* 表示方法切替用テンプレート *}>
+<{if $action.expand == BBS_EXPAND_FLAT_VALUE}>
+	<a class="syslink" href="#" title="<{$lang.bbs_to_thread_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].changeExpand('<{$smarty.const.BBS_EXPAND_THREAD_VALUE}>');return false;">
+		<{$lang.bbs_to_thread|smarty:nodefaults}>
+	</a>
+<{elseif $action.expand == BBS_EXPAND_THREAD_VALUE}> 
+	<a class="syslink" href="#" title="<{$lang.bbs_to_flat_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].changeExpand('<{$smarty.const.BBS_EXPAND_FLAT_VALUE}>');return false;">
+		<{$lang.bbs_to_flat|smarty:nodefaults}>
+	</a>
+<{/if}>
+<{/strip}>

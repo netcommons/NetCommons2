@@ -1,0 +1,18 @@
+<{strip}>
+
+<script class="nc_script" type="text/javascript">
+if(!moduleCls['<{$id}>']) {
+	moduleCls['<{$id}>'] = new clsModule('<{$id}>');
+}
+
+<{if $action_name == "module_view_admin_init"}>
+	moduleCls['<{$id}>'].moduleInit(<{$conf.module_system_limit_pagenum}>, <{$action.maxNum}>,<{$action.sysMaxNum}>,<{$action.insMaxNum}>);
+<{elseif $action_name == "module_view_admin_chgdisplayseq"}>
+	moduleCls['<{$id}>'].moduleDisplayInit();
+<{elseif $action_name == "module_view_admin_selectauth"}>
+	moduleCls['<{$id}>'].initPopup("<{$id}>", <{$conf.module_system_limit_pagenum}>, <{$action.maxNum}>, <{$action.act_module_id}>);
+<{/if}>
+
+</script>
+
+<{/strip}>

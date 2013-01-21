@@ -1,0 +1,153 @@
+<{strip}>
+
+<form id="search_form_<{$action.center}><{$id}>" action="#" method="get" onsubmit="return false;">
+	<{if $action.search_blocks.show_mode == SEARCH_SHOW_MODE_NORMAL }>
+		<{* 詳細検索 *}>
+		<table class="outer" cellspacing="1" summary="<{$smarty.const._SUMMARY_SEARCHFORM}>">
+			<{* キーワード *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="search_keyword<{$id}>">
+						<{$lang.search_keyword|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<input id="search_keyword<{$id}>" class="text" type="text" name="keyword" value="<{$smarty.session.search_select.$block_id.keyword}>" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");' onkeydown='searchCls["<{$id}>"].keydownExec(event,this.form);' />
+				</td>
+			</tr>
+		
+			<{* 検索の種類 *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.search_kind|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<select id="search_kind<{$id}>" name="select_kind" size="1" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");'>
+						<option value="<{$smarty.const._SELECT_KIND_AND}>"<{if ($smarty.session.search_select.$block_id.select_kind == _SELECT_KIND_AND) }> selected="selected"<{/if}>>
+							<{$lang.search_kind_and|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const._SELECT_KIND_OR}>"<{if ($smarty.session.search_select.$block_id.select_kind == _SELECT_KIND_OR) }> selected="selected"<{/if}>>
+							<{$lang.search_kind_or|smarty:nodefaults}>
+						</option>
+						<option value="<{$smarty.const._SELECT_KIND_PHRASE}>"<{if ($smarty.session.search_select.$block_id.select_kind == _SELECT_KIND_PHRASE) }> selected="selected"<{/if}>>
+							<{$lang.search_kind_phrase|smarty:nodefaults}>
+						</option>
+					</select>
+				</td>
+			</tr>
+			
+			<{* ハンドル *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="search_handle<{$id}>">
+						<{$lang.search_handle|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<input id="search_handle<{$id}>" class="text" type="text" name="handle" value="<{$smarty.session.search_select.$block_id.handle}>" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");' onkeydown='searchCls["<{$id}>"].keydownExec(event,this.form);' />
+				</td>
+			</tr>
+			
+			<{* 対象日 *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="search_fm_target_date<{$id}>">
+						<{$lang.search_target_date|smarty:nodefaults}>
+					</label>
+				</th>
+				<td class="nowrap">
+					<input id="search_fm_target_date<{$id}>" class="comp_calendar_text" type="text" name="fm_target_date" value="<{$action.fm_target_date}>" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");' onkeydown='searchCls["<{$id}>"].keydownExec(event,this.form);' />
+					<{$lang.search_target_date_separator|smarty:nodefaults}>
+					<input id="search_to_target_date<{$id}>" class="comp_calendar_text" type="text" name="to_target_date" value="<{$action.to_target_date}>" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");' onkeydown='searchCls["<{$id}>"].keydownExec(event,this.form);' />
+				</td>
+			</tr>
+			
+			<{* 対象ルーム *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.search_target_room|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<select id="search_target_room<{$id}>" name="target_room" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");'>
+						<option value="">
+							<{$lang.search_none_specified|smarty:nodefaults}>
+						</option>
+						<{assign var="pages_list" value=$action.pages_list.0.0}>
+						<{include file="search_view_main_selectroom.html"}>
+					</select>
+				</td>
+			</tr>
+			
+			<{* 対象モジュール *}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.search_target_module|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<table summary="<{$smarty.const._SUMMARY_TARGETMODULE}>">
+						<{assign var="line" value=$conf.search_target_module_line}>
+						<{foreach from=$action.modules name=loop item=module}>
+							<{assign var="loop_num" value=$smarty.foreach.loop.iteration-1}>
+							<{if (($loop_num % $line) == 0) }>
+								<tr>
+							<{/if}>
+	
+							<td class="nowrap">
+								<label for="search_target_module<{$id}>_<{$module.module_id}>">
+									<input id="search_target_module<{$id}>_<{$module.module_id}>" type="checkbox" name="target_modules[]" value="<{$module.module_id}>"<{if $module.target_module_flag}> checked="checked"<{/if}> />
+									<{$module.module_name}>
+								</label>
+							</td>
+	
+							<{if ($smarty.foreach.loop.last) }>
+								<{assign var="remainder" value=$line-$loop_num%$line}>
+								<{if ($remainder > 0) }>
+									<{section name=i loop=$remainder-1 start=0 step=1}>
+										<td>&nbsp;</td>
+									<{/section}>
+								<{/if}>
+							<{/if}>
+							<{if (($loop_num % $line) == $line-1 || $smarty.foreach.loop.last) }>
+								</tr>
+							<{/if}>
+						<{/foreach}>
+					</table>
+				</td>
+			</tr>
+		</table>
+	
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang.search_btn|smarty:nodefaults}>" onclick='searchCls["<{$id}>"].searchExec(this.form); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang.search_clear|smarty:nodefaults}>" onclick='searchCls["<{$id}>"].clearExec(<{if $smarty.session.search_select.$block_id.center_flag == _ON}>"<{$smarty.const.DEFAULT_ACTION}>"<{/if}>); return false;' />
+		</div>
+	<{else}>
+		<{* 簡易検索 *}>
+		<div class="nowrap">
+			<label for="search_keyword<{$id}>">
+				<input id="search_keyword<{$id}>" type="text" value="<{$smarty.session.search_select.$block_id.keyword}>" name="keyword" onblur='Element.removeClassName(this,"highlight");' onfocus='Element.addClassName(this,"highlight");' onkeydown='if (event.keyCode == 13) { searchCls["<{$id}>"].easySearch(this.form,"<{$smarty.const.DEFAULT_ACTION}>"); return false; }' />
+			</label>
+			<input type="button" value="<{$lang.search_btn|smarty:nodefaults}>" onclick='searchCls["<{$id}>"].easySearch(this.form,"<{$smarty.const.DEFAULT_ACTION}>"); return false;' />
+	
+			<{* 詳細検索のリンク *}>
+			<{if $action.search_blocks.detail_flag == _ON}>
+				&nbsp;
+				<a class="link" href="#" onclick='commonCls.sendView("<{$id}>","action=search_view_main_init&amp;show_mode=<{$smarty.const.SEARCH_SHOW_MODE_NORMAL}>"); return false;' />
+					<{$lang.search_detail_link|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</div>
+
+		<input type="hidden" name="select_kind" value="<{$smarty.const._SELECT_KIND_AND}>" />
+		<input type="hidden" name="display_days" value="<{$conf.search_display_days}>" />
+		<input type="hidden" name="show_mode" value="<{$smarty.const.SEARCH_SHOW_MODE_NORMAL}>" />
+
+		<{* 対象モジュール *}>
+		<{foreach from=$action.modules name=loop item=module}>
+			<{assign var="loop_num" value=$smarty.foreach.loop.iteration-1}>
+			<input type="hidden" name="target_modules[<{$loop_num}>]" value="<{$module.module_id}>" />
+		<{/foreach}>
+	<{/if}>
+</form>
+
+<{/strip}>

@@ -1,0 +1,88 @@
+<{* RSS XMLテンプレート *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<rss version="2.0" xmlns:nc_rss="<{$smarty.const.BASE_URL}>/rss/">
+	<channel>
+		<title><{$action.channel.title}></title>
+		<link>
+			<{if (strpos(strtolower($action_name), "search") !== false) }>
+				<![CDATA[<{$action.channel.url|regex_replace:"/&amp;/isu":"&"}>]]>
+			<{else}>
+				<{$action.channel.url}>
+			<{/if}>
+		</link>
+		<description><{$action.channel.description}></description>
+		<{if ($action.channel.language) }>
+			<language><{$action.channel.language}></language>
+		<{/if}>
+		<{if ($action.channel.copyright) }>
+			<copyright><{$action.channel.copyright}></copyright>
+		<{/if}>
+		<{if ($action.channel.webMaster) }>
+			<webMaster><{$action.channel.webMaster}></webMaster>
+		<{/if}>
+		<{if ($action.channel.pubDate) }>
+			<pubDate><{$action.channel.pubDate}></pubDate>
+		<{/if}>
+		<{if ($action.channel.lastBuildDate) }>
+			<lastBuildDate><{$action.channel.lastBuildDate}></lastBuildDate>
+		<{/if}>
+		<{if ($action.channel.image) }>
+			<image>
+				<url><{$action.channel.image.url}></url>
+				<title><{$action.channel.image.title}></title>
+				<link><{$action.channel.image.link}></link>
+				<{if ($action.channel.image.description) }>
+					<description><{$action.channel.image.description}></description>
+				<{/if}>
+				<{if ($action.channel.image.width) }>
+					<width><{$action.channel.image.width}></width>
+				<{/if}>
+				<{if ($action.channel.image.height) }>
+					<height><{$action.channel.image.height}></height>
+				<{/if}>
+			</image>
+		<{/if}>
+		<{if ($action.count > 0) }>
+			<{foreach from=$action.results item=result}>
+				<item>
+					<title><![CDATA[<{$result.title|smarty:nodefaults|truncate:$smarty.const._SEARCH_SUBJECT_LEN:$smarty.const._SEARCH_MORE:true}><{if ($result.count_num)}>(<{if ($result.dir_name == "photoalbum")}><{$lang._rss_photo_count|smarty:nodefaults|sprintf:$result.count_num}><{else}><{$result.count_num}><{/if}>)<{/if}>]]></title>
+					<link>
+						<{if (strpos(strtolower($action_name), "search") !== false) }>
+							<![CDATA[<{$result.url|regex_replace:"/&amp;/isu":"&"}>]]>
+						<{else}>
+							<{$result.url}>
+						<{/if}>
+					</link>
+					<{if ($result.description) }>
+						<description><![CDATA[<{$result.description|smarty:nodefaults|truncate:$smarty.const._SEARCH_CONTENTS_LEN:$smarty.const._SEARCH_MORE:true}>]]></description>
+					<{/if}>
+					<{if ($result.author) }>
+						<author><{$result.author}></author>
+					<{/if}>
+					<{if ($result.comments) }>
+						<comments><{$result.comments}></comments>
+					<{/if}>
+					<{if ($result.guid) }>
+						<guid><{$result.guid}></guid>
+					<{else}>
+						<guid><{$result.url}></guid>
+					<{/if}>
+					<{if ($result.pubDate) }>
+						<pubDate><{$result.pubDate|timezone_date_format:"r"}></pubDate>
+					<{/if}>
+					<nc_rss:user_id><{$result.user_id}></nc_rss:user_id>
+					<nc_rss:user_name><{$result.user_name}></nc_rss:user_name>
+				</item>
+			<{/foreach}>
+		<{/if}>
+	</channel>
+	<nc_rss:count><{$action.count}></nc_rss:count>
+	<{if ($action.offset) }>
+		<nc_rss:offset><{$action.offset}></nc_rss:offset>
+	<{/if}>
+	<{if ($action.limit) }>
+		<nc_rss:limit><{$action.limit}></nc_rss:limit>
+	<{/if}>
+</rss>
+<{/strip}>

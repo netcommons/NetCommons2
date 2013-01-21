@@ -1,0 +1,7 @@
+Usage: nc [options] component <component_name> [type]
+                                                   type:"module" only
+Examples:
+ "component foo.bar.zoo" : generates COMPONENT_DIR/foo/bar/Zoo.class.php
+ "component foo.bar.zoo module " : generates MODULE_DIR/foo/bar/Zoo.class.php
+
+Type "nc help" to list the general options.

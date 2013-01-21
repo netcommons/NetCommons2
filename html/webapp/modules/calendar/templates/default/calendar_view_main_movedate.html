@@ -1,0 +1,115 @@
+<{strip}>
+
+<div id="calendar_movedate<{$id}>" class="nowrap">
+	<div class="top_description">
+		<img class="icon calendar_move_highlight<{if $action.display_type != CALENDAR_YEARLY}> display-none<{/if}>" src="<{"yearly_highlight.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_yearly|smarty:nodefaults}>" title="<{$lang.calendar_title_view_yearly|smarty:nodefaults}>" />
+		<a id="calendar_yearly<{$id}>" class="syslink<{if $action.display_type == CALENDAR_YEARLY}> display-none<{/if}>" href="#" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar(null,"<{$smarty.const.CALENDAR_YEARLY}>","<{$id}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "yearly", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "yearly", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_move" src="<{"yearly.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_yearly|smarty:nodefaults}>" title="<{$lang.calendar_title_switch_yearly|smarty:nodefaults}>" />
+		</a>
+		
+		<img class="icon calendar_move_highlight<{if $action.display_type != CALENDAR_S_MONTHLY}> display-none<{/if}>" src="<{"s_monthly_highlight.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_s_monthly|smarty:nodefaults}>" title="<{$lang.calendar_title_view_s_monthly|smarty:nodefaults}>" />
+		<a id="calendar_s_monthly<{$id}>" class="syslink<{if $action.display_type == CALENDAR_S_MONTHLY}> display-none<{/if}>" href="#" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar(null,"<{$smarty.const.CALENDAR_S_MONTHLY}>","<{$id}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "s_monthly", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "s_monthly", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_move" src="<{"s_monthly.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_s_monthly|smarty:nodefaults}>" title="<{$lang.calendar_title_switch_s_monthly|smarty:nodefaults}>" />
+		</a>
+		
+		<img class="icon calendar_move_highlight<{if $action.display_type != CALENDAR_L_MONTHLY}> display-none<{/if}>" src="<{"l_monthly_highlight.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_l_monthly|smarty:nodefaults}>" title="<{$lang.calendar_title_view_l_monthly|smarty:nodefaults}>" />
+		<a id="calendar_l_monthly<{$id}>" class="syslink<{if $action.display_type == CALENDAR_L_MONTHLY}> display-none<{/if}>" href="#" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar(null,"<{$smarty.const.CALENDAR_L_MONTHLY}>","<{$id}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "l_monthly", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "l_monthly", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_move" src="<{"l_monthly.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_l_monthly|smarty:nodefaults}>" title="<{$lang.calendar_title_switch_l_monthly|smarty:nodefaults}>" />
+		</a>
+	
+		<img class="icon calendar_move_highlight<{if $action.display_type != CALENDAR_WEEKLY}> display-none<{/if}>" src="<{"weekly_highlight.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_weekly|smarty:nodefaults}>" title="<{$lang.calendar_title_view_weekly|smarty:nodefaults}>" />
+		<a id="calendar_weekly<{$id}>" class="syslink<{if $action.display_type == CALENDAR_WEEKLY}> display-none<{/if}>" href="#" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar(null,"<{$smarty.const.CALENDAR_WEEKLY}>","<{$id}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "weekly", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "weekly", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_move" src="<{"weekly.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_weekly|smarty:nodefaults}>" title="<{$lang.calendar_title_switch_weekly|smarty:nodefaults}>" />
+		</a>
+	
+		<img class="icon calendar_move_highlight<{if $action.display_type != CALENDAR_DAILY}> display-none<{/if}>" src="<{"daily_highlight.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_daily|smarty:nodefaults}>" title="<{$lang.calendar_title_view_daily|smarty:nodefaults}>" />
+		<a id="calendar_daily<{$id}>" class="syslink<{if $action.display_type == CALENDAR_DAILY}> display-none<{/if}>" href="#" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar(null,"<{$smarty.const.CALENDAR_DAILY}>","<{$id}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "daily", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "daily", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_move" src="<{"daily.gif"|get_modules_image}>" class="icon" alt="<{$lang.calendar_daily|smarty:nodefaults}>" title="<{$lang.calendar_title_switch_daily|smarty:nodefaults}>" />
+		</a>
+	</div>
+	
+	<div id="calendar_jump_yearly<{$id}>" class="outerdiv<{if $action.display_type != CALENDAR_MONTHLY}> display-none<{/if}>">
+		<form id="form_yearly<{$id}>" action="" onsubmit="return false;">
+			<label for="yearly_year<{$id}>">
+				<select id="yearly_year<{$id}>" name="year">
+					<{assign var=year value=$action.date|substr:0:4}>
+					<{assign var="max_year" value=$smarty.const.CALENDAR_MAX_DATE|substr:0:4}>
+					<{section name="year" loop=$max_year+1 start=$smarty.const.CALENDAR_MIN_DATE|substr:0:4 step=1}>
+						<option value="<{$smarty.section.year.index}>"<{if ($smarty.section.year.index == $year) }> selected="selected"<{/if}>>
+							<{$smarty.section.year.index|string_format:$lang.calendar_year_format|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+			</label>
+			<input type="button" value="<{$lang.calendar_move|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].moveDate(this.form); return false;' />
+			&nbsp;
+			&nbsp;
+			<a id="calendar_move_this_year<{$id}>" class="link hover_highlight" href="#" title="<{$lang._show_year|smarty:nodefaults}>" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar("<{$action.today}>",null,"<{$id}>"); return false;'>
+				<{$lang.calendar_move_this_year|smarty:nodefaults}>
+			</a>
+			<span class="disable_lbl">
+				<{$lang.calendar_move_this_year|smarty:nodefaults}>
+			</span>
+		</form>
+	</div>
+	<div id="calendar_jump_monthly<{$id}>" class="outerdiv<{if $action.display_type != CALENDAR_S_MONTHLY && $action.display_type != CALENDAR_L_MONTHLY}> display-none<{/if}>">
+		<form id="form_monthly<{$id}>" action="" onsubmit="return false;">
+			<label for="monthly_year<{$id}>">
+				<select id="monthly_year<{$id}>" name="year">
+					<{assign var=year value=$action.date|substr:0:4}>
+					<{assign var="max_year" value=$smarty.const.CALENDAR_MAX_DATE|substr:0:4}>
+					<{section name="year" loop=$max_year+1 start=$smarty.const.CALENDAR_MIN_DATE|substr:0:4 step=1}>
+						<option value="<{$smarty.section.year.index}>"<{if ($smarty.section.year.index == $year) }> selected="selected"<{/if}>>
+							<{$smarty.section.year.index|string_format:$lang.calendar_year_format|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+			</label>
+			<label for="monthly_month<{$id}>">
+				<select id="monthly_month<{$id}>" name="month">
+					<{assign var=month value=$action.date|substr:4:2}>
+					<{assign var="month_array" value="|"|explode:$lang._month_list|smarty:nodefaults}>
+					<{section name="month" loop=12 start=0 step=1}>
+						<{assign var=sec_month value=$smarty.section.month.iteration|string_format:"%02d"}>
+						<option value="<{$sec_month}>"<{if ($sec_month == $month) }> selected="selected"<{/if}>>
+							<{assign var="index" value=$smarty.section.month.index}>
+							<{$month_array.$index}>
+						</option>
+					<{/section}>
+				</select>
+			</label>
+			<input type="button" value="<{$lang.calendar_move|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].moveDate(this.form); return false;' />
+			&nbsp;
+			&nbsp;
+			<a id="calendar_move_this_month<{$id}>" class="link hover_highlight" href="#" title="<{$lang._show_month|smarty:nodefaults}>" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar("<{$action.today}>",null,"<{$id}>"); return false;'>
+				<{$lang.calendar_move_this_month|smarty:nodefaults}>
+			</a>
+			<span class="disable_lbl">
+				<{$lang.calendar_move_this_month|smarty:nodefaults}>
+			</span>
+		</form>
+	</div>
+	<div id="calendar_jump_daily<{$id}>" class="outerdiv<{if $action.display_type != CALENDAR_WEEKLY && $action.display_type != CALENDAR_DAILY}> display-none<{/if}>">
+		<form id="form_daily<{$id}>" action="" onsubmit="return false;">
+			<input id="move_date<{$id}>" name="date" type="text" value="<{$action.format_date}>" size="13" maxlength="10" onkeydown="if (event.keyCode == 13) this.form.move_date.onclick();" />
+			&nbsp;
+			<input type="button" name="move_date" value="<{$lang.calendar_move|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].moveDate(this.form); return false;' />
+			&nbsp;
+			&nbsp;
+			<a id="calendar_move_today<{$id}>" class="link hover_highlight" href="#" title="<{$lang._show_today|smarty:nodefaults}>" onclick='calendarCls["<{$smarty.session.calendar._id.$block_id}>"].changeCalendar("<{$action.today}>",null,"<{$id}>"); return false;'>
+				<{$lang.calendar_move_today|smarty:nodefaults}>
+			</a>
+			<span class="disable_lbl">
+				<{$lang.calendar_move_today|smarty:nodefaults}>
+			</span>
+		</form>
+	</div>
+</div>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].initMoveDate("<{$action.today}>");
+	calendarCls["<{$id}>"].switchMoveDate(null, "<{$action.date}>", "<{$action.display_type}>");
+</script>
+
+<{/strip}>

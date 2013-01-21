@@ -1,0 +1,22 @@
+<{strip}>
+<{$lang.module_mes_commonsdisplaychange|smarty:nodefaults}>
+<div class="outerdiv">
+<{*タブコンポーネント*}>
+<div class="comp_tabset"></div>
+<div class="comp_tabset_content">
+	<div class="outerdiv">
+		<div class="comptabset_caption"><{$lang.module_install_head|smarty:nodefaults}></div>
+		<{*一般モジュール*}>
+		<{assign var="assign_modules_obj" value=$action.modules_obj}>
+  		<{include file=module_view_admin_displayseq.html"}>
+	</div>
+	<div class="outerdiv">
+		<div class="comptabset_caption"><{$lang.module_system_head|smarty:nodefaults}></div>
+		<{*システムモジュール*}>
+		<{assign var="assign_modules_obj" value=$action.sysmodules_obj}>
+  		<{include file=module_view_admin_displayseq.html"}>
+	</div>
+</div>
+</div>
+<{include file=module_script.html"}>
+<{/strip}>

@@ -1,0 +1,21 @@
+<{strip}>
+<span class="journal_separator">
+	<select class="category_id<{$id}>" onchange="journalCls['<{$id}>'].toPage(this, '<{$action.journal_id}>', 'category_id<{$id}>', 'visible_item<{$id}>', '', '<{$position}>')" id="category_id<{$id}><{if $position == "bottom"}>_bottom<{/if}>" size="1">
+		<option value="0" <{if $action.category_id=="" || $action.category_id==0}> selected="selected"<{/if}>><{$lang.journal_category_select|smarty:nodefaults}></option>
+		<{foreach from=$action.categories item=cat}>
+			<option value="<{$cat.category_id}>" <{if ($action.category_id==$cat.category_id)}>selected="selected"<{/if}>><{$cat.category_name}></option>
+		<{/foreach}>
+	</select>
+</span>
+<span>
+	<select class="visible_item<{$id}>" onchange="journalCls['<{$id}>'].toPage(this, '<{$action.journal_id}>', 'category_id<{$id}>', 'visible_item<{$id}>', '', '<{$position}>')" id="visible_item<{$id}><{if $position == "bottom"}>_bottom<{/if}>" size="1">
+		<option value="1" <{if $action.visible_item==1}>selected="selected"<{/if}>>1<{$lang.journal_display_item|smarty:nodefaults}></option>
+		<option value="5" <{if $action.visible_item==5}>selected="selected"<{/if}>>5<{$lang.journal_display_item|smarty:nodefaults}></option>
+		<option value="10" <{if $action.visible_item==10}>selected="selected"<{/if}>>10<{$lang.journal_display_item|smarty:nodefaults}></option>
+		<option value="20" <{if $action.visible_item==20}>selected="selected"<{/if}>>20<{$lang.journal_display_item|smarty:nodefaults}></option>
+		<option value="50" <{if $action.visible_item==50}>selected="selected"<{/if}>>50<{$lang.journal_display_item|smarty:nodefaults}></option>
+		<option value="100" <{if $action.visible_item==100}>selected="selected"<{/if}>>100<{$lang.journal_display_item|smarty:nodefaults}></option>
+		<{* <option value="0" <{if $action.visible_item==0}>selected="selected"<{/if}>><{$lang.journal_display_item_all|smarty:nodefaults}></option> *}>
+	</select>
+</span>
+<{/strip}>

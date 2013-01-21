@@ -1,0 +1,33 @@
+<{* リンクリスト一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.linklists item=linklist}>
+		<row id="linklist_current_row<{$linklist.linklist_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file = "linklist_view_edit_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file = "linklist_view_edit_list_name.html"}>
+				]]>
+			</name>
+			<creator>
+				<![CDATA[
+					<{include file = "linklist_view_handle.html" handle=$linklist.insert_user_name|smarty:nodefaults user_id=$linklist.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$linklist.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file = "linklist_view_edit_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

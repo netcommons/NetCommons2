@@ -1,0 +1,15 @@
+<?php if($skeleton->action_type == "action" && $skeleton->view_action_name != "") print "[TokenExtra]\nmode=\"check\"\naction=\"".$skeleton->view_action_name."\"\n\n" ?>
+<?php if($skeleton->action_type == "view") print ";キャッシュを有効にする場合、使用\n;[Cache]\n\n"; ?>
+<?php if($skeleton->action_type == "view" && $skeleton->second_name == "edit") print "[HeaderMenu]\n".
+	"1,".$skeleton->dir_name."_".$skeleton->third_name."_title = \"define:auto\"\n\n";
+?>
+[Action]
+<?php if($skeleton->moduleType != "simple" && ($skeleton->action_type == "view" || $skeleton->action_type == "action")) print $skeleton->dir_name."View = \"ref:".$skeleton->dir_name."View\"\n"; ?>
+<?php if($skeleton->moduleType != "simple" && $skeleton->action_type == "action") print $skeleton->dir_name."Action = \"ref:".$skeleton->dir_name."Action\"\n";  ?>
+<?php if($skeleton->type != "search" && $skeleton->type != "whatnew" && $skeleton->type != "move" && $skeleton->type != "copy" && $skeleton->type != "delete" && $skeleton->type != "block_delete"){ 
+	print "\n[View]\n";
+	if($skeleton->action_type == "view") print "define:theme = 1\nsuccess = \"".$skeleton->view_action_name.".html\"\n";
+	if($skeleton->action_type == "action") print "success = \"main:true.html\"\n";
+	if($skeleton->action_type == "action") print ";success = \"action:".$skeleton->view_action_name.".html\"\n";
+	if($skeleton->action_type == "action") print "error = \"main:error.html\"\n";
+} ?>

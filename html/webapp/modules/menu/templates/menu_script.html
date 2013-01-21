@@ -1,0 +1,10 @@
+<script class="nc_script" type="text/javascript">
+if(!menuCls["<{$id}>"]) {
+	menuCls["<{$id}>"] = new clsMenu("<{$id}>");
+}
+<{if $action_name == "menu_view_main_init"}>
+menuCls["<{$id}>"].menuMainInit();
+<{elseif $action_name == "menu_view_edit_init"}>
+menuCls["<{$id}>"].menuEditInit(<{if $action.main_page_id == $block_obj.page_id}><{* 中央カラムにはってある *}>true<{else}>false<{/if}>,<{$conf.menu_edit_left_margin}>,<{if $action.flat_flag}>true<{else}>false<{/if}>);
+<{/if}>
+</script>

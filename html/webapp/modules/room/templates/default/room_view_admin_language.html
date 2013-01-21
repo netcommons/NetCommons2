@@ -1,0 +1,9 @@
+<{if $_language_install_flag}>
+	<div class='align-left' style='float:left;'>
+		<select size="1" name="language" id="language<{$id}>" onchange="roomCls['<{$id}>'].changeLanguage(this.value,'<{$action.show_default_entry_flag}>','<{$action.show_space_type}>','<{$action.show_private_flag}>');return false;">
+		<{foreach key=key item=item from=$action.languages|smarty:nodefaults}>
+			<option value="<{$key}>" <{if $smarty.session._lang == $key}>selected="selected"<{/if}>><{$item}></option>
+		<{/foreach}>
+		</select>
+	</div>
+<{/if}>

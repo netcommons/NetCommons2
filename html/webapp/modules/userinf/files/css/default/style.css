@@ -1,0 +1,277 @@
+/* Css定義ファイル */
+.userinf_desc {
+	padding-left:5px;
+	color:#af2c4d;
+}
+.userinf_detail_head {
+	text-align:left;
+	vertical-align:top;
+	padding: 2px 8px !important;
+}
+
+img.userinf_room_prefix_icon {
+	height:15px;
+	width:3px;
+	margin-right:2px;
+}
+.userinf_room_public {
+	background-color:#04419a;
+}
+.userinf_room_group {
+	background-color:#5da302;
+}
+.userinf_room_private {
+	background-color:#d78f03;
+}
+
+.userinf_lbl_room_public {
+	color:#04419a;
+}
+.userinf_lbl_room_group {
+	color:#5da302;
+}
+.userinf_lbl_room_private {
+	color:#d78f03;
+}
+.userinf_lbl_subgroup {
+	color:#9e9e9e;
+}
+
+ul.userinf_navi_menu {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/navi_bg.gif") repeat-x scroll center bottom;
+	padding:5px;
+	margin:0px;
+	list-style:none none inside;
+	display:block;
+}
+li.userinf_navi_btns {
+	float:left;
+	border-right:1px dotted #cccccc;
+	display:block;
+}
+
+.userinf_navi_btn {
+	padding: 0px 5px;
+	font-weight:bold;
+}
+
+.userinf_navi_img {
+	padding-right:6px;
+}
+
+/* Grid */
+.userinf_room_grid {}
+.userinf_room_name {width:230px;}
+.userinf_room_authority_id {width:150px;}
+.userinf_room_createroom_flag {width:130px;}
+.userinf_room_display_flag {width:100px;}
+.userinf_room_last_access_time {width:140px;}
+/* アクセス状況 */
+.userinf_monthlynumber_list {
+	padding:1px;
+}
+/* 退会機能 */
+.userinf_withdraw_title {
+	padding: 5px;
+	font-weight: bold;
+	font-size: 150%;
+}
+
+.userinf_withdraw_desc_title {
+	color:#ff0000;
+	font-weight: bold;
+	padding:5px;
+}
+
+.userinf_withdraw_desc {
+	border: 1px solid #ff0000;
+	margin: 0px 10px 10px 10px;
+	padding: 15px;
+	width: 430px;
+	font-weight: bold;
+}
+
+.userinf_withdraw_btns {
+	text-align:center;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_upperleft_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upperleft.gif") no-repeat scroll left bottom;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_upperleft_btn
+ {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upperleft_over.gif") no-repeat scroll left bottom;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_upperleft_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upperleft.gif") no-repeat scroll left bottom;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_upperleft_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_upperleft_btn
+ {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upperleft_over.gif") no-repeat scroll left bottom;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_upperright_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_upperright_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_upperright_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_upperright_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upperright.gif") no-repeat scroll left bottom;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_upperright_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_upperright_btn
+ {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upperright_over.gif") no-repeat scroll left bottom;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_belowleft_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_belowleft_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_belowleft_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_belowleft_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/belowleft.gif") no-repeat scroll left bottom;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_belowleft_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_belowleft_btn
+ {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/belowleft_over.gif") no-repeat scroll left bottom;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_belowright_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_belowright_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_belowright_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_belowright_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/belowright.gif") no-repeat scroll left bottom;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_belowright_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_belowright_btn
+ {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/belowright_over.gif") no-repeat scroll left bottom;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_left_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_left_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_left_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_left_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/left.gif") repeat-y scroll left center;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_left_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_left_btn
+ {
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/left_over.gif") repeat-y scroll left center;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_right_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_right_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_right_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_right_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/right.gif") repeat-y scroll right center;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_right_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_right_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/right_over.gif") repeat-y scroll right center;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_upper_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_upper_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_upper_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_upper_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upper.gif") repeat-x scroll center bottom;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_upper_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_upper_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/upper_over.gif") repeat-x scroll center bottom;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_below_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_below_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_below_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_below_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/below.gif") repeat-x scroll center top;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_below_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_below_btn
+{
+	width:6px;
+	height:6px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/userinf/default/below_over.gif") repeat-x scroll center top;
+}
+
+a.userinf_withdraw_popup_btn .userinf_withdraw_popup_inside_btn,
+a.userinf_withdraw_popup_btn:link .userinf_withdraw_popup_inside_btn,
+a.userinf_withdraw_popup_btn:visited .userinf_withdraw_popup_inside_btn,
+a.userinf_withdraw_popup_btn:active .userinf_withdraw_popup_inside_btn
+{
+	font-weight:bold;
+	padding:0px 10px;
+	font-size:110%;
+	background-color:#fff9f9;
+	color:#ffb13e;
+	white-space:nowrap;
+}
+a.userinf_withdraw_popup_btn:hover .userinf_withdraw_popup_inside_btn,
+a.userinf_withdraw_popup_act_btn .userinf_withdraw_popup_inside_btn
+{
+	font-weight:bold;
+	padding:0px 10px;
+	font-size:110%;
+	background-color:#fffbe5;
+	color:#e6b857;
+	white-space:nowrap;
+}
+
+.withdraw_disclaimer_textarea {
+	height:150px;
+	width:330px;
+}

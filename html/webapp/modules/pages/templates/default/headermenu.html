@@ -1,0 +1,76 @@
+<{strip}>
+<table id="header_menu" summary="<{$lang.pages_summary_heder_menu}>">
+	<tr>
+		<td class="menu_left">
+		<a class="hidelink" href="#" onclick="location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=pages_view_mobile&amp;reader_flag=<{$smarty.const._READER_FLAG_VALUE}>';return false;">
+		<img src="<{""|get_image_url}>/images/common/blank.gif" title="" alt="<{$lang._audio_browser}>" class="dummy_img icon" /></a>
+		<a class="hidelink" href="#center_column"><img src="<{""|get_image_url}>/images/common/blank.gif" title="" alt="<{$lang._move_center}>" class="dummy_img icon" /></a>
+		<{if $layoutmode == "on"}>
+			<{*グループ化*}>
+			<a class="menulink header_btn_left" href="#" title="<{$lang._grouping_title}>" onclick="pagesCls.addGrouping(event, '<{$lang._grouping_confirm}>','<{$lang._grouping_confirm_error}>'); return false;">
+				<{$lang._grouping}>
+			</a>
+			<{*グループ解除*}>
+			<a class="menulink header_btn" href="#" title="<{$lang._cancel_grouping_title}>" onclick="pagesCls.cancelGrouping(event, '<{$lang._cancel_grouping_confirm}>','<{$lang._cancel_grouping_confirm_error}>'); return false;">
+				<{$lang._cancel_grouping}>
+			</a>
+		<{/if}>
+		</td>
+		<td class="menu_right">
+			<{if $smarty.session._user_id == "0"}>
+				<{* 新規登録 *}>
+				<{if $autoregist_use == _ON}>
+					<a class="menulink header_btn_left" href="#" title="<{$lang.pages_login_autoregist_title}>" onclick="<{if ($use_ssl == _ON) }>location.href='<{$smarty.const.BASE_URL_HTTPS|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?active_center=login_view_main_autoregist&amp;prefix_id_name=login_popup_autoregist';<{else}>commonCls.sendPopupView(event, {'action':'login_view_main_autoregist','prefix_id_name':'login_popup_autoregist'},{center_flag:1});return false;<{/if}>">
+						<{$lang.pages_login_autoregist}>
+					</a>
+				<{/if}>
+				<{*ログイン*}>
+				<a  class="menulink <{if $autoregist_use == _ON}>header_btn<{else}>header_btn_left<{/if}> show_center" href="#" title="<{$lang.pages_login_title}>" onclick="loginCls['_0'].showLogin(event);return false;"><{$lang._login}></a>
+			<{else}>
+				<a class="menulink header_btn_left" href="#" title="<{$lang._user_title|sprintf:$smarty.session._handle}>" onclick="commonCls.showUserDetail(event, '<{$smarty.session._user_id}>');return false;">
+					<{$smarty.session._handle}>
+				</a>
+				<{*プライベートメッセージ*}>
+				<{if $_pm_use_flag}>
+					<a class="menulink header_btn" title="<{$lang.pages_go_management_title}>" href="<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=<{$smarty.const.DEFAULT_ACTION|smarty:nodefaults}>&amp;active_center=pm_view_main_init&amp;mailbox=0&amp;page_id=<{$smarty.session._main_page_id}>">
+						<{$lang.pages_message|smarty:nodefaults}>(<{$_pm_new_message_count}>)
+					</a>
+				<{/if}>
+				<{*管理*}>
+				<a class="menulink header_btn" href="#" title="<{$lang.pages_go_management_title}>" onclick="location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=control_view_main&amp;current_page_id=<{$smarty.session._main_page_id}>';return false;">
+					<{$smarty.const._ADMIN_BTN}>
+				</a>
+				<{*ログアウト*}>
+				<a class="menulink header_btn" href="#" title="<{$lang.pages_logout_title}>" onclick="loginCls['_0'].loginLogout(event);return false;"><{$lang._logout}></a>
+				<{if ($main_display_position == _DISPLAY_POSITION_CENTER && ($smarty.session._auth_arr.0 >= _AUTH_CHIEF)) ||
+					($main_display_position == _DISPLAY_POSITION_LEFT && ($smarty.session._auth_arr.1 >= _AUTH_CHIEF)) ||
+					($main_display_position == _DISPLAY_POSITION_RIGHT && ($smarty.session._auth_arr.2 >= _AUTH_CHIEF))}>
+					<{*ページスタイル*}>
+					<a class="menulink header_btn" href="#" title="<{$lang._edit_page_design_title}>" onclick="commonCls.sendPopupView(event,{'action':'dialog_pagestyle_view_edit_init','page_id':<{$page_id}>,'prefix_id_name':'dialog_pagestyle'}, {'center_flag':true}); return false;">
+						<{$lang._edit_page_design}>
+					</a>
+				<{/if}>
+				<{*編集・セッティングモード切替*}>
+				<{*
+				<{if ($main_display_position == _DISPLAY_POSITION_CENTER && ($smarty.session._auth_arr.0 >= _AUTH_CHIEF || $smarty.session._auth_arr.1 >= _AUTH_CHIEF || $smarty.session._auth_arr.2 >= _AUTH_CHIEF)) ||
+					($main_display_position == _DISPLAY_POSITION_LEFT && ($smarty.session._auth_arr.1 >= _AUTH_CHIEF)) ||
+					($main_display_position == _DISPLAY_POSITION_RIGHT && ($smarty.session._auth_arr.2 >= _AUTH_CHIEF))}>
+				*}>
+				<{if $main_display_position == _DISPLAY_POSITION_CENTER && $smarty.session._auth_arr.0 >= _AUTH_CHIEF}>
+					<{if $layoutmode == "on"}>
+						<a id="_settingmode" class="bold menulink" href="<{$smarty.const.PERMALINK_URL|smarty:nodefaults}><{if preg_match('/\?/',$smarty.const.PERMALINK_URL)}>&amp;<{else}>?<{/if}>_layoutmode=off" title="<{$smarty.const._SETTINGMODE_END_TITLE}>" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_end_h.gif','setting_end_h_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_end_h_over.gif','setting_end_h.gif');}">
+							<span class="header_btn setting_end_btn"><{$smarty.const._SETTINGMODE_END_BTN}></span>
+							<img src="<{"setting_end_h.gif"|get_themes_image}>" title="<{$smarty.const._SETTINGMODE_END_TITLE}>" alt="" class="header_icon icon" />
+						</a>
+					<{else}>
+						<a id="_settingmode" class="bold menulink" href="<{$smarty.const.PERMALINK_URL|smarty:nodefaults}><{if preg_match('/\?/',$smarty.const.PERMALINK_URL)}>&amp;<{else}>?<{/if}>_layoutmode=on" title="<{$smarty.const._SETTINGMODE_BTN_TITLE}>" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_h.gif','setting_h_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_h_over.gif','setting_h.gif');}">
+							<span class="header_btn"><{$smarty.const._SETTINGMODE_BTN}></span>
+							<img src="<{"setting_h.gif"|get_themes_image}>" title="<{$smarty.const._SETTINGMODE_BTN_TITLE}>" alt="" class="header_icon icon" />
+						</a>
+					<{/if}>
+				<{/if}>
+			<{/if}>
+		</td>
+	</tr>
+</table>
+<{/strip}>

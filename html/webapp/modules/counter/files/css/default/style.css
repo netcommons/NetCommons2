@@ -1,0 +1,22 @@
+.counter_main {
+	padding:0px 2px 0px 25px; 
+}
+
+.counter_note {
+	padding:5px 0px;
+	text-align:left;
+}
+
+.counter_preview{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.counter_preview_area{
+	width:auto;
+	border: 1px solid #666666;
+	padding:5px;
+}
+
+
+

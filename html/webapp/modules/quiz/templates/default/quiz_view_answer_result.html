@@ -1,0 +1,124 @@
+<{strip}>
+<{* 解答画面用テンプレート *}>
+<div class="quiz_head">
+	<{include file="quiz_view_main_head.html"}>
+</div>
+
+<{if !empty($action.isConfirm|smarty:nodefaults)}>
+	<div class="quiz_confirm_message">
+		<{$lang.quiz_confirm_message|sprintf:$lang.quiz_determine|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<{if $action.answerSummaryShow}>
+	<{include file="quiz_view_print.html"}>
+
+	<table class="outer quiz_summary" summary="<{$lang.quiz_answer_summary}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.quiz_answerer}>
+			</th>
+			<td>
+				<{include file = "quiz_view_handle.html" handle=$action.summary.insert_user_name|smarty:nodefaults user_id=$action.summary.insert_user_id}>
+				<{$lang.quiz_parenthesis_number|sprintf:$action.summary.answer_number}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.quiz_answer_date}>
+			</th>
+			<td>
+				<{$action.summary.answer_time|timezone_date_format:$lang._full_date_format}>
+			</td>
+		</tr>
+
+		<{if $action.quiz.correct_flag == _ON}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.quiz_score}>
+				</th>
+				<td>
+					<{$lang.quiz_point_allocation|sprintf:$action.summary.summary_score:$action.quiz.perfect_score}>
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.quiz_average}>
+				</th>
+				<td>
+					<{$lang.quiz_average_value|sprintf:$action.summary.average}>
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<{$lang.quiz_deviation}>
+				</th>
+				<td>
+					<{$lang.quiz_deviation_value|sprintf:$action.summary.deviation}>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+<{/if}>
+
+<form id="quiz_answer_result_form<{$id}>" class="quiz_answer_result" action="#" onsubmit="return false;">
+	<input type="hidden" name="action" value="quiz_action_edit_mark" />
+	<input type="hidden" name="quiz_id" value="<{$action.quiz.quiz_id}>" />
+
+	<{assign var="markExists" value=false}>
+	<{assign var="notAnswer" value=false}>
+	<{foreach from=$action.questions item=question name="question"}>
+		<div class="quiz_question">
+			<{include file="quiz_view_question.html"}>
+
+			<{if $action.answerHide}>
+				<a class="syslink" href="#" onclick="quizCls['<{$id}>'].changeAnswerArea(<{$question.question_id}>);return false;">
+					<{$lang.quiz_own_answer_display}>
+				</a>
+			<{/if}>
+			<div id="quiz_answer_area<{$question.question_id}><{$id}>" class="quiz_answer<{if $action.answerHide}> display-none<{/if}>">
+				<{if !empty($question.answer|smarty:nodefaults) }>
+					<{include file="quiz_view_answer.html" choiceDisplay=$smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER answer=$question.answer}>
+				<{else}>
+					<{assign var="notAnswer" value=true}>
+					&nbsp;
+				<{/if}>
+				<{if $question.question_type == QUIZ_QUESTION_TYPE_TEXTAREA_VALUE && $action.scoreItemShow}>
+					<{assign var="markExists" value=true}>
+				<{/if}>
+			</div>
+
+			<{if empty($action.isConfirm|smarty:nodefaults) && $action.quiz.correct_flag == _ON}>
+				<{include file="quiz_view_correct.html"}>
+			<{/if}>
+		</div>
+	<{/foreach}>
+
+	<{if !empty($action.isConfirm|smarty:nodefaults)}>
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'quiz_view_main_init');" />
+			<input class="lined_btn btn-width" type="button" value="<{$lang.quiz_determine}>" onclick="quizCls['<{$id}>'].answer(true);" />
+		</div>
+	<{elseif  empty($action.prefix_id_name|smarty:nodefaults)}>
+		<div class="btn-bottom">
+			<{if $action.nextQuestion}>
+				<input class="btn-width" type="button" value="<{$lang.quiz_next_question}>" onclick="commonCls.sendView('<{$id}>', 'quiz_view_main_single');" />
+			<{elseif $action.questionEnd}>
+				<input class="btn-width" type="button" value="<{$lang.quiz_answer_result}>" onclick="commonCls.sendView('<{$id}>', {action:'quiz_view_main_answer', summary_id:<{$action.summary.summary_id}>});" />
+			<{else}>
+				<input class="btn-width" type="button" value="<{$lang.quiz_end}>" onclick="commonCls.sendView('<{$id}>', 'quiz_view_main_init');" />
+			<{/if}>
+		</div>
+	<{elseif $markExists && !$notAnswer}>
+		<{include file="quiz_view_mark_button.html"}>
+	<{/if}>
+</form>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	quizCls['<{$id}>'].quiz_id = "<{$action.quiz.quiz_id}>";
+</script>
+<{/strip}>

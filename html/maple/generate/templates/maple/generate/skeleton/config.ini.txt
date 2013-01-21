@@ -1,0 +1,3 @@
+;languageのiniファイルと同等の方法で記述してください
+;->Smartyからの呼び出し方法(\$conf.hoge)
+[<?php print ucfirst($skeleton->dir_name); ?>]

@@ -1,0 +1,31 @@
+<{strip}>
+<div class="chat_block_color" style="height:<{$action.chat_obj.height+85}>px;width:<{$action.chat_obj.width}>px;">
+	<form id="chat_form<{$id}>" action="" onsubmit="return false;">
+		<div class="align-right">
+			<input class="chat_text" onkeydown="if(chatCls['<{$id}>'].inSubmit){return;} if(event.keyCode == 13){chatCls['<{$id}>'].chatSubmit();}" type="text" size="35" <{if $smarty.session._auth_id < $smarty.const._AUTH_GENERAL}> disabled="disabled"<{/if}>/>
+			<input class="lined_btn btn-width" type="button" value="<{$lang.chat_write|smarty:nodefaults}>" onclick="chatCls['<{$id}>'].chatSubmit();return false;" <{if $smarty.session._auth_id < $smarty.const._AUTH_GENERAL}> disabled="disabled"<{/if}>/>
+			<{if $smarty.session._auth_id >= $smarty.const._AUTH_CHIEF}>
+				<input class="lined_btn btn-width" type="button" value="<{$lang.chat_clear|smarty:nodefaults}>" id="chat_clear<{$id}>" onclick="chatCls['<{$id}>'].clearChat();return false;">
+			<{/if}>
+		</div>
+	</form>
+	<div id="chat_user<{$id}>"></div>
+	<br />
+	<div id="chat_contents<{$id}>" style="height:<{$action.chat_obj.height}>px;width:<{$action.chat_obj.width}>px;overflow:auto;">
+</div>
+<{include file="chat_script.html"}>
+<script class="nc_script" type="text/javascript">
+	chatCls['<{$id}>']._message_user = "<{$lang.chat_user|smarty:nodefaults|escape:"javascript"}>";
+	chatCls['<{$id}>']._message_user_item = "<{$lang.chat_item|smarty:nodefaults|escape:"javascript"}>";
+	chatCls['<{$id}>']._message_login = "<{$lang.chat_user_login|smarty:nodefaults|escape:"javascript"}>";
+	chatCls['<{$id}>']._message_logout = "<{$lang.chat_user_logout|smarty:nodefaults|escape:"javascript"}>";
+	chatCls["<{$id}>"].initChat(
+		<{$block_id}>,
+		<{$action.chat_obj.reload}>, 
+		<{$action.chat_obj.status}>, 
+		<{$action.chat_obj.line_num}>, 
+		<{$action.chat_obj.display_type}>
+	);
+</script>
+</div>
+<{/strip}>

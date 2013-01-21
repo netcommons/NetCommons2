@@ -1,0 +1,118 @@
+<{strip}>
+<{* 携帯用詳細画面 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<h3><{$action.mdb_obj.multidatabase_name}></h3>
+<{$lang.mdb_details_title|smarty:nodefaults}><br /><br />
+<hr />
+<{if $action.detail.metadata == ""}>
+	<br /><{$lang.mdb_noneexists_detail_metadata|smarty:nodefaults}>
+<{else}>
+	<{assign var="mode" value="detail"}>
+	<{assign var="data_pos_1" value=$action.detail.metadata.1}>
+	<{assign var="data_pos_2" value=$action.detail.metadata.2}>
+	<{assign var="data_pos_3" value=$action.detail.metadata.3}>
+	<{assign var="data_pos_4" value=$action.detail.metadata.4}>
+	<{assign var="item" value=$action.detail.value|smarty:nodefaults}>
+	<{* 詳細部 *}>
+
+	<div style="text-align:right;">
+	<strong>
+	<{if $action.detail.value.temporary_flag == $smarty.const._OFF && $action.detail.value.agree_flag == $smarty.const._OFF && $action.mdb_obj.new_period_time <= $action.detail.value.insert_time}>
+		<span style="color:red"><{$lang._new|smarty:nodefaults}>&nbsp;</span>
+	<{/if}>
+	<{if $action.detail.value.temporary_flag != $smarty.const._OFF}>
+		<span style="color:red"><{$lang._temporary_state|smarty:nodefaults}>&nbsp;</span>
+	<{elseif $action.detail.value.agree_flag == $smarty.const._ON}>
+		<span style="color:red"><{$lang.mdb_wait_agree|smarty:nodefaults}>&nbsp;</span>
+	<{/if}>
+	</strong>
+	</div>
+
+	<{include file="multidatabase_mobile_metadata.html"}>
+
+	<hr />
+
+	<{if $smarty.session._smartphone_flag==_ON}>
+		<{include file="multidatabase_mobile_detail_smart.html"}>
+	<{else}>
+		<{include file="multidatabase_mobile_detail_feature.html"}>
+	<{/if}>
+
+	<hr />
+
+	<{* PCだとdisplayのblock/noneで切り替えるが、携帯は簡略化のためblock（表示）オンリーにする *}>
+	<{if $action.detail.value.comment_count > 0 && $action.mdb_obj.comment_flag == $smarty.const._ON}>
+		<h4><{$lang.mdb_detail_comment|smarty:nodefaults}></h4>
+
+		<{foreach item=comment from=$action.detail.value.comments}>
+			<p>
+			<h5 style="margin-bottom:0.5em;"><{* style is for smartphone *}>
+				<{$lang.mdb_detail_writer|smarty:nodefaults}><{$comment.insert_user_name}>
+				&nbsp;
+				&nbsp;
+				<{$comment.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				&nbsp;
+				<{$comment.insert_time|timezone_date_format:$lang._short_time_format|smarty:nodefaults}>
+			</h5>
+			<{$comment.comment_content|nl2br}>
+			<{if $comment.edit_auth}>
+				<div style="text-align:right;">
+					<a data-role="button" data-inline="true" data-icon="check" href="?action=multidatabase_view_main_detail&amp;content_id=<{$action.detail.value.content_id}>&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;comment_id=<{$comment.comment_id}>&amp;block_id=<{$action.block_id}><{$session_param}>"><{$lang._edit|smarty:nodefaults}></a>
+				    <{if ($smarty.session._smartphone_flag != _ON) }>
+						<{$lang._separator|smarty:nodefaults}>
+					<{/if}>
+					<a data-role="button" data-inline="true" data-icon="delete" href="?action=multidatabase_view_mobile_comment_delete_confirm&amp;comment_id=<{$comment.comment_id}>&amp;content_id=<{$action.detail.value.content_id}>&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+						<{$lang._delete|smarty:nodefaults}>
+					</a>
+				</div>
+			<{/if}>
+			</p>
+		<{/foreach}>
+	<{/if}>
+	<br />
+	<{if $action.detail.value.temporary_flag == MULTIDATABASE_STATUS_RELEASED_VALUE && $smarty.session._auth_id >= $smarty.const._AUTH_GENERAL && $action.mdb_obj.comment_flag == $smarty.const._ON}>
+		<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+			<{$lang.mdb_comment_input|smarty:nodefaults}>
+			<br />
+
+			<textarea name="comment_content" cols=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_COLS}> rows=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_ROWS}>>
+			<{foreach item=comment from=$action.detail.value.comments}>
+				<{if $action.comment_id != "" && $action.comment_id == $comment.comment_id}>
+					<{if $action.clear_comment == "1"}><{else}>
+					<{$comment.comment_content|smarty:nodefaults}>
+					<{/if}>
+				<{/if}>
+			<{/foreach}>
+			</textarea>
+			<input type="hidden" name="action" value="multidatabase_action_main_comment" >
+			<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" >
+			<input type="hidden" name="block_id" value="<{$action.block_id}>" >
+			<input type="hidden" name="content_id" value="<{$action.detail.value.content_id}>" >
+			<input type="hidden" name="comment_id" value="<{foreach item=comment from=$action.detail.value.comments}><{if $action.comment_id != "" && $action.comment_id == $comment.comment_id}><{if $action.clear_comment == "1"}><{else}><{$action.comment_id}><{/if}><{/if}><{/foreach}>" >
+			<{foreach item=comment from=$action.detail.value.comments}>
+				<{if $action.comment_id != "" && $action.comment_id == $comment.comment_id}>
+					<{if $action.clear_comment == "1"}>
+					<{else}>
+						<input type="hidden" name="clear_comment" value="1" >
+					<{/if}>
+				<{/if}>
+			<{/foreach}>
+			<{$token_form|smarty:nodefaults}>
+			<{$session_form|smarty:nodefaults}>
+			<input type="submit" value="<{$lang._regist|smarty:nodefaults}>" >
+		</form>
+	<{/if}>
+<{/if}>
+<hr />
+<div style="text-align:right;">
+<{if ($action.search == _ON) }>
+	<a href="?action=multidatabase_view_main_search_result&amp;multidatabase_id=<{$action.mdb_obj.multidatabase_id}>&amp;block_id=<{$action.block_id}>&amp;back=<{$smarty.const._ON}><{$session_param}>">
+		<{$lang._back_to_list}>
+	</a>
+<{else}>
+	<a href="?action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.mdb_obj.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+		<{$lang._back_to_list}>
+	</a>
+<{/if}>
+</div>
+<{/strip}>

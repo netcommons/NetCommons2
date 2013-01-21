@@ -1,0 +1,39 @@
+<{strip}>
+<form action="post" onsubmit="return false;">
+<div class="outerdiv">
+		<table class="outer">
+			<tr class="row">
+				<th>
+					<{$lang.language_display_type|smarty:nodefaults}>
+				</th>
+				<td>
+					<select name="display_type" size="1">
+						<option value="<{$smarty.const.LANGUAGE_DISPLAY_TYPE_LIST}>" <{if ($action.lang_obj.display_type==$smarty.const.LANGUAGE_DISPLAY_TYPE_LIST)}>selected="selected"<{/if}>><{$lang.language_language_select|smarty:nodefaults}></option>
+						<option value="<{$smarty.const.LANGUAGE_DISPLAY_TYPE_RADIO}>" <{if ($action.lang_obj.display_type==$smarty.const.LANGUAGE_DISPLAY_TYPE_RADIO)}>selected="selected"<{/if}>><{$lang.language_language_radio|smarty:nodefaults}></option>
+						<option value="<{$smarty.const.LANGUAGE_DISPLAY_TYPE_LINK}>" <{if ($action.lang_obj.display_type==$smarty.const.LANGUAGE_DISPLAY_TYPE_LINK)}>selected="selected"<{/if}>><{$lang.language_language_link|smarty:nodefaults}></option>
+					</select>
+				</td>
+			</tr>
+			<tr scope="row">
+				<th style="vertical-align:top;">
+					<{$lang.language_display_language|smarty:nodefaults}>
+				</th>
+				<td>
+					<{foreach key=key item=item from=$action.lang_list}>
+						<label for="language_display_language_<{$key}><{$id}>">
+					 		<input id="language_display_language_<{$key}><{$id}>" type="checkbox" name="display_language[]" value="<{$key}>" <{if $item.display}>checked=checked<{/if}>/>
+							<{$item.name}>
+						</label>
+						<br />
+					<{/foreach}>
+				</td>
+			</tr>
+		</table>
+</div>
+<div class="btn-bottom">
+	<input class="btn-width lined_btn" type="button" onclick="commonCls.sendPost('<{$id}>', 'action=language_action_edit_init'+'&'+Form.serialize(this.form), {'target_el':$('<{$id}>')}); return false;" value="<{$lang._regist|smarty:nodefaults}>" />
+	<input class="btn-width lined_btn" type="button" onclick="commonCls.sendView('<{$id}>',{'action':'language_view_main_init'}); return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+</div>
+</form>
+<{include file="./language_script.html"}>
+<{/strip}>

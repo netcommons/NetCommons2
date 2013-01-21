@@ -1,0 +1,11 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!rssCls["<{$id}>"]) {
+	rssCls["<{$id}>"] = new clsRss("<{$id}>");
+}
+
+<{if $action_name == "rss_view_edit_init"}>
+	rssCls["<{$id}>"].viewEditInit();
+<{/if}>
+</script>
+<{/strip}>

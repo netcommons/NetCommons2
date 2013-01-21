@@ -1,0 +1,64 @@
+<{strip}>
+<{* 質問毎の解答画面用テンプレート *}>
+<div class="quiz_head">
+	<{include file="quiz_view_main_head.html"}>
+</div>
+
+<{include file="quiz_view_print.html"}>
+
+<table class="outer quiz_summary" summary="<{$lang.quiz_answer_count_summary}>">
+	<{include file="quiz_view_answer_count.html"}>
+
+	<tr class="row">
+		<th class="nowrap" scope="row">
+			<{$lang.quiz_correct_percent}>
+		</th>
+		<td>
+			<{$lang.quiz_percent|sprintf:$action.correctPercent}>
+		</td>
+	</tr>
+</table>
+
+<form id="quiz_answer_result_form<{$id}>" class="quiz_answer_result" action="#" onsubmit="return false;">
+	<input type="hidden" name="action" value="quiz_action_edit_mark" />
+	<input type="hidden" name="quiz_id" value="<{$action.quiz.quiz_id}>" />
+
+	<{assign var="question" value="`$action.question`"}>
+	<{include file="quiz_view_question.html"}>
+	<{include file="quiz_view_correct.html" answerCorrect=true}>
+	<{assign var="notAnswer" value=true}>
+
+	<{foreach from=$action.answers item=answer name="answer"}>
+		<{assign var="summary" value="$answer"}>
+		<div class="quiz_question">
+			<div class="float-left">
+				<{include file = "quiz_view_handle.html" handle=$answer.insert_user_name|smarty:nodefaults user_id=$answer.insert_user_id}>
+				<{$lang.quiz_parenthesis_number|sprintf:$answer.answer_number}>
+
+				<{include file="quiz_view_answer_flag.html"}>
+			</div>
+			<div class="align-right">
+				<{include file = "quiz_view_answer_link.html" summary=$answer}>
+			</div>
+			<br class="float-clear" />
+
+			<div class="quiz_answer">
+				<{if ($answer.answer_id > 0) }>
+					<{include file="quiz_view_answer.html" choiceDisplay=$smarty.const.QUIZ_CHOICE_DISPLAY_ANSWER}>
+					<{assign var="notAnswer" value=false}>
+				<{/if}>
+				&nbsp;
+			</div>
+		</div>
+	<{/foreach}>
+
+	<{if $action.question.question_type == QUIZ_QUESTION_TYPE_TEXTAREA_VALUE && !empty($action.answers|smarty:nodefaults) && !$notAnswer}>
+		<{include file="quiz_view_mark_button.html"}>
+	<{/if}>
+</form>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	quizCls['<{$id}>'].quiz_id = "<{$action.quiz.quiz_id}>";
+</script>
+<{/strip}>

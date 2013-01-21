@@ -1,0 +1,13 @@
+<{strip}>
+
+<label for="todo_progress<{$task_id}><{$id}>">
+	<select id="todo_progress<{$task_id}><{$id}>" class="todo_progress" name="progress"<{if ($onchange) }> onchange="todoCls['<{$id}>'].enterProgress(this.form,'<{$task.period_class_name}>');" onblur="todoCls['<{$id}>'].hideEnterProgress(this.form);" <{/if}>>
+		<{section name=progress loop=101 start=0 step=$smarty.const.TODO_PROGRESS_INTERVAL}>
+			<option value="<{$smarty.section.progress.index}>"<{if ($smarty.section.progress.index == $progress)}> selected="selected"<{/if}>>
+				<{$lang.todo_percent|smarty:nodefaults|sprintf:$smarty.section.progress.index}>
+			</option>
+		<{/section}>
+	</select>
+</label>
+
+<{/strip}>

@@ -1,0 +1,20 @@
+<{strip}>
+<{* 解答状態項目用テンプレート *}>
+<{if empty($answer.answer_flag|smarty:nodefaults) || $answer.answer_flag == QUIZ_ANSWER_NONE_VALUE}>
+	<span class="quiz_answer_flag">
+		<{$lang.quiz_answer_none}>
+	</span>
+<{elseif $answer.answer_flag == QUIZ_ANSWER_NOT_MARK_VALUE}>
+	<span class="quiz_answer_flag">
+		<{$lang.quiz_answer_not_mark}>
+	</span>
+<{elseif $answer.answer_flag == QUIZ_ANSWER_CORRECT_VALUE}>
+	<span class="quiz_answer_flag quiz_correct">
+		<{$lang.quiz_answer_correct}>
+	</span>
+<{else}>
+	<span class="quiz_answer_flag quiz_wrong">
+		<{$lang.quiz_answer_wrong}>
+	</span>
+<{/if}>
+<{/strip}>

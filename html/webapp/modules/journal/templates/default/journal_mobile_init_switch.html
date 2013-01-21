@@ -1,0 +1,37 @@
+<{strip}>
+
+<div data-role="navbar">
+	<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+		<input type="hidden" name="action" value="journal_view_main_init">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<div data-role="controlgroup" data-type="horizontal" style="margin-bottom:0px;">
+			<select name="cate_id" >
+				<option value="0"<{if ($action.category_id=="")}> selected="selected"<{/if}>>
+					<{$lang.journal_category_select|smarty:nodefaults}>
+				</option>
+				<{foreach from=$action.categories item=cat}>
+					<option value="<{$cat.category_id}>"<{if ($action.category_id==$cat.category_id)}> selected="selected"<{/if}>>
+					    <{if ($smarty.session._smartphone_flag == _ON) }>
+							<{$cat.category_name}>
+					    <{else}>
+							<{$cat.category_name|smarty:nodefaults|truncate:$smarty.const.JOURNAL_MOBILE_CATE_NAME_LEN:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+						<{/if}>
+					</option>
+				<{/foreach}>
+			</select>
+
+			<select name="visible" >
+				<option value="1"<{if ($action.visible_item==1)}> selected="selected"<{/if}>>1<{$lang.journal_display_item|smarty:nodefaults}></option>
+				<option value="5"<{if ($action.visible_item==5)}> selected="selected"<{/if}>>5<{$lang.journal_display_item|smarty:nodefaults}></option>
+				<option value="10"<{if ($action.visible_item==10)}> selected="selected"<{/if}>>10<{$lang.journal_display_item|smarty:nodefaults}></option>
+				<option value="20"<{if ($action.visible_item==20)}> selected="selected"<{/if}>>20<{$lang.journal_display_item|smarty:nodefaults}></option>
+				<option value="50"<{if ($action.visible_item==50)}> selected="selected"<{/if}>>50<{$lang.journal_display_item|smarty:nodefaults}></option>
+				<{* <option value="0"<{if ($action.visible_item==0)}> selected="selected"<{/if}>><{$lang.journal_display_item_all|smarty:nodefaults}></option> *}>
+			</select>
+		<input data-icon="refresh" data-iconpos="right" type="submit" name="switch" value="&nbsp;<{$lang._mobile_switch|smarty:nodefaults}>&nbsp;">
+		<{$session_form|smarty:nodefaults}>
+		</div>
+	</form>
+</div>
+
+<{/strip}>

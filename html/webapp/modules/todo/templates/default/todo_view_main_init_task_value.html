@@ -1,0 +1,12 @@
+<{strip}>
+<{* タスク一覧（タスク内容）用テンプレート *}>
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	<a class="link display-block" href="#" title="<{$lang.todo_task_value_edit|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].showPopup('<{$task.task_id}>', '<{$smarty.const.TODO_TASK_VALUE}>', event);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);">
+<{/if}>
+
+<{$task.task_value|nl2br}>
+
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	</a>
+<{/if}>
+<{/strip}>

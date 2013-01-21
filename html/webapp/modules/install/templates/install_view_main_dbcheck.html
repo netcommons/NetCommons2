@@ -1,0 +1,77 @@
+<{strip}>
+<{include file = "install_header.html"}>
+<form id="form<{$id}>" action=".<{$smarty.const.INDEX_FILE_NAME}>?action=install_action_main_saveini" method="post">
+<{*
+<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+*}>
+<div class="install_title">
+	<{$smarty.const.INSTALL_DATABASE_CHECK_TITLE}>
+</div>
+
+<div class="install_detail">
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_general_top">
+		<{* データベースをチェック *}>
+		<tr>
+			<td class="install_save_setting_data">
+				<{foreach name="dbcheck_res" item="dbcheck_res" from=$action.dbcheck_res_arr|smarty:nodefaults}>
+					<div>
+						<{$dbcheck_res|smarty:nodefaults}>
+					</div>
+				<{/foreach}>
+			</td>
+		<tr>
+		<{* 正常メッセージ *}>
+		<{if $action.db_create_flag == false}>
+			<{if $action.error_flag == false}>
+				<tr>
+					<td class="install_success_mes">
+						<{$lang.install_dbcheck_success|smarty:nodefaults}>
+					</td>
+				</tr>
+			<{else}>
+				<tr>
+					<td class="install_success_mes">
+						<{$lang.install_dbcheck_failed|smarty:nodefaults}>
+					</td>
+				</tr>
+			<{/if}>
+		<{/if}>
+	</table>
+	<table align="center" cellspacing="0" cellpadding="0" summary="" class="widthmax">
+		<tr>
+			<td class="install_btn_bottom_left">
+				<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_prev_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_general'; return false;" />
+				<span class="install_btn_desc">
+					&lt;&lt;<{$lang.install_modify_settion}>
+				</span>
+			<td>
+			<td class="install_btn_bottom_center">
+				<{if $action.reload_flag == true}>
+					<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_reload|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_dbcheck'; return false;" />
+				<{/if}>
+			</td>
+			<td class="install_btn_bottom_right">
+				<{if $action.db_create_flag == true}>
+					<{* DB作成を試みる *}>
+					<span class="install_btn_desc">
+						<{$smarty.const.INSTALL_DBCHECK_CREATE_DB}>&gt;&gt;
+					</span>
+					<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_dbcreate'; return false;" />
+				<{elseif $action.error_flag == false}>
+					<{* 正常 *}>
+					<span class="install_btn_desc">
+						<{$smarty.const.INSTALL_SAVE_SETTING_TITLE}>>>
+					</span>
+					<input class="btn-width lined_btn" type="submit" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" />
+					<input type="hidden" name="action" value="install_action_main_saveini" />
+					<{*
+					<input class="btn-width lined_btn" type="button" value="<{$lang.install_btn_next_arrow|smarty:nodefaults}>" onclick="location.href= '.<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_main_saveini'; return false;" />
+					*}>
+				<{/if}>
+			<td>
+		</tr>
+	</table>
+</div>
+</form>
+<{include file = "install_footer.html"}>
+<{/strip}>

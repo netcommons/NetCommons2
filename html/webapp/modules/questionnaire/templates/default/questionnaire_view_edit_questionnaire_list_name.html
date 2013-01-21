@@ -1,0 +1,9 @@
+<{strip}>
+<{* アンケート一覧（名称列）用テンプレート *}>
+<label for="questionnaire_current<{$questionnaire.questionnaire_id}><{$id}>">
+	<{if !empty($questionnaire.icon_name|smarty:nodefaults)}>
+		<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$questionnaire.icon_name}>" alt="" />
+	<{/if}>
+	<{$questionnaire.questionnaire_name}>
+</label>
+<{/strip}>

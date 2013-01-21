@@ -1,0 +1,48 @@
+<{strip}>
+<{* 一覧画面 *}>
+<div class="outerdiv">
+	<{* 共有サイトの追加 *}>
+	<div class="share_init_add_btn">
+		<a id="share_add<{$id}>" class="syslink" href="#" onclick="shareCls['<{$id}>'].showAddSite(event,'<{$id}>'); return false;">
+			<img src="<{"add.gif"|get_themes_image}>" alt="" title="<{$lang.share_add|smarty:nodefaults}>" />
+			&nbsp;
+			<{$lang.share_add|smarty:nodefaults}>
+		</a>
+	</div>
+	<div class="top_description share_top_description">
+		<{$lang.share_description|smarty:nodefaults}>
+	</div>
+	<table class="grid_header" summary="">
+		<tr class="row">
+			<th class="share_url" scope="col"><{$lang.share_url|smarty:nodefaults}></th>
+			<th class="share_manage" scope="col"><{$lang.share_admin_btn|smarty:nodefaults}></th>
+		</tr>
+	</table>
+	<table class="data_grid grid" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+		<{foreach item=site from=$action.sites}>
+			<tr class="grid_row">
+				<td class="share_url">
+					<div>
+						<a href="<{$site.url}>" title="<{$site.url}>" target="_blank">
+							<{$site.url}>
+						</a>
+					</div>
+				</td>
+				<td class="share_manage">
+					<{if $site.self_flag != _ON}>
+						<{* 自サイトでなければ編集可 *}>
+						<a class="syslink" href="#" onclick="shareCls['<{$id}>'].showAddSite(event,'<{$id}>','<{$site.url}>'); return false;">
+							<{$lang.share_edit|smarty:nodefaults}>
+						</a>
+						<{$lang._separator|smarty:nodefaults}>
+						<a class="syslink" href="#" onclick="if (commonCls.confirm('<{$lang.share_mes_confirm|smarty:nodefaults|sprintf:"`$site.url`"|escape:"javascript"|escape:"html"}>')) { commonCls.sendPost('<{$id}>',{'action':'share_action_admin_delete', 'url':'<{$site.url}>'},{'callbackfunc':function(res){commonCls.sendRefresh('<{$id}>');}}); } return false;">
+							<{$lang.share_delete|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</div>
+<{include file="share_script.html"}>
+<{/strip}>

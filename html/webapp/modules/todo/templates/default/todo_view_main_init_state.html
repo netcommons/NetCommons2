@@ -1,0 +1,20 @@
+<{strip}>
+<{* タスク一覧（済み）用テンプレート *}>
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	<a class="link display-block" href="#" title="<{$lang.todo_state_edit|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].changeState(this,'<{$task.period_class_name}>');return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);">
+<{/if}>
+
+<{if $task.state == _ON}>
+	<{$lang.todo_state_finish|smarty:nodefaults}>
+<{else}>
+	<{$lang.todo_state_none|smarty:nodefaults}>
+<{/if}>
+
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	</a>
+	<form action="#" onsubmit="return false;">
+		<input type="hidden" name="state" value="<{$task.state}>" />
+		<input type="hidden" name="task_id" value="<{$task.task_id}>" />
+	</form>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,22 @@
+<{strip}>
+<{* スレッド表示用テンプレート *}>
+
+<{if empty($parents|smarty:nodefaults) && count($action.topics) > 0}>
+	<{assign var="parents" value=$action.topics.0}>
+	<{assign var="depth" value=0}>
+<{/if}>
+<dl style="margin-top:0.3em;padding-left:1em;">
+	<{foreach from=$parents|smarty:nodefaults key=postID item=post}>
+		<dt style="margin-top:0.3em">
+			<{include file = "bbs_mobile_subject.html"  display_type="list"}>
+		</dt>
+
+		<{if !empty($action.topics.$postID|smarty:nodefaults)}>
+			<{assign var="parents" value=$action.topics.$postID}>
+			<{assign var="depth" value="`$depth+1`"}>
+			<{include file = "bbs_mobile_thread.html"}>
+			<{assign var="depth" value="`$depth-1`"}>
+		<{/if}>
+	<{/foreach}>
+</dl>
+<{/strip}>

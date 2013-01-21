@@ -1,0 +1,83 @@
+<{strip}>
+<{* 投稿用テンプレート *}>
+<h3>
+	<{if ($action.post.post_id == 0) }>
+		<{$action.bbs.bbs_name}>
+	<{else}>
+		<{$lang.bbs_reply|smarty:nodefaults}>
+	<{/if}>
+</h3>
+
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>" <{if $smarty.session._mobile_info.currier!="EZweb"}>enctype="multipart/form-data"<{/if}> data-ajax="false">
+	<div>
+		<input type="hidden" name="action" value="bbs_action_mobile_post">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<input type="hidden" name="bbs_id" value="<{$action.post.bbs_id}>">
+
+		<{if ($action_name == "bbs_view_mobile_post_add") }>
+		<{elseif ($action_name == "bbs_view_mobile_post_reply") }>
+			<input type="hidden" name="parent_id" value="<{$action.post.post_id}>">
+		<{elseif ($action_name == "bbs_view_main_post_edit") }>
+			<input type="hidden" name="post_id" value="<{$action.post.post_id}>">
+		<{/if}>
+
+		<{$lang.bbs_subject|smarty:nodefaults}>
+		<br />
+		<input name="subject" type="text" value="<{$action.post.subject}>">
+		<br /><br />
+
+		<{$lang.bbs_body|smarty:nodefaults}>
+		<br />
+		<textarea name="body" rows="5">
+			<{$action.post.body|smarty:nodefaults|html_to_text}>
+		</textarea>
+
+		<br /><br />
+
+		<{if !empty($action.post.mobile_image|smarty:nodefaults)}>
+			<{$lang.bbs_mobile_post_image_now|smarty:nodefaults}><br />
+			<{$action.post.mobile_image|smarty:nodefaults}><br />
+			<br />
+		<{/if}>
+		<{if $smarty.session._allow_attachment_flag != _ALLOW_ATTACHMENT_NO}>
+			<{$lang.bbs_mobile_post_image|smarty:nodefaults}><br />
+			<input name="bbs_mobile_images" type="file" value="" />
+			<br /><br />
+		<{/if}>
+
+		<{if ($action_name == "bbs_view_mobile_post_add") }>
+			<input data-inline="true" type="submit" name="temporary" value="<{$lang._temporary|smarty:nodefaults}>">
+			<input data-inline="true" type="submit" name="regist" value="<{$lang.bbs_post|smarty:nodefaults}>">
+		<{elseif ($action_name == "bbs_view_mobile_post_reply") }>
+			<input data-inline="true" type="submit" name="temporary" value="<{$lang._temporary|smarty:nodefaults}>">
+			<input data-inline="true" type="submit" name="regist" value="<{$lang.bbs_post|smarty:nodefaults}>">
+		<{elseif ($action_name == "bbs_view_main_post_edit") }>
+			<{if ($action.post.temporary_authority) }>
+				<input data-inline="true" type="submit" name="temporary" value="<{$lang._temporary|smarty:nodefaults}>">
+			<{/if}>
+			<input data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+		<{/if}>
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<{if ($action_name == "bbs_view_mobile_post_add") }>
+			<input type="hidden" name="action" value="bbs_view_main_init">
+		<{else}>
+			<input type="hidden" name="action" value="bbs_view_mobile_post_main">
+		<{/if}>
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<input type="hidden" name="bbs_id" value="<{$action.post.bbs_id}>">
+		<{if ($action.post.post_id > 0) }>
+			<input type="hidden" name="post_id" value="<{$action.post.post_id}>">
+		<{/if}>
+		<input type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<{/strip}>

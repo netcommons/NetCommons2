@@ -1,0 +1,282 @@
+<{strip}>
+<{if $action.block_obj}>
+<div class="outerdiv">
+<form action="">
+<div class="comp_tabset comp_tabset_<{$_icon_color}>"></div>
+<div class="comp_tabset_content comp_tabset_content_<{$_icon_color}>">
+	<div class="_blocktheme_top outerdiv" style="display:none;">
+		<{* テーマ *}>
+		<input type="hidden" name="theme_kind" value="<{if $action.block_obj.theme_name == ""}>_auto"<{else}><{$action.block_obj.theme_name}><{/if}>" />
+		<input type="hidden" name="pre_theme_kind" value="<{if $action.pre_blocktheme_name == ""}>_auto"<{else}><{$action.pre_blocktheme_name}><{/if}>" />
+					
+		<{assign var="blocktheme_name" value=$action.block_obj.theme_name}>
+		<div class="highlight" style="padding:5px;"><input onclick="blockstyleCls.themeClick('<{$id}>',<{$action.inside_flag}>, this,'_auto'); return false;"id="select_theme_name<{$id}>" name="select_theme_name" type="radio" value="1" <{if $blocktheme_name==""}>checked="checked"<{/if}> />
+			<label for="select_theme_name<{$id}>">
+				<{* ページテーマにより自動的に選択 *}>
+				<{$lang.dialog_blockstyle_autosel_theme_name}>
+			</label>
+		</div>
+		<div style="width:470px;height:320px;overflow:auto;">
+			<{foreach from=$action.category_list|smarty:nodefaults key=key item=category_name}>
+				<{if $action.blocktheme_list.$key}>
+					<{if $action.act_category == $key}>
+						<a class="link" title="<{$lang.pagetheme_down_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+							<img src="<{""|get_image_url}>/images/common/down_arrow.gif" alt="<{$lang.pagetheme_down_arrow}>" class="icon" />&nbsp;<{$category_name}>
+						</a>
+						<div style="padding-left:20px; padding-right:20px; white-space:nowrap;">
+					<{else}>
+						<a class="link" title="<{$lang.pagetheme_right_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+							<img src="<{""|get_image_url}>/images/common/right_arrow.gif" alt="<{$lang.pagetheme_right_arrow}>" class="icon" />&nbsp;<{$category_name}>
+						</a>
+						<div style="padding-left:20px; padding-right:20px; white-space:nowrap; display:none;">
+					<{/if}>
+						<{foreach name=blocktheme_list from=$action.blocktheme_list.$key|smarty:nodefaults key=theme_name item=lang_theme_name}>
+							<div style="float:left;">
+								<{if $theme_name == $action.current_theme_name}>
+									<{* 配色-カスタムのtheme_name取得用 *}>
+									<{assign var="current_theme_name" value=$lang_theme_name|smarty:nodefaults}>
+								<{/if}>
+								<a href="#" style="display:block;" class="link _blocktheme<{if $theme_name == $blocktheme_name}> highlight<{/if}>" onclick="blockstyleCls.themeClick('<{$id}>',<{$action.inside_flag}>, this,'<{$theme_name}>'); return false;">
+								<img style="margin:5px;width:80px; height:60px;" src="<{$action.image_path.$theme_name}>" alt="<{$lang_theme_name}>" title="<{$lang_theme_name}>" class="icon" />
+								</a>
+							</div>
+							<{if $smarty.foreach.blocktheme_list.iteration % 4 == 0}>
+									<{*４つで下の行へ*}>
+									<br style="clear:left;" />
+							<{/if}>
+						<{/foreach}>
+						</div>	
+						<div style="clear:left;" class="hr"></div>
+				<{/if}>
+			<{/foreach}>	
+		</div>
+	</div>
+	<div class="outerdiv" style="display:none;">
+		<table class="outer" cellspacing="0" cellpadding="0" style="margin-top:10px; margin-bottom:10px;">
+			<{*ブロック名称*}>
+			<tr>
+				<th scope="row"><{$lang.dialog_blockstyle_block_name}></th>
+				<td class="row">
+					<input name="block_name" type="text" value="<{$action.block_obj.block_name}>" size="40" maxlength="50" />
+					<input type="hidden" name="pre_block_name" value="<{$action.block_obj.block_name}>" />
+				</td>
+			</tr>
+			<{*テンプレート*}>
+			<{if $action.temp_arr.1}>
+			<tr>
+				<th scope="row"><{$lang.dialog_style_template}></th>
+				<td class="row">
+					<select name="template_kind">
+						<{foreach item=temp_name from=$action.temp_arr}>
+						<option value="<{$temp_name}>"<{if $temp_name == $action.block_obj.temp_name}> selected="selected"<{/if}>><{$temp_name}></option>
+				  		<{/foreach}>
+					</select>
+					<input type="hidden" name="pre_template_kind" value="<{$action.block_obj.temp_name}>" />
+				</td>
+			</tr>
+			<{else}>
+				<{if $action.temp_arr.0}>
+					<input type="hidden" name="template_kind" value="<{$action.temp_arr.0}>" />
+					<input type="hidden" name="pre_template_kind" value="<{$action.temp_arr.0}>" />
+				<{else}>
+					<input type="hidden" name="template_kind" value="default" />
+					<input type="hidden" name="pre_template_kind" value="default" />
+				<{/if}>
+			<{/if}>
+			<{*最小広さ*}>
+			<tr>
+				<th scope="row"><{$lang.dialog_blockstyle_minwidthsize}></th>
+				<td class="row">
+					<input name="minwidthsize" type="text" value="<{$action.block_obj.min_width_size}>" size="5" maxlength="4" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" />
+					<{$lang.dialog_blockstyle_pixel}>
+					<div class="note"><{$lang.dialog_blockstyle_minwidthsize_note}></div>
+					<input class="align-right" type="hidden" name="pre_minwidthsize" value="<{$action.block_obj.min_width_size}>" />
+				</td>
+			</tr>
+			<{*マージン*}>
+			<tr>
+				<th scope="row"><{$lang.dialog_style_margin}></th>
+				<td class="row">
+					<table cellspacing="0" cellpadding="0" summary="">
+					<tr>
+						<th scope="row"><{$lang.dialog_style_top}></th>
+						<td class="row">
+							<input class="align-right" name="topmargin" type="text" value="<{$action.block_obj.topmargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);" /><{$lang.dialog_style_pixel}>
+							<input type="hidden" name="pre_topmargin" value="<{$action.block_obj.topmargin}>" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><{$lang.dialog_style_right}></th>
+						<td class="row">
+							<input class="align-right" name="rightmargin" type="text" value="<{$action.block_obj.rightmargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);" /><{$lang.dialog_style_pixel}>
+							<input type="hidden" name="pre_rightmargin" value="<{$action.block_obj.rightmargin}>" />	
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><{$lang.dialog_style_bottom}></th>
+						<td class="row">
+							<input class="align-right" name="bottommargin" type="text" value="<{$action.block_obj.bottommargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);" /><{$lang.dialog_style_pixel}>
+							<input type="hidden" name="pre_bottommargin" value="<{$action.block_obj.bottommargin}>" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><{$lang.dialog_style_left}></th>
+						<td class="row">
+							<input class="align-right" name="leftmargin" type="text" value="<{$action.block_obj.leftmargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);" /><{$lang.dialog_style_pixel}>
+							<input type="hidden" name="pre_leftmargin" value="<{$action.block_obj.leftmargin}>" />
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<{* 適用 *}>
+		<{if $action.inside_flag}>
+			<a class="syslink align-right" href="#" onclick="blockstyleCls.blockstyleSubmit('<{$action.parent_id_name}>',<{$block_id}>,<{$action.inside_flag}>,'<{$action.current_theme_name}>','<{$lang.dialog_blockstyle_ref_temp_mes}>',false);return false;">
+				<div class="bold align-right"><{$lang._apply}></div>
+			</a>
+		<{else}>
+			<a class="syslink" href="#" onclick="blockstyleCls.blockstyleSubmit('<{$id}>',<{$block_id}>,<{$action.inside_flag}>,'<{$action.current_theme_name}>','<{$lang.dialog_blockstyle_ref_temp_mes}>',false);return false;">
+				<div class="bold align-right"><{$lang._apply}></div>
+			</a>
+		<{/if}>
+	</div>
+	<{if $action.custom_color_list != null}>
+		<{* 配色-カスタム *}>
+		<div id="_blockstyle_custom_top<{$id}>" class="outerdiv" style="display:none;">
+			<div style="padding:2px 0px; width:470px;">
+				<{$lang.dialog_coloration_desc|smarty:nodefaults}>
+				<{if $smarty.session._user_auth_id == _AUTH_ADMIN}>
+					<{$lang.blockstyle_custom_confirm|sprintf:$current_theme_name|smarty:nodefaults}>
+				<{/if}>
+			</div>
+			<div style="width:470px;height:320px;overflow:auto;padding:2px;">
+				<{foreach from=$action.custom_color_list key=class_name item=custom_color_list name=parent_loop}>
+					<{assign var="custom_lang" value=$action.custom_theme_lang.$class_name}>
+					<{assign var="custom_title" value=$custom_lang.category}>
+					<{if $custom_title == ''}>
+						<{assign var="custom_title" value=$class_name}>
+					<{/if}>
+					<a class="link" title="<{$lang.dialog_pagestyle_down_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+						<img src="<{""|get_image_url}>/images/common/down_arrow.gif" alt="<{$lang.dialog_pagestyle_down_arrow}>" title="<{$lang.dialog_pagestyle_down_arrow}>" class="icon" />&nbsp;<{$custom_title}>
+					</a>
+					<{* サンプル *}>
+					<span class="_blockstyle_custom_sample <{$action.current_theme_name}>" style="<{* style指定必須 *}>border:0px none; background-color:transparent;">
+						<span id="_dialog_blockstyle_custom<{$id}>_<{$class_name}>" class="<{$class_name}>" style="white-space:nowrap; margin-left:10px;">
+							<{$lang.dialog_blockstyle_sample}>
+						</span>
+					</span>
+					<div <{*class="_blockstyle_custom_class"*}> style="white-space:nowrap;">
+						
+						<input type="hidden" value="<{$class_name}>" />
+						
+						<{foreach from=$custom_color_list key=property_name item=color_list name=loop}>
+							<div class="_blockstyle_custom_property" style="margin-left:20px; margin-right:20px; clear:left;">
+								<{$custom_lang.$property_name}>
+								
+								<input type="hidden" value="<{$property_name}>" />
+								
+								<{foreach from=$color_list item=color name=color_loop}>
+									<{if $color == "selection_auto"}>
+										<{assign var="ref_class_name" value=$action.custom_property_list.$class_name.$property_name.0}>
+										<{assign var="ref_property_name" value=$action.custom_property_list.$class_name.$property_name.1}>
+										
+										<input type="hidden" value="<{$ref_property_name}>" />
+										<input type="hidden" value="<{$ref_class_name}>" />
+										
+										<input onkeydown="if(!commonCls.colorCheck(event)){return false} if (event.keyCode == 13) {this.onchange();}" onchange="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','<{$property_name}>',this.value,this);" style="margin-top:5px; margin-left:5px; display:block; float:left; width:6em;" type="text" maxlength="7" value="" <{*disabled="true"*}> />
+										<div style="margin-top:5px; float:left;">
+											<label class="valign-top" for="dialog_blockstyle_customcolor<{$id}>_<{$smarty.foreach.parent_loop.iteration}>_<{$smarty.foreach.loop.iteration}>">
+												<input class="_blockstyle_autocheckbox" id="dialog_blockstyle_customcolor<{$id}>_<{$smarty.foreach.parent_loop.iteration}>_<{$smarty.foreach.loop.iteration}>" onclick="blockstyleCls.chkAutoClick(this);" type="checkbox" value="1" />
+												<{* 自動 *}><{$lang.dialog_blockstyle_auto}>
+											</label>
+										</div>
+									<{elseif $color == "transparent" &&  $smarty.foreach.color_loop.iteration == 1}>
+										<a style="display:block;float:left; margin:0px 5px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>" onclick="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','<{$property_name}>','<{$color}>',this, <{$smarty.foreach.color_loop.iteration}>); return false;">
+											<div  style="border:1px solid #d2ef6a;" >
+												<img src="<{""|get_image_url}>/images/dialog/transparence.gif" title="transparent" alt="transparent" />
+											</div>
+										</a>
+									<{elseif $color == "transparent"}>
+										<a style="display:block;float:left; margin:0px 5px;margin-top:3px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>"  onclick="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','<{$property_name}>','<{$color}>',this, <{$smarty.foreach.color_loop.iteration}>); return false;">
+											<div  style="border:1px solid #d2ef6a;" >
+												<img style="width:14px;height:14px;" src="<{""|get_image_url}>/images/dialog/transparence_small.gif" title="transparent" alt="transparent" />
+											</div>
+										</a>
+									<{elseif $color == "selection"}>
+										<input onkeydown="if(!commonCls.colorCheck(event)){return false} if (event.keyCode == 9 || event.keyCode == 13) {this.onchange();}" onchange="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','<{$property_name}>',this.value,this);" style="margin-top:5px; margin-left:5px; display:block; float:left; width:6em;" type="text" maxlength="7" value="" />
+									<{elseif $color == "selection_image"}>
+										<select onchange="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','background',this.value,this);" style="margin-top:5px; margin-left:5px; float:left; width:7em;">
+											<option value="">
+												<{* 未指定 *}>
+												<{$lang.dialog_blockstyle_notsel|smarty:nodefaults}>
+											</option>
+											<{foreach name=background from=$action.background_image.$class_name.$property_name item=background_value}>
+												<{assign var="background_index" value=$smarty.foreach.background.iteration-1}>
+												<option value="<{$background_value|smarty:nodefaults}>"><{$action.background_image_lang.$class_name.$property_name.$background_index}></option>
+											<{/foreach}>
+										</select>
+									<{elseif $smarty.foreach.color_loop.iteration == 1}>
+										<a class="_blocktheme_topbox _blocktheme_box" style="display:block;float:left; margin:0px 5px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>"  onclick="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','<{$property_name}>','<{$color}>',this, <{$smarty.foreach.color_loop.iteration}>); return false;">
+											<div  style="background-color:<{$color}>; border:1px solid #d2ef6a; width:18px;height:18px;" >
+											</div>
+										</a>
+									<{else}>
+										<a class="_blocktheme_box" style="display:block;float:left; margin:3px 0px;padding:5px;" href="#"  title="<{$color}>" alt="<{$color}>"  onclick="blockstyleCls.colorClick('<{$id}>','_blockstyle_custom_top<{$id}>','_dialog_blockstyle_custom<{$id}>_<{$class_name}>','<{$action.current_theme_name}>','<{$property_name}>','<{$color}>',this, <{$smarty.foreach.color_loop.iteration}>); return false;">
+											<div  style="background-color:<{$color}>; border:1px solid #d2ef6a; width:14px;height:14px;" >
+											</div>
+										</a>
+									<{/if}>
+								<{/foreach}>
+							</div>
+						<{/foreach}>
+					</div>
+					<div style="padding-top:10px;clear:left;" class="hr"></div>
+				<{/foreach}>
+			</div>
+			<div class="align-right">
+				<{if $smarty.session._user_auth_id == _AUTH_ADMIN && BASE_URL == CORE_BASE_URL}>
+					<{* 設定中のブロックテーマすべてに適用 *}>
+					<label for="blockstyle_all_apply<{$id}>">
+						<input id="blockstyle_all_apply<{$id}>" name="blockstyle_all_apply" type="checkbox" value="1" <{if $action.all_apply}>checked="checked"<{/if}> />
+						<{$lang.dialog_blockstyle_all_apply}>
+					</label>
+					<br />
+				<{/if}>
+				<{* 規定値に戻す *}>
+				<a class="syslink" href="#" onclick="if(commonCls.confirm('<{$lang.dialog_confirm_clearcolor|smarty:nodefaults}>')) {blockstyleCls.defaultColorClick('<{$id}>','<{$action.current_theme_name}>');} return false;"><div class="dialog_pagestyle_reset"><{$lang.dialog_pagestyle_reset}></div></a>
+			</div>
+		</div>
+	<{/if}>
+</div>
+<{if $action.inside_flag}>
+	<div class="align-center" style="margin-top:5px;">
+	<input class="btn-width" name="regist" type="button" onclick="blockstyleCls.blockstyleSubmit('<{$action.parent_id_name}>',<{$block_id}>,<{$action.inside_flag}>,'<{$action.current_theme_name}>','<{$lang.dialog_blockstyle_ref_temp_mes}>');return false;" value="<{$lang._regist|smarty:nodefaults}>">&nbsp;
+	<input class="btn-width" name="cancel" type="button" onclick="if(event){blockstyleCls.delStyleDef('<{$action.current_theme_name}>');} commonCls.sendView('<{$action.parent_id_name}>',{'action':'<{$action.block_obj.action_name}>','block_id':'<{$block_id}>'}); return false;" value="<{$lang._cancel|smarty:nodefaults}>">&nbsp;
+	<{*
+	<input class="btn-width" name="apply" type="button" onclick="blockstyleCls.blockstyleSubmit('<{$action.parent_id_name}>',<{$block_id}>,<{$action.inside_flag}>,'<{$action.current_theme_name}>','<{$lang.dialog_blockstyle_ref_temp_mes}>',false);return false;" value="<{$lang._apply}>">
+	*}>
+	<input type="hidden" class="blockstyle_parent_id_name" name="blockstyle_parent_id_name" value="<{$action.parent_id_name}>" />
+	</div>
+	<{*<input type="hidden" class="blockstyle_token" value="<{$action.token_name}>"/>*}>
+<{else}>
+	<div class="align-right" style="margin-top:5px;">
+	<input class="btn-width" name="regist" type="button" onclick="blockstyleCls.blockstyleSubmit('<{$id}>',<{$block_id}>,<{$action.inside_flag}>,'<{$action.current_theme_name}>','<{$lang.dialog_blockstyle_ref_temp_mes}>');return false;" value="<{$lang._regist|smarty:nodefaults}>">&nbsp;
+	<input class="btn-width" name="cancel" type="button" onclick="if(event){blockstyleCls.delStyleDef('<{$action.current_theme_name}>');}commonCls.removeBlock('<{$id}>');return false;" value="<{$lang._cancel|smarty:nodefaults}>">&nbsp;
+	<{*
+	<input class="btn-width" name="apply" type="button" onclick="blockstyleCls.blockstyleSubmit('<{$id}>',<{$block_id}>,<{$action.inside_flag}>,'<{$action.current_theme_name}>','<{$lang.dialog_blockstyle_ref_temp_mes}>',false);return false;" value="<{$lang._apply}>">
+	*}>
+	<input type="hidden" class="blockstyle_parent_id_name" name="blockstyle_parent_id_name" value="<{$action.parent_id_name}>" />
+	<input type="hidden" name="prefix_id_name" value="<{$action.prefix_id_name}>" />
+	</div>
+<{/if}>
+</form>
+</div>
+<script class="nc_script" type="text/javascript">
+	blockstyleCls.init("<{$id}>",<{$action.active_tab}>,"<{$action.blocktheme_name}>","<{$lang.dialog_tab_general|smarty:nodefaults}>","<{$lang.dialog_tab_theme|smarty:nodefaults}>","<{$lang.dialog_tab_coloration|smarty:nodefaults}>");
+	commonCls.addBlockTheme('<{$action.current_theme_name}>');
+</script>
+<{else}>
+<{$lang.dialog_property_nonexists_block|smarty:nodefaults}>
+<{/if}>
+<{/strip}>

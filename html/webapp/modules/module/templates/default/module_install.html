@@ -1,0 +1,19 @@
+<{strip}>
+<{include file=module_header.html"}>
+<{*メイン表示部分*}>
+<table class="module_data_grid_inst grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+	<{foreach from=$action.installs_obj item=install_obj}>
+	<tr>
+		<td class="grid_row" style="width:<{$lang.module_name_width|smarty:nodefaults}>px;">
+			<{$install_obj.module_name}>(<{$install_obj.version}>)
+		</td>
+		<td class="grid_row" style="width:<{$lang.module_manage_width|smarty:nodefaults}>px;">
+			<{assign var="confirm" value=$lang.module_mes_install_confirm|smarty:nodefaults|sprintf:$install_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+			<a href="#" onclick="if (!commonCls.confirm('<{$confirm|smarty:nodefaults}>')) return false; moduleCls['<{$id}>'].moduleInstall('<{$install_obj.dir_name}>'); return false;">
+				<{$lang.module_install|smarty:nodefaults}>
+			</a>
+		</td>
+	</tr>
+<{/foreach}>
+</table>
+<{/strip}>

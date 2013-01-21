@@ -1,0 +1,53 @@
+<{strip}>
+
+<div class="outerdiv">
+<{* ログ一覧表示 *}>
+	<div class="security_outerdiv">
+		<fieldset>
+			<b><legend><{$lang.security_displaylog}></legend></b>
+			<{if count($action.displaylog_tables|smarty:nodefaults) > 0}>
+				<div class="security_log">
+					<table class="security_table">
+						<tr class="security_table_header">
+							<th> 
+	<{*
+								<{$lang.security_displaylog_delete}> <br />
+	*}>
+								<input type="button" value="<{$lang.security_displaylog_delete_all}>" onclick="securityCls['<{$id}>'].securityDisplaylogCheckAll(this.form, '<{$action.displaylog_count}>'); return false;" />
+							</th>
+							<th> <{$lang.security_displaylog_date}> </th>
+							<th class="nowrap"> <{$lang.security_displaylog_handle}>	</th>
+							<th> <{$lang.security_displaylog_ipagent}>	</th>
+							<th> <{$lang.security_displaylog_type}>	</th>
+							<th> <{$lang.security_displaylog_description}>	</th>
+						</tr>
+						<{foreach name="logtables" key="key" item="item" from=$action.displaylog_tables}>
+							<tr>
+								<td class="align-center"> 
+									<input type='checkbox' name="displaylog_lids[<{$key}>]" value="<{$item.lid}>" id="displaylog_lids<{$id}>" />
+								</td>
+								<td class="align-center"> <{$item.insert_time|date_format:"%Y/%m/%d %H:%M:%S"}> </td>
+								<td class="align-center"> <{$item.handle}> </td>
+								<td class="align-center"> <{$item.ip}> </td>
+								<td class="align-center"> <{$item.type}> </td>
+								<td class="align-center"> <{$item.description}> </td>
+							</tr>
+						<{/foreach}>
+					</table>
+				</div>
+			
+				<br /> <{$lang.security_displaylog_delete_message}>&nbsp;:&nbsp;
+					<input type="button" value="<{$lang.security_displaylog_delete}>" onclick="securityCls['<{$id}>'].securityDisplaylog('<{$action_name}>', '<{$lang.security_displaylog_success}>'); return false;" />
+				<br />
+				
+				<br /> <{$lang.security_displaylog_delete_exposition|smarty:nodefaults}>
+			<{else}>
+				<div class="outerdiv">
+					<{$lang.security_displaylog_nonelogs|smarty:nodefaults}>
+				</div>
+			<{/if}>
+		</fieldset>
+	</div>
+</div>
+
+<{/strip}>

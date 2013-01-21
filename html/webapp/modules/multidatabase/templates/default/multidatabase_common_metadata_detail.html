@@ -1,0 +1,188 @@
+<{strip}>
+<{assign var="metadata_id" value=$metadata.metadata_id}>
+<{assign var="multidatabase_id" value=$action.multidatabase_id}>
+<{if $action_name=="multidatabase_view_main_init" || $action_name=="multidatabase_view_main_detail"}>
+	<{assign var="content" value=$item.$metadata_id|smarty:nodefaults}>
+	<{if $metadata.type == MULTIDATABASE_META_TYPE_FILE && $content != "" && $metadata.file_count_flag == _ON}>
+		<{assign var="upload_id_var" value="upload_id"|cat:$metadata_id}>
+		<{assign var="download_count_var" value="download_count"|cat:$metadata_id}>
+		<{assign var="upload_id" value=$item.$upload_id_var}>
+		<{assign var="download_count" value=$item.$download_count_var}>
+	<{/if}>
+<{elseif $action_name=="multidatabase_view_main_content_init"}>
+	<{assign var="content" value=$smarty.session.multidatabase_content.$block_id.$metadata_id|smarty:nodefaults}>
+<{elseif $action_name=="multidatabase_view_edit_metadata_preview"}>
+	<{assign var="content" value=$lang.mdb_sample_text|smarty:nodefaults}>
+<{/if}>
+<tr>
+	<{if ($metadata.type != MULTIDATABASE_META_TYPE_IMAGE && $metadata.name_flag == _ON) || $mode == "regist" }>
+		<th class="mdb_detail_head nowrap <{if $position == 1 || $position == 4}>mdb_detail_head_top_bottom<{/if}>" scope="row">
+			<{if $mode == regist}><label for="mdb_metadatas_<{$metadata.metadata_id}><{$id}>"><{/if}>
+				<{$metadata.name}>
+			<{if $mode == regist}></label><{/if}>
+			<{* 必須 *}>
+			<{if $mode == "regist"}>
+				<{if $metadata.require_flag == _ON}>
+					<{$lang.mdb_require_flag|smarty:nodefaults}>
+				<{/if}>
+			<{/if}>
+		</th>
+	<{/if}>
+	<{if ($metadata.type == MULTIDATABASE_META_TYPE_IMAGE && ($mode == "confirm" || $mode == "preview" || $mode == "detail" || $mode == "list")) || $metadata.name_flag == _OFF}>
+		<td class="mdb_edit_detail" colspan="2">
+	<{else}>
+		<td class="mdb_edit_detail">
+	<{/if}>
+		<{if $mode == "preview" }>
+			<{* preview用 *}>
+			<{if $metadata.type == MULTIDATABASE_META_TYPE_IMAGE}>
+				<img src="<{""|get_image_url}><{$smarty.const.MULTIDATABASE_SAMPLE_IMAGE}>" class="mdb_metadata_image" alt="NO IMAGE" />
+			<{else}>
+				<{$content}>
+			<{/if}>
+		<{elseif $mode == "list" || $mode == "detail"}>
+			<{* 一覧用 *}>
+			<{if $metadata.type == MULTIDATABASE_META_TYPE_FILE}>
+				<{if $content == ""}>
+					&nbsp;
+				<{else}>
+					<{$content|smarty:nodefaults}>
+					<{if $metadata.file_count_flag == _ON}>
+						<span id="mdb_file_download_count_<{$upload_id}><{$id}>" class="mdb_file_download_count_font">(<{$download_count}>)</span>
+					<{/if}>
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_IMAGE}>
+				<{if $content == ""}>
+					<img src="<{""|get_image_url}><{$smarty.const.MULTIDATABASE_SAMPLE_IMAGE}>" class="mdb_metadata_image" alt="NO IMAGE" />
+				<{else}>
+					<{$content|smarty:nodefaults}>
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_LINK}>
+				<a class="syslink" href="<{$content}>" title="<{$lang.mdb_open_title|smarty:nodefaults|sprintf:$content}>" target="_blank"><{$content}></a>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_WYSIWYG}>
+				<{$content|smarty:nodefaults|wysiwig_convert_url}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_TEXTAREA}>
+				<{$content|change_tex|nl2br}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_TEXT}>
+				<{$content|change_tex}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
+				<{if ($content != "") }>
+					<{assign var="emailArr" value="@"|explode:$content}>
+					<{$emailArr.0|smarty:nodefaults}>
+					<img class="icon" src="<{"mailmark.gif"|get_modules_image}>" alt="" title="" />
+					<{$emailArr.1|smarty:nodefaults}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+				<{if ($content != "") }>
+					<{$content|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_AUTONUM}>
+				<{if ($content|intval > 0) }>
+					<{$content|intval}>
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME}>
+				<{if ($item.insert_time != "") }>
+					<{$item.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+				<{if ($item.update_time != "") }>
+					<{$item.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_MULTIPLE}>
+				<{if ($content != "") }>
+					<{foreach from=$content|smarty:nodefaults item=option}>
+						<{$option}><br />
+					<{/foreach}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			<{else}>
+				<{$content}>
+			<{/if}>
+		<{elseif $mode == "regist"}>
+			<{if $metadata.type == MULTIDATABASE_META_TYPE_TEXT || $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
+				<{* テキスト *}>
+				<input name="datas[<{$metadata.metadata_id}>]" id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" type="text" style="width:<{$smarty.const.MULTIDATABASE_INPUT_TEXTBOX_DEFAULT_SIZE}>px;" value="<{$content}>"/>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_LINK}>
+				<input name="datas[<{$metadata.metadata_id}>]" id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" type="text" style="width:<{$smarty.const.MULTIDATABASE_INPUT_TEXTBOX_DEFAULT_SIZE}>px;" value="<{if $content != '' }><{$content}><{else}>http://<{/if}>"/>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_TEXTAREA}>
+				<{* テキストエリア *}>
+				<textarea name="datas[<{$metadata.metadata_id}>]" id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" cols=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_COLS}> rows=<{$smarty.const.MULTIDATABASE_INPUT_TEXTAREA_ROWS}>><{$content}></textarea>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_IMAGE || $metadata.type == MULTIDATABASE_META_TYPE_FILE}>
+				<{* 画像とファイル 登録用 *}>
+				<input name="files[<{$metadata.metadata_id}>]" id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" type="file" value="" />
+				<{if $metadata.type == MULTIDATABASE_META_TYPE_FILE && $metadata.file_password_flag == _ON}>
+					<{assign var="password_var" value=$metadata_id|cat:"_file_password"}>
+					<{assign var="file_password" value=$smarty.session.multidatabase_content.$block_id.$password_var|smarty:nodefaults}>
+					<br />
+					<label for="mdb_metadata_file_password_<{$metadata.metadata_id}><{$id}>">
+						<input type="checkbox" id="mdb_metadata_file_password_<{$metadata.metadata_id}><{$id}>" name="password_checkbox[<{$metadata.metadata_id}>]" <{if $file_password != ""}> checked=checked <{/if}> value="<{$smarty.const._ON}>" onclick="if(this.checked == true){commonCls.displayVisible($('mdb_metadata_file_password_input_div_<{$metadata.metadata_id}><{$id}>'));}else{commonCls.displayNone($('mdb_metadata_file_password_input_div_<{$metadata.metadata_id}><{$id}>'));$('mdb_metadata_file_password_input_<{$metadata.metadata_id}><{$id}>').value='';}">
+						<{$lang.mdb_add_file_password|smarty:nodefaults}>
+					</label>
+					<div id="mdb_metadata_file_password_input_div_<{$metadata.metadata_id}><{$id}>" <{if $file_password == ""}>class="display-none"<{/if}>>
+						<input type="text" id="mdb_metadata_file_password_input_<{$metadata.metadata_id}><{$id}>" name="passwords[<{$metadata.metadata_id}>]" maxlength="100" value='<{if $file_password != ""}><{$file_password}><{/if}>'>
+					</div>
+				<{/if}>
+				<{if $content != ""}>
+					<br />
+					<{if $metadata.require_flag != _ON}>
+						<label for="mdb_metadata_image_delete_<{$metadata.metadata_id}><{$id}>">
+							<input type="checkbox" id="mdb_metadata_image_delete_<{$metadata.metadata_id}><{$id}>" name="datas[<{$metadata.metadata_id}>]" value="<{$smarty.const._ON}>">
+							<{if $metadata.type == MULTIDATABASE_META_TYPE_IMAGE}>
+								<{$lang.mdb_delete_image|smarty:nodefaults}>
+							<{elseif $metadata.type == MULTIDATABASE_META_TYPE_FILE}>
+								<{$lang.mdb_delete_file|smarty:nodefaults}>
+							<{/if}>
+						</label>
+					<{/if}>
+					<br /><{$content|smarty:nodefaults}>
+				<{/if}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_SECTION}>
+				<{* セレクトリスト *}>
+				<select name="datas[<{$metadata.metadata_id}>]" id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>">
+					<{* 未選択 *}>
+					<{foreach from=$metadata.select_content_array|smarty:nodefaults item=option name=selectloop}>
+						<option value="<{$option}>" <{if $content === $option}> selected="selected"<{/if}>>
+							<{$option}>
+						</option>
+					<{/foreach}>
+				</select>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_MULTIPLE}>
+				<{foreach from=$metadata.select_content_array|smarty:nodefaults item=option name=selectloop}>
+					<label class="nowrap" for="mdb_metadatas_<{$metadata.metadata_id}>_<{$smarty.foreach.selectloop.iteration}><{$id}>">
+						<input name="datas[<{$metadata.metadata_id}>][]" type="checkbox" value="<{$option}>" id="mdb_metadatas_<{$metadata.metadata_id}>_<{$smarty.foreach.selectloop.iteration}><{$id}>" <{if isset($content.$option|smarty:nodefaults)}>checked="checked" <{/if}>/>
+						<{$option}><br />
+					</label>
+				<{/foreach}>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_WYSIWYG}>
+				<script class="nc_script" type="text/javascript">
+					mdbCls["<{$id}>"].wysiwygInit(<{$metadata.metadata_id}>);
+				</script>
+				<textarea id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" class="textarea_<{$metadata.metadata_id}><{$id}>" rows="10" cols="60"><{$content|smarty:nodefaults|wysiwig_convert_url|escape:"html"}></textarea>
+				<input type="hidden" name="datas[<{$metadata.metadata_id}>]" />
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_AUTONUM}>
+				<input name="datas[<{$metadata.metadata_id}>]" id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" type="text" style="width:<{$smarty.const.MULTIDATABASE_INPUT_AUTONUM_DEFAULT_SIZE}>px;" value="<{if ($content != "") }><{$content|intval}><{else}><{$lang.mdb_type_autonum|smarty:nodefaults}><{/if}>" disabled="disabled" />
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_DATE}>
+				<input id="mdb_metadatas_<{$metadata.metadata_id}><{$id}>" name="datas[<{$metadata.metadata_id}>]" type="text" value="<{if ($metadata.require_flag == _ON || $content != "") }><{$content|timezone_date_format:$lang._date_format|smarty:nodefaults}><{/if}>" size="13" maxlength="10" />
+				<script class="nc_script" type="text/javascript">
+					mdbCls["<{$id}>"].calendarInit(<{$metadata.metadata_id}>);
+				</script>
+			<{elseif $metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+				<{if ($content != "") }>
+					<{$content|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			<{/if}>
+		<{/if}>
+	</td>
+</tr>
+<{/strip}>

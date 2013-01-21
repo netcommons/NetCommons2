@@ -1,0 +1,29 @@
+<{strip}>
+	<{if $action.photoCount > 0}>
+		<div data-role="navbar" data-type="horizontal" style="text-align:right;">
+			<{if $action.pageNumber > 0}>
+				<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=photoalbum_view_mobile_list&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}>&amp;pageNumber=<{$action.pagePrevious}>">
+					<img src="<{"previous.gif"|get_themes_image}>" alt="" />
+					<{$lang.photoalbum_page_previous}>
+				</a>
+				&nbsp;
+			<{/if}>
+			<{section name=page start=$action.pageStart loop=$action.pageEnd}>
+				<{if $action.pageNumber == $smarty.section.page.index}>
+					<span class="ui-btn-up-d ui-btn-corner-all ui-btn ui-btn-inline" style="padding:12px 3px;cursor:default;"><{$smarty.section.page.index+1}></span>
+				<{else}>
+					<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=photoalbum_view_mobile_list&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}>&amp;pageNumber=<{$smarty.section.page.index}>">
+						<{$smarty.section.page.index+1}>
+					</a>
+				<{/if}>
+				&nbsp;
+			<{/section}>
+			<{if $action.pageNext < $action.pageEnd}>
+				<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=photoalbum_view_mobile_list&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}>&amp;pageNumber=<{$action.pageNext}>">
+					<{$lang.photoalbum_page_next}>
+					<img src="<{"next.gif"|get_themes_image}>" alt="" />
+				</a>
+			<{/if}>
+		</div>
+	<{/if}>
+<{/strip}>

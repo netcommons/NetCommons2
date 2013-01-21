@@ -1,0 +1,170 @@
+<{strip}>
+<{* リンクリスト表示方法変更画面用テンプレート *}>
+<form id="linklist_form<{$id}>" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('linklist_form<{$id}>')), {'target_el':$('<{$id}>'),'focus_flag':true});return false;">
+	<input type="hidden" name="action" value="linklist_action_edit_style" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th scope="row">
+				<{$lang.linklist_linklist_name|smarty:nodefaults}>
+			</th>
+			<td>
+				<{$action.linklist.linklist_name}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_display<{$id}>">
+					<{$lang.linklist_display|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<label for="linklist_display_dropdown<{$id}>">
+					<input id="linklist_display_dropdown<{$id}>" type="radio" name="display" value="<{$smarty.const.LINKLIST_DISPLAY_DROPDOWN}>" onclick="linklistCls['<{$id}>'].selectDisplayDropdown();" />
+					<{$lang.linklist_display_dropdown|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="linklist_display_list<{$id}>">
+					<input id="linklist_display_list<{$id}>" type="radio" name="display" value="<{$smarty.const.LINKLIST_DISPLAY_LIST}>" onclick="linklistCls['<{$id}>'].selectDisplayList();" />
+					<{$lang.linklist_display_list|smarty:nodefaults}>
+				</label>
+				<label id="linklist_display_description_label<{$id}>" for="linklist_display_description<{$id}>">
+					<input id="linklist_display_description<{$id}>" type="checkbox" name="display_description" value="<{$smarty.const._ON}>" />
+					<{$lang.linklist_display_description|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_target_blank_flag<{$id}>">
+					<{$lang.linklist_target_blank_flag|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<label for="linklist_target_blank_flag<{$id}>">
+					<input id="linklist_target_blank_flag<{$id}>" name="target_blank_flag" type="checkbox" value="<{$smarty.const._ON}>" />
+					<{$lang.linklist_target_blank_flag_on|smarty:nodefaults}>
+				</label>
+			</td>
+	    </tr>
+
+	    <tr class="row">
+	    	<th class="nowrap" scope="row">
+				<label for="linklist_view_count_flag<{$id}>">
+					<{$lang.linklist_view_count_flag|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<label for="linklist_view_count_flag<{$id}>">
+					<input id="linklist_view_count_flag<{$id}>" name="view_count_flag" type="checkbox" value="<{$smarty.const._ON}>" />
+					<{$lang.linklist_view_count_flag_on|smarty:nodefaults}>
+				</label>
+			</td>
+	    </tr>
+
+	    <{* TODO:タブで次のエレメント、PgUp,PgDnで選択できるように修正すること *}>
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_line<{$id}>">
+					<{$lang.linklist_line|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<div id="linklist_line<{$id}>" class="linklist_select_line">
+					<a id="linklist_line0<{$id}>" class="linklist_select_item" href="#" onclick="linklistCls['<{$id}>'].selectItem(this, $('linklist_line_value<{$id}>'), '');return false;">
+						<{$lang.linklist_line_none|smarty:nodefaults}>
+					</a>
+					<{assign var="line_highlight" value="linklist_line0`$id`"}>
+
+					<{foreach name=line item=line from=$action.lines}>
+						<a id="linklist_line<{$smarty.foreach.line.iteration}><{$id}>" class="linklist_select_item" href="#" style="background-image:url('<{""|get_image_url}>/images/common/line/<{$line}>');" onclick="linklistCls['<{$id}>'].selectItem(this, $('linklist_line_value<{$id}>'), '<{$line}>');return false;">
+						</a>
+						<{if $action.linklist.line == $line}>
+							<{assign var="line_highlight" value="linklist_line`$smarty.foreach.line.iteration``$id`"}>
+						<{/if}>
+					<{/foreach}>
+				</div>
+				<input id="linklist_line_value<{$id}>" type="hidden" name="line" value="<{$action.linklist.line}>" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_mark<{$id}>">
+					<{$lang.linklist_mark|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<div id="linklist_mark<{$id}>" class="linklist_select_mark">
+					<{foreach name=mark item=mark_text key=mark_value from=$action.marks|smarty:nodefaults}>
+						<a id="linklist_mark<{$smarty.foreach.mark.iteration}><{$id}>" class="linklist_select_item" href="#" onclick="linklistCls['<{$id}>'].selectItem(this, $('linklist_mark_value<{$id}>'), '<{$mark_value}>');return false;">
+							<ul class="linklist_mark" style="list-style-type:<{$mark_value}>">
+								<li><{$mark_text}></li>
+							</ul>
+						</a>
+
+						<{if $action.linklist.mark == $mark_value}>
+							<{assign var="mark_highlight" value="linklist_mark`$smarty.foreach.mark.iteration``$id`"}>
+						<{/if}>
+					<{/foreach}>
+
+					<{foreach name=mark_image item=mark_image from=$action.mark_images}>
+						<a id="linklist_mark_image<{$smarty.foreach.mark_image.iteration}><{$id}>" class="linklist_select_item" href="#" onclick="linklistCls['<{$id}>'].selectItem(this, $('linklist_mark_value<{$id}>'), '<{$mark_image}>');return false;">
+							<ul class="linklist_mark" style="list-style-image:url('<{""|get_image_url}>/images/common/mark/<{$mark_image}>');">
+								<li><{$lang.linklist_mark_image|smarty:nodefaults|sprintf:$smarty.foreach.mark_image.iteration}></li>
+							</ul>
+						</a>
+
+						<{if $action.linklist.mark == $mark_image}>
+							<{assign var="mark_highlight" value="linklist_mark_image`$smarty.foreach.mark_image.iteration``$id`"}>
+						<{/if}>
+					<{/foreach}>
+				</div>
+				<input id="linklist_mark_value<{$id}>" type="hidden" name="mark" value="<{$action.linklist.mark}>" />
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'linklist_view_edit_list');" />
+	</div>
+
+	<input type="hidden" name="linklist_id" />
+</form>
+
+<{include file = "../linklist_script.html"}>
+<script class="nc_script" type="text/javascript">
+	<{if $action.linklist.display == LINKLIST_DISPLAY_DROPDOWN}>
+		$("linklist_display_dropdown<{$id}>").checked = true;
+	<{else}>
+		$("linklist_display_list<{$id}>").checked = true;
+	<{/if}>
+	<{if $action.linklist.display == LINKLIST_DISPLAY_DESCRIPTION}>
+		$("linklist_display_description<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.linklist.target_blank_flag == _ON}>
+		$("linklist_target_blank_flag<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.linklist.view_count_flag == _ON}>
+		$("linklist_view_count_flag<{$id}>").checked = true;
+	<{/if}>
+
+	Element.addClassName($("<{$line_highlight}>"), "highlight");
+	$("linklist_line<{$id}>").scrollTop = $("<{$line_highlight}>").offsetTop;
+
+	Element.addClassName($("<{$mark_highlight}>"), "highlight");
+	$("linklist_mark<{$id}>").scrollTop = $("<{$mark_highlight}>").offsetTop;
+	
+	commonCls.focus($("linklist_display_dropdown<{$id}>"));
+</script>
+<{/strip}>

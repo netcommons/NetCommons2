@@ -1,0 +1,36 @@
+body {
+	color: #333333;
+}
+h2  { color: #ffffff; font-size: 110%; font-weight: bold; line-height: 150%; background-color: #888 }
+h3  { color: #c90505; font-weight: bold; text-decoration: underline; background-position: 150% 50%; text-indent: 15px; letter-spacing: 2px }
+h4 {
+	font-size: 100%;
+	text-indent: 20px;
+	font-weight: bold;
+}
+h5 {
+	font-size: 100%;
+	text-indent: 25px;
+	font-weight: bold;
+}
+hr { 
+    border: 1px #999999 solid; 
+    height: 1px; 
+} 
+.b1  { color: #518447; font-weight: bold }
+.b2 {
+	color: #003399;
+	font-weight: bold;
+}
+.b3  { color: #f06f1d; font-weight: bold }
+.totop {
+	font-size: 80%;
+}
+a:link  { color: #04419a }
+a:visited  { color: #04419a }
+a:hover  { color: #1b64cf }
+a:active  { color: #f06f1d }
+.b4 {
+	color: #FF3333;
+	font-weight: bold;
+}

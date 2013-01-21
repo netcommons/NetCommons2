@@ -1,0 +1,104 @@
+<{strip}>
+<{if $action.data_count == 0}>
+	&nbsp;&nbsp;<{$lang.mdb_noneexists_data|smarty:nodefaults}>
+	<{include file="../multidatabase_script.html"}>
+<{else}>
+	<form id="form<{$id}>" action="#" method="post" onsubmit="return false;">
+		<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>">
+		<div class="mdb_chgseq">
+			<{* 表示順変更セレクトボックス *}>
+			<select id="mdb_chgseq<{$id}>" onchange="commonCls.sendView('<{$id}>', {'action':'multidatabase_view_main_sequence', 'multidatabase_id':'<{$action.multidatabase_id}>', 'sort':this.value});">
+				<option value=""<{if $action.sort == null}> selected="selected"<{/if}>><{$lang.mdb_data_sort|smarty:nodefaults}></option>
+				<option value="insert_time:DESC"<{if $action.sort == 'insert_time:DESC'}> selected="selected"<{/if}>><{$lang.mdb_data_date_desc|smarty:nodefaults}></option>
+				<option value="insert_time:ASC"<{if $action.sort == 'insert_time:ASC'}> selected="selected"<{/if}>><{$lang.mdb_data_date_asc|smarty:nodefaults}></option>
+				<option value="title:ASC"<{if $action.sort == 'title:ASC'}> selected="selected"<{/if}>><{$lang.mdb_data_photo_name_asc|smarty:nodefaults}></option>
+				<option value="vote_count:DESC"<{if $action.sort == 'vote_count:DESC'}> selected="selected"<{/if}>><{$lang.mdb_data_vote_asc|smarty:nodefaults}></option>
+			</select>
+		</div>
+		<div>
+			<table id="mdb_title_list<{$id}>" class="mdb_sequence" summary="">
+				<{foreach from=$action.title_list item=item}>
+					<tr id="mdb_title_row<{$item.content_id}><{$id}>">
+						<td class="comp_draganddrop">
+						</td>
+						<td class="mdb_sequence_title mdb_sequence">
+							<{if $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_INSERT_TIME}>
+								<{$item.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+							<{elseif $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+								<{$item.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+							<{elseif $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_FILE || $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+								<{assign var="file_name_key" value="file_name`$title_metadata_id`"}>
+								<{if empty($item.$file_name_key|smarty:nodefaults)}>
+									<{$lang.mdb_notitle|smarty:nodefaults}>
+								<{else}>
+									<{$item.$file_name_key}>
+								<{/if}>
+							<{elseif empty($item.title|smarty:nodefaults)}>
+								<{$lang.mdb_notitle|smarty:nodefaults}>
+							<{elseif $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>
+								<{$item.title|html_to_text|smarty:nodefaults}>
+							<{elseif $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_AUTONUM}>
+								<{$item.title|intval}>
+							<{elseif $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_DATE}>
+								<{$item.title|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+							<{elseif $action.title_type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>
+								<{assign var="multipleArr" value="|"|explode:$item.title}>
+								<{$multipleArr.0|smarty:nodefaults}>
+							<{else}>
+								<{$item.title}>
+							<{/if}>
+							<input type="hidden" name="content_id_arr[]" value="<{$item.content_id}>" />
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+		</div>
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].closeDataSeqPop(this.form); return false;" />
+		</div>
+	</form>
+	<{include file="../multidatabase_script.html"}>
+	<script class="nc_script" type="text/javascript">
+		dropZone = Class.create();
+		dropZone.prototype = Object.extend((new compDropzone), {
+			showHover: function(event) {
+				this.showChgSeqHover(event);
+			},
+	
+			hideHover: function(event) {
+				this.hideChgSeqHover(event);
+			},
+	
+			accept: function(draggableObjects) {
+				this.acceptChgSeq(draggableObjects);
+			},
+			
+			save: function(draggableObjects) {
+				if(this.ChgSeqPosition == null) {
+					return false;
+				}
+		    	var drag = draggableObjects[0].getHTMLElement();
+		    	var drop = this.getHTMLElement();
+				
+				var id = this.getParams();
+				mdbCls[id].changeSequence(drag.id, drop.id, this.ChgSeqPosition);
+				return true;
+			}
+		});
+	
+		var dragArea = $("mdb_title_list<{$id}>");
+		dragDrop = new compDragAndDrop();
+		dragDrop.registerDraggableRange(dragArea);
+		var rows = dragArea.getElementsByTagName("tr");
+		for (var i = 0; i < rows.length; i++) {
+			dragDrop.registerDraggable(new compDraggable(rows[i], rows[i].firstChild));
+			dragDrop.registerDropZone(new dropZone(rows[i], "<{$id}>"));
+		}
+	
+		dropZone = null;
+		dragArea = null;
+		dragDrop = null;
+		rows = null;
+	</script>
+<{/if}>
+<{/strip}>

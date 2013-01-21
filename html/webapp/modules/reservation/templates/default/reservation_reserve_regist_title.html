@@ -1,0 +1,16 @@
+<{strip}>
+
+<th scope="row" class="nowrap">
+	<label for="reserve_title<{$id}>">
+		<{$lang.reservation_reserve_title|smarty:nodefaults}>
+	</lable>
+</th>
+<td class="nowrap">
+	<a href="#" alt="" title="">
+		<img id="icon_name_img<{$id}>" class="comp_title_icon" src="<{""|get_image_url}>/images/comp/textarea/<{if ($reserve.title_icon != "") }><{$reserve.title_icon}><{else}>titleicon/blank.gif<{/if}>" alt="" onclick='reservationCls["<{$id}>"].showIcon();return false;' onmouseover='Element.addClassName(this, "comptextarea_dialog_highlight");' onmouseout='Element.removeClassName(this, "comptextarea_dialog_highlight");' />
+	</a>
+	<input id="icon_name_hidden<{$id}>" name="icon_name" value="<{$reserve.title_icon}>" type="hidden" />
+	<input id="reserve_title<{$id}>" class="text" name="title" type="text" value="<{$reserve.title}>" />
+</td>
+
+<{/strip}>

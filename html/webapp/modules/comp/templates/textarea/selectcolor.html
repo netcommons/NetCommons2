@@ -1,0 +1,336 @@
+<{strip}>
+<{* tableタグにしないと広さが自動的に設定されない *}>
+<table class="comptextarea_dialog" cellspacing="0" cellpadding="0"><tr><td style="<{* style指定ではないとなぜかIEでpaddingされない *}>padding:5px;">
+<form name="frm_colortext" method="get" style="margin:0px; padding:0px" onSubmit="Set(document.getElementById('ColorHex').value); return false;">
+<table border="0" cellspacing="0" cellpadding="4" class="comptextarea_dialog_selectcolor_title">
+	<tr>
+		<td class="valign-middle">
+			<div class="comptextarea_dialog_selectcolor_titlecolor">
+				<div id="ColorPreview" class="comptextarea_dialog_selectcolor_preview"></div>
+			</div>
+		</td>
+		<td class="valign-middle">
+			<input type="text" name="ColorHex" id="ColorHex" value="" size="15" maxlength="7" onkeydown="if(!parent.commonCls.colorCheck(event)){return false} if(event.keyCode == 13) {Set(this.value);}" />
+		</td>
+	</tr>
+</table>
+</form>
+<table class="comptextarea_dialog_selectcolor" align="center" border="0" cellspacing="1" cellpadding="0">
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#003300;" onmouseover="View('003300');" onmousedown="parent.commonCls.stop(event);" onclick="Set('003300');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#006600;" onmouseover="View('006600');" onmousedown="parent.commonCls.stop(event);" onclick="Set('006600');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#009900;" onmouseover="View('009900');" onmousedown="parent.commonCls.stop(event);" onclick="Set('009900');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00cc00;" onmouseover="View('00cc00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00cc00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ff00;" onmouseover="View('00ff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#330000;" onmouseover="View('330000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('330000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#333300;" onmouseover="View('333300');" onmousedown="parent.commonCls.stop(event);" onclick="Set('333300');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#336600;" onmouseover="View('336600');" onmousedown="parent.commonCls.stop(event);" onclick="Set('336600');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#339900;" onmouseover="View('339900');" onmousedown="parent.commonCls.stop(event);" onclick="Set('339900');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33cc00;" onmouseover="View('33cc00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33cc00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ff00;" onmouseover="View('33ff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#660000;" onmouseover="View('660000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('660000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#663300;" onmouseover="View('663300');" onmousedown="parent.commonCls.stop(event);" onclick="Set('663300');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#666600;" onmouseover="View('666600');" onmousedown="parent.commonCls.stop(event);" onclick="Set('666600');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#669900;" onmouseover="View('669900');" onmousedown="parent.commonCls.stop(event);" onclick="Set('669900');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66cc00;" onmouseover="View('66cc00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66cc00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ff00;" onmouseover="View('66ff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#333333;" onmouseover="View('333333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('333333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000033;" onmouseover="View('000033');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000033');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#003333;" onmouseover="View('003333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('003333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#006633;" onmouseover="View('006633');" onmousedown="parent.commonCls.stop(event);" onclick="Set('006633');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#009933;" onmouseover="View('009933');" onmousedown="parent.commonCls.stop(event);" onclick="Set('009933');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00cc33;" onmouseover="View('00cc33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00cc33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ff33;" onmouseover="View('00ff33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ff33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#330033;" onmouseover="View('330033');" onmousedown="parent.commonCls.stop(event);" onclick="Set('330033');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#333333;" onmouseover="View('333333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('333333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#336633;" onmouseover="View('336633');" onmousedown="parent.commonCls.stop(event);" onclick="Set('336633');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#339933;" onmouseover="View('339933');" onmousedown="parent.commonCls.stop(event);" onclick="Set('339933');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33cc33;" onmouseover="View('33cc33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33cc33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ff33;" onmouseover="View('33ff33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ff33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#660033;" onmouseover="View('660033');" onmousedown="parent.commonCls.stop(event);" onclick="Set('660033');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#663333;" onmouseover="View('663333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('663333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#666633;" onmouseover="View('666633');" onmousedown="parent.commonCls.stop(event);" onclick="Set('666633');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#669933;" onmouseover="View('669933');" onmousedown="parent.commonCls.stop(event);" onclick="Set('669933');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66cc33;" onmouseover="View('66cc33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66cc33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ff33;" onmouseover="View('66ff33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ff33');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#666666;" onmouseover="View('666666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('666666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000066;" onmouseover="View('000066');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000066');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#003366;" onmouseover="View('003366');" onmousedown="parent.commonCls.stop(event);" onclick="Set('003366');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#006666;" onmouseover="View('006666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('006666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#009966;" onmouseover="View('009966');" onmousedown="parent.commonCls.stop(event);" onclick="Set('009966');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00cc66;" onmouseover="View('00cc66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00cc66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ff66;" onmouseover="View('00ff66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ff66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#330066;" onmouseover="View('330066');" onmousedown="parent.commonCls.stop(event);" onclick="Set('330066');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#333366;" onmouseover="View('333366');" onmousedown="parent.commonCls.stop(event);" onclick="Set('333366');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#336666;" onmouseover="View('336666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('336666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#339966;" onmouseover="View('339966');" onmousedown="parent.commonCls.stop(event);" onclick="Set('339966');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33cc66;" onmouseover="View('33cc66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33cc66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ff66;" onmouseover="View('33ff66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ff66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#660066;" onmouseover="View('660066');" onmousedown="parent.commonCls.stop(event);" onclick="Set('660066');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#663366;" onmouseover="View('663366');" onmousedown="parent.commonCls.stop(event);" onclick="Set('663366');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#666666;" onmouseover="View('666666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('666666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#669966;" onmouseover="View('669966');" onmousedown="parent.commonCls.stop(event);" onclick="Set('669966');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66cc66;" onmouseover="View('66cc66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66cc66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ff66;" onmouseover="View('66ff66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ff66');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#999999;" onmouseover="View('999999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('999999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000099;" onmouseover="View('000099');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000099');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#003399;" onmouseover="View('003399');" onmousedown="parent.commonCls.stop(event);" onclick="Set('003399');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#006699;" onmouseover="View('006699');" onmousedown="parent.commonCls.stop(event);" onclick="Set('006699');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#009999;" onmouseover="View('009999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('009999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00cc99;" onmouseover="View('00cc99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00cc99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ff99;" onmouseover="View('00ff99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ff99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#330099;" onmouseover="View('330099');" onmousedown="parent.commonCls.stop(event);" onclick="Set('330099');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#333399;" onmouseover="View('333399');" onmousedown="parent.commonCls.stop(event);" onclick="Set('333399');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#336699;" onmouseover="View('336699');" onmousedown="parent.commonCls.stop(event);" onclick="Set('336699');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#339999;" onmouseover="View('339999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('339999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33cc99;" onmouseover="View('33cc99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33cc99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ff99;" onmouseover="View('33ff99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ff99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#660099;" onmouseover="View('660099');" onmousedown="parent.commonCls.stop(event);" onclick="Set('660099');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#663399;" onmouseover="View('663399');" onmousedown="parent.commonCls.stop(event);" onclick="Set('663399');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#666699;" onmouseover="View('666699');" onmousedown="parent.commonCls.stop(event);" onclick="Set('666699');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#669999;" onmouseover="View('669999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('669999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66cc99;" onmouseover="View('66cc99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66cc99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ff99;" onmouseover="View('66ff99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ff99');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cccccc;" onmouseover="View('cccccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cccccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0000cc;" onmouseover="View('0000cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0000cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0033cc;" onmouseover="View('0033cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0033cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0066cc;" onmouseover="View('0066cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0066cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0099cc;" onmouseover="View('0099cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0099cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00cccc;" onmouseover="View('00cccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00cccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ffcc;" onmouseover="View('00ffcc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ffcc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3300cc;" onmouseover="View('3300cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3300cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3333cc;" onmouseover="View('3333cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3333cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3366cc;" onmouseover="View('3366cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3366cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3399cc;" onmouseover="View('3399cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3399cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33cccc;" onmouseover="View('33cccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33cccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ffcc;" onmouseover="View('33ffcc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ffcc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6600cc;" onmouseover="View('6600cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6600cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6633cc;" onmouseover="View('6633cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6633cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6666cc;" onmouseover="View('6666cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6666cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6699cc;" onmouseover="View('6699cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6699cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66cccc;" onmouseover="View('66cccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66cccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ffcc;" onmouseover="View('66ffcc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ffcc');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffffff;" onmouseover="View('ffffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0000ff;" onmouseover="View('0000ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0000ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0033ff;" onmouseover="View('0033ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0033ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0066ff;" onmouseover="View('0066ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0066ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0099ff;" onmouseover="View('0099ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0099ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ccff;" onmouseover="View('00ccff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ccff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ffff;" onmouseover="View('00ffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3300ff;" onmouseover="View('3300ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3300ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3333ff;" onmouseover="View('3333ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3333ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3366ff;" onmouseover="View('3366ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3366ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#3399ff;" onmouseover="View('3399ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('3399ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ccff;" onmouseover="View('33ccff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ccff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#33ffff;" onmouseover="View('33ffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('33ffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6600ff;" onmouseover="View('6600ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6600ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6633ff;" onmouseover="View('6633ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6633ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6666ff;" onmouseover="View('6666ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6666ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#6699ff;" onmouseover="View('6699ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('6699ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ccff;" onmouseover="View('66ccff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ccff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#66ffff;" onmouseover="View('66ffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('66ffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff0000;" onmouseover="View('ff0000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff0000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#990000;" onmouseover="View('990000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('990000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#993300;" onmouseover="View('993300');" onmousedown="parent.commonCls.stop(event);" onclick="Set('993300');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#996600;" onmouseover="View('996600');" onmousedown="parent.commonCls.stop(event);" onclick="Set('996600');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#999900;" onmouseover="View('999900');" onmousedown="parent.commonCls.stop(event);" onclick="Set('999900');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99cc00;" onmouseover="View('99cc00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99cc00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ff00;" onmouseover="View('99ff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc0000;" onmouseover="View('cc0000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc0000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc3300;" onmouseover="View('cc3300');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc3300');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc6600;" onmouseover="View('cc6600');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc6600');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc9900;" onmouseover="View('cc9900');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc9900');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cccc00;" onmouseover="View('cccc00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cccc00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccff00;" onmouseover="View('ccff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff0000;" onmouseover="View('ff0000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff0000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff3300;" onmouseover="View('ff3300');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff3300');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff6600;" onmouseover="View('ff6600');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff6600');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff9900;" onmouseover="View('ff9900');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff9900');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffcc00;" onmouseover="View('ffcc00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffcc00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffff00;" onmouseover="View('ffff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ff00;" onmouseover="View('00ff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#990033;" onmouseover="View('990033');" onmousedown="parent.commonCls.stop(event);" onclick="Set('990033');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#993333;" onmouseover="View('993333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('993333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#996633;" onmouseover="View('996633');" onmousedown="parent.commonCls.stop(event);" onclick="Set('996633');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#999933;" onmouseover="View('999933');" onmousedown="parent.commonCls.stop(event);" onclick="Set('999933');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99cc33;" onmouseover="View('99cc33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99cc33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ff33;" onmouseover="View('99ff33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ff33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc0033;" onmouseover="View('cc0033');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc0033');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc3333;" onmouseover="View('cc3333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc3333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc6633;" onmouseover="View('cc6633');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc6633');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc9933;" onmouseover="View('cc9933');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc9933');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cccc33;" onmouseover="View('cccc33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cccc33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccff33;" onmouseover="View('ccff33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccff33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff0033;" onmouseover="View('ff0033');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff0033');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff3333;" onmouseover="View('ff3333');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff3333');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff6633;" onmouseover="View('ff6633');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff6633');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff9933;" onmouseover="View('ff9933');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff9933');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffcc33;" onmouseover="View('ffcc33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffcc33');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffff33;" onmouseover="View('ffff33');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffff33');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#0000ff;" onmouseover="View('0000ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('0000ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#990066;" onmouseover="View('990066');" onmousedown="parent.commonCls.stop(event);" onclick="Set('990066');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#993366;" onmouseover="View('993366');" onmousedown="parent.commonCls.stop(event);" onclick="Set('993366');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#996666;" onmouseover="View('996666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('996666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#999966;" onmouseover="View('999966');" onmousedown="parent.commonCls.stop(event);" onclick="Set('999966');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99cc66;" onmouseover="View('99cc66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99cc66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ff66;" onmouseover="View('99ff66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ff66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc0066;" onmouseover="View('cc0066');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc0066');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc3366;" onmouseover="View('cc3366');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc3366');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc6666;" onmouseover="View('cc6666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc6666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc9966;" onmouseover="View('cc9966');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc9966');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cccc66;" onmouseover="View('cccc66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cccc66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccff66;" onmouseover="View('ccff66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccff66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff0066;" onmouseover="View('ff0066');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff0066');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff3366;" onmouseover="View('ff3366');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff3366');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff6666;" onmouseover="View('ff6666');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff6666');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff9966;" onmouseover="View('ff9966');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff9966');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffcc66;" onmouseover="View('ffcc66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffcc66');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffff66;" onmouseover="View('ffff66');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffff66');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffff00;" onmouseover="View('ffff00');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffff00');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#990099;" onmouseover="View('990099');" onmousedown="parent.commonCls.stop(event);" onclick="Set('990099');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#993399;" onmouseover="View('993399');" onmousedown="parent.commonCls.stop(event);" onclick="Set('993399');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#996699;" onmouseover="View('996699');" onmousedown="parent.commonCls.stop(event);" onclick="Set('996699');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#999999;" onmouseover="View('999999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('999999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99cc99;" onmouseover="View('99cc99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99cc99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ff99;" onmouseover="View('99ff99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ff99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc0099;" onmouseover="View('cc0099');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc0099');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc3399;" onmouseover="View('cc3399');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc3399');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc6699;" onmouseover="View('cc6699');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc6699');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc9999;" onmouseover="View('cc9999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc9999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cccc99;" onmouseover="View('cccc99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cccc99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccff99;" onmouseover="View('ccff99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccff99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff0099;" onmouseover="View('ff0099');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff0099');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff3399;" onmouseover="View('ff3399');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff3399');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff6699;" onmouseover="View('ff6699');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff6699');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff9999;" onmouseover="View('ff9999');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff9999');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffcc99;" onmouseover="View('ffcc99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffcc99');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffff99;" onmouseover="View('ffff99');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffff99');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#00ffff;" onmouseover="View('00ffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('00ffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9900cc;" onmouseover="View('9900cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9900cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9933cc;" onmouseover="View('9933cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9933cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9966cc;" onmouseover="View('9966cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9966cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9999cc;" onmouseover="View('9999cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9999cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99cccc;" onmouseover="View('99cccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99cccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ffcc;" onmouseover="View('99ffcc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ffcc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc00cc;" onmouseover="View('cc00cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc00cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc33cc;" onmouseover="View('cc33cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc33cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc66cc;" onmouseover="View('cc66cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc66cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc99cc;" onmouseover="View('cc99cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc99cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cccccc;" onmouseover="View('cccccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cccccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccffcc;" onmouseover="View('ccffcc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccffcc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff00cc;" onmouseover="View('ff00cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff00cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff33cc;" onmouseover="View('ff33cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff33cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff66cc;" onmouseover="View('ff66cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff66cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff99cc;" onmouseover="View('ff99cc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff99cc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffcccc;" onmouseover="View('ffcccc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffcccc');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffffcc;" onmouseover="View('ffffcc');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffffcc');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+	<tr>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff00ff;" onmouseover="View('ff00ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff00ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#000000;" onmouseover="View('000000');" onmousedown="parent.commonCls.stop(event);" onclick="Set('000000');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9900ff;" onmouseover="View('9900ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9900ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9933ff;" onmouseover="View('9933ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9933ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9966ff;" onmouseover="View('9966ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9966ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#9999ff;" onmouseover="View('9999ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('9999ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ccff;" onmouseover="View('99ccff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ccff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#99ffff;" onmouseover="View('99ffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('99ffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc00ff;" onmouseover="View('cc00ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc00ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc33ff;" onmouseover="View('cc33ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc33ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc66ff;" onmouseover="View('cc66ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc66ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#cc99ff;" onmouseover="View('cc99ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('cc99ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccccff;" onmouseover="View('ccccff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccccff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ccffff;" onmouseover="View('ccffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ccffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff00ff;" onmouseover="View('ff00ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff00ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff33ff;" onmouseover="View('ff33ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff33ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff66ff;" onmouseover="View('ff66ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff66ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ff99ff;" onmouseover="View('ff99ff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ff99ff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffccff;" onmouseover="View('ffccff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffccff');" class="comptextarea_dialog_selectcolor_cell"></td>
+		<td style="background-color:#ffffff;" onmouseover="View('ffffff');" onmousedown="parent.commonCls.stop(event);" onclick="Set('ffffff');" class="comptextarea_dialog_selectcolor_cell"></td>
+	</tr>
+</table>
+</td></tr></table>
+<script type="text/javascript">
+function Init() {                                                     <{*run on page load*}>
+  parent.commonCls.stopObserving(window, 'load',Init, false);
+  var color = window.dialogArguments;
+  color = ValidateColor(color) || 'ff0000';
+  View(color);
+}
+
+function View(color) {                  <{*preview color*}>
+  document.getElementById("ColorPreview").style.backgroundColor = '#' + color;
+  document.getElementById("ColorHex").value = '#' + color;
+}
+
+function Set(string) {                   <{*select color*}>
+  var color = ValidateColor(string);
+  if (color != null) {
+    View(color);                          <{*show selected color*}>
+    var param = { color: "#" + color };
+	parent.commonCls.referComp['<{$action.parent_id_name}>'].setColor('<{$action.cmd_name}>', param);
+  }
+}
+
+function ValidateColor(string) {                <{*return valid color code*}>
+  string = string || '';
+  string = string + "";
+  string = string.toLowerCase();
+  var chars = '0123456789abcdef';
+  var out   = '';
+
+  for (var i=0; i<string.length; i++) {             <{*remove invalid color chars*}>
+    var schar = string.charAt(i);
+    if (chars.indexOf(schar) != -1) { out += schar; }
+  }
+
+  if (out.length != 6) { return null; }            <{*check length*}>
+  return out;
+}
+parent.commonCls.observe(window, 'load',Init, false, '<{$id}>');
+</script>
+<{/strip}>

@@ -1,0 +1,22 @@
+<{strip}>
+<{* 入力データ受付画面用テンプレート *}>
+<div class="align-right">
+	<a href="#" class="link" onclick="commonCls.print($('registration_print<{$id}>'), null, null, true, '<{$block_obj.block_name}>');return false;">
+		<img src="<{"print.gif"|get_themes_image}>" title="<{$lang._print_icon}>" alt="<{$lang._print_icon}>" />
+	</a>
+</div>
+
+<div id="registration_print<{$id}>">
+	<div class="registration_accept_message">
+		<{$action.registration.accept_message|nl2br}>
+	</div>
+	<{include file="registration_view_main_entry_data.html"}>
+</div>
+
+<div class="btn-bottom">
+	<input id="registration_back<{$id}>" class="btn-width" type="button" value="<{$lang.registration_back_to_top}>" onclick="commonCls.sendView('<{$id}>', 'registration_view_main_init');" />
+</div>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("registration_back<{$id}>"));
+</script>
+<{/strip}>

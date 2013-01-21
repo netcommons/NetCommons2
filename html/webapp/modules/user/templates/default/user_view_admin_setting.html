@@ -1,0 +1,94 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{* 説明 *}>
+		<{$lang.user_top_descripton|smarty:nodefaults}>
+	</div>
+	<div class="user_setting_add_btn">
+		<a id="user_additem<{$id}>" class="syslink" href="#" onclick="userCls['<{$id}>'].showPopupItem(event); return false;">
+			<img src="<{"add.gif"|get_themes_image}>" alt="<{$lang.user_add_item|smarty:nodefaults}>" title="<{$lang.user_add_item|smarty:nodefaults}>" />
+			&nbsp;
+			<{*項目追加*}><{$lang.user_add_item|smarty:nodefaults}>
+		</a>
+	</div>
+	<table id="user_item_setting<{$id}>" class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>" cellspacing="0" cellpadding="2">
+		<tr>
+			<{section name="col" loop="2" start="0"}>
+			<td class="valign-top align-left user_chg_col">
+				<table class="user_item_detail" summary="" cellspacing="0" cellpadding="0">
+					<{section name="row" loop=$action.max_row start="0"}>
+						<{assign var="item" value=$action.items[$smarty.section.col.iteration][$smarty.section.row.iteration]|smarty:nodefaults}>
+						<{if $item.item_name}>
+							<tr id="user_chg_row<{$id}>_<{$item.item_id}>" class="user_chg_row">
+								<{* 表示順変更 *}>
+								<td class="user_chg_seq">
+									<a class="move_bar" href="#" onclick="return false;">
+										<img src="<{""|get_image_url}>/images/user/move_bar.gif" alt="<{$lang.user_move_item|smarty:nodefaults}>" title="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+									</a>
+								</td>
+								<th class="nowrap align-left valign-middle" scope="row">
+									<{$item.item_name}>
+									<{if $item.require_flag == _ON}>
+										<{$lang.user_require_flag|smarty:nodefaults}>
+									<{/if}>
+									&nbsp;<span class="user_setting_type">(
+									<{if $item.type == $smarty.const.USER_TYPE_TEXT}>
+										<{$lang.user_type_text|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_PASSWORD}>
+										<{$lang.user_type_password|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_LABEL}>
+										<{$lang.user_type_label|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+										<{$lang.user_type_checkbox|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_RADIO}>
+										<{$lang.user_type_radio|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_SELECT}>
+										<{$lang.user_type_select|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_TEXTAREA}>
+										<{$lang.user_type_textarea|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL}>
+										<{$lang.user_type_email|smarty:nodefaults}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+										<{$lang.user_type_mobile_email|smarty:nodefaults}>
+									<{else}>
+										<{* アバター用 *}>
+										<{$smarty.const.USER_ITEM_AVATAR}>
+									<{/if}>
+									)</span>
+								</th>
+								<td class="nowrap align-left">
+									<{if $item.tag_name != "login_id" && $item.tag_name != "handle" && $item.tag_name != "password"}>
+										<a<{if $item.display_flag == _OFF}> class="display-none"<{/if}> href="#" onclick="userCls['<{$id}>'].chgdisplayItem(<{$item.item_id}>, 0 ,this); return false;">
+											<img class="icon" title="<{$lang.user_display_visible|smarty:nodefaults}>" alt="<{$lang.user_display_visible|smarty:nodefaults}>" src="<{""|get_image_url}>/images/user/on.gif" />
+										</a>
+										<a<{if $item.display_flag == _ON}> class="display-none"<{/if}> href="#" onclick="userCls['<{$id}>'].chgdisplayItem(<{$item.item_id}>, 1, this); return false;">
+											<img class="icon" title="<{$lang.user_display_none|smarty:nodefaults}>" alt="<{$lang.user_display_none|smarty:nodefaults}>" src="<{""|get_image_url}>/images/user/off.gif" />
+										</a>
+									<{/if}>
+								</td>
+								<td class="user_setting_manage">
+									<a class="syslink" href="#" onclick="userCls['<{$id}>'].showPopupItem(event, <{$item.item_id}>); return false;">
+										<{$lang._edit|smarty:nodefaults}>
+									</a>
+									<{if $item.system_flag  == _OFF}>
+										<{$lang._separator|smarty:nodefaults}>
+										<a class="syslink" href="#" onclick="if (!commonCls.confirm('<{$lang.user_item_delete_confirm|smarty:nodefaults|sprintf:$item.item_name|escape:"html"}>')) return false; userCls['<{$id}>'].delItem(<{$item.item_id}>, this); return false;">
+											<{$lang._delete|smarty:nodefaults}>
+										</a>
+									<{/if}>
+									&nbsp;
+								</td>
+							</tr>
+						<{/if}>
+					<{/section}>
+				</table>
+				<{* 空白スペース-ドロップイベント追加用 *}>
+				<div class="user_drop_event" id="user_drop_event<{$smarty.section.col.iteration}><{$id}>">
+				</div>
+			</td>
+			<{/section}>
+		</tr>
+	</table>
+	<{include file="user_script.html"}>
+</div>
+<{/strip}>

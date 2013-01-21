@@ -1,0 +1,133 @@
+<{strip}>
+<span id="mdb_refresh_target<{$id}>"></span>
+<table class="mdb_layout_out_table" summary="">
+	<{if $data_pos_1 != null}>
+		<tr>
+			<td class="valign-top align-left mdb_layout_out_table_td" <{if $data_pos_2 != null && $data_pos_3 != null}>colspan="2"<{/if}>>
+				<table class="mdb_metadata_table" summary="">
+					<{assign var="position" value="1"}>
+					<{foreach item=metadata from=$data_pos_1}>
+						<{include file="multidatabase_common_metadata_detail.html"}>
+					<{/foreach}>
+				</table>
+			</td>
+		</tr>
+	<{/if}>
+	<{if $data_pos_2 != null || $data_pos_3 != null}>
+		<tr>
+			<{if $data_pos_2 != null}>
+				<td class="valign-top align-left mdb_layout_out_table_td">
+					<table class="mdb_metadata_table" summary="">
+						<{assign var="position" value="2"}>
+						<{foreach item=metadata from=$data_pos_2}>
+							<{include file="multidatabase_common_metadata_detail.html"}>
+						<{/foreach}>
+					</table>
+				</td>
+			<{/if}>
+			<{if $data_pos_3 != null}>
+				<td class="valign-top align-left">
+					<table class="mdb_metadata_table" summary="">
+						<{assign var="position" value="3"}>
+						<{foreach item=metadata from=$data_pos_3}>
+							<{include file="multidatabase_common_metadata_detail.html"}>
+						<{/foreach}>
+					</table>
+				</td>
+			<{/if}>
+		</tr>
+	<{/if}>
+	<{if $data_pos_4 != null}>
+		<tr>
+			<td class="valign-top align-left mdb_layout_out_table_td" <{if $data_pos_2 != null && $data_pos_3 != null}>colspan="2"<{/if}>>
+				<table class="mdb_metadata_table" summary="">
+					<{assign var="position" value="4"}>
+					<{foreach item=metadata from=$data_pos_4}>
+						<{include file="multidatabase_common_metadata_detail.html"}>
+					<{/foreach}>
+				</table>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+<div class="align-right">
+	<{if $item.temporary_flag == $smarty.const._OFF && $item.agree_flag == $smarty.const._OFF && $action.mdb_obj.new_period_time <= $item.insert_time && $action.mdb_obj.new_period > 0}>
+		<img class="icon" src="<{"new.gif"|get_modules_image}>" alt="<{$lang._new|smarty:nodefaults}>" title="<{$lang._new|smarty:nodefaults}>" />
+		<{if $mode == "detail" || $action.mdb_obj.vote_flag == $smarty.const._ON}>
+			<{$lang._separator|smarty:nodefaults}>
+		<{/if}>
+	<{/if}>
+	<{if $mode == "list" || $mode == "detail"}>
+		<{if $item.temporary_flag != $smarty.const._OFF}>
+			<span class="deadline"><{$lang._temporary_state|smarty:nodefaults}></span>
+			<{if $mode == "detail"}>
+				<{$lang._separator|smarty:nodefaults}>
+			<{/if}>
+		<{elseif $item.agree_flag == $smarty.const._ON}>
+			<span class="deadline"><{$lang.mdb_wait_agree|smarty:nodefaults}></span>
+			<{if $mode == "detail"}>
+				<{$lang._separator|smarty:nodefaults}>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+	<{if $action.mdb_obj.active_flag == $smarty.const._ON}>
+		<{if $mode == "detail"}>
+			<{$lang.mdb_detail_writer|smarty:nodefaults}>
+			<a class="syslink" href="#" title="<{if $smarty.session._login_id == ''}><{$lang.mdb_detail_writer_title|smarty:nodefaults|sprintf:$item.insert_user_name}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$item.insert_user_name}><{/if}>" onclick="commonCls.showUserDetail(event, '<{$item.insert_user_id}>'); return false;">
+				<{$item.insert_user_name}>
+			</a>
+			<{if $item.has_edit_auth}>
+				<{$lang._separator|smarty:nodefaults}>
+				<a href="#" title="<{$lang.mdb_detail_edit_title|smarty:nodefaults}>" class="syslink" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_content_init', content_id:<{$item.content_id}>, multidatabase_id:<{$action.multidatabase_id}>}); return false;">
+					<{$lang._edit|smarty:nodefaults}>
+				</a>
+				<{$lang._separator|smarty:nodefaults}>
+				<a href="#" title="<{$lang.mdb_detail_delete_title|smarty:nodefaults}>" class="syslink" onclick="mdbCls['<{$id}>'].delContent('<{$action.multidatabase_id}>', '<{$item.content_id}>', '<{$lang.mdb_content_del_confirm|smarty:nodefaults}>'); return false;">
+					<{$lang._delete|smarty:nodefaults}>
+				</a>
+			<{/if}>
+			<{if $item.agree_flag == $smarty.const._OFF && $item.temporary_flag == $smarty.const._OFF && $action.mdb_obj.vote_flag == $smarty.const._ON}>
+				<{$lang._separator|smarty:nodefaults}>
+			<{/if}>
+		<{/if}>
+		<{if $item.agree_flag == $smarty.const._OFF && $item.temporary_flag == $smarty.const._OFF}>
+			<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+				<span class="mdb_detail_block">
+					<{if $item.voted}>
+						<{$lang.mdb_detail_voted|smarty:nodefaults}>
+					<{else}>
+						<a href="#" title="<{$lang.mdb_detail_vote_title|smarty:nodefaults}>" class="syslink" onclick="mdbCls['<{$id}>'].vote('<{$action.multidatabase_id}>', '<{$item.content_id}>'); return false;"><{$lang.mdb_detail_vote|smarty:nodefaults}></a>
+					<{/if}>
+				</span>
+				<{$lang._separator|smarty:nodefaults}>
+				<{$lang.mdb_vote_number|smarty:nodefaults}>(<{$item.vote_count}>)
+			<{/if}>
+			<{if $action.mdb_obj.comment_flag == $smarty.const._ON && $mode == "detail"}>
+				<{$lang._separator|smarty:nodefaults}>
+				<a href="#" title="<{$lang.mdb_detail_comment_title|smarty:nodefaults}>" class="syslink" onclick="commonCls.displayChange('mdb_comment<{$id}>'); return false;"><{$lang.mdb_detail_comment|smarty:nodefaults}>(<{$item.comment_count}>)</a>
+			<{/if}>
+		<{/if}>
+		<{if $item.has_confirm_auth && $item.agree_flag == $smarty.const._ON && $mode == "detail"}>
+			<{$lang._separator|smarty:nodefaults}>
+			<a href="#" title="<{$lang.mdb_detail_confirm_title|smarty:nodefaults}>" class="syslink" onclick="mdbCls['<{$id}>'].confirmContent('<{$action.multidatabase_id}>', '<{$item.content_id}>', '<{$lang.mdb_content_confirm_confirm|smarty:nodefaults}>'); return false;"><{$lang.mdb_detail_confirm|smarty:nodefaults}></a>
+		<{/if}>
+	<{/if}>
+	<{if $mode == "list"}>
+		<{$lang._separator|smarty:nodefaults}>
+
+		<{if strpos($id, MULTIDATABASE_REFERENCE_PREFIX_NAME)}>
+			<a href="#" title="<{$lang.mdb_detail_link_title|smarty:nodefaults}>" class="syslink" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_detail', content_id:<{$item.content_id}>, multidatabase_id:<{$action.multidatabase_id}>}, {'loading_el':this}); return false;">
+		<{else}>
+			<{if ($item.short_url != "") }>
+				<{include file="../../../../templates/main/abbreviate_url.html" short_url=$item.short_url assign=short_url}>
+				<a class="syslink"  title="<{$lang.mdb_detail_link_title|smarty:nodefaults}>" href="<{$short_url}>" onclick="if (_nc_current_url.match('<{$item.short_url}>')) {location.reload(); return false;}">
+			<{else}>
+				<{assign var="short_url" value="`$smarty.const.BASE_URL``$smarty.const.INDEX_FILE_NAME`?active_action=multidatabase_view_main_detail&content_id=`$item.content_id`&multidatabase_id=`$action.multidatabase_id`&block_id=`$block_id`#`$smarty.session._id`"}>
+				<a class="syslink"  title="<{$lang.mdb_detail_link_title|smarty:nodefaults}>" href="<{$short_url}>" onclick="if (_nc_current_url.match('content_id=<{$item.content_id}>') && _nc_current_url.match('block_id=<{$block_id}>')) {location.reload(); return false;}">
+			<{/if}>
+		<{/if}>
+			<{$lang.mdb_detail_link|smarty:nodefaults}>
+		</a>
+	<{/if}>
+</div>
+<{/strip}>

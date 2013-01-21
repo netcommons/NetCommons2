@@ -1,0 +1,45 @@
+<{strip}>
+<{* お気に入りグループ選択画面 *}>
+<div class="outerdiv">
+	<input type="hidden" name="group_id" id="group_id<{$id}>" value="<{$action.group_info.group_id}>" />
+
+	<h4>
+		<{$lang.circular_add_favorite_group|smarty:nodefaults}>
+	</h4>
+	<div class="circular_group_height">
+		<span>
+			<{$lang.circular_group_name|smarty:nodefaults}>
+		</span>
+		<input type="text" class="circular_group_value" name="group_name" id="group_name<{$id}>" value="<{$action.group_info.group_name|smarty:nodefaults}>" />
+	</div>
+	<div>
+		<span>
+			<{$lang.circular_group_member|smarty:nodefaults}>
+		</span>
+		<{include file="circular_select_member_list.html"}>
+	</div>
+	<div class="circular_group_height">
+		<span>
+			<{$lang.circular_group_edit|smarty:nodefaults}>
+		</span>
+		<select class="circular_group_value" size="1" name="group_list" id="group_list<{$id}>" onchange="circularCls['<{$id}>'].setGroupInfo(); return false;" />
+			<option value="0"><{$lang.circular_group_edit_default|smarty:nodefaults}></option>
+			<{foreach from=$action.group_member_list item="group_list"}>
+				<option value="<{$group_list.group_id}>" <{if $action.group_info.group_id == $group_list.group_id}>selected="selected"<{/if}>><{$group_list.group_name}></option>
+			<{/foreach}>
+		</select>
+		<{if $action_name == "circular_view_main_group_init"}>
+			<span class="circular_padding">
+				<a href="#" onclick="circularCls['<{$id}>'].deleteGroup('<{$lang.circular_group_delete_confirm}>');return false;">
+					<img class="icon" src="<{'trash.gif'|get_themes_image}>" title="<{$lang.circular_group_delete_title|smarty:nodefaults}>" alt="<{$lang.circular_group_delete_title|smarty:nodefaults}>" />
+				</a>
+			</span>
+		<{/if}>
+	</div>
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].entryGroupMember(); return false;" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+	</div>
+</div>
+<{include file="../circular_script.html"}>
+<{/strip}>

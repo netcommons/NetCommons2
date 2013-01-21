@@ -1,0 +1,30 @@
+<{strip}>
+<{* 携帯表示変更部分テンプレート *}>
+
+<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div data-role="controlgroup" data-type="horizontal">
+		<input type="hidden" name="action" value="circular_view_main_init">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+
+		<select name="list_type">
+			<{foreach name="type_loop" from=$action.menu_type key="menu_list_type" item="item"}>
+				<option value="<{$menu_list_type}>"<{if ($action.list_type==$menu_list_type)}> selected="selected"<{/if}>>
+					<{$item.list_name|smarty:nodefaults}>
+				</option>
+			<{/foreach}>
+		</select>
+
+		<select name="visible_row">
+			<option value="1"<{if ($action.visible_row==1)}> selected="selected"<{/if}>>1<{$lang.circular_display_item|smarty:nodefaults}></option>
+			<option value="5"<{if ($action.visible_row==5)}> selected="selected"<{/if}>>5<{$lang.circular_display_item|smarty:nodefaults}></option>
+			<option value="10"<{if ($action.visible_row==10)}> selected="selected"<{/if}>>10<{$lang.circular_display_item|smarty:nodefaults}></option>
+			<option value="20"<{if ($action.visible_row==20)}> selected="selected"<{/if}>>20<{$lang.circular_display_item|smarty:nodefaults}></option>
+			<option value="50"<{if ($action.visible_row==50)}> selected="selected"<{/if}>>50<{$lang.circular_display_item|smarty:nodefaults}></option>
+		</select>
+
+		<input data-icon="refresh" data-iconpos="right" type="submit" name="switch" value="<{$lang._mobile_switch|smarty:nodefaults}>">
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<{/strip}>

@@ -1,0 +1,22 @@
+<{strip}>
+	<span style="font-size:small;">
+	<{$post.journal_date|timezone_date_format:$lang.journal_mobile_date|smarty:nodefaults}>
+	<{if ($post.status != $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE) }>
+		<{$lang._mobile_temporary_state|smarty:nodefaults}>
+	<{/if}>
+	<{if $post.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE && $post.agree_flag == $smarty.const._ON}>
+		<span style="color:red;background-color:#FFDDDD;"><{$lang.journal_wait_agree|smarty:nodefaults}></span>
+	<{/if}>
+	</span>
+	<br />
+	<{if $post.icon_name != "" && $smarty.session._mobile_text_html_mode == $smarty.const.MOBILE_TEXTHTML_MODE_HTML}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$post.icon_name}>" />&nbsp;
+	<{/if}>
+	<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$post.post_id}><{$session_param}>">
+		<{$post.title|smarty:nodefaults|truncate:$smarty.const._MOBILE_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+	</a>
+	<{if $action.journal_obj.new_period_time <= $post.journal_date}>
+		&nbsp;<{$lang._mobile_new|smarty:nodefaults}>
+	<{/if}>
+	<br />
+<{/strip}>

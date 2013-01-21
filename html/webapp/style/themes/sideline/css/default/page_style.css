@@ -1,0 +1,26 @@
+body {
+	background-color:#e6e6e6;
+}
+.leftcolumn {
+	background-color:#ffffff;
+}
+
+.centercolumn {
+	background-color:#ffffff;
+}
+
+.rightcolumn {
+	background-color:#ffffff;
+}
+
+.headercolumn {
+	background-color:#ffffff;
+}
+
+.footercolumn {
+	background-color:#ffffff;
+}
+
+#header_menu {
+	border-bottom: 1px solid #dfe4e7;
+}

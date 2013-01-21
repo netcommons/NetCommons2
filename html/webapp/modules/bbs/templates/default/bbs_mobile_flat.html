@@ -1,0 +1,27 @@
+<{strip}>
+<{* フラット表示用テンプレート *}>
+<dl>
+<{foreach from=$action.posts item=post}>
+	<{if $post.parent_id != "0" }>
+		<dd><div>
+	<{else}>
+		<dt>
+	<{/if}>
+	<{include file = "bbs_mobile_subject.html" display_type="list"}>
+	<span style="font-size:small;">
+		<{if ($smarty.session._smartphone_flag == _ON) }>
+			<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+				<{$post.body}>
+			</div>
+		<{else}>
+			<{$post.body|smarty:nodefaults|truncate:$smarty.const.BBS_MOBILE_POST_BODY_LEN:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+		<{/if}>
+	</span>
+	<{if $post.parent_id != "0" }>
+		</div></dd>
+	<{else}>
+		</dt>
+	<{/if}>
+<{/foreach}>
+</dl>
+<{/strip}>

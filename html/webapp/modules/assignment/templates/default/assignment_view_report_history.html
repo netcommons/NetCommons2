@@ -1,0 +1,10 @@
+<{strip}>
+<{* 履歴リンクテンプレート *}>
+
+<a href="#" class="<{if ($current == _ON) }>highlight <{/if}>hover_highlight assignment_reporter" onclick='assignmentCls["<{$id}>"].showPastReport("<{$report.submit_id}>","<{$report.report_id}>");return false;'>
+	<span class="assignment_submit_time">
+		<{$report.insert_time|timezone_date_format:$lang.assignment_submit_time|smarty:nodefaults}>
+	</span>
+</a>
+
+<{/strip}>

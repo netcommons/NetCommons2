@@ -1,0 +1,36 @@
+<{strip}>
+<{* フラット表示用テンプレート *}>
+<{foreach from=$action.posts item=post}>
+	<div class="bbs_flat<{if $post.parent_id != "0"}> bbs_flat_child<{/if}>">
+		<div id="bbs_post_row<{$post.post_id}><{$id}>" class="bbs_post_header<{if $post.parent_id == "0"}> bbs_topic<{/if}><{if $post.read_flag == _ON}> bbs_read<{/if}>">
+			<div class="float-left">
+				<{if $post.parent_id == "0" }>
+					<img class="icon" src="<{"topic.gif"|get_modules_image}>" alt="" />
+				<{else}>
+					<img class="icon" src="<{"res.gif"|get_modules_image}>" alt="" />
+				<{/if}>
+				<{include file = "bbs_view_main_subject.html"}>
+			</div>
+			<div class="align-right">
+				<span class="bbs_user">
+					<{include file = "bbs_view_handle.html" handle=$post.insert_user_name|smarty:nodefaults user_id=$post.insert_user_id}>
+				</span>
+				<span class="bbs_date">
+					<{$post.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				</span>
+				<span class="bbs_note">
+					<{if $action.bbs.vote_flag == _ON}>
+						<{$lang.bbs_vote_unit|smarty:nodefaults|sprintf:$post.vote_num}>
+					<{/if}>
+				</span>
+			</div>
+			<br class="float-clear" />
+		</div>
+
+		<div class="bbs_body">
+			<{$post.body|smarty:nodefaults|wysiwig_convert_url}>
+			<br class="float-clear" />
+		</div>
+	</div>
+<{/foreach}>
+<{/strip}>

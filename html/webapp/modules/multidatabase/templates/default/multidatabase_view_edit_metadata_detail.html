@@ -1,0 +1,148 @@
+<{strip}>
+	<div class="outerdiv">
+		<form action="" id="mdb_addmetadata_form<{$id}>" onsubmit="return false;">
+			<input name="multidatabase_id" type="hidden" value="<{$action.multidatabase_id}>" />
+			<input name="metadata_id" type="hidden" value="<{$action.metadata.metadata_id}>" />
+			<input id="metadata_type<{$id}>" type="hidden" value="<{$action.metadata.type}>">
+			<input id="mdb_title_flag<{$id}>" type="hidden" value="<{if $action.mdb_obj.title_metadata_id == $action.metadata.metadata_id}><{$smarty.const._ON}><{else}><{$smarty.const._OFF}><{/if}>">
+			<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>" cellspacing="0" cellpadding="2">
+				<{*項目名*}>
+				<tr>
+					<th class="nowrap valign-top align-left" scope="row"><{$lang.mdb_head_metadata_name|smarty:nodefaults}></th>
+					<td class="nowrap">
+						<input name="name" type="text" value="<{if $action.metadata.name != ""}><{$action.metadata.name}><{else}><{$lang.mdb_default_item_name|smarty:nodefaults}><{/if}>" />
+						<span class="highlight mdb_def_metadata_name"><{$action.metadata.name}></span>
+						<div>
+							<{* タイトルにする *}>
+							<div id="mdb_metadata_title_metadata_flag_div<{$id}>">
+								<label for="mdb_metadata_title_metadata_flag<{$id}>"<{if $action.mdb_obj.title_metadata_id == $action.metadata.metadata_id}> class="disable_lbl"<{/if}>>
+									<input name="title_metadata_flag" id="mdb_metadata_title_metadata_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" onclick="mdbCls['<{$id}>'].changeTitle(this);"<{if $action.mdb_obj.title_metadata_id == $action.metadata.metadata_id}> checked="checked" disabled="disabled"<{/if}>/>
+									<{$lang.mdb_title_metadata|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<div class="hr"></div>
+
+							<{* 入力必須項目にする *}>
+							<div id="mdb_metadata_require_flag_div<{$id}>">
+								<label for="mdb_metadata_require_flag<{$id}>"<{if $action.mdb_obj.title_metadata_id == $action.metadata.metadata_id || $action.metadata.type == MULTIDATABASE_META_TYPE_AUTONUM || $action.metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $action.metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}> class="disable_lbl"<{/if}>>
+									<input name="require_flag" id="mdb_metadata_require_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.require_flag == _ON}> checked="checked"<{/if}> <{if $action.mdb_obj.title_metadata_id == $action.metadata.metadata_id || $action.metadata.type == MULTIDATABASE_META_TYPE_AUTONUM || $action.metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $action.metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}> disabled="disabled"<{/if}>/>
+									<{if $action.mdb_obj.title_metadata_id == $action.metadata.metadata_id}>
+										<input type="hidden" id="mdb_metadata_require_flag_hidden<{$id}>" name="require_flag" value="<{$smarty.const._ON}>">
+									<{/if}>
+									<{$lang.mdb_require|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* 一覧画面に表示する項目 *}>
+							<div id="mdb_metadata_list_flag_div<{$id}>">
+								<label for="mdb_metadata_list_flag<{$id}>">
+									<input name="list_flag" id="mdb_metadata_list_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.list_flag == _ON }> checked="checked"<{/if}> onclick="mdbCls['<{$id}>'].setList(this);"/>
+									<{$lang.mdb_list|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* ソートできる *}>
+							<div id="mdb_metadata_sort_flag_div<{$id}>" style="margin-left:20px;">
+								<label for="mdb_metadata_sort_flag<{$id}>"<{if $action.metadata.list_flag != _ON}> class="disable_lbl"<{/if}>>
+									<input name="sort_flag" id="mdb_metadata_sort_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.sort_flag == _ON}> checked="checked"<{/if}><{if $action.metadata.list_flag != _ON}> disabled="disabled"<{/if}>/>
+									<{$lang.mdb_sort|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* 詳細画面に表示する項目 *}>
+							<div id="mdb_metadata_detail_flag_div<{$id}>">
+								<label for="mdb_metadata_detail_flag<{$id}>">
+									<input name="detail_flag" id="mdb_metadata_detail_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.detail_flag == _ON || $action.metadata.detail_flag == ""}> checked="checked"<{/if}> />
+									<{$lang.mdb_detail|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* 項目名を表示する *}>
+							<div id="mdb_metadata_name_flag_div<{$id}>">
+								<label for="mdb_metadata_name_flag<{$id}>"<{if $action.metadata.type == MULTIDATABASE_META_TYPE_IMAGE}> class="disable_lbl"<{/if}>>
+									<input name="name_flag" id="mdb_metadata_name_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.name_flag == _ON || $action.metadata.name_flag == ""}> checked="checked"<{/if}> <{if $action.metadata.type == MULTIDATABASE_META_TYPE_IMAGE}> disabled="disabled"<{/if}>/>
+									<{$lang.mdb_label|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* 検索の対象に含める *}>
+							<div id="mdb_metadata_search_flag_div<{$id}>">
+								<label for="mdb_metadata_search_flag<{$id}>"<{if $action.metadata.type == MULTIDATABASE_META_TYPE_FILE || $action.metadata.type == MULTIDATABASE_META_TYPE_IMAGE || $action.metadata.type == MULTIDATABASE_META_TYPE_DATE || $action.metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $action.metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}> class="disable_lbl"<{/if}>>
+									<input name="search_flag" id="mdb_metadata_search_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.search_flag == _ON}> checked="checked"<{/if}> <{if $action.metadata.type == MULTIDATABASE_META_TYPE_FILE || $action.metadata.type == MULTIDATABASE_META_TYPE_IMAGE || $action.metadata.type == MULTIDATABASE_META_TYPE_DATE || $action.metadata.type == MULTIDATABASE_META_TYPE_INSERT_TIME || $action.metadata.type == MULTIDATABASE_META_TYPE_UPDATE_TIME}> disabled="disabled"<{/if}>/>
+									<{$lang.mdb_search|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* ファイルのダウンロードパスワード *}>
+							<div id="mdb_metadata_file_password_flag_div<{$id}>">
+								<label for="mdb_metadata_file_password_flag<{$id}>"<{if $action.metadata.type != MULTIDATABASE_META_TYPE_FILE}> class="disable_lbl"<{/if}>>
+									<input name="file_password_flag" id="mdb_metadata_file_password_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.file_password_flag == _ON}> checked="checked"<{/if}><{if $action.metadata.type != MULTIDATABASE_META_TYPE_FILE}> disabled="disabled"<{/if}> />
+									<input type="hidden" id="mdb_metadata_file_password_flag_hidden<{$id}>" name="file_password_flag_hidden" value="<{if $action.metadata.file_password_flag == _ON}><{$smarty.const._ON}><{else}><{$smarty.const._OFF}><{/if}>">
+									<{$lang.mdb_file_password|smarty:nodefaults}>
+								</label>
+							</div>
+
+							<{* ファイルのダウンロード回数を表示する *}>
+							<div id="mdb_metadata_file_count_flag_div<{$id}>">
+								<label for="mdb_metadata_file_count_flag<{$id}>"<{if $action.metadata.type != MULTIDATABASE_META_TYPE_FILE}> class="disable_lbl"<{/if}>>
+									<input name="file_count_flag" id="mdb_metadata_file_count_flag<{$id}>" type="checkbox" value="<{$smarty.const._ON}>" <{if $action.metadata.file_count_flag == _ON}> checked="checked"<{/if}><{if $action.metadata.type != MULTIDATABASE_META_TYPE_FILE}> disabled="disabled"<{/if}> />
+									<input type="hidden" id="mdb_metadata_file_count_flag_hidden<{$id}>" name="file_count_flag_hidden" value="<{if $action.metadata.file_count_flag == _ON}><{$smarty.const._ON}><{else}><{$smarty.const._OFF}><{/if}>">
+									<{$lang.mdb_file_count|smarty:nodefaults}>
+								</label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<{*入力タイプ*}>
+				<tr class="row">
+					<th class="nowrap valign-top" scope="row">
+						<label for="mdb_inputtype<{$id}>">
+							<{$lang.mdb_head_type|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<select id="mdb_inputtype<{$id}>" name="type" onchange="mdbCls['<{$id}>'].chgMetadataEditType(this);">
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_TEXT}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXT}> selected="selected"<{/if}>><{$lang.mdb_type_text|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_TEXTAREA}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXTAREA}> selected="selected"<{/if}>><{$lang.mdb_type_textarea|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_LINK}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_LINK}> selected="selected"<{/if}>><{$lang.mdb_type_link|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_SECTION}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_SECTION}> selected="selected"<{/if}>><{$lang.mdb_type_section|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}> selected="selected"<{/if}>><{$lang.mdb_type_multiple|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}> selected="selected"<{/if}>><{$lang.mdb_type_wysiwyg|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_FILE}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE}> selected="selected"<{/if}>><{$lang.mdb_type_file|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}> selected="selected"<{/if}>><{$lang.mdb_type_image|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_AUTONUM}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_AUTONUM}> selected="selected"<{/if}>><{$lang.mdb_type_autonum|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_MAIL}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MAIL}> selected="selected"<{/if}>><{$lang.mdb_type_mail|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_DATE}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_DATE}> selected="selected"<{/if}>><{$lang.mdb_type_date|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_INSERT_TIME}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_INSERT_TIME}> selected="selected"<{/if}>><{$lang.mdb_type_insert_time|smarty:nodefaults}></option>
+							<option value="<{$smarty.const.MULTIDATABASE_META_TYPE_UPDATE_TIME}>"<{if $action.metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_UPDATE_TIME}> selected="selected"<{/if}>><{$lang.mdb_type_update_time|smarty:nodefaults}></option>
+						</select>
+						<div class="nowrap<{if $action.metadata.type != $smarty.const.MULTIDATABASE_META_TYPE_SECTION && $action.metadata.type != $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}> display-none<{/if}>">
+							<{* 選択肢 *}>
+							<div class="align-right nowrap">
+								<a class="syslink" href="#" onclick="mdbCls['<{$id}>'].addOption(this); return false;">
+									<img src="<{"add.gif"|get_themes_image}>" alt="<{$lang.mdb_add_list|smarty:nodefaults}>" title="<{$lang.mdb_add_list|smarty:nodefaults}>" />
+									&nbsp;
+									<{* 選択肢追加 *}>
+									<{$lang.mdb_add_list|smarty:nodefaults}>
+								</a>
+							</div>
+							<div id="mdb_metadata_options<{$id}>" class="mdb_metadata_options">
+								<{foreach name=loop from=$action.options|smarty:nodefaults item=option}>
+									<{assign var="iteration" value=$smarty.foreach.loop.iteration-1}>
+									<{include file="multidatabase_view_edit_metadata_detail_option.html"}>
+								<{/foreach}>
+							</div>
+						</div>
+						<input name="options_len" type="hidden" value="<{$action.options_len}>" />
+					</td>
+				</tr>
+			</table>
+			<div class="btn-bottom align-center">
+				<input class="lined_btn btn-width" type="button" onclick="mdbCls['<{$id}>'].addMetadata(this, <{$block_id}>); return false;" value="<{$lang._regist|smarty:nodefaults}>" />
+				<input class="lined_btn btn-width" type="button" onclick="commonCls.removeBlock('<{$id}>');return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+			</div>
+		</form>
+	</div>
+	<{include file="../multidatabase_script.html"}>
+<{/strip}>

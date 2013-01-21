@@ -1,0 +1,121 @@
+<{strip}>
+<{foreach name="loop" from=$room_list item=room}>
+	<{assign var="now_page_id" value=$room.page_id}>
+	<{assign var="next_thread_num" value=$room.thread_num+1}>
+		<tr class="grid_row">
+			<td class="room_page_name">
+				<{assign var="room_name" value="`$room.page_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+				<{if $room.show_inf}>
+				<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_inf','parent_page_id':<{$room.parent_id}>,'edit_current_page_id':<{$room.page_id}>}); return false;">
+				<{/if}>
+					<{section name=i loop=$room.thread_num}>
+						&nbsp;&nbsp;&nbsp;
+					<{/section}>
+					<{if $room.thread_num == 0}>
+						<{if $room.private_flag == _ON}>
+							<{assign var="top_class_name" value="room_private"}>
+							<{assign var="top_lbl_class_name" value="room_lbl_private"}>
+						<{elseif $room.space_type == _SPACE_TYPE_PUBLIC}>
+							<{assign var="top_class_name" value="room_public"}>
+							<{assign var="top_lbl_class_name" value="room_lbl_public"}>
+						<{else}>
+							<{assign var="top_class_name" value="room_group"}>
+							<{assign var="top_lbl_class_name" value="room_lbl_group"}>
+						<{/if}>
+						<img title="" alt="" class="icon <{$top_class_name}> room_prefix_icon" src="<{""|get_image_url}>/images/common/blank.gif" />
+						<span class="<{$top_lbl_class_name}>"><{$room.page_name}></span>
+					<{elseif $room.space_type == _SPACE_TYPE_GROUP && $room.thread_num >= 2}>
+						<{* サブグループ *}>
+						<span class="room_lbl_subgroup"><{$room.page_name}></span>
+					<{else}>
+						<{$room.page_name}>
+					<{/if}>
+				<{if $room.show_inf}>
+				</a>
+				<{/if}>
+				<{* 準備中 *}>
+				<{if $room.display_flag == _OFF}>
+					<span class="room_prepared"><{$lang.room_prepared}></span>
+				<{/if}>
+			</td>
+			<td class="room_display_flag">
+				<{if $room.show_chgdisplay}>
+					<{if $room.thread_num == 0}>
+						<{* 深さ0 *}>
+						<div class="align-center">-</div>
+					<{elseif $room.display_flag}>
+						<div class="align-center">
+							<a class="syslink" href="#" onclick="if(!commonCls.confirm('<{$lang.room_confirm_display_flag|smarty:nodefaults|sprintf:"`$room_name`":$lang.room_display_flag_off}>'))return false; commonCls.sendPost('<{$id}>',{'action':'room_action_admin_chgdisplay', 'edit_current_page_id':<{$room.page_id}>, 'parent_page_id':<{$room.parent_id}>, 'display_flag':<{$smarty.const._OFF}>},{'callbackfunc':function(res){commonCls.sendRefresh('<{$id}>');}}); return false;">
+								<{$lang.room_list_display_flag_off}>
+							</a>
+						</div>
+					<{else}>
+						<div class="align-center">
+							<a class="syslink" href="#" onclick="if(!commonCls.confirm('<{$lang.room_confirm_display_flag|smarty:nodefaults|sprintf:"`$room_name`":$lang.room_display_flag_on}>'))return false; commonCls.sendPost('<{$id}>',{'action':'room_action_admin_chgdisplay', 'edit_current_page_id':<{$room.page_id}>, 'parent_page_id':<{$room.parent_id}>, 'display_flag':<{$smarty.const._ON}>},{'callbackfunc':function(res){commonCls.sendRefresh('<{$id}>');}}); return false;">
+								<{$lang.room_list_display_flag_on}>
+							</a>
+						</div>
+					<{/if}>
+				<{else}>
+					<{if $room.thread_num == 0}>
+						<{* 深さ0 *}>
+						<div class="align-center">-</div>
+					<{elseif $room.display_flag}>
+						<div class="align-center">
+							<{$lang.room_display_flag_on}>
+						</div>
+					<{else}>
+						<div class="align-center">
+							<{$lang.room_display_flag_off}>
+						</div>
+					<{/if}>
+				<{/if}>
+			</td>
+			<td class="room_admin">
+				<{if !$room.show_inf && ($room.private_flag == _ON || (!$room.show_delete && !$room.show_edit))}>
+					<{* 編集権限なし *}>
+					<{$lang.room_no_admin}>
+				<{/if}>
+				<{if $room.show_inf}>
+					<{* 名称変更-ルーム情報 *}>
+					<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_inf','parent_page_id':<{$room.parent_id}>,'edit_current_page_id':<{$room.page_id}>}); return false;">
+						<{$lang.room_admin_inf}>
+					</a>
+				<{/if}>
+				<{if ($room.private_flag != _ON || $smarty.session._open_private_space == _OPEN_PRIVATE_SPACE_GROUP || $smarty.session._open_private_space == _OPEN_PRIVATE_SPACE_PUBLIC || ($smarty.session._open_private_space != _OFF && $room.default_entry_flag == _ON)) && ($room.show_delete ||  $room.show_edit)}>
+					<{$lang._separator|smarty:nodefaults}>
+				<{/if}>
+				<{* _open_private_spaceが_ONではprivate_spaceも会員を参加させる *}>
+				<{if $room.private_flag != _ON || $smarty.session._open_private_space == _OPEN_PRIVATE_SPACE_GROUP || $smarty.session._open_private_space == _OPEN_PRIVATE_SPACE_PUBLIC || ($smarty.session._open_private_space != _OFF && $room.default_entry_flag == _ON)}>
+					<{if $room.show_edit}>
+						<{* 参加者修正 *}>
+						<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_regist_selectusers','parent_page_id':<{$room.parent_id}>,'edit_current_page_id':<{$room.page_id}>,'room_name':'<{$room.page_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>','display_flag':<{$room.display_flag}>,'space_type_common':<{$room.default_entry_flag}>}); return false;">
+							<{$lang.room_admin_edit}>
+						</a>
+						<{* 深さが0の編集する権限は、管理者のみ *}>
+						<{if $room.private_flag != _ON}>
+							<{$lang._separator|smarty:nodefaults}>
+							<{* 配置モジュール選択 *}>
+							<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_selmodules','edit_current_page_id':<{$room.page_id}>,'parent_page_id':<{$room.parent_id}>}); return false;">
+								<{$lang.room_select_modules}>
+							</a>
+						<{/if}>
+					<{/if}>
+					<{if $room.show_delete}>
+						<{if $room.show_edit}>
+							<{$lang._separator|smarty:nodefaults}>
+						<{/if}>
+						<{* 削除 *}>
+						<a class="syslink" href="#" onclick="if(!commonCls.confirm('<{$lang.room_confirm_roomdelete|smarty:nodefaults|sprintf:"`$room_name`":"`$room_name`"}>'))return false; commonCls.sendPost('<{$id}>',{'action':'room_action_admin_delete', 'edit_current_page_id':<{$room.page_id}>, 'parent_page_id':<{$room.parent_id}>},{'callbackfunc':function(res){commonCls.sendRefresh('<{$id}>');}}); return false;">
+							<{$lang._delete|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				<{/if}>
+			</td>
+		</tr>
+	<{if $action.pages.$next_thread_num.$now_page_id}>
+		<{assign var="room_list" value=$action.pages.$next_thread_num.$now_page_id}>
+		<{include file="room_view_admin_roomlist.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

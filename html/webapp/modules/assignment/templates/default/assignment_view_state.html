@@ -1,0 +1,73 @@
+<{strip}>
+<{* 状態表示テンプレート *}>
+
+<table class="assignment_main_state">
+	<{* 期限 *}>
+	<tr>
+		<td class="assignment_state_label">
+			<{$lang.assignment_period|smarty:nodefaults}>
+		</td>
+		<td class="align-center assignment_state_value">
+			<{include file="assignment_view_period.html" assignment=$action.assignment|smarty:nodefaults}>
+		</td>
+	</tr>
+
+	<{* 状態 *}>
+	<tr>
+		<td class="assignment_state_label">
+			<{$lang.assignment_state|smarty:nodefaults}>
+		</td>
+		<td class="align-center assignment_state_value">
+			<{include file="assignment_view_state_value.html" activity=$action.assignment.activity}>
+		</td>
+	</tr>
+
+	<{* 解答者数 *}>
+	<tr>
+		<td class="assignment_state_label">
+			<{$lang.assignment_submitter_count|smarty:nodefaults}>
+		</td>
+		<td class="align-right assignment_state_value">
+			<{$action.response.submit_summary_count}>&nbsp;
+		</td>
+	</tr>
+
+	<{if ($action.submit_user_id != "") }>
+		<{* 評価 *}>
+		<tr>
+			<td class="assignment_state_label">
+				<{$lang.assignment_grade|smarty:nodefaults}>
+			</td>
+			<td class="align-center assignment_state_value">
+				<{if (!empty($action.report|smarty:nodefaults)) }>
+					<{include file="assignment_view_grade_value.html" submit_flag=$action.report.submit_flag grade_value=$action.report.grade_value|smarty:nodefaults}>
+				<{else}>
+					<{include file="assignment_view_grade_value.html" submit_flag="" grade_value=""}>
+				<{/if}>
+			</td>
+		</tr>
+
+		<{* 最終解答日 *}>
+		<tr>
+			<td class="assignment_state_label">
+				<{$lang.assignment_response_date|smarty:nodefaults}>
+			</td>
+			<td class="align-center assignment_state_value">
+				<{include file="assignment_view_response_time.html"}>
+			</td>
+		</tr>
+	<{/if}>
+
+	<{if ($action.hasSummaryAuthority) }>
+		<{* 集計 *}>
+		<tr>
+			<td colspan="2" class="align-center nowrap assignment_state_value">
+				<a href="#" class="syslink" onclick='assignmentCls["<{$id}>"].showSummary(event,"<{$action.assignment.assignment_id}>");return false;'>
+					<{$lang.assignment_statistics}>
+				</a>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+
+<{/strip}>

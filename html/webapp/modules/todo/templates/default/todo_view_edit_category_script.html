@@ -1,0 +1,69 @@
+<{strip}>
+
+<script class="nc_script" type="text/javascript">
+	todoCls["<{$id}>"].draggable = Class.create();
+	todoCls["<{$id}>"].draggable.prototype = Object.extend((new compDraggable), {
+		cancelDrag: function() {
+			Element.setStyle(this.htmlElement, {opacity:""});
+		}
+	});
+
+	todoCls["<{$id}>"].dropZone = Class.create();
+	todoCls["<{$id}>"].dropZone.prototype = Object.extend((new compDropzone), {
+		showHover: function(event) {
+			var params = this.getParams();
+			var htmlElement = this.getHTMLElement();
+			if (this._showHover(htmlElement)) {
+				return;
+			}
+			this.showChgSeqHover(event);
+		},
+		hideHover: function(event) {
+			this.hideChgSeqHover(event);
+		},
+		accept: function(draggableObjects) {
+			this.acceptChgSeq(draggableObjects);
+			var drag_el = draggableObjects[0].getHTMLElement();
+			commonCls.blockNotice(null, drag_el);
+		},
+		save: function(draggableObjects) {
+			if(this.ChgSeqPosition == null) {
+				return false;
+			}
+			var htmlElement = this.getHTMLElement();
+			var params = this.getParams();
+			var l_todoCls = params[0];
+			var d_top_el = $(l_todoCls.id);
+	    	var drag_el = draggableObjects[0].getHTMLElement();
+
+			var drag_category_id = drag_el.className.match(/todo_category_id([0-9]+)/i)[1];
+			var drop_category_id = htmlElement.className.match(/todo_category_id([0-9]+)/i)[1];
+			var params_str = {"action": "todo_action_edit_category_sequence",
+							  	"position": this.ChgSeqPosition,
+								"todo_id": "<{$action.todo_id}>",
+								"drag_category_id": drag_category_id,
+								"drop_category_id": drop_category_id
+							};
+
+			commonCls.sendPost(l_todoCls.id, params_str);
+			return true;
+		}
+	});
+
+	todoCls["<{$id}>"].cmpDragDrop = new compDragAndDrop();
+	todoCls["<{$id}>"].cmpDragDrop.registerDraggableRange($("todo_dragarea<{$id}>"));
+
+	var fields = Element.getElementsByClassName($("todo_dragarea<{$id}>"), "todo_drag_drop");
+	fields.each(function(field_el) {
+		todoCls["<{$id}>"].cmpDragDrop.registerDropZone(new todoCls["<{$id}>"].dropZone(field_el,{0:todoCls["<{$id}>"]}));
+
+		var move_el = Element.getChildElementByClassName(field_el, "comp_draganddrop");
+		todoCls["<{$id}>"].cmpDragDrop.registerDraggable(new todoCls["<{$id}>"].draggable(field_el, move_el, todoCls["<{$id}>"]));
+
+		var move_el = Element.getChildElementByClassName(field_el, "todo_draggable");
+		todoCls["<{$id}>"].cmpDragDrop.registerDraggable(new todoCls["<{$id}>"].draggable(field_el, move_el, todoCls["<{$id}>"]));
+	}.bind(todoCls["<{$id}>"]));
+
+	var fields = null;
+</script>
+<{/strip}>

@@ -1,0 +1,61 @@
+<{strip}>
+
+<div class="outerdiv">
+	<table class="outer" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+		<tr class="row">
+			<{include file="reservation_reserve_details_location.html"}>
+		</tr>
+
+		<tr class="row">
+			<{include file="reservation_reserve_details_title.html"}>
+		</tr>
+
+		<tr class="row">
+			<{include file="reservation_reserve_details_reserve_flag.html"}>
+		</tr>
+
+		<tr class="row">
+			<{include file="reservation_reserve_details_reserve_time.html"}>
+		</tr>
+		
+		<{if ($action.reserve.contact != "") }>
+			<tr class="row">
+				<{include file="reservation_reserve_details_contact.html"}>
+			</tr>
+		<{/if}>
+
+		<{if ($action.reserve.description != "") }>
+			<tr class="row">
+				<{include file="reservation_reserve_details_description.html"}>
+			</tr>
+		<{/if}>
+
+		<{if ($action.reserve.rrule_str != "") }>
+			<tr class="row">
+				<{include file="reservation_reserve_details_repeat.html"}>
+			</tr>
+		<{/if}>
+
+		<tr class="row">
+			<{include file="reservation_reserve_details_insert_user_name.html"}>
+		</tr>
+
+		<tr class="row">
+			<{include file="reservation_reserve_details_update_time.html"}>
+		</tr>
+	</table>
+	
+	<{if ($action.reserve.hasModifyAuth == _ON) }>
+		<div class="btn-bottom nowrap print_preview_none">
+			<{include file="reservation_reserve_details_modify_btn.html"}>
+
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>");  return false;' />
+
+			<{include file="reservation_reserve_details_delete_btn.html"}>
+		</div>
+	<{/if}>
+</div>
+
+<{include file="../reservation_script.html"}>
+
+<{/strip}>

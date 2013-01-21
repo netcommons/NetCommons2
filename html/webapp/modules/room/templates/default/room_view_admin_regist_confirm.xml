@@ -1,0 +1,48 @@
+<{* XMLTODO内容用テンプレート *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.users item=users}>
+	<row>
+		<handle>
+			<![CDATA[
+				<a class="link" href="#" onclick="commonCls.showUserDetail(event, '<{$users.user_id}>');return false;">
+					<{$users.handle}>
+				</a>
+			]]>
+		</handle>
+		<auth_list>
+			<![CDATA[
+				<{if $users.authority_id==_ROLE_AUTH_ADMIN}>
+					<{$smarty.const._AUTH_ADMIN_NAME|smarty:nodefaults}>
+				<{elseif $users.authority_id==_ROLE_AUTH_CHIEF}>
+					<{$smarty.const._AUTH_CHIEF_NAME|smarty:nodefaults}>
+				<{elseif $users.authority_id==_ROLE_AUTH_GENERAL}>
+					<{$smarty.const._AUTH_GENERAL_NAME|smarty:nodefaults}>
+				<{elseif $users.authority_id==_ROLE_AUTH_GUEST}>
+					<{$smarty.const._AUTH_GUEST_NAME|smarty:nodefaults}>
+				<{elseif $users.authority_id==_ROLE_AUTH_OTHER}>
+					<{$smarty.const._AUTH_OTHER_NAME|smarty:nodefaults}>
+				<{else}>
+					<{$smarty.const._AUTH_MODERATE_NAME|smarty:nodefaults}>
+					<{if $action.authorities_count > 1}>
+						(<{$users.role_authority_name}>)
+					<{/if}>
+				<{/if}>
+			]]>
+		</auth_list>
+		<{if (isset($action.page.page_id|smarty:nodefaults) && $action.page.thread_num == 1 && $action.page.space_type != _SPACE_TYPE_PUBLIC) || (!isset($action.page.page_id|smarty:nodefaults) && $action.parent_page.thread_num == 0 && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC)}>
+		<create_room_flag>
+			<![CDATA[
+				<{if $users.createroom_flag}>
+					<{$lang.room_subgroup_create_on}>
+				<{else}>
+					<{$lang.room_subgroup_create_off|smarty:nodefaults}>
+				<{/if}>
+			]]>
+		</create_room_flag>
+		<{/if}>
+	</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

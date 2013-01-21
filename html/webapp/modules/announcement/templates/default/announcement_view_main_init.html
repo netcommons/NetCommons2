@@ -1,0 +1,24 @@
+<{if $smarty.session._auth_id >=_AUTH_CHIEF}>
+<div class="widthmax"  title="<{$smarty.const._DBLCLICK_EDIT}>" ondblclick="announcementCls['<{$id}>'].announcementEditShow();" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.blockNotice(event, this);}">
+<{else}>
+<div class="widthmax">
+<{/if}>
+	<{$action.announcement_obj.content|smarty:nodefaults|wysiwig_convert_url}>
+	<div class="float-clear-div">&nbsp;</div>
+	<{if $action.announcement_obj.more_content != "" }>
+		<br />
+		<div id="announcement_more_hide<{$id}>">
+			<a class="syslink" title="<{$action.announcement_obj.more_title}>" href="#" onclick="commonCls.displayChange($('announcement_more_block<{$id}>')); commonCls.displayChange($('announcement_more_hide<{$id}>')); return false;">
+				<{$action.announcement_obj.more_title}>
+			</a>
+		</div>
+		<div id="announcement_more_block<{$id}>" class="display-none">
+			<{$action.announcement_obj.more_content|smarty:nodefaults|wysiwig_convert_url}>
+			<br class="float-clear" />
+			<a class="syslink" title="<{$action.announcement_obj.hide_more_title}>" href="#" onclick="commonCls.displayChange($('announcement_more_block<{$id}>')); commonCls.displayChange($('announcement_more_hide<{$id}>')); return false;">
+				<{$action.announcement_obj.hide_more_title}>
+			</a>
+		</div>
+	<{/if}>
+</div>
+<{include file="announcement_script.html"}>

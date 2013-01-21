@@ -1,0 +1,29 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<label for="reservation_start_time<{$id}>">
+		<{$lang.reservation_start_time|smarty:nodefaults}>
+	</label>
+</th>
+<td class="nowrap">
+	<label for="start_time_default<{$id}>">
+		<input id="start_time_default<{$id}>" type="radio" name="start_time_type" value="<{$smarty.const.RESERVATION_DEF_START_TIME_DEFAULT}>"<{if ($reserve_block.start_time_type == RESERVATION_DEF_START_TIME_DEFAULT) }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchStartTime(this.form);' />
+		<{$lang.reservation_start_time_default|smarty:nodefaults}>
+	</label>
+	<br />
+	
+	<input id="start_time_fixation<{$id}>" type="radio" name="start_time_type" value="<{$smarty.const.RESERVATION_DEF_START_TIME_FIXATION}>"<{if ($reserve_block.start_time_type == RESERVATION_DEF_START_TIME_FIXATION) }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchStartTime(this.form);' />
+	<select name="start_time_fixation">
+		<{section name=start_hour loop=24 start=0 step=1}>
+			<{assign var=hour value=$smarty.section.start_hour.index|string_format:"%02d00"}>
+			<option value="<{$hour}>"<{if ($hour == $reserve_block.start_time_hour) }> selected="selected"<{/if}>>
+				<{$lang.reservation_hour|smarty:nodefaults|sprintf:"`$smarty.section.start_hour.index`"}>
+			</option>
+		<{/section}>
+	</select>
+	<label for="start_time_fixation<{$id}>">
+		<{$lang.reservation_start_time_fixation|smarty:nodefaults}>
+	</label>
+</td>
+
+<{/strip}>

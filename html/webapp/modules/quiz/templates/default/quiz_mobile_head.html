@@ -1,0 +1,35 @@
+<{strip}>
+<{* 小テストタイトル用テンプレート *}>
+
+<h3>
+	<{if $action.quiz.icon_name != "" && $smarty.session._mobile_text_html_mode == $smarty.const.MOBILE_TEXTHTML_MODE_HTML}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$action.quiz.icon_name}>" />&nbsp;
+	<{/if}>
+	<{$action.quiz.quiz_name}>
+</h3>
+	<{if !empty($action.quiz.period|smarty:nodefaults)}>
+		<{if ($lang.quiz_period_notice != "") }>
+			<span style="color:red">
+				<{$lang.quiz_period_notice|sprintf:$action.quiz.display_period_date}>
+			</span>
+			<br />
+		<{/if}>
+	<{/if}>
+
+<div>
+	<{if $action.answerLinkShow}>
+		<a data-role="button" href="?action=quiz_view_main_summary&amp;block_id=<{$block_id}>&amp;quiz_id=<{$action.quiz.quiz_id}>&amp;answer_user_id=<{$smarty.session._user_id}><{$session_param}>">
+			<{$lang.quiz_goto_answer}>
+		</a>
+		<br />
+	<{/if}>
+
+	<{if $action.totalLinkShow}>
+		<a data-role="button" href="?action=quiz_view_main_total&amp;block_id=<{$block_id}>&amp;quiz_id=<{$action.quiz.quiz_id}><{$session_param}>">
+			<{$lang.quiz_goto_total}>
+		</a>
+		<br />
+	<{/if}>
+</div>
+
+<{/strip}>

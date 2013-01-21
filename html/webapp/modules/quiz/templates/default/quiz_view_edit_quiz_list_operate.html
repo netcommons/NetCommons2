@@ -1,0 +1,16 @@
+<{strip}>
+<{* 小テスト一覧（開始／終了／公開列）用テンプレート *}>
+<{if $quiz.question_count == 0}>
+	<{$lang.quiz_no_question}>
+<{else}>
+	<span id="quiz_operate_start<{$quiz.quiz_id}><{$id}>"<{if $quiz.status != QUIZ_STATUS_INACTIVE_VALUE}> class="display-none"<{/if}>>
+		<{$lang.quiz_operate_inactive}>
+	</span>
+	<a id="quiz_operate_stop<{$quiz.quiz_id}><{$id}>" class="syslink<{if $quiz.status != QUIZ_STATUS_ACTIVE_VALUE}> display-none<{/if}>" href="#" title="<{$lang.quiz_operate_stop_title|sprintf:$quiz.quiz_name}>" onclick="quizCls['<{$id}>'].stop('<{$quiz.quiz_id}>', '<{$smarty.const.QUIZ_STATUS_END_VALUE}>', '<{$lang.quiz_mes_operate_stop|sprintf:$quiz.quiz_name|escape:"html"|escape:"javascript"}>');return false;">
+		<{$lang.quiz_operate_stop}>
+	</a>
+	<span id="quiz_operate_end<{$quiz.quiz_id}><{$id}>"<{if $quiz.status != QUIZ_STATUS_END_VALUE}> class="display-none"<{/if}>>
+		<{$lang.quiz_operate_end}>
+	</span>
+<{/if}>
+<{/strip}>

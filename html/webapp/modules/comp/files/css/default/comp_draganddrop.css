@@ -1,0 +1,6 @@
+td.comp_draganddrop {
+	background-image:url("<{$smarty.const.CORE_BASE_URL}>/images/comp/draganddrop/move_bar.gif");
+	background-repeat:repeat-y;
+	cursor:move;
+	width:10px;
+}

@@ -1,0 +1,19 @@
+/* Explorer Grid */
+.cabinet_default_file_name {}
+.cabinet_default_file_size {}
+.cabinet_default_file_comment {}
+.cabinet_default_file_ins_user,.cabinet_default_file_upd_user {
+	white-space:nowrap;
+	overflow : hidden;
+}
+.cabinet_default_file_ins_date,.cabinet_default_file_upd_date {}
+.cabinet_default_count {}
+.cabinet_default_context {}
+
+td.cabinet_default_grid_row {
+	padding : 4px 2px;
+	border-bottom : 0px;
+	border-right : 0px;
+	margin : 0px;
+	vertical-align:top;
+}

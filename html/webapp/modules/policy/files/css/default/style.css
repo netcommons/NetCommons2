@@ -1,0 +1,15 @@
+/* Css定義ファイル                     */
+.policy_top_description {
+	width:450px;
+}
+.policy_description {
+	width:430px;
+}
+.policy_detail_head {
+	text-align:left;
+	vertical-align:top;
+	padding: 6px 8px !important;
+}
+.policy_public_flag {
+	width: 105px;
+}

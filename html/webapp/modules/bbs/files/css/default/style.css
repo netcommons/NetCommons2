@@ -1,0 +1,123 @@
+div.bbs_bbs_name {
+	white-space:nowrap;
+	font-weight:bold;
+}
+div.bbs_post_list_operation {
+	height:1.8em;
+}
+div.bbs_post_list_head {
+	border-bottom:1px solid silver;
+	margin-top:8px;
+	margin-bottom:15px;
+	padding-bottom:2px;
+}
+div.bbs_post_list_foot {
+	border-top:1px solid silver;
+	margin-top:15px;
+	padding-top:2px;
+}
+div.bbs_post_list_operation .float-left {
+	padding-right:50px;
+}
+span.bbs_page_switch a {
+	margin:0px 4px;
+}
+span.bbs_page_switch a.current {
+	font-weight:bold;
+	color:#c90505;
+}
+
+div.bbs_post_list {
+	margin-top:5px;
+}
+
+div.bbs_post {
+}
+a.bbs_fixed_link {
+	font-size:80%;
+	margin-right:5px;
+}
+div.bbs_post_header {
+	padding:5px 2px;
+	background-color:#f0f4f7;
+}
+div.bbs_post_header .float-left {
+	padding-right:70px;
+	font-weight:bold;
+}
+div.bbs_post_header span.bbs_user {
+	padding-right:15px;
+	white-space:nowrap;
+}
+div.bbs_post_header span.bbs_date {
+	padding-right:5px;
+}
+div.bbs_post_header span.bbs_note {
+}
+div.bbs_body {
+	padding:10px;
+}
+div.bbs_post_footer {
+	border-bottom:1px solid silver;
+	margin-bottom:20px;
+	white-space:nowrap;
+	padding:5px 0px;
+	height:1em;
+}
+div.bbs_post_footer a.bbs_vote {
+	margin-right:6px;
+}
+div.bbs_post_footer span.bbs_quote {
+	margin-right:6px;
+}
+div.bbs_post_footer a.bbs_reply {
+}
+
+table.bbs_thread {
+}
+table.bbs_thread tr.bbs_post_row a, div.bbs_flat div.bbs_post_header a {
+	color:#04419a;
+}
+table.bbs_thread tr.bbs_topic, div.bbs_topic {
+	background-color:#f0f4f7;
+}
+table.bbs_thread tr.bbs_read a, div.bbs_flat div.bbs_read a{
+	color:#551a8b;
+}
+table.bbs_thread tr.bbs_topic td {
+	border-top:1px solid #ffffff;
+}
+table.bbs_thread td {
+	white-space:nowrap;
+	padding:0px 2px;
+}
+table.bbs_thread td.bbs_subject {
+	width:50%;
+}
+table.bbs_thread td.bbs_user {
+	padding-left:20px;
+	text-align:right;
+}
+table.bbs_thread td.bbs_date {
+	padding-left:15px;
+	text-align:right;
+}
+table.bbs_thread td.bbs_note {
+}
+
+div.bbs_flat {
+	padding:5px;
+	margin-bottom:40px;
+}
+div.bbs_flat_child {
+	border-top:1px solid #cccccc;
+	margin-left:40px;
+}
+
+form.bbs_post_form {
+	margin-bottom:20px;
+}
+
+br.bbs_quote {
+}
+.bbs_grid_table {width:686px;}

@@ -1,0 +1,122 @@
+<{strip}>
+	<{if $item.type == $smarty.const.USER_TYPE_TEXT}>
+		<{* テキスト *}>
+		<input id="userinf_items<{$id}>_<{$item.item_id}>" type="text" value="<{$content}>" <{$item.attribute|smarty:nodefaults}> onblur="userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, false); userinfCls['<{$id}>'].updItems(event.type, this, <{$item.item_id}>, '<{$item.type}>');" onkeypress="if (event.keyCode == 13) {this.onblur(event);}" onfocus="userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, true);" />
+	<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+		<{* email *}>
+		<input id="userinf_items<{$id}>_<{$item.item_id}>" type="text" value="<{$content}>" <{$item.attribute|smarty:nodefaults}> onblur="userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, false); userinfCls['<{$id}>'].updItems(event.type, this, <{$item.item_id}>, '<{$item.type}>');" onkeypress="if (event.keyCode == 13) {this.onblur(event);}" onfocus="userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, true);" />
+		<{if $item.allow_email_reception_flag == _ON}>
+			<{* メールを受け取る *}>
+			<div>
+			<label for="userinf_items_reception<{$id}>_<{$item.item_id}>">
+				<input id="userinf_items_reception<{$id}>_<{$item.item_id}>" type="checkbox" value="1" onfocus="userinfCls['<{$id}>'].focusReception(<{$item.item_id}>, true);" onblur="userinfCls['<{$id}>'].focusReception(<{$item.item_id}>, false);" <{if $item.email_reception_flag == _ON}>checked="checked"<{/if}>/>
+				<{$lang.userinf_reception_email|smarty:nodefaults}>
+			</label>
+			</div>
+		<{/if}>
+	<{elseif $item.type == $smarty.const.USER_TYPE_TEXTAREA}>
+		<textarea id="userinf_items<{$id}>_<{$item.item_id}>" <{$item.attribute|smarty:nodefaults}>>
+			<{$content}>
+		</textarea>
+	<{elseif $item.type == $smarty.const.USER_TYPE_FILE}>
+		<{* ファイル *}>
+		<form action="" target="userinf_attachment_<{$item.item_id}><{$id}>" enctype="multipart/form-data">
+			<input name="content[]" id="userinf_items<{$id}>_<{$item.item_id}>" type="file" value="" <{$item.attribute|smarty:nodefaults}> />
+		</form>
+	<{elseif $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+		<{* チェックボックス *}>
+		<form id="userinf_form<{$id}>_<{$item.item_id}>" action="" onsubmit="return false;">
+		<div <{$item.attribute|smarty:nodefaults}>>
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<label class="nowrap" for="userinf_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>">
+					<input name="userinf_selected[]" type="checkbox" value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.options}>" id="userinf_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>" <{if $content!='' && $option.default_selected}>checked="checked" <{/if}>/>
+					<{$option.options}>
+				</label>
+			<{/foreach}>
+		</div>
+		</form>
+	<{elseif $item.type == $smarty.const.USER_TYPE_RADIO}>
+		<{* ラジオボタン *}>
+		<form id="userinf_form<{$id}>_<{$item.item_id}>" action="" onsubmit="return false;">
+		<div <{$item.attribute|smarty:nodefaults}>>
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<label class="nowrap" for="userinf_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>">
+					<input name="userinf_selected" type="radio" value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.options}>" id="userinf_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>" <{if $option.options == $content}>checked="checked" <{/if}> onblur="if(event.type == 'blur') {userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, false);} userinfCls['<{$id}>'].updItems(event.type, this, <{$item.item_id}>, '<{$item.type}>');" onclick="this.onblur(event);" onfocus="userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, true);" />
+					<{$option.options}>
+				</label>
+			<{/foreach}>
+		</div>
+		</form>
+	<{elseif $item.type == $smarty.const.USER_TYPE_SELECT}>
+		<{* セレクトリスト *}>
+		<form id="userinf_form<{$id}>_<{$item.item_id}>" action="" onsubmit="return false;">
+		<select name="userinf_selected" id="userinf_items<{$id}>_<{$item.item_id}>" <{$item.attribute|smarty:nodefaults}> onchange="userinfCls['<{$id}>'].updItems(event.type, this, <{$item.item_id}>, '<{$item.type}>');" onfocus="userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, true);" onblur="if(event.type == 'blur') {userinfCls['<{$id}>'].focusItem(<{$item.item_id}>, false);} userinfCls['<{$id}>'].updItems(event.type, this, <{$item.item_id}>, '<{$item.type}>');">
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<{* ログイン会員よりベース権限が管理者かそれ未満のものしか選べない *}>
+				<{assign var="role_def_options" value=$option.def_options}>
+				<{if $item.tag_name != "role_authority_name" || (isset($option.user_authority_id|smarty:nodefaults) && (($smarty.session._role_auth_id ==_ROLE_AUTH_ADMIN || $smarty.session._role_auth_id == $option.options_value) || $smarty.session._user_auth_id > $option.user_authority_id))}>
+				<option value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.options}>"<{if $option.options == $content}> selected="selected"<{/if}>>
+					<{$option.options|smarty:nodefaults}>
+				</option>
+				<{/if}>
+			<{/foreach}>
+		</select>
+		</form>
+	<{elseif $item.type == $smarty.const.USER_TYPE_PASSWORD}>
+		<table summary="" cellspacing="0" cellpadding="3">
+			<{if ($smarty.session._system_user_id==$user.user_id) || !($action.public_flag_colname == "under_public_flag")}>
+			<{* システム管理者か、自分より低い権限であれば、現在のパスワードがわからなくても変更を許す *}>
+			<tr>
+				<th class="nowrap" scope="row">
+					<label for="userinf_items_current<{$id}>_<{$item.item_id}>">
+						<{* 現在のパスワード: *}>
+						<{$smarty.const.USERINF_CURRENT_PASS}>
+					</label>
+				</th>
+				<td>
+					<input id="userinf_items_current<{$id}>_<{$item.item_id}>" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+				</td>
+			</tr>
+			<{/if}>
+			<tr>
+				<th class="nowrap" scope="row">
+					<label for="userinf_items_new<{$id}>_<{$item.item_id}>">
+						<{* 新しいパスワード: *}>
+						<{$smarty.const.USERINF_NEW_PASS}>
+					</label>
+				</th>
+				<td>
+					<input id="userinf_items_new<{$id}>_<{$item.item_id}>" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+				</td>
+			</tr>
+			<tr>
+				<th class="nowrap" scope="row">
+					<label for="userinf_items_confirm<{$id}>_<{$item.item_id}>">
+						<{* 新しいパスワードの確認: *}>
+						<{$smarty.const.USERINF_CONFIRM_NEW_PASS}>
+					</label>
+				</th>
+				<td>
+					<input id="userinf_items_confirm<{$id}>_<{$item.item_id}>" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+				</td>
+			</tr>
+		</table>
+	<{/if}>
+	<{if $item.description}>
+		<div class="userinf_desc">
+			<{$item.description}>
+		</div>
+	<{/if}>
+	<{*if $item.allow_public_flag == _ON && $item.other_public_flag == USER_NO_PUBLIC*}>
+	<{if $item.allow_public_flag == _ON}>
+		<{* TODO:後に修正 *}>
+		<{* 公開するかどうか *}>
+		<{* すでに必ず非公開であるならば、設定させない *}>
+		<div>
+			<label for="userinf_items_public<{$id}>_<{$item.item_id}>">
+				<input id="userinf_items_public<{$id}>_<{$item.item_id}>" type="checkbox" value="1" onfocus="userinfCls['<{$id}>'].focusPublic(<{$item.item_id}>, true);" onblur="userinfCls['<{$id}>'].focusPublic(<{$item.item_id}>, false);" <{if $item.public_flag == _ON}>checked="checked"<{/if}> />
+				<{$lang.userinf_public_flag|smarty:nodefaults}>
+			</label>
+		</div>
+	<{/if}>
+<{/strip}>

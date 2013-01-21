@@ -1,0 +1,59 @@
+<{strip}>
+
+<h2><{$lang.search_result_title|smarty:nodefaults}></h2>
+
+<div>
+	<span class="search_result_condition_label">
+		<{$lang.search_condition|smarty:nodefaults}>
+	</span>
+	
+	<{if ($smarty.session.search_select.$block_id.keyword || $smarty.session.search_select.$block_id.handle || $action.fm_target_date || $action.to_target_date) }>
+		<{if ($smarty.session.search_select.$block_id.keyword) }>
+			<span class="search_result_condition_title">
+				<{$lang.search_condition_title|sprintf:$lang.search_keyword|smarty:nodefaults}>
+			</span}>
+			<span class="search_result_condition_value">
+				<{$smarty.session.search_select.$block_id.keyword}>
+			</span>
+			&nbsp;&nbsp;&nbsp;
+		<{/if}>
+		
+		<{if ($smarty.session.search_select.$block_id.handle) }>
+			<span class="search_result_condition_title">
+				<{$lang.search_condition_title|sprintf:$lang.search_handle|smarty:nodefaults}>
+			</span}>
+			<span class="search_result_condition_value">
+				<{$smarty.session.search_select.$block_id.handle}>
+			</span>
+			&nbsp;&nbsp;&nbsp;
+		<{/if}>
+
+		<{if ($action.fm_target_date || $action.to_target_date) }>
+			<span class="search_result_condition_title">
+				<{$lang.search_condition_title|sprintf:$lang.search_target_date|smarty:nodefaults}>
+			</span>
+			<span class="search_result_condition_value">
+				<{$action.fm_target_date}>
+				<{$lang.search_target_date_separator|smarty:nodefaults}>
+				<{$action.to_target_date}>
+			</span>
+			&nbsp;&nbsp;&nbsp;
+		<{/if}>
+		
+		<{$lang.search_result|smarty:nodefaults}>
+	<{else}>
+		<{$lang.search_no_condition|smarty:nodefaults}>
+	<{/if}>
+</div>
+
+<div class="hr"></div>
+
+<{if ($action.init_flag != _ON) }>
+	<{section name=i loop=$smarty.session.search_select.$block_id.target_modules}>
+		<{assign var="module_id" value=$smarty.session.search_select.$block_id.target_modules[i]}>
+		<div id="search_result_content<{$id}>_<{$module_id}>" class="search_result_contents">
+		</div>
+	<{/section}>
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,10 @@
+<{strip}>
+<{* 問題内容画面用テンプレート *}>
+<div class="quiz_question">
+	<{include file="quiz_view_question.html"}>
+
+	<div class="quiz_answer">
+		<{include file="quiz_view_answer.html" choiceDisplay=$action.choiceDisplay}>
+	</div>
+</div>
+<{/strip}>

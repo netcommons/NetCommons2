@@ -1,0 +1,101 @@
+/* 
+ * ブロック定義
+ */
+
+/* title */
+.th_titlepanel_default_title_color {
+	background-color:#d3d5eb;
+	color:#6a6a6b;
+}
+
+.th_titlepanel_default_title_line {
+	background-color:#a4a8d5;
+	width:5px;
+}
+
+
+.th_titlepanel_default_left {
+	width:8px;
+	height:16px;
+	background-color:#d3d5eb;
+}
+
+.th_titlepanel_default_right {
+	width:5px;
+	height:16px;
+	background-color:#d3d5eb;
+}
+
+.th_titlepanel_default_upperleft {
+	width:8px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/titlepanel/images/default/upperleft.gif") no-repeat scroll right top;
+}
+
+.th_titlepanel_default_upperright {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/titlepanel/images/default/upperright.gif") no-repeat scroll left top;
+}
+
+.th_titlepanel_default_belowleft {
+	width:8px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/titlepanel/images/default/belowleft.gif") no-repeat scroll left bottom;
+}
+
+.th_titlepanel_default_belowright {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/titlepanel/images/default/belowright.gif") no-repeat scroll right bottom;
+}
+
+.th_titlepanel_default_upperleft_img {
+	width:8px;
+	height:5px;
+}
+
+.th_titlepanel_default_upperright_img {
+	width:5px;
+	height:5px;
+}
+
+.th_titlepanel_default_belowleft_img {
+	width:8px;
+	height:5px;
+}
+
+.th_titlepanel_default_belowright_img {
+	width:5px;
+	height:5px;
+}
+
+.th_titlepanel_default_title_color .highlight {
+	color:#a4a8d5;
+	background-color:#d3d5eb;
+}
+
+.th_titlepanel_default_title_color a.hover_highlight:hover {
+	color:#a4a8d5;
+	background-color:#d3d5eb;
+	text-decoration:none;
+}
+
+/* 一般 */
+.th_titlepanel_title_div {
+	padding: 3px 0px 0px 5px;
+}
+.th_titlepanel_content {
+	padding: 0px;
+}
+
+.th_titlepanel_maincontent {
+	padding: 15px 0px 0px 5px;
+}
+
+.th_titlepanel_title {
+	white-space:nowrap;
+	text-align: left;
+	/*padding: 2px 0px 2px 5px;*/
+	font-size:13px !important;
+}

@@ -1,0 +1,44 @@
+<{strip}>
+
+<form action="#" onsubmit="return false;">
+	<input type="hidden" name="id" value="<{$smarty.session.reservation._id.$block_id}>" />
+	
+	<label for="reservation_select_year<{$id}>">
+		<{assign var=view_year value=$action.view_date|substr:0:4}>
+
+		<select id="reservation_select_year<{$id}>" name="move_year">
+			<{section name="year" loop=$smarty.const.RESERVATION_SELECT_MAX_YEAR start=$smarty.const.RESERVATION_SELECT_MIN_YEAR step=1}>
+				<option value="<{$smarty.section.year.index}>"<{if ($smarty.section.year.index == $view_year) }> selected="selected"<{/if}>>
+					<{$lang.reservation_year_format|smarty:nodefaults|sprintf:$smarty.section.year.index}>
+				</option>
+			<{/section}>
+		</select>
+	</label>
+
+	<label for="reservation_select_month<{$id}>">
+		<{assign var=view_month value=$action.view_date|substr:4:2}>
+		<{assign var="month_array" value="|"|explode:$lang._month_list|smarty:nodefaults}>
+
+		<select id="reservation_select_month<{$id}>" name="move_month">
+			<{section name="month" loop=12 start=0 step=1}>
+				<{assign var=sec_month value=$smarty.section.month.iteration|string_format:"%02d"}>
+				<option value="<{$sec_month}>"<{if ($sec_month == $view_month) }> selected="selected"<{/if}>>
+					<{assign var="index" value=$smarty.section.month.index}>
+					<{$month_array.$index}>
+				</option>
+			<{/section}>
+		</select>
+	</label>
+
+	<input type="button" value="<{$lang.reservation_move|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].moveDate(this.form); return false;' />
+	&nbsp;
+	&nbsp;
+	<a id="reservation_move_this_month<{$id}>" class="hover_highlight" href="#" title="<{$lang._show_month|smarty:nodefaults}>" onclick='reservationCls["<{$smarty.session.reservation._id.$block_id}>"].changeReservation("<{$action.today}>"); return false;'>
+		<{$lang.reservation_move_this_month|smarty:nodefaults}>
+	</a>
+	<span class="highlight">
+		<{$lang.reservation_this_month|smarty:nodefaults}>
+	</span>
+</form>
+
+<{/strip}>

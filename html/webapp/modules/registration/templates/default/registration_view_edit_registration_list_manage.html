@@ -1,0 +1,28 @@
+<{strip}>
+<{* 登録フォーム一覧（管理列）用テンプレート *}>
+<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$registration.registration_name}>" onclick="commonCls.sendView('<{$id}>', {action:'registration_view_edit_registration_entry', registration_id:<{$registration.registration_id}>});return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang.registration_item_edit_title|sprintf:$registration.registration_name}>" onclick="commonCls.sendView('<{$id}>', {action:'registration_view_edit_item_list',registration_id:<{$registration.registration_id}>});return false;">
+	<{$lang.registration_item_edit}>
+</a>
+<{if $registration.data_count > 0}>
+	<{$lang._separator|smarty:nodefaults}>
+	<a class="syslink" href="#" title="<{$lang.registration_data_list_title|sprintf:$registration.registration_name}>" onclick="registrationCls['<{$id}>'].showPopupDataList(event, <{$registration.registration_id}>);return false;">
+		<{$lang.registration_data_list}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+	<a class="syslink" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=registration_view_edit_data_export&amp;block_id=<{$block_id}>&amp;registration_id=<{$registration.registration_id}>" title="<{$lang.registration_item_data_export_title|sprintf:"`$registration.registration_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>">
+		<{$lang.registration_item_data_export}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+	<a class="syslink" href="#" title="<{$lang.registration_all_data_delete_title|sprintf:$registration.registration_name}>" onclick="registrationCls['<{$id}>'].deleteData('<{$registration.registration_id}>', '', '<{$lang.registration_all_data_delete_confirm|sprintf:"`$registration.registration_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+		<{$lang.registration_all_data_delete}>
+	</a>
+<{/if}>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$registration.registration_name}>" onclick="registrationCls['<{$id}>'].deleteRegistration('<{$registration.registration_id}>', '<{$lang._del_confirm|sprintf:"`$registration.registration_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{/strip}>

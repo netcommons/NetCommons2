@@ -1,0 +1,40 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="widthmax th_<{$main_theme_name}>">
+  <tr>
+    <td class="th_titlepanel_content">
+    	<{*ヘッダータイトル*}>
+		<table border="0" cellspacing="0" cellpadding="0" class="widthmax _block_title_event<{if $block_obj.block_name == "" && $smarty.session._layoutmode=="off"}> display-none<{/if}>">
+			<tr>
+				<td class="th_<{$main_theme_name}>_upperleft"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_<{$main_theme_name}>_upperleft_img" /></td>
+				<td rowspan="3" class="th_titlepanel_default_title_line">
+					<img class="th_titlepanel_default_title_line" src="<{""|get_image_url}>/images/common/blank.gif" alt="" />
+				</td>
+				<td rowspan="3" class="th_<{$main_theme_name}>_title_color">
+					<div class="th_titlepanel_title_div">
+						<h2 class="nc_block_title th_titlepanel_title" title="<{$dblclick_edit}>"><{$block_obj.block_name}></h2>
+					</div>
+				</td>
+				<td class="th_<{$main_theme_name}>_upperright"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_<{$main_theme_name}>_upperright_img" /></td>
+			</tr>
+			<tr>
+				<td class="th_<{$main_theme_name}>_left">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" />
+				</td>
+				<td class="th_<{$main_theme_name}>_right">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" />
+				</td>
+			</tr>
+			<tr>
+				<td class="th_<{$main_theme_name}>_belowleft"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_<{$main_theme_name}>_belowleft_img" /></td>
+				<td class="th_<{$main_theme_name}>_belowright"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_<{$main_theme_name}>_belowright_img" /></td>
+			</tr>
+		</table>
+    	<{*ヘッダーメニュー*}>
+    	<div class="th_titlepanel_maincontent">
+			<{if $headermenu}><{include file="../../../templates/default/headermenu.html"}><{/if}>
+    		<div class="content"><{$content_field|smarty:nodefaults}></div>
+    	</div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

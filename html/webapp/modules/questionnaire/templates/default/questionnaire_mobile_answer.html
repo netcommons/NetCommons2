@@ -1,0 +1,69 @@
+<{strip}>
+<{* 回答欄表示用テンプレート *}>
+<{if $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_NORMAL}>
+	<div data-role="controlgroup">
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>">
+			<input type="radio" id="answer_value_<{$question.question_id}>_<{$smarty.foreach.choice.iteration}>" name="answer_value[<{$question.question_id}>]" value="<{$choice.choice_id}>" />
+			<label for="answer_value_<{$question.question_id}>_<{$smarty.foreach.choice.iteration}>"><{$choice.choice_value|nl2br}>&nbsp;</label>
+		<{/foreach}>
+	</div>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_REFERENCE}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $choice.correct == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $answer.answer_value[$choice.choice_id] == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_NORMAL}>
+	<div data-role="controlgroup">
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>">
+			<input type="checkbox" id="answer_value_<{$question.question_id}>_<{$choice.choice_id}>" name="answer_value[<{$question.question_id}>][<{$choice.choice_id}>]" value="<{$choice.choice_id}>">
+			<label for="answer_value_<{$question.question_id}>_<{$choice.choice_id}>"><{$choice.choice_value|nl2br}>&nbsp;</label>
+		<{/foreach}>
+	</div>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_REFERENCE}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $choice.correct == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+	<ul>
+		<{foreach from=$question.choices item=choice name="choice"}>
+			<{if $question.answer.answer_value[$choice.choice_id] == _ON}>
+				<li><span style="font-size:small"><{$choice.choice_value|nl2br}></span></li>
+			<{/if}>
+		<{/foreach}>
+	</ul>
+
+<{elseif $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_NORMAL}>
+	<textarea name="answer_value[<{$question.question_id}>]" cols="20" rows="5"></textarea>
+	<br />
+
+<{elseif $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_REFERENCE}>
+	<span style="font-size:small"><{$answer.answer_value|smarty:nodefaults|nl2br}></span>
+
+<{elseif $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+	<span style="font-size:small"><{$answer.answer_value|smarty:nodefaults|nl2br}></span>
+
+<{/if}>
+
+<{/strip}>

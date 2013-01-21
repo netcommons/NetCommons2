@@ -1,0 +1,296 @@
+input.assignment_start_btn {
+}
+input.assignment_back_btn {
+	width:auto;
+}
+.assignment_resubmitted {
+	font-weight: bold;
+	color: #ff0000;
+}
+.assignment_yet_submitted {
+	color: #005dbf;
+}
+.assignment_grid_name {
+	width:120px;
+}
+.assignment_grid_operate{
+	width:110px;
+}
+.assignment_grid_creator {
+	width:100px;
+}
+.assignment_grid_create_date {
+	width:80px;
+}
+.assignment_grid_manage {
+	width:250px;
+}
+.assignment_grid_table {width:726px;}
+
+.assignment_grid_submitter {
+	width:160px;
+}
+.assignment_grid_submit_time {
+	width:140px;
+}
+.assignment_grid_grade_value {
+	width:130px;
+}
+.assignment_display_yet_submitter {
+	margin-bottom:2px;
+}
+
+
+div.assignment_main_view {
+	padding-right:30px;
+}
+table.assignment_main_view {
+	width:100%;
+}
+div.assignment_name {
+	padding-bottom:10px;
+	font-size:150%;
+	font-weight:bold;
+}
+td.assignment_poster {
+	border-left: 1px solid #efefef;
+	border-right: 1px solid silver;
+	border-top:1px solid #efefef;
+	background-color: #f0f4f7;
+	padding:2px;
+	text-align:right;
+	white-space: nowrap;
+}
+
+td.assignment_body {
+	border-right: 1px solid silver;
+	border-left: 1px solid #efefef;
+	padding:10px 10px 10px 15px;
+	vertical-align: top;
+	height: 80px;
+}
+
+td.assignment_submit_operation {
+	border-right: 1px solid silver;
+	border-left: 1px solid #efefef;
+	border-bottom:1px solid silver;
+	text-align:right;
+	padding: 5px;
+}
+
+
+td.assignment_main_state {
+	vertical-align: top;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+table.assignment_main_state {
+	border-right:1px solid silver;
+	border-bottom:1px solid silver;
+}
+.assignment_state_label,
+.assignment_state_value {
+	border-top:1px solid #efefef;
+	border-bottom:1px solid silver;
+	padding:0px 2px;
+	white-space:nowrap;
+}
+.assignment_state_label {
+	border-right:1px solid silver;
+	background-color: #eeeeee;
+}
+.assignment_state_value {
+}
+.assignment_period_soon {
+/*	background-color:#ffdddd; */
+	color: #ff0000;
+}
+.assignment_period_over {
+/*	background-color:#e9f2fb; */
+	color: #0000ff;
+}
+.assignment_state_finish {
+	color: #ff0000;
+	background-color:#ffdddd;
+}
+
+div.assignment_title {
+	white-space:nowrap;
+	font-weight:bold;
+	margin-bottom:3px;
+}
+
+
+table.assignment_reporter_view {
+	width:100%;
+}
+div.assignment_reporter_view {
+	padding-left: 30px;
+	padding-top: 30px;
+}
+div.assignment_report_history {
+	width:80px;
+	overflow: hidden;
+}
+a.assignment_reporter {
+	display: block;
+	border-top: 1px solid #efefef;
+	border-bottom: 1px solid silver;
+	border-right: 1px solid silver;
+	margin-top:5px;
+	margin-bottom:5px;
+	white-space:nowrap;
+	padding:1px 2px;
+}
+a.assignment_reporter .assignment_submit_time {
+	font-size: 90%;
+}
+
+td.assignment_report_history,
+td.assignment_report_body {
+	vertical-align: top;
+}
+td.assignment_report_history {
+	width:80px;
+	height:120px;
+}
+
+td.assignment_report_body,
+td.assignment_report_operate,
+td.assignment_report_comment {
+	border-right: 1px solid silver;
+	border-left: 1px solid #efefef;
+}
+td.assignment_report_body,
+td.assignment_report_comment {
+	padding:10px;
+	height:120px;
+}
+td.assignment_report_operate,
+.assignment_reporter_view td.assignment_report_comment {
+	border-bottom: 1px solid silver;
+}
+
+div.assignment_comment_view,
+div.assignment_comment_write {
+	padding-left: 40px;
+	padding-right: 10px;
+}
+div.assignment_comment_view {
+	padding-top: 20px;
+}
+div.assignment_comment_write {
+	padding-top: 10px;
+}
+table.assignment_comment_view {
+	width:100%;
+}
+textarea.assignment_comment_textarea {
+	width:97%;
+	height:80px;
+}
+.assignment_comment_user,
+.assignment_comment_operation {
+	background-color: #f4f4f4;
+	white-space:nowrap;
+	padding:2px;
+}
+.assignment_comment_user {
+}
+.assignment_comment_operation {
+	text-align:right;
+}
+.assignment_comment_value {
+	padding:10px 5px 25px 10px;
+}
+
+
+div.assignment_main_summary {
+	margin-top: 10px;
+}
+table.assignment_main_summary {
+}
+th.assignment_grade_head {
+	padding:5px 20px 20px 10px;
+}
+td.assignment_grade_value {
+	padding:5px 20px 20px 10px;
+}
+td.assignment_grade_graph {
+	padding:5px 20px 20px 10px;
+	width: 250px;
+}
+
+.assignment_graph_0 {
+	background-color: #FFFF00;
+}
+.assignment_graph_1 {
+	background-color: #00FFFF;
+}
+.assignment_graph_2 {
+	background-color: #FF00FF;
+}
+.assignment_graph_3 {
+	background-color: #66FF00;
+}
+.assignment_graph_4 {
+	background-color: #0066FF;
+}
+.assignment_graph_5 {
+	background-color: #FF0066;
+}
+.assignment_graph_6 {
+	background-color: #9900FF;
+}
+.assignment_graph_7 {
+	background-color: #00FF99;
+}
+.assignment_graph_8 {
+	background-color: #FF9900;
+}
+.assignment_graph_9 {
+	background-color: #00FFCC;
+}
+.assignment_graph_yet_released {
+	background-color: #0000FF;
+}
+.assignment_graph_submitted {
+	background-color: #FFCC00;
+}
+
+.assignment_graph_graded,
+.assignment_graph_yet_released,
+.assignment_graph_submitted {
+	height:10px;
+	float:left;
+}
+.assignment_graph_ground {
+	background-color: #f4f4f4;
+	height:10px;
+	float:right;
+}
+
+div.assignment_personal_information {
+	overflow:auto;
+}
+div.assignment_personal_information_over {
+	height:400px;
+}
+table.assignment_personal_information {
+	width:100%;
+	border-left:1px solid #b8b8b8;
+}
+table.assignment_personal_information th {
+	white-space:nowrap;
+	padding:2px 2px 2px 3px;
+	border-top:1px solid #b8b8b8;
+	border-right:1px solid #b8b8b8;
+	background-color:#f0f4f7;
+	text-align:left;
+	font-weight:normal;
+}
+table.assignment_personal_information td {
+	border-bottom:1px solid #e0e0e0;
+	border-right:1px solid #e0e0e0;
+	padding:2px 2px 2px 3px;
+}

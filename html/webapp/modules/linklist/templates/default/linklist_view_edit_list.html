@@ -1,0 +1,66 @@
+<{strip}>
+<{* リンクリスト一覧用テンプレート *}>
+<form action="#">
+	<div>
+		<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.linklist_linklist}>
+	</div>
+
+	<table class="grid_header" summary="<{$lang.linklist_list_summary|smarty:nodefaults}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_linklist_name grid_name" scope="col">
+				<{$lang.linklist_linklist_name|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_user_name grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid linklist_grid_table" summary="<{$lang.linklist_list_summary|smarty:nodefaults}>">
+		<{foreach from=$action.linklists item=linklist}>
+			<tr id="linklist_current_row<{$linklist.linklist_id}><{$id}>" class="grid_row">
+				<td class="grid_change_disp">
+					<{include file = "linklist_view_edit_list_current.html"}>
+				</td>
+				<td class="grid_name">
+					<{include file = "linklist_view_edit_list_name.html"}>
+				</td>
+				<td class="grid_creator">
+					<{include file = "linklist_view_handle.html" handle=$linklist.insert_user_name|smarty:nodefaults user_id=$linklist.insert_user_id}>
+				</td>
+				<td class="grid_create_date">
+					<{$linklist.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				</td>
+				<td class="grid_manage">
+					<{include file = "linklist_view_edit_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</form>
+
+<{include file = "../linklist_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {linklistCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.linklistCount}>, "linklist_view_edit_list", opts);
+	opts = null;
+
+	linklistCls["<{$id}>"].currentLinklistID = "<{$action.currentLinklistID}>";
+	linklistCls["<{$id}>"].checkCurrent();
+
+	commonCls.focus($("linklist_current<{$action.currentLinklistID}><{$id}>"));
+</script>
+<{/strip}>

@@ -1,0 +1,57 @@
+<{strip}>
+		<div class="tab_meta">
+			<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+			<tr class="row">
+				<th scope="row"><label for="meta_author<{$id}>"><{$lang.system_meta_author|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="meta_author" id="meta_author<{$id}>" value="<{$config.meta_author.conf_value}>" size="50" />
+					<div class="note system_note_width"><{$lang.system_meta_author_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="meta_copyright<{$id}>"><{$lang.system_meta_copyright|smarty:nodefaults}></label></th>
+				<td>
+					<input type="text" name="meta_copyright" id="meta_copyright<{$id}>" value="<{$config.meta_copyright.conf_value}>" size="50" />
+					<div class="note system_note_width"><{$lang.system_meta_copyright_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="meta_keywords<{$id}>"><{$lang.system_meta_keywords|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="meta_keywords" id="meta_keywords<{$id}>" rows="5" cols="50"><{$config.meta_keywords.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_meta_keywords_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="meta_description<{$id}>"><{$lang.system_meta_description|smarty:nodefaults}></label></th>
+				<td>
+					<textarea name="meta_description" id="meta_description<{$id}>" rows="5" cols="50"><{$config.meta_description.conf_value}></textarea>
+					<div class="note system_note_width"><{$lang.system_meta_description_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="meta_robots<{$id}>"><{$lang.system_meta_robots|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="meta_robots"' id="meta_robots<{$id}>">
+						<option value="index,follow"<{if $config.meta_robots.conf_value == "index,follow"}> selected="selected"<{/if}>>Index, Follow</option>
+						<option value="noindex,follow"<{if $config.meta_robots.conf_value == "noindex,follow"}> selected="selected"<{/if}>>No Index, Follow</option>
+						<option value="index,nofollow"<{if $config.meta_robots.conf_value == "index,nofollow"}> selected="selected"<{/if}>>Index, No Follow</option>
+						<option value="noindex,nofollow"<{if $config.meta_robots.conf_value == "noindex,nofollow"}> selected="selected"<{/if}>>No Index, No Follow</option>
+					</select>
+					<div class="note system_note_width"><{$lang.system_meta_robots_note|smarty:nodefaults}></div>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row"><label for="meta_rating<{$id}>"><{$lang.system_meta_rating|smarty:nodefaults}></label></th>
+				<td>
+					<select size="1" name="meta_rating" id="meta_rating<{$id}>">
+						<option value="General"<{if $config.meta_rating.conf_value == "General"}> selected="selected"<{/if}>>General</option>
+						<option value="14 years"<{if $config.meta_rating.conf_value == "14 years"}> selected="selected"<{/if}>>14 years</option>
+						<option value="restricted"<{if $config.meta_rating.conf_value == "Restricted"}> selected="selected"<{/if}>>Restricted</option>
+						<option value="mature"<{if $config.meta_rating.conf_value == "Mature"}> selected="selected"<{/if}>>Mature</option>
+					</select>
+				</td>
+			</tr>
+			</table>
+		</div>
+<{/strip}>

@@ -1,0 +1,134 @@
+<{strip}>
+<{* メッセージ送信用テンプレート *}>
+<div class="pm_popup_body clearfix">
+  <form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+    <input type="hidden" name="receiver_id" value="<{$action.message.receiver_id}>" />
+	<input type="hidden" name="flag" value="<{$action.flag}>" />
+	<input type="hidden" name="message_id" value="<{$action.message.message_id}>" />
+    <input type="hidden" name="reply_top_message_id" value="<{$action.message.reply_top_message_id}>" />
+    <input type="hidden" name="reply_last_message_id" value="<{$action.message.reply_last_message_id}>" />
+    <input type="hidden" name="top_el_id" value="<{$action.top_el_id}>" />
+	<table class="pm_popup_base">
+		<tr>
+			<td class="pm_popup_base_upperleft">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperleft" />
+			</td>
+			<td class="pm_popup_base_upper"></td>
+			<td class="pm_popup_base_upperright">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperright" />
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_popup_base_left">
+			</td>
+			<td class="pm_popup_base_content">
+				<table class="widthmax">
+					<tr>
+						<td class="pm_content">
+							<{* コンテンツ *}>
+							<table class="widthmax pm_ins">
+								<tr>
+								  <th class="pm_ins_th pm_ins_th_subject pm_title_green bold">
+								  	<label for="pm_form<{$id}>_receivers"><{$lang.pm_message_address|smarty:nodefaults}></label>
+								  </th>
+								  <td class="pm_ins_td pm_ins_subject">
+									<div id="pm_form<{$id}>_send_normal" class="widthmax">
+										<ul class="pm_ins_subject_ul" id="pm<{$id}>_addreceiver">
+										  <li class="pm_ins_subject_li pm_ins_subject_hn pm_ins_action_btn">
+											  <a href="#" onclick="pmCls['<{$id}>'].addCC('<{$lang._delete|smarty:nodefaults}>', '', '<{$lang._user_title|smarty:nodefaults}>'); return false;"><{$lang.pm_message_address_add|smarty:nodefaults}></a> | <a href="#" onclick="pmCls['<{$id}>'].showSearchUser(event, '<{$lang._delete|smarty:nodefaults}>', '<{$lang._user_title|smarty:nodefaults}>'); return false;"><{$lang.pm_search|smarty:nodefaults}></a>
+										  </li>
+
+										  <li class="pm_ins_subject_li pm_ins_subject_li_main pm_ins_subject_input"><input class="pm_ins_subject_li_input" type="text" id="pm_form<{$id}>_receivers" name="receivers[]" value="" onkeyup="pmCls['<{$id}>'].enterCC('');" onblur="pmCls['<{$id}>'].renderCC('', '<{$lang._user_title|smarty:nodefaults}>', true);"/></li>
+
+										  <li class="pm_ins_subject_li pm_ins_subject_li_main pm_ins_subject_menu">
+											  <div id="pm_form<{$id}>_receiver_user" class="pm_ins_receiver_left display-none"> <{$action.sender_handle|smarty:nodefaults}></div>
+											  </div>
+										  </li>
+										</ul>
+									</div>
+
+									<{if $smarty.session._user_auth_id >= $smarty.const._AUTH_ADMIN}>
+										<div class="widthmax pm_ins_all_member">
+											<ul class="pm_ins_subject_ul">
+											   <li class="pm_ins_subject_li"><input type="checkbox" name="send_all_flag" id="pm_form<{$id}>_send_all_flag"  value="<{$smarty.const._ON}>" onclick="pmCls['<{$id}>'].sendToAllMember(this);"/>&nbsp;<label for="pm_form<{$id}>_send_all_flag"><{$lang.pm_message_to_all|smarty:nodefaults}></label></li>
+											</ul>
+										</div>
+									<{/if}>
+								  </td>
+								  <td rowspan="2" class="pm_ins_td pm_ins_avatar" id="pm_form<{$id}>_avatar">
+
+								  </td>
+								</tr>
+
+								<tr>
+								  <th class="pm_ins_th pm_title_green bold">
+									<label for="pm_form<{$id}>_subject"><{$lang.pm_subject|smarty:nodefaults}></label>
+								  </th>
+								  <td class="pm_ins_td pm_ins_address"><input id="pm_form<{$id}>_subject" class="pm_ins_address_input" type="text" name="subject" /></td>
+								</tr>
+								<tr>
+								  <td colspan="3" class="pm_ins_td pm_ins_make">
+									<textarea class="comptextarea" name="body" rows="18" cols="60"><{$action.message.body|smarty:nodefaults|wysiwig_convert_url|escape:"html"}></textarea>
+								  </td>
+								</tr>
+							</table>
+
+						</td>
+					</tr>
+
+
+					<tr>
+					  <td class="pm_popup_hmenu_bottom_td">
+						<div class="pm_ins_btn clearfix">
+							<input class="btn-width lined_btn" type="button" value="<{$lang.pm_message_store|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].setMessage(this.form,'<{$smarty.const.PM_STORE_MESSAGE}>', '<{$action.top_id_name}>');" />
+							&nbsp;
+							<input class="btn-width lined_btn" type="button" value="<{$lang.pm_message_send|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].setMessage(this.form,'<{$smarty.const.PM_SEND_MESSAGE}>', '<{$action.top_id_name}>');" />
+							&nbsp;
+							<input class="btn-width lined_btn" type="button" value="<{$lang.pm_cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;"/>
+						</div>
+					  </td>
+					</tr>
+				</table>
+			</td>
+			<td class="pm_popup_base_right">
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_popup_base_belowleft"></td>
+			<td class="pm_popup_base_below"></td>
+			<td class="pm_popup_base_belowright"></td>
+		</tr>
+  </table>
+  </form>
+</div>
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+	<{if $action.message.send_all_flag == $smarty.const._ON}>
+		pmCls['<{$id}>'].updAvatarBox(true);
+	<{/if}>
+
+	<{if $action.sender_handle}>
+		$('pm_form<{$id}>_receivers').value = '<{$action.sender_handle|smarty:nodefaults|escape:"javascript"}>';
+		<{if ($action.message.send_all_flag == _OFF) ||
+			 ($action.message.send_all_flag == $smarty.const._ON && ($action.message.mailbox == $smarty.const.PM_LEFTMENU_INBOX || $action.message.mailbox == $smarty.const.PM_LEFTMENU_TRASHBOX))}>
+			pmCls['<{$id}>'].renderCC('', '<{$lang._user_title|smarty:nodefaults}>', false);
+			commonCls.displayVisible($('pm_form<{$id}>_receiver_user'));
+		<{/if}>
+	<{/if}>
+
+	<{if ($action.message.mailbox == $smarty.const.PM_LEFTMENU_OUTBOX || $action.message.mailbox == $smarty.const.PM_LEFTMENU_STOREBOX) && $action.message.send_all_flag == $smarty.const._ON}>
+		commonCls.displayNone($('pm_form<{$id}>_send_normal'));
+		$('pm_form<{$id}>_send_all_flag').checked = true;
+	<{/if}>
+
+	<{if $action.message.cc_receivers}>
+		<{foreach item=cc_receiver from=$action.message.cc_receivers}>
+			pmCls["<{$id}>"].addCC('<{$lang._delete|smarty:nodefaults}>', '<{$cc_receiver.name|smarty:nodefaults|escape:"javascript"}>', '<{$lang._user_title|smarty:nodefaults}>', '<{$cc_receiver.id}>');
+		<{/foreach}>
+	<{/if}>
+
+	pmCls["<{$id}>"].pmEditInit();
+	pmCls["<{$id}>"].pmEditSubjectInit($("pm_form<{$id}>"), "<{$action.message.subject|smarty:nodefaults|escape:"javascript"}>", "<{$action.reply_flag}>");
+	commonCls.focus($("pm_form<{$id}>_receivers"));
+</script>
+<{/strip}>

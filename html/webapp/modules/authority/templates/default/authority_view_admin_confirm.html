@@ -1,0 +1,313 @@
+<{strip}>
+<{**************}>
+<{*権限設定画面*}>
+<{*　(確認画面)*}>
+<{**************}>
+<{assign var="role_authority_id" value=$action.role_authority_id}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="bold">
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_general'); return false;">
+			<{if ($action.authority.role_authority_id > 0) }>
+				<{$lang.authority_general_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{else}>
+				<{$lang.authority_general_add_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{/if}>
+		</a>
+		<{if $action.user_authority_id == _AUTH_MODERATE}>
+			<{$lang._arrow_separator|smarty:nodefaults}>
+			<a class="link" href="#" onclick="authorityCls['<{$id}>'].showDetail(true); return false;">
+				<{$lang.authority_setlevel_title|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showDetail(false); return false;">
+			<{$lang.authority_detail_title|smarty:nodefaults}>
+		</a>
+		<{if isset($smarty.session.authority.$role_authority_id.enroll_modules|smarty:nodefaults)}>
+			<{$lang._arrow_separator|smarty:nodefaults}>
+			<a class="link" href="#" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_selectmodules',{'method':'post'}); return false;">
+				<{$lang.authority_privateModule_title|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.authority_confirm_title|smarty:nodefaults}>
+	</div>
+	
+	<{* 操作説明 *}>
+	<div class="top_description">
+		<{$lang.authority_description|smarty:nodefaults}>
+	</div>
+	<div class="authority_wizard_internal" align="center">
+		<{* 登録確認 *}>
+		<table class="outer" summary="<{$smarty.const._SUMMARY_CONFIRMATION}>">
+			<{* 権限名 *}>
+			<tr class="row">
+				<th class="authority_wizard_head" scope="row">
+					<{$lang.authority_name|smarty:nodefaults}>
+				</th>
+				<td class="authority_wizard_cell bold">
+					<{$action.role_authority_name}>
+				</td>
+			</tr>
+			
+			<{* ベース権限 *}>
+			<tr class="row">
+				<th class="authority_wizard_head" scope="row">
+					<{$lang.authority_base_auth|smarty:nodefaults}>
+				</th>
+				<td class="authority_wizard_cell bold">
+					<{if ($action.user_authority_id == _AUTH_ADMIN) }>
+						<{$smarty.const._AUTH_ADMIN_NAME}>
+					<{elseif ($action.user_authority_id == _AUTH_CHIEF) }>
+						<{$smarty.const._AUTH_CHIEF_NAME}>
+					<{elseif ($action.user_authority_id == _AUTH_MODERATE) }>
+						<{$smarty.const._AUTH_MODERATE_NAME}>
+					<{elseif ($action.user_authority_id == _AUTH_GENERAL) }>
+						<{$smarty.const._AUTH_GENERAL_NAME}>
+					<{else}>
+						<{$smarty.const._AUTH_GUEST_NAME}>
+					<{/if}>
+				</td>
+			</tr>
+			<{if $action.user_authority_id == _AUTH_MODERATE}>
+			<{* レベル *}>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_level|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell bold">
+						<{$smarty.session.authority.$role_authority_id.level.hierarchy|intval}>
+					</td>
+				</tr>
+			<{/if}>
+			<{* プライベートスペース *}>
+			<tr class="row">
+				<th class="authority_wizard_head" scope="row">
+					<{$lang.authority_private_space|smarty:nodefaults}>
+				</th>
+				<td class="authority_wizard_cell bold">
+					<{if isset($action.config.myroom_use_flag.default.1|smarty:nodefaults)}>
+						<{$lang.authority_private_space_do|smarty:nodefaults}>
+					<{else}>
+						<{$lang.authority_private_space_no|smarty:nodefaults}>
+					<{/if}>
+				</td>
+			</tr>
+			
+			<{* HTMLを許可 *}>
+			<tr class="row">
+				<th class="authority_wizard_head" scope="row">
+					<{$lang.authority_allow_htmltag_flag|smarty:nodefaults}>
+				</th>
+				<td class="authority_wizard_cell bold">
+					<{if isset($action.config.allow_htmltag_flag.default.1|smarty:nodefaults)}>
+						<{$lang.authority_allow_htmltag_flag_do|smarty:nodefaults}>
+					<{else}>
+						<{$lang.authority_allow_htmltag_flag_no|smarty:nodefaults}>
+					<{/if}>
+				</td>
+			</tr>
+	
+			<{* レイアウトの許可 *}>
+			<tr class="row">
+				<th class="authority_wizard_head" scope="row">
+					<{$lang.authority_allow_layout_flag|smarty:nodefaults}>
+				</th>
+				<td class="authority_wizard_cell bold">
+					<{if isset($action.config.allow_layout_flag.default.1|smarty:nodefaults)}>
+						<{$lang.authority_allow_layout_flag_do|smarty:nodefaults}>
+					<{else}>
+						<{$lang.authority_allow_layout_flag_no|smarty:nodefaults}>
+					<{/if}>
+				</td>
+			</tr>
+	
+			<{* アップロードの許可 *}>
+			<tr class="row">
+				<th class="authority_wizard_head" scope="row">
+					<{$lang.authority_allow_attachment|smarty:nodefaults}>
+				</th>
+				<td class="authority_wizard_cell bold">
+					<{if isset($action.config.allow_attachment.default.2|smarty:nodefaults)}>
+						<{$lang.authority_allow_attachment_all|smarty:nodefaults}>
+					<{elseif isset($action.config.allow_attachment.default.1|smarty:nodefaults)}>
+						<{$lang.authority_allow_attachment_image|smarty:nodefaults}>
+					<{else}>
+						<{$lang.authority_allow_attachment_no|smarty:nodefaults}>
+					<{/if}>
+				</td>
+			</tr>
+	
+			<{* アップロードの最大容量 *}>
+			<{if isset($action.config.myroom_use_flag.default.1|smarty:nodefaults)}>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_max_size|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell bold">
+						<{foreach item=max_size name=loop from=$action.config.max_size.list}>
+							<{assign var="max_size_key" value=$smarty.foreach.loop.iteration-1}>
+							<{if isset($action.config.max_size.default.$max_size_key|smarty:nodefaults)}>
+								<{$action.config.max_size.list_value.$max_size_key}>
+							<{/if}>
+						<{/foreach}>
+						<{assign var="max_size_key" value=$max_size_key+1}>
+						<{if isset($action.config.max_size.default.$max_size_key|smarty:nodefaults)}>
+							<{$lang.authority_unlimited|smarty:nodefaults}>
+						<{/if}>
+					</td>
+				</tr>
+			<{/if}>
+	
+			<{* システムコントロールモジュールの選択 *}>
+			<{if count($action.sys_modules.default|smarty:nodefaults) > 0 }>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_sys_modules|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell bold">
+						<div class="authority_sysmodules_select">
+							<{foreach item=sys_modules_id name=loop key=mod from=$action.sys_modules.sys_modules_id}>
+								<{if isset($action.sys_modules.default[$mod]|smarty:nodefaults)}>
+									<div class="authority_modules_select_cell">
+										<{$action.sys_modules.sys_modules_name[$mod]}>
+									</div>
+									<{if ($action.sys_modules.sys_modules_dir[$mod] == "user") }>
+										<{assign var="modselect_user" value="1"}>
+									<{elseif ($action.sys_modules.sys_modules_dir[$mod] == "room") }>
+										<{assign var="modselect_room" value="1"}>
+									<{/if}>
+								<{/if}>
+							<{/foreach}>
+						</div>
+					</td>
+				</tr>
+			<{/if}>
+			
+			<{* サイト運営モジュールの選択 *}>
+			<{if count($action.site_modules.default|smarty:nodefaults) > 0 }>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_site_modules|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell bold">
+						<div class="authority_sysmodules_select">
+							<{foreach item=sys_modules_id name=loop key=mod from=$action.site_modules.sys_modules_id}>
+								<{if isset($action.site_modules.default[$mod]|smarty:nodefaults)}>
+									<div class="authority_modules_select_cell">
+										<{$action.site_modules.sys_modules_name[$mod]}>
+									</div>
+									<{if ($action.site_modules.sys_modules_dir[$mod] == "user") }>
+										<{assign var="modselect_user" value="1"}>
+									<{elseif ($action.site_modules.sys_modules_dir[$mod] == "room") }>
+										<{assign var="modselect_room" value="1"}>
+									<{/if}>
+								<{/if}>
+							<{/foreach}>
+						</div>
+					</td>
+				</tr>
+			<{/if}>
+	
+			<{* 会員管理を使用する条件 *}>
+			<{if isset($modselect_user|smarty:nodefaults)}>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_usermodule_auth|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell bold">
+						<{if isset($smarty.session.authority.$role_authority_id.detail.usermodule_auth|smarty:nodefaults)}>
+							<{assign var="user_authority_id" value=$smarty.session.authority.$role_authority_id.detail.usermodule_auth}>
+						<{else}>
+							<{assign var="user_authority_id" value=$action.user_authority_id}>
+						<{/if}>
+						<{if ($user_authority_id == _AUTH_ADMIN) }>
+							<{$lang.authority_usermodule_auth_on|smarty:nodefaults}>
+						<{else}>
+							<{$lang.authority_usermodule_auth_off|smarty:nodefaults}>
+						<{/if}>
+						<{*
+						<{if ($user_authority_id == _AUTH_ADMIN) }>
+							<{$smarty.const._AUTH_ADMIN_NAME}>
+						<{elseif ($user_authority_id == _AUTH_CHIEF) }>
+							<{$smarty.const._AUTH_CHIEF_NAME}>
+						<{elseif ($user_authority_id == _AUTH_MODERATE) }>
+							<{$smarty.const._AUTH_MODERATE_NAME}>
+						<{elseif ($user_authority_id == _AUTH_GENERAL) }>
+							<{$smarty.const._AUTH_GENERAL_NAME}>
+						<{else}>
+							<{$smarty.const._AUTH_GUEST_NAME}>
+						<{/if}>
+						*}>
+					</td>
+				</tr>
+			<{/if}>
+			
+			<{* ルームの作成を許可する条件 *}>
+			<{if isset($modselect_room|smarty:nodefaults)}>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_createroom_flag|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell bold">
+						<{if $smarty.session.authority.$role_authority_id.detail.public_createroom_flag == _ON || $action.user_authority_id == _AUTH_ADMIN}>
+							<div><{$lang.authority_createroom_public|smarty:nodefaults}></div>
+						<{/if}>
+						<{if $smarty.session.authority.$role_authority_id.detail.group_createroom_flag == _ON || $action.user_authority_id == _AUTH_ADMIN}>
+							<div><{$lang.authority_createroom_group|smarty:nodefaults}></div>
+						<{/if}>
+						<{if $action.user_authority_id != _AUTH_ADMIN && $smarty.session.authority.$role_authority_id.detail.public_createroom_flag == _OFF && $smarty.session.authority.$role_authority_id.detail.group_createroom_flag == _OFF}>
+							<div><{$lang.authority_createroom_none|smarty:nodefaults}></div>
+						<{/if}>
+					</td>
+				</tr>
+			<{/if}>
+	
+			<{* 配置可能なモジュール *}>
+			<{if isset($smarty.session.authority.$role_authority_id.enroll_modules|smarty:nodefaults)}>
+				<tr class="row">
+					<th class="authority_wizard_head" scope="row">
+						<{$lang.authority_available_modules_title|smarty:nodefaults}>
+					</th>
+					<td class="authority_wizard_cell">
+						<{if (count($action.enroll_modules_id) > 0) }>
+							<div class="authority_modules_select">
+								<{section name=enroll loop=$smarty.session.authority.$role_authority_id.enroll_modules}>
+									<div class="authority_modules_select_cell">
+										<{$action.modules_obj.enroll_name[enroll]}>
+									</div>
+								<{/section}>
+							</div>
+						<{/if}>
+					</td>
+				</tr>
+			<{/if}>
+		</table>
+	</div>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<input type="hidden" name="role_authority_id" value="<{$action.role_authority_id}>" />
+		<input type="hidden" name="role_authority_name" value="<{$action.role_authority_name}>" />
+		<input type="hidden" name="user_authority_id" value="<{$action.user_authority_id}>" />
+	</form>
+	<div class="btn-bottom align-right">
+		<{* 戻るボタン *}>
+		<{if isset($smarty.session.authority.$role_authority_id.enroll_modules|smarty:nodefaults)}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_selectmodules',{'method':'post'});  return false;" />
+		<{else}>
+			<{if $action.user_authority_id == _AUTH_MODERATE}>
+				<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showDetail(false); return false;" />
+			<{else}>
+				<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showDetail(); return false;" />
+			<{/if}>
+		<{/if}>
+		<{* 決定ボタン *}>
+		<input class="lined_btn btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>','action=authority_action_admin_regist&'+Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'});}}); return false;" />
+		<{* キャンセルボタン *}>
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'}); return false;" />
+	</div>
+</div>
+
+<{include file="authority_script.html"}>
+
+<{/strip}>

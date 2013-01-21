@@ -1,0 +1,107 @@
+<{strip}>
+<{* 詳細画面 *}>
+<div class="outerdiv">
+	<div class="bold">
+		<{if strpos($id, MULTIDATABASE_REFERENCE_PREFIX_NAME)}>
+			<a href="#" title="<{$lang.mdb_back_list|smarty:nodefaults|sprintf:$action.mdb_obj.multidatabase_name}>" class="syslink" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_init', multidatabase_id:<{$action.mdb_obj.multidatabase_id}>}); return false;">
+		<{else}>
+			<a href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;active_action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.mdb_obj.multidatabase_id}>&amp;block_id=<{$block_id}>#<{$smarty.session._id}>" title="<{$lang.mdb_back_list|smarty:nodefaults|sprintf:$action.mdb_obj.multidatabase_name}>" class="syslink">
+		<{/if}>
+			<{$action.mdb_obj.multidatabase_name}>
+		</a>
+		<{$lang.mdb_details_title|smarty:nodefaults}>
+	</div>
+	<{if $action.detail.metadata == ""}>
+		<br /><{$lang.mdb_noneexists_detail_metadata|smarty:nodefaults}>
+	<{else}>
+		<div class="align-right">
+			<a href="#" class="link" onclick="commonCls.print($('mdb_detail_print<{$id}>'));return false;">
+				<img src="<{"print.gif"|get_themes_image}>" title="<{$lang._print_icon|smarty:nodefaults}>" alt="<{$lang._print_icon|smarty:nodefaults}>" />
+			</a>
+		</div>
+		<div id="mdb_detail_print<{$id}>">
+			<{assign var="mode" value="detail"}>
+			<{assign var="data_pos_1" value=$action.detail.metadata.1}>
+			<{assign var="data_pos_2" value=$action.detail.metadata.2}>
+			<{assign var="data_pos_3" value=$action.detail.metadata.3}>
+			<{assign var="data_pos_4" value=$action.detail.metadata.4}>
+			<{assign var="item" value=$action.detail.value|smarty:nodefaults}>
+			<{* 詳細部 *}>
+			<{include file="multidatabase_common_metadata.html"}>
+		</div>
+		<{if $action.mdb_obj.comment_flag == $smarty.const._ON}>
+			<div id="mdb_comment<{$id}>" class="mdb_comment display-none">
+				<{if $action.detail.value.comment_count > 0}>
+					<div class="mdb_comment_title">
+						<{$lang.mdb_detail_comment|smarty:nodefaults}>
+					</div>
+					<table class="mdb_comment_list" summary="">
+						<{foreach item=comment from=$action.detail.value.comments}>
+							<tr>
+								<td class="mdb_comment_head">
+									<a class="syslink" href="#" title="<{if $smarty.session._login_id == ''}><{$lang.mdb_detail_writer_title|smarty:nodefaults|sprintf:$comment.insert_user_name}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$comment.insert_user_name}><{/if}>" onclick="commonCls.showUserDetail(event, '<{$comment.insert_user_id}>'); return false;">
+										<{$comment.insert_user_name}>
+									</a>
+								</td>
+								<td class="nowrap align-right mdb_comment_head">
+									<span class="mdb_comment_separator">
+										<{$comment.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+									</span>
+									<{if $comment.edit_auth}>
+										<span class="mdb_comment_separator">
+											<a class="syslink" href="#mdb_input_comment<{$id}>" title="<{$lang.mdb_comment_edit_title|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].editComment('<{$comment.comment_id}>', '<{$action.multidatabase_id}>', '<{$action.detail.value.content_id}>');return false;">
+												<{$lang._edit|smarty:nodefaults}>
+											</a>
+											<{$lang._separator|smarty:nodefaults}>
+											<a class="syslink" href="#" title="<{$lang.mdb_comment_delete_title}>" onclick="mdbCls['<{$id}>'].deleteComment('<{$comment.comment_id}>', '<{$action.multidatabase_id}>', '<{$action.detail.value.content_id}>', '<{$lang.mdb_comment_delete|smarty:nodefaults}>'); return false;">
+												<{$lang._delete|smarty:nodefaults}>
+											</a>
+										</span>
+									<{/if}>
+								</td>
+							</tr>
+							<tr>
+								<td class="mdb_comment_content" colspan="2">
+									<div id="comment_content_<{$comment.comment_id}><{$id}>">
+										<{$comment.comment_content|nl2br}>
+									</div>
+								</td>
+							</tr>
+						<{/foreach}>
+					</table>
+				<{/if}>
+				<{if $action.detail.value.temporary_flag == MULTIDATABASE_STATUS_RELEASED_VALUE && $smarty.session._auth_id >= $smarty.const._AUTH_GENERAL}>
+					<div id="mdb_input_comment<{$id}>">
+						<form action="post" onsubmit="return false;">
+							<div class="mdb_comment_input_title">
+								<{$lang.mdb_comment_input|smarty:nodefaults}>
+							</div>
+							<label>
+								<textarea class="textarea" id="mdb_comment_textarea<{$id}>" name="comment_content"></textarea>
+							</label>
+							<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" />
+							<input type="hidden" name="content_id" value="<{$action.detail.value.content_id}>" />
+							<input type="hidden" name="comment_id" id="comment_post_id<{$id}>" value="" />
+							<div class="mdb_comment_submit">
+								<input class="lined_btn btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].postComment(this.form);return false;" />
+							</div>
+						</form>
+					</div>
+				<{/if}>
+			</div>
+		<{/if}>
+	<{/if}>
+	<br />
+	<div class="hr"></div>
+	<div class="btn-bottom">
+		<{if strpos($id, MULTIDATABASE_REFERENCE_PREFIX_NAME)}>
+			<input class="btn-width" type="button" value="<{$lang._back_to_list}>" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_init', multidatabase_id:<{$action.mdb_obj.multidatabase_id}>});" />
+		<{elseif $action.search == _ON}>
+			<input class="btn-width" type="button" value="<{$lang._back_to_list}>" onclick="location.href='<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;active_action=multidatabase_view_main_search_result&amp;multidatabase_id=<{$action.mdb_obj.multidatabase_id}>&amp;block_id=<{$block_id}>&amp;back=<{$smarty.const._ON}>#<{$smarty.session._id}>';return false;" />
+		<{else}>
+			<input class="btn-width" type="button" value="<{$lang._back_to_list}>" onclick="location.href='<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;active_action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.mdb_obj.multidatabase_id}>&amp;block_id=<{$block_id}>#<{$smarty.session._id}>';return false;" />
+		<{/if}>
+	</div>
+</div>
+<{include file="../multidatabase_script.html"}>
+<{/strip}>

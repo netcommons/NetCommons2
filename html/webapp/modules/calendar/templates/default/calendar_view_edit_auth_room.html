@@ -1,0 +1,50 @@
+<{strip}>
+
+<tr class="row">
+	<th class="nowrap" scope="col">
+		<div class="<{$plan_class}>">
+			<{if !empty($indent|smarty:nodefaults) }>
+				<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+			<{/if}>
+			<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+			<{$plan_name}>
+		</div>
+	</th>
+	<{if ($plan_flag == CALENDAR_PLAN_PRIVATE) }>
+		<td class="nowrap"><{$lang.calendar_myself|smarty:nodefaults}></td>
+	<{elseif ($room_obj.authority_id < _AUTH_CHIEF) }>
+		<td class="nowrap">
+			<{$lang.calendar_nosetting|smarty:nodefaults}>
+		</td>
+	<{else}>
+		<td class="nowrap">
+			<{if ($plan_flag == CALENDAR_PLAN_MEMBERS) }>
+				<{assign var="default_authority_id" value=$smarty.const._AUTH_ADMIN}>
+			<{else}>
+				<{assign var="default_authority_id" value=$smarty.const._AUTH_CHIEF}>
+			<{/if}>
+			<{if ($action.manage_list.$room_id) }>
+				<{assign var="manage" value=$action.manage_list.$room_id}>
+				<{assign var="add_authority_id" value=$manage.add_authority_id}>
+			<{else}>
+				<{assign var="add_authority_id" value=$default_authority_id}>
+			<{/if}>
+			<label for="calendar_auth_<{$room_id}>_<{$smarty.const._AUTH_CHIEF}><{$id}>">
+		 		<input id="calendar_auth_<{$room_id}>_<{$smarty.const._AUTH_CHIEF}><{$id}>" type="checkbox" name="add_authority[<{$room_id}>][<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>"<{if ($plan_flag != CALENDAR_PLAN_MEMBERS) }> disabled="disabled"<{/if}><{if ($add_authority_id <= _AUTH_CHIEF) }> checked="checked"<{/if}> onclick='commonCls.changeAuthority(this,"<{$id}>");' />
+ 				<{$smarty.const._AUTH_CHIEF_NAME}>
+	 		</label>
+	 		&nbsp;&nbsp;&nbsp;
+			<label for="calendar_auth_<{$room_id}>_<{$smarty.const._AUTH_MODERATE}><{$id}>">
+		 		<input id="calendar_auth_<{$room_id}>_<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="add_authority[<{$room_id}>][<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>"<{if ($add_authority_id <= _AUTH_MODERATE) }> checked="checked"<{/if}> onclick='commonCls.changeAuthority(this,"<{$id}>");' />
+ 				<{$smarty.const._AUTH_MODERATE_NAME}>
+	 		</label>
+	 		&nbsp;&nbsp;&nbsp;
+			<label for="calendar_auth_<{$room_id}>_<{$smarty.const._AUTH_GENERAL}><{$id}>">
+		 		<input id="calendar_auth_<{$room_id}>_<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="add_authority[<{$room_id}>][<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>"<{if ($add_authority_id <= _AUTH_GENERAL) }> checked="checked"<{/if}> onclick='commonCls.changeAuthority(this,"<{$id}>");' />
+ 				<{$smarty.const._AUTH_GENERAL_NAME}>
+	 		</label>
+		</td>
+	<{/if}>
+</tr>
+
+<{/strip}>

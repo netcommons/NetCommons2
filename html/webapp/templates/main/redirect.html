@@ -1,0 +1,56 @@
+<{strip}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{$header_field.meta_language}>" lang="<{$header_field.meta_language}>">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$smarty.const._CHARSET}>" />
+<meta http-equiv="Refresh" content="<{if isset($time|smarty:nodefaults)}><{$time}><{elseif isset($action.time|smarty:nodefaults)}><{$action.time}><{else}>1<{/if}>; url=<{if isset($action.redirect_url|smarty:nodefaults)}><{$action.redirect_url|replace:"&amp;":"&"}><{else}><{$url|replace:"&amp;":"&"}><{/if}>" />
+<title><{$header_field.sitename}></title>
+<link class="_common_css" rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?<{$smarty.const.ACTION_KEY}>=common_download_css" />
+<{$header_field.script_header|smarty:nodefaults}>
+<{$header_field.template_header|smarty:nodefaults}>
+</head>
+<body class="redirect_body">
+<table class="redirect_main" summary="">
+  <tr>
+    <td class="valign-top"><img src="<{""|get_image_url}>/images/common/redirect_arrorw.gif" title="" alt="" /></td>
+    <td class="redirect_text">
+    	<{if isset($redirect_message|smarty:nodefaults) && $redirect_message!=""}>
+    		<{$redirect_message|smarty:nodefaults}>
+    	<{elseif isset($action.redirect_message|smarty:nodefaults) && $action.redirect_message!=""}>
+    		<{$action.redirect_message|smarty:nodefaults}>
+    	<{else}>
+    		<{errorList->getMessagesString}>
+    	<{/if}>
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td class="redirect_subtext">
+    	<{if isset($lang_ifnotreload|smarty:nodefaults)}>
+    		<{$lang_ifnotreload|smarty:nodefaults}>
+    	<{elseif isset($action.redirect_url|smarty:nodefaults)}>
+    		<{assign var="redirect_url" value=$action.redirect_url|smarty:nodefaults}>
+    		<{$smarty.const._IFNOTRELOAD|smarty:nodefaults|sprintf:$redirect_url}>
+    	<{else}>
+    		<{assign var="redirect_url" value=$smarty.const.BASE_URL|cat:$smarty.const.INDEX_FILE_NAME}>
+    		<{$smarty.const._IFNOTRELOAD|smarty:nodefaults|sprintf:$redirect_url}>
+    	<{/if}>
+    </td>
+  </tr>
+</table>
+<script class="nc_script" type="text/javascript">
+	setTimeout(
+		function(){
+			var location_str = '<{if isset($redirect_url|smarty:nodefaults)}><{$redirect_url}><{else}><{$url}><{/if}>';
+			<{if $smarty.post.action == "login_action_main_init"}>
+				top.location.href=location_str.replace(/&amp;/ig,"&");
+			<{else}>
+				location.href=location_str.replace(/&amp;/ig,"&");
+			<{/if}>
+		}, 
+		<{if isset($time|smarty:nodefaults)}><{$time}><{elseif isset($action.time|smarty:nodefaults)}><{$action.time}><{else}>1<{/if}>*1000
+	);
+</script>
+</body>
+</html>
+<{/strip}>

@@ -1,0 +1,24 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="userinf_withdraw_title">
+		<{$lang.userinf_withdraw_title|smarty:nodefaults}>
+	</div>
+	<div class="userinf_withdraw_desc_title">
+		<{$lang.userinf_top_description_title|smarty:nodefaults}>
+	</div>
+	<div class="userinf_withdraw_desc">	
+		<{$lang.userinf_top_description|smarty:nodefaults}>
+	</div>
+	<div class="align-right">
+		<label for="userinf_withdraw_accept<{$id}>">
+			<input id="userinf_withdraw_accept<{$id}>" type="checkbox" value="1" onclick="userinfCls['<{$id}>'].withdrawAccept(this);" />
+			<{$lang.userinf_withdraw_accept|smarty:nodefaults}>
+		</label>
+	</div>
+	<{* 各種ボタン *}>
+	<div class="btn-bottom align-right">
+		<input class="btn-width lined_btn" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'userinf_view_main_withdraw_init','user_id':'<{$action.user_id}>'}); return false;" />
+		<input id="userinf_next<{$id}>" class="btn-width lined_btn" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'userinf_view_main_withdraw_confirm','user_id':'<{$action.user_id}>'}); return false;" disabled='disabled' />
+	</div>
+</div>
+<{/strip}>

@@ -1,0 +1,34 @@
+<{strip}>
+<{* 項目追加-プレビュー *}>
+<{assign var="item" value=$action.item|smarty:nodefaults}>
+<{assign var="mode" value="preview"}>
+<div class="top_description">
+	<{$lang.user_top_description|smarty:nodefaults}>
+</div>
+<table class="outer user_preview_area" summary="<{$lang.user_detail_summary|smarty:nodefaults}>">
+	<tr>
+		<td class="valign-top align-left">
+			<table summary="" cellspacing="0" cellpadding="5">
+				<th class="user_detail_head" scope="row">
+					<label for="user_items_<{$id}><{$item.item_id}>">
+						<{$item.item_name}>
+					</label>
+					<{* 必須 *}>
+					<{if $item.require_flag == _ON}>
+						<{$lang.user_require_flag|smarty:nodefaults}>
+					<{/if}>
+				</th>
+				<td style="width:<{$conf.user_detail_min_width}>px;">
+					<div class="user_edit_item">
+						<{assign var="upload_count" value=0}>
+						<{include file="user_common_edit_comp.html"}>
+					</div>
+				</td>
+			</table>
+		</td>
+	</tr>
+</table>
+<div class="btn-bottom align-right">
+	<input class="lined_btn btn-width" type="button" onclick="parent.userCls['<{$id}>'].popupPreview.closePopup(); return false;" value="<{$lang._close_btn|smarty:nodefaults}>" />
+</div>
+<{/strip}>

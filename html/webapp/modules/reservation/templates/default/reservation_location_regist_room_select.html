@@ -1,0 +1,21 @@
+<{strip}>
+
+<th scope="row" class="nowrap">
+	<label for="room_select<{$id}>">
+		<{$lang.reservation_room_select|smarty:nodefaults}>
+	</label>
+</th>
+<td>
+	<label for="allroom_flag<{$id}>">
+		<input id="allroom_flag<{$id}>" type="checkbox" name="allroom_flag" value="<{$smarty.const._ON}>"<{if ($location.allroom_flag == _ON) }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchLocationRoom(this);' />
+		<{$lang.reservation_allroom_flag|smarty:nodefaults}>
+	</label>
+	<div id="reservation_room_select<{$id}>" class="reservation_room_select">
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<{include file="./reservation_view_recursive_room.html" next_thread_num=$next_thread_num next_parent_id=$next_parent_id room_list=$room_list}>
+	</div>
+</td>
+
+<{/strip}>

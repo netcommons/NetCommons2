@@ -1,0 +1,28 @@
+<{* XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{section name=i loop=$action.cabinets}>
+		<row id="cabinet_current_row<{$action.cabinets[i].cabinet_id}><{$id}>">
+			<change_disp><![CDATA[
+				<{include file = "cabinet_view_edit_list_item.html" item_type="change_disp" cabinet=$action.cabinets[i]}>
+			]]></change_disp>
+			<name><![CDATA[
+				<{include file = "cabinet_view_edit_list_item.html" item_type="cabinet_name" cabinet=$action.cabinets[i]}>
+			]]></name>
+			<total_size><![CDATA[
+				<{include file = "cabinet_view_edit_list_item.html" item_type="total_size" cabinet=$action.cabinets[i]}>
+			]]></total_size>
+			<creator><![CDATA[
+				<{include file = "cabinet_view_edit_list_item.html" item_type="creator" handle=$action.cabinets[i].insert_user_name|smarty:nodefaults user_id=$action.cabinets[i].insert_user_id}>
+			]]></creator>
+			<create_date><![CDATA[
+				<{include file = "cabinet_view_edit_list_item.html" item_type="create_date" cabinet=$action.cabinets[i]}>
+			]]></create_date>
+			<manage><![CDATA[
+				<{include file = "cabinet_view_edit_list_item.html" item_type="manage" cabinet_name=$action.cabinets[i].cabinet_name|smarty:nodefaults cabinet_id=$action.cabinets[i].cabinet_id}>
+			]]></manage>
+		</row>
+	<{/section}>
+</lists>
+<{/strip}>

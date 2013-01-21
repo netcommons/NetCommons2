@@ -1,0 +1,33 @@
+div.imagine_full {
+	background:transparent url(<{$smarty.const.CORE_BASE_URL}>/images/imagine/aluminum/background_full.gif) no-repeat scroll left top;
+	height:56px;
+	width:579px;
+}
+div.imagine_compact {
+	width:163px;
+}
+
+textarea.imagine_full {
+	float:left;
+	height:36px;
+	width:376px;
+	border:1px solid #a3c5e7;
+	margin-left:92px;
+	margin-top:8px;
+	overflow:auto;
+}
+textarea.imagine_compact {
+	height:50px;
+	width:157px;
+	border:1px solid #a3c5e7;
+	overflow:auto;
+}
+
+input.imagine_submit_full {
+	margin-left:14px;
+	margin-top:8px;
+}
+input.imagine_submit_compact {
+	margin-left:75px;
+	margin-top:5px;
+}

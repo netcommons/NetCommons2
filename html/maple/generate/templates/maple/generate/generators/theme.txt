@@ -1,0 +1,23 @@
+Usage: nc [options] theme <themeName> [themeType]
+-------------------------------------------------------
+  themeName:required (hoge or hoge_hoge)
+  themeType:default="normal"
+                    simple | normal | full
+  -----------------------------------------
+  theme.ini            * 	   * 	   *
+  icon_color.ini       * 	   * 	   *
+  block_custom.ini     - 	   - 	   *
+  page_custom.ini      - 	   - 	   *
+  page_style.css       - 	   * 	   *
+  style.css            * 	   * 	   *
+  images               * 	   * 	   *
+  language             * 	   * 	   *
+  templates            * 	   * 	   *
+  ------------------------------------------
+
+Examples:
+
+"nc theme hoge"
+"nc theme hoge_default full"
+"nc theme hoge_gray simple"
+"nc theme hoge_red full"

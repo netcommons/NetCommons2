@@ -1,0 +1,33 @@
+<{* フォトアルバム一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.photoalbums item=photoalbum}>
+		<row id="photoalbum_current_row<{$photoalbum.photoalbum_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file = "photoalbum_view_edit_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file = "photoalbum_view_edit_list_name.html"}>
+				]]>
+			</name>
+			<creator>
+				<![CDATA[
+					<{include file = "photoalbum_view_handle.html" handle=$photoalbum.insert_user_name|smarty:nodefaults user_id=$photoalbum.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$photoalbum.insert_time|timezone_date_format:$lang._date_format}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file = "photoalbum_view_edit_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

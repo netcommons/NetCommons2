@@ -1,0 +1,28 @@
+<{strip}>
+<{* 会員新規登録-編集画面 *}>
+<div class="outerdiv">
+<form id="form<{$id}>" action="" target="user_attachment<{$id}>" enctype="multipart/form-data">
+
+	<{* ヘッダー部 *}>
+	<{if $action.edit_flag}>
+		<div class="bold">
+			<{$lang.user_view_admin_edit|smarty:nodefaults}>
+		</div>
+	<{/if}>
+	<{* 操作説明 *}>
+	<{$lang.user_view_admin_regist_desc|smarty:nodefaults|sprintf:"`$lang._btn_next_arrow`"}>
+	<{assign var="mode" value="regist"}>
+	<{assign var="upload_count" value=0}>
+	<{include file="user_common_userdetail.html"}>
+	<{* 各種ボタン *}>
+	<div class="btn-bottom align-right">
+		<input class="btn-width room_next lined_btn" name="next" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selroom', this.form, this.form.parentNode); return false;" />
+		<{if $action.edit_flag == 1}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang._close_block_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false;commonCls.removeBlock('<{$id}>'); return false;" />
+		<{/if}>
+	</div>
+	<input name="user_id" type="hidden" value="<{$action.user_id}>" />
+	<{include file="user_script.html"}>
+</form>
+</div>
+<{/strip}>

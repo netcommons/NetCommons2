@@ -1,0 +1,89 @@
+<{strip}>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+	<title><{$smarty.session._meta.sitename}>-<{$smarty.session._page_title}></title>
+	<meta name="viewport" content="width=device-width,  initial-scale=1">
+	<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/comp/extension/nc_theme_classic.css&amp;header=0&amp;vs=<{$smarty.const._CSS_VERSION}>" />
+	<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/comp/extension/jquery.mobile-1.0.1.min.css&amp;header=0&amp;vs=<{$smarty.const._CSS_VERSION}>" />
+	<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/comp/extension/jquery.mobile_addition.css&amp;header=0&amp;vs=<{$smarty.const._CSS_VERSION}>" />
+	<script type="text/javascript" src="<{''|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=jquery-1.6.4.min&amp;smapho_flag=1&amp;vs=&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
+	<script type="text/javascript" src="<{''|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=jquery.mobile-1.0.1.min&amp;smapho_flag=1&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
+	<script type="text/javascript" src="<{''|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=jquery.mobile_addition&amp;smapho_flag=1&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
+</head>
+
+<body>
+<div id="main_page" data-role="page" data-add-back-btn="true" data-back-btn-text="<{$lang._btn_prev_arrow_simple}>" data-theme="<{$smartphone_theme_color}>"  data-dom-cache="false">
+
+<div data-role="header"  data-position="inline"  data-theme="<{$smartphone_theme_color}>" >
+	<{assign var="parameter" value="`$session_param`"}>
+	<h1><{$smarty.session._page_title}></h1>
+
+	<{if $smarty.session._closesite == _OFF && isset($header_modules.login|smarty:nodefaults)}>
+		<{assign var="login" value="`$header_modules.login`"}>
+		<{if ($login.use_flag == _ON) }>
+			<{if ($smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
+			<{else}>
+				<a class="ui-btn-right" href="?action=<{$login.mobile_action_name}><{$parameter}>">
+					<{$lang._mobile_login}>
+				</a>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+
+	<div data-role="navbar">
+	<ul>
+	<{if $smarty.session._closesite == _OFF}>
+		<{foreach name="module" key="dir_name" item="module" from=$header_modules}>
+			<{if ($dir_name != "mobile" && $dir_name != "login") && ($module.use_flag == _ON) }>
+				<li>
+					<{if ($dir_name == "menu") }>
+						<{if empty($smarty.session._mobile_room_id|smarty:nodefaults)}>
+							<a data-transition="slidedown" href="?action=<{$module.mobile_action_name}><{$parameter}>" <{if ($module.mobile_action_name == $main_action_name)}>class="ui-btn-active"<{/if}>>
+								<{$module.module_name}>
+							</a>
+						<{else}>
+							<a data-transition="slidedown" href="?action=<{$module.mobile_action_name}>&amp;room_id=<{$smarty.session._mobile_room_id}>&amp;page_id=<{$smarty.session._mobile_room_id}><{$parameter}>" <{if ($module.mobile_action_name == $main_action_name)}>class="ui-btn-active"<{/if}>>
+								<{$module.module_name}>
+							</a>
+						<{/if}>
+					<{elseif ($dir_name == "calendar")}>
+						<a data-transition="slidedown" href="?action=<{$module.mobile_action_name}>&amp;date=<{$smarty.now|date_format:'YmdHis'|timezone_date_format:'Ymd'}><{$parameter}>" <{if ($module.mobile_action_name == $main_action_name)}>class="ui-btn-active"<{/if}>>
+							<{$module.module_name}>
+						</a>
+					<{else}>
+						<a data-transition="slidedown" href="?action=<{$module.mobile_action_name}><{$parameter}>" <{if ($module.mobile_action_name == $main_action_name)}>class="ui-btn-active"<{/if}>>
+							<{$module.module_name}>
+						</a>
+					<{/if}>
+				</li>
+			<{/if}>
+		<{/foreach}>
+	<{/if}>
+	</ul>
+	</div>
+</div>
+
+<div data-role="content" >
+	<{$contents|smarty:nodefaults}>
+</div>
+
+<div data-role="footer" class="ui-bar" data-theme="<{$smartphone_theme_color}>" >
+	<h1 style="text-align:left;"><{$smarty.session._meta.sitename}></h1>
+	<{if ($smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
+		<div style="float:right;margin-right:25px;">
+			<a  data-transition="slideup" href="?action=userinf_action_mobile_init<{$session_param}>" data-role="button" data-icon="gear">
+				<{$smarty.session._handle}>
+			</a>
+			<a href="?action=login_action_main_logout<{$session_param}>" data-role="button" >
+				<{$lang._mobile_logout}>
+			</a>
+		</div>
+	<{/if}>
+	<a data-role="button" data-icon="alert" href="#" onclick="location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=pages_view_main&amp;pcviewer_flag=<{$smarty.const._ON}>';return false;">
+		<img src="<{""|get_image_url}>/images/comp/textarea/titleicon/icon-pc.gif" alt="<{$lang._pc_viewer}>" title="<{$lang._pc_viewer}>" />
+	</a>
+</div>
+
+</div>
+</body>
+<{/strip}>

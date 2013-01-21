@@ -1,0 +1,23 @@
+<{strip}>
+<{* Todo一覧（携帯）用テンプレート *}>
+<h3>
+	<{$current_module_name}>
+</h3>
+
+<ul>
+	<{section name=i loop=$action.todos}>
+		<li>
+			<a href="?action=todo_view_main_init&amp;block_id=<{$action.todos[i].block_id}>&amp;target_state=<{$smaty.const._OFF}><{$session_param}>">
+				<{$action.todos[i].todo_name|truncate:$smarty.const._MOBILE_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true}>
+			</a>
+		</li>
+	<{/section}>
+</ul>
+
+<br>
+<div align="right">
+	<a href="?action=menu_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

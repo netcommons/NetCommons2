@@ -1,0 +1,25 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="th_<{$main_theme_name}> widthmax">
+	<tr>
+		<td class="th_<{$main_theme_name}>_upperleft"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_<{$main_theme_name}>_upperleft" /></td>
+		<td class="th_<{$main_theme_name}>_upper"></td>
+		<td class="th_<{$main_theme_name}>_upperright"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_<{$main_theme_name}>_upperright" /></td>
+	</tr>
+	<tr>
+		<td class="th_<{$main_theme_name}>_left"></td>
+		<td class="th_dotround_content">
+			<{*ヘッダータイトル*}>
+			<{include file="../../../../templates/headertitle/default/title.html"}>
+			<{*ヘッダーメニュー*}>
+			<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+			<div class="content"><{$content_field|smarty:nodefaults}></div>
+		</td>
+		<td class="th_<{$main_theme_name}>_right"></td>
+	</tr>
+	<tr>
+		<td class="th_<{$main_theme_name}>_belowleft"></td>
+		<td class="th_<{$main_theme_name}>_below"></td>
+		<td class="th_<{$main_theme_name}>_belowright"></td>
+	</tr>
+</table>
+<{/strip}>

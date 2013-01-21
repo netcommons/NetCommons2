@@ -1,0 +1,37 @@
+<{strip}>
+
+<br />
+<div><{$message|smarty:nodefaults}></div>
+<br />
+
+<{if ($regist_action != "") }>
+	<form method="<{$method}>" action=".<{$smarty.const.INDEX_FILE_NAME}>" style="float:left;">
+		<div>
+			<input data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+			<input type="hidden" name="action" value="<{$regist_action}>">
+
+			<{foreach name="param" key="name" item="value" from=$params}>
+				<input type="hidden" name="<{$name}>" value="<{$value}>">
+			<{/foreach}>
+
+			<{$token_form|smarty:nodefaults}>
+			<{$session_form|smarty:nodefaults}>
+		</div>
+	</form>
+<{/if}>
+<{if ($cancel_action != "") }>
+	<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+		<div>
+			<input data-inline="true" type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+			<input type="hidden" name="action" value="<{$cancel_action}>">
+
+			<{foreach name="param" key="name" item="value" from=$params}>
+				<input type="hidden" name="<{$name}>" value="<{$value}>">
+			<{/foreach}>
+
+			<{$session_form|smarty:nodefaults}>
+		</div>
+	</form>
+<{/if}>
+
+<{/strip}>

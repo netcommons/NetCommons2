@@ -1,0 +1,100 @@
+<{strip}>
+<{* 解答レポートテンプレート *}>
+
+<{* 提出者リストへ戻る *}>
+<{if ($action.submit_user_id != "" && $action.hasSubmitListView) }>
+	<{include file="assignment_view_back_title.html"}>
+<{/if}>
+
+<{* 解答レポート *}>
+<table class="assignment_reporter_view">
+	<tr>
+		<td class="assignment_poster">
+			<{* 評価 *}>
+			<div class="float-left">
+				<{if ($action.submit_user_id != "" || $action.hasSubmitListView) }>
+					<{$lang.assignment_grade_item}>
+					<{include file="assignment_view_grade_value.html" submit_flag=$action.report.submit_flag grade_value=$action.report.grade_value|smarty:nodefaults report_status=$action.report.status|smarty:nodefaults}>
+				<{else}>
+					&nbsp;
+				<{/if}>
+			</div>
+
+			<div class="float-right">
+				<{* 提出者 *}>
+				<{include file="assignment_view_handle.html" handle=$action.report.insert_user_name|smarty:nodefaults user_id=$action.report.insert_user_id}>
+				<{$lang._separator|smarty:nodefaults}>
+
+				<{* 提出日時 *}>
+				<{$action.report.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+
+				<{* 編集・削除 *}>
+				<{if ($action.report.hasEditAuthority) }>
+					&nbsp;&nbsp;&nbsp;
+					<a class="syslink" href="#" title="" onclick="assignmentCls['<{$id}>'].showModifyForm('<{$action.report.submit_id}>','<{$action.report.report_id}>'); return false;">
+						<{$lang._edit|smarty:nodefaults}>
+					</a>
+					<{$lang._separator|smarty:nodefaults}>
+					<a class="syslink" href="#" title="" onclick="assignmentCls['<{$id}>'].deleteReport('<{$action.report.submit_id}>','<{$action.report.report_id}>','<{$lang._del_confirm|sprintf:$lang.assignment_report_body|smarty:nodefaults}>'); return false;">
+						<{$lang._delete|smarty:nodefaults}>
+					</a>
+				<{/if}>
+			</div>
+		</td>
+
+		<{* 履歴 *}>
+		<td rowspan="3" class="assignment_report_history">
+			<div class="assignment_report_history">
+				<{foreach name="report" from=$action.reports item=report}>
+					<{if (empty($action.report|smarty:nodefaults) && $smarty.foreach.report.first || $action.report.report_id == $report.report_id) }>
+						<{include file="assignment_view_report_history.html" report=$report current=$smarty.const._ON}>
+					<{else}>
+						<{include file="assignment_view_report_history.html" report=$report current=$smarty.const._OFF}>
+					<{/if}>
+				<{/foreach}>
+			</div>
+		</td>
+	</tr>
+
+	<{* 解答レポート内容 *}>
+	<tr>
+		<td class="assignment_report_body">
+			<div title="<{$smarty.const._DBLCLICK_EDIT}>"<{if ($action.report.hasEditAuthority) }> ondblclick="assignmentCls['<{$id}>'].showModifyForm('<{$action.report.submit_id}>','<{$action.report.report_id}>')" onmouseover="commonCls.blockNotice(event, this);"<{/if}>>
+				<{$action.report.report_body|smarty:nodefaults|wysiwig_convert_url}>
+			</div>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="assignment_report_comment">
+			<{* 評価する *}>
+			<{if ($action.submit_user_id != "" && $action.report.hasGradeAuthority) }>
+				<div class="align-right">
+					<a class="syslink" href="#" title="" onclick="assignmentCls['<{$id}>'].showGradeForm(event,'<{$action.report.submit_id}>'); return false;">
+						<{$lang.assignment_report_grade}>
+					</a>
+				</div>
+			<{/if}>
+
+			<{* コメント *}>
+			<div class="hr"></div>
+			<div id="assignment_comment_view<{$id}>">
+				<{include file="assignment_view_main_comment.html"}>
+			</div>
+		</td>
+	</tr>
+
+	<{* 提出者リストへ戻る *}>
+	<{if ($action.submit_user_id != "" && $action.hasSubmitListView) }>
+		<tr>
+			<td>
+				<div class="hr"></div>
+				<div class="btn-bottom">
+					<input class="btn-width assignment_back_btn" type="button" value="<{$lang.assignment_submitter_list_btn}>" onclick='assignmentCls["<{$id}>"].backSubmitters(); return false;' />
+				</div>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+
+<{/strip}>

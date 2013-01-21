@@ -1,0 +1,10 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!policyCls["<{$id}>"]) {
+	policyCls["<{$id}>"] = new clsPolicy("<{$id}>");
+}
+<{if $action_name == "policy_view_admin_init"}>
+	policyCls["<{$id}>"].init();
+<{/if}>
+</script>
+<{/strip}>

@@ -1,0 +1,27 @@
+body {
+	background-color:#8f3a5a;
+}
+.leftcolumn {
+	background-color:#ffffff;
+}
+
+.centercolumn {
+	background-color:#ffffff;
+}
+
+.rightcolumn {
+	background-color:#ffffff;
+}
+
+.headercolumn {
+	background-color:#ffffff;
+	border-bottom:1px solid #ef9ede;
+}
+
+.footercolumn {
+	background-color:#ffffff;
+}
+
+#header_menu {
+	border-bottom: 1px solid #dfe4e7;
+}

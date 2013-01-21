@@ -1,0 +1,84 @@
+<{strip}>
+
+<{foreach name="room_list`" item="room" from=$room_list}>
+	<{if ($room.space_type == _SPACE_TYPE_PUBLIC) }>
+		<{assign var="reserve_flag" value=$smarty.const.RESERVATION_PUBLIC}>
+		<{assign var="reserve_class" value="reservation_reserve_public"}>
+		<{assign var="reserve_name" value=$room.page_name}>
+
+	<{elseif ($room.space_type == _SPACE_TYPE_GROUP && $room.private_flag == _ON) }>
+		<{assign var="reserve_flag" value=$smarty.const.RESERVATION_PRIVATE}>
+		<{assign var="reserve_class" value="reservation_reserve_private"}>
+		<{assign var="reserve_name" value=$smarty.const.RESERVATION_PRIVATE_RESERVE_FLAG|smarty:nodefaults}>
+
+	<{elseif ($room.space_type == _SPACE_TYPE_GROUP && $room.private_flag == _OFF) }>
+		<{assign var="reserve_flag" value=$smarty.const.RESERVATION_GROUP}>
+		<{assign var="reserve_class" value="reservation_reserve_group"}>
+		<{assign var="reserve_name" value=$room.page_name}>
+
+	<{else}>
+		<{assign var="reserve_flag" value=$smarty.const.RESERVATION_MEMBERS}>
+		<{assign var="reserve_class" value="reservation_reserve_members"}>
+		<{assign var="reserve_name" value=$room.page_name}>
+	<{/if}>
+
+	<{if (($reserve_flag != RESERVATION_PRIVATE || $action.private_space && $reserve_flag == RESERVATION_PRIVATE) && ($reserve_flag != RESERVATION_GROUP || $reserve_flag == RESERVATION_GROUP && $room.thread_num != 0)) }>
+		<{assign var="room_id" value=$room.page_id}>
+		<{if ($reserve_flag == RESERVATION_GROUP) }>
+			<{assign var="indent" value=$room.thread_num-1}>
+		<{else}>
+			<{assign var="indent" value=$room.thread_num}>
+		<{/if}>
+
+		<{if ($reserve_flag != RESERVATION_PUBLIC && ($action_name == "reservation_view_edit_location_add" || $action_name == "reservation_view_edit_location_modify")) }>
+			<{assign var="select_rooms" value=$action.select_rooms.$reserve_flag}>
+			<div>
+				<label for="select_room<{$room_id}><{$id}>">
+					<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+					<input id="select_room<{$room_id}><{$id}>" type="checkbox" name="select_room[]" value="<{$room_id}>"<{if ($select_rooms.$room_id) }> checked="checked"<{/if}> />
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$reserve_class}> reservation_reserve_mark" alt="" title="" />
+					<{$reserve_name}>
+				</label>
+			</div>
+
+		<{elseif ($reserve_flag != RESERVATION_PUBLIC && ($action_name == "reservation_view_main_location_details"))}>
+			<{assign var="select_rooms" value=$action.select_rooms.$reserve_flag}>
+			<div<{if ($select_rooms.$room_id) }><{else}> class="disable_lbl"<{/if}>>
+				<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+				<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon<{if ($select_rooms.$room_id) }> <{$reserve_class}><{else}> reservation_disable<{/if}> reservation_reserve_mark" alt="" title="" />
+				<{$reserve_name}>
+			</div>
+
+		<{elseif ($action_name == "reservation_view_main_reserve_add" || $action_name == "reservation_view_main_reserve_modify" || $action_name == "reservation_view_edit_import_init" ||
+					$action_name == "reservation_view_main_reserve_switch_location" || $action_name == "reservation_view_main_reserve_switch_category")}>
+
+			<{if (in_array($room_id, $action.allow_add_rooms)) }>
+				<option value="<{$room_id}>"<{if ($action.reserve_room_id==$room_id) }> selected="selected"<{/if}>>
+					<{"&nbsp;&nbsp;"|str_repeat:$indent}>
+					<{$lang.reservation_reserve_flag_str|smarty:nodefaults|sprintf:$reserve_name}>
+					<{if ($room.thread_num != 0 && !($room.thread_num == 1 && $room.space_type == _SPACE_TYPE_GROUP && $room.private_flag == _OFF)) }>
+						(<{$parent_room_name}>)
+					<{/if}>
+				</option>
+			<{else}>
+<{*
+				<option value="-" class="disable_lbl"<{if ($action.reserve_room_id==$room_id) }> selected="selected"<{/if}>>
+					<{"&nbsp;&nbsp;"|str_repeat:$indent}>
+					<{$lang.reservation_reserve_flag_str|smarty:nodefaults|sprintf:$reserve_name}>
+				</option>
+*}>
+			<{/if}>
+
+		<{/if}>
+	<{/if}>
+
+	<{assign var="next_thread_num" value=$room.thread_num+1}>
+	<{assign var="next_parent_id" value=$room.page_id}>
+	<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+	<{if ($room_list) }>
+		<{assign var="parent_room_name" value=$room.page_name}>
+		<{include file="reservation_view_recursive_room.html" next_thread_num=$next_thread_num next_parent_id=$next_parent_id room_list=$room_list}>
+	<{/if}>
+<{/foreach}>
+
+<{/strip}>

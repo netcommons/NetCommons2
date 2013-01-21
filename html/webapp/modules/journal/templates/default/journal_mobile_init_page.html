@@ -1,0 +1,34 @@
+<{strip}>
+<{if ($action.pager.total_page > 1) }>
+
+	<{assign var="display_start_page" value=$action.now_page-2}>
+	<{assign var="display_end_page" value=$action.now_page+2}>
+
+	<div data-role="navbar" data-type="horizontal">
+		<{section name=cnt loop=$action.pager.total_page}>
+
+			<{*最初のページ*}>	<{*最後のページ*}>	<{* 途中のページ *}>
+			<{if $smarty.section.cnt.first || $smarty.section.cnt.last || ($smarty.section.cnt.iteration >= $display_start_page && $smarty.section.cnt.iteration <= $display_end_page)}>
+				<{if $smarty.section.cnt.last}>
+					<{if $smarty.section.cnt.iteration-1 > $display_end_page}>
+						..
+					<{/if}>
+				<{/if}>
+		  		<{if $action.now_page==$smarty.section.cnt.iteration}>
+					<span class="ui-btn-up-d ui-btn-corner-all ui-btn ui-btn-inline" style="padding:12px 3px;cursor:default;"><{$action.now_page}></span>
+		  		<{else}>
+					<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=journal_view_main_init&amp;block_id=<{$block_id}><{if ($action.category_id != "") }>&amp;cate_id=<{$action.category_id}><{/if}>&amp;visible=<{$action.visible_item}>&amp;now_page=<{$smarty.section.cnt.iteration}><{$session_param}>" style="padding-left:3px;padding-right:3px;">
+						<{$smarty.section.cnt.iteration}>
+					</a>
+		  		<{/if}>
+				<{if $smarty.section.cnt.first}>
+					<{if $smarty.section.cnt.iteration+1 < $display_start_page}>
+						..
+					<{/if}>
+				<{/if}>
+			<{/if}>
+
+		<{/section}>
+	</div>
+<{/if}>
+<{/strip}>

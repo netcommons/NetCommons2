@@ -1,0 +1,117 @@
+<{strip}>
+<{* tableタグにしないと広さが自動的に設定されない *}>
+<table class="comptextarea_dialog" cellspacing="0" cellpadding="0"><tr><td style="<{* style指定ではないとなぜかIEでpaddingされない *}>padding:5px;">
+	<div class="comptextarea_dialog_title"><{$lang.insert_upload_title}></div>
+	<div><{$lang.insert_upload_message|smarty:nodefaults}></div>
+	<form name="attachment_form<{$action.parent_id_name}>" target="attachment_form<{$action.top_id_name}>" enctype="multipart/form-data">
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td class="valign-top">
+					<div id="addupload">
+						<div class="nowrap">
+							<input type="file" name="upload[]" id="f_upload" />
+						</div>
+					</div>
+					<a class="link" href="#" onclick="addUpload(); return false;">
+						<{$lang.insert_upload_add}>
+					</a>
+				</td>
+				<td class="comptextarea_insetrimage_right">
+					<div>
+				  		<input class="comptextarea_btn_width" type="button" name="ok" value="<{$lang._ok}>" onclick="onOK(false);return false;" />
+				  	</div>
+				  	<div style="margin-bottom:8px;">
+				  		<input class="comptextarea_btn_width" type="button" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>" onclick="parent.commonCls.referComp['<{$action.parent_id_name}>'].closePopup('insertupload'); return false;" />
+				  	</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</td></tr></table>
+<script type="text/javascript">
+var htmlarea = parent.commonCls.referComp['<{$action.parent_id_name}>'];
+var popup = htmlarea.popup[htmlarea.popupPrefix + htmlarea.id + 'insertupload'];
+
+function Init() {
+	parent.commonCls.stopObserving(window, 'load',Init, false);
+	var f_upload_el = document.getElementById("f_upload");
+	f_upload_el.focus();
+	<{*//リサイズ*}>
+	popup.resize();
+}
+
+function addUpload() {
+	var addupload_el = document.getElementById("addupload");
+	var div = document.createElement('div');
+	parent.Element.addClassName(div, "nowrap");
+	addupload_el.appendChild(div);
+	div.innerHTML = '<input type="file" name="upload[]" />';
+	div.style.marginTop = "2px";
+	<{*//リサイズ*}>
+	popup.resize();
+}
+function onOK() {
+	if(htmlarea.uploadAction.file != null && htmlarea.uploadAction.file != "") {
+		<{*//パラメータ設定*}>
+		var attachment_params = new Object();
+		attachment_params['document_obj'] = document;
+		attachment_params['top_el'] = parent.document.getElementById('<{$action.top_id_name}>');
+		if(htmlarea.uploadAction.unique_id == undefined) {
+			htmlarea.uploadAction.unique_id = "0";
+		}
+		attachment_params['param'] = {"action": htmlarea.uploadAction.file,"unique_id":htmlarea.uploadAction.unique_id};
+		attachment_params['callbackfunc'] = sendAttachmentCallBack;
+		parent.commonCls.sendAttachment(attachment_params);
+	}
+}
+
+function sendAttachmentCallBack(file_list, res) {
+	var inputList = document.getElementsByTagName("input");
+	var count = 0;
+	var uploads = "";
+	var error_flag = false;
+	var upload_count = 0;
+	for (var i = 0, inputLen = inputList.length; i < inputLen; i++){
+		if(inputList[i].type == "file") {
+			if(file_list[count]) {
+				if(file_list[count]['error_mes'] != "") {
+					parent.commonCls.alert(file_list[count]['error_mes']+":"+file_list[count]['file_name']);
+					<{*
+					var error_el = inputList[i].nextSibling;
+					if(!error_el) {
+						error_el = document.createElement("SPAN");
+						parent.Element.addClassName(error_el, "nowrap");
+						parent.Element.addClassName(error_el, "errorstr");
+						parent.Element.getParentElement(inputList[i]).appendChild(error_el);
+					}
+					*}>
+					error_flag = true;
+					<{*error_el.innerHTML = file_list[count]['error_mes'];*}>
+				} else {
+					upload_count++;
+					if(file_list[count]['file_name'] != "") {
+						if(uploads) {
+							uploads += "<br />";
+						}
+						uploads += "<a target=\"_blank\" href=\"./?action="+htmlarea.downloadAction+"&upload_id=" + file_list[count]['upload_id'] + "\">"+ file_list[count]['file_name'] + "</a>";
+					}
+				}
+			}
+			count++;
+		}
+	}
+	if(error_flag == true) {
+		return false;
+	}
+	if(upload_count == 0) {
+		parent.commonCls.alert("<{$lang.insert_upload_message|smarty:nodefaults}>");
+		var f_upload_el = document.getElementById("f_upload");
+		f_upload_el.focus();
+		return false;
+	}
+	
+	parent.commonCls.referComp['<{$action.parent_id_name}>'].insertUpload(uploads);
+}
+parent.commonCls.observe(window, 'load',Init, false, '<{$id}>');
+</script>
+<{/strip}>

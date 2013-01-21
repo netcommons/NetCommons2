@@ -1,0 +1,54 @@
+/* 
+ * 繝悶Ο繝�け螳夂ｾｩ
+ */
+
+/* title_line */
+.th_panelbasic_default_title_line {
+	width:6px;
+	height:20px;
+	background-color:#c2c6c9;
+}
+/* 荳�握 */
+.th_panelbasic_content {
+	border: 0px;
+	padding: 5px 10px 5px 10px;
+	background-color:#ffffff;
+}
+
+.th_panelbasic_upperleft {
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_panelbasic_upper {
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/upper.gif") repeat-x scroll center bottom;
+}
+.th_panelbasic_upperright {
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/upperright.gif") no-repeat scroll right bottom;
+}
+.th_panelbasic_left {
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/left.gif") repeat-y scroll left center;
+}
+.th_panelbasic_right {
+	width:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/right.gif") repeat-y scroll right center;
+}
+.th_panelbasic_belowleft {
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/belowleft.gif") no-repeat scroll left top;
+}
+.th_panelbasic_below {
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/below.gif") repeat-x scroll center top;
+}
+.th_panelbasic_belowright {
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelbasic/images/default/belowright.gif") no-repeat scroll right top;
+}

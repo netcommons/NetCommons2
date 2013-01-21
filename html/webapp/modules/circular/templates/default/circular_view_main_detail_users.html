@@ -1,0 +1,44 @@
+<{strip}>
+<{* 回覧詳細画面ユーザ部分テンプレート *}>
+<{foreach name="user_loop" item="user" from=$action.circular_users}>
+	<tr class="grid_row">
+		<td class="align-left user">
+			<{if $action.circular_info.periodClassName != CIRCULAR_PERIOD_OVER && $user.receive_user_id == $smarty.session._user_id && $smarty.session._mobile_flag == false}>
+				<a class="link display-block" href="#" title="<{$lang.circular_comment_edit|smarty:nodefaults}>" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);" onclick="circularCls['<{$id}>'].popupReply(event); return false;">
+					<{$user.handle}>
+				</a>
+			<{else}>
+				<{$user.handle}>
+			<{/if}>
+		</td>
+		<td class="align-center status">
+			<{if $action.circular_info.periodClassName != CIRCULAR_PERIOD_OVER && $user.receive_user_id == $smarty.session._user_id && $smarty.session._mobile_flag == false}>
+				<a class="link display-block" href="#" title="<{$lang.circular_comment_edit|smarty:nodefaults}>" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);" onclick="circularCls['<{$id}>'].popupReply(event); return false;">
+					<{if ($user.reply_flag == $smarty.const.CIRCULAR_REPLY_FLAG_UNSEEN)}>
+						<{$lang.circular_unseen|smarty:nodefaults}>
+					<{else}>
+						<{$user.update_time|timezone_date_format:$lang.circular_date_format|smarty:nodefaults}>
+					<{/if}>
+				</a>
+			<{else}>
+				<{if ($user.reply_flag == $smarty.const.CIRCULAR_REPLY_FLAG_UNSEEN)}>
+					<{$lang.circular_unseen|smarty:nodefaults}>
+				<{else}>
+					<span>
+						<{$user.update_time|timezone_date_format:$lang.circular_date_format|smarty:nodefaults}>
+					</span>
+				<{/if}>
+			<{/if}>
+		</td>
+		<td class="align-left reply" <{if $smarty.session._mobile_flag == _ON && ($action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE || $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE)}>style="text-align:center"<{/if}>>
+			<{if $action.circular_info.periodClassName != CIRCULAR_PERIOD_OVER && $user.receive_user_id == $smarty.session._user_id && $smarty.session._mobile_flag == false}>
+				<a class="link display-block" href="#" title="<{$lang.circular_comment_edit|smarty:nodefaults}>" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);" onclick="circularCls['<{$id}>'].popupReply(event); return false;">
+					<{$user.reply|nl2br}>&nbsp;
+				</a>
+			<{else}>
+				<{$user.reply|nl2br}>
+			<{/if}>
+		</td>
+	</tr>
+<{/foreach}>
+<{/strip}>

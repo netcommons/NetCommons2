@@ -1,0 +1,45 @@
+<{strip}>
+<form class="frm_displayseq" action="">
+<table class="outer" summary="<{$smarty.const._SUMMARY_DISPCHANGE_FORM}>">		
+<tr>
+	<td class="head nowrap" style="width:30%;"><{$lang.module_commonsdisplayseq|smarty:nodefaults}></td>
+	<td class="nowrap align-right" style="width:20%;">
+		<select name="displayseq_select[]" style="width: 200px" size=10 multiple>
+			<{foreach item=module_obj from=$assign_modules_obj}>
+				<option value="<{$module_obj.module_id}>"><{$module_obj.module_name}></option>
+			<{/foreach}>
+		</select>
+	</td>
+	<td class="nowrap widthauto">
+		<a class="link" href="#" onclick="commonCls.frmMoveListBox(Element.getParentElementByClassName(this,'frm_displayseq'),'displayseq_select[]',2);return false;">
+			<img src="<{""|get_image_url}>/images/common/upmost_displayseq.gif" alt="<{$lang.module_commonsupmost|smarty:nodefaults}>"><{$lang.module_commonsupmost|smarty:nodefaults}>
+		</a>
+		<br />
+		<a class="link" href="#" onclick="commonCls.frmMoveListBox(Element.getParentElementByClassName(this,'frm_displayseq'),'displayseq_select[]',1);return false;">
+			<img src="<{""|get_image_url}>/images/common/up_displayseq.gif" alt="<{$lang.module_commonsup|smarty:nodefaults}>" /><{$lang.module_commonsup|smarty:nodefaults}>
+		</a>
+		<br />
+		<img src="images/common/blank.gif" style="width:0px; height:70px;">
+		<br />
+		<a class="link" href="#" onclick="commonCls.frmMoveListBox(Element.getParentElementByClassName(this,'frm_displayseq'),'displayseq_select[]',-1);return false;">
+			<img src="<{""|get_image_url}>/images/common/down_displayseq.gif" alt="<{$lang.module_commonsdown|smarty:nodefaults}>" /><{$lang.module_commonsdown|smarty:nodefaults}>
+		</a>
+		<br />
+		<a class="link" href="#" onclick="commonCls.frmMoveListBox(Element.getParentElementByClassName(this,'frm_displayseq'),'displayseq_select[]',-2);return false;">
+			<img src="<{""|get_image_url}>/images/common/downmost_displayseq.gif"  alt="<{$lang.module_commonsdownmost|smarty:nodefaults}>" /><{$lang.module_commonsdownmost|smarty:nodefaults}>
+		</a>
+	</td>
+</tr>
+<tr>
+	<td class="foot align-center" colspan="3">
+		<input class="btn-width" name="input_decision" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="moduleCls['<{$id}>'].moduleChangeDisplay(event,Element.getParentElementByClassName(this,'frm_displayseq'),'displayseq_select[]'); return false;" />
+	</td>
+</tr>
+<tr>
+	<td class="note"colspan="3">
+		<{$lang.module_mes_pluralselecthelp|smarty:nodefaults}>
+	</td>
+</tr>
+</table>
+</form>
+<{/strip}>

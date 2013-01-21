@@ -1,0 +1,57 @@
+<{strip}>
+
+<form id="reservation_form<{$id}>" action="#" method="post" onsubmit="return false;">
+	<div class="outerdiv">
+		<table class="outer" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<{include file="reservation_location_regist_location_name.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_location_regist_time_table.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_location_regist_authority.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_location_regist_category.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_location_regist_room_select.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_location_regist_contact.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+
+			<tr>
+				<{include file="reservation_location_regist_description.html" location=$action.location|smarty:nodefaults}>
+			</tr>
+		</table>
+	</div>
+	<div class="btn-bottom">
+		<{if ($action_name == "reservation_view_edit_location_add") }>
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].addLocation(this.form); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.sendView("<{$id}>","reservation_view_main_init"); return false;' />
+		<{else}>
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].modifyLocation(this.form); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.sendView("<{$id}>","reservation_view_edit_location_init"); return false;' />
+		<{/if}>
+		<input type="hidden" name="location_id" value="<{$action.location.location_id}>" />
+	</div>
+
+</form>
+
+<{include file="../reservation_script.html"}>
+
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].initLocationRegist("<{$action.location.add_authority}>");
+	commonCls.focus("<{$id}>");
+</script>
+
+<{/strip}>

@@ -1,0 +1,43 @@
+<?php print "<?php\n"; ?>
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * ルーム削除時-データ削除処理
+ *
+ * @package     NetCommons
+<?php include($this->getTemplate('maple/generate/skeleton/_doc-comment.txt')); ?>
+ * @access      public
+ */
+class <?php print $skeleton->classname . " extends Action\n"; ?>
+{
+	var $mode    = null;	//delete
+	var $page_id = null;
+	var $room_id = null;
+	
+	// 使用コンポーネントを受け取るため
+	var $db = null;
+	
+	/**
+     * ルーム削除時-データ削除処理
+     *
+     * @access  public
+     */
+	function execute()
+	{
+		/*
+		$contents =& $this->db->selectExecute("<?php print $skeleton->dir_name; ?>", array("page_id" => $this->room_id));
+		if($contents === false) return false;
+		if(count($contents) > 0) {
+			foreach($contents as $content) {
+				$result = $this->db->deleteExecute("<?php print $skeleton->dir_name; ?>_contents", array("todo_id" => $content['<?php print $skeleton->dir_name; ?>_id']));
+				if($result === false) return false;
+			}
+		}
+		$result = $this->db->deleteExecute("<?php print $skeleton->dir_name; ?>", array("page_id" => $this->room_id));
+		if($result === false) return false;
+		*/
+		return true;
+	}
+}
+<?php print "?>\n"; ?>

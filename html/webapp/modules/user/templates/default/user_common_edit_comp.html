@@ -1,0 +1,216 @@
+<{strip}>
+	<{* confirm用 *}>
+	<{if $mode == "confirm" && ($item.type == $smarty.const.USER_TYPE_CHECKBOX || $item.type == $smarty.const.USER_TYPE_RADIO || $item.type == $smarty.const.USER_TYPE_SELECT)}>
+		<{* チェックボックス *}>
+		<{foreach from=$item.set_options item=option name=selectloop}>
+			<{assign var="checkbox_count" value=$smarty.foreach.selectloop.iteration-1}>
+			<{if $option.def_options == $content.$checkbox_count && $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+				<{if $selectloop_flag == 1}>
+					,
+				<{/if}>
+				<{$option.options}>
+				<{assign var="selectloop_flag" value=1}>
+			<{elseif $option.def_options == $content && $item.type != $smarty.const.USER_TYPE_CHECKBOX}>
+				<{$option.options}>
+			<{/if}>
+		<{/foreach}>
+	<{elseif $mode == "confirm" && $item.type == $smarty.const.USER_TYPE_FILE}>
+		<{if $content == ""}>
+			&nbsp;
+		<{else}>
+			<img src="<{$content|smarty:nodefaults}>" title="<{$item.item_name}>" alt="<{$item.item_name}>" <{$item.attribute}> />
+		<{/if}>
+	<{elseif $mode == "confirm"}>
+		<{if $content == ""}>
+			&nbsp;
+		<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+			<a class="syslink" href="mailto:<{$content}>"><{$content}></a>
+		<{elseif $item.type == "textarea"}>
+			<{$content|nl2br}>
+		<{else}>
+			<{$content}>
+		<{/if}>
+		<{if $mode == "confirm" && $item.tag_name == "email"}>
+			<{* メール通達先 *}>
+			<input name="sending_email" type="hidden" value="<{$content}>" />
+		<{/if}>
+		<{if ($item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL) && $item.allow_email_reception_flag == _ON}>
+			<div class="bold">
+			<{if $email_reception_flag == _ON}>
+				<{$lang.user_reception_email|smarty:nodefaults}>
+			<{else}>
+				<{$lang.user_not_reception_email|smarty:nodefaults}>
+			<{/if}>
+			</div>
+		<{/if}>
+	<{* regist-search用 *}>
+	<{elseif $mode == "regist" && $item.tag_name == "active_flag_lang" && ($content == _USER_ACTIVE_FLAG_PENDING || $content == _USER_ACTIVE_FLAG_MAILED)}>
+		<{* 状態:承認待ち、承認済み=変更不可 *}>
+		<{if $content == _USER_ACTIVE_FLAG_PENDING}>
+			<{$smarty.const.USER_ITEM_ACTIVE_FLAG_PENDING}>
+		<{elseif $content == _USER_ACTIVE_FLAG_MAILED}>
+			<{$smarty.const.USER_ITEM_ACTIVE_FLAG_MAILED}>
+		<{/if}>
+		<input name="items[<{$item.item_id}>]" type="hidden" value="<{$content}>" />
+	<{elseif $mode == "regist" && $item.tag_name == "active_flag_lang" && $action.user_id == $smarty.session._system_user_id}>
+		<{* システム管理者-状態=変更不可 *}>
+		<{$smarty.const.USER_ITEM_ACTIVE_FLAG_ON}>
+		<input name="items[<{$item.item_id}>]" type="hidden" value="<{$smarty.const._ON}>" />
+	<{elseif $mode == "regist" && $item.tag_name == "role_authority_name" && $action.user_id == $smarty.session._system_user_id}>
+		<{* システム管理者-権限=変更不可 *}>
+		<{foreach from=$item.set_options item=option name=selectloop}>
+			<{if ($option.def_options == $content)}>
+				<{$option.options}>
+				<input name="items[<{$item.item_id}>]" type="hidden" value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{if isset($option.user_authority_id|smarty:nodefaults)}><{$option.user_authority_id}>|<{/if}><{$option.def_options}>" />
+			<{/if}>
+		<{/foreach}>
+	<{elseif $item.type == $smarty.const.USER_TYPE_TEXT}>
+		<{* テキスト *}>
+		<input name="items[<{$item.item_id}>]" id="user_items<{$id}>_<{$item.item_id}>" type="text" value="<{$content}>" <{$item.attribute|smarty:nodefaults}> />
+	<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>	
+		<{* email *}>
+		<input name="items[<{$item.item_id}>]" id="user_items<{$id}>_<{$item.item_id}>" type="text" value="<{$content}>" <{$item.attribute|smarty:nodefaults}> />
+		<{if $mode != "search" && $item.allow_email_reception_flag == _ON}>
+			<{* 受け取る *}>
+			<div>
+			<label for="user_items_reception<{$id}>_<{$item.item_id}>">
+				<input name="items_reception[<{$item.item_id}>]" id="user_items_reception<{$id}>_<{$item.item_id}>" type="checkbox" value="1" <{if $email_reception_flag == _ON}>checked="checked"<{/if}>/>
+				<{$lang.user_reception_email|smarty:nodefaults}>
+			</label>
+			</div>
+		<{/if}>
+	<{elseif $item.type == $smarty.const.USER_TYPE_TEXTAREA}>
+		<{* テキストエリア *}>
+		<{if $mode == "search"}>
+			<input  name="items[<{$item.item_id}>]" <{* size固定値 *}>size="35" id="user_items<{$id}>_<{$item.item_id}>" type="text" value="<{$content}>" />
+		<{else}>
+			<textarea name="items[<{$item.item_id}>]" id="user_items<{$id}>_<{$item.item_id}>" <{$item.attribute|smarty:nodefaults}>>
+				<{$content}>
+			</textarea>
+		<{/if}>
+	<{elseif $item.type == $smarty.const.USER_TYPE_FILE}>
+		<{* ファイル 登録用 *}>
+		<div class="user_filecomp<{if $content != ""}> display-none<{/if}>">
+			<input name="files[<{$upload_count}>]" id="user_items<{$id}>_<{$item.item_id}>" type="file" value="" <{$item.attribute|smarty:nodefaults}> />
+			<{* click時の変換コンポーネント *}>
+			<{if $mode != "preview"}>
+				<div class="user_preview_file">
+					<input class="btn-width lined_btn" type="button" value="<{$lang.user_btn_fileupload|smarty:nodefaults}>" onclick="userCls['<{$id}>'].previewFile(event, this, <{$item.item_id}>, <{$upload_count}>,'<{$action.user_id}>'); return false;" />
+				</div>
+			<{/if}>
+		</div>
+		<{assign var="upload_count" value=upload_count+1}>
+		<div<{if $content == ""}> class="display-none"<{/if}>>
+			<img <{if $content != ""}>src="<{$content|smarty:nodefaults}>"<{/if}> title="<{$item.item_name}>" alt="<{$item.item_name}>" <{$item.attribute}> />
+			<div class="user_preview_file">
+				<input class="btn-width lined_btn" type="button" value="<{$lang.user_btn_filedelete|smarty:nodefaults}>" onclick="userCls['<{$id}>'].deleteFile(event, this, <{$item.item_id}>); return false;" />
+			</div>
+		</div>
+		<input name="items[<{$item.item_id}>]" type="hidden" value="<{$content}>" />
+	<{elseif $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+		<{* チェックボックス *}>
+		<div <{$item.attribute|smarty:nodefaults}>>
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<{assign var="checkbox_count" value=$smarty.foreach.selectloop.iteration-1}>
+				<label class="nowrap" for="user_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>">
+					<input name="items[<{$item.item_id}>][<{$checkbox_count}>]" type="checkbox" value="<{if  isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.def_options}>" id="user_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>" <{if ($new_flag==2 && $content != '' && $option.default_selected) || (isset($content.$checkbox_count|smarty:nodefaults) && $option.options == $content.$checkbox_count) || ($mode == "regist" && $content == "" && $new_flag == 1 && $option.default_selected == _ON) || ($mode == "preview" && $content == "" && $option.default_selected == _ON)}>checked="checked" <{/if}>/>
+					<{$option.options}>
+				</label>
+			<{/foreach}>
+		</div>
+	<{elseif $item.type == $smarty.const.USER_TYPE_RADIO}>
+		<{* ラジオボタン *}>
+		<div <{$item.attribute|smarty:nodefaults}>>
+			<{* 未選択 *}>
+			<{if $mode == "search"}>
+				<label class="nowrap" for="user_items<{$id}>_<{$item.item_id}>_0">
+					<input name="items[<{$item.item_id}>]" type="radio" value="" id="user_items<{$id}>_<{$item.item_id}>_0" <{if $content == ""}>checked="checked" <{/if}> />
+					<{$lang.user_none_checked|smarty:nodefaults}>
+				</label>
+				<br />
+			<{/if}>
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<label class="nowrap" for="user_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>">
+					<input name="items[<{$item.item_id}>]" type="radio" value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.def_options}>" id="user_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>" <{if ($content != "" && $option.def_options == $content) ||  ($mode != "preview" && $option.options == $content) || ($mode == "regist" && $content == "" && $new_flag == _ON && $option.default_selected == _ON) || ($mode == "preview" && $content == "" && $option.default_selected == _ON)}>checked="checked" <{/if}> />
+					<{$option.options}>
+				</label>
+			<{/foreach}>
+		</div>
+	<{elseif $item.type == $smarty.const.USER_TYPE_SELECT}>
+		<{* セレクトリスト *}>
+		<select name="items[<{$item.item_id}>]" id="user_items<{$id}>_<{$item.item_id}>" <{$item.attribute|smarty:nodefaults}>>
+			<{* 未選択 *}>
+			<{if $mode == "search"}>
+				<option value=""<{if $content == ""}> selected="selected"<{/if}>>
+					<{$lang.user_none_selected|smarty:nodefaults}>
+				</option>
+			<{/if}>
+			<{foreach from=$item.set_options item=option name=selectloop}>
+				<{* ログイン会員よりベース権限が管理者かそれ未満のものしか選べない *}>
+				<{assign var="role_def_options" value=$option.def_options}>
+				<{if $mode != "regist" || $item.tag_name != "role_authority_name" || (isset($option.user_authority_id|smarty:nodefaults) && (($smarty.session._user_auth_id == _AUTH_ADMIN && !isset($action.not_chg_role_id_arr.$role_def_options|smarty:nodefaults)) || $smarty.session._user_auth_id > $option.user_authority_id))}>
+				<option value="<{if  isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{if isset($option.user_authority_id|smarty:nodefaults)}><{$option.user_authority_id}>|<{/if}><{$option.def_options}>"
+				<{* 選択中か権限で一般(role_auth_idが4固定)かタイムゾーンでデフォルト指定があるならばSelected *}>
+				<{* 項目設定でデフォルト値をタイムゾーン、権限で設定するとおかしくなる *}>
+				<{if ($content != "" && (($item.system_flag == _ON && $option.def_options == $content) || ($item.system_flag == _OFF && $option.options == $content))) || ($mode=="regist" && $item.tag_name == "role_authority_name" && $content == "" && isset($option.options_value|smarty:nodefaults) && $option.options_value==4) || ($mode=="regist" && $item.tag_name == "timezone_offset_lang" && $content == "" && $action.langTimeZone == $option.options) || ($mode == "regist" && $content == "" && $new_flag == _ON && $option.default_selected == _ON) ||  ($mode == "preview" && $option.default_selected == _ON) ||  (($mode=="regist" || $mode=="preview") && $item.tag_name == "lang_dirname_lang" && $content == "" && $action.lang == $option.def_options)}> selected="selected"<{/if}>
+				>
+					<{$option.options}>
+				</option>
+				<{/if}>
+			<{/foreach}>
+		</select>
+	<{elseif $item.type == $smarty.const.USER_TYPE_PASSWORD}>
+		<input name="items[<{$item.item_id}>]" id="user_items<{$id}>_<{$item.item_id}>" type="text" value="<{$content}>" <{$item.attribute|smarty:nodefaults}> autocomplete="off" />
+	<{elseif $mode == "search" && 
+		($item.tag_name == "insert_time" || $item.tag_name == "update_time" || $item.tag_name == "password_regist_time")}>
+		<{* 日時関連 *}>
+		<label class="user_edit_detail_time display-block nowrap" for="user_items<{$id}>_<{$item.item_id}>">
+			<{$lang.user_search_back_insert_time_pre|smarty:nodefaults}>
+			<input name="items[<{$item.item_id}>][0]" size="5" class="align-right" id="user_items<{$id}>_<{$item.item_id}>" type="text" value="<{if isset($content.0|smarty:nodefaults)}><{$content.0}><{/if}>" onkeydown="if(!commonCls.numberCheck(event)){return false;}" onkeyup="commonCls.numberConvert(event);" onblur="this.onkeyup(event);" />
+			<{$lang.user_search_back_insert_time_post|smarty:nodefaults}>
+		</label>
+		<label class="user_edit_detail_time display-block nowrap" for="user_items<{$id}>_<{$item.item_id}>_sub">
+			<{$lang.user_search_within_insert_time_pre|smarty:nodefaults}>
+			<input name="items[<{$item.item_id}>][1]" size="5" class="align-right" id="user_items<{$id}>_<{$item.item_id}>_sub" type="text" value="<{if isset($content.1|smarty:nodefaults)}><{$content.1}><{/if}>" onkeydown="if(!commonCls.numberCheck(event)){return false;}" onkeyup="commonCls.numberConvert(event);" onblur="this.onkeyup(event);" />
+			<{$lang.user_search_within_insert_time_post|smarty:nodefaults}>
+		</label>
+	<{elseif $mode == "search" && $item.tag_name == "last_login_time"}>
+		<{* 最終ログイン日時 *}>
+		<label class="user_edit_detail_time display-block nowrap" for="user_items<{$id}>_<{$item.item_id}>">
+			<{$lang.user_search_over_login_time_pre|smarty:nodefaults}>
+			<input name="items[<{$item.item_id}>][0]" size="5" class="align-right" id="user_items<{$id}>_<{$item.item_id}>" type="text" value="<{if isset($content.0|smarty:nodefaults)}><{$content.0}><{/if}>" onkeydown="if(!commonCls.numberCheck(event)){return false;}" onkeyup="commonCls.numberConvert(event);" onblur="this.onkeyup(event);" />
+			<{$lang.user_search_over_login_time_post|smarty:nodefaults}>
+		</label>
+		<label class="user_edit_detail_time display-block nowrap" for="user_items<{$id}>_<{$item.item_id}>_sub">
+			<{$lang.user_search_within_login_time_pre|smarty:nodefaults}>
+			<input name="items[<{$item.item_id}>][1]" size="5" class="align-right" id="user_items<{$id}>_<{$item.item_id}>_sub" type="text" value="<{if isset($content.1|smarty:nodefaults)}><{$content.1}><{/if}>" onkeydown="if(!commonCls.numberCheck(event)){return false;}" onkeyup="commonCls.numberConvert(event);" onblur="this.onkeyup(event);" />
+			<{$lang.user_search_within_login_time_post|smarty:nodefaults}>
+		</label>
+	<{/if}>
+	<{if ($mode == "regist" || $mode == "preview") && $item.description}>
+		<{* 詳細説明、登録時に表示 *}>
+		<div class="user_desc">
+			<{$item.description|nl2br}>
+		</div>
+	<{/if}>
+	<{* 公開するかどうか *}>
+	<{* すでに必ず非公開であるならば、設定させない *}>
+	<{if $mode != "search" && $item.allow_public_flag == _ON}>
+		<{if $mode == "confirm"}>
+			<div  class="bold">
+				<{if $public_flag == _ON}>
+					<{$lang.user_public_flag|smarty:nodefaults}>
+				<{else}>
+					<{$lang.user_not_public_flag|smarty:nodefaults}>
+				<{/if}>
+			</div>
+		<{else}>
+			<div>
+				<label for="user_items_public<{$id}>_<{$item.item_id}>">
+					<input name="items_public[<{$item.item_id}>]" id="user_items_public<{$id}>_<{$item.item_id}>" type="checkbox" value="1" <{if $public_flag == _ON}>checked="checked"<{/if}> />
+					<{$lang.user_public_flag|smarty:nodefaults}>
+				</label>
+			</div>
+		<{/if}>
+	<{/if}>
+<{/strip}>

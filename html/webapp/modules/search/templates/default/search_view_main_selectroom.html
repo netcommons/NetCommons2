@@ -1,0 +1,20 @@
+<{strip}>
+
+<{foreach from=$pages_list item=pages}>
+	<{assign var="now_page_id" value=$pages.page_id}>
+	<{assign var="next_thread_num" value=$pages.thread_num+1}>
+	<{if $pages.page_id == $pages.room_id}>
+		<option value="<{$pages.page_id}>"<{if ($smarty.session.search_select.$block_id.target_room == $pages.page_id) }> selected="selected"<{/if}>>
+			<{section name=i loop=$pages.thread_num}>
+				<{$lang.search_target_room_prevspace|smarty:nodefaults}>
+			<{/section}>
+			<{$pages.page_name}>
+		</option>
+	<{/if}>
+	<{if $action.pages_list.$next_thread_num.$now_page_id}>
+		<{assign var="pages_list" value=$action.pages_list.$next_thread_num.$now_page_id}>
+		<{include file="search_view_main_selectroom.html"}>
+	<{/if}>
+<{/foreach}>
+
+<{/strip}>

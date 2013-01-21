@@ -1,0 +1,134 @@
+<{strip}>
+<{* タスク登録用テンプレート *}>
+<div class="outerdiv">
+	<form id="todoForm<{$id}>" action="#" onsubmit="return false;">
+		<input type="hidden" name="action" value="todo_action_main_entry" />
+		<input type="hidden" name="task_id" value="<{$action.task.task_id}>" />
+
+		<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="todo_priority<{$id}>">
+						<{$lang.todo_priority|smarty:nodefaults}>
+					</label>
+				</th>
+
+				<td class="nowrap">
+					<select id="todo_priority<{$id}>" class="todo_priority" name="priority">
+						<option value="<{$smarty.const.TODO_PRIORITY_LOW}>"><{$lang.todo_priority_low|smarty:nodefaults}></option>
+						<option value="<{$smarty.const.TODO_PRIORITY_MIDDLE}>"><{$lang.todo_priority_middle|smarty:nodefaults}></option>
+						<option value="<{$smarty.const.TODO_PRIORITY_HIGH}>"><{$lang.todo_priority_high|smarty:nodefaults}></option>
+					</select>
+					<label for="todo_state<{$id}>">
+						<input id="todo_state<{$id}>" class="todo_state" type="checkbox" name="state" value="<{$smarty.const._ON}>" />
+						<{$lang.todo_state|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="todo_period<{$id}>">
+						<{$lang.todo_period|smarty:nodefaults}>
+					</label>
+				</th>
+
+				<td class="nowrap">
+					<label>
+						<input id="todo_period<{$id}>" class="date todo_period" type="text" name="period" />
+					</label>
+					<br />
+					<label for="todo_calendar<{$id}>">
+						<input id="todo_calendar<{$id}>" class="todo_calendar" type="checkbox" name="calendar" value="<{$smarty.const._ON}>" />
+						<{$lang.todo_calendar}>
+					</label>
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="todo_progress<{$id}>">
+						<{$lang.todo_progress|smarty:nodefaults}>
+					</label>
+				</th>
+
+				<td class="nowrap">
+					<{include file = "todo_view_main_entry_progress.html" progress=$action.task.progress}>
+				</td>
+			</tr>
+			<{if ($action.todo.used_category == _ON) }>
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="todo_category<{$id}>">
+							<{$lang.todo_category_name|smarty:nodefaults}>
+						</label>
+					</th>
+
+					<td class="nowrap">
+						<select id="todo_category<{$id}>" class="todo_category" name="category_id">
+							<{foreach name="category" item="category" from=$action.categories|smarty:nodefaults}>
+								<option value="<{$category.category_id}>"<{if ($category.category_id == $action.task.category_id) }> selected="selected"<{/if}>>
+									<{if ($category.category_id == 0) }>
+										<{$lang.todo_nocategory|smarty:nodefaults}>
+									<{else}>
+										<{$category.category_name}>
+									<{/if}>
+								</option>
+							<{/foreach}>
+						</select>
+					</td>
+				</tr>
+			<{/if}>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="todo_task_value<{$id}>">
+						<{$lang.todo_task_value|smarty:nodefaults}>
+					</label>
+				</th>
+
+				<td class="nowrap">
+					<textarea id="todo_task_value<{$id}>" class="todo_task_value" name="task_value"><{$action.task.task_value}></textarea>
+				</td>
+			</tr>
+		</table>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].enterTask(this.form, '<{$smarty.session.todo._id.$block_id}>');" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;">
+		</div>
+	</form>
+</div>
+
+<{include file = "../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	todoCls['<{$id}>'].taskPeriod = new compCalendar("<{$id}>", "todo_period<{$id}>");
+	commonCls.closeCallbackFunc("<{$id}>", function(){
+		todoCls['<{$id}>'].taskPeriod = null;
+	}.bind(todoCls['<{$id}>']));
+
+	var todoForm = $("todoForm<{$id}>");
+	todoForm["priority"].value = "<{$action.task.priority}>";
+	<{if $action.task.state == _ON}>
+		todoForm["state"].checked = true;
+	<{/if}>
+	todoForm["period"].value = "<{$action.task.display_period_date}>";
+	<{if $action.task.calendar_id > 0}>
+		todoForm["calendar"].checked = true;
+	<{/if}>
+
+	var todoForm = null;
+
+	<{if ($action.item_value == TODO_PRIORITY) }>
+		commonCls.focus($("todo_priority<{$id}>"));
+	<{elseif ($action.item_value == TODO_STATE) }>
+		commonCls.focus($("todo_state<{$id}>"));
+	<{elseif ($action.item_value == TODO_PERIOD) }>
+		commonCls.focus($("todo_period<{$id}>"));
+	<{elseif ($action.item_value == TODO_PROGRESS) }>
+		commonCls.focus($("todo_progress<{$id}>"));
+	<{else}>
+		commonCls.focus($("todo_task_value<{$id}>"));
+	<{/if}>
+</script>
+
+<{/strip}>

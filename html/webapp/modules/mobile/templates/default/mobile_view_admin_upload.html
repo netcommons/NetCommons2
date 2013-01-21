@@ -1,0 +1,16 @@
+<{strip}>
+
+<div class="popupClass">
+	<form id="attachment_form<{$id}>" action="#" method="post" target="attachment_form<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+		<label for="mobile_change_logo<{$id}>">
+			<input id="mobile_change_logo<{$id}>" name="upload" type="file" />
+		</label>
+		<div class="btn-bottom">
+			<input class="btn-width" name="regist_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='parent.mobileCls["<{$id}>"].logoUpload(); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='parent.mobileCls["<{$id}>"].popup.closePopup(); return false;' />
+		</div>
+	</form>
+</div>
+
+<{/strip}>

@@ -1,0 +1,36 @@
+<{strip}>
+<{* 記事詳細画面用テンプレート *}>
+<div class="outerdiv">
+	<div class="bbs_bbs_name">
+		<a class="syslink" href="#" title="<{$lang.bbs_post_list_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].showList();return false;">
+			<{$action.bbs.bbs_name}>
+		</a>
+		<{include file = "bbs_view_main_display.html"}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.bbs_post_detail|smarty:nodefaults}>
+	</div>
+	<br />
+	
+	<div id="bbs_post<{$id}>" class="bbs_post"></div>
+	
+	<{if $action.viewableChildExists}>
+		<div id="bbs_post_list<{$id}>" class="bbs_post_list"></div>
+		<br />
+	<{/if}>
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._back_to_list}>" onclick="bbsCls['<{$id}>'].showList();" />
+	</div>
+</div>
+
+<{include file = "../bbs_script.html"}>
+<script class="nc_script" type="text/javascript">
+	bbsCls["<{$id}>"].bbs_id = "<{$action.bbs.bbs_id}>";
+	bbsCls["<{$id}>"].post_id = "<{$action.post_id}>";
+	
+	bbsCls["<{$id}>"].showBody("<{$action.post_id}>");
+
+	<{if $action.viewableChildExists}>
+		bbsCls["<{$id}>"].showPostList();
+	<{/if}>
+</script>
+<{/strip}>

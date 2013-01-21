@@ -1,0 +1,198 @@
+<{strip}>
+<{* 登録フォーム登録画面用テンプレート *}>
+<form id="registration_form<{$id}>" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('registration_form<{$id}>')), {'target_el':$('<{$id}>'),'focus_flag':true});return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="registration_id" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<{if !empty($action.oldRegistrations|smarty:nodefaults)}>
+			<tr>
+				<th class="nowrap" scope="row">
+				</th>
+				<td class="nowrap">
+					<label for="registration_old_use<{$id}>">
+						<input id="registration_old_use<{$id}>" type="checkbox" name="old_use" value="<{$smarty.const._ON}>" onclick="registrationCls['<{$id}>'].changeOldUse(this.checked);" />
+						<{$lang.registration_old_use}>
+					</label>
+					<select id="registration_old<{$id}>" name="old_registration_id" disabled="disabled">
+						<{foreach from=$action.oldRegistrations item=old_registration name="old_registration"}>
+							<option value="<{$old_registration.registration_id}>"><{$old_registration.registration_name}></option>
+						<{/foreach}>
+					</select>
+				</td>
+			</tr>
+		<{/if}>
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="registration_registration_name<{$id}>">
+					<{$lang.registration_registration_name}>
+				</label>
+			</th>
+			<td>
+				<input id="registration_registration_name<{$id}>" class="text" type="text" name="registration_name" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.registration_mail_send}>
+			</th>
+			<td>
+				<label for="registration_mail_send<{$smarty.const._ON}><{$id}>">
+					<input id="registration_mail_send<{$smarty.const._ON}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._ON}>" onclick="registrationCls['<{$id}>'].changeMailSend(true);" />
+					<{$lang.registration_mail_send_on}>
+				</label>
+				<label for="registration_mail_send<{$smarty.const._OFF}><{$id}>">
+					<input id="registration_mail_send<{$smarty.const._OFF}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._OFF}>" onclick="registrationCls['<{$id}>'].changeMailSend(false);" />
+					<{$lang.registration_mail_send_off}>
+				</label>
+
+				<div id="registration_mail_send_content<{$id}>" class="display-none">
+					<div class="hr"></div>
+					<label for="registration_regist_user_send<{$id}>">
+						<input id="registration_regist_user_send<{$id}>" type="checkbox" name="regist_user_send" value="<{$smarty.const._ON}>" />
+						<{$lang.registration_regist_user_send}>
+					</label><br />
+					<label for="registration_chief_send<{$id}>">
+						<input id="registration_chief_send<{$id}>" type="checkbox" name="chief_send" value="<{$smarty.const._ON}>" />
+						<{$lang.registration_chief_send}>
+					</label><br />
+					<label for="registration_rcpt_to<{$id}>">
+						<{$lang.registration_rcpt_to}><br />
+						<input id="registration_rcpt_to<{$id}>" class="registration_rcpt_to" type="text" name="rcpt_to" />
+						<div class="note">
+							<{$lang.registration_send_note|smarty:nodefaults}>
+							<{$lang.registration_rcpt_to_note|sprintf:$smarty.const.REGISTRATION_RCPT_TO_SEPARATOR}>
+						</div>
+					</label>
+
+					<div class="hr"></div>
+					<label for="registration_mail_subject<{$id}>">
+						<{$lang.registration_mail_subject}>
+						<input id="registration_mail_subject<{$id}>" class="mail_subject" type="text" name="mail_subject" />
+					</label>
+
+					<div class="hr"></div>
+					<label for="registration_mail_body<{$id}>">
+						<{$lang.registration_mail_body}><br />
+						<textarea id="registration_mail_body<{$id}>" class="mail_body" name="mail_body"></textarea>
+					</label>
+					<div class="note">
+						<{$lang.registration_mail_note|smarty:nodefaults}>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.registration_image_authentication}>
+			</th>
+			<td>
+				<label for="registration_image_authentication<{$smarty.const._ON}><{$id}>">
+					<input id="registration_image_authentication<{$smarty.const._ON}><{$id}>" type="radio" name="image_authentication" value="<{$smarty.const._ON}>" />
+					<{$lang.registration_image_authentication_on}>
+				</label>
+				<label for="registration_image_authentication<{$smarty.const._OFF}><{$id}>">
+					<input id="registration_image_authentication<{$smarty.const._OFF}><{$id}>" type="radio" name="image_authentication" value="<{$smarty.const._OFF}>" />
+					<{$lang.registration_image_authentication_off}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="registration_limit_number<{$id}>">
+					<{$lang.registration_limit_number}>
+				</label>
+			</th>
+			<td>
+				<input id="registration_limit_number<{$id}>" class="registration_limit_number" type="text" name="limit_number" />
+				<div class="note">
+					<{$lang.registration_limit_number_note}>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="registration_period<{$id}>">
+					<{$lang.registration_period}>
+				</label>
+			</th>
+			<td>
+				<input id="registration_period<{$id}>" class="date" type="text" name="period" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th scope="row">
+				<label for="registration_accept_message<{$id}>">
+					<{$lang.registration_accept_message}>
+				</label>
+			</th>
+			<td>
+				<textarea id="registration_accept_message<{$id}>" class="registration_accept_message" name="accept_message"></textarea>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'registration_view_edit_registration_list');" />
+	</div>
+</form>
+
+<{include file="../registration_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var registrationForm = $("registration_form<{$id}>");
+	registrationForm["action"].value = "registration_action_edit_registration_entry";
+	registrationForm["registration_id"].value = "<{$action.registration.registration_id}>";
+
+	<{if empty($action.registration.registration_id|smarty:nodefaults)}>
+		registrationForm["registration_name"].value = "<{$lang.registration_new_name|sprintf:$action.registrationNumber}>";
+	<{else}>
+		registrationForm["registration_name"].value = "<{$action.registration.registration_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.registration.mail_send == _ON}>
+		$("registration_mail_send<{$smarty.const._ON}><{$id}>").checked = true;
+		registrationCls["<{$id}>"].changeMailSend(true);
+	<{else}>
+		$("registration_mail_send<{$smarty.const._OFF}><{$id}>").checked = true;
+		registrationCls["<{$id}>"].changeMailSend(false);
+	<{/if}>
+
+	<{if $action.registration.regist_user_send == _ON}>
+		registrationForm["regist_user_send"].checked = true;
+	<{/if}>
+
+	<{if $action.registration.chief_send == _ON}>
+		registrationForm["chief_send"].checked = true;
+	<{/if}>
+
+	<{if empty($action.registration.registration_id|smarty:nodefaults)}>
+		registrationForm["mail_subject"].value = "<{$lang.registration_mail_subject_default|smarty:nodefaults}>";
+		registrationForm["mail_body"].value = "<{$lang.registration_mail_body_default|smarty:nodefaults}>";
+		registrationForm["accept_message"].value = "<{$lang.registration_accept_message_default|smarty:nodefaults}>";
+	<{else}>
+		registrationForm["mail_subject"].value = "<{$action.registration.mail_subject|smarty:nodefaults|escape:"javascript"}>";
+		registrationForm["mail_body"].value = "<{$action.registration.mail_body|smarty:nodefaults|escape:"javascript"}>";
+		registrationForm["accept_message"].value = "<{$action.registration.accept_message|smarty:nodefaults|escape:"javascript"}>";
+		registrationForm["rcpt_to"].value = "<{$action.registration.rcpt_to|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.registration.image_authentication == _ON}>
+		$("registration_image_authentication<{$smarty.const._ON}><{$id}>").checked = true;
+	<{else}>
+		$("registration_image_authentication<{$smarty.const._OFF}><{$id}>").checked = true;
+	<{/if}>
+
+	registrationForm["limit_number"].value = "<{$action.registration.limit_number}>";
+	registrationForm["period"].value = "<{$action.registration.displayPeriodDate}>";
+	new compCalendar("<{$id}>", "registration_period<{$id}>");
+
+	commonCls.focus("<{$id}>");
+	registrationForm = null;
+</script>
+<{/strip}>

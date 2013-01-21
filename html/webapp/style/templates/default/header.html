@@ -1,0 +1,51 @@
+<{strip}>
+<div id="_move_header<{$id}>" class="<{if $smarty.session._auth_id >=_AUTH_CHIEF}>_move_header <{/if}>display-none">
+<table class="th_system">
+	<tr>
+		<td class="th_system_upperleft"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_system_upperleft" /></td>
+		<td class="th_system_upper"></td>
+		<td class="th_system_upperright"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_system_upperright" /></td>
+	</tr>
+	<tr id="_move_bar<{$id}>" class="_move_bar move_bar">
+		<td class="th_system_left"></td>
+		<td class="th_system_inside _block_title_event_abs">
+			<table cellspacing="0" cellpadding="0" class="widthmax">
+			<tr>
+				<td class="th_system_header_center" title="<{$draganddrop_move}>">
+					<div class="th_system_header_dot<{if $smarty.session._auth_id >=_AUTH_CHIEF}> th_system_header_move<{/if}>">
+						<span class="th_system_titlecolor">
+							<{if $smarty.session._shortcut_flag == _ON}>
+								<img src="<{""|get_image_url}>/images/common/shortcut.gif" title="<{$smarty.const._SHORTCUT}>" alt="<{$smarty.const._SHORTCUT}>" />
+							<{/if}>
+							<span class="th_system_title _block_title_abs"<{if !$system_flag}> title="<{$dblclick_edit}>"<{/if}>>
+								<{if isset($lang._dialog_name|smarty:nodefaults)}><{$lang._dialog_name|smarty:nodefaults}><{elseif isset($block_obj|smarty:nodefaults)}><{$block_obj.block_name}><{elseif isset($action.dialog_name|smarty:nodefaults)}><{$action.dialog_name}><{elseif isset($module_obj|smarty:nodefaults)}><{$module_obj.module_name}><{/if}>
+							</span>
+						</span>
+						&nbsp;
+					</div>
+				</td>
+				<td class="th_system_header_right">
+					<{include file="headerbtn.html"}>
+				</td>
+			</tr>
+			</table>
+		</td>
+		<td class="th_system_right"></td>
+	</tr>
+	<{*
+	<tr>
+		<td class="th_system_left"></td>
+		<td class="th_system_inside" style="background-color:transparent ;">
+			
+		</td>
+		<td class="th_system_right"></td>
+	</tr>
+	<tr>
+		<td class="th_system_belowleft"></td>
+		<td class="th_system_below"></td>
+		<td class="th_system_belowright"></td>
+	</tr>
+	*}>
+</table>
+</div>
+<{/strip}>

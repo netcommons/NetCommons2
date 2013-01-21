@@ -1,0 +1,121 @@
+<{strip}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<{*
+	<div class="bold">
+		<{$lang.room_admin_inf}>
+	</div>
+	*}>
+	<div class="top_description">
+		<{$lang.room_top_descripton|smarty:nodefaults|sprintf:$lang._regist}>
+	</div>
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+		<table class="room_inf outer" summary="<{$lang.room_admin_inf}>">
+			<tr>
+				<th class="nowrap" scope="row">
+					<{* ルーム名 *}>
+					<{$lang.room_room_name}>
+				</th>
+				<td class="nowrap">
+					<input id="room_name<{$id}>" name="room_name" type="text" value="<{if $action.page.page_name}><{$action.page.page_name}><{/if}>" size="40" />
+					<{if  $action.page.thread_num == 1 && $action.parent_page.thread_num == 0 && $action.parent_page.space_type == _SPACE_TYPE_GROUP && $action.parent_page.private_flag == _OFF}>
+						<{* グループスペース直下でなければ *}>
+						<div>
+							<{* すべての会員をデフォルトで参加させる *}>
+							<label for="room_space_common<{$id}>">
+								<input id="room_space_common<{$id}>" name="space_type_common" type="checkbox" value="1"<{if $action.page.default_entry_flag}> checked="checked"<{/if}> />
+								<{$lang.room_space_common}>
+							</label>
+						</div>
+					<{elseif $action.page.space_type == _SPACE_TYPE_PUBLIC || $action.parent_page.space_type == _SPACE_TYPE_PUBLIC}>
+						<{* パブリックスペースならばdefault_entry_flag を立てる *}>
+						<input name="space_type_common" type="hidden" value="1" />
+					<{else}>
+						<input name="space_type_common" type="hidden" value="<{$action.page.default_entry_flag}>" />
+					<{/if}>
+				</td>
+			</tr>
+			<tr>
+				<th class="nowrap" scope="row">
+					<{*状況 *}>
+					<{$lang.room_display_flag}>
+				</th>
+				<td class="nowrap">
+					<{if $action.parent_page_id == 0}>
+						<{* 深さが0のものの編集は、非公開にはできない *}>
+						<{$lang.room_display_flag_on}>
+						<input name="display_flag" type="hidden" value="1" />
+					<{else}>
+						<select name="display_flag">
+							<option value="1"><{$lang.room_display_flag_on}></option>
+							<option value="0"<{if $action.edit_current_page_id && $action.page.display_flag == 0}> selected="selected"<{/if}>><{$lang.room_display_flag_off}></option>
+						</select>
+					<{/if}>
+				</td>
+			</tr>
+			<{if $action.parent_page_id != 0}>
+			<tr>
+				<th class="nowrap" scope="row">
+					<{* 作成者 *}>
+					<{$lang.room_create_name}>
+				</th>
+				<td class="nowrap">
+					<{$action.page.insert_user_name}>
+				</td>
+			</tr>
+			<{/if}>
+			<tr>
+				<th class="nowrap" scope="row">
+					<{* スペースタイプ *}>
+					<{$lang.room_space_type}>
+				</th>
+				<td class="nowrap">
+					<div>
+					<{if $action.page.private_flag}>
+						<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>
+					<{elseif $action.page.space_type == _SPACE_TYPE_GROUP}>
+						<{$smarty.const._SPACE_TYPE_NAME_GROUP}>
+						<{*
+						<{if $action.page.default_entry_flag == _ON}>
+							<div class="bold"><{$lang.room_space_common}></div>
+						<{/if}>
+						*}>
+					<{else}>
+						<{$smarty.const._SPACE_TYPE_NAME_PUBLIC}>
+					<{/if}>
+					</div>
+				</td>
+			</tr>
+			<{if !($action.page.space_type == _SPACE_TYPE_GROUP && $action.page.thread_num == 0 && $action.page.private_flag != _ON)}>
+			<{* グループスペース直下でなければ *}>
+			<tr>
+				<th class="nowrap" scope="row">
+					<{* 参加人数 *}>
+					<{$lang.room_entry_user_num}>
+				</th>
+				<td class="nowrap">
+					<{$action.count}><{$lang.room_entry_user_unit}>
+				</td>
+			</tr>
+			<{/if}>
+		</table>
+		<input name="parent_page_id" type="hidden" value="<{$action.parent_page_id}>" />
+		<input name="edit_current_page_id" type="hidden" value="<{$action.edit_current_page_id}>" />
+	</form>
+	<{if !($action.page.space_type == _SPACE_TYPE_GROUP && $action.page.thread_num == 0 && $action.page.private_flag != _ON)}>
+		<{* 月別一覧回数表 *}>
+		<{* TODO:主担以外は、表示させない等の制御が必要 *}>
+		<{assign var="monthlynumber_path" value=$smarty.const.WEBAPP_DIR|cat:"/templates/main/"}>
+		<{assign var="monthlynumber_file" value=$monthlynumber_path|cat:"monthlynumber_main.html"}>
+		<{include file=$monthlynumber_file}>
+	<{/if}>
+	<{* 各種ボタン *}>
+	<div class="btn-bottom">
+		<{* 決定 *}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','action=room_action_admin_regist_init&amp;'+Form.serialize($('form<{$id}>')),{'method':'post','callbackfunc_error':function(res){commonCls.alert(res);commonCls.focus($('room_name<{$id}>'));}}); return false;" />
+		<{* 戻る *}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang.room_back_list}>" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_list','show_space_type':<{$action.page.space_type}>,'show_private_flag':<{$action.page.private_flag}>,'show_default_entry_flag':<{$action.page.default_entry_flag}>}); return false; return false;" />
+	</div>
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

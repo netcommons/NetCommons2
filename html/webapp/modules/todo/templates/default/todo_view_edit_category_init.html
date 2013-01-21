@@ -1,0 +1,66 @@
+<{strip}>
+<{* 項目登録画面表示テンプレート *}>
+
+<div class="outerdiv">
+	<div class="bold">
+		<{$action.todo.todo_name}>
+	</div>
+	<form id="todo_form<{$id}>" action="#" method="post" onsubmit="return false;">
+		<{* 項目の追加 *}>
+		<div class="top_description align-right">
+			<a href="#" class="syslink" title="<{$lang.todo_category_add_title|smarty:nodefaults}>" onclick="commonCls.sendPopupView(event,{'action':'todo_view_edit_category_entry','prefix_id_name':'<{$smarty.const.TODO_CATEGORY_ADD_PREFIX_NAME}>',todo_id:<{$action.todo_id}>}, {'top_el':$('<{$id}>'),'modal_flag':true}); return false;">
+				<{$lang.todo_category_add|smarty:nodefaults}>
+			</a>
+		</div>
+
+		<{* 各項目 *}>
+		<div id="todo_dragarea<{$id}>">
+			<{foreach name="category" item="category" from=$action.categories|smarty:nodefaults}>
+				<table cellspacing="0" cellpadding="0" summary="" class="todo_drag_drop todo_category_id<{$category.category_id}>">
+					<tr>
+						<td class="comp_draganddrop todo_draganddrop">
+							<img src="<{$smarty.const.CORE_BASE_URL}>/images/common/blank.gif" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" title="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+						</td>
+						<td class="nowrap align-left todo_draggable">
+							<div class="todo_category_name">
+								<{if ($category.category_id == 0) }>
+									<{$lang.todo_nocategory|smarty:nodefaults}>
+								<{else}>
+									<{$category.category_name}>
+								<{/if}>
+							</div>
+						</td>
+						<td class="align-right nowrap">
+							<{if ($category.category_id == 0) }>
+								<{$lang._edit|smarty:nodefaults}>
+							<{else}>
+								<a href="#" class="syslink"  title="<{$lang._edit_title|smarty:nodefaults|sprintf:$category.category_name|smarty:nodefaults}>" onclick="commonCls.sendPopupView(event,{action:'todo_view_edit_category_entry','prefix_id_name':'<{$smarty.const.TODO_CATEGORY_MODIFY_PREFIX_NAME}>',todo_id:<{$action.todo_id}>,category_id:<{$category.category_id}>}, {'top_el':$('<{$id}>'),'modal_flag':true}); return false;">
+									<{$lang._edit|smarty:nodefaults}>
+								</a>
+							<{/if}>
+							<{$lang._separator|smarty:nodefaults}>
+							<{if ($category.category_id == 0) }>
+								<{$lang._delete|smarty:nodefaults}>
+							<{else}>
+								<a class="syslink" href="#" title="<{$lang._del_title|smarty:nodefaults|sprintf:$category.category_name|smarty:nodefaults}>" onclick="if (commonCls.confirm('<{$lang._del_confirm|sprintf:"`$category.category_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>')) {commonCls.sendPost('<{$id}>',{action:'todo_action_edit_category_delete',todo_id:<{$action.todo_id}>,category_id:<{$category.category_id}>},{target_el:$('<{$id}>')}); } return false;">
+									<{$lang._delete|smarty:nodefaults}>
+								</a>
+							<{/if}>
+						</td>
+					</tr>
+				</table>
+			<{/foreach}>
+		</div>
+
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn todo_btn" type="button" value="<{$lang._back_to_list|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','todo_view_edit_list'); return false;" />
+		</div>
+	</form>
+</div>
+
+<{include file="../todo_script.html"}>
+<{if (!empty($action.categories|smarty:nodefaults)) }>
+	<{include file="todo_view_edit_category_script.html"}>
+<{/if}>
+
+<{/strip}>

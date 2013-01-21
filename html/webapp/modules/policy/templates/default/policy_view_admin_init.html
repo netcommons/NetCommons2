@@ -1,0 +1,123 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="top_description policy_top_description">
+		<{$lang.policy_description|smarty:nodefaults}>
+	</div>
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+	<div class=comp_tabset></div>
+	<div class=comp_tabset_content>
+	<{section name=i start=1 loop=4}>
+		<{if !($smarty.section.i.index == 3 && $action.user_auth_id == _AUTH_GUEST)}>
+		<{* ゲストならば自分より低い権限がないため、「自分より低い権限」は非表示 *}>
+		<div>
+			<div class="comptabset_caption">
+				<{if $smarty.section.i.index == 1}>
+					<{$lang.policy_over_public_tab_name|smarty:nodefaults}>
+					<{assign var="public_flag" value="over_public_flag"}>
+					<{assign var="top_description" value=$lang.policy_over_top_description|smarty:nodefaults|sprintf:$action.user_auth_name:$action.user_auth_name}>
+				<{elseif $smarty.section.i.index == 2}>
+					<{$lang.policy_self_public_tab_name|smarty:nodefaults}>
+					<{assign var="public_flag" value="self_public_flag"}>
+					<{assign var="top_description" value=$lang.policy_self_top_description|smarty:nodefaults|sprintf:$action.user_auth_name}>
+				<{else}>
+					<{$lang.policy_under_public_tab_name|smarty:nodefaults}>
+					<{assign var="public_flag" value="under_public_flag"}>
+					<{assign var="top_description" value=$lang.policy_under_top_description|smarty:nodefaults|sprintf:$action.user_auth_name}>
+				<{/if}>
+			</div>
+				<div class="top_description policy_description">
+					<{$top_description|smarty:nodefaults}>
+				</div>
+				<{* 詳細部 *}>
+				<table class="outer" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+					<tr>
+						<{foreach from=$action.items item=item_list}>
+						<td class="valign-top align-left">
+							<table class="widthmax" summary="">
+								<{foreach from=$item_list item=item}>
+									<tr>
+										<th class="policy_detail_head" scope="row">
+											<label for="policy_items<{$id}>_<{$public_flag}><{$item.item_id}>">
+												<{$item.item_name}>
+											</label>
+											<{* 必須 *}>
+											<{*
+											<{if $item.require_flag == _ON}>
+												<{$lang.userinf_require_flag|smarty:nodefaults}>
+											<{/if}>
+											*}>
+										</th>
+										<td style="width:<{$conf.policy_detail_min_width}>px;">
+											<select class="policy_public_flag" name="public_flag[<{$item.item_id}>][<{$public_flag}>]" id="policy_items<{$id}>_<{$public_flag}><{$item.item_id}>">
+												<{if $item.tag_name != 'handle'}>
+													<option value="<{$smarty.const.USER_NO_PUBLIC}>"<{if $item.$public_flag == USER_NO_PUBLIC}> selected="selected"<{/if}>><{$lang.policy_not_public_flag|smarty:nodefaults}></option>
+												<{/if}>
+												<{if $item.tag_name != 'password'}>
+													<option value="<{$smarty.const.USER_PUBLIC}>"<{if $item.$public_flag == USER_PUBLIC}> selected="selected"<{/if}>><{$lang.policy_public_flag|smarty:nodefaults}></option>
+												<{/if}>
+
+												<{if $item.type != USER_TYPE_LABEL
+													&& ($action.user_auth_id == _AUTH_ADMIN
+														|| ($item.tag_name != "role_authority_name"
+															&& (($item.tag_name != "active_flag_lang"
+																	&& $public_flag == "self_public_flag")
+																|| ($public_flag == "under_public_flag"
+																	&& $action.user_auth_id != _AUTH_GENERAL))))}>
+													<option value="<{$smarty.const.USER_EDIT}>"<{if $item.$public_flag == USER_EDIT}> selected="selected"<{/if}>><{$lang.policy_edit_public_flag|smarty:nodefaults}></option>
+												<{/if}>
+											</select>
+											<{* Absolute-Body要素を越えた場合、幅が狭くなるためblank画像挿入 *}>
+											<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" style="height:1px; width:<{$conf.policy_detail_min_width}>px;"/>
+										</td>
+									</tr>
+								<{/foreach}>
+							</table>
+						</td>
+						<{/foreach}>
+					</tr>
+				</table>
+				<div class="hr"></div>
+				<{foreach from=$action.system_items item=item}>
+					<{assign var="item_name" value=$item.item_name}>
+					<{assign var="smartyConst" value=$smarty.const.$item_name}>
+					<{if isset($smartyConst|smarty:nodefaults) && $smartyConst != ""}>
+						<{assign var="item_name" value=$smarty.const.$item_name|smarty:nodefaults}>
+					<{/if}>
+					<table class="outer widthmax" summary="<{$item_name}>">
+						<tr>
+							<th class="policy_detail_head" scope="row">
+								<label for="policy_items<{$id}>_<{$public_flag}><{$item.item_id}>">
+									<{$item_name}>
+								</label>
+							</th>
+							<td style="width:<{$conf.policy_detail_min_width}>px;">
+								<select class="policy_public_flag" name="public_flag[<{$item.item_id}>][<{$public_flag}>]" id="policy_items<{$id}>_<{$public_flag}><{$item.item_id}>">
+									<option value="<{$smarty.const.USER_NO_PUBLIC}>"<{if $item.$public_flag == USER_NO_PUBLIC}> selected="selected"<{/if}>><{$lang.policy_not_public_flag|smarty:nodefaults}></option>
+									<option value="<{$smarty.const.USER_PUBLIC}>"<{if $item.$public_flag == USER_PUBLIC}> selected="selected"<{/if}>><{$lang.policy_public_flag|smarty:nodefaults}></option>
+								</select>
+								<{* Absolute-Body要素を越えた場合、幅が狭くなるためblank画像挿入 *}>
+								<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" style="height:1px; width:<{$conf.policy_detail_min_width}>px;"/>
+							</td>
+						</tr>
+					</table>
+				<{/foreach}>
+		</div>
+		<{/if}>
+	<{/section}>
+	</div>
+	<div class="note top_description policy_top_description">
+		<{$lang.policy_note|smarty:nodefaults}>
+	</div>
+	<{* 各種ボタン *}>
+	<div class="btn-bottom align-center">
+		<{assign var="user_auth_name" value=$action.user_auth_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+		<{* 決定 *}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang.policy_confirm_mes|smarty:nodefaults|sprintf:$user_auth_name}>'))return false; commonCls.sendPost('<{$id}>','action=policy_action_admin_init&amp;'+Form.serialize($('form<{$id}>'))); return false;" />
+		<{* リセット *}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang.policy_reset|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang.policy_cancel_mes|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false; commonCls.sendRefresh('<{$id}>'); return false;" />
+	</div>
+<input name="user_auth_id" type="hidden" value="<{$action.user_auth_id}>" />
+</form>
+</div>
+<{include file="policy_script.html"}>
+<{/strip}>

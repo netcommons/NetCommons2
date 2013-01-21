@@ -1,0 +1,26 @@
+<{strip}>
+<{* レポート表示画面 *}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang.userinf_report|smarty:nodefaults|sprintf:$action.user.handle}>
+	</div>
+
+	<{if $action.modules != null}>
+		<div class="comp_tabset"></div>
+		<div class="comp_tabset_content">
+			<{foreach from=$action.modules item=module}>
+				<div class="outerdiv user_inf_<{$module.personalinf_action}>">
+					<div class="comptabset_caption"><{$module.module_name}></div>
+					<{assign var="module_id" value=$module.module_id}>
+					<{$action.personalinf.$module_id|smarty:nodefaults}>
+				</div>
+			<{/foreach}>
+		</div>
+	<{else}>
+		<div class="errorstr align-center">
+			<{$lang.userinf_none_exists|smarty:nodefaults|sprintf:$lang.userinf_view_main_modulesinfo|smarty:nodefaults}>
+		</div>
+	<{/if}>
+</div>
+<{include file="userinf_script.html"}>
+<{/strip}>

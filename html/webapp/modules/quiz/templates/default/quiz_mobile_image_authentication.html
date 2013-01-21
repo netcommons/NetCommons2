@@ -1,0 +1,11 @@
+<{strip}>
+<{* 画像認証項目用テンプレート *}>
+<{if $action.quiz.image_authentication == _ON && function_exists("gd_info")}>
+	<{$lang.quiz_image_authentication_label}>
+	<br />
+	<img src="./?action=common_imageauth_main&amp;id=<{$id}>&amp;<{$action.imageAuthenticationGenerator}><{$session_param}>" alt="<{$lang._image_auth}>">
+	<input type="text" name="image_authentication" size="10">
+	<input type="hidden" name="id" value="<{$id}>">
+	<br />
+<{/if}>
+<{/strip}>

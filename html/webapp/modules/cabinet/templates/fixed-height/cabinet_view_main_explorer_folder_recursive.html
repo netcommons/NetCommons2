@@ -1,0 +1,32 @@
+<{strip}>
+
+<{if ($action.folder_list.$parent_id) }>
+	<{foreach item="folder" key="file_id" from=$action.folder_list.$parent_id}>
+		<div class="nowrap">
+			<{foreach from=$folder.branches item=branch}>
+				<img class="cabinet_branch" src="<{"`$branch`.gif"|get_modules_image}>" title="" alt="" />
+			<{/foreach}>
+	
+			<{if ($action.folder_list.$file_id) }>
+				<a class="link hover_highlight" href="#" onclick='cabinetCls["<{$id}>"].switchBranch("<{$file_id}>");return false;'>
+					<img id="cabinet_branch_image<{$file_id}><{$id}>" class="cabinet_branch" src="<{if ($action.folder_id == $file_id || in_array($file_id, $action.current_parent)) }><{"branch_minus.gif"|get_modules_image}><{else}><{"branch_plus.gif"|get_modules_image}><{/if}>" alt="" title="" />
+				</a>
+			<{else}>
+				<img id="cabinet_branch_image<{$file_id}><{$id}>" class="cabinet_branch" src="<{if ($folder.depth == 1) }><{"B.gif"|get_modules_image}><{else}><{"-.gif"|get_modules_image}><{/if}>" alt="" title="" />
+			<{/if}>
+
+			<img id="cabinet_folder_image<{$file_id}><{$id}>" class="icon" src="<{if ($action.folder_id == $file_id || in_array($file_id, $action.current_parent)) }><{"open_folder.gif"|get_modules_image}><{else}><{"close_folder.gif"|get_modules_image}><{/if}>" alt="" title="" />
+
+			<{if ($action_name == "cabinet_view_main_move") }>
+				<{include file="cabinet_view_main_filename.html" file_id=$file_id file_name=$folder.file_name explorer_pos="move"}>
+			<{else}>
+				<{include file="cabinet_view_main_filename.html" file_id=$file_id file_name=$folder.file_name explorer_pos="left"}>
+			<{/if}>
+		</div>
+		<div id="cabinet_children_folder<{$file_id}><{$id}>" class="<{if ($action.folder_id != $file_id && !in_array($file_id, $action.current_parent)) }>display-none <{/if}><{if (!$action.folder_list.$file_id) }>cabinet_nochild<{/if}>">
+			<{include file="cabinet_view_main_explorer_folder_recursive.html" parent_id=$file_id}>
+		</div>
+	<{/foreach}>
+<{/if}>
+
+<{/strip}>

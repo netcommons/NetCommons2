@@ -1,0 +1,12 @@
+<{strip}>
+<{* 選択肢追加部分テンプレート *}>
+<table>
+	<{assign var="choice" value=$action.choice}>
+	<{assign var="iteration" value=$action.choice_count}>
+	<{include file="circular_view_main_choice.html"}>
+</table>
+
+<script class="nc_script" type="text/javascript">
+	circularCls["<{$id}>"].changeReplyType($("circular_reply_type<{$id}>").value);
+</script>
+<{/strip}>

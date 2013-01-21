@@ -1,0 +1,34 @@
+<{strip}>
+<{* 入力データ一覧画面用テンプレート *}>
+<table class="outer registration_entry" summary="<{$lang.registration_entry_list}>">
+	<{if !empty($action.dataID|smarty:nodefaults)}>
+		<tr class="row">
+			<th class="registration_item_name" scope="row">
+				<{$lang.registration_data_id}>
+			</th>
+	
+			<td class="registration_item_data">
+				<{$action.dataID}>
+			</td>
+		</tr>	
+	<{/if}>
+
+	<{foreach from=$action.items item=item name=item}>
+		<tr class="row">
+			<{include file="registration_view_main_item_name.html"}>
+
+			<td class="registration_item_data">
+				<{if $item.item_type == REGISTRATION_TYPE_FILE}>
+					<{$action.entryDatas[$item.item_id].item_data_value.file_name}>
+				<{elseif $item.item_type == REGISTRATION_TYPE_EMAIL}>
+					<{$action.entryDatas[$item.item_id].item_data_value.first}>
+				<{elseif $item.item_type == REGISTRATION_TYPE_CHECKBOX && is_array($action.entryDatas[$item.item_id].item_data_value)}>
+					<{$action.entryDatas[$item.item_id].item_data_value|@implode:$smarty.const.REGISTRATION_OPTION_SEPARATOR}>
+				<{else}>
+					<{$action.entryDatas[$item.item_id].item_data_value|nl2br}>
+				<{/if}>
+			</td>
+		</tr>	
+	<{/foreach}>
+</table>
+<{/strip}>

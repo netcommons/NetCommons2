@@ -1,0 +1,11 @@
+<{if !empty($action.languages|smarty:nodefaults)}>
+	<div class='align-right'>
+		<{$lang.language_change}>
+		<select size="1" name="lang_dirname" id="language_dirname<{$id}>" onchange="if (!systemCls['<{$id}>'].changeLanguage('<{$lang.language_change_confirm|smarty:nodefaults}>', '<{$action_name}>', this.value)) return false;">
+		<{foreach key=key item=item from=$action.languages|smarty:nodefaults}>
+			<option value="<{$key}>" <{if $smarty.session._lang == $key}>selected="selected"<{/if}>><{$item}></option>
+		<{/foreach}>
+		</select>
+		<input type="hidden" name="current_lang_dirname" value="<{$smarty.session._lang}>" />
+	</div>
+<{/if}>

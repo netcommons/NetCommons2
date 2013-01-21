@@ -1,0 +1,68 @@
+<{strip}>
+<{* タスク一覧（携帯）用テンプレート *}>
+<h3>
+	<{$action.todo.todo_name}>
+</h3>
+
+<h4>
+	<{if $action.target_state == _ON}>
+		<a href="?action=todo_view_main_init&amp;block_id=<{$block_id}>&amp;target_state=<{$smarty.const._OFF}><{$session_param}>">
+			<{$lang.todo_mobile_state_none|smarty:nodefaults}>
+		</a>
+		<{$lang._mobile_separator|smarty:nodefaults}>
+		<{$lang.todo_mobile_state|smarty:nodefaults}>
+	<{else}>
+		<{$lang.todo_mobile_state_none|smarty:nodefaults}>
+		<{$lang._mobile_separator|smarty:nodefaults}>
+		<a href="?action=todo_view_main_init&amp;block_id=<{$block_id}>&amp;target_state=<{$smarty.const._ON}><{$session_param}>">
+			<{$lang.todo_mobile_state|smarty:nodefaults}>
+		</a>
+	<{/if}>
+</h4>
+<br />
+<{if $action.taskCount > 0}>
+	<{if ($action.todo.used_category == _ON) }>
+		<{foreach from=$action.categories item=category}>
+			<{assign var=category_id value=$category.category_id}>
+			<{if (isset($action.tasks.$category_id|smarty:nodefaults)) }>
+
+				<{if ($category_id == 0) }>
+					<br /><h4 style="text-align:center;"><{$lang.todo_nocategory|smarty:nodefaults}></h4>
+				<{else}>
+					<br /><h4 style="text-align:center;"><{$category.category_name}></h4>
+				<{/if}>
+
+				<{foreach from=$action.tasks.$category_id|smarty:nodefaults item=task}>
+					<{include file="todo_mobile_task_detail_feature.html" task=$task}>
+				<{/foreach}>
+			<{/if}>
+		<{/foreach}>
+	<{else}>
+		<{foreach from=$action.tasks|smarty:nodefaults item=task}>
+			<{include file="todo_mobile_task_detail_feature.html" task=$task}>
+		<{/foreach}>
+	<{/if}>
+<{else}>
+	<br /><br />
+	<{$lang.todo_no_task|smarty:nodefaults}>
+	<br /><br />
+<{/if}>
+
+	<{if $action.todo.task_authority}>
+		<br />
+		<a href="?action=todo_view_main_entry&amp;block_id=<{$block_id}><{$session_param}>">
+			<{$lang.todo_add_task|smarty:nodefaults}>
+		</a>
+		<br />
+	<{/if}>
+
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init<{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail<{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

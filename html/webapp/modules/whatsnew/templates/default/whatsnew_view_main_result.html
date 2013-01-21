@@ -1,0 +1,44 @@
+<{strip}>
+
+<{assign var="first_title" value=$smarty.const._OFF}>
+
+<{if ($action.whatsnew_data) }>
+<table class="widthmax" summary="">
+	<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_ROOM) }>
+		<{foreach name="room" key="room_id" item="room" from=$action.room_arr_flat}>
+			<{if ($action.whatsnew_data.$room_id) }>
+				<{assign var="whatsnew" value=$action.whatsnew_data.$room_id}>
+				<tr>
+					<td class="whatsnew_results" colspan="<{$action.display_count}>"<{if ($first_title == _OFF) }> style="padding-top:5px;"<{/if}>>
+						<{if ($action.whatsnew_obj.select_room == _OFF || $action.whatsnew_obj.select_room == _ON && (count($action.whatsnew_obj.select_room_list|smarty:nodefaults) > 1 && count($action.room_arr_flat|smarty:nodefaults) > 1)) }>
+							<h3 class="highlight"><{$room.page_name}></h3>
+						<{/if}>
+					</td>
+					<{assign var="first_title" value=$smarty.const._ON}>
+				</tr>
+				<{include file="whatsnew_view_main_result_content.html"}>
+			<{/if}>
+		<{/foreach}>
+	<{elseif ($action.whatsnew_obj.display_type == WHATSNEW_DEF_MODULE) }>
+		<{foreach name="module" key="module_id" item="module" from=$action.whatsnew_obj.modules}>
+			<{assign var="whatsnew" value=$action.whatsnew_data.$module_id}>
+			<tr>
+				<td class="whatsnew_results" colspan="<{$action.display_count}>"<{if ($first_title == _OFF) }> style="padding-top:5px;"<{/if}>>
+					<h3 class="highlight"><{$module.module_name}></h3>
+				</td>
+				<{assign var="first_title" value=$smarty.const._ON}>
+			</tr>
+			<{include file="whatsnew_view_main_result_content.html"}>
+		<{/foreach}>
+	<{else}>
+		<{assign var="whatsnew" value=$action.whatsnew_data}>
+		<{include file="whatsnew_view_main_result_content.html"}>
+	<{/if}>
+</table>
+<{else}>
+	<div class="outerdiv">
+		<{$lang.whatsnew_nothing|smarty:nodefaults}>
+	</div>
+<{/if}>
+
+<{/strip}>

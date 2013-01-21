@@ -1,0 +1,12 @@
+<{strip}>
+<{* 携帯追記部分テンプレート *}>
+<{if $action.circular_info.postscripts}>
+	<{foreach from=$action.circular_info.postscripts|smarty:nodefaults item=postscript name="postscript"}>
+		<hr style="border-top:1px dotted #cccccc;width:90%;" />
+		<h5><{$lang.circular_postscript_sequence|sprintf:$postscript.postscript_sequence|smarty:nodefaults}>&nbsp;
+		<{$postscript.insert_time|timezone_date_format:$lang.circular_date_format|smarty:nodefaults}></h5>
+		<div><{$postscript.postscript_value|nl2br|smarty:nodefaults}></div>
+	<{/foreach}>
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,64 @@
+<{strip}>
+<{* フォトアルバム一覧用テンプレート *}>
+<form action="#">
+	<div>
+		<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.photoalbum_photoalbum}>
+	</div>
+
+	<table class="grid_header" summary="<{$lang.photoalbum_list_summary}>">
+		<tr>
+			<th class="grid_change_disp" scope="col">
+			</th>
+			<th class="_sort_photoalbum_name grid_name" scope="col">
+				<{$lang.photoalbum_photoalbum_name}>
+			</th>
+			<th class="_sort_insert_user_name grid_creator" scope="col">
+				<{$lang._creator|smarty:nodefaults}>
+			</th>
+			<th class="_sort_insert_time grid_create_date" scope="col">
+				<{$lang._create_date|smarty:nodefaults}>
+			</th>
+			<th class="photoalbum_grid_manage">
+				<{$lang._manage|smarty:nodefaults}>
+			</th>
+		</tr>
+	</table>
+
+	<table class="grid photoalbum_grid_table" summary="<{$lang.photoalbum_list_summary}>">
+		<{foreach from=$action.photoalbums item=photoalbum}>
+			<tr id="photoalbum_current_row<{$photoalbum.photoalbum_id}><{$id}>" class="grid_row">
+				<td class="grid_change_disp">
+					<{include file = "photoalbum_view_edit_list_current.html"}>
+				</td>
+				<td class="grid_name">
+					<{include file = "photoalbum_view_edit_list_name.html"}>
+				</td>
+				<td class="grid_creator">
+					<{include file = "photoalbum_view_handle.html" handle=$photoalbum.insert_user_name|smarty:nodefaults user_id=$photoalbum.insert_user_id}>
+				</td>
+				<td class="grid_create_date">
+					<{$photoalbum.insert_time|timezone_date_format:$lang._date_format}>
+				</td>
+				<td class="photoalbum_grid_manage">
+					<{include file = "photoalbum_view_edit_list_manage.html"}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</form>
+
+<{include file = "../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {photoalbumCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visibleRows}>, <{$action.photoalbumCount}>, "photoalbum_view_edit_list", opts);
+	opts = null;
+
+	photoalbumCls["<{$id}>"].currentPhotoalbumID = "<{$action.currentPhotoalbumID}>";
+	photoalbumCls["<{$id}>"].checkCurrent();
+</script>
+<{/strip}>

@@ -1,0 +1,36 @@
+<{* 一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+
+<lists>
+	<{foreach from=$action.submitters item=submitter}>
+		<row>
+			<{* 提出者 *}>
+			<submitter>
+				<![CDATA[
+					<{if (!empty($submitter.submit_id|smarty:nodefaults)) }>
+						<{include file="assignment_view_submitter.html" submit_id=$submitter.submit_id handle=$submitter.handle|smarty:nodefaults}>
+					<{else}>
+						<{include file="assignment_view_handle.html" handle=$submitter.handle|smarty:nodefaults user_id=$submitter.user_id}>
+					<{/if}>
+				]]>
+			</submitter>
+
+			<{* 提出日時 *}>
+			<submit_time>
+				<![CDATA[
+					<{include file="assignment_view_main_submitters_submit_time.html"}>
+				]]>
+			</submit_time>
+
+			<{* 評価 *}>
+			<grade_value>
+				<![CDATA[
+					<{include file="assignment_view_grade_value.html" submit_flag=$submitter.submit_flag grade_value=$submitter.grade_value|smarty:nodefaults forcedDisplay=true submittedUnvalued=true}>
+				]]>
+			</grade_value>
+		</row>
+	<{/foreach}>
+</lists>
+
+<{/strip}>

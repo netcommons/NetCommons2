@@ -1,0 +1,50 @@
+<{strip}>
+<{* ルーム選択部分テンプレート *}>
+<{if !$room_list_array}>
+	<{assign var="room_list_array" value=$action.room_list_array}>
+<{/if}>
+<{foreach name="room_`$next_page_id`" item="room_obj" from=$room_list_array}>
+
+ 	<{assign var="room_id" value=$room_obj.page_id}>
+
+ 	<{if ($room_obj.space_type == _SPACE_TYPE_PUBLIC) }>
+ 		<{assign var="plan_flag" value=$smarty.const.CIRCULAR_PLAN_PUBLIC}>
+ 		<{assign var="plan_name" value=$room_obj.page_name}>
+
+ 	<{elseif ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _ON) }>
+ 		<{assign var="plan_flag" value=$smarty.const.CIRCULAR_PLAN_PRIVATE}>
+ 		<{assign var="plan_name" value=$smarty.const.CIRCULAR_USER_LANG}>
+
+ 	<{elseif ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _OFF) }>
+ 		<{assign var="plan_flag" value=$smarty.const.CIRCULAR_PLAN_GROUP}>
+ 		<{assign var="plan_name" value=$room_obj.page_name}>
+
+ 	<{else}>
+ 		<{assign var="plan_flag" value=$smarty.const.CIRCULAR_PLAN_MEMBERS}>
+ 		<{assign var="plan_name" value=$smarty.const.CIRCULAR_ALL_MEMBERS_LANG}>
+
+ 	<{/if}>
+
+	<{* プルダウンインデントの取得 *}>
+	<{if $plan_flag == CIRCULAR_PLAN_GROUP }>
+		<{assign var="indent" value=$room_obj.thread_num-1}>
+	<{else}>
+		<{assign var="indent" value=$room_obj.thread_num}>
+	<{/if}>
+
+	<{if $room_obj.disabled }>
+		<{assign var="disabled" value="disabled='disabled'"}>
+ 	<{else}>
+		<{assign var="disabled" value=""}>
+	<{/if}>
+
+ 	<{* プルダウン候補値のセット *}>
+	<option <{$disabled}> value="<{$room_id}>" <{if $room_id == $action.room_id }>selected="selected"<{/if}>><{$lang.circular_room_indent|smarty:nodefaults|str_repeat:$indent}><{$plan_name|smarty:nodefaults}></option>
+
+<{/foreach}>
+<{if $action_name == "circular_view_main_create"}>
+	<{foreach from=$action.group_member_list item="group_list"}>
+		<option value="group_<{$group_list.group_id}>"><{$group_list.group_name}></option>
+	<{/foreach}>
+<{/if}>
+<{/strip}>

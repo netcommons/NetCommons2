@@ -1,0 +1,10 @@
+<script class="nc_script" type="text/javascript">
+if(!loginCls["<{$id}>"]) {
+	loginCls["<{$id}>"] = new clsLogin("<{$id}>");
+}
+<{if $action_name=="login_view_main_autoregist"}>
+	commonCls.focus($('login_form<{$id}>'));
+<{elseif $action_name=="login_view_main_forgetpass"}>
+	commonCls.focus($('email<{$id}>'));
+<{/if}>
+</script>

@@ -1,0 +1,23 @@
+<{strip}>
+<{* 項目追加-選択肢値 *}>
+<{if $option == ''}>
+	<{* 選択肢追加時使用 *}>
+	<{assign var="option" value=$action.option}>
+	<{assign var="iteration" value=$action.iteration}>
+<{/if}>
+<table id="mdb_metadata_option<{$iteration}><{$id}>" class="outer">
+	<tr>
+		<td>
+			<label for="mdb_list_value<{$iteration}><{$id}>">
+				<{$lang.mdb_list_value|smarty:nodefaults}>
+				<input name="options[<{$iteration}>]" id="mdb_list_value<{$iteration}><{$id}>" type="text" onclick="if(event.keyCode == 13){this.onchange();} return false;" value="<{$option}>" />
+			</label>
+		</td>
+		<td>
+			<a class="syslink" href="#" onclick="mdbCls['<{$id}>'].delOption($('mdb_metadata_option<{$iteration}><{$id}>'), '<{$lang._del_confirm|sprintf:$lang.mdb_list_name}>'); return false;">
+				<img title="<{$lang.mdb_del_list|smarty:nodefaults}>" alt="<{$lang.mdb_del_list|smarty:nodefaults}>" src="<{"trash.gif"|get_themes_image}>" class="icon" />
+			</a>
+		</td>
+	</tr>
+</table>
+<{/strip}>

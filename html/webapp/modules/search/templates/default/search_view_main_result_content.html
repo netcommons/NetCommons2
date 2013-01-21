@@ -1,0 +1,27 @@
+<{strip}>
+
+<div class="search_result_title">
+	<a href="<{$item.link}>" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$item.title|smarty:nodefaults}>" class="search_subject">
+		<{$item.title}>
+	</a>
+	<{if ($item.user_name != "") }>
+		<{$lang.search_user_name_prefix|smarty:nodefaults}>
+		<a href="#" title="<{if $smarty.session._login_id == ''}><{$lang.search_add_user_title|smarty:nodefaults|sprintf:$item.user_name|smarty:nodefaults}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$item.user_name|smarty:nodefaults}><{/if}>" class="link search_user_name" onclick='commonCls.showUserDetail(event,"<{$item.user_id}>");return false;'>
+			<{$item.user_name}>
+		</a>
+	<{/if}>
+</div>
+<div class="search_result_content">
+	<span class="search_description">
+		<{$item.description}>
+	</span>
+	<{if ($item.pubDate) }>
+		<{$lang.search_time_prefix|smarty:nodefaults}>
+		<span class="search_time">
+			<{assign var="strtotime" value=$item.pubDate|strtotime}>
+			<{$lang._full_date_format|smarty:nodefaults|date:$strtotime}>
+		</span>
+	<{/if}>
+</div>
+
+<{/strip}>

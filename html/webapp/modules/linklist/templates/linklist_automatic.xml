@@ -1,0 +1,8 @@
+<{* 自動取得用XMLテンプレート *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<automatic>
+	<title><{$action.title}></title>
+	<description><{$action.description}></description>
+</automatic>
+<{/strip}>

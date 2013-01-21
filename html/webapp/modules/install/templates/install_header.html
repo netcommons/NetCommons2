@@ -1,0 +1,31 @@
+<{strip}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$smarty.const._CHARSET}>" />
+<title><{$smarty.session._site_name}> - <{$smarty.session._page_title}></title>
+<script type="text/javascript" src=".<{$smarty.const.INDEX_FILE_NAME}>?action=install_view_js"></script>
+<script type="text/javascript">
+	<{if $action.install_system_module_cnt > 0}>
+		_nc_base_url = "<{$smarty.const.BASE_URL|smarty:nodefaults}>";
+	<{else}>
+		_nc_base_url = "./"<{* $smarty.const.BASE_URL|smarty:nodefaults *}>;
+	<{/if}>
+	_nc_index_file_name = "<{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>";
+	_nc_current_url = '<{$smarty.const.CURRENT_URL|smarty:nodefaults}>';
+	_nc_user_id = '0';
+	_nc_debug = 0;
+</script>
+<{* インストール用スタイル定義 *}>
+<{include file = "install_css.html"}>
+</head>
+<body <{if $action_name == "install_view_mdinstall_init"}>onload="installOnload();"<{/if}>>
+<table align="center" cellspacing="0" cellpadding="0" summary="" class="install_top">
+	<tr>
+		<td class="install_header">
+			<img src="./install/logo.gif" alt="" title="" />
+		<td>
+	</tr>
+	<tr>
+		<td  class="install_main">
+<{/strip}>

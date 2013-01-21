@@ -1,0 +1,36 @@
+<{strip}>
+
+<{include file="calendar_mobile_init_header.html"}>
+<br />
+<a href="?action=calendar_view_mobile_init&amp;date=<{$action.prev_month}><{$session_param}>">
+	<{$lang.calendar_alt_prev_month|smarty:nodefaults}>
+</a>
+&nbsp;
+<{$action.date_string}>
+&nbsp;
+<a href="?action=calendar_view_mobile_init&amp;date=<{$action.next_month}><{$session_param}>">
+	<{$lang.calendar_alt_next_month|smarty:nodefaults}>
+</a>
+<br /><br />
+
+<{assign var="wday_array" value="|"|explode:$smarty.const.CALENDAR_WEEK}>
+<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+	<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+	<{assign var="date" value="Ymd"|date:$timestamp}>
+	<{assign var="index" value="w"|date:$timestamp}>
+
+	<a href="?action=calendar_view_mobile_init&amp;dtype=<{$smarty.const.CALENDAR_DAILY}>&amp;date=<{$date}><{$session_param}>">
+		<{$lang.calendar_mobile_monthly_day|smarty:nodefaults|date:$timestamp}>
+		<{$lang.calendar_mobile_monthly_week|smarty:nodefaults|sprintf:$wday_array.$index}>
+	</a>
+	<{if ($action.plan_data.$date) }>
+		<{assign var="plan_data" value=$action.plan_data.$date}>
+		<{$lang.calendar_mobile_plan_count|smarty:nodefaults|sprintf:$plan_data.total}>
+	<{/if}>
+	<br />
+<{/section}>
+
+<br />
+<{include file="calendar_mobile_init_footer.html"}>
+
+<{/strip}>

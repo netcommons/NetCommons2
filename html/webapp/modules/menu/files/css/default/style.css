@@ -1,0 +1,53 @@
+
+/*トップ　パブリックスペース*/
+.menu_top_public {
+	font-weight:bold;
+	white-space:nowrap;
+	display:block;
+	padding:2px;
+}
+
+/*パブリックスペース*/
+.menu_public {
+	display:block;
+	padding:2px;
+}
+
+/*トップ　プライベートスペース*/
+.menu_top_private {
+	font-weight:bold;
+	white-space:nowrap;
+	display:block;
+	padding:2px;
+}
+/*プライベートスペース*/
+.menu_private {
+	display:block;
+	padding:2px;
+}
+
+/*トップ　グループスペース*/
+.menu_top_group {
+	font-weight:bold;
+	white-space:nowrap;
+	display:block;
+	padding:2px;
+}
+/*グループスペース*/
+.menu_group {
+	display:block;
+	padding:2px;
+}
+
+.menu_top_page {
+	text-align:right;
+	white-space:nowrap;
+	/*padding-bottom:5px;*/
+}
+
+.menu_top_page_href {
+	padding-left:3px;
+	padding-right:3px;
+	white-space:nowrap;
+	font-weight:bold;
+}

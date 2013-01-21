@@ -1,0 +1,114 @@
+<{strip}>
+<div class="bold">
+	<{* タイトル *}>
+	<{if $action.edit_flag == _ON}>
+		<{* ルーム参加者修正 *}>
+		<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', $('form<{$id}>'), $('<{$id}>')); return false;">
+			<{assign var="user_id" value=$action.user_id}>
+			<{$lang.user_view_admin_edit_init|smarty:nodefaults}>[<{* Hangle:item_id=2固定*}><{$smarty.session.user.regist.$user_id.2}>]
+		</a>
+		<{if $action.user_auth_id != _AUTH_ADMIN}>
+			<{$lang._arrow_separator|smarty:nodefaults}>
+			<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selroom', $('form<{$id}>'), $('form<{$id}>').parentNode); return false;">
+				<{$lang.user_select_room|smarty:nodefaults}>
+			</a>
+			<{if $action.enroll_room_list}>
+				<{$lang._arrow_separator|smarty:nodefaults}>
+				<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selauth', $('form<{$id}>'), $('form<{$id}>').parentNode); return false;">
+					<{$lang.user_select_auth|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.user_regist_confirm|smarty:nodefaults}>
+	<{else}>
+		<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', $('form<{$id}>'), $('<{$id}>')); return false;">
+			<{$lang.user_view_admin_regist_init|smarty:nodefaults}>
+		</a>
+		<{if $action.user_auth_id != _AUTH_ADMIN}>
+			<{$lang._arrow_separator|smarty:nodefaults}>
+			<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selroom', $('form<{$id}>'), $('form<{$id}>').parentNode); return false;">
+				<{$lang.user_select_room|smarty:nodefaults}>
+			</a>
+			<{if $action.enroll_room_list}>
+				<{$lang._arrow_separator|smarty:nodefaults}>
+				<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selauth', $('form<{$id}>'), $('form<{$id}>').parentNode); return false;">
+					<{$lang.user_select_auth|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.user_regist_confirm|smarty:nodefaults}>
+	<{/if}>
+</div>
+<div class="top_description">
+	<{$lang.user_top_descripton|smarty:nodefaults|sprintf:$lang._regist}>
+</div>
+<div class="align-right">
+	<a class="link" href="#" onclick="userCls['<{$id}>'].print(); return false;">
+		<img title="<{$lang._print_icon|smarty:nodefaults}>" alt="<{$lang._print_icon|smarty:nodefaults}>" src="<{"print.gif"|get_themes_image}>"/>
+	</a>
+</div>
+<form action="" id="form<{$id}>" onsubmit="return false;">
+	<div class=comp_tabset></div>
+	<div id="user_tabset_content<{$id}>" class=comp_tabset_content>
+		<div class="outerdiv">
+			<div class="comptabset_caption"><{$lang.user_base_item|smarty:nodefaults}></div>
+			<{* 基本項目 *}>
+			<{assign var="mode" value="confirm"}>
+			<{include file="user_common_userdetail.html"}>
+		</div>
+		<{if $action.enroll_room_list}>
+			<div class="outerdiv">
+				<div class="comptabset_caption"><{$lang.user_entry_room|smarty:nodefaults}></div>
+				<{* 参加ルーム *}>
+				<table class="grid_header" summary="">
+				<tr>
+					<th scope="col">
+						<div class="user_selectauth_entry_room">
+							<{$lang.user_entry_room|smarty:nodefaults}>
+						</div>
+					</th>
+					<th scope="col">
+						<div class="user_confirm_auth_list">
+							<{$lang.user_auth_name|smarty:nodefaults}>
+						</div>
+					</th>
+					<{* サブグループ作成許可 *}>
+					<th scope="col">
+						<div class="user_selectauth_auth_list">
+							<{$lang._createroom_flag_name|smarty:nodefaults}>
+						</div>
+					</th>
+				</tr>
+				</table>
+				<table class="grid" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+					<{assign var="action_room_list" value=$action.enroll_room_list}>
+					<{assign var="room_list" value=$action.enroll_room_list.0.0}>
+					<{assign var="user_id" value=$action.user_id}>
+					<{include file="user_select_room_list.html"}>
+				</table>
+			</div>
+		<{/if}>
+	</div>
+	<div class="align-right room_selectauth_btnlist">
+		<{if $action.user_auth_id != _AUTH_ADMIN}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selauth', this.form, this.form.parentNode); return false;" />
+		<{else}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', this.form, $('<{$id}>')); return false;" />
+		<{/if}>
+		<{if $action.edit_flag == _ON && $action.sending_email == ""}>
+			<{* 登録後、閉じる *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_action_admin_regist', this.form, this.form.parentNode, 1); return false;" />
+		<{else}>
+			<{* メール通達画面表示 *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_action_admin_regist', this.form, this.form.parentNode); return false;" />
+		<{/if}>
+		<{if $action.edit_flag == _ON}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang._close_block_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false;commonCls.removeBlock('<{$id}>'); return false;" />
+		<{/if}>
+	</div>
+	<input name="user_id" type="hidden" value="<{$action.user_id}>" />
+</form>
+<{include file="user_script.html"}>
+<{/strip}>

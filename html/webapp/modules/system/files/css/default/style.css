@@ -1,0 +1,62 @@
+div.system_main filedset {
+	margin: 0 0 6px 0;
+	padding: 3px;
+}
+.system_setting {
+	padding: 2px;
+}
+table.system_setting th {
+	margin: 2px 5px 7px 2px;
+	width: 20%;
+	/* font-weight:bolder; */
+	text-align:left;
+	vertical-align:top;
+}
+table.system_setting td {
+}
+.system_items {
+	padding: 5px;
+	vertical-align: middle;
+	line-height: 120%;
+}
+.system_items select {
+	margin:0 10px;
+}
+.system_warning {
+	font-style: italic;
+}
+.system_accepted {
+	padding-right: 2em;
+	border-left:2px solid #00ff6a;
+}
+.system_date {
+	padding: 0 3px;
+	vertical-align: bottom;
+	font-size: 80%;
+	color: #ffb500;
+	background-color:inherit;
+}
+.system_pagetheme_panels {
+	margin:10px;
+}
+td.system_pagetheme_panel {
+	padding:4px;
+	border:1px solid #ababab;
+	text-align:center;
+}
+.system_pagetheme_name {
+	font-size: 80%;
+}
+.system_pagetheme_icon {
+	margin:5px;
+	width:80px;
+	height:60px;
+}
+.system_note_width {
+	width:400px;
+}
+.system_pagestyle_top {
+	width:630px;
+	height:320px;
+	overflow:auto;
+}

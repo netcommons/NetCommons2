@@ -1,0 +1,7 @@
+<{strip}>
+
+<a class="link" href="#" onclick='reservationCls["<{$id}>"].changeReservation("<{$view_date}>", null); return false;' onmouseover='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._ON}>);' onmouseout='if (typeof reservationCls == "undefined" || typeof reservationCls["<{$id}>"] == "undefined") { return false; } reservationCls["<{$id}>"].onmouseImage(this, "prev2", <{$smarty.const._OFF}>);'>
+	<img class="icon" src="<{"prev2.gif"|get_modules_image}>" alt="<{$image_alt}>" title="<{$image_title}>" />
+</a>
+
+<{/strip}>

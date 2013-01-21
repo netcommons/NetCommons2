@@ -1,0 +1,16 @@
+<{strip}>
+<{* 解答欄チェック処理用テンプレート *}>
+<script class="nc_script" type="text/javascript">
+	<{if $choiceDisplay == QUIZ_CHOICE_DISPLAY_NORMAL}>
+		var choice = $("quiz_answer<{$choice.choice_id}><{$id}>");
+	<{else}>
+		var choice = $("quiz_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>");
+		choice.disabled = true;
+	<{/if}>
+
+	<{if $answer.answer_value[$choice.choice_id] == _ON}>
+		choice.checked = true;
+	<{/if}>
+	choice = null;
+</script>
+<{/strip}>

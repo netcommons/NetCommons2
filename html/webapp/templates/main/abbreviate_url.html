@@ -1,0 +1,20 @@
+<{strip}>
+<{if ($query != "") }>
+	<{$smarty.const.BASE_URL}>?<{$query}>#<{if ($fragment == "") }><{$smarty.session._id}><{else}><{$fragment}><{/if}>
+<{elseif ($short_url != "") }>
+	<{if ($smarty.session._permalink_flag == _ON) }>
+		<{$smarty.const.BASE_URL}>/<{$short_url}><{if ($block_id != "") }>-<{$block_id}><{/if}>/<{if ($request_param != "") }>?<{$request_param}><{/if}><{if !isset($anchor|smarty:nodefaults) || $anchor== _ON}>#<{if ($fragment == "") }><{$smarty.session._id}><{else}><{$fragment}><{/if}><{/if}>
+	<{else}>
+		<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?<{$smarty.const._ABBREVIATE_URL_REQUEST_KEY}>=<{$short_url}><{if ($block_id != "") }>-<{$block_id}><{/if}><{if ($request_param != "") }>&<{$request_param}><{/if}><{if !isset($anchor|smarty:nodefaults) || $anchor== _ON}>#<{if ($fragment == "") }><{$smarty.session._id}><{else}><{$fragment}><{/if}><{/if}>
+	<{/if}>
+<{else}>
+	<{if ($block_id != "") }>
+		<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?block_id=<{$block_id}>
+	<{elseif ($page_id != "") }>
+		<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?page_id=<{$page_id}>
+	<{else}>
+		<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>
+	<{/if}>
+<{/if}>
+
+<{/strip}>

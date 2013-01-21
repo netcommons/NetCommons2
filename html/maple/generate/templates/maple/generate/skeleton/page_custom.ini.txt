@@ -1,0 +1,45 @@
+;--------------------------------------------------------------------
+; Usage: こちらのUsage項目は、編集後、削除してください
+;
+; [(general or headercolumn or leftcolumn or centercolumn or rightcolumn or footercolumn)]
+; (css property_name) = (value)
+; css property_nameは、「background-color or border-top-color or border-right-color or border-bottom-color or border-left-color」
+; valueは「,」区切り
+; valueの最左値は、作成したページテーマの指定クラスの色を指定するほうがよい（デフォルト値を最左に表示させるため）
+;
+; valueで使用できるもの
+; 
+;・#999999                                      - colorコード
+;  sample:
+;     明るい色：#ffffff,#e6e6e6,#fafafa,#f2ffeb,#f1fff7,#f0fcff,#ebf3ff,#f5edff,#ffeffc,#fff4f0,#feffe4
+;     暗い色  ：#2f7cb2,#5c666b,#324684,#674174,#327177,#8f3a5a,#7a7040
+;・transparent                                  - 透明
+;・selection                                    - #999999形式でテキスト入力できる項目
+;・selection_image:(/images/background/下のディレクトリ名(スペース区切りで複数指定可能)):(backgroundスタイルのurlの項目以外を設定)
+;                                               - 背景画像選択セレクトボックスの項目が追加
+;    example:selection_image:border dot:transparent repeat fixed left top
+;--------------------------------------------------------------------
+;--------------------------------------------------------------------
+; ページスタイル　配色タブ設定項目
+;--------------------------------------------------------------------
+[general]
+background-color = "#e6e6e6,#ffffff,#5c666b,#324684,#2f7cb2,#674174,#327177,#8f3a5a,#7a7040,selection,selection_image(transparent repeat fixed left top):border:border_dark:dot:dot_dark"	;//デフォルト背景(変更可能な場合、「,」区切りで複数指定)
+border-top-color="transparent,#e6e6e6,#5c666b,#324684,#674174,#327177,#8f3a5a,#7a7040,#ffffff,selection"
+border-right-color="transparent,#e6e6e6,#5c666b,#324684,#674174,#327177,#8f3a5a,#7a7040,#ffffff,selection"
+border-bottom-color="transparent,#e6e6e6,#5c666b,#324684,#674174,#327177,#8f3a5a,#7a7040,#ffffff,selection"
+border-left-color="transparent,#e6e6e6,#5c666b,#324684,#674174,#327177,#8f3a5a,#7a7040,#ffffff,selection"
+
+[headercolumn]
+background-color = "#ffffff,#e6e6e6,#fafafa,#f2ffeb,#f1fff7,#f0fcff,#ebf3ff,#f5edff,#ffeffc,#fff4f0,#feffe4,selection_image(transparent repeat fixed left top):border:dot"	;//ヘッダーの背景色(変更可能な場合、「,」区切りで複数指定)
+
+[leftcolumn]
+background-color = "#ffffff,#e6e6e6,#fafafa,#f2ffeb,#f1fff7,#f0fcff,#ebf3ff,#f5edff,#ffeffc,#fff4f0,#feffe4,selection_image(transparent repeat fixed left top):border:dot"	;//左カラムの背景色(変更可能な場合、「,」区切りで複数指定)
+
+[centercolumn]
+background-color = "#ffffff,#e6e6e6,#fafafa,#f2ffeb,#f1fff7,#f0fcff,#ebf3ff,#f5edff,#ffeffc,#fff4f0,#feffe4,selection_image(transparent repeat fixed left top):border:dot"	;//中央カラムの背景色(変更可能な場合、「,」区切りで複数指定)
+
+[rightcolumn]
+background-color = "#ffffff,#e6e6e6,#fafafa,#fff5fa,#f9e9e9,#f0f7f0,#faf5ff,#f0f7f7,#f7f7f0,#fffff0,selection_image(transparent repeat fixed left top):border:dot"	;//右カラムの背景色(変更可能な場合、「,」区切りで複数指定)
+
+[footercolumn]
+background-color = "#ffffff,#e6e6e6,#fafafa,#fff5fa,#f9e9e9,#f0f7f0,#faf5ff,#f0f7f7,#f7f7f0,#fffff0,selection_image(transparent repeat fixed left top):border:dot"	;//フッターの背景色(変更可能な場合、「,」区切りで複数指定)

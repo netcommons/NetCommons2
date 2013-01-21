@@ -1,0 +1,36 @@
+<{strip}>
+<{* 集計結果画面用テンプレート *}>
+<{include file="questionnaire_mobile_head.html"}>
+<h3>
+	<{$lang.questionnaire_answerer_count}>
+	&nbsp;&nbsp;<{$lang.questionnaire_count|sprintf:$action.questionnaire.answer_count}>
+</h3>
+<hr />
+<{foreach from=$action.questions item=question name="question"}>
+	<{include file="questionnaire_mobile_question.html"}>
+	<p>
+		<{if $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_TEXTAREA_VALUE}>
+			<strong>
+			<{$lang.questionnaire_mobile_question_type_textarea}>
+			</strong>
+			<br />
+		<{else}>
+			<{foreach from=$question.choices item=choice name="choice"}>
+				<strong>
+				<{$lang.questionnaire_choice_label|sprintf:$choice.label}>
+				</strong>
+				<{$choice.choice_value|nl2br}>
+				<br />
+				&nbsp;
+				<{$lang.questionnaire_choice_count|sprintf:$choice.label:$choice.choice_count}>
+				&nbsp;
+				<{$lang.questionnaire_percent|sprintf:$choice.share}>
+				<br />
+			<{/foreach}>
+		<{/if}>
+	</p>
+<{/foreach}>
+<br />
+<{include file = "questionnaire_mobile_goto_main.html"}>
+
+<{/strip}>

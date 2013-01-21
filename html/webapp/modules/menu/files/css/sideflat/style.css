@@ -1,0 +1,66 @@
+.menu_sideflat {
+	border-color:#efefef #aaaaaa #aaaaaa #efefef;
+	border-style:solid;
+	border-width:1px;
+	margin-bottom:1px;
+	padding:3px 10px !important;
+	font-weight:normal !important;
+}
+/*トップ　パブリックスペース*/
+.menu_sideflat_top_public {
+	font-weight:bold;
+	white-space:nowrap;
+	display:block;
+	padding:2px;
+	border-left:5px solid #cccccc;
+	padding:3px 10px 3px 5px!important;
+}
+
+/*パブリックスペース*/
+.menu_sideflat_public {
+	display:block;
+	padding:2px;
+}
+
+/*トップ　プライベートスペース*/
+.menu_sideflat_top_private {
+	font-weight:bold;
+	white-space:nowrap;
+	display:block;
+	padding:2px;
+	border-left:5px solid #cccccc;
+	padding:3px 10px 3px 5px!important;
+}
+/*プライベートスペース*/
+.menu_sideflat_private {
+	display:block;
+	padding:2px;
+}
+
+/*トップ　グループスペース*/
+.menu_sideflat_top_group {
+	font-weight:bold;
+	white-space:nowrap;
+	display:block;
+	padding:2px;
+	border-left:5px solid #cccccc;
+	padding:3px 10px 3px 5px!important;
+}
+/*グループスペース*/
+.menu_sideflat_group {
+	display:block;
+	padding:2px;
+}
+
+.menu_sideflat_top_page {
+	text-align:right;
+	white-space:nowrap;
+	/*padding-bottom:5px;*/
+}
+
+.menu_sideflat_top_page_href {
+	padding-left:3px;
+	padding-right:3px;
+	white-space:nowrap;
+	font-weight:bold;
+}

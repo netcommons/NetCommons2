@@ -1,0 +1,7 @@
+<{strip}>
+<{if $block_obj.block_name != ""}>
+	<h2 class="th_<{$main_theme_name}>_title nc_block_title" title="<{$dblclick_edit}>"><{$block_obj.block_name}></h2>
+<{else}>
+	<h2 class="th_<{$main_theme_name}>_title nc_block_title <{if $smarty.session._layoutmode=="off"}> display-none<{/if}>" title="<{$dblclick_edit}>"></h2>
+<{/if}>
+<{/strip}>

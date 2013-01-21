@@ -1,0 +1,35 @@
+<{strip}>
+
+<{if ($plan_flag == CALENDAR_PLAN_MEMBERS) }>
+	<{assign var="default_authority_id" value=$smarty.const._AUTH_ADMIN}>
+<{else}>
+	<{assign var="default_authority_id" value=$smarty.const._AUTH_CHIEF}>
+<{/if}>
+<{if ($action.manage_list.$room_id) }>
+	<{assign var="manage" value=$action.manage_list.$room_id}>
+	<{assign var="add_authority_id" value=$manage.add_authority_id}>
+<{else}>
+	<{assign var="add_authority_id" value=$default_authority_id}>
+<{/if}>
+
+<{if ($add_authority_id <= $room_obj.authority_id) }>
+<option<{if ($add_authority_id <= $room_obj.authority_id) }> value="<{$room_id}>"<{else}> value="-"<{/if}><{if ($action.calendar_obj.room_id==$room_id) }> selected=selected<{/if}>>
+	<{if !empty($indent|smarty:nodefaults) }>
+		<{"&nbsp;"|str_repeat:$indent}>
+	<{/if}>
+	<{if ($add_authority_id <= $room_obj.authority_id) }>
+	<{else}>
+		<{if ($action_name == "calendar_view_main_plan_add") }>
+			<{$lang.calendar_mobile_notadd|smarty:nodefaults}>
+		<{else}>
+			<{$lang.calendar_mobile_notedit|smarty:nodefaults}>
+		<{/if}>
+	<{/if}>
+	<{$lang.calendar_plan_flag_str|smarty:nodefaults|sprintf:$plan_name}>
+	<{if ($room_obj.thread_num != 0 && !($room_obj.thread_num == 1 && $room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _OFF)) }>
+		(<{$parent_room_name}>)
+	<{/if}>
+</option>
+<{/if}>
+
+<{/strip}>

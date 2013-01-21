@@ -1,0 +1,107 @@
+<{strip}>
+<{* 集計結果表示テンプレート *}>
+
+<{* 課題名称 *}>
+<{include file="assignment_view_assignment_name.html"}>
+
+<div id="assignment_main_summary<{$id}>" class="assignment_main_summary">
+	<table class="assignment_main_summary">
+		<{* 評価済 *}>
+		<{assign var="submit_flag" value=$smarty.const.ASSIGNMENT_SUBMIT_FLAG_GRADED}>
+
+		<{if (!empty($action.summary.$submit_flag|smarty:nodefaults)) }>
+			<{foreach from=$action.summary.$submit_flag|smarty:nodefaults name="summary" item=summary key="grade_value"}>
+				<tr>
+					<th class="nowrap assignment_grade_head">
+						<{$lang.assignment_grade_item}>
+						<{$grade_value}>
+					</th>
+
+					<td class="nowrap assignment_grade_value">
+						<{if (!empty($summary|smarty:nodefaults) && $action.summary.total > 0) }>
+							<{math equation="x / y * 100" x=$summary y=$action.summary.total assign="graph_rate"}>
+						<{else}>
+							<{assign var="graph_rate" value=0}>
+						<{/if}>
+						<{math equation="100 - x" x=$graph_rate assign="background"}>
+
+						<{$lang.assignment_grade_value|smarty:nodefaults|sprintf:$summary:$graph_rate}>
+					</td>
+
+					<td class="nowrap assignment_grade_graph">
+						<{assign var="grade_i" value=$smarty.foreach.summary.iteration}>
+						<div class="assignment_graph_graded assignment_graph_<{$grade_i|substr:-1}>" style="width:<{"%0.0f"|sprintf:$graph_rate}>%"></div>
+						<div class="assignment_graph_ground" style="width:<{"%0.0f"|sprintf:$background}>%"></div>
+					</td>
+				</tr>
+			<{/foreach}>
+		<{/if}>
+
+		<{* 提出済 *}>
+		<{assign var="submit_flag" value=$smarty.const.ASSIGNMENT_SUBMIT_FLAG_SUBMITTED}>
+		<{assign var="resubmit_flag" value=$smarty.const.ASSIGNMENT_SUBMIT_FLAG_RESUBMITTED}>
+		<{if (!empty($action.summary.$submit_flag|smarty:nodefaults) && !empty($action.summary.$resubmit_flag|smarty:nodefaults)) }>
+			<{math equation="x + y" x=$action.summary.$submit_flag y=$action.summary.$resubmit_flag assign="summary"}>
+		<{elseif (!empty($action.summary.$submit_flag|smarty:nodefaults)) }>
+			<{assign var="summary" value=$action.summary.$submit_flag}>
+		<{elseif (!empty($action.summary.$resubmit_flag|smarty:nodefaults)) }>
+			<{assign var="summary" value=$action.summary.$resubmit_flag}>
+		<{else}>
+			<{assign var="summary" value=0}>
+		<{/if}>
+		<{if ($summary > 0) }>
+			<tr>
+				<th class="nowrap assignment_grade_head">
+					<{$lang.assignment_summary_submitted_unvalued|smarty:nodefaults}>
+				</th>
+	
+				<td class="nowrap assignment_grade_value">
+					<{if (!empty($summary|smarty:nodefaults) && $action.summary.total > 0) }>
+						<{math equation="x / y * 100" x=$summary y=$action.summary.total assign="graph_rate"}>
+					<{else}>
+						<{assign var="graph_rate" value=0}>
+					<{/if}>
+					<{math equation="100 - x" x=$graph_rate assign="background"}>
+	
+					<{$lang.assignment_grade_value|smarty:nodefaults|sprintf:$summary:$graph_rate}>
+				</td>
+	
+				<td class="nowrap assignment_grade_graph">
+					<div class="assignment_graph_submitted" style="width:<{"%0.0f"|sprintf:$graph_rate}>%"></div>
+					<div class="assignment_graph_ground" style="width:<{"%0.0f"|sprintf:$background}>%"></div>
+				</td>
+			</tr>
+		<{/if}>
+
+		<{* 未提出 *}>
+		<{assign var="submit_flag" value=$smarty.const.ASSIGNMENT_SUBMIT_FLAG_YET_REREASED}>
+		<{assign var="summary" value=$action.summary.$submit_flag}>
+		<{if ($summary > 0) }>
+			<tr>
+				<th class="nowrap assignment_grade_head">
+					<{$lang.assignment_yet_submitted}>
+				</th>
+
+				<td class="nowrap assignment_grade_value">
+					<{if (!empty($summary|smarty:nodefaults) && $action.summary.total > 0) }>
+						<{math equation="x / y * 100" x=$summary y=$action.summary.total assign="graph_rate"}>
+					<{else}>
+						<{assign var="graph_rate" value=0}>
+					<{/if}>
+					<{math equation="100 - x" x=$graph_rate assign="background"}>
+	
+					<{$lang.assignment_grade_value|smarty:nodefaults|sprintf:$summary:$graph_rate}>
+				</td>
+	
+				<td class="nowrap assignment_grade_graph">
+					<div class="assignment_graph_yet_released" style="width:<{"%0.0f"|sprintf:$graph_rate}>%"></div>
+					<div class="assignment_graph_ground" style="width:<{"%0.0f"|sprintf:$background}>%"></div>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+</div>
+
+<{include file="../assignment_script.html"}>
+
+<{/strip}>

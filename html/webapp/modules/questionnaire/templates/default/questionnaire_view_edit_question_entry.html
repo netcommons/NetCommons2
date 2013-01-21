@@ -1,0 +1,129 @@
+<{strip}>
+<{* 質問登録画面用テンプレート *}>
+<form id="questionnaire_question_form<{$id}>" action="#">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="questionnaire_id" />
+	<input type="hidden" name="question_id" />
+	<input type="hidden" name="question_sequence" />
+
+	<div class="bold">
+		<{$lang.questionnaire_question|sprintf:$action.question.question_sequence}>
+	</div>
+	<{if $action.questionnaire.status == QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+		<textarea id="questionnaire_question_value<{$id}>" class="comptextarea questionnaire_question"></textarea>
+	<{else}>
+		<div>
+			<{$action.question.question_value|smarty:nodefaults|wysiwig_convert_url}>
+			<input type="hidden" name="question_value" value="<{$action.question.question_value}>">
+		</div>
+	<{/if}>
+	<br class="float-clear" />
+
+	<label for="questionnaire_description_check<{$id}>">
+		<input id="questionnaire_description_check<{$id}>" type="checkbox" name="description_checkbox" onclick="questionnaireCls['<{$id}>'].changeDescription(this.checked);" />
+		<{$lang.questionnaire_description}>
+	</label>
+	<div id="questionnaire_description_area<{$id}>" class="display-none">
+		<textarea id="questionnaire_description<{$id}>" class="comptextarea questionnaire_question"></textarea>
+	</div>
+
+	<table class="outer questionnaire_question" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="questionnaire_require_label<{$id}>" for="questionnaire_require<{$id}>">
+					<input id="questionnaire_require<{$id}>" type="checkbox" name="require_flag" value="<{$smarty.const._ON}>" />
+					<{$lang.questionnaire_require}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="questionnaire_question_type<{$id}>">
+					<{$lang.questionnaire_question_type}>
+	 			</label>
+			</th>
+			<td>
+				<select id="questionnaire_question_type<{$id}>" name="question_type" onchange="questionnaireCls['<{$id}>'].changeQuestionType(this.value);return false;">
+	 				<option id="questionnaire_question_type_radio<{$id}>" value="<{$smarty.const.QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE}>"><{$lang.questionnaire_question_type_radio}></option>
+	 				<option value="<{$smarty.const.QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE}>"><{$lang.questionnaire_question_type_checkbox}></option>
+	 				<option id="questionnaire_question_type_textarea<{$id}>" value="<{$smarty.const.QUESTIONNAIRE_QUESTION_TYPE_TEXTAREA_VALUE}>"><{$lang.questionnaire_question_type_textarea}></option>
+	 			</select>
+
+ 				<div id="questionnaire_choice_area<{$id}>"  class="display-none">
+					<{if $action.questionnaire.status == QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+						<div class="align-right">
+							<a class="syslink" href="#" title="<{$lang.questionnaire_add_choice_title}>" onclick="questionnaireCls['<{$id}>'].addChoice();return false;">
+								<img class="icon" src="<{"add.gif"|get_themes_image}>" alt="" />
+								<{$lang.questionnaire_add_choice}>
+							</a>
+						</div>
+					<{/if}>
+
+					<table id="questionnaire_choice<{$id}>" class="questionnaire_choice">
+						<{foreach from=$action.question.choices|smarty:nodefaults item=choice name="choice"}>
+							<{assign var="iteration" value=$smarty.foreach.choice.iteration}>
+							<{include file="questionnaire_view_edit_choice.html"}>
+						<{foreachelse}>
+						<{/foreach}>
+					</table>
+
+					<div id="questionnaire_choice_add<{$id}>" class="display-none">
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="questionnaireCls['<{$id}>'].enterQuestion();" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');return false;" />
+	</div>
+</form>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	questionnaireCls["<{$id}>"].questionnaire_id = "<{$action.question.questionnaire_id}>";
+	questionnaireCls["<{$id}>"].question_id = "<{$action.question.question_id}>";
+	questionnaireCls["<{$id}>"].choiceIteration = <{$action.choiceCount}>;
+
+	var questionnaireForm = $("questionnaire_question_form<{$id}>");
+	questionnaireForm["action"].value = "questionnaire_action_edit_question_entry";
+	questionnaireForm["questionnaire_id"].value = "<{$action.question.questionnaire_id}>";
+	questionnaireForm["question_id"].value = "<{$action.question.question_id}>";
+	questionnaireForm["question_sequence"].value = "<{$action.question.question_sequence}>";
+
+	<{if $action.questionnaire.status == QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+		<{if empty($action.question.question_id|smarty:nodefaults)}>
+			$("questionnaire_question_value<{$id}>").value = "<{$lang.questionnaire_new_question_value|sprintf:$action.question.question_sequence}>";
+		<{else}>
+			$("questionnaire_question_value<{$id}>").value = "<{$action.question.question_value|smarty:nodefaults|wysiwig_convert_url|escape:"javascript"}>";
+		<{/if}>
+		questionnaireCls["<{$id}>"].createQuestionArea();
+	<{/if}>
+
+	<{if !empty($action.question.description|smarty:nodefaults)}>
+		questionnaireForm["description_checkbox"].checked = true;
+		$("questionnaire_description<{$id}>").value = "<{$action.question.description|smarty:nodefaults|wysiwig_convert_url|escape:"javascript"}>";
+		questionnaireCls['<{$id}>'].changeDescription(true);
+	<{/if}>
+
+	<{if $action.question.require_flag == _ON}>
+		$("questionnaire_require<{$id}>").checked = true;
+	<{/if}>
+
+	questionnaireForm["question_type"].value = "<{$action.question.question_type}>";
+	questionnaireCls["<{$id}>"].changeQuestionType(<{$action.question.question_type}>);
+
+	<{if $action.questionnaire.status != QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+		questionnaireForm["question_type"].disabled = true;
+
+		$("questionnaire_require<{$id}>").disabled = true;
+		Element.addClassName($("questionnaire_require_label<{$id}>"), "disable_lbl");
+	<{/if}>
+
+	questionnaireForm = null;
+</script>
+<{/strip}>

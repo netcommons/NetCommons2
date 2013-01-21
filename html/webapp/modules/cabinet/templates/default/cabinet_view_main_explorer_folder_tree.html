@@ -1,0 +1,18 @@
+<{strip}>
+
+<{assign var="parent_id" value="0"}>
+<div id="cabinet_explore_folder_tree<{$id}>" class="cabinet_explore_folder_tree">
+	<div class="nowrap">
+		<img class="icon" src="<{"cabinet.gif"|get_modules_image}>" title="" alt="" />
+
+		<{if ($action_name == "cabinet_view_main_move") }>
+			<{include file="cabinet_view_main_filename.html" file_id=$parent_id file_name=$action.cabinet.cabinet_name explorer_pos="move"}>
+		<{else}>
+			<{include file="cabinet_view_main_filename.html" file_id=$parent_id file_name=$action.cabinet.cabinet_name explorer_pos="left"}>
+		<{/if}>
+	</div>
+	
+	<{include file="cabinet_view_main_explorer_folder_recursive.html" parent_id=$parent_id}>
+</div>
+
+<{/strip}>

@@ -1,0 +1,138 @@
+<{strip}>
+<{assign var="menus" value=$action.menus.0.0}>
+<{assign var="visibility_flag" value=1}>
+<{assign var="confirm_mess_chg_tree" value=$lang.mobile_confirm_message_1|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="confirm_mess_chg_each_room" value=$lang.mobile_confirm_message_2|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="alert_mess_hidden_menu" value=$lang.mobile_error_message_1|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="alert_mess_disabled_menu" value=$lang.mobile_error_message_2|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<{assign var="alert_mess_disabled_node" value=$lang.mobile_error_message_3|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+<form onsubmit="return false;">
+
+<div class="top_description">
+	<div style="float:left;">
+		<{$lang.mobile_menu_description|smarty:nodefaults}>
+	</div>
+	<{if $_language_install_flag}>
+	<div class='align-right'>
+		<select size="1" name="lang_dirname" id="language_dirname<{$id}>" onchange="mobileCls['<{$id}>'].changeLanguage(this.value);return false;">
+		<{foreach key=key item=item from=$action.languages|smarty:nodefaults}>
+			<option value="<{$key}>" <{if $smarty.session._lang == $key}>selected="selected"<{/if}>><{$item}></option>
+		<{/foreach}>
+		</select>
+	</div>
+<{/if}>
+</div>
+
+<table>
+  <tr>
+	<td class="valign-top">
+		<fieldset class="mobile_edit_menu_field">
+		<legend class="bold"><{$lang.mobile_menu_each_room|smarty:nodefaults}></legend>
+
+		<div class="top_description">
+			<{$lang.mobile_menu_each_room_description|smarty:nodefaults}>
+		</div>
+
+		<table>
+			<tr class="row">
+			<td>
+				<label for="mobile_menu_each_room_0<{$id}>"> 
+				<img src="<{"each_room.gif"|get_modules_image}>" alt="<{$lang.mobile_menu_each_room|smarty:nodefaults}><{$lang.mobile_menu_each_room_true}>" />
+				</label>
+
+				<br />
+
+				<input type="radio" name="mobile_menu_each_room" id="mobile_menu_each_room_0<{$id}>" value="<{$smarty.const._ON}>" onclick='if ( !commonCls.confirm( "<{$confirm_mess_chg_each_room|smarty:nodefaults}>") ) { $("mobile_menu_each_room_1<{$id}>").checked = true; return false; } mobileCls["<{$id}>"].chgEachRoom(this,"<{$smarty.const._ON}>"); return false;' <{if ($action.mobile_menu_each_room == $smarty.const._ON)}>checked="checked" <{/if}> />
+				<label for="mobile_menu_each_room_0<{$id}>"> 
+				<{$lang.mobile_menu_each_room_true}> 
+				</label>
+
+				<p>
+				<{$lang.mobile_menu_each_room_detail_description|smarty:nodefaults}>
+				</p>
+			</td>
+
+			<td>
+				<label for="mobile_menu_each_room_1<{$id}>"> 
+				<img src="<{"flat_room.gif"|get_modules_image}>" alt="<{$lang.mobile_menu_each_room|smarty:nodefaults}><{$lang.mobile_menu_each_room_false}>" />
+				</label>
+
+				<br />
+
+				<input type="radio" name="mobile_menu_each_room" id="mobile_menu_each_room_1<{$id}>" value="<{$smarty.const._OFF}>"  onclick='mobileCls["<{$id}>"].chgEachRoom(this,"<{$smarty.const._OFF}>"); return false;' <{if ($action.mobile_menu_each_room == $smarty.const._OFF)}>checked="checked" <{/if}> />
+				<label for="mobile_menu_each_room_1<{$id}>"> 
+				<{$lang.mobile_menu_each_room_false}> 
+				</label>
+
+				<p>
+				<{$lang.mobile_menu_flat_room_detail_description|smarty:nodefaults}>
+				</p>
+			</td>
+		</tr>
+		</table>
+		</fieldset>
+
+		<br />
+
+		<fieldset class="mobile_edit_menu_field">
+        <legend class="bold"><{$lang.mobile_menu_display_type|smarty:nodefaults}></legend>
+		<div class="top_description">
+			<{$lang.mobile_menu_display_type_description|smarty:nodefaults}>
+		</div>
+
+		<table>
+			<tr class="row">
+			<td>
+				<label for="mobile_menu_display_type_0<{$id}>"> 
+				<img src="<{"tree.gif"|get_modules_image}>" alt="<{$lang.mobile_menu_display_type|smarty:nodefaults}><{$lang.lang.mobile_menu_display_tree}>" />
+				</label>
+				<br />
+				<input type="radio" name="mobile_menu_display_type" id="mobile_menu_display_type_0<{$id}>" value="<{$smarty.const.MOBILE_MENU_DISPLAY_TREE}>" <{if ($action.mobile_menu_display_type == $smarty.const.MOBILE_MENU_DISPLAY_TREE)}>checked="checked" <{/if}>  onclick='if ( !commonCls.confirm("<{$confirm_mess_chg_tree|smarty:nodefaults}>") ){ $("mobile_menu_display_type_1<{$id}>").checked=true;return false;} mobileCls["<{$id}>"].chgDisplayType(this,"<{$smarty.const.MOBILE_MENU_DISPLAY_TREE}>"); return false;' />
+
+				<label for="mobile_menu_display_type_0<{$id}>"> <{$lang.mobile_menu_display_tree}> </label>
+	
+				<p>
+					<{$lang.mobile_menu_display_tree_detail_description|smarty:nodefaults}>
+				</p>
+			</td>
+			<td>
+				<label for="mobile_menu_display_type_1<{$id}>"> 
+				<img src="<{"flat.gif"|get_modules_image}>" alt="<{$lang.mobile_menu_display_type|smarty:nodefaults}><{$lang.lang.mobile_menu_display_flat}>" />
+				</label>
+				<br />
+				<input type="radio" name="mobile_menu_display_type" id="mobile_menu_display_type_1<{$id}>" value="<{$smarty.const.MOBILE_MENU_DISPLAY_FLAT}>" <{if ($action.mobile_menu_display_type == $smarty.const.MOBILE_MENU_DISPLAY_FLAT)}>checked="checked" <{/if}> onclick='mobileCls["<{$id}>"].chgDisplayType(this,"<{$smarty.const.MOBILE_MENU_DISPLAY_FLAT}>"); return false;' />
+				<label for="mobile_menu_display_type_1<{$id}>"> 
+				<{$lang.mobile_menu_display_flat}> 
+				</label>
+
+				<p>
+					<{$lang.mobile_menu_display_flat_detail_description|smarty:nodefaults}>
+				</p>
+			</td>
+			</tr>
+		</table>
+		</fieldset>
+	</td>
+
+	<td class="valign-top">
+
+		<fieldset class="mobile_edit_menu_field">
+
+			<legend class="bold"><{$lang.mobile_menu_visbility|smarty:nodefaults}></legend>
+
+		<div class="top_description">
+		<{$lang.mobile_menu_visibility_description|smarty:nodefaults}>
+		</div>
+
+		<div id="mobile_menu_setting_outer">
+		<{include file="mobile_view_admin_menu_list.html"}>
+		</div>
+	</fieldset>
+
+	</td>
+</tr>
+</table>
+
+</form>
+<{include file="mobile_script.html"}>
+<{/strip}>

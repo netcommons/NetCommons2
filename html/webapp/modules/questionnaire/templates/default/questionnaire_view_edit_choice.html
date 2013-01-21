@@ -1,0 +1,49 @@
+<{strip}>
+<{* 選択肢作成画面用テンプレート *}>
+<tr>
+	<td class="center">
+		<input type="hidden" name="choice_id[<{$iteration}>]" />
+		<{$choice.label}>
+	</td>
+
+	<td>
+		<textarea rows="1" cols="40" class="questionnaire_choice" name="choice_value[<{$iteration}>]"></textarea>
+	</td>
+
+	<td class="align-center">
+		<div class="comp_color" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');">
+			<a id="questionnaire_graph<{$iteration}><{$id}>" class="comp_color" href="#" title="<{$lang.questionnaire_graph}>" onclick="questionnaireCls['<{$id}>'].showGraph(<{$iteration}>);return false;">
+			</a>
+		</div>
+		<input id="questionnaire_graph_hidden<{$iteration}><{$id}>" type="hidden" name="graph[<{$iteration}>]" />
+	</td>
+
+	<{if $action.questionnaire.status == QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+		<td>
+			<a class="syslink" href="#" onclick="questionnaireCls['<{$id}>'].deleteChoice(this, '<{$lang._del_confirm|sprintf:$lang.questionnaire_choice|sprintf:$choice.label}>');return false;">
+				<img class="icon" src="<{"trash.gif"|get_themes_image}>" title="<{$lang.questionnaire_delete_choice}>" alt="<{$lang.questionnaire_delete_choice}>" />
+			</a>
+		</td>
+	<{/if}>
+</tr>
+
+<script class="nc_script" type="text/javascript">
+	var questionnaireForm = $("questionnaire_question_form<{$id}>");
+
+	questionnaireForm["choice_id[<{$iteration}>]"].value = "<{$choice.choice_id}>";
+	<{if empty($choice.choice_id|smarty:nodefaults)}>
+		questionnaireForm["choice_value[<{$iteration}>]"].value = "<{$lang.questionnaire_choice|sprintf:$choice.label|smarty:nodefaults|escape:"javascript"}>";
+	<{else}>
+		questionnaireForm["choice_value[<{$iteration}>]"].value = "<{$choice.choice_value|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	$("questionnaire_graph<{$iteration}><{$id}>").style.backgroundColor = "<{$choice.graph}>";
+	questionnaireForm["graph[<{$iteration}>]"].value = "<{$choice.graph}>";
+
+	<{if $action.questionnaire.status != QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+		questionnaireForm["choice_value[<{$iteration}>]"].disabled = true;
+	<{/if}>
+
+	questionnaireForm = null;
+</script>
+<{/strip}>

@@ -1,0 +1,93 @@
+<{strip}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="bold">
+		<{if $action.edit_current_page_id}>
+			<{$lang.room_edit_init}>
+		<{else}>
+			<{$lang.room_regist_init}>
+		<{/if}>
+	</div>
+	<{* 説明 *}>
+	<div class="top_description">
+		<{$lang.room_top_description|smarty:nodefaults}>
+	</div>
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+		<input name="parent_page_id" type="hidden" value="<{$action.parent_page_id}>" />
+		<input name="edit_current_page_id" type="hidden" value="<{$action.edit_current_page_id}>" />
+		<span id="room_errorstr<{$id}>" class="errorstr"></span>
+		<table class="outer">
+			<tr class="row">
+				<th>
+					<{$lang.room_room_name}>
+				</th>
+				<td>
+					<{* ルーム名称 *}>
+					<input id="room_name<{$id}>" name="room_name" type="text" value="<{if $action.page.page_name}><{$action.page.page_name}><{/if}>" size="40" onblur="onkeyup();" onkeyup="roomCls['<{$id}>'].roomNameChange(this, <{$action.parent_page_id}><{if $action.edit_current_page_id}>,<{$action.edit_current_page_id}><{/if}>);" />
+					<{if $action.subgroup_flag == _OFF && $action.parent_page.thread_num == 0 && $action.parent_page.space_type == _SPACE_TYPE_GROUP && $action.parent_page.private_flag == _OFF}>
+						<{* グループスペース直下でなければ *}>
+						<div>
+							<{* すべての会員をデフォルトで参加させる *}>
+							<label for="room_space_common<{$id}>">
+								<input id="room_space_common<{$id}>" name="space_type_common" type="checkbox" value="1"<{if $action.page.default_entry_flag}> checked="checked"<{/if}> />
+								<{$lang.room_space_common}>
+							</label>
+						</div>
+					<{elseif $action.page.space_type == _SPACE_TYPE_PUBLIC || $action.parent_page.space_type == _SPACE_TYPE_PUBLIC}>
+						<{* パブリックスペースならばdefault_entry_flag を立てる *}>
+						<input name="space_type_common" type="hidden" value="1" />
+					<{else}>
+						<input name="space_type_common" type="hidden" value="0" />
+					<{/if}>
+				</td>
+			</tr>
+			<tr class="row">
+				<th>
+					<{$lang.room_display_flag}>
+				</th>
+				<td>
+					<{if $action.parent_page_id == 0}>
+						<{* 深さが0のものの編集は、非公開にはできない *}>
+						<{$lang.room_display_flag_on}>
+						<input name="display_flag" type="hidden" value="1" />
+					<{else}>
+						<select name="display_flag">
+							<option value="1"><{$lang.room_display_flag_on}></option>
+							<option value="0"<{if $action.edit_current_page_id && $action.page.display_flag == 0}> selected="selected"<{/if}>><{$lang.room_display_flag_off}></option>
+						</select>
+					<{/if}>
+				</td>
+			</tr>
+			<tr class="row">
+				<th>
+					<{$lang.room_regist_location}>
+				</th>
+				<td>
+					<{if $action.subgroup_flag == _ON && $action.parent_page}>
+						<{* サブグループ *}>
+						<input name="subgroup_flag" type="hidden" value="1" />
+						<select name="location">
+							<{foreach from=$action.subgroup_pages item=subgroup_pages}>
+								<option value="<{$subgroup_pages.page_id}>"<{if $action.parent_page.page_id == $subgroup_pages.page_id}> selected="selected"<{/if}>><{$subgroup_pages.page_name}></option>
+							<{/foreach}>
+						</select>
+					<{else}>
+						<{if $action.parent_page}>
+							<{$action.parent_page.page_name}>
+						<{else}>
+							<{$action.page.page_name}>
+						<{/if}>
+					<{/if}>
+				</td>
+			</tr>
+		</table>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom align-right">
+			<input id="room_next<{$id}>" class="btn-width lined_btn" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="roomCls['<{$id}>'].roomNameCheck('<{$id}>'); return false;" <{if $action.page.page_name == ""}>disabled="true" <{/if}>/>
+			<{* キャンセル *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang._close_block_confirm|smarty:nodefaults}>'))return false; commonCls.sendView('<{$id}>',{'action':'room_view_admin_list','show_space_type':<{if $action.parent_page_id != 0}><{$action.parent_page.space_type}><{else}><{$action.page.space_type}><{/if}>,'show_private_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.private_flag}><{else}><{$action.page.private_flag}><{/if}>,'show_default_entry_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.default_entry_flag}><{else}><{$action.page.default_entry_flag}><{/if}>}); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

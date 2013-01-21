@@ -1,0 +1,46 @@
+<{strip}>
+<{if $action.private_page_id != null}>
+	<ul class="userinf_navi_menu">
+		<{* プライベートスペースへ *}>
+		<li class="userinf_navi_btns">
+			<{if $smarty.session._permalink_flag}>
+			<a href="<{$smarty.const.BASE_URL}>/<{$action.private_permalink}>" class="link userinf_navi_btn">
+			
+			<{else}>
+			<a href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.DEFAULT_ACTION}>&amp;page_id=<{$action.private_page_id}>" class="link userinf_navi_btn">
+			<{/if}>
+				<img class="userinf_navi_img" src="<{"home.gif"|get_modules_image}>" alt="" title="<{$lang.userinf_private_space_move|smarty:nodefaults|sprintf:$action.private_page_name}>" />
+				<{$lang.userinf_private_space_move|smarty:nodefaults|sprintf:$action.private_page_name}>
+			</a>		
+		</li>
+		<li>
+			&nbsp;
+		</li>
+	</ul>
+	<br class="float-clear" />
+<{/if}>
+<{if $smarty.session._handle != $action.user.handle && $action.pm_use_flag == _ON}>
+<ul class="userinf_navi_menu">
+	<{* メッセージを送る*}>
+	<li class="userinf_navi_btns">
+		<a class="link userinf_navi_btn" title="<{$lang.userinf_send_mes|smarty:nodefaults|sprintf:$action.user.handle}>" href="#" onclick="commonCls.sendPopupView(event, {'action':'pm_view_main_message_entry','prefix_id_name':'popup_pm_new','page_id':<{$smarty.session._main_page_id}>,'sender_handle':'<{$action.user.handle|smarty:nodefaults|escape:"javascript"|escape:"html"}>'},{center_flag:1});return false;">
+			<img class="userinf_navi_img" src="<{"message.gif"|get_modules_image}>" alt="" title="<{$lang.userinf_private_space_move|smarty:nodefaults|sprintf:$action.private_page_name}>" />
+			<{$lang.userinf_send_mes|smarty:nodefaults|sprintf:$action.user.handle}>
+		</a>
+	</li>
+	<li>
+		&nbsp;
+	</li>
+</ul>
+<br class="float-clear" />
+<{/if}>
+<{*会員情報詳細画面*}>
+<div class="outerdiv">
+	
+	<div class="top_description">
+		<{$lang.userinf_top_description|smarty:nodefaults}>
+	</div>
+	<{include file="userinf_common_userdetail.html"}>
+</div>
+<{include file="userinf_script.html"}>
+<{/strip}>

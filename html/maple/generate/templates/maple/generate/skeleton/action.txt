@@ -1,0 +1,67 @@
+<?php print "<?php\n"; ?>
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+<?php
+	if($skeleton->type == "whatnew") {
+		print "* 新着結果表示\n";
+	} else if($skeleton->type == "delete") {
+		print "* ルーム削除時データ削除\n";
+	} else if($skeleton->type == "move") {
+		print "* モジュールブロック移動\n";
+	} else if($skeleton->type == "copy") {
+		print "* モジュールブロックコピー\n";
+	} else if($skeleton->type == "shortcut") {
+		print "* モジュールブロックショートカット\n";
+	} else {
+		print "* [[機能説明]]\n";
+	}
+?>
+ *
+ * @package     NetCommons
+<?php include($this->getTemplate('maple/generate/skeleton/_doc-comment.txt')); ?>
+ * @access      public
+ */
+class <?php print $skeleton->classname . " extends Action\n"; ?>
+{
+<?php if($skeleton->module_type != "simple") print "    // リクエストパラメータを受け取るため\n"; ?>
+<?php if($skeleton->module_type != "simple") print "    var \$block_id = null;\n"; ?>
+<?php if($skeleton->module_type != "simple") print "    var \$page_id = null;\n"; ?>
+<?php if($skeleton->module_type != "simple") print "    var \$room_id = null;\n\n"; ?>
+<?php if($skeleton->module_type != "simple") print "    // 使用コンポーネントを受け取るため\n"; ?>
+<?php if($skeleton->module_type != "simple") {
+				if($skeleton->action_type == "view")
+					print "    var \$".$skeleton->dir_name."View = null;\n\n";
+				else {
+					print "    var \$".$skeleton->dir_name."View = null;\n";
+					print "    var \$".$skeleton->dir_name."Action = null;\n\n";
+				}
+		  }
+?>
+<?php if($skeleton->module_type != "simple") print "    // 値をセットするため\n\n"; ?>
+    /**
+<?php
+	if($skeleton->type == "whatnew") {
+		print "     * 新着結果表示\n";
+	} else if($skeleton->type == "delete") {
+		print "     * ルーム削除時データ削除\n";
+	} else if($skeleton->type == "move") {
+		print "     * モジュールブロック移動\n";
+	} else if($skeleton->type == "copy") {
+		print "     * モジュールブロックコピー\n";
+	} else if($skeleton->type == "shortcut") {
+		print "     * モジュールブロックショートカット\n";
+	} else {
+		print "     * [[機能説明]]\n";
+	}
+?>
+     *
+     * @access  public
+     */
+    function execute()
+    {
+        return 'success';
+    }
+}
+<?php print "?>\n"; ?>

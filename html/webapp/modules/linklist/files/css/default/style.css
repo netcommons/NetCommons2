@@ -1,0 +1,128 @@
+div.linklist_select_line, div.linklist_select_mark {
+	overflow :auto;
+	width: 200px;
+	height: 70px;
+	border:1px solid #cccccc;
+}
+a.linklist_select_item {
+	text-decoration:none;
+	display:block;
+	white-space:nowrap;
+	background-repeat:repeat-x;
+	background-position:left center;
+	width:170px;
+	height:1em;
+	padding:3px;
+}
+a.linklist_select_item:hover {
+	background-color:#eaeaea;
+}
+ul.linklist_mark {
+	margin:0px;
+	padding-left:20px;
+}
+div.linklist_head {
+	text-align:right;
+}
+select.linklist_dropdown {
+	margin-top:10px;
+	width:100%;
+}
+a.linklist_head {
+	margin-left:10px;
+	width:80px;
+}
+input.linklist_search {
+	width:300px;
+}
+span.linklist_highlight {
+	color:inherit;
+	background-color: #f0ff6f;
+	font-weight:bold;
+}
+div.linklists_search_result {
+}
+
+div.linklist_line {
+	background-repeat:repeat-x;
+	background-position:left center;
+	height:1em;
+	margin-top:10px;
+}
+div.linklist_category_name {
+	margin-top:8px;
+	margin-left:5px;
+	white-space:nowrap;
+}
+ul.linklist_link {
+	padding-left:40px;
+	margin:0px;
+}
+ul.linklist_link_none {
+	padding-left:20px;
+	margin:0px;
+}
+li.linklist_link{
+	margin-top:5px;
+}
+span.linklist_view_count {
+	margin-left:10px;
+}
+div.linklist_description {
+	margin:4px 10px;
+}
+
+a.linklist_category_add {
+	margin-left:5px;
+}
+div.linklist_category_add {
+	padding-top:3px;
+}
+form.linklist_entry {
+	margin-top:20px;
+}
+table.linklist_category {
+	background-color:#eeffff;
+	width:100%;
+	height:25px;
+}
+table.linklist_category td {
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #cccccc;
+}
+td.linklist_category_name {
+	padding-left:5px;
+}
+td.linklist_draganddrop {
+	border-bottom:1px solid #cccccc;
+	border-left:1px solid #cccccc;
+	border-top:1px solid #cccccc;
+}
+input.linklist_category_name {
+	width:160px;
+}
+table.linklist_link {
+	width:400px;
+	margin-left:20px;
+}
+table.linklist_link td {
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #cccccc;
+}
+input.linklist_title {
+	width:220px;
+}
+input.linklist_url {
+	width:340px;
+}
+a.linklist_description {
+	margin-left:20px;
+}
+textarea.linklist_description {
+	height:65px;
+	width:340px;
+}
+td.linklist_delete_category {
+	text-align:right;
+}
+.linklist_grid_table {width:580px;}

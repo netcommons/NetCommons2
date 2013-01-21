@@ -1,0 +1,151 @@
+<{strip}>
+<{assign var="holiday_obj" value=$action.holiday_obj}>
+<div class="outerdiv">
+	<form action="#" method="post" onsubmit="return false;">
+		<table class="outer" summary="<{$lang.holiday_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<td colspan="3">
+					<label for="holiday_invariable<{$id}>">
+						<input id="holiday_invariable<{$id}>" type="radio" name="varidable_flag" value="<{$smarty.const._OFF}>" onclick='holidayCls["<{$id}>"].switchHolidayType(this.form);'<{if ($holiday_obj.varidable_flag == _OFF) }> checked="checked"<{/if}> />
+						<{$lang.holiday_invariable|smarty:nodefaults}>
+					</label>
+					&nbsp;
+					&nbsp;
+					<label for="holiday_variable<{$id}>">
+						<input id="holiday_variable<{$id}>" type="radio" name="varidable_flag" value="<{$smarty.const._ON}>" onclick='holidayCls["<{$id}>"].switchHolidayType(this.form);'<{if ($holiday_obj.varidable_flag == _ON) }> checked="checked"<{/if}> />
+						<{$lang.holiday_variable|smarty:nodefaults}>
+					</label>
+				</td>
+			</tr>
+			
+			<tr class="row">
+				<th scope="row">
+					<label for="holiday_month_day<{$id}>">
+						<{$lang.holiday_month_day|smarty:nodefaults}>
+					</lebel>
+				</th>
+				<td class="nowrap">
+					<select name="month">
+						<{assign var="holiday_month" value="`$holiday_obj.start_time`"|substr:4:2}>
+						<{assign var="month_array" value="|"|explode:$lang._month_list|smarty:nodefaults}>
+
+						<{section name="month" loop=12 start=0 step=1}>
+							<{assign var=sec_month value=$smarty.section.month.iteration|string_format:"%02d"}>
+							<option value="<{$sec_month|string_format:"%02d"}>"<{if ($holiday_month == $sec_month) }> selected="selected"<{/if}>>
+								<{assign var="index" value=$smarty.section.month.index}>
+								<{$month_array.$index}>
+							</option>
+						<{/section}>
+					</select>
+				</td>
+				<td class="nowrap">
+					<select name="day"<{if ($holiday_obj.varidable_flag == _ON) }> disabled="disabled"<{/if}>>
+						<{assign var="holiday_day" value="`$holiday_obj.holiday`"|substr:6:2}>
+						<{section name="day" loop=32 start=1 step=1}>
+							<{assign var="day" value=$smarty.section.day.index}>
+							<option value="<{$day|string_format:"%02d"}>"<{if ($holiday_day == $day) }> selected="selected"<{/if}>>
+								<{$lang.holiday_format_day|smarty:nodefaults|sprintf:"`$day`"}>
+							</option>
+						<{/section}>
+					</select>
+					<br />
+					<{assign var="holiday_rrule" value=$holiday_obj.rrule}>
+					<{assign var="holiday_rrule" value=$holiday_rrule.YEARLY}>
+					<{assign var="holiday_rrule" value=$holiday_rrule.BYDAY}>
+					<{assign var="holiday_rrule" value=$holiday_rrule[0]}>
+					<{assign var="holiday_wday" value="`$holiday_rrule`"|substr:-2}>
+					<{assign var="holiday_week" value="`$holiday_rrule`"|substr:0:-2}>
+					<select name="week"<{if ($holiday_obj.varidable_flag == _OFF) }> disabled="disabled"<{/if}>>
+						<option value="1"<{if ($holiday_week == "1") }> selected="selected"<{/if}>>
+							<{$lang.holiday_first_week|smarty:nodefaults}>
+						</option>
+						<option value="2"<{if ($holiday_week == "2") }> selected="selected"<{/if}>>
+							<{$lang.holiday_second_week|smarty:nodefaults}>
+						</option>
+						<option value="3"<{if ($holiday_week == "3") }> selected="selected"<{/if}>>
+							<{$lang.holiday_third_week|smarty:nodefaults}>
+						</option>
+						<option value="4"<{if ($holiday_week == "4") }> selected="selected"<{/if}>>
+							<{$lang.holiday_fourth_week|smarty:nodefaults}>
+						</option>
+						<option value="-1"<{if ($holiday_week == "-1") }> selected="selected"<{/if}>>
+							<{$lang.holiday_weekend|smarty:nodefaults}>
+						</option>
+					</select>
+					<{assign var="weekKeyArr" value="|"|explode:$smarty.const.HOLIDAY_REPEAT_WDAY}>
+					<{assign var="weekValArr" value="|"|explode:$lang.holiday_week|smarty:nodefaults}>
+					<select name="wday"<{if ($holiday_obj.varidable_flag == _OFF) }> disabled="disabled"<{/if}>>
+						<{section name="wday" loop=$weekKeyArr}>
+							<{assign var="wKeyDay" value=$weekKeyArr[wday]}>
+							<{assign var="wValDay" value=$weekValArr[wday]}>
+							<option value="<{$wKeyDay}>"<{if ($holiday_wday == $wKeyDay) }> selected="selected"<{/if}>>
+								<{$wValDay}>
+							</option>
+						<{/section}>
+					</select>
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th scope="row">
+					<label for="holiday_range<{$id}>">
+						<{$lang.holiday_range|smarty:nodefaults}>
+					</lebel>
+				</th>
+				<td colspan="2" class="nowrap">
+					<select name="start_year">
+						<{assign var="start_year" value="`$holiday_obj.start_time`"|substr:0:4}>
+						<{section name="year" loop=2034 start=1970 step=1}>
+							<{assign var="year" value=$smarty.section.year.index}>
+							<option value="<{$year}>"<{if ($start_year == $year) }> selected="selected"<{/if}>>
+								<{$lang.holiday_format_year|smarty:nodefaults|sprintf:"`$year`"}>
+							</option>
+						<{/section}>
+					</select>
+					<{$lang.holiday_pause|smarty:nodefaults}>
+					<select name="end_year">
+						<{assign var="end_year" value="`$holiday_obj.end_time`"|substr:0:4}>
+						<{section name="year" loop=2034 start=1970 step=1}>
+							<{assign var="year" value=$smarty.section.year.index}>
+							<option value="<{$year}>"<{if ($end_year == $year) }> selected="selected"<{/if}>>
+								<{$lang.holiday_format_year|smarty:nodefaults|sprintf:"`$year`"}>
+							</option>
+						<{/section}>
+					</select>
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="<{$id}>_summary">
+						<{$lang.holiday_title_summary|smarty:nodefaults}>
+					</lable>
+				</th>
+				<td colspan="2" class="nowrap">
+					<input id="<{$id}>_summary" name="summary" type="text" value="<{$action.holiday_obj.summary}>" />
+				</td>
+			</tr>
+
+			<tr class="row">
+				<td colspan="3" class="nowrap">
+					<label for="holiday_substitute_holiday<{$id}>">
+						<input id="holiday_substitute_holiday<{$id}>" type="checkbox" name="substitute_flag" value="<{$smarty.const._ON}>"<{if ($holiday_obj.substitute_flag == _ON) }> checked="checked"<{/if}><{if ($holiday_obj.varidable_flag == _ON) }> disabled="disabled"<{/if}> />
+						<span<{if ($holiday_obj.varidable_flag == _ON) }> class="disable_lbl"<{/if}>>
+							<{$lang.holiday_substitute_holiday|smarty:nodefaults}>
+						</span>
+					</label>
+				</td>
+			</tr>
+		</table>
+
+		<input type="hidden" name="rrule_id" value="<{$holiday_obj.rrule_id}>" />
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='holidayCls["_<{$module_id}>"].regHoliday("<{$id}>",this.form); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+		</div>
+	</form>
+</div>
+
+<{include file="./holiday_script.html"}>
+<{/strip}>

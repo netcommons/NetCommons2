@@ -1,0 +1,23 @@
+<{strip}>
+<{*if ($action.center_flag != _ON) }>
+	<div id="search_result<{$id}>">
+		<{$action.result_condition|smarty:nodefaults}>
+		
+		<{if ($smarty.session.search_select.$block_id.target_modules) }>
+			<{section name=i loop=$smarty.session.search_select.$block_id.target_modules}>
+				<{assign var="module_id" value=$smarty.session.search_select.$block_id.target_modules[i]}>
+				<div id="search_result_content<{$id}>_<{$module_id}>" class="search_result_contents">
+					<{$action.result_contents.$module_id|smarty:nodefaults}>
+				</div>
+			<{/section}>
+		<{/if}>
+	</div>
+<{/if*}>
+<div id="mdb_search_condition<{$id}>">
+	<{include file="multidatabase_view_main_search_condition.html"}>
+</div>
+<{include file="../multidatabase_script.html"}>
+<script class="nc_script" type="text/javascript">
+	mdbCls["<{$id}>"].initCalendar();
+</script>
+<{/strip}>

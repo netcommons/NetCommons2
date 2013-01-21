@@ -1,0 +1,212 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="bold journal_float_left">
+		<{if isset($page_id|smarty:nodefaults) && (isset($action.active_center|smarty:nodefaults) || isset($action.active_action|smarty:nodefaults))}>
+			<a class="syslink" title="<{$lang.journal_list_back_title|smarty:nodefaults}>" href="#" onclick="location.href= '<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?page_id=<{$page_id}>#<{$id}>';return false;">
+		<{else}>
+			<a class="syslink" title="<{$lang.journal_list_back_title|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_init','journal_id':<{$action.journal_obj.journal_id}>,'post_id':'<{$action.post.post_id}>'}, {'loading_el':this}); return false;">
+		<{/if}>
+				<{$action.journal_obj.journal_name}>
+			</a>
+		<{$lang.journal_detail|smarty:nodefaults}>
+	</div>
+	<div class="journal_float_right">
+		<{if !empty($action.post.older_post_id|smarty:nodefaults)}>
+		<span <{if !empty($action.post.newer_post_id|smarty:nodefaults)}>style="padding-right:15px;"<{/if}>>
+			<{if strpos($id, JOURNAL_REFERENCE_PREFIX_NAME)}>
+				<a class="syslink" title="<{$lang.journal_older_post|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail','journal_id':<{$action.journal_obj.journal_id}>, 'post_id':<{$action.post.older_post_id}>, 'comment_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+			<{elseif $action.post.older_short_url != ""}>
+				<a class="syslink" title="<{$lang.journal_older_post|smarty:nodefaults}>" href="<{include file="../../../../templates/main/abbreviate_url.html" short_url=$action.post.older_short_url}>">
+			<{else}>
+				<a class="syslink" title="<{$lang.journal_older_post|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?active_action=journal_view_main_detail&amp;post_id=<{$action.post.older_post_id}>&amp;block_id=<{$block_id}>&amp;comment_flag=<{$smarty.const._ON}>#<{$smarty.session._id}>">
+			<{/if}>
+				<{$lang.journal_older_post|smarty:nodefaults}>
+			</a>
+		</span>
+		<{/if}>
+		<{if !empty($action.post.newer_post_id|smarty:nodefaults)}>
+		<span>
+			<{if strpos($id, JOURNAL_REFERENCE_PREFIX_NAME)}>
+				<a class="syslink" title="<{$lang.journal_newer_post|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail','journal_id':<{$action.journal_obj.journal_id}>, 'post_id':<{$action.post.newer_post_id}>, 'comment_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+			<{elseif $action.post.newer_short_url != ""}>
+				<a class="syslink" title="<{$lang.journal_newer_post|smarty:nodefaults}>" href="<{include file="../../../../templates/main/abbreviate_url.html" short_url=$action.post.newer_short_url}>">
+			<{else}>
+				<a class="syslink" title="<{$lang.journal_newer_post|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?active_action=journal_view_main_detail&amp;post_id=<{$action.post.newer_post_id}>&amp;block_id=<{$block_id}>&amp;comment_flag=<{$smarty.const._ON}>#<{$smarty.session._id}>">
+			<{/if}>
+				<{$lang.journal_newer_post|smarty:nodefaults}>
+			</a>
+		</span>
+		<{/if}>
+	</div>
+	<br class="float-clear"/>
+	<span id="journal_detail<{$id}>_<{$action.post.post_id}>"></span>
+	<{include file="journal_view_main_item.html" item=$action.post|smarty:nodefaults from="detail"}>
+	<{if $action.journal_obj.active_flag == $smarty.const._ON}>
+	<a id="journal_comment_top<{$id}>" name="journal_comment_top<{$id}>"></a>
+	<div id="journal_comment<{$id}>" class="journal_comment<{if $action.journal_obj.comment_flag != $smarty.const._ON || $action.comment_flag != $smarty.const._ON}> display-none<{/if}>">
+		<{if $action.post.comment_count > 0}>
+			<div class="journal_comment_title">
+				<{$lang.journal_comment|smarty:nodefaults}>
+			</div>
+			<table class="journal_comment_list">
+				<{foreach item=comment from=$action.comments}>
+					<tr>
+						<td class="journal_comment_head">
+							<a class="syslink" title="<{if $smarty.session._login_id == ''}><{$lang.journal_add_user_title|smarty:nodefaults|sprintf:$comment.insert_user_name}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$comment.insert_user_name}><{/if}>" href="#" onclick="commonCls.showUserDetail(event, '<{$comment.insert_user_id}>'); return false;">
+								<{$comment.insert_user_name}>
+							</a>
+						</td>
+						<td class="nowrap align-right journal_comment_head">
+							<span class="journal_separator">
+								<{$comment.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+							</span>
+							<{if $comment.agree_flag == $smarty.const._ON}>
+								<span class="deadline journal_font_normal">
+									<{$lang.journal_wait_agree|smarty:nodefaults}>
+								</span>
+							<{/if}>
+							<{if $comment.has_edit_auth}>
+								<span class="journal_separator">
+									<a class="syslink" title="<{$lang.journal_comment_edit_title|smarty:nodefaults}>" href="#journal_input_comment<{$id}>" onclick="journalCls['<{$id}>'].editComment('<{$comment.post_id}>', '<{$action.post.post_id}>'); return false;">
+										<{$lang._edit|smarty:nodefaults}>
+									</a>
+									<{$lang._separator|smarty:nodefaults}>
+									<a class="syslink" title="<{$lang.journal_comment_delete_title|smarty:nodefaults}>" href="#" onclick="journalCls['<{$id}>'].deleteComment(this, '<{$comment.post_id}>', '<{$action.post.post_id}>', '<{$lang.journal_comment_delete_confirm|smarty:nodefaults}>'); return false;">
+										<{$lang._delete|smarty:nodefaults}>
+									</a>
+									<{if $comment.agree_flag == $smarty.const._ON && $comment.has_confirm_auth}>
+										<{$lang._separator|smarty:nodefaults}>
+										<a class="syslink" title="<{$lang.journal_confirm}>" href="#" onclick="journalCls['<{$id}>'].postConfirm(this, '<{$comment.post_id}>', '<{$lang.journal_confirm_confirm|smarty:nodefaults}>'); return false;">
+											<{$lang.journal_confirm|smarty:nodefaults}>
+										</a>
+									<{/if}>
+								</span>
+							<{/if}>
+						</td>
+					</tr>
+					<tr>
+						<td class="journal_comment_content" colspan="2">
+							<div id="journal_comment_content_<{$comment.post_id}><{$id}>">
+								<{$comment.content|nl2br}>
+							</div>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+		<{/if}>
+		<{if $action.post.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE && $smarty.session._auth_id >= $smarty.const._AUTH_GENERAL}>
+			<div class="journal_comment_title">
+				<{$lang.journal_write_comment|smarty:nodefaults}>
+			</div>
+			<div id="journal_input_comment<{$id}>" class="align-left">
+				<form action="#" onsubmit="return false;">
+					<textarea name="content" class="journal_comment_textarea" id="journal_comment_textarea<{$id}>"></textarea>
+					<div class="journal_submit">
+						<input type="button" class="btn-width lined_btn" value="<{$lang._regist|smarty:nodefaults}>" onclick="journalCls['<{$id}>'].postComment(this.form);" />
+					</div>
+					<input type="hidden" name="post_id" value="<{$action.post.post_id}>" />
+					<input type="hidden" name="comment_id" id="comment_post_id<{$id}>" value="" />
+				</form>
+			</div>
+			<br />
+		<{/if}>
+	</div>
+	<div id="journal_trackback<{$id}>"  class="journal_comment<{if $action.trackback_flag != $smarty.const._ON}> display-none<{/if}>">
+		<{if $action.post.trackback_count > 0}>
+			<div class="journal_comment_title">
+				<{$lang.journal_trackback|smarty:nodefaults}>
+			</div>
+			<table class="journal_comment_list">
+				<{foreach item=trackback from=$action.trackbacks}>
+					<tr>
+						<td class="journal_comment_head">
+							<{if !empty($trackback.title|smarty:nodefaults)}>
+								<a class="syslink" title="<{$trackback.title}>" href="<{$trackback.tb_url}>">
+									<{$trackback.title}>
+								</a>
+							<{elseif !empty($trackback.blog_name|smarty:nodefaults)}>
+								<a class="syslink" title="<{$trackback.blog_name}>" href="<{$trackback.tb_url}>">
+									<{$trackback.blog_name}>
+								</a>
+							<{/if}>
+						</td>
+						<td class="nowrap align-right journal_comment_head">
+							<span class="journal_separator">
+								<{$trackback.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+							</span>
+							<{if $trackback.agree_flag == $smarty.const._ON}>
+								<span class="deadline journal_font_normal">
+									<{$lang.journal_wait_agree|smarty:nodefaults}>
+								</span>
+							<{/if}>
+							<{if $trackback.has_edit_auth}>
+								<span class="journal_separator">
+									<a class="syslink" title="<{$lang.journal_comment_delete_title|smarty:nodefaults}>" href="#" onclick="journalCls['<{$id}>'].deleteTrackback(this, '<{$trackback.post_id}>', '<{$action.post.post_id}>', '<{$lang.journal_trackback_delete_confirm}>'); return false;">
+										<{$lang._delete|smarty:nodefaults}>
+									</a>
+									<{if $trackback.agree_flag == $smarty.const._ON && $trackback.has_confirm_auth}>
+										<{$lang._separator|smarty:nodefaults}>
+										<a class="syslink" title="<{$lang.journal_confirm}>" href="#" onclick="journalCls['<{$id}>'].postConfirm(this, '<{$trackback.post_id}>', '<{$lang.journal_confirm_confirm|smarty:nodefaults}>'); return false;">
+											<{$lang.journal_confirm|smarty:nodefaults}>
+										</a>
+									<{/if}>
+								</span>
+							<{/if}>
+						</td>
+					</tr>
+					<tr>
+						<td class="journal_comment_content" colspan="2">
+							<div id="journal_trackback_content_<{$trackback.post_id}>">
+								<{$trackback.content|smarty:nodefaults}>
+							</div>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+			<br />
+		<{/if}>
+	</div>
+<{/if}>
+<div class="btn-bottom">
+	<{if !empty($action.post.older_post_id|smarty:nodefaults)}>
+	<span class="journal_float_left">
+		<{if strpos($id, JOURNAL_REFERENCE_PREFIX_NAME)}>
+			<a class="syslink" title="<{$lang.journal_older_post|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail','journal_id':<{$action.journal_obj.journal_id}>, 'post_id':<{$action.post.older_post_id}>, 'comment_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+		<{elseif $action.post.older_short_url != ""}>
+			<a class="syslink" title="<{$lang.journal_older_post|smarty:nodefaults}>" href="<{include file="../../../../templates/main/abbreviate_url.html" short_url=$action.post.older_short_url}>">
+		<{else}>
+			<a class="syslink" title="<{$lang.journal_older_post|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?active_action=journal_view_main_detail&amp;post_id=<{$action.post.older_post_id}>&amp;block_id=<{$block_id}>&amp;comment_flag=<{$smarty.const._ON}>#<{$smarty.session._id}>">
+		<{/if}>
+			<{$lang.journal_older_post|smarty:nodefaults}>
+		</a>
+	</span>
+	<{/if}>
+	<{if !empty($action.post.newer_post_id|smarty:nodefaults)}>
+	<span class="journal_float_right">
+		<{if strpos($id, JOURNAL_REFERENCE_PREFIX_NAME)}>
+			<a class="syslink" title="<{$lang.journal_newer_post|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_detail','journal_id':<{$action.journal_obj.journal_id}>, 'post_id':<{$action.post.newer_post_id}>, 'comment_flag':<{$smarty.const._ON}>}, {'loading_el':this}); return false;">
+		<{elseif $action.post.newer_short_url != ""}>
+			<a class="syslink" title="<{$lang.journal_newer_post|smarty:nodefaults}>" href="<{include file="../../../../templates/main/abbreviate_url.html" short_url=$action.post.newer_short_url}>">
+		<{else}>
+			<a class="syslink" title="<{$lang.journal_newer_post|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?active_action=journal_view_main_detail&amp;post_id=<{$action.post.newer_post_id}>&amp;block_id=<{$block_id}>&amp;comment_flag=<{$smarty.const._ON}>#<{$smarty.session._id}>">
+		<{/if}>
+			<{$lang.journal_newer_post|smarty:nodefaults}>
+		</a>
+	</span>
+	<{/if}>
+
+
+	<{if isset($page_id|smarty:nodefaults) && (isset($action.active_center|smarty:nodefaults) || isset($action.active_action|smarty:nodefaults))}>
+		<a class="syslink" title="<{$lang._back_to_list|smarty:nodefaults}>" href="#" onclick="location.href= '<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?page_id=<{$page_id}>#<{$id}>'; return false;"><{$lang._back_to_list|smarty:nodefaults}></a>
+	<{else}>
+		<a class="syslink" title="<{$lang._back_to_list|smarty:nodefaults}>" href="#" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_init','journal_id':<{$action.journal_obj.journal_id}>,'post_id':'<{$action.post.post_id}>'}, {'loading_el':this}); return false;"><{$lang._back_to_list|smarty:nodefaults}></a>
+	<{/if}>
+</div>
+</div>
+<{include file="../journal_script.html"}>
+<{if $action.comment_href_flag}>
+<script class="nc_script" type="text/javascript">
+	location.href = "#journal_comment_top<{$id}>";
+</script>
+<{/if}>
+<{/strip}>

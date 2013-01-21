@@ -1,0 +1,111 @@
+<{strip}>
+<{* データ入力画面用テンプレート *}>
+<div class="top_description">
+	<{$lang.registration_entry_text|smarty:nodefaults|sprintf:$lang._regist}>
+</div>
+
+<form id="registration_entry_form<{$id}>" action="#" target="attachment_form<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+	<table class="outer registration_entry" summary="<{$lang.registration_entry_list}>">
+		<{foreach from=$action.items item=item name=item}>
+			<tr class="row">
+				<{include file="registration_view_main_item_name.html"}>
+
+				<td class="registration_item_data">
+					<{if $item.item_type == REGISTRATION_TYPE_TEXT}>
+						<input id="registration_item_data_value<{$item.item_id}><{$id}>" class="registration_text" type="text" name="item_data_values[<{$item.item_id}>]" />
+
+					<{elseif $item.item_type == REGISTRATION_TYPE_EMAIL}>
+						<input id="registration_item_data_value<{$item.item_id}><{$id}>" class="registration_text" type="text" name="item_data_values[<{$item.item_id}>][first]" /><br />
+						<input class="registration_text registration_email_second" type="text" name="item_data_values[<{$item.item_id}>][second]" /><{$lang.registration_email_second}>
+
+					<{elseif $item.item_type == REGISTRATION_TYPE_TEXTAREA}>
+						<textarea cols="33" rows="4" id="registration_item_data_value<{$item.item_id}><{$id}>" class="registration_textarea" name="item_data_values[<{$item.item_id}>]"></textarea>
+
+					<{elseif $item.item_type == REGISTRATION_TYPE_FILE}>
+						<input id="registration_item_data_value<{$item.item_id}><{$id}>" name="item_data_values[<{$item.item_id}>]" type="file" />
+
+					<{elseif $item.item_type == REGISTRATION_TYPE_CHECKBOX}>
+						<{foreach from=$item.option_values|smarty:nodefaults item=option_value name=option_value}>
+							<label for="registration_item_data_value<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}><{$id}>">
+								<input id="registration_item_data_value<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}><{$id}>" type="checkbox" name="item_data_values[<{$item.item_id}>][<{$smarty.foreach.option_value.iteration}>]" value="<{$option_value}>" />
+								<{$option_value}>
+							</label>
+						<{/foreach}>
+
+					<{elseif $item.item_type == REGISTRATION_TYPE_RADIO}>
+						<{foreach from=$item.option_values|smarty:nodefaults item=option_value name=option_value}>
+							<label for="registration_item_data_value<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}><{$id}>">
+								<input id="registration_item_data_value<{$item.item_id}>_<{$smarty.foreach.option_value.iteration}><{$id}>" type="radio" name="item_data_values[<{$item.item_id}>]" value="<{$option_value}>" />
+								<{$option_value}>
+							</label>
+						<{/foreach}>
+
+					<{elseif $item.item_type == REGISTRATION_TYPE_SELECT}>
+						<select id="registration_item_data_value<{$item.item_id}><{$id}>" name="item_data_values[<{$item.item_id}>]">
+							<{foreach from=$item.option_values|smarty:nodefaults item=option_value name=option_value}>
+								<option value="<{$option_value}>">
+									<{$option_value}>
+								</option>
+							<{/foreach}>
+						</select>
+
+					<{/if}>
+
+					<{if !empty($item.description|smarty:nodefaults)}>
+						<div class="registration_description">
+							<{$item.description|nl2br}>
+						</div>
+					<{/if}>
+				</td>
+			</tr>
+		<{/foreach}>
+
+		<{if $action.registration.image_authentication == _ON && function_exists("gd_info")}>
+			<tr class="row">
+				<th class="registration_item_name" scope="row">
+					<label for="registration_image_authentication<{$id}>">
+						<{$lang.registration_image_authentication}>
+					</label>
+					<span class="require">
+						<{$lang.registration_require_text}>
+					</span>
+				</th>
+
+				<td class="registration_item_data">
+					<img class="icon" src=".<{$smarty.const.INDEX_FILE_NAME}>?action=common_imageauth_main&amp;id=<{$id}>&amp;<{$action.imageAuthenticationGenerator}>" title="<{$lang._image_auth}>" alt="<{$lang._image_auth}>" />
+					<input class="registration_image_auth" id="registration_image_authentication<{$id}>" type="text" name="image_authentication" />
+					<br />
+					<{$lang.registration_image_auth_readme}>
+					<input type="hidden" name="id" value="<{$id}>" />
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="registrationCls['<{$id}>'].confirmData();" />
+	</div>
+</form>
+
+<{include file="../registration_script.html"}>
+<script class="nc_script" type="text/javascript">
+	registrationCls["<{$id}>"].errorSeparator = "<{$smarty.const.REGISTRATION_ERROR_SEPARATOR}>";
+
+	var registrationForm = $("registration_entry_form<{$id}>");
+
+	<{foreach from=$action.entryDatas|smarty:nodefaults item=entryData}>
+		<{if $entryData.item_type == REGISTRATION_TYPE_CHECKBOX || $entryData.item_type == REGISTRATION_TYPE_RADIO}>
+			<{foreach from=$entryData.checkIterations item=checkIteration}>
+				$("registration_item_data_value<{$entryData.item_id}>_<{$checkIteration}><{$id}>").checked = true;
+			<{/foreach}>
+		<{elseif $entryData.item_type == REGISTRATION_TYPE_EMAIL}>
+			registrationForm["item_data_values[<{$entryData.item_id}>][first]"].value = "<{$entryData.item_data_value.first|smarty:nodefaults|escape:"javascript"}>";
+			registrationForm["item_data_values[<{$entryData.item_id}>][second]"].value = "<{$entryData.item_data_value.second|smarty:nodefaults|escape:"javascript"}>";
+		<{elseif $entryData.item_type != REGISTRATION_TYPE_FILE}>
+			registrationForm["item_data_values[<{$entryData.item_id}>]"].value = "<{$entryData.item_data_value|smarty:nodefaults|escape:"javascript"}>";
+		<{/if}>
+	<{/foreach}>
+
+	registrationForm = null;
+</script>
+<{/strip}>

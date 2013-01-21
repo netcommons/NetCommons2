@@ -1,0 +1,66 @@
+<{strip}>
+
+<div class="top_description">
+	<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.cabinet_name|smarty:nodefaults}>
+</div>
+
+<div id="cabinet_list<{$id}>">
+	<form action="#" method="post" onsubmit="return false;">
+		<table class="grid_header" cellspacing="0" summary="">
+			<tr>
+				<th class="grid_change_disp" scope="col">
+					&nbsp;
+				</th>
+				<th class="_sort_cabinet_name grid_name" scope="col">
+					<{$lang.cabinet_title|smarty:nodefaults}>
+				</th>
+				<th class="_sort_total_size cabinet_total_size" scope="col">
+					<{$lang.cabinet_total_size|smarty:nodefaults}>
+				</th>
+				<th class="_sort_insert_user_name grid_creator" scope="col">
+					<{$lang._creator|smarty:nodefaults}>
+				</th>
+				<th class="_sort_insert_time grid_create_date" scope="col">
+					<{$lang._create_date|smarty:nodefaults}>
+				</th>
+				<th class="grid_manage" scope="col">
+					<{$lang._manage|smarty:nodefaults}>
+				</th>
+			</tr>
+		</table>
+
+		<table class="grid cabinet_grid_table" cellspacing="0" summary="<{$smarty.const._SUMMARY_LIST}>">
+			<{section name=i loop=$action.cabinets}>
+				<tr id="cabinet_current_row<{$action.cabinets[i].cabinet_id}><{$id}>" class="grid_row">
+					<td class="grid_change_disp">
+						<{include file = "cabinet_view_edit_list_item.html" item_type="change_disp" cabinet=$action.cabinets[i]}>
+					</td>
+					<td class="grid_name">
+						<{include file = "cabinet_view_edit_list_item.html" item_type="cabinet_name" cabinet=$action.cabinets[i]}>
+					</td>
+					<td class="cabinet_total_size">
+						<{include file = "cabinet_view_edit_list_item.html" item_type="total_size" cabinet=$action.cabinets[i]}>
+					</td>
+					<td class="grid_creator">
+						<{include file = "cabinet_view_edit_list_item.html" item_type="creator" handle=$action.cabinets[i].insert_user_name|smarty:nodefaults user_id=$action.cabinets[i].insert_user_id}>
+					</td>
+					<td class="grid_create_date">
+						<{include file = "cabinet_view_edit_list_item.html" item_type="create_date" cabinet=$action.cabinets[i]}>
+					</td>
+					<td class="grid_manage">
+						<{include file = "cabinet_view_edit_list_item.html" item_type="manage" cabinet_name=$action.cabinets[i].cabinet_name|smarty:nodefaults cabinet_id=$action.cabinets[i].cabinet_id}>
+					</td>
+				</tr>
+			<{/section}>
+		</table>
+	</form>
+</div>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].initCabList(<{$action.visibleRows}>, <{$action.cabinetCount}>);
+	cabinetCls["<{$id}>"].cabinet_id = "<{$action.cabinet_id}>";
+	cabinetCls["<{$id}>"].checkCurrent();
+</script>
+
+<{/strip}>

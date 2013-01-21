@@ -1,0 +1,81 @@
+<{strip}>
+
+<form id="calendar_form<{$id}>" action="#" method="post" onsubmit="return false;">
+	<div class="nowrap">
+		<label for="calendar_mail_send<{$smarty.const._ON}><{$id}>">
+			<input id="calendar_mail_send<{$smarty.const._ON}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._ON}>"<{if ($action.mail_send == _ON) }> checked="checked"<{/if}> onclick="calendarCls['<{$id}>'].changeMailSend(false);" />
+			<{$lang.calendar_mail_send_on|smarty:nodefaults}>
+		</label>
+		&nbsp;
+		&nbsp;
+		<label for="calendar_mail_send<{$smarty.const._OFF}><{$id}>">
+			<input id="calendar_mail_send<{$smarty.const._OFF}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._OFF}>"<{if ($action.mail_send == _OFF) }> checked="checked"<{/if}> onclick="calendarCls['<{$id}>'].changeMailSend(true);" />
+			<{$lang.calendar_mail_send_off|smarty:nodefaults}>
+		</label>
+
+		<div class="hr"></div>
+		<{$lang.calendar_mail_authority|smarty:nodefaults}><br />
+		<label class="disable_lbl">
+			<input type="checkbox" disabled="disabled" checked="checked" />
+	 		<input type="hidden" name="mail_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+			<{$smarty.const._AUTH_CHIEF_NAME}>
+		</label>
+		&nbsp;
+		<label for="calendar_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+	 		<input id="calendar_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');"<{if ($action.mail_authority <= _AUTH_MODERATE) }> checked="checked"<{/if}> />
+			<{$smarty.const._AUTH_MODERATE_NAME}>
+		</label>
+		&nbsp;
+		<label for="calendar_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+			<input id="calendar_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');"<{if ($action.mail_authority <= _AUTH_GENERAL) }> checked="checked"<{/if}> />
+			<{$smarty.const._AUTH_GENERAL_NAME}>
+		</label>
+		&nbsp;
+		<label for="calendar_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>">
+			<input id="calendar_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GUEST}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');"<{if ($action.mail_authority <= _AUTH_GUEST) }> checked="checked"<{/if}> />
+			<{$smarty.const._AUTH_GUEST_NAME}>
+		</label>
+
+		<div class="hr"></div>
+		<label for="calendar_mail_subject<{$id}>">
+			<{$lang.calendar_mail_subject|smarty:nodefaults}>
+		</label>
+		<br />
+		<input id="calendar_mail_subject<{$id}>" class="mail_subject" type="text" name="mail_subject" value="<{$action.mail_subject}>" />
+		<br />
+		<label for="calendar_mail_body<{$id}>">
+			<{$lang.calendar_mail_body|smarty:nodefaults}>
+		</label>
+		<br />
+		<textarea id="calendar_mail_body<{$id}>" class="mail_body" name="mail_body">
+			<{if ($action.mail_body != "CALENDAR_MAIL_BODY") }>
+				<{$action.mail_body}>
+			<{/if}>
+		</textarea>
+
+		<div class="note">
+			<{$lang.calendar_mail_note|smarty:nodefaults}>
+		</div>
+	</div>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].regMail(this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'calendar_view_main_init'); return false;" />
+	</div>
+</form>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	<{if ($action.mail_body == "CALENDAR_MAIL_BODY") }>
+		$("calendar_form<{$id}>").mail_body.value = "<{$smarty.const.CALENDAR_MAIL_BODY}>";
+	<{/if}>
+	<{if ($action.mail_send == _ON) }>
+		calendarCls['<{$id}>'].changeMailSend(false);
+	<{else}>
+		calendarCls['<{$id}>'].changeMailSend(true);
+	<{/if}>
+	
+</script>
+
+<{/strip}>

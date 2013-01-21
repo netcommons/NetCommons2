@@ -1,0 +1,134 @@
+<{strip}>
+
+<{if !isset($action.photo.photo_id|smarty:nodefaults)}>
+	<{$lang.photoalbum_illegal_photo|smarty:nodefaults}>
+<{else}>
+
+	<h3>
+		<{$action.photo.photo_name}>
+	</h3>
+	<p>
+		<{$action.photo.photo_description|smarty:nodefaults}>
+	</p>
+
+	<div class="photo_image_wrapper<{$action.photo.photo_id}>" style="text-align:center;width:100%;">
+		<img id="photo_image<{$action.photo.photo_id}>" src=".<{$smarty.const.INDEX_FILE_NAME}><{$action.photo.photo_path}><{$session_param}>" alt="<{$action.photo.photo_name}>" style="margin-bottom:5px;" />
+	</div>
+
+	<div style="text-align:right;">
+		<{if $action.photo.vote_authority}>
+			<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>" data-transition="fade">
+				<input type="hidden" name="action" value="photoalbum_action_main_photo_vote">
+				<input type="hidden" name="room_id" value="<{$action.room_id}>">
+				<input type="hidden" name="block_id" value="<{$action.block_id}>">
+				<input type="hidden" name="photoalbum_id" value="<{$action.album.photoalbum_id}>">
+				<input type="hidden" name="album_id" value="<{$action.album_id}>">
+				<input type="hidden" name="photo_id" value="<{$action.photo.photo_id}>">
+				<input type="hidden" name="seq" value="<{$action.photo.photo_sequence}>">
+				<input type="submit" name="vote" data-inline="true" data-icon="star" value="<{$lang.photoalbum_vote|smarty:nodefaults}>">
+				<{$token_form|smarty:nodefaults}>
+				<{$session_form|smarty:nodefaults}>
+				<{$lang._separator|smarty:nodefaults}>
+		<{/if}>
+		<{if $action.album.vote_flag == _ON}>
+			<{$lang.photoalbum_vote_count|sprintf:$action.photo.photo_vote_count}>
+		<{/if}>
+		<{if $action.photo.vote_authority}>
+			</form>
+		<{/if}>
+	</div>
+
+	<table style="width:100%;">
+	<tr>
+		<td style="text-align:left;">
+		<{if isset($action.photo.prev_photo_id|smarty:nodefaults)}>
+			<a data-role="button" data-inline="true" data-direction="reverse" href="?action=photoalbum_view_mobile_photo&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}>&amp;photo_id=<{$action.photo.prev_photo_id}>&amp;seq=<{$action.photo.photo_sequence-1}>">
+				&lt;&lt;
+			</a>
+		<{/if}>
+		</td>
+		<td style="text-align:right;">
+		<{if isset($action.photo.next_photo_id|smarty:nodefaults)}>
+			<a data-role="button" data-inline="true" href="?action=photoalbum_view_mobile_photo&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}>&amp;photo_id=<{$action.photo.next_photo_id}>&amp;seq=<{$action.photo.photo_sequence+1}>">
+				&gt;&gt;
+			</a>
+		<{/if}>
+		</td>
+	</tr>
+	</table>
+
+	<{if $action.album.comment_flag == _ON}>
+		<hr />
+
+		<{foreach item=comment from=$action.comments}>
+			<p>
+				<{$comment.comment_value|nl2br}>
+				<div style="text-align:right;">
+					<span style="font-size:small;">
+						<{include file = "photoalbum_mobile_view_handle.html" handle=$comment.insert_user_name|smarty:nodefaults user_id=$comment.insert_user_id}>
+						&nbsp;
+						<{$comment.insert_time|timezone_date_format:$lang._short_full_date_format}>
+					</span>
+					<{if $comment.edit_authority}>
+						<div style="text-align:right;">
+						<a data-role="button" data-inline="true" data-icon="check" href="?action=photoalbum_view_mobile_comment&amp;block_id=<{$block_id}>&amp;photoalbum_id=<{$action.album.photoalbum_id}>&amp;album_id=<{$action.album.album_id}>&amp;photo_id=<{$action.photo.photo_id}>&amp;seq=<{$action.photo.photo_sequence}>&amp;comment_id=<{$comment.comment_id}><{$session_param}>">
+							<{$lang._edit|smarty:nodefaults}>
+						</a>
+						<{if ($smarty.session._smartphone_flag != _ON) }>
+							<{$lang._mobile_separator|smarty:nodefaults}>
+						<{/if}>
+						<a data-role="button" data-inline="true" data-icon="delete" href="?action=photoalbum_view_mobile_comment_delete&amp;block_id=<{$block_id}>&amp;photoalbum_id=<{$action.album.photoalbum_id}>&amp;album_id=<{$action.album.album_id}>&amp;photo_id=<{$action.photo.photo_id}>&amp;seq=<{$action.photo.photo_sequence}>&amp;comment_id=<{$comment.comment_id}><{$session_param}>">
+							<{$lang._delete|smarty:nodefaults}>
+						</a>
+						</div>
+					<{/if}>
+				</div>
+			</p>
+		<{/foreach}>
+
+		<{if $action.photo.comment_authority}>
+			<a data-role="button" href="?action=photoalbum_view_mobile_comment&amp;block_id=<{$action.block_id}>&amp;photoalbum_id=<{$action.album.photoalbum_id}>&amp;album_id=<{$action.album.album_id}>&amp;photo_id=<{$action.photo.photo_id}>&amp;seq=<{$action.photo.photo_sequence}>">
+				<{$lang.photoalbum_comment_value}>
+			</a>
+		<{/if}>
+
+	<{/if}>
+
+<{/if}>
+
+<div style="text-align:right;">
+	<a href="?action=photoalbum_view_mobile_list&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>
+
+<{if $smarty.session._smartphone_flag == _ON && isset($action.photo.photo_id|smarty:nodefaults)}>
+<script type="text/javascript">
+
+$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swiperight" );
+$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swipeleft" );
+
+<{if $action.prevPhoto != null}>
+	$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swiperight", function(e) {
+		$.mobile.changePage("?action=photoalbum_view_mobile_photo&block_id=<{$block_id}>&album_id=<{$action.album_id}>&photo_id=<{$action.prevPhoto.photo_id}>&seq=<{$action.seq-1}><{$session_param}>",{ transition: "slide", reverse:"true"});
+		e.preventDefault();
+	});
+<{else}>
+	$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swiperight", function(e) {
+		$(this).nc_jqm_alert("<{$lang.photoalbum_no_more_photos|smarty:nodefaults}>");
+	});
+<{/if}>
+<{if $action.nextPhoto != null}>
+	$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swipeleft", function(e) {
+		$.mobile.changePage("?action=photoalbum_view_mobile_photo&block_id=<{$block_id}>&album_id=<{$action.album_id}>&photo_id=<{$action.nextPhoto.photo_id}>&seq=<{$action.photo.photo_sequence+1}><{$session_param}>");
+		e.preventDefault();
+	});
+<{else}>
+	$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swipeleft", function(e) {
+		$(this).nc_jqm_alert("<{$lang.photoalbum_no_more_photos|smarty:nodefaults}>");
+	});
+<{/if}>
+
+</script>
+<{/if}>

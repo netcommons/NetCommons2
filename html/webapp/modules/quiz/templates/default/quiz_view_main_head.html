@@ -1,0 +1,28 @@
+<{strip}>
+<{* 小テストタイトル用テンプレート *}>
+<{if !empty($action.quiz.icon_name|smarty:nodefaults)}>
+	<img class="title_icon" src="<{""|get_image_url}>/images/comp/textarea/<{$action.quiz.icon_name}>" alt="" />
+<{/if}>
+
+<span class="quiz_name">
+	<{$action.quiz.quiz_name}>
+</span>
+
+<{if !empty($action.quiz.period|smarty:nodefaults)}>
+	<span class="require">
+		<{$lang.quiz_period_notice|sprintf:$action.quiz.display_period_date}>
+	</span>
+<{/if}>
+
+<{if $action.answerLinkShow}>
+	<a class="syslink quiz_result_link" href="#" title="<{$lang.quiz_goto_answer_title|sprintf:$action.quiz.quiz_name}>" onclick="quizCls['<{$id}>'].showSummaryList(event, <{$action.quiz.quiz_id}>, '<{$smarty.session._user_id}>');return false;">
+		<{$lang.quiz_goto_answer}>
+	</a>
+<{/if}>
+
+<{if $action.totalLinkShow}>
+	<a class="syslink quiz_result_link" href="#" title="<{$lang.quiz_goto_total_title|sprintf:$action.quiz.quiz_name}>" onclick="quizCls['<{$id}>'].showTotal(event, <{$action.quiz.quiz_id}>);return false;">
+		<{$lang.quiz_goto_total}>
+	</a>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,25 @@
+<{strip}>
+
+<div class="popupClass nowrap">
+	<form action="#" method="post" onsubmit="return false;">
+		<table summary="">
+			<tr>
+				<th class="nowrap" scope="row">
+					<label for="cabinet_add_category_name<{$id}>">
+						<{$lang.reservation_edit_category_name|smarty:nodefaults}>
+					</label>
+				</td>
+				<td>
+					<input id="cabinet_add_category_name<{$id}>" class="text" name="category_name" type="text" value="" />
+				</td>
+			</tr>
+		</table>
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='parent.reservationCls["<{$id}>"].addCategory(this.form); return false;' />
+			&nbsp;
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='parent.reservationCls["<{$id}>"].popup.closePopup(); return false;' />
+		</div>
+	</form>
+</div>
+
+<{/strip}>

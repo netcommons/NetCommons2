@@ -1,0 +1,6 @@
+<{strip}>
+<{* ハンドル名用テンプレート *}>
+<a class="syslink" href="#" title="<{if $smarty.session._login_id == ''}><{$lang.bbs_add_user_title|smarty:nodefaults|sprintf:$handle|smarty:nodefaults}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$handle|smarty:nodefaults}><{/if}>" onclick="commonCls.showUserDetail(event, '<{$user_id}>');return false;">
+	<{$handle}>
+</a>
+<{/strip}>

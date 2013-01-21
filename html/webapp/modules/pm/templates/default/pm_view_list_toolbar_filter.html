@@ -1,0 +1,28 @@
+<{strip}>
+<select class="pm_list_search_select" name="filter" onchange="pmCls['<{$id}>'].filter(this.form,this.value);">
+	<option value="">
+		<{$lang.pm_none_specified|smarty:nodefaults}>
+	</option>
+    <option value="<{$smarty.const.PM_FILTER_READ}>" <{if $action.filter == $smarty.const.PM_FILTER_READ}>selected<{/if}>>
+		<{$lang.pm_list_filter_read|smarty:nodefaults}>
+	</option>
+	<option value="<{$smarty.const.PM_FILTER_UNREAD}>" <{if $action.filter == $smarty.const.PM_FILTER_UNREAD}>selected<{/if}>>
+		<{$lang.pm_list_filter_unread|smarty:nodefaults}>
+	</option>
+	<option value="<{$smarty.const.PM_FILTER_HAVE_FLAG}>" <{if $action.filter == $smarty.const.PM_FILTER_HAVE_FLAG}>selected<{/if}>>
+		<{$lang.pm_list_filter_have_flag|smarty:nodefaults}>
+	</option>
+    <option value="<{$smarty.const.PM_FILTER_NO_FLAG}>" <{if $action.filter == $smarty.const.PM_FILTER_NO_FLAG}>selected<{/if}>>
+		<{$lang.pm_list_filter_no_flag|smarty:nodefaults}>
+	</option>
+    <option value="" disabled="true" class="disable_lbl">
+		<{$lang.pm_list_filter_tag|smarty:nodefaults}>
+	</option>
+	<{foreach from=$action.tags_list item=tags}>
+		<{assign var="tagFilter" value=$smarty.const.PM_FILTER_TAG|cat:$smarty.const.PM_SPLIT_CHAR|cat:$tags.tag_id}>
+		<option value="<{$tagFilter}>" <{if $action.filter == $tagFilter}>selected<{/if}>>
+		&nbsp;&nbsp;<{$tags.tag_name}>
+	</option>
+	<{/foreach}>
+</select>
+<{/strip}>

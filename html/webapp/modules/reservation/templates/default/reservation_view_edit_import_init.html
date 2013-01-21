@@ -1,0 +1,166 @@
+<{strip}>
+<{* CSVインポート *}>
+
+<form id="reservation_form<{$id}>" action="#" method="post" target="attachment_form<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+	<{* 説明 *}>
+	<div class="top_description">
+		<{$lang.reservation_csv_import_desc|smarty:nodefaults}>
+	</div>
+
+	<div class="outerdiv nowrap">
+		<{* エラーメッセージ *}>
+		<div id="reservation_error<{$id}>" class="errorstr display-none"></div>
+
+		<{* 施設の選択 *}>
+		<table class="outer" summary="<{$lang.reservation_summary|smarty:nodefaults}>" style="width:auto;">
+			<{* -- 施設 -- *}>
+			<tr class="row">
+				<{include file="reservation_reserve_regist_location.html"}>
+			</tr>
+
+			<{* -- 利用可能なグループ -- *}>
+			<tr class="row">
+				<{include file="reservation_reserve_regist_reserve_flag.html"}>
+			</tr>
+		</table>
+
+		<div class="reservation_import_indent">
+			<{* 一度すべての予約を削除してインポートする *}>
+			<label for="reservation_undo_import<{$id}>">
+				<input type="checkbox" id="reservation_undo_import<{$id}>" name="undo_import" value="<{$smarty.const._ON}>" />
+				<{$lang.reservation_all_delete|smarty:nodefaults}>
+			</label>
+
+			<br />
+			<{* 重複した件名と予約日時は無視する *}>
+			<label for="reservation_title_duplication<{$id}>">
+				<input type="checkbox" id="reservation_title_duplication<{$id}>" name="title_duplication" value="<{$smarty.const._ON}>" />
+				<{$lang.reservation_duplication|smarty:nodefaults}>
+			</label>
+		</div>
+	</div>
+	<br />
+
+	<{* 説明 *}>
+	<div class="top_description">
+		<{$lang.reservation_select_upload|smarty:nodefaults}>
+	</div>
+	<div class="outerdiv nowrap">
+		<div class="reservation_import_indent">
+			<{* CSVファイル *}>
+			<label for="reservation_import<{$id}>">
+				<{$lang.researchmap_file_name|smarty:nodefaults}>
+			</label>
+			<input id="reservation_import<{$id}>" name="upload" type="file" />
+		</div>
+	</div>
+
+	<div class="cv_bottom_description align-right">
+		<{* フォーマットのダウンロード *}>
+		<a title="<{$lang.researchmap_download_format_title|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=reservation_view_edit_import_format&amp;block_id=<{$block_id}>" class="syslink">
+			<{$lang.researchmap_download_format|smarty:nodefaults}>
+		</a>
+		<{$lang._separator|smarty:nodefaults}>
+		<{* 各項目の説明 *}>
+		<a title="<{$lang.researchmap_download_desc_title|smarty:nodefaults}>" href="#" class="syslink" onclick="commonCls.displayChange($('reservation_import_help<{$id}>')); return false;">
+			<{$lang.researchmap_download_desc|smarty:nodefaults}>
+		</a>
+	</div>
+
+	<{* 各ボタン *}>
+	<div class="btn-bottom">
+		<input class="btn-width" name="regist" type="button" value="<{$lang.reservation_import|smarty:nodefaults}>"<{if ($action.location_count == 0) }> disabled="disabled"<{/if}> onclick='reservationCls["<{$id}>"].importReserve(this.form, "<{$lang.reservation_all_delete_mess1}>", "<{$lang.reservation_all_delete_mess2}>"); return false;' />
+		&nbsp;
+		<input class="btn-width" name="cancel" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'reservation_view_main_init'); return false;" />
+	</div>
+</form>
+
+<{* 各項目の説明 *}>
+<fieldset id="reservation_import_help<{$id}>" class="reservation_import_help display-none">
+	<legend class="bold">
+		<{$lang.researchmap_download_desc|smarty:nodefaults}>
+	</legend>
+	<div class="reservation_top_description nowrap">
+		<{$lang.reservation_help_desc|smarty:nodefaults}>
+	</div>
+	<table cellspacing="0" id="reservation_import_help_item<{$id}>" class="outer" summary="">
+		<{* ヘッダー *}>
+		<tr>
+			<th scope="row">
+				<{$lang.reservation_help_header_item|smarty:nodefaults}>
+			</th>
+			<th scope="row">
+				<{$lang.reservation_help_header_note|smarty:nodefaults}>
+			</th>
+		</tr>
+		<{* 件名 *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_title_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_require|smarty:nodefaults}>
+			</td>
+		</tr>
+		<{* 利用時間の制限あり *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_allday_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_allday_note|smarty:nodefaults}>
+			</td>
+		</tr>
+		<{* 予約日 *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_reservetime_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_require|smarty:nodefaults}>
+				<{$lang.reservation_help_reservetime_note|smarty:nodefaults|sprintf:$action.help_reserve_time}>
+			</td>
+		</tr>
+		<{* 開始時間 *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_starttime_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_starttime_note|smarty:nodefaults|sprintf:$action.help_start_time}>
+			</td>
+		</tr>
+		<{* 終了時間 *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_endtime_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_endtime_note|smarty:nodefaults|sprintf:$action.help_end_time}>
+			</td>
+		</tr>
+		<{* 連絡先 *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_contact_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_no_note|smarty:nodefaults}>
+			</td>
+		</tr>
+		<{* 詳細 *}>
+		<tr class="row">
+			<td class="nowrap">
+				<{$lang.reservation_help_description_item|smarty:nodefaults}>
+			</td>
+			<td>
+				<{$lang.reservation_help_no_note|smarty:nodefaults}>
+			</td>
+		</tr>
+	</table>
+</fieldset>
+
+
+<{include file="../reservation_script.html"}>
+
+<{/strip}>

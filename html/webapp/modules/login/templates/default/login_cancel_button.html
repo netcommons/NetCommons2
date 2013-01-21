@@ -1,0 +1,7 @@
+<{if !empty($action.error_mes|smarty:nodefaults)}>
+	<input id="login_cancel_button<{$id}>" class="login_cancel_button" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="location.href=_nc_base_url+_nc_index_file_name;" onmouseover="Element.addClassName(this, 'login_cancel_button_hover');" onmouseout="Element.removeClassName(this, 'login_cancel_button_hover');" onfocus="Element.addClassName(this, 'login_cancel_button_hover');" onblur="Element.removeClassName(this, 'login_cancel_button_hover');" />
+<{elseif $action.block_id == 0}>
+	<input id="login_cancel_button<{$id}>" class="login_cancel_button" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.displayNone($('login_popup'));return false;" onmouseover="Element.addClassName(this, 'login_cancel_button_hover');" onmouseout="Element.removeClassName(this, 'login_cancel_button_hover');" onfocus="Element.addClassName(this, 'login_cancel_button_hover');" onblur="Element.removeClassName(this, 'login_cancel_button_hover');" />
+<{else}>
+	<input id="login_cancel_button<{$id}>" class="login_cancel_button visible-hide" type="button" value="<{$lang._cancel|smarty:nodefaults}>" />
+<{/if}>

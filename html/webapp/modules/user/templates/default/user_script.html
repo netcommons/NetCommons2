@@ -1,0 +1,22 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!userCls["<{$id}>"]) {
+	userCls["<{$id}>"] = new clsUser("<{$id}>");
+}
+<{if $action_name == "user_view_main_search"}>	
+	userCls["<{$id}>"].initSearch($('form<{$id}>'));
+<{elseif $action_name == "user_action_main_search"}>	
+	userCls["<{$id}>"].initSearchResult(<{$action.count}>,<{$conf.user_users_list}>);
+<{elseif $action_name == "user_view_admin_regist_init"}>	
+	userCls["<{$id}>"].initRegist($('form<{$id}>'),'<{$action.user_id}>');
+<{elseif $action_name == "user_view_admin_setting"}>	
+	userCls["<{$id}>"].initSetting($('user_additem<{$id}>'));
+<{elseif $action_name == "user_view_admin_itemdetail"}>	
+	userCls["<{$id}>"].initPopupItem($('user_additem_form<{$id}>'));
+<{elseif $action_name == "user_view_admin_regist_selauth"}>	
+	userCls["<{$id}>"].initSelauth(<{$action.count}>,<{$conf.user_room_list_rows}>);
+<{elseif $action_name == "user_view_admin_regist_confirm" }>
+	userCls["<{$id}>"].initRegistConfirm(<{$action.count}>,<{$conf.user_room_list_rows}>);
+<{/if}>
+</script>
+<{/strip}>

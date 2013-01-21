@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-jp">
+<title>NetCommons2のインストール</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h2><a name="2"></a><a>&nbsp;NetCommons</a>2のインストール</h2>
+<h3><a name="21" id="21"></a><a>1</a>　Net Commonsをインストールする前に必ずお読みください。</h3> 
+<h4><a name="211" id="211"></a><a>1-1</a>　最新バージョンをNetCommons公式サイトからダウンロードしてください。</h4>
+<blockquote>
+  <p>ソフトウェアにはバグがつきものです。また、NetCommonsの基盤を支える、MySQLやApache, PHP, Mapleなどに主要な変更があった場合、それに応じてNetCommonsも変更していきます。ですので、必ず<span class="b1"><b>NetCommons公式サイトから最新版をダウンロード</b></span>してください。古いバージョンでインストールされた方は、パッチファイルをあててから運用を始めてください。</p> 
+  <p class="b4">決して古いバージョンをインストールするだけで本格運用はしないでください。</p>
+</blockquote>
+<h4><a name="212" id="212"></a><a>1-2</a>　ユーザとして登録してください。</h4>
+<blockquote>
+  <p>NetCommons公式サイトのユーザとして登録することをお勧めします。公式サイトからは、NetCommonsの脆弱性などが発見されたときに、お知らせが届きます。お知らせが届いたら、必ずセキュリティパッチをあてるなど、対策を施すことをお勧めします。公式サイトからはメールマガジンもお手元に届きます。</p>
+</blockquote>
+<h4><a name="213"></a><a>1-3</a>　インストールしやすい組み合わせ</h4>
+<blockquote>
+  <p>NetCommonsは次の環境で動作します。</p>
+  <ul>
+    <li>PHP4.3.9 以降<br> 
+    </li>
+    <li>データベース　MySQL3.23以降</li>
+  </ul>
+  <p>WebサーバApache 1.3もしくは2以降ですが、特に以下の組み合わせをお勧めしています。</p> 
+  <ul>
+    <li>（PHP 4.3.9, MySQL 4.1.20, Apache 2.0.52）</li> 
+  </ul>
+  <p align="right">（2008年8月18日現在）</p>
+  <p>OSはFedoraCore 7またはCentOS 5をお勧めしています。Red Hat Enterprise Linux 5では動作確認済みです。今後、FreeBSDやUNIXで動作確認を行う予定です。詳細はNetCommons公式サイトで公開します。&nbsp;</p> 
+</blockquote>
+<h3><a name="22" id="22"></a>2　NetCommonsを使用するには</h3>
+<blockquote>
+  <p>NetCommonsを実際に使用するにはまずMySQLおよびPHPが既にインストールされたサーバが必要です。特にサーバのOSを問うことはなく、ほとんどのOS上で動作することが確認されています。&nbsp;ご自分でサーバを用意されるという方は、サーバにMySQLおよびPHPが既にインストールされていることをご確認ください。NetCommonsをインストールするのに必要なサーバ環境は以下のとおりです。</p>
+  <ul>
+    <li><span class="b2">WWWサーバ：</span>　Apache(2.0.xx)を特にお薦めします<br>
+    </li>
+    <li><span class="b2">データベース：</span>　MySQL 4.0.xx<br>
+    </li>
+    <li><span class="b2">PHP：</span>　PHP 4.3.9 以降<br>
+</li>
+  </ul>
+  <p>PHPおよびMySQLについては以下のサイトにて詳しい情報を入手することができます。</p>
+  <blockquote>
+    <p> <b>PHP：日本PHPユーザ会</b>：　　　<a href="http://www.php.gr.jp/" target="_blank">http://www.php.gr.jp/</a><br>
+      <b>Mysql：日本MySQLユーザ会</b>：　　　<a href="http://www.mysql.gr.jp/" target="_blank">http://www.mysql.gr.jp/</a></p>
+  </blockquote>
+  <p>既にmysqlおよびphpが導入済みのサーバであれば、インストール手順に従いインストールするのみです。初めてであっても10分もあればインストールでき、直ちにサイトの運営を開始できるところがNetCommonsの強みでもあります。 &nbsp;</p> 
+</blockquote>
+
+<h3><a name="23" id="23"></a>3　インストール方法</h3>
+<h4 style="text-align: left; font-weight: bolder; color: rgb(165, 45, 45);">
+<a name="231" id="231"></a>3-1　サーバ環境の確認</h4>
+<div style="margin-left: 33px; ">NetCommonsプロジェクトでは、<br>
+<br>
+&nbsp;<span style="font-weight: bold;">通常想定されるサーバ管理技能および知識をお持ちのサーバ管理者によって管理される</span><br>
+<br>
+ことを想定してNetCommonsを配布しております。<br>
+サーバの環境設定を誤るとNetCommonsには関係なくセキュリティ上の問題が発生する可能性があることは、他のウェブアプリケーションと同様です。<br>
+多くのCMSと同様に、NetCommonsでは（全てのバージョンにおいて）htaccessファイルによるアクセス制限機能を想定しています。<br>
+また、http以外の方法でのアクセスが許可されていないサーバ上に構築されていることを想定しています。<br>
+<br>
+NetCommonsサイトを構築予定のサーバで<br>
+</div>
+<div style="text-align: left; margin-left: 53px; width: 814px;">
+（１）htaccessが無効になっている、<br>
+（２）http以外のアクセス方法を許可している場合、<br>
+</div>
+<div style="margin-left: 33px; ">本来外部公開されてはならない情報が公開される可能性がありますので、念のためご確認ください。<br>
+htaccessが有効になっているかどうかを確認する方法については、<a href="#FAQ7"><span style="font-style: italic;">こちら</span></a> をご参考下さい。<br>
+<br>
+アクセス制限機能が正しく動作していない場合は、サーバ設定の見直しまたはサーバ管理者にご相談いただきますようお願いいたします。<br>
+</div>
+
+<h4 style="text-align: left; font-weight: bolder; color: rgb(165, 45, 45);">
+<a name="232" id="232"></a>3-2　新規インストールの前準備</h4>
+
+<div style="padding-left: 20px; background-color: white;">
+まず始めに、以下の点を事前に確認しておいてください。
+<div style="padding-left: 20px;"> <b>・ドキュメントルート（Web
+サーバがHTMLファイルを公開するディレクトリ）のパス</b><br>
+
+<b>・MySQLに接続する際のユーザ名とパスワード</b><br>
+
+上記が不明の場合は、サーバ管理者または利用しているサーバホスティング会社に確認してください。 </div>
+
+<br>
+
+NetCommonsをインストールしたいディレクトリにダウンロードしたNetCommons内のhtmlディレクトリ内の全てのファイルを移動しま
+す。<br>
+
+<br>
+
+<div style="padding-left: 20px;"><b>・サーバ上で直接操作する場合</b><br>
+
+<div style="padding-left: 20px;">
+ダウンロードしたNetCommons内のhtmlディレクトリ内の全てのディレクトリやファイルを、ドキュメントルート以下にコピーします。 </div>
+
+<b>・インターネット上のサーバに対して操作する場合<br>
+
+</b>
+<div style="padding-left: 20px;">FTPを使ってhtmlディレクトリ内の全てのディレク
+トリやファイルを、ドキュメントルート以下にコピーします。<br>
+
+FTPのユーザ名とパスワードが不明の場合はサーバ管理者か利用しているサーバホスティング会社に確認してください。</div>
+
+</div>
+
+<span style="font-weight: bold; background-color: white; color: rgb(204, 0, 0);">※
+ドキュメントルートをディレクトリhtdocsに設定できる場合は
+、ディレクトリmaple,webappへのWEBブラウザーからのアクセスを制限することができます。</span>
+<br>
+
+<br>
+
+<span style="font-weight: bold;"></span>ディレクトリやファイルの移動後、ディレクトリ及びファイルに対するパーミッション（アクセス権）を変更します。
+<div style="padding-left: 20px;">・アクセス権をHTTPプロセスが動作している権限（一般にはapache）に変更が可能な場合は、ディレクトリおよびファイルの所有権（オーナ）をchownコマンドを利用してapache等に変更してくだ
+さい。（例：chown -R apache.apache ./*）<br>
+
+・所有権（オーナ）を変更できない場合は、<br>
+
+「webapp/uploads」、「webapp/templates_c」、「htdocs」ディレクトリに対するパーミッション（アクセス権）を変更します。(chmod 777)<br>
+
+<span style="color: rgb(255, 102, 0);">※Win32環境でインストールを実行している場合には通常パーミッションを設定する必要はありません。</span> </div>
+
+<br>
+
+<b>http://ファイルを移動したディレクトリまでのURL/htdocs/</b>にブラウザでアクセスするとインス
+トールウィザードの開始画面が表示されます。<br>
+
+※ドキュメントルートをhtdocsに設定できた場合は、<b>http://ファイルを移動したディレクトリまでのURL/</b> となります。 </div>
+
+<br>
+</pre>
+</div>
+<h3><a name="24" id="24">4</a>　新規インストール手順</h3>
+<h4><a name="241" id="241">4-1</a>　インストール作業に使用する言語選択</h4>
+<blockquote>
+	<a href='./img/install01.gif'>
+    <img src="./img/install01.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="212" /></a><br />
+	<br />
+	インストール作業に使用する言語を選択して、「次へ」ボタンをクリックしてください。<br />
+</blockquote>
+<h4><a name="242" id="242">4-2</a>　イントロダクション</h4>
+<blockquote>
+	<a href='./img/install02.gif'>
+    <img src="./img/install02.gif" style="border: #666666 1px solid; border-width: 1px;" width="590" height="508" /></a><br />
+	<br />
+	注意事項をお読みください。同意しましたら、「次へ」ボタンをクリックしてください。<br />
+</blockquote>
+
+<h4><a name="243" id="243">4-3</a>　　サイト名称、データベースおよびパス・URLの設定</h4>
+<blockquote>
+			<a href='./img/install03.gif'>
+            <img src="./img/install03.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="551" /></a><br />
+			<br />
+			サイト名称、データベース、およびパス・URLを入力してください。<br />
+			テーブル接頭語はデフォルトのままでも動作に問題はありませんが、セキュリティ上変更することをお勧めします。<br />
+			<span style="color:red">データベースが1つしかない環境の場合、テーブル接頭語に別の名称を付けて下さい。</span><br />
+			入力後、「次へ」ボタンをクリックしてください。<br />
+</blockquote>
+
+<h4><a name="244" id="244">4-4</a>　　設定内容の確認</h4>
+<blockquote>
+			<a href='./img/install04.gif'>
+            <img src="./img/install04.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="246" /></a><br />
+			<br />
+			サイト名称、データベースおよびパス・URLの設定を確認し、問題なければ「次へ」ボタンをクリックしてください。<br />
+			また、再度、データベースおよびパス・URLの設定を入力しなおす場合、「戻る」ボタンをクリックしてください。<br />
+</blockquote>
+
+
+<h4><a name="245" id="245">4-5</a>　　アクセス権のチェック</h4>
+<blockquote>
+	<a href='./img/install05.gif'>
+    <img src="./img/install05.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="165" /></a><br />
+	<br />
+	uploads、templates_c、htdocsディレクトリ及びinstall.inc.phpファイルの権限に書込み権限があれば、「次へ」ボタンをクリックしてください。<br />
+	書き込み権限がない場合、NetCommonsのディレクトリ配下にuploads、templates_c、htdocsディレクトリ及びinstall.inc.phpがあります。<br />
+	このディレクトリ及びファイルの権限に書き込み権限(chmod 777)を付加してください。<br />
+</blockquote>
+
+<h4><a name="246" id="246">4-6</a>　　パス・URLのチェック</h4>
+<blockquote>
+			<a href='./img/install06.gif'>
+            <img src="./img/install06.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="275" /></a><br />
+			<br />
+			インストールするディレクトリと設定したパス・URLとのチェックを行います。正常に終了しましたら、「次へ」ボタンをクリックしてください。<br />
+			もし、失敗した場合、install.inc.phpに設定されているパス及びURLとインストールするディレクトリが同じかどうかを確認し、<br />
+			「再読込」ボタンをクリックして、設定ファイルを再度読み込んでください。<br />
+</blockquote>
+
+<h4><a name="247" id="247">4-7</a>　　データベースのチェック１（データベースが存在しない場合）</h4>
+<blockquote>
+			<a href='./img/install07.gif'>
+            <img src="./img/install07.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="199" /></a><br />
+			<br />
+			mysqlの接続とデータベースの存在を確認します。データベースが存在しない場合、「次へ」ボタンをクリックし、データベースを作成してください。<br />
+			また、mysqlの接続に失敗した場合、mysqlがインストールされているか確認してください。<br />
+</blockquote>
+
+<h4><a name="248" id="248">4-8</a>　データベースのチェック２</h4>
+<blockquote>
+			<a href='./img/install08.gif'>
+            <img src="./img/install08.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="107" /></a><br />
+			<br />
+			「次へ」ボタンをクリックし、mysqlの接続とデータベースの存在を確認します。<br />
+</blockquote>
+
+<h4><a name="249" id="249">4-9</a>　　データベースをチェック</h4>
+<blockquote>
+			<a href='./img/install09.gif'>
+            <img src="./img/install09.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="146" /></a><br />
+			<br />
+			mysqlの接続とデータベースの存在を確認します。「次へ」ボタンをクリックし、設定を保存します。<br />
+			また、mysqlの接続に失敗した場合、mysqlがインストールされているか確認してください。<br />
+</blockquote>
+
+<h4><a name="2410" id="2410">4-10</a>　　設定の保存</h4>
+<blockquote>
+			<a href='./img/install10.gif'>
+            <img src="./img/install10.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="269" /></a><br />
+			<br />
+			install.inc.phpへの設定内容の保存を確認します。「次へ」ボタンをクリックし、テーブルの作成を行います。<br />
+</blockquote>
+
+<h4><a name="2411" id="2411">4-11</a>　テーブルの作成</h4>
+<blockquote>
+			<a href='./img/install11.gif'>
+            <img src="./img/install11.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="405" /></a><br />
+			<br />
+			必要なテーブルを生成します。全て成功したら「次へ」ボタンをクリックしてください。<br />
+			もし、失敗しましたら、データベースを破棄し、３からやり直してください。<br />
+</blockquote>
+
+<h4><a name="2412" id="2412">4-12</a>　サイト管理者についての設定</h4>
+<blockquote>
+			<a href='./img/install12.gif'>
+            <img src="./img/install12.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="202" /></a><br />
+			<br />
+			サイト管理者ユーザーの設定を入力してください。入力後、「次へ」ボタンをクリックしてください。<br />
+</blockquote>
+
+<h4><a name="2413" id="2413">4-13</a>　データの生成</h4>
+<blockquote>
+			<a href='./img/install13.gif'>
+            <img src="./img/install13.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="333" /></a><br />
+			<br />
+			データベースのデータの生成結果が表示されます。正常に終了しましたら、「次へ」ボタンをクリックしてください。<br />
+			失敗した場合、データベースに接続できないかテーブルが正しく生成されていない、または、データを一度生成した可能性があります。<br />
+</b></p>
+</blockquote>
+
+<h4><a name="2414" id="2414">4-14</a>　モジュールのインストール</h4>
+<blockquote>
+			<a href='./img/install14.gif'>
+            <img src="./img/install14.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="424" /></a><br />
+			<br />
+			全モジュールのインストール結果が表示されます。正常に終了しましたら、「次へ」ボタンをクリックしてください。<br />
+<b>&nbsp;</b></p>
+</blockquote>
+
+<h4><a name="2415" id="2415">4-15</a>　インストール完了</h4>
+<blockquote>
+			<a href='./img/install15.gif'>
+            <img src="./img/install15.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="247" /></a><br />
+			<br />
+			以上でインストールが正常に完了しました。<br />
+			正しくインストールされているか設定したURLにリンクし、確認してください。<br />
+</blockquote>
+
+<h3><a name="25" id="25">5</a>　インストール後の設定</h3>
+<h4><a name="251" id="251">5-1</a>　インストールされたNetCommonsにリンクする</h4>
+<blockquote>
+			<a href='./img/install16.gif'>
+            <img src="./img/install16.gif" style="border: #666666 1px solid; border-width: 1px;" width="616" height="472" /></a><br />
+			<br />
+			インストールされたNetCommonsにリンクし、管理者ユーザーでログインしてください。<br />
+			トップページでセッティングモードをONにして、ヘッダー部のロゴを変更してください。<br />
+</blockquote>
+
+<h2><a name="6" id="666">&nbsp;補足事項</a></h2>
+<blockquote>
+
+  <p><a name="FAQ7"></a><font color="#0000ff">※ WEBサーバのhtaccessが有効になっているかどうかを確認したい</font>
+  </p>
+
+  <p>多くのCMSと同様に、NetCommonsでは（全てのバージョンにおいて）htaccessファイルによるアクセス制限機能を想定しています。<br>また、http以外の方法でのアクセスが許可されていないサーバ上に構築されていることを想定しています。<br>
+
+  <br>
+
+htaccessが有効になっているかどうかを確認する方法を参考までにご紹介します。<br>
+
+  <br>
+
+確認方法：<br>
+
+１）クライアントPC側で、.htaccessファイルとテキストファイル（例：nctest.txt）を作成する。<br>
+  </p>
+  <div style="margin-left: 10px; width: 777px;">
+   ------------------------------<br>
+
+  ・ファイル名：.htaccess の内容<br>
+
+    order deny,allow<br>
+
+    deny from all<br>
+
+   ------------------------------<br>
+
+  ・テキストファイル：nctest.txtの内容<br>
+
+  　「アクセス確認」<br>
+
+   ------------------------------<br>
+  </div>
+  <p>
+２）FTP等のファイル転送ツールを使い、ご利用になっているサーバのドキュメントルートに
+ディレクトリ「testdir」を作成します。<br>
+
+  <br>
+
+３）クライアントPC側で作成した.htaccessファイルおよびテキストファイルを
+ディレクトリ「testdir」下に転送します。<br>
+
+  <br>
+
+４）ブラウザーのアドレス欄に転送したファイルまでのパスを指定します。<br>
+
+　　http://(サーバアドレスまたはドメイン)/testdir/nctest.txt<br>
+
+  <br>
+
+５）表示結果に「You don't have permission to access ** on this server」
+または「Error 403 Access Denied (Forbidden)」「このページの表示が認められていません」<br>
+
+と表示された場合は、アクセス制限が正常に動作しています。<br>
+
+「アクセス確認」の文字が表示された場合は、アクセス制限機能が正しく動作していません。<br>
+
+（文字化けをしている場合は、ブラウザーのエンコード設定をご確認下さい）<br>
+
+  <br>
+
+　※転送したファイル(nctest.txt)は、必ず削除してください。<br>
+
+  <br>
+
+アクセス制限機能が正しく動作していない場合は、サーバ設定の見直しまたはサーバ管理者にご相談いただきますようお願いいたします。<br>
+
+  <br>
+
+Apacheでのアクセス制限機能を有効にする方法を下記に抜粋します。<br>
+
+  <br>
+
+・htaccessを有効にする方法<br>
+
+　httpd.confに下記の記述を追加または変更する<br>
+  </p>
+  <div style="margin-left: 12px; width: 775px;">
+    &lt;Directory NetCommonsインストールディレクトリ&gt;<br>
+
+      AllowOverride All<br>
+
+    &lt;/Directory&gt;<br>
+  </div>
+  <p>
+・httpd.confのみで設定する場合(htaccess無効の場合）<br>
+  </p>
+  <div style="margin-left: 11px; width: 776px;">
+    &lt;Directory NetCommonsインストールディレクトリ/maple&gt;<br>
+
+      order deny,allow<br>
+
+      deny from all<br>
+
+    &lt;/Directory&gt;<br>
+
+    &lt;Directory NetCommonsインストールディレクトリ/webapp&gt;<br>
+
+      order deny,allow<br>
+
+      deny from all<br>
+
+    &lt;/Directory&gt;<br>
+  </div>
+  <p>
+  </p>
+
+</blockquote>
+
+<div align="right" class="totop"><a href="#2">↑このページのtopへ</a></div>
+<hr>
+<div align="right"><img src="img/copy_m.gif" width="200" height="16"></div></body>
+</html>

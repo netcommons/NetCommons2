@@ -1,0 +1,11 @@
+<{strip}>
+<{* 課題名称テンプレート *}>
+
+<div class="assignment_name">
+	<{if !empty($action.assignment.icon_name|smarty:nodefaults)}>
+		<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$action.assignment.icon_name}>" alt="" />
+	<{/if}>
+	<{$action.assignment.assignment_name}>
+</div>
+
+<{/strip}>

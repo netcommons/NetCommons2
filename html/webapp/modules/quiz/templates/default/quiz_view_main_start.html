@@ -1,0 +1,21 @@
+<{strip}>
+<{* 問題開始画面用テンプレート *}>
+<div class="quiz_head">
+	<{include file="quiz_view_main_head.html"}>
+</div>
+
+<form id="quiz_start<{$id}>" action="#" onsubmit="return false;">
+	<input type="hidden" name="action" value="quiz_action_main_start" />
+	<input type="hidden" name="quiz_id" value="<{$action.quiz.quiz_id}>" />
+
+	<{include file="quiz_view_main_image_authentication.html"}>
+</form>
+
+<div class="hr"></div>
+
+<div class="align-center">
+	<input type="button" value="<{$lang.quiz_answer_start}>" onclick="commonCls.sendPost('<{$id}>', Form.serialize($('quiz_start<{$id}>')), {'target_el':$('<{$id}>')});" />
+</div>
+
+<{include file = "../quiz_script.html"}>
+<{/strip}>

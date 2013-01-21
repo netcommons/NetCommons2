@@ -1,0 +1,27 @@
+/* 
+ * ブロック定義
+ */
+
+/* line */
+.th_sideline_default_line {
+	width:3px;
+	background-color:#c2c6c9;
+}
+
+.th_sideline_content {
+	border:0px;
+	padding-left:20px;
+	padding-top:3px;
+	padding-bottom:3px;
+	width:100%;
+}
+
+/*ヘッダータイトル*/
+.th_sideline_default_title {
+	white-space:nowrap;
+	text-align: left;
+	/*font-size:150%;
+	font-weight:bold;
+	padding-left:20px;*/
+	margin-bottom:10px;
+}

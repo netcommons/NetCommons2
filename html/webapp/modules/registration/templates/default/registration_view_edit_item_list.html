@@ -1,0 +1,115 @@
+<{strip}>
+<{* 項目一覧画面用テンプレート *}>
+<div class="outerdiv">
+	<div class="nowrap bold">
+		<{$action.registration.registration_name}>
+	</div>
+	<div class="top_description">
+		<{$lang.registration_item_list_text}>
+	</div>
+	
+	<div class="registration_item_add">
+		<a id="registration_add_item<{$id}>" class="syslink" href="#" title="<{$lang.registration_add_item_title}>" onclick="registrationCls['<{$id}>'].showItem(event);return false;">
+			<img src="<{"add.gif"|get_themes_image}>" alt="" title="" />
+			<{$lang.registration_add_item}>
+		</a>
+	</div>
+	
+	<table id="registration_item_list<{$id}>" class="registration_item_list" summary="<{$lang.registration_item_list_summary}>">
+		<{foreach item=item from=$action.items}>
+			<tr id="registration_item_row<{$item.item_id}><{$id}>}>">
+				<td class="comp_draganddrop">
+				</td>
+				
+				<td>
+					<{$item.item_name}>
+					<{if $item.require_flag == _ON}>
+						<span class="require">
+							<{$lang.registration_require_text}>
+						</span>
+					<{/if}>
+					<span class="registration_type">
+						<{if $item.item_type == $smarty.const.REGISTRATION_TYPE_TEXT}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_text}>
+						<{elseif $item.item_type == $smarty.const.REGISTRATION_TYPE_CHECKBOX}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_checkbox}>
+						<{elseif $item.item_type == $smarty.const.REGISTRATION_TYPE_RADIO}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_radio}>
+						<{elseif $item.item_type == $smarty.const.REGISTRATION_TYPE_SELECT}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_select}>
+						<{elseif $item.item_type == $smarty.const.REGISTRATION_TYPE_TEXTAREA}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_textarea}>
+						<{elseif $item.item_type == $smarty.const.REGISTRATION_TYPE_EMAIL}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_email}>
+						<{elseif $item.item_type == $smarty.const.REGISTRATION_TYPE_FILE}>
+							<{$lang.registration_type_parenthesis|sprintf:$lang.registration_type_file}>
+						<{/if}>
+					</span>
+				</td>
+
+				<td class="registration_item_list_manage">
+					<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$item.item_name}>" onclick="registrationCls['<{$id}>'].showItem(event, <{$item.item_id}>);return false;">
+						<{$lang._edit|smarty:nodefaults}>
+					</a>
+					<{$lang._separator|smarty:nodefaults}>
+					<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$item.item_name}>" onclick="registrationCls['<{$id}>'].deleteItem(<{$item.item_id}>, '<{$lang._del_confirm|sprintf:"`$item.item_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+						<{$lang._delete|smarty:nodefaults}>
+					</a>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang.registration_activate}>" onclick="registrationCls['<{$id}>'].setblock('<{$action.registration.registration_id}>', <{$smarty.const._ON}>);return false;" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._list}>" onclick="commonCls.sendView('<{$id}>', 'registration_view_edit_registration_list');return false;" />
+	</div>
+</div>
+
+<{include file="../registration_script.html"}>
+<script class="nc_script" type="text/javascript">
+	registrationCls["<{$id}>"].registration_id = "<{$action.registration.registration_id}>";
+	
+	dropZone = Class.create();
+	dropZone.prototype = Object.extend((new compDropzone), {
+		showHover: function(event) {
+			this.showChgSeqHover(event);
+		},
+
+		hideHover: function(event) {
+			this.hideChgSeqHover(event);
+		},
+
+		accept: function(draggableObjects) {
+			this.acceptChgSeq(draggableObjects);
+		},
+		
+		save: function(draggableObjects) {
+			if(this.ChgSeqPosition == null) {
+				return false;
+			}
+	    	var drag = draggableObjects[0].getHTMLElement();
+	    	var drop = this.getHTMLElement();
+			
+			var id = this.getParams();
+			registrationCls[id].changeItemSequence(drag.id, drop.id, this.ChgSeqPosition);
+			return true;
+		}
+	});
+
+	var dragArea = $("registration_item_list<{$id}>");
+	dragDrop = new compDragAndDrop();
+	dragDrop.registerDraggableRange(dragArea);
+	var rows = dragArea.getElementsByTagName("tr");
+	for (var i = 0; i < rows.length; i++) {
+		dragDrop.registerDraggable(new compDraggable(rows[i], rows[i].firstChild));
+		dragDrop.registerDropZone(new dropZone(rows[i], "<{$id}>"));
+	}
+
+	commonCls.focus($("registration_add_item<{$id}>"));
+	dropZone = null;
+	dragArea = null;
+	dragDrop = null;
+	rows = null;
+</script>
+<{/strip}>

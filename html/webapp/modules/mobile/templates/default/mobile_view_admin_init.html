@@ -1,0 +1,197 @@
+<{strip}>
+
+<div class="outerdiv">
+	<{assign var="mobile_img_on" value="on.gif"|get_modules_image}>
+	<{assign var="mobile_img_off" value="off.gif"|get_modules_image}>
+
+	<div class="bold">
+		<{$lang.mobile_default_module_title|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<{$lang.mobile_default_module_desc|smarty:nodefaults}>
+	</div>
+	<div class="mobile_edit">
+		<label for="mobile_default_module<{$id}>">
+			<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_HEADER}>
+			<select id="mobile_default_module<{$id}>" name="change_disp" onchange='mobileCls["<{$id}>"].switchDefault(this);'>
+				<{foreach name="module" key="module_id" item="module" from=$action.modules.$display_position}>
+					<{if ($module.dir_name != "mobile") }>
+						<option value="<{$module.module_id}>"<{if ($module.dir_name == $action.default_module) }> selected="selected"<{/if}>>
+							<{$module.module_name}>
+						</option>
+					<{/if}>
+				<{/foreach}>
+			</select>
+		</label>
+	</div>
+</div>
+<div class="outerdiv">
+	<div class="bold">
+		<{$lang.mobile_allow_emulator_title|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<div>
+			<{$lang.mobile_allow_emulator_desc|smarty:nodefaults}>
+		</div>
+	</div>
+	<div class="mobile_edit">
+		<label for="mobile_allow_emulator<{$id}>_on">
+			<input id="mobile_allow_emulator<{$id}>_on" name="allow_emulator" type="radio" value="<{$smarty.const._ON}>"<{if ($action.allow_emulator == _ON) }> checked="checked"<{/if}> onclick='mobileCls["<{$id}>"].switchEmulator(this);' />
+			<{$lang.mobile_allow_emulator_on|smarty:nodefaults}>
+		</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="mobile_allow_emulator<{$id}>_off">
+			<input id="mobile_allow_emulator<{$id}>_off" name="allow_emulator" type="radio" value="<{$smarty.const._OFF}>"<{if ($action.allow_emulator == _OFF) }> checked="checked"<{/if}> onclick='mobileCls["<{$id}>"].switchEmulator(this);' />
+			<{$lang.mobile_allow_emulator_off|smarty:nodefaults}>
+		</label>
+	</div>
+</div>
+
+<div class="outerdiv">
+	<div class="bold">
+		<{$lang.mobile_text_html_mode_title|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<div>
+			<{$lang.mobile_text_html_mode_desc|smarty:nodefaults}>
+		</div>
+	</div>
+	<div class="mobile_edit">
+		<label for="mobile_text_html_mode<{$id}>_text">
+			<input id="mobile_text_html_mode<{$id}>_text" name="mobile_text_html_mode" type="radio" value="<{$smarty.const.MOBILE_TEXTHTML_MODE_TEXT}>"<{if ($action.mobile_text_html_mode == $smarty.const.MOBILE_TEXTHTML_MODE_TEXT) }> checked="checked"<{/if}> onclick='mobileCls["<{$id}>"].switchMobileTextHtmlMode(this);' />
+			<{$lang.mobile_text_html_mode_text|smarty:nodefaults}>
+		</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="mobile_text_html_mode<{$id}>_html">
+			<input id="mobile_text_html_mode<{$id}>_html" name="mobile_text_html_mode" type="radio" value="<{$smarty.const.MOBILE_TEXTHTML_MODE_HTML}>"<{if ($action.mobile_text_html_mode == $smarty.const.MOBILE_TEXTHTML_MODE_HTML) }> checked="checked"<{/if}> onclick='mobileCls["<{$id}>"].switchMobileTextHtmlMode(this);' />
+			<{$lang.mobile_text_html_mode_html|smarty:nodefaults}>
+		</label>
+	</div>
+</div>
+<div class="outerdiv">
+	<div class="bold">
+		<{$lang.mobile_imgdsp_size_title|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<div>
+			<{if ($action.gd_enable == _OFF)}>
+				<{$lang.mobile_imgdsp_size_no_gd_desc|smarty:nodefaults}>
+			<{else}>
+				<{$lang.mobile_imgdsp_size_desc|smarty:nodefaults}>
+			<{/if}>
+		</div>
+	</div>
+	<div class="mobile_edit">
+		<label for="mobile_imgdsp_size<{$id}>_240">
+			<input id="mobile_imgdsp_size<{$id}>_240" name="mobile_imgdsp_size" type="radio" value="<{$smarty.const.MOBILE_IMGDSP_SIZE_240}>" <{if ($action.mobile_imgdsp_size == $smarty.const.MOBILE_IMGDSP_SIZE_240) }> checked="checked"<{/if}> <{if $action.gd_enable == _OFF}> disabled="disabled"<{/if}> onclick='mobileCls["<{$id}>"].switchMobileImgdspOpt(this);' />
+			<{$lang.mobile_imgdsp_size_240|smarty:nodefaults}>
+		</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="mobile_imgdsp_size<{$id}>_480">
+			<input id="mobile_imgdsp_size<{$id}>_480" name="mobile_imgdsp_size" type="radio" value="<{$smarty.const.MOBILE_IMGDSP_SIZE_480}>" <{if ($action.mobile_imgdsp_size == $smarty.const.MOBILE_IMGDSP_SIZE_480) }> checked="checked"<{/if}> <{if $action.gd_enable == _OFF}> disabled="disabled"<{/if}> onclick='mobileCls["<{$id}>"].switchMobileImgdspOpt(this);' />
+			<{$lang.mobile_imgdsp_size_480|smarty:nodefaults}>
+		</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="mobile_imgdsp_size<{$id}>_org">
+			<input id="mobile_imgdsp_size<{$id}>_org" name="mobile_imgdsp_size" type="radio" value="<{$smarty.const.MOBILE_IMGDSP_SIZE_ORG}>"<{if ($action.mobile_imgdsp_size == $smarty.const.MOBILE_IMGDSP_SIZE_ORG) }> checked="checked"<{/if}> onclick='mobileCls["<{$id}>"].switchMobileImgdspOpt(this);' />
+			<{$lang.mobile_imgdsp_size_org|smarty:nodefaults}>
+		</label>
+	</div>
+</div>
+
+<div class="outerdiv">
+	<div class="bold">
+		<{$lang.mobile_logo_title|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<div>
+			<{$lang.mobile_logo_desc|smarty:nodefaults|sprintf:$mobile_img_on:$mobile_img_off:$mobile_img_on:$mobile_img_off}>
+		</div>
+	</div>
+	<div class="mobile_edit">
+		<{assign var="module_id" value=$module_obj.module_id}>
+		<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_HEADER}>
+		<{assign var="module" value=$action.modules.$display_position.$module_id}>
+		<table class="widthmax mobile_logo" summary="">
+			<tr>
+				<td class="mobile_module_name nowrap">
+					<a href="#" onclick='mobileCls["<{$id}>"].switchUsed(this,"<{$module.module_id}>"); return false;'>
+						<img class="icon mobile_on<{if ($module.use_flag != _ON) }> display-none<{/if}>" src="<{"on.gif"|get_modules_image}>" alt="<{$lang.mobile_alt_on|smarty:nodefaults}>" title="<{$lang.mobile_title_on|smarty:nodefaults}>" />
+						<img class="icon mobile_off<{if ($module.use_flag != _OFF) }> display-none<{/if}>" src="<{"off.gif"|get_modules_image}>" alt="<{$lang.mobile_alt_off|smarty:nodefaults}>" title="<{$lang.mobile_title_off|smarty:nodefaults}>" />
+					</a>
+					&nbsp;
+					<label for="mobile_module<{$id}>_<{$module.module_id}>">
+						<{if ($module.dir_name == "mobile") }>
+							<{if ($module.upload_id == 0) }>
+								<img id="mobile_logo<{$id}>" class="icon" src="<{"logo.jpg"|get_modules_image}>" alt="<{$lang.mobile_alt_logo|smarty:nodefaults}>" title="<{$lang.mobile_title_logo|smarty:nodefaults}>" />
+							<{else}>
+								<img id="mobile_logo<{$id}>" class="icon" src="./?action=common_download_main&amp;upload_id=<{$module.upload_id}>" alt="<{$lang.mobile_alt_logo|smarty:nodefaults}>" title="<{$lang.mobile_title_logo|smarty:nodefaults}>" />
+							<{/if}>
+						<{else}>
+							<{$module.module_name}>
+						<{/if}>
+					</label>
+				</td>
+				<td class="align-right nowrap">
+					<a id="mobile_edit_link<{$id}>" href="#" class="syslink" onclick='mobileCls["<{$id}>"].showPopup(this); return false;'>
+						<{$lang._edit|smarty:nodefaults}>&nbsp;
+					</a>
+					<{include file="mobile_view_admin_upload.html"}>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="outerdiv">
+	<div class="bold">
+		<{$lang.mobile_modules_title|smarty:nodefaults}>
+	</div>
+	<div class="top_description">
+		<{$lang.mobile_modules_desc|smarty:nodefaults|sprintf:$mobile_img_on:$mobile_img_off:$mobile_img_on:$mobile_img_off}>
+	</div>
+	<div class="mobile_edit mobile_used_module">
+		<table class="widthmax mobile_targe_module" summary="">
+			<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_HEADER}>
+			<{foreach name="module" key="module_id" item="module" from=$action.modules.$display_position}>
+				<{if ($module.dir_name != "mobile") }>
+					<tr>
+						<td class="nowrap">
+							&nbsp;
+							<a href="#" onclick='mobileCls["<{$id}>"].switchUsed(this,"<{$module.module_id}>"); return false;'>
+								<img class="icon mobile_on<{if ($module.use_flag != _ON) }> display-none<{/if}>" src="<{"on.gif"|get_modules_image}>" alt="<{$lang.mobile_alt_on|smarty:nodefaults}>" title="<{$lang.mobile_title_on|smarty:nodefaults}>" />
+								<img class="icon mobile_off<{if ($module.use_flag != _OFF) }> display-none<{/if}>" src="<{"off.gif"|get_modules_image}>" alt="<{$lang.mobile_alt_off|smarty:nodefaults}>" title="<{$lang.mobile_title_off|smarty:nodefaults}>" />
+							</a>
+							&nbsp;
+							<{$module.module_name}>
+						</div>
+					</tr>
+				<{/if}>
+			<{/foreach}>
+
+			<{assign var="display_position" value=$smarty.const._DISPLAY_POSITION_CENTER}>
+			<{if ($action.modules.$display_position) }>
+				<{foreach name="module" key="module_id" item="module" from=$action.modules.$display_position}>
+					<tr>
+						<td class="nowrap">
+							&nbsp;
+							<a href="#" onclick='mobileCls["<{$id}>"].switchUsed(this,"<{$module.module_id}>"); return false;'>
+								<img class="icon mobile_on<{if ($module.use_flag != _ON) }> display-none<{/if}>" src="<{"on.gif"|get_modules_image}>" alt="<{$lang.mobile_alt_on|smarty:nodefaults}>" title="<{$lang.mobile_title_on|smarty:nodefaults}>" />
+								<img class="icon mobile_off<{if ($module.use_flag != _OFF) }> display-none<{/if}>" src="<{"off.gif"|get_modules_image}>" alt="<{$lang.mobile_alt_off|smarty:nodefaults}>" title="<{$lang.mobile_title_off|smarty:nodefaults}>" />
+							</a>
+							&nbsp;
+							<{$module.module_name}>
+						</div>
+					</tr>
+				<{/foreach}>
+			<{/if}>
+		</table>
+	</div>
+</div>
+
+<{include file="./mobile_script.html"}>
+<script class="nc_script" type="text/javascript">
+commonCls.closeCallbackFuncEvent["<{$id}>"] = function() {
+	location.reload(true);
+};
+</script>
+<{/strip}>

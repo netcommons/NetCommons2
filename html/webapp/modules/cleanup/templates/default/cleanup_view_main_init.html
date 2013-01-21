@@ -1,0 +1,37 @@
+<{strip}>
+<div class="outerdiv">
+	<form action="" submit="return false;" id="form<{$id}>">
+	<table summary="<{$lang.cleanup_target_module}>" class="outer">
+		<tr>
+			<th scope="col" class="head">
+				<{$lang.cleanup_target_module}>
+			</th>
+		</tr>
+		<tr class="row">
+			<td>
+				<div class="nowrap">
+					<{foreach name=module_list from=$action.modules_list item=module_list}>
+						<{if isset($module_list.target|smarty:nodefaults)}>
+							<label for="target_module<{$id}>_<{$module_list.target.module_id}>">
+								<input id="target_module<{$id}>_<{$module_list.target.module_id}>" type="checkbox" checked="checked" value="<{$module_list.target.module_id}>" name="target_module[]" />
+								<{$module_list.module_name}>
+							</label>
+						<{/if}>
+						<{if $smarty.foreach.module_list.iteration % 5 == 0}>
+							<{*5つで下の行へ*}>
+							<br />
+						<{/if}>
+					<{/foreach}>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<div class="note">
+		<{$lang.cleanup_top_description|sprintf:$lang.cleanup_del_btn|smarty:nodefaults}>
+	</div>
+	<div class="btn-bottom">
+		<input type="button" onclick="if(!commonCls.confirm('<{$lang.cleanup_confirm_mes}>'))return false; commonCls.sendView('<{$id}>','action=cleanup_action_main_init&amp;'+Form.serialize($('form<{$id}>')),{'method':'post'}); return false;" value="<{$lang.cleanup_del_btn}>" class="btn-width lined_btn" />
+	</div>
+	</form>
+</div>
+<{/strip}>

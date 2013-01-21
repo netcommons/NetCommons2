@@ -1,0 +1,31 @@
+<{strip}>
+
+<div id="reservation_popup_move<{$id}>" class="nowrap">
+	<div class="top_description">
+		<{include file="reservation_move_date_switch_view.html"}>
+	</div>
+
+	<div id="reservation_jump_month<{$id}>" class="outerdiv display-none">
+		<{include file="reservation_move_date_input_month.html"}>
+	</div>
+	
+	<div id="reservation_jump_date<{$id}>" class="outerdiv display-none">
+		<{include file="reservation_move_date_input_date.html"}>
+	</div>
+
+	<div id="reservation_category_div<{$id}>" class="outerdiv display-none">
+		<{include file="reservation_main_switch_category.html" view_category_id=$action.category_id main_id=$smarty.session.reservation._id.$block_id}>
+	</div>
+
+	<div id="reservation_location_div<{$id}>" class="outerdiv display-none">
+		<{include file="reservation_main_switch_location.html" view_location_id=$action.location_id main_id=$smarty.session.reservation._id.$block_id}>
+	</div>
+
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].initMoveDate("<{$smarty.session.reservation._id.$block_id}>", "<{$action.input_date}>");
+</script>
+
+<{/strip}>

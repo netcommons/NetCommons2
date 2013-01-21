@@ -1,0 +1,70 @@
+<{strip}>
+	<span style="font-size:small;">
+	<{$lang.mdb_detail_writer|smarty:nodefaults}>
+	<{$action.detail.value.insert_user_name}>
+	&nbsp;
+	<{if $action.mdb_obj.active_flag == $smarty.const._ON}>
+		<{if $action.detail.value.agree_flag == $smarty.const._OFF && $action.detail.value.temporary_flag == $smarty.const._OFF}>
+			<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+				<{$lang.mdb_vote_number|smarty:nodefaults}>(<{$action.detail.value.vote_count}>)
+				&nbsp;
+			<{/if}>
+			<{if $action.mdb_obj.comment_flag == $smarty.const._ON}>
+				<{$lang.mdb_detail_comment|smarty:nodefaults}>(<{$action.detail.value.comment_count}>)
+				&nbsp;
+			<{/if}>
+		<{/if}>
+	<{/if}>
+	</span>
+
+	<{if $action.mdb_obj.active_flag == $smarty.const._ON}>
+		<{if $action.detail.value.agree_flag == $smarty.const._OFF && $action.detail.value.temporary_flag == $smarty.const._OFF}>
+			<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+				<{if $action.detail.value.voted}>
+					<span style="font-size:small;font-weight:bold;"><{$lang.mdb_detail_voted|smarty:nodefaults}></span>
+				<{else}>
+					<form data-transition="fade" action=".<{$smarty.const.INDEX_FILE_NAME}>" method="post" >
+						<input type="hidden" name="action" value="multidatabase_action_main_vote" >
+						<input type="hidden" name="content_id" value="<{$action.detail.value.content_id}>" >
+						<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" >
+						<input type="hidden" name="block_id" value="<{$action.block_id}>" >
+						<{$token_form|smarty:nodefaults}>
+						<{$session_form|smarty:nodefaults}>
+						<input data-icon="star" type="submit" name="vote" value="<{$lang.mdb_detail_vote|smarty:nodefaults}>" >
+					</form>
+				<{/if}>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+
+	<{if $action.mdb_obj.active_flag == $smarty.const._ON}>
+		<{if $action.detail.value.has_edit_auth}>
+			<div  class="ui-grid-a">
+			<div  class="ui-block-a">
+			<a data-role="button" data-icon="check" href="?action=multidatabase_view_main_content_init&amp;content_id=<{$action.detail.value.content_id}>&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}>&amp;filepwd_nonform=<{$smarty.const._ON}><{$session_param}>">
+				<{$lang._edit|smarty:nodefaults}>
+			</a>
+			</div>
+			<div  class="ui-block-b">
+			<a data-role="button" data-icon="delete" href="?action=multidatabase_view_mobile_content_delete_confirm&amp;content_id=<{$action.detail.value.content_id}>&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+				<{$lang._delete|smarty:nodefaults}>
+			</a>
+			</div>
+			</div>
+		<{/if}>
+	<{/if}>
+
+	<{if $action.mdb_obj.active_flag == $smarty.const._ON}>
+		<{if $action.detail.value.has_confirm_auth && $action.detail.value.agree_flag == $smarty.const._ON}>
+			<form action=".<{$smarty.const.INDEX_FILE_NAME}>" method="post" >
+				<input type="hidden" name="action" value="multidatabase_action_main_confirm" >
+				<input type="hidden" name="content_id" value="<{$action.detail.value.content_id}>" >
+				<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" >
+				<input type="hidden" name="block_id" value="<{$action.block_id}>" >
+				<{$token_form|smarty:nodefaults}>
+				<{$session_form|smarty:nodefaults}>
+				<input type="submit" name="confirm" value="<{$lang.mdb_detail_confirm|smarty:nodefaults}>" >
+			</form>
+		<{/if}>
+	<{/if}>
+<{/strip}>

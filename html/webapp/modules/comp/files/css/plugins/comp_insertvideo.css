@@ -1,0 +1,14 @@
+div.nc_wysiwyg_insertvideo_dialog_title {
+	color: #666666;
+	letter-spacing: 2px;
+	margin-bottom: 5px;
+	padding: 5px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.nc_wysiwyg_insertvideo_btn {
+	clear : left;
+	text-align : center;
+	width: 290px;
+}

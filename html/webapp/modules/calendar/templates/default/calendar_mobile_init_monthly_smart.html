@@ -1,0 +1,121 @@
+<{strip}>
+
+<{include file="calendar_mobile_init_header.html"}>
+
+<div>
+<fieldset class="ui-bar ui-grid-b">
+	<div class="ui-block-a" style="text-align:left;">
+		<a data-role="button" data-icon="arrow-l" data-iconpos="notext" data-direction="reverse"
+			href="?action=calendar_view_mobile_init&amp;date=<{$action.prev_month}><{$session_param}>">
+			<{$lang.calendar_alt_prev_month|smarty:nodefaults}>
+		</a>
+	</div>
+
+	<div class="ui-block-b" >
+		<div style="margin:5px auto 0 auto;text-align:center;">
+			<strong><{$action.date_string}></strong>
+		</div>
+	</div>
+
+	<div class="ui-block-c" style="text-align:right;">
+		<a data-role= "button" data-icon="arrow-r" data-iconpos="notext" href="?action=calendar_view_mobile_init&amp;date=<{$action.next_month}><{$session_param}>">
+			<{$lang.calendar_alt_next_month|smarty:nodefaults}>
+		</a>
+	</div>
+</fieldset>
+</div>
+
+<br />
+
+<{assign var="wday_array" value="|"|explode:$smarty.const.CALENDAR_WEEK}>
+
+<div class="ui-grid-f" style="margin:-15px -15px 0px -15px;">
+<{foreach name="week_header_loop" item="wday" from=$wday_array|smarty:nodefaults}>
+	<{if $smarty.foreach.week_header_loop.iteration==1}>
+		<{assign var="weekday_color" value="color:#c42626;"}>
+	<{elseif $smarty.foreach.week_header_loop.iteration==7}>
+		<{assign var="weekday_color" value="color:#005dbf;"}>
+	<{else}>
+		<{assign var="weekday_color" value=""}>
+	<{/if}>
+
+	<div class="ui-block-b" style="text-align:center;">
+		<strong><span class="ui-bar ui-bar-c" style="<{$weekday_color}>padding:.4em 2px;"><{$wday}></span></strong>
+	</div>
+<{/foreach}>
+</div>
+
+<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+	<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+	<{assign var="date" value="Ymd"|date:$timestamp}>
+	<{assign var="index" value="w"|date:$timestamp}>
+
+	<{if $index==0 || $smarty.section.timestamp.index==$action.start_timestamp}>
+		<div class="ui-grid-f" style="margin:-15px -15px 0px -15px;">
+	<{/if}>
+
+	<{if $smarty.section.timestamp.index==$action.start_timestamp}>
+		<{section name=pre_blank_cell start=0 loop=$index}>
+			<{if $index == 0}>
+				<{assign var="ui_block_type" value="a"}>
+			<{else}>
+				<{assign var="ui_block_type" value="d"}>
+			<{/if}>
+			<div class="ui-block-<{$ui_block_type}>">
+			</div>
+		<{/section}>
+	<{/if}>
+
+	<{if $index == 0}>
+		<{assign var="ui_block_type" value="a"}>
+		<{assign var="weekday_color" value="color:#c42626;"}>
+	<{elseif $index == 6}>
+		<{assign var="ui_block_type" value="e"}>
+		<{assign var="weekday_color" value="color:#005dbf;"}>
+	<{else}>
+		<{assign var="ui_block_type" value="d"}>
+		<{assign var="weekday_color" value=""}>
+	<{/if}>
+
+		<div class="ui-block-<{$ui_block_type}> nc-calendar">
+			<a data-role="button" data-corners="false" class="ui-bar ui-bar-c" style="margin:0px;height:54px;"
+				href="?action=calendar_view_mobile_init&amp;dtype=<{$smarty.const.CALENDAR_DAILY}>&amp;date=<{$date}><{$session_param}>">
+
+				<span style="<{$weekday_color}>"><{$lang.calendar_mobile_monthly_day|smarty:nodefaults|date:$timestamp}></span>
+
+				<{if ($action.plan_data.$date) }>
+					<{assign var="plan_data" value=$action.plan_data.$date}>
+
+					<br />
+					<div style="margin-top:5px;">
+						<{if ($plan_data.public > 0) }>
+							<div style="width:6px; height:6px;float:left;margin-right:2px;background-color:#04419a;"></div>
+						<{/if}>
+						<{if ($plan_data.members > 0) }>
+							<div style="width:6px; height:6px;float:left;margin-right:2px;background-color:#c90505;"></div>
+						<{/if}>
+						<{if ($plan_data.group > 0) }>
+							<div style="width:6px; height:6px;float:left;margin-right:2px;background-color:#5da302;"></div>
+						<{/if}>
+						<{if ($plan_data.private > 0) }>
+							<div style="width:6px; height:6px;float:left;margin-right:2px;background-color:#d78f03;"></div>
+						<{/if}>
+					</div>
+				<{/if}>
+			</a>
+		</div>
+
+	<{if $index==6}>
+		</div>
+	<{/if}>
+
+<{/section}>
+	<{if $index<6}>
+		</div>
+	<{/if}>
+
+<br style="clear:both;" />
+<br />
+<{include file="calendar_mobile_init_footer.html"}>
+
+<{/strip}>

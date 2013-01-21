@@ -1,0 +1,68 @@
+<{strip}>
+<{assign var="method" value=$action.config.mailmethod.conf_value}>
+<div class="tab_mail">
+	<{include file="system_view_main_language.html"}>
+	<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+	<tr class="row">
+		<th scope="row"><label for="from<{$id}>"><{$lang.system_mail_from|smarty:nodefaults}></label><span class="require">*</span></th>
+		<td>
+			<input type="text" name="from" id="from<{$id}>" size="50" value="<{$action.config.from.conf_value}>" />
+		</td>
+	</tr>
+	<tr class="row">
+		<th scope="row"><label for="fromname<{$id}>"><{$lang.system_mail_fromname|smarty:nodefaults}></label></th>
+		<td>
+			<input type="text" name="fromname" id="fromname<{$id}>" size="50" value="<{$action.config.fromname.conf_value}>" />
+			<div class="note system_note_width"><{$lang.system_mail_fromname_note|smarty:nodefaults}></div>
+		</td>
+	</tr>
+	<tr class="row">
+		<th scope="row"><{$lang.system_htmlmail|smarty:nodefaults}></th>
+		<td class="system_body">
+			<input type="radio" name="htmlmail" value="<{$smarty.const._ON}>" id="htmlmail_1<{$id}>"<{if $config.htmlmail.conf_value == $smarty.const._ON}> checked="checked"<{/if}> />
+			<label for="htmlmail_1<{$id}>"><{$lang.system_htmlmail_on|smarty:nodefaults}></label>
+			<input type="radio" name="htmlmail" value="<{$smarty.const._OFF}>" id="htmlmail_0<{$id}>"<{if $config.htmlmail.conf_value == $smarty.const._OFF}> checked="checked"<{/if}> />
+			<label for="htmlmail_0<{$id}>"><{$lang.system_htmlmail_off|smarty:nodefaults}></label>
+		</td>
+	</tr>
+	<tr class="row">
+		<th scope="row"><label for="mailmethod<{$id}>"><{$lang.system_mailmethod|smarty:nodefaults}></label></th>
+		<td>
+			<select size="1" name="mailmethod" id="mailmethod<{$id}>" onChange="systemCls['<{$id}>'].mailMethodChange(this.value)">
+				<option value="mail"　<{if $method == 'mail'}>selected="selected"<{/if}>>PHP mail()</option>
+				<option value="sendmail" <{if $method == 'sendmail'}>selected="selected"<{/if}>>sendmail</option>
+				<option value="smtp" <{if $method == 'smtp'}>selected="selected"<{/if}>>SMTP</option>
+				<option value="smtpauth" <{if $method == 'smtpauth'}>selected="selected"<{/if}>>SMTPAuth</option>
+			</select>
+			<div class="note system_note_width"><{$lang.system_mailmethod_note|smarty:nodefaults}></div>
+		</td>
+	</tr>
+	<tr class="row system_smtp<{if $method == 'mail' or $method == 'sendmail'}> display-none<{/if}>">
+		<th scope="row"><label for="smtphost<{$id}>"><{$lang.system_smtphost|smarty:nodefaults}></label><span class="require">*</span></th>
+		<td>
+			<textarea name="smtphost" id="smtphost<{$id}>" rows="5" cols="50"><{$action.config.smtphost.conf_value}></textarea>
+			<div class="note system_note_width"><{$lang.system_smtphost_note|smarty:nodefaults}></div>
+		</td>
+	</tr>
+	
+	<tr class="row system_smtpauth<{if $method == 'mail' or $method == 'sendmail' or $method == 'smtp'}> display-none<{/if}>">
+		<th scope="row"><label for="smtpuser<{$id}>"><{$lang.system_smtpuser|smarty:nodefaults}></label><span class="require">*</span></th>
+		<td>
+			<input type="text" name="smtpuser" id="smtpuser<{$id}>" size="32" value="<{$action.config.smtpuser.conf_value}>" />
+		</td>
+	</tr>
+	<tr class="row system_smtpauth<{if $method == 'mail' or $method == 'sendmail' or $method == 'smtp'}> display-none<{/if}>">
+		<th scope="row"><label for="smtppass<{$id}>"><{$lang.system_smtppass|smarty:nodefaults}></label></th>
+		<td>
+			<input type="password" name="smtppass" id="smtppass<{$id}>" size="32" value="<{$action.config.smtppass.conf_value}>" />
+		</td>
+	</tr>
+	<tr class="row system_sendmail<{if $method != 'sendmail'}> display-none<{/if}>">
+		<th scope="row"><label for="sendmailpath<{$id}>"><{$lang.system_sendmailpath|smarty:nodefaults}></label><span class="require">*</span></th>
+		<td>
+			<input type="text" name="sendmailpath" id="sendmailpath<{$id}>" size="32" value="<{$action.config.sendmailpath.conf_value}>" />
+		</td>
+	</tr>
+	</table>
+</div>
+<{/strip}>

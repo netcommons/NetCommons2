@@ -1,0 +1,48 @@
+<{strip}>
+		<div class="tab_debug">
+			<fieldset>
+				<legend><{$lang.system_debug_title|smarty:nodefaults}></legend>
+				<div>
+					<input type="radio" name="session_only" value="1" id="session_only_1"<{if !$smarty.session._use_db_debug.conf_value}> checked="checked"<{/if}> />
+					<label for="session_only_1"><{$lang.system_debug_only_session|smarty:nodefaults}></label>
+					<input type="radio" name="session_only" value="0" id="session_only_0"<{if $smarty.session._use_db_debug.conf_value}> checked="checked"<{/if}> />
+					<label for="session_only_0"><{$lang.system_debug_use_db|smarty:nodefaults}></label>
+				</div>
+				<hr />
+				<div class="system_setting">
+					<div class="system_items">
+						<label for="system_php_debug<{$id}>">
+							<input name="php_debug" id="system_php_debug<{$id}>" type="checkbox" value="1" <{if $smarty.session._php_debug}>checked="checked"<{/if}> /><{$lang.system_debug_php|smarty:nodefaults}>
+						</label>
+						<label for="trace_log_level<{$id}>">
+							<select name="trace_log_level" id="trace_log_level<{$id}>">
+								<option value="<{$smarty.const.LEVEL_ERROR}>" <{if $smarty.session._trace_log_level==LEVEL_ERROR}>selected="selected"<{/if}>><{$lang.system_debug_error|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.LEVEL_WARN}>" <{if $smarty.session._trace_log_level==LEVEL_WARN}>selected="selected"<{/if}>><{$lang.system_debug_warn|smarty:nodefaults}></option>
+								<option value="<{$smarty.const.LEVEL_TRACE}>" <{if $smarty.session._trace_log_level==LEVEL_TRACE}>selected="selected"<{/if}>><{$lang.system_debug_notice|smarty:nodefaults}></option>
+							</select>
+						</label>
+					</div>
+					<{*
+					<div class="system_items">
+						<label for="system_maple_debug<{$id}>">
+							<input type="checkbox" name="maple_debug" id="system_maple_debug<{$id}>" value="1" <{if $smarty.session._maple_debug}>checked="checked"<{/if}> />
+							<{$lang.system_debug_maple|smarty:nodefaults}>
+						</label>
+					</div>
+					 *}>
+					<div class="system_items">
+						<label for="system_sql_debug<{$id}>">
+							<input type="checkbox" name="sql_debug" id="system_sql_debug<{$id}>" value="1" <{if $smarty.session._sql_debug}>checked="checked"<{/if}> />
+							<{$lang.system_debug_sql|smarty:nodefaults}>
+						</label>
+					</div>
+					<div class="system_items">
+						<label for="system_smarty_debug<{$id}>">
+							<input type="checkbox" name="smarty_debug" id="system_smarty_debug<{$id}>" value="1" <{if $smarty.session._smarty_debug}>checked="checked"<{/if}> />
+							<{$lang.system_debug_smarty|smarty:nodefaults}>
+						</label>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+<{/strip}>

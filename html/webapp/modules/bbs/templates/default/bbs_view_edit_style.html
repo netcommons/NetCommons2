@@ -1,0 +1,93 @@
+<{strip}>
+<{* 掲示板表示方法変更画面用テンプレート *}>
+<form id="bbs_form<{$id}>" action="#">
+	<input type="hidden" name="action" value="bbs_action_edit_style" />
+	
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th scope="row">
+				<{$lang.bbs_bbs_name|smarty:nodefaults}>
+			</th>
+			<td>
+				<{$action.bbs.bbs_name}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.bbs_display|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="bbs_display_topic<{$id}>">
+					<input id="bbs_display_topic<{$id}>" type="radio" name="display" value="<{$smarty.const.BBS_DISPLAY_TOPIC_VALUE}>" />
+					<{$lang.bbs_display_topic|smarty:nodefaults}>
+				</label><br />
+				<label for="bbs_display_newest<{$id}>">
+					<input id="bbs_display_newest<{$id}>" type="radio" name="display" value="<{$smarty.const.BBS_DISPLAY_NEWEST_VALUE}>" />
+					<{$lang.bbs_display_newest|smarty:nodefaults}>
+				</label><br />
+				<label for="bbs_display_old<{$id}>">
+					<input id="bbs_display_old<{$id}>" type="radio" name="display" value="<{$smarty.const.BBS_DISPLAY_OLD_VALUE}>" />
+					<{$lang.bbs_display_old|smarty:nodefaults}>
+				</label><br />
+				<label for="bbs_display_all<{$id}>">
+					<input id="bbs_display_all<{$id}>" type="radio" name="display" value="<{$smarty.const.BBS_DISPLAY_ALL_VALUE}>" />
+					<{$lang.bbs_display_all|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.bbs_expand|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="bbs_expand_thread<{$id}>">
+					<input id="bbs_expand_thread<{$id}>" type="radio" name="expand" value="<{$smarty.const.BBS_EXPAND_THREAD_VALUE}>" />
+					<{$lang.bbs_expand_thread|smarty:nodefaults}>
+				</label><br />
+				<label for="bbs_expand_flat<{$id}>">
+					<input id="bbs_expand_flat<{$id}>" type="radio" name="expand" value="<{$smarty.const.BBS_EXPAND_FLAT_VALUE}>" />
+					<{$lang.bbs_expand_flat|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="bbs_visible_row<{$id}>">
+					<{$lang.bbs_visible_row|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<select id="bbs_visible_row<{$id}>" name="visible_row">
+					<{include file = "bbs_view_visible_row_option.html"}>
+				</select>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>', Form.serialize($('bbs_form<{$id}>')), {'target_el':$('<{$id}>'),'focus_flag':true});" />
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'bbs_view_edit_list');" />
+	</div>
+
+	<input type="hidden" name="bbs_id" />
+</form>
+
+<{include file = "../bbs_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var bbsForm = $("bbs_form<{$id}>");
+
+	bbsForm["bbs_id"].value = "<{$action.bbs.bbs_id}>";
+	for (var i = 0, length = bbsForm["display"].length; i < length; i++) {
+		if (bbsForm["display"][i].value == "<{$action.bbs.display}>") {bbsForm["display"][i].checked = true; break;}
+	}
+	for (var i = 0, length = bbsForm["expand"].length; i < length; i++) {
+		if (bbsForm["expand"][i].value == "<{$action.bbs.expand}>") {bbsForm["expand"][i].checked = true; break;}
+	}
+	bbsForm["visible_row"].value = "<{$action.bbs.visible_row}>";
+
+	bbsForm = null;
+</script>
+<{/strip}>

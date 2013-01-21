@@ -1,0 +1,9 @@
+<?php if($skeleton->action_type == "view" && $skeleton->second_name == "edit") {print ";上部Tab表示用\n[HeaderMenu]\n".
+	$skeleton->dir_name."_edit_title = \"define:auto\"\n".
+	$skeleton->dir_name."_style_title = \"define:".$skeleton->dir_name."_view_edit_style\"\n".
+	";_edit_operation = \"define:_OPERATION_METHOD\"\n".
+	"_edit_design = \"define:_EDIT_DESIGN_METHOD\"\n";	
+	print "[HeaderInc]\n".
+	"tabset_css = \"comp:{\$theme_name}/comp_tabset.css\"";
+}
+?>

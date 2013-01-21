@@ -1,0 +1,43 @@
+<{strip}>
+<{**************}>
+<{*権限設定画面*}>
+<{**************}>
+
+<div class="outerdiv">
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<div class="bold">
+			<{$lang.module_title|smarty:nodefaults|sprintf:$action.module_name}>
+		</div>
+		<table class="grid_header" summary="">
+			<tr class="row">
+				<th class="nowrap module_selectauth_width" scope="col">
+					<{if $action.system_flag}>
+						<{$lang.module_selectauth|smarty:nodefaults}>
+					<{else}>
+						<{$lang.module_selectauth_private|smarty:nodefaults}>
+					<{/if}>
+				</th>
+			</tr>
+		</table>
+		<table class="data_grid grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+			<{foreach item=auth_obj from=$action.authorities}>
+				<tr>
+					<td class="nowrap grid_row module_selectauth_width">
+						<label for="module_authority<{$id}>_<{$auth_obj.role_authority_id}>">
+							<input id="module_authority<{$id}>_<{$auth_obj.role_authority_id}>" name="module_authority" type="checkbox" value="<{$auth_obj.role_authority_id}>"<{if ($auth_obj.authority_id!=0) }> checked="checked"<{/if}><{if $auth_obj.system_flag == _ON && $auth_obj.user_authority_id == _AUTH_ADMIN }> disabled="true"<{/if}> />
+							<{$auth_obj.role_authority_name}>
+						</label>
+					</td>
+				</tr>
+			<{/foreach}>
+		</table>
+		<div class="btn-bottom align-right">
+			<{* 登録ボタン *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="moduleCls['<{$id}>'].authorityCommit('<{$id}>'); return false;" />
+			<{* キャンセルボタン *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="moduleCls['<{$id}>'].closePopup('<{$id}>'); return false;" />
+		</div>
+	</form>
+</div>
+<{include file=module_script.html"}>
+<{/strip}>

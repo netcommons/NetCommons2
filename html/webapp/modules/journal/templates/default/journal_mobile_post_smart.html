@@ -1,0 +1,88 @@
+<{strip}>
+
+	<{assign var="month" value=$journal_date|substr:4:2}>
+	<{assign var="day" value=$journal_date|substr:6:2}>
+
+	<fieldset data-role="fieldcontain" >
+
+		<fieldset data-role="controlgroup" data-type="horizontal">
+		<legend><{$lang.journal_post_date|smarty:nodefaults}></legend>
+		<input type="text" name="year" value="<{$journal_date|substr:0:4}>" maxlength="4" style="width:4em;display:inline;" />
+		<select id="month" name="month">
+			<{section name=month start=1 loop=13}>
+				<option value="<{$smarty.section.month.index}>" <{if $month==$smarty.section.month.index}>selected="selected"<{/if}>>
+					<{$smarty.section.month.index}><{*<{$lang._mobile_month|smarty:nodefaults}>*}>
+				</option>
+			<{/section}>
+		</select>
+		<select id="day" name="day">
+			<{section name=day start=1 loop=32}>
+				<option value="<{$smarty.section.day.index}>" <{if $day==$smarty.section.day.index}>selected="selected"<{/if}>>
+					<{$smarty.section.day.index}><{*<{$lang._mobile_day|smarty:nodefaults}>*}>
+				</option>
+			<{/section}>
+		</select>
+		</fieldset>
+	</fieldset>
+
+	<{assign var="hour" value=$journal_date|substr:8:2}>
+	<{assign var="minute" value=$journal_date|substr:10:2}>
+	<{assign var="minute_index" value=$minute/5|intval}>
+
+	<fieldset data-role="fieldcontain" >
+		<fieldset data-role="controlgroup" data-type="horizontal" class="time_control">
+			<legend><{$lang.journal_post_time|smarty:nodefaults}></legend>
+			<select name="journal_hour">
+				<{section name=hour start=0 loop=24}>
+					<option value="<{$smarty.section.hour.index|string_format:'%02d'}>" <{if $smarty.section.hour.index==$hour}>selected="selected"<{/if}>>
+						<{$smarty.section.hour.index|string_format:'%02d'}><{$lang._mobile_hour|smarty:nodefaults}>
+					</option>
+				<{/section}>
+			</select>
+			<select name="journal_minute">
+				<{section name=min start=0 loop=60 step=5}>
+					<option value="<{$smarty.section.min.index|string_format:'%02d'}>" <{if $smarty.section.min.iteration==$minute_index+1}>selected="selected"<{/if}>>
+						<{$smarty.section.min.index|string_format:'%02d'}><{$lang._mobile_minute|smarty:nodefaults}>
+					</option>
+				<{/section}>
+			</select>
+		</fieldset>
+	</fieldset>
+
+
+	<fieldset data-role="fieldcontain" >
+		<label for="title"><{$lang.journal_mobile_post_title|smarty:nodefaults}></label>
+		<input type="text" id="title" name="title" value="<{$action.post.title}>">
+	</fieldset>
+
+	<fieldset data-role="fieldcontain" >
+		<label for="cat_id"><{$lang.journal_mobile_post_category|smarty:nodefaults}></label>
+		<select id="cat_id" name="cat_id" size="1">
+			<option value="0"<{if ($action.post.category_id=="0") }>selected="selected"<{/if}>>
+				<{$lang.journal_mobile_nocategory|smarty:nodefaults}>
+			</option>
+			<{foreach from=$action.categories item=cat}>
+				<option value="<{$cat.category_id}>"<{if ($action.post.category_id==$cat.category_id)}>selected="selected"<{/if}>>
+					<{$cat.category_name|smarty:nodefaults}>
+				</option>
+			<{/foreach}>
+		</select>
+	</fieldset>
+
+	<div data-role="fieldcontain" >
+		<label for="content"><{$lang.journal_mobile_post_content|smarty:nodefaults}></label>
+		<textarea id="content" name="content" rows="5"><{$action.post.content|smarty:nodefaults|html_to_text}></textarea>
+	</div>
+
+	<div data-role="fieldcontain" >
+		<{if !empty($action.post.mobile_image|smarty:nodefaults)}>
+			<{$lang.journal_mobile_post_image_now|smarty:nodefaults}><br />
+			<{$action.post.mobile_image|smarty:nodefaults}><br />
+		<{/if}>
+		<{if $smarty.session._allow_attachment_flag != _ALLOW_ATTACHMENT_NO}>
+			<label for="journal_mobile_images"><{$lang.journal_mobile_post_image|smarty:nodefaults}></label>
+			<input id="journal_mobile_images" name="journal_mobile_images" type="file" value="" /><br />
+		<{/if}>
+	</div>
+
+<{/strip}>

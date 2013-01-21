@@ -1,0 +1,56 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="userinf_withdraw_title">
+		<{$lang.userinf_withdraw_title|smarty:nodefaults}>
+	</div>
+	
+	<div class="userinf_withdraw_desc">	
+		<{$lang.userinf_top_description|smarty:nodefaults}>
+		<{if $action.withdraw_disclaimer != null && $action.withdraw_disclaimer != ""}>
+			<div>
+				<textarea readonly="readonly" class="withdraw_disclaimer_textarea">
+					<{$action.withdraw_disclaimer}>
+				</textarea>
+			</div>
+		<{/if}>
+	</div>
+	<div class="align-right">
+		<label for="userinf_withdraw_accept<{$id}>">
+			<input id="userinf_withdraw_accept<{$id}>" type="checkbox" value="1" />
+			<{$lang.userinf_withdraw_accept|smarty:nodefaults}>
+		</label>
+	</div>
+	<{* 各種ボタン *}>
+	<table class="userinf_withdraw_btns" summary="" align="center">
+		<tr>
+			<td>
+				<a class="userinf_withdraw_popup_btn link" href="#" onclick="if(!$('userinf_withdraw_accept<{$id}>').checked){commonCls.alert('<{$lang.userinf_err_withdraw|sprintf:$lang.userinf_withdraw_accept}>');return false;} if(!commonCls.confirm('<{$lang.userinf_confirm_withdraw|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false;  commonCls.sendPost('<{$id}>',{'action':'userinf_action_main_withdraw', 'user_id':'<{$action.user_id}>'},{'callbackfunc':function(res){}}); return false;" onfocus="if(!browser.isNS){Element.removeClassName(this, 'userinf_withdraw_popup_btn'); Element.addClassName(this, 'userinf_withdraw_popup_act_btn');}" onblur="if(!browser.isNS){Element.addClassName(this, 'userinf_withdraw_popup_btn'); Element.removeClassName(this, 'userinf_withdraw_popup_act_btn');}">
+					<{* 退会する *}>
+					<table summary="<{$lang.userinf_withdraw_btn|smarty:nodefaults}>">
+						<tr>
+							<td class="userinf_withdraw_popup_upperleft_btn"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="userinf_withdraw_popup_upperleft_btn" /></td>
+							<td class="userinf_withdraw_popup_upper_btn"></td>
+							<td class="userinf_withdraw_popup_upperright_btn"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="userinf_withdraw_popup_upperright_btn" /></td>
+						</tr>
+						<tr>
+							<td class="userinf_withdraw_popup_left_btn"></td>
+							<td class="userinf_withdraw_popup_inside_btn">
+								<{$lang.userinf_withdraw_btn|smarty:nodefaults}>
+							</td>
+							<td class="userinf_withdraw_popup_right_btn"></td>
+						</tr>
+						<tr>
+							<td class="userinf_withdraw_popup_belowleft_btn"></td>
+							<td class="userinf_withdraw_popup_below_btn"></td>
+							<td class="userinf_withdraw_popup_belowright_btn"></td>
+						</tr>
+					</table>
+				</a>
+			</td>
+			<td>
+				<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'userinf_view_main_withdraw_init','user_id':'<{$action.user_id}>'}); return false;" />
+			</td>
+		</tr>
+	</table>
+</div>
+<{/strip}>

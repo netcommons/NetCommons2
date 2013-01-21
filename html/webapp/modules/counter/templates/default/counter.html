@@ -1,0 +1,28 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+  	<{if $action.counter.show_char_before != ""}>
+    	<td class="align-left nowrap bold">
+    		<{$action.counter.show_char_before}>
+    	</td>
+    <{/if}>
+    <td  class="align-right widthmax nowrap counter_main">
+    	<{section name=i loop=$action.imgSrcs}>
+    		<img src="<{$action.imgSrcs[i]}>" class="icon" alt="" title="" />
+    	<{/section}>
+    	<img src="<{""|get_image_url}>/images/common/blank.gif" alt="<{$action.counter.counter_num}>" title="" />
+    </td>
+    <{if $action.counter.show_char_after != ""}>
+    	<td class="align-left nowrap bold"><{$action.counter.show_char_after}></td>
+    <{/if}>
+  </tr>
+<{if $action.counter.comment !=''}>
+  <tr>
+	<td class="note counter_note" colspan="2">
+		<{$action.counter.comment}>
+	</td>
+  </tr>
+<{/if}>
+</table>
+<{include file="counter_script.html"}>
+<{/strip}>

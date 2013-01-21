@@ -1,0 +1,57 @@
+<{strip}>
+<{* 一覧画面 *}>
+<div class="outerdiv">
+	<{if !$action.metadata_exists}>
+		<{$lang.mdb_noneexists_metadata|smarty:nodefaults}>
+	<{else}>
+		<div class="bold">
+			<{$action.mdb_obj.multidatabase_name}>
+		</div>
+		<table class="outer">
+			<tr>
+				<td class="nowrap mdb_right_space">
+					<{if $action.mdb_obj.post_auth && $action.mdb_obj.active_flag == $smarty.const._ON}>
+						<a class="syslink" href="#" title="<{$lang.mdb_new_content_title|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'multidatabase_view_main_content_init', 'multidatabase_id':'<{$action.multidatabase_id}>'}, {'loading_el':this}); return false;">
+							<img class="icon" alt="" src="<{"edit.gif"|get_themes_image}>"/>
+							<{$lang.mdb_new_content|smarty:nodefaults}>
+						</a>
+						<{if $smarty.session._auth_id >= $smarty.const._AUTH_CHIEF}>
+							<{$lang._separator|smarty:nodefaults}>
+							<a class="syslink" href="#" title="" onclick="mdbCls['<{$id}>'].showDataSeqPop(event, '<{$action.multidatabase_id}>'); return false;">
+								<{$lang.mdb_sequence|smarty:nodefaults}>
+							</a>
+						<{/if}>
+					<{/if}>
+				</td>
+				<td class="align-right nowrap">
+					<a class="syslink" href="#" title="<{$lang.mdb_search_title|smarty:nodefaults|sprintf:$action.mdb_obj.multidatabase_name}>" onclick="commonCls.sendView('<{$id}>', {'action':'multidatabase_view_main_search_init', 'multidatabase_id':'<{$action.multidatabase_id}>'}, {'loading_el':this}); return false;">
+						<img class="icon" src="<{"search.gif"|get_themes_image}>" alt="<{$lang.mdb_search|smarty:nodefaults}>" title="<{$lang.mdb_search|smarty:nodefaults}>" />
+						<{$lang.mdb_search|smarty:nodefaults}>
+					</a>
+				</td>
+			</tr>
+		</table>
+		<{include file = "multidatabase_view_main_init_control.html" position="top"}>
+		<{if !$action.exists}>
+			<br /><{$lang.mdb_noneexists_data|smarty:nodefaults}>
+		<{else}>
+			<{if $action.mdblist.metadata == ""}>
+				<br /><{$lang.mdb_noneexists_list_metadata|smarty:nodefaults}>
+			<{else}>
+				<{assign var="mode" value="list"}>
+				<{assign var="data_pos_1" value=$action.mdblist.metadata.1}>
+				<{assign var="data_pos_2" value=$action.mdblist.metadata.2}>
+				<{assign var="data_pos_3" value=$action.mdblist.metadata.3}>
+				<{assign var="data_pos_4" value=$action.mdblist.metadata.4}>
+				<{foreach item=item key=key from=$action.mdblist.value}>
+					<{* 詳細部 *}>
+					<{include file="multidatabase_common_metadata.html"}>
+					<br />
+				<{/foreach}>
+				<{include file = "multidatabase_view_main_init_control.html" position="bottom"}>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+</div>
+<{include file="../multidatabase_script.html"}>
+<{/strip}>

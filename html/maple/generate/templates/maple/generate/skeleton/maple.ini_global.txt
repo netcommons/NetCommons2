@@ -1,0 +1,9 @@
+[SmartyAssign]
+module = main.ini
+<?php if($skeleton->moduleType == "full") print "config=main.ini\n"; ?>
+
+<?php if($skeleton->moduleType != "simple") print "[DIContainer]\n".
+													"filename = \"/modules/".$skeleton->dir_name."/".$skeleton->action_type."/dicon.ini\"\n"; ?>
+<?php if($skeleton->action_type == "view") print "\n[TokenExtra]\n" ?>
+<?php if($skeleton->action_type == "view") print "\n[HeaderInc]\n".
+	"css = \"".$skeleton->dir_name.":{\$temp_name}/style.css\"\n\n"; ?>

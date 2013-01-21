@@ -1,0 +1,20 @@
+<{strip}>
+<select name="search_range" class="pm_srch_txt_c_select" id="pm_form<{$id}>_search_range">
+  <option value=""><{$lang.pm_search_range_all|smarty:nodefaults}></option>
+  <option value="mailbox:<{$smarty.const.PM_LEFTMENU_INBOX}>"><{$lang.pm_global_leftmenu_inbox|smarty:nodefaults}></option>
+  <option value="mailbox:<{$smarty.const.PM_LEFTMENU_OUTBOX}>"><{$lang.pm_global_leftmenu_outbox|smarty:nodefaults}></option>
+  <option value="mailbox:<{$smarty.const.PM_LEFTMENU_STOREBOX}>"><{$lang.pm_global_leftmenu_storebox|smarty:nodefaults}></option>
+  <option value="mailbox:<{$smarty.const.PM_LEFTMENU_TRASHBOX}>"><{$lang.pm_global_leftmenu_trashbox|smarty:nodefaults}></option>
+  <option value="readstate:<{$smarty.const.PM_READ_STATE}>"><{$lang.pm_search_range_read|smarty:nodefaults}></option>
+  <option value="readstate:<{$smarty.const.PM_UNREAD_STATE}>"><{$lang.pm_search_range_unread|smarty:nodefaults}></option>
+  <option value="flag:<{$smarty.const._ON}>"><{$lang.pm_search_add_flag|smarty:nodefaults}></option>
+  <option value="flag:<{$smarty.const._OFF}>"><{$lang.pm_search_remove_flag|smarty:nodefaults}></option>
+  <option value="" disabled="true" class="disable_lbl">
+	<{$lang.pm_search_range_filter_list|smarty:nodefaults}>
+  </option>
+  <{foreach item=tag from=$tags}>
+    <{assign var="tagValue" value=$smarty.const.PM_FILTER_TAG|cat:$smarty.const.PM_SPLIT_COLON|cat:$tag.tag_id}>
+	<option value="<{$tagValue}>">　<{$tag.tag_name}></option>
+  <{/foreach}>
+</select>
+<{/strip}>

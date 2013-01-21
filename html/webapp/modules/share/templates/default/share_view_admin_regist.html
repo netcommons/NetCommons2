@@ -1,0 +1,31 @@
+<{strip}>
+<{* 共有設定-追加(編集) *}>
+<div class="outerdiv">
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<div class="outerdiv">
+			<table class="outer" summary="<{$lang.share_add|smarty:nodefaults}>">
+				<{* URL *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<label for="url<{$id}>">
+							<{$lang.share_url|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<input id="url<{$id}>" type="text" name="url" size="55" value="<{$action.site.url}>" />
+						<input type="hidden" name="old_url" value="<{$action.site.url}>" />
+					</td>
+				</tr>
+			</table>
+		</div>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom">
+			<{* 決定ボタン *}>
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>','action=share_action_admin_regist&amp;'+Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){commonCls.removeBlock('<{$id}>'); commonCls.sendView('<{$action.parent_id_name}>',{'action':'share_view_admin_init'});},'callbackfunc_error':function(res){commonCls.alert(res);commonCls.focus($('url<{$id}>'));}}); return false;" />
+			<{* キャンセルボタン *}>
+			<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="share_script.html"}>
+<{/strip}>

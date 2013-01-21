@@ -1,0 +1,44 @@
+<{strip}>
+	<br /><h4><{$heading_title}></h4>
+	<ul>
+	<{section name=i loop=$whatsnew_data max=$display_count}>
+		<li>
+			<{assign var="whatsnew" value=$whatsnew_data[i]|smarty:nodefaults}>
+			<a href=".<{$smarty.const.INDEX_FILE_NAME}>?action=whatsnew_view_mobile_details&amp;mid=<{$whatsnew.module_id}>&amp;uniqid=<{$whatsnew.unique_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+				<{$whatsnew.title|truncate:$smarty.const.WHATSNEW_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true}>
+			</a>
+		</li>
+	<{sectionelse}>
+		<{$lang.whatsnew_nothing|smarty:nodefaults}>
+	<{/section}>
+	</ul>
+	<{if $action.whatsnew_obj.display_type != WHATSNEW_DEF_FLAT}>
+		<p style="text-align:right;">
+			<{if $action.offset > 0 }>
+				<{if $action.offset - $display_count == 0 }>
+					<a href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;block_id=<{$action.block_id}>">
+						<{$lang.whatsnew_mobile_prev|smarty:nodefaults|sprintf:$display_count}>
+					</a>
+				<{else}>
+					<a href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;<{$more_read_param|smarty:nodefaults}>&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.prev_offset}>">
+						<{$lang.whatsnew_mobile_prev|smarty:nodefaults|sprintf:$display_count}>
+					</a>
+				<{/if}>
+				&nbsp;&nbsp;&nbsp;
+			<{/if}>
+			<{if $action.whatsnew_obj.display_flag == _ON}>
+				<{if $action.offset+$smarty.section.i.loop < $action.whatsnew_obj.display_number && $smarty.section.i.loop > $display_count}>
+					<a href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;<{$more_read_param|smarty:nodefaults}>&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.next_offset}>">
+						<{$lang.whatsnew_mobile_next|smarty:nodefaults|sprintf:$display_count}>
+					</a>
+				<{/if}>
+			<{else}>
+				<{if $smarty.section.i.loop > $display_count}>
+					<a data-role="button" data-inline="true" href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;<{$more_read_param|smarty:nodefaults}>&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.next_offset}>">
+						<{$lang.whatsnew_mobile_next|smarty:nodefaults|sprintf:$display_count}>
+					</a>
+				<{/if}>
+			<{/if}>
+		</p>
+	<{/if}>
+<{/strip}>

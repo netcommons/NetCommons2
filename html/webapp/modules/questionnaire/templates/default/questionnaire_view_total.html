@@ -1,0 +1,60 @@
+<{strip}>
+<{* 集計結果画面用テンプレート *}>
+<div class="questionnaire_head">
+	<{include file="questionnaire_view_main_head.html"}>
+</div>
+
+<{include file="questionnaire_view_print.html"}>
+
+<table class="outer questionnaire_summary" summary="<{$lang.questionnaire_summary_list_summary_summary}>">
+	<{include file="questionnaire_view_answer_count.html"}>
+</table>
+
+<{foreach from=$action.questions item=question name="question"}>
+	<div class="questionnaire_question">
+		<{include file="questionnaire_view_question.html"}>
+
+		<{if $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_TEXTAREA_VALUE}>
+			<div class="questionnaire_answer">
+				<{$lang.questionnaire_question_type_textarea}>
+			</div>
+		
+		<{else}>
+			<table class="questionnaire_answer questionnaire_total" summary="<{$lang.questionnaire_total_summary|sprintf:$smarty.foreach.question.iteration}>">
+				<{foreach from=$question.choices item=choice name="choice"}>
+					<tr>
+						<td class="questionnaire_choice_mark">
+							<div class="questionnaire_choice_mark" style="background-color:<{$choice.graph}>;">
+							</div>
+						</td>
+						<td class="questionnaire_choice_label">
+							<{$lang.questionnaire_choice_label|sprintf:$choice.label}>
+						</td>
+						<td class="questionnaire_choice_value">
+							<{$choice.choice_value}>
+						</td>
+						<td class="questionnaire_choice_count">
+							<{$lang.questionnaire_choice_count|sprintf:$choice.label:$choice.choice_count}>
+						</td>
+						<td class="questionnaire_graph">
+							<div class="questionnaire_graph" style="background-color:<{$choice.graph}>;width:<{$choice.share}>%;">
+							</div>
+							<div class="questionnaire_graph_back" style="width:<{$choice.remain}>%;">
+							</div>
+						</td>
+						<td class="questionnaire_choice_share">
+							<{$lang.questionnaire_percent|sprintf:$choice.share}>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+			
+		<{/if}>
+	</div>								
+<{/foreach}>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	questionnaireCls["<{$id}>"].questionnaire_id = <{$action.questionnaire.questionnaire_id}>;
+</script>
+<{/strip}>

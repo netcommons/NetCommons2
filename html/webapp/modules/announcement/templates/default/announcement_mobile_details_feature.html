@@ -1,0 +1,48 @@
+<{strip}>
+
+<h6>
+	<{if ($action.html_flag == _ON) }>
+		<a href="?action=announcement_view_main_init&amp;block_id=<{$block_id}>&amp;html_flag=<{$smarty.const._OFF}>&amp;more_flag=<{$action.more_flag}><{$session_param}>">
+			<{$lang._mobile_view_text|smarty:nodefaults}>
+		</a>
+	<{else}>
+		<a href="?action=announcement_view_main_init&amp;block_id=<{$block_id}>&amp;html_flag=<{$smarty.const._ON}>&amp;more_flag=<{$action.more_flag}><{$session_param}>">
+			<{$lang._mobile_view_html|smarty:nodefaults}>
+		</a>
+	<{/if}>
+</h6>
+<br />
+
+<{if ($action.html_flag == _ON) }>
+	<{$action.announcement_obj.content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+<{else}>
+	<{$action.announcement_obj.content|html_to_text|smarty:nodefaults|nl2br}>
+<{/if}>
+<br style="clear:both;" />
+
+<{if ($action.announcement_obj.more_content != "") }>
+	<{if ($action.more_flag == _OFF) }>
+		<br />
+		<a href="?action=announcement_view_main_init&amp;block_id=<{$block_id}>&amp;more_flag=<{$smarty.const._ON}><{if !is_null($action.html_flag)}>&amp;html_flag=<{$action.html_flag}><{/if}><{$session_param}>">
+			<{$action.announcement_obj.more_title}>
+		</a>
+	<{/if}>
+
+	<{if ($action.more_flag == _ON) }>
+		<br />
+		<{if ($action.html_flag == _ON) }>
+			<{$action.announcement_obj.more_content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+		<{else}>
+			<{$action.announcement_obj.more_content|html_to_text|smarty:nodefaults|nl2br}>
+		<{/if}>
+		<br style="clear:both;" />
+
+		<a href="?action=announcement_view_main_init&amp;block_id=<{$block_id}>&amp;more_flag=<{$smarty.const._OFF}><{if !is_null($action.html_flag)}>&amp;html_flag=<{$action.html_flag}><{/if}><{$session_param}>">
+		<br />
+			<{$action.announcement_obj.hide_more_title}>
+		</a>
+	<{/if}>
+
+<{/if}>
+
+<{/strip}>

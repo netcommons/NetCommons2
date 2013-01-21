@@ -1,0 +1,61 @@
+<{strip}>
+<div class="outerdiv">
+	<form action="#">
+		<div class="top_description">
+			<{$lang._list_desc|smarty:nodefaults|sprintf:$lang.journal_list_name}>
+		</div>
+
+		<div id="_journal_list<{$id}>">
+			<table class="grid_header" cellspacing="0" summary="<{$lang.journal_list_summary|smarty:nodefaults}>">
+				<tr>
+					<th class="grid_change_disp" scope="col">&nbsp;</th>
+					<th class="_sort_journal_name grid_name" scope="col"><{$lang.journal_list_title|smarty:nodefaults}></th>
+					<th class="_sort_active_flag grid_operate" scope="col"><{$lang.journal_list_activity|smarty:nodefaults}></th>
+					<th class="_sort_insert_user_name grid_creator" scope="col"><{$lang._creator|smarty:nodefaults}></th>
+					<th class="_sort_insert_time grid_create_date" scope="col"><{$lang._create_date|smarty:nodefaults}></th>
+					<th class="journal_grid_manage" scope="col"><{$lang._manage|smarty:nodefaults}></th>
+				</tr>
+			</table>
+
+			<table class="grid journal_grid_table" cellspacing="0" summary="">
+				<{foreach from=$action.journal_list item=journal}>
+					<tr id="journal_current_row<{$journal.journal_id}><{$id}>" class="grid_row">
+						<td class="grid_change_disp">
+							<{include file = "journal_view_edit_list_current.html"}>
+						</td>
+						<td class="grid_name">
+							<{include file = "journal_view_edit_list_name.html"}>
+						</td>
+						<td class="grid_operate">
+							<{include file = "journal_view_edit_list_operate.html"}>
+						</td>
+						<td class="grid_creator">
+							<{include file = "journal_view_handle.html" handle=$journal.insert_user_name|smarty:nodefaults user_id=$journal.insert_user_id}>
+						</td>
+						<td class="grid_create_date">
+							<{$journal.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+						</td>
+						<td class="journal_grid_manage">
+							<{include file = "journal_view_edit_list_manage.html"}>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+		</div>
+	</form>
+</div>
+<{include file="../journal_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var opts = {
+		prefetchBuffer:false,
+		sort:true,
+		requestParameters:new Array("scroll=<{$smarty.const._ON}>"),
+		onSendCallback:function() {journalCls["<{$id}>"].checkCurrent();}
+	};
+	new compLiveGrid("<{$id}>", <{$action.visible_rows}>, <{$action.journal_count}>, "journal_view_edit_list", opts);
+	opts = null;
+
+	journalCls["<{$id}>"].currentJournalId = "<{$action.current_journal_id}>";
+	journalCls["<{$id}>"].checkCurrent();
+</script>
+<{/strip}>

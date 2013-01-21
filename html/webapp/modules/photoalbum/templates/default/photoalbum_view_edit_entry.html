@@ -1,0 +1,85 @@
+<{strip}>
+<{* フォトアルバム登録画面用テンプレート *}>
+<form id="photoalbum_form<{$id}>" action="#" onsubmit="commonCls.sendPost('<{$id}>', Form.serialize($('photoalbum_form<{$id}>')), {'target_el':$('<{$id}>')});return false;">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="photoalbum_id" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_name<{$id}>">
+					<{$lang.photoalbum_photoalbum_name}>
+				</label>
+			</th>
+
+			<td>
+		 		<input id="photoalbum_name<{$id}>" class="text" type="text" name="photoalbum_name" />
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th scope="row">
+				<{$lang.photoalbum_album_authority}>
+			</th>
+
+			<td>
+				<label class="disable_lbl">
+			 		<input type="checkbox" disabled="disabled" checked="checked" />
+			 		<input type="hidden" name="album_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				</label>
+				<label for="photoalbum_album_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+			 		<input id="photoalbum_album_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="album_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				</label>
+				<label for="photoalbum_album_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+					<input id="photoalbum_album_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="album_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_album_new_period<{$id}>">
+					<{$lang.photoalbum_album_new_period}>
+				</label>
+			</th>
+			
+			<td>
+				<select id="photoalbum_album_new_period<{$id}>" name="album_new_period">
+					<{include file = "photoalbum_view_new_period_option.html"}>
+				</select>
+			</td>
+		</tr>
+	</table>
+	
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'photoalbum_view_edit_list');" />
+	</div>
+</form>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var photoalbumForm = $("photoalbum_form<{$id}>");
+	photoalbumForm["action"].value = "photoalbum_action_edit_entry";
+	photoalbumForm["photoalbum_id"].value = "<{$action.photoalbum.photoalbum_id}>";
+
+	<{if empty($action.photoalbum.photoalbum_id|smarty:nodefaults)}>
+		photoalbumForm["photoalbum_name"].value = "<{$lang.photoalbum_new_name|sprintf:$action.photoalbumNumber}>";
+	<{else}>
+		photoalbumForm["photoalbum_name"].value = "<{$action.photoalbum.photoalbum_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	if (photoalbumForm["album_authority[<{$action.photoalbum.album_authority}>]"]) {
+		photoalbumForm["album_authority[<{$action.photoalbum.album_authority}>]"].checked = true;
+		commonCls.changeAuthority(photoalbumForm["album_authority[<{$action.photoalbum.album_authority}>]"], "<{$id}>");
+	}
+	
+	photoalbumForm["album_new_period"].value = "<{$action.photoalbum.album_new_period}>";
+	
+	commonCls.focus("<{$id}>");
+	photoalbumForm = null;
+</script>
+<{/strip}>

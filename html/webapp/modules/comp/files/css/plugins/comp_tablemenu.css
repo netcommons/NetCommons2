@@ -1,0 +1,45 @@
+.nc_wysiwyg_tablemenu, .nc_wysiwyg_tablemenu ul {
+	padding:0;
+	margin:0;
+}
+
+.nc_wysiwyg_tablemenu ul {
+	border-bottom : 1px solid #efefef;	
+}
+
+ul.nc_wysiwyg_tablemenu li {
+	list-style-type: none;
+	width:165px;
+}
+
+ul.nc_wysiwyg_tablemenu li a {
+	color : #aca899;
+	text-decoration:none;
+	white-space: nowrap;
+	display:block;
+	margin: 0 0 0 4px;
+	padding : 2px 5px 2px 22px;
+	background-image : url('<{$smarty.const.CORE_BASE_URL}>/images/comp/textarea/default/panel/toolbar.gif');
+	background-repeat : no-repeat;
+}
+
+.nc_wysiwyg_tablemenu_property { background-position: 0 -580px; }
+.nc_wysiwyg_tablemenu_cell_merge { background-position: 0 -660px; }
+.nc_wysiwyg_tablemenu_row_partition { background-position: 0 -680px; }
+.nc_wysiwyg_tablemenu_col_partition { background-position: 0 -700px; }
+.nc_wysiwyg_tablemenu_cell_partition { background-position: 0 -720px; }
+.nc_wysiwyg_tablemenu_row_before_insert { background-position: 0 -740px; }
+.nc_wysiwyg_tablemenu_row_after_insert { background-position: 0 -760px; }
+.nc_wysiwyg_tablemenu_row_delete { background-position: 0 -780px; }
+.nc_wysiwyg_tablemenu_col_before_insert { background-position: 0 -800px; }
+.nc_wysiwyg_tablemenu_col_after_insert { background-position: 0 -820px; }
+.nc_wysiwyg_tablemenu_col_delete { background-position: 0 -840px; }
+.nc_wysiwyg_tablemenu_delete { background-position: 0 -640px; }
+
+ul.nc_wysiwyg_tablemenu li a.active {
+	color : #333333;
+}
+
+ul.nc_wysiwyg_tablemenu li a.active:hover {
+	background-color: #e8ebff;
+}

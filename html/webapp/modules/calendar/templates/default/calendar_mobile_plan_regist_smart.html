@@ -1,0 +1,230 @@
+<{strip}>
+
+	<{assign var="date" value=$action.calendar_obj.start_date}>
+	<{assign var="s_year" value=$date|substr:0:4}>
+	<{assign var="s_month" value=$date|substr:4:2}>
+	<{assign var="s_day" value=$date|substr:6:2}>
+	<{assign var="date" value=$action.calendar_obj.end_date}>
+	<{assign var="e_year" value=$date|substr:0:4}>
+	<{assign var="e_month" value=$date|substr:4:2}>
+	<{assign var="e_day" value=$date|substr:6:2}>
+	<{assign var="current_year" value=$smarty.session.calendar_mobile.current_date|substr:0:4}>
+	<{assign var="current_month" value=$smarty.session.calendar_mobile.current_date|substr:4:2}>
+	<{assign var="current_day" value=$smarty.session.calendar_mobile.current_date|substr:6:2}>
+	<{assign var="s_time" value=$action.calendar_obj.start_time}>
+	<{assign var="s_hour" value=$s_time|substr:0:2}>
+	<{assign var="s_min" value=$s_time|substr:2:2}>
+	<{assign var="e_time" value=$action.calendar_obj.end_time}>
+	<{assign var="e_hour" value=$e_time|substr:0:2}>
+	<{assign var="e_min" value=$e_time|substr:2:2}>
+
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div data-role="fieldcontain" class="ui-hide-label">
+		<label for="title"><{$lang.calendar_mobile_plan_title|smarty:nodefaults}></label>
+		<input type="text" id="title" name="title" value="<{$action.calendar_obj.title}>" placeholder="<{$lang.calendar_mobile_plan_title|smarty:nodefaults}>">
+	</div>
+
+	<fieldset data-role="fieldcontain">
+		<label for="p_r_id"><{$lang.calendar_mobile_plan_flag|smarty:nodefaults}></label>
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<select id="p_r_id" name="p_r_id" >
+			<{include file="./calendar_view_recursive_room.html"}>
+		</select>
+	</fieldset>
+
+	<label><{$lang.calendar_mobile_plan_time|smarty:nodefaults}></label>
+	<{if ($action.details_flag == _OFF) }>
+		<fieldset data-role="controlgroup" data-type="horizontal">
+			<select name="s_year">
+				<{section name=s_year_loop start=$s_year-5 loop=$s_year+5}>
+					<option value="<{$smarty.section.s_year_loop.index}>" <{if $smarty.section.s_year_loop.index == $s_year}>selected="selected"<{/if}>>
+						<{$smarty.section.s_year_loop.index}>
+					</option>
+				<{/section}>
+			</select>
+			<select id="s_month" name="s_month">
+				<{section name=s_month start=1 loop=13}>
+					<option value="<{$smarty.section.s_month.index}>" <{if $current_month==$smarty.section.s_month.index}>selected="selected"<{/if}>>
+						<{$smarty.section.s_month.index}>
+					</option>
+				<{/section}>
+			</select>
+			<select id="s_day" name="s_day">
+				<{section name=s_day start=1 loop=32}>
+					<option value="<{$smarty.section.s_day.index}>" <{if $current_day==$smarty.section.s_day.index}>selected="selected"<{/if}>>
+						<{$smarty.section.s_day.index}>
+					</option>
+				<{/section}>
+			</select>
+		</fieldset>
+		<input type="checkbox" id="allday" name="allday" data-inline="true" value="<{$smarty.const._ON}>"<{if ($action.calendar_obj.allday_flag == _ON) }> checked="checked"<{/if}>>
+		<label for="allday"><{$lang.calendar_allday_flag|smarty:nodefaults}></label>
+
+		<div class="time_control">
+			<fieldset data-role="controlgroup" data-type="horizontal">
+				<select name="s_hour">
+					<{section name=s_hour start=0 loop=24}>
+						<option value="<{$smarty.section.s_hour.index|string_format:'%02d'}>" <{if $smarty.section.s_hour.index==$s_hour}>selected="selected"<{/if}>>
+							<{$smarty.section.s_hour.index|string_format:"%02d"}><{$lang._mobile_hour|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+				<select name="s_min">
+					<{section name=s_min start=0 loop=60 step=5}>
+						<option value="<{$smarty.section.s_min.index|string_format:'%02d'}>" <{if $smarty.section.s_min.index==$s_min}>selected="selected"<{/if}>>
+							<{$smarty.section.s_min.index|string_format:'%02d'}><{$lang._mobile_minute|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+				&nbsp;
+				&nbsp;
+				&nbsp;
+				<{$lang.calendar_time_pause|smarty:nodefaults}>
+				&nbsp;
+				<select name="e_hour">
+					<{section name=e_hour start=0 loop=24}>
+						<option value="<{$smarty.section.e_hour.index|string_format:'%02d'}>" <{if $smarty.section.e_hour.index==$e_hour}>selected="selected"<{/if}>>
+							<{$smarty.section.e_hour.index|string_format:'%02d'}><{$lang._mobile_hour|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+				<select name="e_min">
+					<{section name=e_min start=0 loop=60 step=5}>
+						<option value="<{$smarty.section.e_min.index|string_format:'%02d'}>" <{if $smarty.section.e_min.index==$e_min}>selected="selected"<{/if}>>
+							<{$smarty.section.e_min.index|string_format:'%02d'}><{$lang._mobile_minute|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+			</fieldset>
+		</div>
+
+		<input type="submit" name="details" data-icon="arrow-r" data-iconpos="right" value="<{$lang.calendar_details_addplan|smarty:nodefaults}>">
+	<{else}>
+		<fieldset data-role="controlgroup" data-type="horizontal">
+			<input type="text" name="s_year" maxlength="4" value="<{$s_year}>" style="width:4em;display:inline;" />
+			<select id="s_month" name="s_month">
+				<{section name=s_month start=1 loop=13}>
+					<option value="<{$smarty.section.s_month.index}>" <{if $s_month==$smarty.section.s_month.index}>selected="selected"<{/if}>>
+						<{$smarty.section.s_month.index}><{*<{$lang._mobile_month|smarty:nodefaults}>*}>
+					</option>
+				<{/section}>
+			</select>
+			<select id="s_day" name="s_day">
+				<{section name=s_day start=1 loop=32}>
+					<option value="<{$smarty.section.s_day.index}>" <{if $s_day==$smarty.section.s_day.index}>selected="selected"<{/if}>>
+						<{$smarty.section.s_day.index}><{*<{$lang._mobile_day|smarty:nodefaults}>*}>
+					</option>
+				<{/section}>
+			</select>
+		</fieldset>
+		<fieldset data-role="controlgroup" data-type="horizontal" class="time_control">
+			<select name="s_hour">
+				<{section name=s_hour start=0 loop=24}>
+					<option value="<{$smarty.section.s_hour.index|string_format:'%02d'}>" <{if $smarty.section.s_hour.index==$s_hour}>selected="selected"<{/if}>>
+						<{$smarty.section.s_hour.index|string_format:'%02d'}><{$lang._mobile_hour|smarty:nodefaults}>
+					</option>
+				<{/section}>
+			</select>
+			<select name="s_min">
+				<{section name=s_min start=0 loop=60 step=5}>
+					<option value="<{$smarty.section.s_min.index|string_format:'%02d'}>" <{if $smarty.section.s_min.index==$s_min}>selected="selected"<{/if}>>
+						<{$smarty.section.s_min.index|string_format:'%02d'}><{$lang._mobile_minute|smarty:nodefaults}>
+					</option>
+				<{/section}>
+			</select>
+		</fieldset>
+
+			&nbsp;<{$lang.calendar_time_pause|smarty:nodefaults}>
+
+		<fieldset data-role="controlgroup" data-type="horizontal">
+			<input type="text" name="e_year" maxlength="4" value="<{$e_year}>" style="width:4em;display:inline;" />
+			<select id="e_month" name="e_month">
+				<{section name=e_month start=1 loop=13}>
+					<option value="<{$smarty.section.e_month.index}>" <{if $e_month==$smarty.section.e_month.index}>selected="selected"<{/if}>>
+						<{$smarty.section.e_month.index}><{*<{$lang._mobile_month|smarty:nodefaults}>*}>
+					</option>
+				<{/section}>
+			</select>
+			<select id="e_day" name="e_day">
+				<{section name=e_day start=1 loop=32}>
+					<option value="<{$smarty.section.e_day.index}>" <{if $e_day==$smarty.section.e_day.index}>selected="selected"<{/if}>>
+						<{$smarty.section.e_day.index}><{*<{$lang._mobile_day|smarty:nodefaults}>*}>
+					</option>
+				<{/section}>
+			</select>
+		</fieldset>
+
+		<fieldset data-role="controlgroup" data-type="horizontal" class="time_control" >
+			<select name="e_hour">
+				<{section name=e_hour start=0 loop=24}>
+					<option value="<{$smarty.section.e_hour.index|string_format:'%02d'}>" <{if $smarty.section.e_hour.index==$e_hour}>selected="selected"<{/if}>>
+						<{$smarty.section.e_hour.index|string_format:'%02d'}><{$lang._mobile_hour|smarty:nodefaults}>
+					</option>
+				<{/section}>
+			</select>
+			<select name="e_min">
+				<{section name=e_min start=0 loop=60 step=5}>
+					<option value="<{$smarty.section.e_min.index|string_format:'%02d'}>" <{if $smarty.section.e_min.index==$e_min}>selected="selected"<{/if}>>
+						<{$smarty.section.e_min.index|string_format:'%02d'}><{$lang._mobile_minute|smarty:nodefaults}>
+					</option>
+				<{/section}>
+			</select>
+		</fieldset>
+
+		<input type="checkbox" id="allday" name="allday" value="<{$smarty.const._ON}>"<{if ($action.calendar_obj.allday_flag == _ON) }> checked="checked"<{/if}>>
+		<label for="allday"><{$lang.calendar_allday_flag|smarty:nodefaults}></label>
+
+			<fieldset data-role="fieldcontain">
+				<label for="location"><{$lang.calendar_mobile_location|smarty:nodefaults}></label>
+				<input type="text" id="location" name="location" value="<{$action.calendar_obj.location}>" placeholder="<{$lang.calendar_mobile_location|smarty:nodefaults}>">
+			</fieldset>
+
+			<fieldset data-role="fieldcontain">
+				<label for="contact"><{$lang.calendar_mobile_contact|smarty:nodefaults}></label>
+				<input type="text" id="contact" name="contact" value="<{$action.calendar_obj.contact}>" placeholder="<{$lang.calendar_mobile_contact|smarty:nodefaults}>">
+			</fieldset>
+
+			<fieldset data-role="fieldcontain">
+				<label for="description"><{$lang.calendar_mobile_description|smarty:nodefaults}></label>
+				<textarea id="description" name="description" rows=5 placeholder="<{$lang.calendar_mobile_description|smarty:nodefaults}>"><{$action.calendar_obj.description|smarty:nodefaults|html_to_text}></textarea>
+			</fieldset>
+
+			<input type="hidden" name="r_flag" value="<{$smarty.const._OFF}>">
+	<{/if}>
+
+	<div style="text-align:center;">
+		<{if ($action.calendar_obj.calendar_id > 0) }>
+			<input type="hidden" name="action" value="calendar_action_mobile_plan_modify">
+			<input data-inline="true" type="submit" name="regist" value="<{$lang._edit|smarty:nodefaults}>">
+		<{else}>
+			<input type="hidden" name="action" value="calendar_action_mobile_plan_add">
+			<input data-inline="true" type="submit" name="regist" value="<{$lang.calendar_mobile_add_plan|smarty:nodefaults}>">
+		<{/if}>
+		<input data-inline="true" type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+	</div>
+
+	<input type="hidden" name="cal_id" value="<{$action.calendar_obj.calendar_id}>">
+	<input type="hidden" name="d_flag" value="<{$action.details_flag}>">
+	<input type="hidden" name="edit_rrule" value="<{$action.edit_rrule}>" />
+
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+</form>
+<script type="text/javascript">
+<{if ($action.calendar_obj.allday_flag == _ON) }>
+$(".time_control").hide();
+<{else}>
+$(".time_control").show();
+<{/if}>
+$("#allday").live( "change", function(event, ui) {
+	if($("#allday").prop('checked')){
+		$('.time_control').hide();
+	}else{
+		$('.time_control').show();
+	}
+	return false;
+});
+</script>
+<{/strip}>

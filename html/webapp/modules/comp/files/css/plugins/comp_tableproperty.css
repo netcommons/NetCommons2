@@ -1,0 +1,161 @@
+#nc_wysiwyg_tableproperty {
+	padding: 5px 0;
+}
+
+ul.nc_wysiwyg_tableproperty {
+	margin: 0;
+	padding: 0;
+	width: 390px;
+}
+ul.nc_wysiwyg_tableproperty li {
+	list-style-type: none;
+	float: left;
+	padding:2px 2px 0;
+}
+
+ul.nc_wysiwyg_tableproperty li a {
+	border-color:#6e6e6e;
+	border-style:solid;
+	border-width:1px 0 0;
+	display:block;
+	height:21px;
+	margin-left:3px;
+	position:relative;
+	text-decoration:none;
+	background-color: #e5e5e5;
+	width:60px;
+}
+
+ul.nc_wysiwyg_tableproperty li a span {
+	border-color:#6e6e6e;
+	border-style:solid;
+	border-width:0 1px;
+	color:#333333;
+	display:block;
+	font-size:12px;
+	height:16px;
+	margin:0 -1px;
+	overflow:hidden;
+	padding:3px 18px;
+	position:relative;
+	text-align:center;
+	cursor: pointer;
+}
+
+ul.tableproperty_panel {
+	margin: 0;
+	padding: 10px;
+	width: 390px;
+	border-top: 1px solid #ababab;
+}
+ul.tableproperty_panel li {
+	float: left;
+}
+
+ul.tableproperty_panel li dl {
+	padding: 5px;
+}
+ul.tableproperty_panel li dl dt {
+	float: left;
+	padding: 3px;
+	width: 84px;
+	white-space:nowrap;
+	overflow:hidden;
+}
+ul.tableproperty_panel li dl dd {
+	float: left;
+	padding: 0px 2px 2px 2px;
+	vertical-align: top;
+}
+ul.tableproperty_panel label {
+	white-space: nowrap;
+	padding:3px 0;
+	overflow:hidden;
+	width:170px;
+	display:block;
+}
+
+input.tableproperty_text {
+	width: 57px;
+	margin-right : 3px;
+}
+
+.nc_wysiwyg_tableproperty_linebreak {
+	width: 390px;
+	height:1px;
+	padding : 0 !important;
+	margin : 0 !important;
+	line-height : 0 !important;
+	float:none !important;
+}
+
+.nc_wysiwyg_tableproperty_summary_sep {
+	float : left;
+	padding : 0 0 0 2px;
+}
+/* タイトル */
+.nc_wysiwyg_tableproperty_title {
+	width:390px;
+	overflow:auto;
+	float:none !important;
+}
+
+.nc_wysiwyg_tableproperty_title dd {
+	padding: 3px !important;
+}
+
+/* 罫線 */
+ul.tableproperty_panel li.nc_wysiwyg_tableproperty_border {
+	float: right;
+}
+
+ul.tableproperty_panel li.nc_wysiwyg_tableproperty_border input {
+	width:75px;
+}
+
+/* ボタン */
+.nc_wysiwyg_tableproperty_btn {
+	clear : both;
+	text-align : center;
+	width: 390px;
+}
+
+/* 配置 */
+ul.tableproperty_align {
+	margin: 0;
+	padding: 0;
+}
+ul.tableproperty_align li {
+	padding: 2px;
+	float: left;
+}
+
+ul.tableproperty_align li a {
+	padding:3px;
+	display:block;
+}
+
+ul.tableproperty_align li a img {
+	width: 35px;
+	height: 35px;
+}
+
+ul.tableproperty_panel li fieldset {
+	width: 135px;
+	display:block;
+	margin-bottom: 8px;
+}
+li.nc_wysiwyg_tableproperty_position {
+	padding: 0 3px 5px;
+}
+.nc_wysiwyg_tableproperty_active {
+	background-color: #b2cffb;
+}
+
+/* 色選択 */
+.nc_wysiwyg_tableproperty_sel_color {
+	vertical-align:bottom;
+}
+.nc_wysiwyg_tableproperty_sel_color img {
+	background-color:#ffffff;
+}

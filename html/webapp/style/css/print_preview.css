@@ -1,0 +1,18 @@
+/* 印刷用スタイルシート */
+.print_preview_header {
+	display:none !important;
+}
+
+/* 印刷時に非表示にしたい項目には、このクラスを付与する */
+.print_preview_none {
+	display:none !important;
+}
+
+/* 印刷時に表示したい項目には、このクラスを付与する */
+.print_preview_block {
+	display:block !important;
+}
+/* 印刷プレビューにスクロールバーを出さないようにしたいエレメントに、このクラスを付与する */
+.print_preview_nonescroll {
+	overflow:visible !important;
+}

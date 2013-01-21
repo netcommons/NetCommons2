@@ -1,0 +1,26 @@
+<{strip}>
+<{* 汎用データベース一覧（管理列）用テンプレート *}>
+<a class="syslink" href="#" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="mdbCls['<{$id}>'].referenceMdb(event, '<{$mdb.multidatabase_id}>');return false;">
+	<{$lang._ref|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang._edit_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_edit_modify',multidatabase_id:<{$mdb.multidatabase_id}>}); return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang.mdb_metadata_edit_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_edit_metadata_list',multidatabase_id:<{$mdb.multidatabase_id}>}); return false;">
+	<{$lang.mdb_metadata_edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang._del_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="mdbCls['<{$id}>'].delMdb('<{$mdb.multidatabase_id}>', '<{$lang._del_confirm|sprintf:"`$mdb.multidatabase_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>'); return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang.mdb_import_title|smarty:nodefaults|sprintf:$mdb.multidatabase_name}>" onclick="mdbCls['<{$id}>'].showPopupImport(event, <{$mdb.multidatabase_id}>); return false;">
+	<{$lang.mdb_import|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a href="#" class="syslink" title="<{$lang.mdb_export|smarty:nodefaults}>" onclick="location.href='.<{$smarty.const.INDEX_FILE_NAME}>?action=multidatabase_view_edit_export&amp;multidatabase_id=<{$mdb.multidatabase_id}>&amp;block_id=<{$action.block_id}>&amp;_token='+$('_token<{$id}>').value;return false;">
+	<{$lang.mdb_export|smarty:nodefaults}>
+</a>
+<{/strip}>

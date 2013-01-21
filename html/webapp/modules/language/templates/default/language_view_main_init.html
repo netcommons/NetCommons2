@@ -1,0 +1,39 @@
+<{strip}>
+<form action="#" method="get" onsubmit="return false;">
+	<{if $action.lang_obj.display_type != $smarty.const.LANGUAGE_DISPLAY_TYPE_LINK}>
+		<{$lang.language_language_select|smarty:nodefaults}>
+	<{/if}>
+	<br />
+		<{if $action.lang_obj.display_type == $smarty.const.LANGUAGE_DISPLAY_TYPE_RADIO}>
+			<{foreach key="dirname" item="lang_name" from=$action.lang_list}>
+				<label for='language_display_language_<{$dirname}><{$id}>'>
+					<input id='language_display_language_<{$dirname}><{$id}>' type='radio' name='select_lang' value='<{if $dirname != $smarty.session._lang}><{$lang_name.link}><{/if}>' <{if $dirname == $smarty.session._lang}> checked='checked'<{else}> onclick='location.href=this.value;return false;'<{/if}> />
+					<{$lang_name.name}>
+				</label>
+				<br />
+			<{/foreach}>
+		<{elseif $action.lang_obj.display_type == $smarty.const.LANGUAGE_DISPLAY_TYPE_LINK}>
+			<{foreach name=langs key="dirname" item="lang_name" from=$action.lang_list}>
+				<{if $dirname == $smarty.session._lang}>
+					<{$lang_name.name}>
+				<{else}>
+					<a href='<{$lang_name.link}>' title='<{$lang_name.name}>'>
+						<{$lang_name.name}>
+					</a>
+				<{/if}>
+				<{if !$smarty.foreach.langs.last}>&nbsp;|&nbsp;<{/if}>
+			<{/foreach}>
+		<{else}>
+			<label for="select_lang<{$id}>">
+				<select id="select_lang<{$id}>" name="select_lang" title="<{$lang.language_title_select_lang|smarty:nodefaults}>" onchange='location.href=this.value; return false;'>
+					<{foreach key="dirname" item="lang_name" from=$action.lang_list}>
+						<option value="<{if $dirname != $smarty.session._lang}><{$lang_name.link}><{/if}>"<{if $dirname == $smarty.session._lang}> selected="selected"<{/if}>>
+							<{$lang_name.name}>
+						</option>
+					<{/foreach}>
+				</select>
+			</label>
+		<{/if}>
+</form>
+<{include file="./language_script.html"}>
+<{/strip}>

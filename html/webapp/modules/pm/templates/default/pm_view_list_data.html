@@ -1,0 +1,58 @@
+<{strip}>
+<{if $message.read_state == $smarty.const.PM_UNREAD_STATE}>
+  <tr class="pm_list_inbox_unread" id="pm_list_row<{$id}>_<{$message.receiver_id}>">
+<{else}>
+  <tr id="pm_list_row<{$id}>_<{$message.receiver_id}>">
+<{/if}>
+    <td id="pm_list_col<{$id}>_<{$message.receiver_id}>_check" class="pm_list_inbox_td pm_list_inbox_check">
+	  	 <{if $message.read_state == $smarty.const.PM_UNREAD_STATE}>
+		    <input id="pm_list_row_radio<{$id}>_<{$message.receiver_id}>" type="checkbox" name="receiver_id[]" value="<{$message.receiver_id}>" onclick="pmCls['<{$id}>'].listRadioOnCicked(this, 'pm_list_row<{$id}>_<{$message.receiver_id}>', '<{$message.receiver_id}>', 'pm_list_inbox_unread pm_list_inbox_checked', 'pm_list_inbox_unread');" />
+		 <{else}>
+		 	<input id="pm_list_row_radio<{$id}>_<{$message.receiver_id}>" type="checkbox" name="receiver_id[]" value="<{$message.receiver_id}>" onclick="pmCls['<{$id}>'].listRadioOnCicked(this, 'pm_list_row<{$id}>_<{$message.receiver_id}>', '<{$message.receiver_id}>', 'pm_list_inbox_checked', '');" />
+		 <{/if}>
+	  
+	  <{if $message.importance_flag == $smarty.const.PM_IMPORTANCE_FLAG}>
+		 <img class="pm_list_inbox_check_img" src="<{"flag.gif"|get_modules_image}>" alt="" />
+	  <{/if}>
+    </td>
+	
+    <td id="pm_list_col<{$id}>_<{$message.receiver_id}>_sender" class="pm_list_inbox_td pm_list_inbox_sender">
+		<table class="widthmax pm_list_info_sender_container">
+		  <tr>
+			<td class="pm_list_inbox_sender2">
+			    <span class="pm_list_inbox_sender2_span pm_list_inbox_sender_span">
+					<{if $action.search_flag == 'search'}>
+						<{if $message.send_all_flag == $smarty.const._ON}>
+							<{$lang.pm_all_members|smarty:nodefaults}>
+						<{else}>
+							<{include file = "./pm_view_handle.html" handle=$message.handle|smarty:nodefaults user_id=$message.first_user_id}>
+						<{/if}>
+					<{else}>
+						<{if (($message.mailbox == $smarty.const.PM_LEFTMENU_OUTBOX) || ($message.mailbox == $smarty.const.PM_LEFTMENU_STOREBOX)) && ($message.send_all_flag == $smarty.const._ON)}>
+							<{$lang.pm_all_members|smarty:nodefaults}>
+						<{else}>
+							<{include file = "./pm_view_handle.html" handle=$message.handle|smarty:nodefaults user_id=$message.first_user_id}>
+						<{/if}>
+					<{/if}>
+				</span>
+			</td>
+			<td class="pm_list_info_sender_container_img">
+			   <{if $message.file_count > 0}>
+				  <img class="pm_list_inbox_sender2_img pm_list_inbox_check_img pm_list_inbox_sender_img" src="<{"upload.gif"|get_modules_image}>" alt="" />
+			   <{/if}>
+			   <{if $message.image_count > 0}>
+				  <img class="pm_list_inbox_sender2_img pm_list_inbox_check_img pm_list_inbox_sender_img" src="<{"image.gif"|get_modules_image}>" alt="" />
+			   <{/if}>
+			   <{if $message.hasTag}>
+				  <img class="pm_list_inbox_sender2_img pm_list_inbox_check_img pm_list_inbox_sender_img" src="<{"tag.gif"|get_modules_image}>" alt="<{$message.tags}>" title="<{$message.tags}>" />
+			   <{/if}>
+			</td>
+		  </tr>
+		</table>
+    </td>
+    <td id="pm_list_col<{$id}>_<{$message.receiver_id}>_subject" class="pm_list_inbox_td pm_list_inbox_subject">
+	  <{include file = "./pm_view_list_data_subject.html" page=$action.page}>
+	</td>
+    <td id="pm_list_col<{$id}>_<{$message.receiver_id}>_date" class="pm_list_inbox_td pm_list_inbox_data"><{$message.sent_time}></td>
+</tr>
+<{/strip}>

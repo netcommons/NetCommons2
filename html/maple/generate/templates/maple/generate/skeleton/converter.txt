@@ -1,0 +1,26 @@
+<?php print "<?php\n"; ?>
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * [[機能説明]]
+ *
+ * @package     NetCommons.converter
+<?php include($this->getTemplate('maple/generate/skeleton/_doc-comment.txt')); ?>
+ * @access      public
+ */
+class <?php print $skeleton->classname; ?> extends Converter
+{
+    /**
+     * [[機能説明]]
+     *
+     * @param   string  $attributes 変換する文字列
+     * @return  string  変換後の文字列
+     * @access  public
+     */
+    function convert($attributes)
+    {
+        return $attributes;
+    }
+}
+<?php print "?>\n"; ?>

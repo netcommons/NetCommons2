@@ -1,0 +1,163 @@
+.questionnaire_grid_name {
+	width:110px;
+}
+.questionnaire_grid_operate {
+	width:70px;
+}
+.questionnaire_grid_creator {
+	width:85px;
+}
+.questionnaire_grid_create_date {
+	width:65px;
+}
+.questionnaire_grid_manage {
+	width:370px;
+}
+.questionnaire_grid_table {width:766px;}
+.questionnaire_summary_grid_table {width:288px;}
+.questionnaire_edit_summary_grid_table {width:404px;}
+
+table.questionnaire_question_list {
+	width:500px;
+	border:1px solid #cccccc;
+}
+table.questionnaire_question_list td {
+	vertical-align:top;
+	border-bottom:1px solid #cccccc;
+	padding:5px;
+	white-space:nowrap;
+}
+div.questionnaire_question_list_value {
+	height:80px;
+	overflow:auto;
+}
+td.questionnaire_question_list_manage {
+	text-align:right;
+}
+
+textarea.questionnaire_question {
+	height:100px;
+}
+table.questionnaire_question {
+	width:auto;
+}
+table.questionnaire_choice {
+	border:1px solid #cccccc;
+}
+table.questionnaire_choice td {
+	border-bottom:1px solid #cccccc;
+}
+textarea.questionnaire_choice {
+	width:300px;
+	height:30px;
+}
+label.questionnaire_choice {
+	margin-right:15px;
+}
+
+div.questionnaire_head {
+	white-space:nowrap;
+	margin:0px 2px 30px;
+}
+span.questionnaire_name {
+	font-weight:bold;
+	font-size:150%;
+	margin:5px 0px;
+}
+a.questionnaire_result_link {
+	margin-left:20px;
+}
+
+div.questionnaire_question {
+	margin:0px 2px 45px;
+}
+div.questionnaire_question_value {
+	margin-bottom:10px;
+}
+div.questionnaire_answer, table.questionnaire_answer {
+	margin-left:4px;
+}
+
+div.questionnaire_collect {
+	margin:8px 0px 0px 4px;
+}
+div.questionnaire_description {
+	margin:10px 0px 0px 40px;
+}
+
+form.questionnaire_answer_result {
+}
+table.questionnaire_summary {
+	margin-bottom:30px;
+}
+span.questionnaire_answer_flag {
+	margin:0px 15px;
+}
+span.questionnaire_wrong {
+	color:#ff0000;
+}
+
+.questionnaire_grid_answer_number {
+	width:50px;
+}
+.questionnaire_grid_answer_time {
+	width:140px;
+}
+.questionnaire_grid_summary_manage {
+	width:80px;
+}
+
+table.questionnaire_total {
+	width:560px;
+}
+table.questionnaire_total td {
+	padding:3px 0px;
+}
+table.questionnaire_total td.questionnaire_choice_mark {
+	width:10px;
+}
+table.questionnaire_total td.questionnaire_choice_label {
+	padding-left:2px;
+	width:18px;
+}
+table.questionnaire_total td.questionnaire_choice_value {
+	padding-left:2px;
+	width:263px;
+}
+table.questionnaire_total td.questionnaire_choice_count {
+	white-space:nowrap;
+	padding-left:28px;
+	width:52px;
+}
+table.questionnaire_total td.questionnaire_graph {
+	width:145px;
+}
+table.questionnaire_total td.questionnaire_choice_share {
+	text-align:right;
+	padding-left:2px;
+	width:38px;
+}
+div.questionnaire_choice_mark {
+	width:6px;
+	height:11px;
+}
+div.questionnaire_graph {
+	height:10px;
+	float:left;
+}
+div.questionnaire_graph_back {
+	height:10px;
+	float:right;
+	background-color:#f4f4f4;
+}
+img.questionnaire_image_authentication {
+	margin-left:10px;
+}
+
+div.questionnaire_confirm_message {
+	border:3px dotted #ff0000;
+	color:#ff0000;
+	font-weight:bold;
+	padding:5px;
+	margin-bottom:20px;
+}

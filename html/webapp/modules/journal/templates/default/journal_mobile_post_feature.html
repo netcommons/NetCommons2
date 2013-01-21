@@ -1,0 +1,56 @@
+<{strip}>
+
+	<{$lang.journal_post_date|smarty:nodefaults}>
+	&nbsp;
+
+	<input type="text" name="year" value="<{$journal_date|substr:0:4}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_year|smarty:nodefaults}>
+	<input type="text" name="month" value="<{$journal_date|substr:4:2}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_month|smarty:nodefaults}>
+	<input type="text" name="day" value="<{$journal_date|substr:6:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_day|smarty:nodefaults}>
+	<br />
+
+	<{$lang.journal_post_time|smarty:nodefaults}>
+	&nbsp;
+
+	<input type="text" name="journal_hour" value="<{$journal_date|substr:8:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_hour|smarty:nodefaults}>
+	<input type="text" name="journal_minute" value="<{$journal_date|substr:10:2}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_minute|smarty:nodefaults}>
+	<br /><br />
+
+	<{$lang.journal_mobile_post_title|smarty:nodefaults}><br />
+	<input type="text" name="title" value="<{$action.post.title}>">
+	<br /><br />
+
+	<{$lang.journal_mobile_post_category|smarty:nodefaults}><br />
+	<select name="cat_id" size="1">
+		<option value="0"<{if ($action.post.category_id=="0") }>selected="selected"<{/if}>>
+			<{$lang.journal_mobile_nocategory|smarty:nodefaults}>
+		</option>
+		<{foreach from=$action.categories item=cat}>
+			<option value="<{$cat.category_id}>"<{if ($action.post.category_id==$cat.category_id)}>selected="selected"<{/if}>>
+				<{$cat.category_name|truncate:$smarty.const.JOURNAL_MOBILE_CATE_NAME_LEN:$smarty.const._SEARCH_MORE:true}>
+			</option>
+		<{/foreach}>
+	</select>
+	<br /><br />
+
+	<{$lang.journal_mobile_post_content|smarty:nodefaults}><br />
+	<textarea name="content" rows="5"><{$action.post.content|smarty:nodefaults|html_to_text}></textarea>
+	<br /><br />
+
+	<{* 画像 登録用 *}>
+	<{if !empty($action.post.mobile_image|smarty:nodefaults)}>
+		<{$lang.journal_mobile_post_image_now|smarty:nodefaults}><br />
+		<{$action.post.mobile_image|smarty:nodefaults}><br />
+		<br />
+	<{/if}>
+	<{if $smarty.session._allow_attachment_flag != _ALLOW_ATTACHMENT_NO}>
+		<{$lang.journal_mobile_post_image|smarty:nodefaults}><br />
+		<input name="journal_mobile_images" type="file" value="" /><br />
+		<br />
+	<{/if}>
+
+<{/strip}>

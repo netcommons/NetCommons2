@@ -1,0 +1,19 @@
+<{strip}>
+
+<{*
+	テンプレート本体は以下でinclude する
+	inc_menu_view_main_list_header.html＞＞ヘッダの場合
+	inc_menu_view_main_list_header_round.html＞＞ヘッダ角丸バージョンの場合
+	inc_menu_view_main_list_side.html＞＞サイドメニューの場合
+	以下の変数定義で必要なスタイルシート変数名を定義する
+*}>
+
+<{* ヘッダ角丸の、CSSクラス名設定 *}>
+<{assign var="left_roundbtn"        value="header_180x35_blue_btn_l"}>
+<{assign var="right_roundbtn"       value="header_180x35_blue_btn_r"}>
+<{assign var="left_roundbtn_hover"  value="header_180x35_blue_btn_l_hover"}>
+<{assign var="right_roundbtn_hover" value="header_180x35_blue_btn_r_hover"}>
+
+<{include file="../inc_menu_view_main_list_header_round.html"}>
+
+<{/strip}>

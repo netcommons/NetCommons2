@@ -1,0 +1,69 @@
+<{strip}>
+
+<{foreach name="room_`$next_parent_id`" item="room_obj" from=$room_list}>
+	<{if ($room_obj.space_type == _SPACE_TYPE_PUBLIC) }>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_PUBLIC}>
+		<{assign var="plan_class" value="calendar_plan_public"}>
+		<{assign var="plan_name" value=$room_obj.page_name|smarty:nodefaults}>
+
+	<{elseif ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _ON) }>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_PRIVATE}>
+		<{assign var="plan_class" value="calendar_plan_private"}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_USER_LANG|smarty:nodefaults}>
+
+	<{elseif ($room_obj.space_type == _SPACE_TYPE_GROUP && $room_obj.private_flag == _OFF) }>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_GROUP}>
+		<{assign var="plan_class" value="calendar_plan_group"}>
+		<{assign var="plan_name" value=$room_obj.page_name|smarty:nodefaults}>
+
+	<{else}>
+		<{assign var="plan_flag" value=$smarty.const.CALENDAR_PLAN_MEMBERS}>
+		<{assign var="plan_class" value="calendar_plan_members"}>
+		<{assign var="plan_name" value=$smarty.const.CALENDAR_ALL_MEMBERS_LANG|smarty:nodefaults}>
+	<{/if}>
+
+	<{if ($action.allow_plan_flag.$plan_flag == _ON) }>
+		<{if ($plan_flag != CALENDAR_PLAN_GROUP || $plan_flag == CALENDAR_PLAN_GROUP && $room_obj.thread_num != 0) }>
+			<{assign var="room_id" value=$room_obj.page_id}>
+			<{if ($plan_flag == CALENDAR_PLAN_GROUP) }>
+				<{assign var="indent" value=$room_obj.thread_num-1}>
+			<{else}>
+				<{assign var="indent" value=$room_obj.thread_num}>
+			<{/if}>
+
+			<{if ($action_name == "calendar_view_edit_auth") }>
+				<{include file="calendar_view_edit_auth_room.html"}>
+
+			<{elseif ($action_name == "calendar_view_main_init") }>
+				<{include file="calendar_view_main_list_weekly.html"}>
+
+			<{elseif ($action_name == "calendar_view_main_help") }>
+				<div class="<{$plan_class}>">
+					<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+					<{$lang.calendar_plan_flag_str|smarty:nodefaults|sprintf:$plan_name}>
+				</div>
+
+			<{elseif ($action_name == "calendar_view_main_plan_add" || $action_name == "calendar_view_main_plan_modify") }>
+				<{if ($smarty.session._mobile_flag == _ON) }>
+					<{include file="calendar_mobile_plan_regist_room.html"}>
+				<{else}>
+					<{include file="calendar_view_main_plan_regist_room.html"}>
+				<{/if}>
+
+			<{elseif ($action_name == "calendar_view_edit_ical_init" || $action_name == "calendar_view_edit_ical_import") }>
+				<{include file="calendar_view_edit_ical_room.html"}>
+			<{/if}>
+		<{/if}>
+
+		<{assign var="next_thread_num" value=$room_obj.thread_num+1}>
+		<{assign var="next_parent_id" value=$room_obj.page_id}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<{if ($room_list) }>
+			<{assign var="parent_room_name" value=$room_obj.page_name}>
+			<{include file="calendar_view_recursive_room.html"}>
+		<{/if}>
+	<{/if}>
+<{/foreach}>
+
+<{/strip}>

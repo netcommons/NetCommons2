@@ -1,0 +1,36 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="th_<{$main_theme_name}> widthmax">
+  <{*if $block_obj.row_num == 1*}>
+  <tr>
+    <td class="th_<{$main_theme_name}>_line th_dotline_line">
+    	<img src="<{""|get_image_url}>/images/common/blank.gif" style="height:3px;" alt="" title="" />
+    </td>
+  </tr>
+  <{*/if*}>
+  <tr>
+    <td class="<{if $block_obj.row_num == 1}>th_dotline_content<{else}>th_dotline_sub_content<{/if}>">
+    	<{*ヘッダータイトル*}>
+    	<table border="0" cellspacing="0" cellpadding="0" class="th_headermenu_title _block_title_event<{if $block_obj.block_name == "" && $smarty.session._layoutmode=="off"}> display-none<{/if}>">
+			<tr>
+				<td class="th_headermenu_round_title_header">
+					<div class="th_dotline_title_line">
+						<img src="<{""|get_image_url}>/themes/dotline/images/<{$dir_name}>/title_icon.gif" title="" alt="" />
+					</div>
+				</td>
+				<td>
+					<h2 class="nc_block_title th_<{$main_theme_name}>_title" title="<{$dblclick_edit}>"><{$block_obj.block_name}></h2>
+				</td>
+			</tr>
+		</table>
+    	<{*ヘッダーメニュー*}>
+		<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+    	<div class="content"><{$content_field|smarty:nodefaults}></div>
+    </td>
+  </tr>
+  <tr>
+    <td class="th_<{$main_theme_name}>_line th_dotline_line">
+    	<img src="<{""|get_image_url}>/images/common/blank.gif" style="height:3px;" alt="" title="" />
+    </td>
+  </tr>
+</table>
+<{/strip}>

@@ -1,0 +1,16 @@
+<{strip}>
+<{* アクセス状況表示画面 *}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang.userinf_top_description|smarty:nodefaults|sprintf:$action.user.handle:$lang.userinf_view_main_monthly|smarty:nodefaults}>
+	</div>
+	<div><{*IEでスクロールバーを表示するため*}>
+	<div id="monthlynumber_list<{$id}>" class="userinf_monthlynumber_list">
+		<{assign var="monthlynumber_path" value=$smarty.const.WEBAPP_DIR|cat:"/templates/main/"}>
+		<{assign var="monthlynumber_file" value=$monthlynumber_path|cat:"monthlynumber_main.html"}>
+		<{include file=$monthlynumber_file}>
+	</div>
+	</div>
+</div>
+<{include file="userinf_script.html"}>
+<{/strip}>

@@ -1,0 +1,12 @@
+<{strip}>
+<{* 表示方法用テンプレート *}>
+<{if $action.bbs.display == BBS_DISPLAY_TOPIC_VALUE}>
+	<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_topic|smarty:nodefaults}>
+<{elseif $action.bbs.display == BBS_DISPLAY_NEWEST_VALUE}>
+	<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_newest|smarty:nodefaults}>
+<{elseif $action.bbs.display == BBS_DISPLAY_OLD_VALUE}>
+	<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_old|smarty:nodefaults}>
+<{elseif $action.bbs.display == BBS_DISPLAY_ALL_VALUE}>
+	<{$lang.bbs_display_bracket|smarty:nodefaults|sprintf:$lang.bbs_display_all|smarty:nodefaults}>
+<{/if}>
+<{/strip}>

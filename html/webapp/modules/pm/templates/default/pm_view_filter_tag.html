@@ -1,0 +1,14 @@
+<dt class="pm_upd_flt_tag_process_dt pm_upd_flt_tag_process_tag">
+  <input id="pm_form<{$id}>_filter_tag" class="pm_upd_flt_tag_process_dt_input" name="filter_actions[]" value="<{$action_id}>" type="checkbox" <{if $checked}>checked<{else}><{/if}> /><label for="pm_form<{$id}>_filter_tag"><{$lang.pm_action_add_tag|smarty:nodefaults}></label></dt>
+<dd class="pm_upd_flt_tag_process_dd">
+  <select class="pm_upd_flt_tag_process_dd_select" name="filter_actions_params[<{$action_id}>_tag]">
+    <option value="0"><{$lang.pm_action_add_tag|smarty:nodefaults}></option>
+	<{foreach item=option from=$options}>
+		<{if $default == $option.id}>
+			<option value="<{$option.id}>" selected><{$option.title}></option>
+		<{else}>
+			<option value="<{$option.id}>"><{$option.title}></option>
+		<{/if}>
+	<{/foreach}>
+  </select>
+</dd>

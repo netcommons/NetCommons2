@@ -1,0 +1,40 @@
+<{strip}>
+<{* 利用許諾 *}>
+<div class="top_description">
+	<{$lang.login_disclaimer_description|smarty:nodefaults|sprintf:$lang.login_autoregist_disclaimer_ok|smarty:nodefaults}>
+</div>
+<form action=".<{$smarty.const.INDEX_FILE_NAME}>"  method="get" >
+	<{* 利用許諾 *}>
+	<br />
+	<div>
+		<{$lang.login_autoregist_disclaimer|smarty:nodefaults}>
+	</div>
+	<br />
+	<div align="center" style="text-align:center;">
+		<{* 承諾する *}>
+		<input type="submit" name="dispatch_login_view_mobile_autoregist" value="<{$lang.login_autoregist_disclaimer_ok|smarty:nodefaults}>"  data-inline="true" />
+		&nbsp;
+		<{* キャンセル *}>
+		<input type="submit" name="dispatch_login_view_mobile_init" value="<{$lang._cancel|smarty:nodefaults}>"  data-inline="true" />
+	</div>
+	<br />
+	<p>
+		<span style="font-size:xx-small">
+			<{$action.autoregist_disclaimer|nl2br}>
+		</span>
+	</p>
+
+	<{* 各種ボタン *}>
+	<br />
+	<div align="center" style="text-align:center;">
+		<{* 承諾する *}>
+		<input type="submit" name="dispatch_login_view_mobile_autoregist" value="<{$lang.login_autoregist_disclaimer_ok|smarty:nodefaults}>"  data-inline="true" />
+		&nbsp;
+		<{* キャンセル *}>
+		<input type="submit" name="dispatch_login_view_mobile_init" value="<{$lang._cancel|smarty:nodefaults}>"  data-inline="true" />
+	</div>
+	<br />
+	<input type="hidden" name="autoregist_disclaimer_ok" value="1" />
+	<{$session_form|smarty:nodefaults}>
+</form>
+<{/strip}>

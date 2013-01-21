@@ -1,0 +1,29 @@
+<{strip}>
+<{if $menu.node_flag == 1 && $menu.action_name==""}>
+	<{assign var="href" value="#"}>
+<{else}>
+	<{assign var="parameters" value=""}>
+	<{assign var="base_url" value="`$smarty.const.BASE_URL`/"}>
+	<{if $menu.action_name != DEFAULT_ACTION}>
+		<{assign var="parameters" value=$parameters|smarty:nodefaults|cat:"?action_name=`$menu.action_name`"}>
+		<{if isset($menu.parameters|smarty:nodefaults) && $menu.parameters != ""}>
+			<{assign var="parameters" value=$parameters|smarty:nodefaults|cat:"&`$menu.parameters`"}>
+		<{/if}>
+	<{elseif isset($menu.parameters|smarty:nodefaults) && $menu.parameters != ""}>
+		<{assign var="parameters" value=$parameters|smarty:nodefaults|cat:"?`$menu.parameters`"}>
+	<{/if}>
+	<{if $smarty.session._permalink_flag == _ON}>
+		<{if $menu.permalink != ""}>
+			<{assign var="base_url" value=$base_url|smarty:nodefaults|cat:"`$menu.permalink`/"}>
+		<{/if}>
+	<{else}>
+		<{if $parameters == ""}>
+			<{assign var="parameters" value=$parameters|smarty:nodefaults|cat:"?page_id=`$menu.page_id`"}>
+		<{else}>
+			<{assign var="parameters" value=$parameters|smarty:nodefaults|cat:"&page_id=`$menu.page_id`"}>
+		<{/if}>
+	<{/if}>
+	<{assign var="href" value=$base_url|smarty:nodefaults|cat:"`$parameters`"}>
+<{/if}>
+<{$href}>
+<{/strip}>

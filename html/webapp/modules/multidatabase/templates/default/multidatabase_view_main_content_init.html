@@ -1,0 +1,32 @@
+<{strip}>
+<{* コンテンツを書く画面 *}>
+<div class="outerdiv" id="target<{$id}>">
+	<form id="multidatabase_input_form<{$id}>" action="#" target="mdb_attachment<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+		<{assign var="mode" value="regist"}>
+		<{assign var="data_pos_1" value=$action.metadatas_layout.1}>
+		<{assign var="data_pos_2" value=$action.metadatas_layout.2}>
+		<{assign var="data_pos_3" value=$action.metadatas_layout.3}>
+		<{assign var="data_pos_4" value=$action.metadatas_layout.4}>
+		<{* 詳細部 *}>
+		<{include file="multidatabase_common_metadata.html"}>
+		<div class="btn-bottom">
+			<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" />
+			<input type="hidden" name="temporary_flag" value="<{$smarty.const._OFF}>" />
+			<{if $action.content_id != null && $action.content_id != 0}>
+				<input type="hidden" name="content_id" value="<{$action.content_id}>" />
+				<input class="tempbtn-width" type="button" value="<{$lang._temporary|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].contentSubmit(this.form, 1); return false;" />
+				<input class="lined_btn btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].contentSubmit(this.form, 0); return false;" />
+				<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_detail', content_id:<{$action.content_id}>, multidatabase_id:<{$action.multidatabase_id}>}); return false;" />
+			<{else}>
+				<input class="tempbtn-width" type="button" value="<{$lang._temporary|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].contentSubmit(this.form, 1); return false;" />
+				<input class="lined_btn btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].contentSubmit(this.form, 0); return false;" />
+				<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_init', multidatabase_id:<{$action.multidatabase_id}>}); return false;" />
+			<{/if}>
+		</div>
+	</form>
+</div>
+<{include file="../multidatabase_script.html"}>
+<script class="nc_script" type="text/javascript">
+	mdbCls["<{$id}>"].errorSeparator = "<{$smarty.const.MULTIDATABASE_ERROR_SEPARATOR}>";
+</script>
+<{/strip}>

@@ -1,0 +1,27 @@
+<{strip}>
+<{* 項目追加-リスト値 *}>
+<{if !$option}>
+	<{* リスト追加時使用 *}>
+	<{assign var="option" value=$action.option}>
+	<{assign var="iteration" value=$action.iteration}>
+<{/if}>
+<table id="user_items_option<{$iteration}><{$id}>" class="user_items_option">
+	<tr>
+		<td>
+			<label for="user_list_value<{$iteration}><{$id}>">
+				<{$lang.user_list_value|smarty:nodefaults}>
+				<input name="options[<{$iteration}>]" id="user_list_value<{$iteration}><{$id}>" type="text" onclick="if(event.keyCode == 13){this.onchange();} return false;" value="<{$option.options}>" />
+			</label>
+			<label for="user_list_default_value<{$iteration}><{$id}>">
+				<{$lang.user_list_default_value|smarty:nodefaults}>
+				<input name="default_selected[<{$iteration}>]" id="user_list_default_value<{$iteration}><{$id}>" type="checkbox" value="1"<{if $option.default_selected}> checked="checked"<{/if}> />
+			</label>
+		</td>
+		<td class="user_items_option_delete">
+			<a class="syslink" href="#" onclick="userCls['<{$id}>'].delOption($('user_items_option<{$iteration}><{$id}>')); return false;">
+				<img title="<{$lang.user_del_list|smarty:nodefaults}>" alt="<{$lang.user_del_list|smarty:nodefaults}>" src="<{"trash_silhouette.gif"|get_themes_image}>" class="icon" />
+			</a>
+		</td>
+	</tr>
+</table>
+<{/strip}>

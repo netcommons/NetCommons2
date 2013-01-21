@@ -1,0 +1,9 @@
+<{strip}>
+<{* 日誌一覧（動作／停止列）用テンプレート *}>
+<a class="syslink<{if $journal.active_flag == _OFF}> display-none<{/if}>" href="#" title="<{$lang.journal_stop_title|smarty:nodefaults|sprintf:$journal.journal_name}>" onclick="journalCls['<{$id}>'].changeActivity(this, '<{$journal.journal_id}>', '<{$smarty.const._OFF}>'); return false;">
+	<{$lang.journal_stop|smarty:nodefaults}>
+</a>
+<a class="syslink<{if $journal.active_flag == _ON}> display-none<{/if}>" href="#" title="<{$lang.journal_activate_title|smarty:nodefaults|sprintf:$journal.journal_name}>" onclick="journalCls['<{$id}>'].changeActivity(this, '<{$journal.journal_id}>', '<{$smarty.const._ON}>'); return false;">
+	<{$lang.journal_activate|smarty:nodefaults}>
+</a>
+<{/strip}>

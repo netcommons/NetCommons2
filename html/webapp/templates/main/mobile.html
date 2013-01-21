@@ -1,0 +1,13 @@
+
+<{strip}>
+	<{if ($smarty.session._smartphone_flag == _ON) }>
+		<!DOCTYPE html>
+		<html>
+			<{include file="mobile_smart.html"}>
+		</html>
+	<{else}>
+		<html xmlns="http://www.w3.org/1999/xhtml">
+			<{include file="mobile_feature.html"}>
+		</html>
+	<{/if}>
+<{/strip}>

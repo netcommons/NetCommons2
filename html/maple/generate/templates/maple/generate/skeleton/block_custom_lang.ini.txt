@@ -1,0 +1,28 @@
+;--------------------------------------------------------------------
+; ブロックスタイル-配色言語定義ファイル
+;--------------------------------------------------------------------
+<?php
+print ";[th_".$skeleton->action_name."]\n";
+?>
+;category="枠"
+;background-color="背景色"
+;border-color="枠の色"
+
+<?php
+print "[th_".$skeleton->action_name."_title_line]\n";
+?>
+category="タイトルライン"
+background-color="タイトルライン色"
+
+<?php
+print ";[th_".$skeleton->action_name."_title]\n";
+?>
+;category="タイトル"
+;color="フォント色"
+
+<?php
+print "[th_".$skeleton->action_name." highlight]\n";
+?>
+category="ハイライト"
+background-color="背景色"
+color="フォント色"

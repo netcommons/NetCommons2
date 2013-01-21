@@ -1,0 +1,54 @@
+/* 
+ * ブロック定義
+ */
+
+/* title_line */
+.th_panelhole_default_title_line {
+	width:19px;
+	height:19px;
+	background-color:#d1dbdd;
+}
+/* 一般 */
+.th_panelhole_content {
+	border: 0px;
+	padding: 10px 15px 10px 15px;
+	background-color:#ffffff;
+}
+
+.th_panelhole_upperleft {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_panelhole_upper {
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/upper.gif") repeat-x scroll center bottom;
+}
+.th_panelhole_upperright {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/upperright.gif") no-repeat scroll right bottom;
+}
+.th_panelhole_left {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/left.gif") repeat-y scroll left center;
+}
+.th_panelhole_right {
+	width:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/right.gif") repeat-y scroll right center;
+}
+.th_panelhole_belowleft {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/belowleft.gif") no-repeat scroll left top;
+}
+.th_panelhole_below {
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/below.gif") repeat-x scroll center top;
+}
+.th_panelhole_belowright {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelhole/images/default/belowright.gif") no-repeat scroll right top;
+}

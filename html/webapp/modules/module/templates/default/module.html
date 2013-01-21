@@ -1,0 +1,43 @@
+<{strip}>
+<div class="outerdiv">
+<{if $action.version != _NC_VERSION}>
+<div class="errorstr">
+	<{$lang.module_version_differ|smarty:nodefaults}>
+</div>
+<{/if}>	
+<div class="module_current_version">
+	<{$lang.module_current_version|smarty:nodefaults}><span><{$action.version}></span>
+	<{if $action.version != _NC_VERSION}>
+		<span class="errorstr">-><{$smarty.const._NC_VERSION}></span>
+	<{/if}>
+</div>
+<{*タブコンポーネント*}>
+<div class="comp_tabset"></div>
+<div class="comp_tabset_content">
+	<div>
+		<div class="comptabset_caption"><{$lang.module_install_head|smarty:nodefaults}></div>
+		<div class="outerdiv">
+		<{*一般モジュール*}>
+		<{include file=module_general.html"}>
+  		</div>
+	</div>
+	<div>
+		<div class="comptabset_caption"><{$lang.module_not_install_head|smarty:nodefaults}></div>
+		<div class="outerdiv">
+		<{* 未インストール済みモジュール一覧 *}>
+		<{include file=module_install.html"}>
+  		</div>
+	</div>
+	<div>
+		<div class="comptabset_caption"><{$lang.module_system_head|smarty:nodefaults}></div>
+		<div class="outerdiv">
+		<{*システムモジュール*}>
+		<{include file=module_system.html"}>
+		</div>
+	</div>
+</div>
+<div class="align-right outerdiv">
+<a href="#" onclick="if (!commonCls.confirm('<{$lang.module_mes_allupdate_confirm|smarty:nodefaults}>')) return false; moduleCls['<{$id}>'].moduleAllUpdate(); return false;"><{$lang.module_allupdate|smarty:nodefaults}></a>
+</div>
+<{include file=module_script.html"}>
+<{/strip}>

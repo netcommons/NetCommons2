@@ -1,0 +1,18 @@
+[AllowIdList]
+target_room  = "TARGET_ROOM_ID"	    ;ターゲットルームID指定あり
+target_module  = "TARGET_MODULE_ID"	;ターゲットモジュールID指定あり
+block_id_arr = "ALLOW_BLOCK_ID"
+;page_id_arr = "ALLOW_PAGE_ID"
+
+[Action]
+db = "ref:DbObject"
+
+[View]
+success = "main:rss_feed.xml"
+count = "main:whatsnew_count.html"
+
+[Search]
+;keyword = more_name,less_name
+;wysiwyg = content,more_content
+;handle = insert_user_name
+;target_time = insert_time

@@ -1,0 +1,72 @@
+<{strip}>
+<{* 携帯用表示変更 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+	<{* 改ページおよび表示切替部テンプレート。GET方式であることに注意しよう *}>
+	<form action=".<{$smarty.const.INDEX_FILE_NAME}>" method="get">
+		<{* 改ページ部 *}>
+		<{if $action.total_page > 1}>
+			<{include file="multidatabase_mobile_init_page.html"}>
+		<{/if}>
+		<{* 表示切替部 *}>
+		<{* カテゴリ。foreachが２重LOOPなので、複数カテゴリ対応であることに注意 *}>
+		<div data-role="navbar">
+			<div data-role="controlgroup" data-type="horizontal">
+				<{foreach from=$action.section_metadatas item=item key=key}>
+					<select name="sort_section[<{$key}>]">
+						<option value="" <{if !strlen($action.sort_section.$key)}> selected="selected"<{/if}>>
+							<{$item.name}>
+						</option>
+						<{foreach from=$item.select_content_array|smarty:nodefaults item=option name=selectloop}>
+							<option value="<{$option}>" <{if $action.sort_section.$key == $option}> selected="selected"<{/if}>>
+								<{$option}>
+							</option>
+						<{/foreach}>
+					</select>
+				<{/foreach}>
+
+				<{* 並び替え *}>
+				<select name="sort_metadata">
+					<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT}>" <{if $action.sort_metadata == "" || $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT}> selected="selected"<{/if}>>
+						<{$lang.mdb_default_sort|smarty:nodefaults}>
+					</option>
+					<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}> selected="selected"<{/if}>>
+						<{$lang.mdb_date_sort|smarty:nodefaults}>
+					</option>
+					<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}> selected="selected"<{/if}>>
+						<{$lang.mdb_date_asc_sort|smarty:nodefaults}>
+					</option>
+					<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+						<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}> selected="selected"<{/if}>>
+							<{$lang.mdb_vote_sort|smarty:nodefaults}>
+						</option>
+					<{/if}>
+					<{foreach from=$action.sort_metadatas item=option name=selectloop}>
+						<option value="<{$option.metadata_id}>" <{if $action.sort_metadata == $option.metadata_id}> selected="selected"<{/if}>>
+							<{$option.name}><{$lang.mdb_sort_item|smarty:nodefaults}>
+						</option>
+					<{/foreach}>
+				</select>
+				<{* 表示件数 *}>
+				<select name="visible_item">
+					<option value="1" <{if ($action.visible_item == 1)}> selected="selected"<{/if}>>1<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="5" <{if ($action.visible_item == 5)}> selected="selected"<{/if}>>5<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="10" <{if ($action.visible_item == 10)}> selected="selected"<{/if}>>10<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="20" <{if ($action.visible_item == 20)}> selected="selected"<{/if}>>20<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="50" <{if ($action.visible_item == 50)}> selected="selected"<{/if}>>50<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="100" <{if ($action.visible_item == 100)}> selected="selected"<{/if}>>100<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<{* <option value="0" <{if ($action.visible_item == 0)}> selected="selected"<{/if}>><{$lang.mdb_display_item_all|smarty:nodefaults}></option> *}>
+				</select>
+				<{* アクション情報 *}>
+				<input type="hidden" name="action" value="multidatabase_view_main_init">
+				<input type="hidden" name="block_id" value="<{$action.block_id}>">
+				<{* ページ情報(hidden) *}>
+				<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>">
+				<input type="hidden" name="now_page" value="<{$action.now_page}>">
+				<{* セッション情報 *}>
+				<{$session_form|smarty:nodefaults}>
+				<{* submit部 *}>
+				<input data-icon="refresh" data-iconpos="right" type="submit"  type="submit" name="switch" value="<{$lang._mobile_switch|smarty:nodefaults}>" >
+			</div>
+		</div>
+	</form>
+<{/strip}>

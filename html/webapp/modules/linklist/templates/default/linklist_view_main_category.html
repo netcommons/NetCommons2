@@ -1,0 +1,23 @@
+<{strip}>
+<{* カテゴリ追加用テンプレート *}>
+<form class="popupClass" action="#" onsubmit="parent.linklistCls['<{$id}>'].enterCategory();return false;">
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="linklist_category_name_new<{$id}>">
+					<{$lang.linklist_category_name|smarty:nodefaults}>
+				</label>
+			</th>
+			
+			<td class="nowrap">
+				<input class="linklist_category_name" type="text" name="category_name" value="<{$lang.linklist_category_new_name|smarty:nodefaults|sprintf:$action.categoryNumber}>" />
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="parent.linklistCls['<{$id}>'].popup.closePopup();" />
+	</div>
+</form>
+<{/strip}>

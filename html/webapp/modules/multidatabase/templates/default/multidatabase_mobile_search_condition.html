@@ -1,0 +1,122 @@
+<{strip}>
+<{* 携帯用検索条件 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+	<form action=".<{$smarty.const.INDEX_FILE_NAME}>" method="post" >
+		<{if $action.total_page > 1}>
+			<{include file="multidatabase_mobile_search_page.html"}>
+		<{/if}>
+		<hr />
+		<input type="hidden" name="action" value="multidatabase_action_mobile_search" >
+		<input type="hidden" name="multidatabase_id" value="<{$action.multidatabase_id}>" >
+		<input type="hidden" name="block_id" value="<{$action.block_id}>" >
+		<input type="hidden" name="now_page" value="<{$action.now_page}>" >
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+
+		<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+		<{*項目名*}>
+		<label for="mdb_search_keyword<{$id}>"><{$lang.mdb_search_keyword|smarty:nodefaults}>:<br /></label>
+		<input id="mdb_search_keyword<{$id}>" name="keyword" type="text" value="<{if $action.keyword != ""}><{$action.keyword}><{/if}>" >
+		</div>
+		<p style="display:none;"></p>
+
+		<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+		<{*検索の種類*}>
+		<label for="select_kind<{$id}>"><{$lang.mdb_search_type|smarty:nodefaults}>:<br /></label>
+		<select id="select_kind<{$id}>" name="select_kind" >
+			<option value="<{$smarty.const.MULTIDATABASE_SEARCH_SELECT_AND}>" <{if $action.select_kind == $smarty.const.MULTIDATABASE_SEARCH_SELECT_AND}> selected="selected"<{/if}>><{$lang.mdb_search_type_and|smarty:nodefaults}></option>
+			<option value="<{$smarty.const.MULTIDATABASE_SEARCH_SELECT_OR}>" <{if $action.select_kind == $smarty.const.MULTIDATABASE_SEARCH_SELECT_OR}> selected="selected"<{/if}>><{$lang.mdb_search_type_or|smarty:nodefaults}></option>
+			<option value="<{$smarty.const.MULTIDATABASE_SEARCH_SELECT_PHRASE}>" <{if $action.select_kind == $smarty.const.MULTIDATABASE_SEARCH_SELECT_PHRASE}> selected="selected"<{/if}>><{$lang.mdb_search_type_phrase|smarty:nodefaults}></option>
+		</select>
+		<br />
+		</div>
+		<p style="display:none;"></p>
+
+		<{* ハンドル *}>
+		<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+		<label for="handle<{$id}>"><{$lang.mdb_search_handle|smarty:nodefaults}>:<br /></label>
+		<input id="handle<{$id}>" name="handle" type="text" value="<{if $action.handle}><{$action.handle}><{/if}>" >
+		<br />
+		</div>
+		<p style="display:none;"></p>
+
+		<{* 対象日 *}>
+		<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+		<div data-role="controlgroup" data-type="horizontal">
+		<label><{$lang.mdb_search_date|smarty:nodefaults}>:<br /></label>
+		<input type="text" name="date_from" value="<{$action.date_from}>" size=10 style="width:10em;display:inline;">
+		<{$lang.mdb_search_separator|smarty:nodefaults}>
+		<input type="text" name="date_to" value="<{$action.date_to}>" size=10 style="width:10em;display:inline;">
+		</div>
+		</div>
+		<p style="display:none;"></p>
+
+		<{* 状態 *}>
+		<{if ($smarty.session._auth_id >= _AUTH_CHIEF) }>
+			<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+			<label for="status<{$id}>"><{$lang.mdb_search_status|smarty:nodefaults}>:<br /></label>
+			<select id="status<{$id}>" name="status" >
+				<option value="<{$smarty.const.MULTIDATABASE_STATUS_ALL}>" <{if $action.status == $smarty.const.MULTIDATABASE_STATUS_ALL || $action.status == ""}> selected="selected"<{/if}>><{$lang.mdb_display_item_all|smarty:nodefaults}></option>
+				<option value="<{$smarty.const.MULTIDATABASE_STATUS_AGREE_VALUE}>" <{if $action.status == $smarty.const.MULTIDATABASE_STATUS_AGREE_VALUE}> selected="selected"<{/if}>><{$lang.mdb_search_open|smarty:nodefaults}></option>
+				<option value="<{$smarty.const.MULTIDATABASE_STATUS_WAIT_AGREE_VALUE}>" <{if $action.status == $smarty.const.MULTIDATABASE_STATUS_WAIT_AGREE_VALUE}> selected="selected"<{/if}>><{$lang.mdb_search_not_ready|smarty:nodefaults}></option>
+			</select>
+			</div>
+		<{/if}>
+		<p style="display:none;"></p>
+
+		<{* カテゴリ。selectの外にforeachがあるので、カテゴリは複数ありうる *}>
+		<{foreach from=$action.section_metadatas item=item key=key}>
+			<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+			<label for="sort_section_<{$id}>_<{$key}>"><{$item.name}>:<br /></label>
+			<select id="sort_section_<{$id}>_<{$key}>" name="sort_section[<{$key}>]" >
+				<option value="" <{if !strlen($action.sort_section.$key)}> selected="selected"<{/if}>>
+					<{$lang.mdb_display_item_all|smarty:nodefaults}>
+				</option>
+				<{foreach from=$item.select_content_array|smarty:nodefaults item=option name=selectloop}>
+					<option value="<{$option}>" <{if $action.sort_section.$key == $option}> selected="selected"<{/if}>>
+						<{$option}>
+					</option>
+				<{/foreach}>
+			</select><br />
+			</div>
+			<p style="display:none;"></p>
+		<{/foreach}>
+
+		<div style="margin-top:3px;margin-bottom:10px;" data-role="fieldcontain">
+		<{* 表示順 *}>
+		<label for="sort_metadata<{$id}>"><{$lang.mdb_search_sort|smarty:nodefaults}>:<br /></label>
+		<select id="sort_metadata<{$id}>" name="sort_metadata" >
+			<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT}>" <{if $action.sort_metadata === $smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT || $action.sort_metadata == ""}> selected="selected"<{/if}>>
+				<{$lang.mdb_default_sort|smarty:nodefaults}>
+			</option>
+			<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}> selected="selected"<{/if}>>
+				<{$lang.mdb_date_sort|smarty:nodefaults}>
+			</option>
+			<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}> selected="selected"<{/if}>>
+				<{$lang.mdb_date_asc_sort|smarty:nodefaults}>
+			</option>
+			<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+				<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}>" <{if $action.sort_metadata == $smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}> selected="selected"<{/if}>>
+					<{$lang.mdb_vote_sort|smarty:nodefaults}>
+				</option>
+			<{/if}>
+			<{foreach from=$action.sort_metadatas item=option name=selectloop}>
+				<option value="<{$option.metadata_id}>" <{if $action.sort_metadata == $option.metadata_id}> selected="selected"<{/if}>>
+					<{$option.name}><{$lang.mdb_sort_item|smarty:nodefaults}>
+				</option>
+			<{/foreach}>
+		</select>
+		</div>
+		<p style="display:none;"></p>
+
+		<br />
+		<div style="text-align:center;">
+		<input data-inline="true" data-icon="search" type="submit" name="search" value="<{$lang.mdb_search|smarty:nodefaults}>" >
+		&nbsp;
+		<a data-role="button" data-inline="true" href="?action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;block_id=<{$action.block_id}><{$session_param}>">
+            <{$lang._cancel|smarty:nodefaults}>
+        </a>
+        </div>
+	</form>
+        <br />
+<{/strip}>

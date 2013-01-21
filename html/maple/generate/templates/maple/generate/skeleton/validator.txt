@@ -1,0 +1,28 @@
+<?php print "<?php\n"; ?>
+
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * [[機能説明]]
+ *
+ * @package     NetCommons.validator
+<?php include($this->getTemplate('maple/generate/skeleton/_doc-comment.txt')); ?>
+ * @access      public
+ */
+class <?php print $skeleton->classname; ?> extends Validator
+{
+    /**
+     * [[機能説明]]
+     *
+     * @param   mixed   $attributes チェックする値
+     * @param   string  $errStr     エラー文字列
+     * @param   array   $params     オプション引数
+     * @return  string  エラー文字列(エラーの場合)
+     * @access  public
+     */
+    function validate($attributes, $errStr, $params)
+    {
+        return;
+    }
+}
+<?php print "?>\n"; ?>

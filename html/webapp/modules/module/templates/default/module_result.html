@@ -1,0 +1,22 @@
+<{strip}>
+<div class="outerdiv">
+	<{if $action_name == "module_action_admin_install"}>
+		<{if !$action.system_flag}>
+			<div class="module_selectauth_description">
+				<{$smarty.const.MODULE_MES_RESULT_SELECTAUTH_PRIVATE|sprintf:$action.module_name:"moduleCls[\"`$id`\"].showPopup(event, \"`$action.module_id`\", true); return false;"|smarty:nodefaults}>
+			</div>
+		<{/if}>
+		<{* 管理系は、権限設定において権限毎に使えるかどうかを細かく設定しているため、ここでは変更を許さない *}>
+		<{*
+		<div class="module_selectauth_description">
+		<{if $action.system_flag}>
+			<{$smarty.const.MODULE_MES_RESULT_SELECTAUTH|sprintf:$action.module_name:"moduleCls[\"`$id`\"].showPopup(event, \"`$action.module_id`\", true); return false;"|smarty:nodefaults}>
+		<{else}>
+			<{$smarty.const.MODULE_MES_RESULT_SELECTAUTH_PRIVATE|sprintf:$action.module_name:"moduleCls[\"`$id`\"].showPopup(event, \"`$action.module_id`\", true); return false;"|smarty:nodefaults}>
+		<{/if}>
+		</div>
+		*}>
+	<{/if}>
+	<{include file=module_resultdetail.html"}>
+</div>
+<{/strip}>

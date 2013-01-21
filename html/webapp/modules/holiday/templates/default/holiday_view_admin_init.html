@@ -1,0 +1,95 @@
+<{strip}>
+
+<div class="top_description">
+	<form action="#" method="get" onsubmit="return false;">
+		<table class="widthmax" summary="">
+			<tr>
+				<td class="nowrap">
+					<label for="select_year<{$id}>">
+						<select id="select_year<{$id}>" name="select_year" title="<{$lang.holiday_title_select_year|smarty:nodefaults}>" onchange='holidayCls["<{$id}>"].switchHoliday(this.form); return false;'>
+							<{assign var="now" value=$smarty.now|date_format:"%Y"|intval}>
+							<{section name="year" loop=2034 start=1970 step=1}>
+								<{assign var="year" value=$smarty.section.year.index}>
+								<option value="<{$year}>"<{if ($year == $action.year) }> selected="selected"<{/if}>>
+									<{$year|string_format:$lang.holiday_format_year}>
+								</option>
+							<{/section}>
+						</select>
+					</label>
+					&nbsp;
+					<label for="select_lang<{$id}>">
+						<select id="select_lang<{$id}>" name="select_lang" title="<{$lang.holiday_title_select_lang|smarty:nodefaults}>" onchange='holidayCls["<{$id}>"].switchHoliday(this.form); return false;'>
+							<{foreach name="lang_list" key="dirname" item="lang_name" from=$action.lang_list|smarty:nodefaults}>
+								<option value="<{$dirname}>"<{if ($dirname == $action.lang) }> selected="selected"<{/if}>>
+									<{$lang_name}>
+								</option>
+							<{/foreach}>
+						</select>
+					</label>
+				</td>
+				<td class="align-right nowrap">
+					<a class="syslink" href="#" onclick='holidayCls["<{$id}>"].showAddHoliday(event, <{$module_id}>, "<{$action.year}>"); return false;'>
+						<{$lang.holiday_add|smarty:nodefaults}>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<div class="outerdiv">
+	<{if ($action.count > 0) }>
+		<table class="grid_header" cellspacing="0" summary="">
+			<tr>
+				<th class="_sort_holiday grid_holiday holiday_grid_date" scope="col">
+					<{$lang.holiday_title_date|smarty:nodefaults}>
+				</th>
+				<th class="_sort_summary grid_summary holiday_grid_summary" scope="col">
+					<{$lang.holiday_title_summary|smarty:nodefaults}>
+				</th>
+				<th class="grid_manage" scope="col">
+					<{$lang._manage|smarty:nodefaults}>
+				</th>
+			</tr>
+		</table>
+	
+		<table class="grid" cellspacing="0" summary="<{$lang.holiday_summary|smarty:nodefaults}>">
+			<{section name=i loop=$action.holiday_list}>
+				<{assign var="holiday_id" value=$action.holiday_list[i].holiday_id}>
+				<{assign var="holiday" value=$action.holiday_list[i].holiday}>
+				<{assign var="holiday_str" value=$action.holiday_list[i].holiday_str}>
+				<{assign var="summary" value=$action.holiday_list[i].summary}>
+				<{assign var="js_summary" value=$action.holiday_list[i].summary|smarty:nodefaults|escape:"javascript"}>
+				
+				<tr class="grid_row">
+					<td class="grid_holiday holiday_grid_date">
+						<{$holiday_str}>
+					</td>
+					<td class="grid_summary holiday_grid_summary">
+						<{$summary|smarty:nodefaults}>
+					</td>
+					<td class="grid_manage">
+						<a href="#" class="syslink" title="<{$lang._edit_title|smarty:nodefaults|sprintf:"`$holiday_str` `$summary`"}>" onclick='holidayCls["<{$id}>"].showEditHoliday(event, <{$module_id}>, "<{$holiday_id}>"); return false;'>
+							<{$lang._edit|smarty:nodefaults}>
+						</a>
+						<{$lang._separator|smarty:nodefaults}>
+						<a href="#" class="syslink" title="<{$lang._del_title|smarty:nodefaults|sprintf:"`$holiday_str` `$summary`"}>" onclick='holidayCls["<{$id}>"].delHoliday(<{$action.holiday_list[i].rrule_id}>,"<{$lang._del_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"|sprintf:$js_summary}>", "<{$lang.holiday_del_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>"); return false;'>
+							<{$lang._delete|smarty:nodefaults}>
+						</a>
+					</td>
+				</tr>
+			<{/section}>
+		</table>
+	<{else}>
+		<{$lang.holiday_none|smarty:nodefaults}>
+	<{/if}>
+</div>
+
+<{include file="./holiday_script.html"}>
+<{if ($action.count > 0) }>
+	<script class="nc_script" type="text/javascript">
+		holidayCls["<{$id}>"].showHoliday(<{$conf.holiday_list_num}>, <{$action.count}>, "<{$action.year}>");
+	</script>
+<{/if}>
+
+<{/strip}>

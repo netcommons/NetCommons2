@@ -1,0 +1,91 @@
+<{strip}>
+<{* 初期化 *}><{if $action.month}><{assign var="current_month" value=$action.month}><{else}><{assign var="current_month" value=1}><{/if}>
+<{*ヘッダー表示部分*}>
+<{assign var="month_short_list" value="|"|explode:$lang._month_short_list}>
+
+<table class="monthlynumber_list" cellspacing="0" cellpadding="0" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+	<tr>
+		<th colspan="<{if $action.show_room_id == null}>14<{else}>13<{/if}>" scope="col">
+			<{* 月別一覧回数表 *}>
+			<{$smarty.const.USER_ITEM_MONTHLY_NUM}>
+		</th>
+	</tr>
+	<tr>
+		<th scope="col"><{* 回数 *}><{$lang._monthlynumber_num}></th>
+		<{if $action.show_room_id == null}><th scope="col"><{$lang._monthlynumber_roomname}></th><{/if}>
+		<{section name=i start=12 step=-1 loop=12}>
+			<{assign var="index" value=$smarty.section.i.index}>
+			<{if $action.month - $index < 1}>
+				<{math equation="val1-val2+val3" val1=12 val2=$index val3=$current_month assign=month}>
+			<{else}>
+				<{assign var="month" value=$action.month-$index}>
+			<{/if}>
+			<th scope="col">
+				<{assign var="month_num" value=$month-1|intval}>
+				<{$month_short_list.$month_num}>
+			</th>
+		<{/section}>
+	</tr>
+	<{*メイン表示部分*}>
+	<{foreach item=monthly_list key=key from=$action.monthly_login_list name=monthly_loop}>
+		<tr>
+		<{assign var="def_name" value=$key|substr:2}>
+			<td scope="row">
+				<{$lang.$def_name}>
+			</td>
+			<{foreach item=monthly_pages_list key=page_id_name from=$monthly_list name=monthly_room_loop}>
+				<{if $action.show_room_id == null}>
+					<{* ページ名称表示 *}>
+					<{assign var="page_name_arr" value="_"|explode:$page_id_name}>
+					<{assign var="page_name" value=$page_name_arr.1}>
+					<td scope="row">
+						<{$page_name}>
+					</td>
+				<{/if}>
+				<{section name=i start=12 step=-1 loop=12}>
+					<{assign var="index" value=$smarty.section.i.index}>
+					<{if $action.month - $index < 1}>
+						<{math equation="val1-val2+val3" val1=12 val2=$index val3=$current_month assign=month}>
+					<{else}>
+						<{assign var="month" value=$action.month-$index}>
+					<{/if}>
+					<td class="align-right">
+						<{if $monthly_pages_list.$month}>
+							<{$monthly_pages_list.$month}>
+						<{else}>
+							0
+						<{/if}>
+					</td>
+				<{/section}>
+			<{/foreach}>
+		</tr>
+	<{/foreach}>
+	
+	<{foreach item=monthly_list key=key from=$action.monthly_list name=monthly_loop}>
+		<{if $key != "" && $key != "nc"}>
+		<tr>
+		<{assign var="def_name" value=$key|substr:2}>
+		<{assign var="rowspan" value=$action.rowspan_list.$key}>
+		<{assign var="tr_flag" value=0}>
+		
+			<td rowspan="<{$rowspan}>" scope="row">
+				<{$lang.$def_name}>
+			</td>
+			<{if $action.show_room_id == null}>
+				<{assign var="room_list" value=$action.pages_list.0.0}>
+			<{else}>
+				<{assign var="show_parent_id" value=$action.show_parent_id}>
+				<{assign var="show_thread_num" value=$action.show_thread_num}>
+				<{assign var="room_list" value=$action.pages_list.$show_thread_num.$show_parent_id}>
+			<{/if}>
+			<{assign var="monthly_row_exists" value=$action.monthly_row_exists.$key}>
+			<{if $monthlynumber_path}>
+				<{assign var="monthlynumber_file" value=$monthlynumber_path|cat:"monthlynumber.html"}>
+				<{include file=$monthlynumber_file}>
+			<{else}>
+				<{include file="monthlynumber.html"}>
+			<{/if}>
+		<{/if}>
+	<{/foreach}>
+</table>
+<{/strip}>

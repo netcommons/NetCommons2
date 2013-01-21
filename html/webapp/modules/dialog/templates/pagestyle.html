@@ -1,0 +1,401 @@
+<{strip}>
+<{* TODO:style属性、後にクラス化 *}>
+<div class="outerdiv">
+<form onsubmit="return false;">
+<{*タブコンポーネント*}>
+<div class="comp_tabset comp_tabset_top_<{$_icon_color}>"></div>
+<div class="comp_tabset_content_<{$_icon_color}>" style="width:535px;">
+	<div id="_pagestyle_top" class="outerdiv">
+		<{assign var="pagetheme_name" value=$action.theme_name}>
+		<div style="width:530px;height:320px;overflow:auto;">
+			<{foreach from=$action.category_list|smarty:nodefaults key=key item=category_name}>
+				<{if $action.pagetheme_list.$key}>
+					<{if $action.act_category == $key}>
+						<a class="link" title="<{$lang.dialog_pagestyle_down_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+							<img src="<{""|get_image_url}>/images/common/down_arrow.gif" alt="<{$lang.dialog_pagestyle_down_arrow}>" class="icon" />&nbsp;<{$category_name}>
+						</a>
+						<div style="padding-left:20px; padding-right:20px; white-space:nowrap;">
+					<{else}>
+						<a class="link" title="<{$lang.dialog_pagestyle_right_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+							<img src="<{""|get_image_url}>/images/common/right_arrow.gif" alt="<{$lang.dialog_pagestyle_right_arrow}>" class="icon" />&nbsp;<{$category_name}>
+						</a>
+						<div style="padding-left:20px; padding-right:20px; white-space:nowrap; display:none;">
+					<{/if}>
+						<{foreach name=pagetheme_list from=$action.pagetheme_list.$key|smarty:nodefaults key=theme_name item=lang_theme_name}>
+							<{if $theme_name == $pagetheme_name}>
+								<{* 配色-カスタムのtheme_name取得用 *}>
+								<{assign var="current_theme_name" value=$lang_theme_name|smarty:nodefaults}>
+							<{/if}>
+							<div style="float:left;">
+							<a href="#" style="display:block;" class="link _pagestyle<{if $theme_name == $pagetheme_name}> highlight<{/if}>" onclick="pagestyleCls.themeClick(this,'<{$theme_name}>'); return false;">
+								<img style="margin:5px;width:80px; height:60px;" src="<{$action.image_path.$theme_name}>" alt="<{$lang_theme_name}>" title="<{$lang_theme_name}>" class="icon" />
+							</a>
+							</div>
+							<{if $smarty.foreach.pagetheme_list.iteration % 4 == 0}>
+								<{*４つで下の行へ*}>
+								<br style="clear:left;" />
+							<{/if}>
+						<{/foreach}>
+					</div>	
+					<div style="clear:left;" class="hr"></div>
+				<{/if}>
+			<{/foreach}>
+		</div>
+  	</div>
+  	<div class="outerdiv" style="display:none;">
+		<table class="outer" style="margin-top:10px;" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<{*ページ名称*}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_pagestyle_page_name}></th>
+				<td class="row">
+					<input onblur="this.onchange();" onchange="pagestyleCls.chgGeneral(this);" name="page_name" type="text" value="<{$action.pages.page_name}>" size="40" maxlength="50" />
+					<input type="hidden" value="<{$action.pages.page_name}>" />
+					<{if $smarty.session._permalink_flag == _OFF || ($action.pages.thread_num == 1 && $action.pages.display_sequence == 1 && $action.pages.space_type == _SPACE_TYPE_PUBLIC)}>
+						<input type="hidden" name="permalink" value="<{$action.pages.page_name}>" />
+						<{if ($action.pages.thread_num == 1 && $action.pages.display_sequence == 1 && $action.pages.space_type == _SPACE_TYPE_PUBLIC)}>
+							<input type="hidden" name="titletag" value="<{$action.pages.page_name}>" />
+						<{/if}>
+					<{/if}>
+				</td>
+			</tr>
+			<{if $smarty.session._allow_layout_flag == _ON}>
+			<{*行揃え*}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_pagestyle_align}></th>
+				<td class="row">
+					<select name="align" onchange="pagestyleCls.chgGeneral(this);">
+						<option value="left"<{if $action.pages.align=="left"}> selected="selected"<{/if}>><{$lang.dialog_pagestyle_align_left}></option>
+						<option value="center"<{if $action.pages.align=="center"}> selected="selected"<{/if}>><{$lang.dialog_pagestyle_align_center}></option>
+						<option value="right"<{if $action.pages.align=="right"}> selected="selected"<{/if}>><{$lang.dialog_pagestyle_align_right}></option>
+					</select>
+					<input type="hidden" value="<{$action.pages.align}>" />
+				</td>
+			</tr>
+			<{*マージン*}>
+			<{* 行揃えが中央の場合、左右マージンは指定不可とする *}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_style_margin}></th>
+				<td class="row">
+					<table cellspacing="0" cellpadding="0" summary="">
+					<tr>
+						<th scope="row"><{$lang.dialog_style_top}></th>
+						<td class="row">
+							<input class="align-right" name="topmargin" type="text" value="<{$action.pages.topmargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);this.onchange();" onchange="pagestyleCls.chgGeneral(this);" />
+							<input type="hidden" value="<{$action.pages.topmargin}>" />
+							&nbsp;<{$lang.dialog_style_pixel}>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><{$lang.dialog_style_right}></th>
+						<td class="row">
+							<input class="align-right" name="rightmargin" type="text" value="<{$action.pages.rightmargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);this.onchange();" onchange="pagestyleCls.chgGeneral(this);" />
+							<input type="hidden" value="<{$action.pages.rightmargin}>" />
+							&nbsp;<{$lang.dialog_style_pixel}>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><{$lang.dialog_style_bottom}></th>
+						<td class="row">
+							<input class="align-right" name="bottommargin" type="text" value="<{$action.pages.bottommargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);this.onchange();" onchange="pagestyleCls.chgGeneral(this);" />
+							<input type="hidden" value="<{$action.pages.bottommargin}>" />
+							&nbsp;<{$lang.dialog_style_pixel}>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><{$lang.dialog_style_left}></th>
+						<td class="row">
+							<input class="align-right" name="leftmargin" type="text" value="<{$action.pages.leftmargin}>" size="5" maxlength="3" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);" onblur="this.onkeyup(event);this.onchange();" onchange="pagestyleCls.chgGeneral(this);" />
+							<input type="hidden" value="<{$action.pages.leftmargin}>" />
+							&nbsp;<{$lang.dialog_style_pixel}>
+						</td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<{/if}>
+			<{if $smarty.session._permalink_flag == _ON}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_pagestyle_permalink|smarty:nodefaults}></th>
+				<td class="row">
+					<{assign var="url" value=$smarty.const.BASE_URL|smarty:nodefaults|cat:"/"}>
+					<{if $action.perma_parent_permalink != ""}>
+						<{assign var="url" value=$url|smarty:nodefaults|cat:"`$action.perma_parent_permalink`"|cat:"/"}>
+					<{/if}>
+					<{$url}>
+					<input class="dialog_pagestyle_permalink" onblur="this.onchange();" onchange="pagestyleCls.chg_flag = true;" type="text" size="20" value="<{$action.permalink}>" name="permalink"<{if ($action.pages.private_flag == _ON && $action.pages.thread_num == 0) || ($action.pages.thread_num == 1 && $action.pages.display_sequence == 1 && $action.pages.space_type == _SPACE_TYPE_PUBLIC)}> disabled="disabled"<{/if}> />/
+					<input type="hidden" value="<{$url}>" name="permalink_url" />
+					<{* 説明 *}>
+					<div class="note">
+						<{$lang.dialog_pagestyle_permalink_desc|smarty:nodefaults}>
+					</div>
+					<{*
+					<{if ($action.pages.private_flag == _ON && $action.pages.thread_num == 0) || ($action.pages.thread_num == 1 && $action.pages.display_sequence == 1 && $action.pages.space_type == _SPACE_TYPE_PUBLIC)}>
+						<input type="hidden" name="permalink" value="<{$action.permalink}>" />
+					<{/if}>
+					<{if ($action.pages.private_flag == _ON && $action.pages.thread_num == 0)}>
+						<input type="hidden" name="titletag" value="<{$action.pages_meta_inf.title}>" />
+					<{/if}>
+					*}>
+				</td>
+			</tr>
+			<{/if}>
+		</table>
+		
+		<{if $action.pages.private_flag == _OFF && $action.pages.space_type == _SPACE_TYPE_PUBLIC}>
+			<{* パブリックならば、METAデータの設定を許す *}>
+			<div class="dialog_pagestyle_update_meta">
+				<img class="icon" alt="" src="<{"arrow_switching.gif"|get_modules_image}>" />
+				&nbsp;
+				<a href="#" onclick="commonCls.displayChange($('dialog_pagestyle_details<{$id}>')); return false;">
+					<{$lang.dialog_pagestyle_meta_edit|smarty:nodefaults}>
+				</a>
+			</div>
+		<{/if}>
+		
+		<table id="dialog_pagestyle_details<{$id}>" class="outer display-none" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<{* タイトル *}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_pagestyle_titletag_title|smarty:nodefaults}></th>
+				<td class="row">
+					<input onblur="this.onchange();" onchange="pagestyleCls.chg_flag = true;" class="dialog_pagestyle_titletag" type="text" size="50" value="<{if ($action.pages.space_type == _SPACE_TYPE_PUBLIC && $action.pages.thread_num == 1 && $action.pages.display_sequence == 1)}><{$action.pages_meta_inf.sitename}><{else}><{$action.pages_meta_inf.title}><{/if}>" name="titletag"<{if ($action.pages.private_flag == _ON && $action.pages.thread_num == 0 && $action.pages.default_entry_flag == _ON)|| ($action.pages.space_type == _SPACE_TYPE_PUBLIC && $action.pages.thread_num == 1 && $action.pages.display_sequence == 1)}> disabled="disabled"<{/if}> />
+					<{if !($action.pages.space_type == _SPACE_TYPE_PUBLIC && $action.pages.thread_num == 1 && $action.pages.display_sequence == 1)}>
+						&nbsp;-&nbsp;<{$action.pages_meta_inf.sitename}>
+					<{/if}>
+					<{* 説明 *}>
+					<div class="note">
+						<{$lang.dialog_pagestyle_titletag_desc|smarty:nodefaults}>
+						<div>
+							<{if $action.pages.private_flag == _ON}>
+								<{$lang.dialog_pagestyle_titletag_myportal_keyword|smarty:nodefaults}>
+							<{elseif $action.pages.space_type == _SPACE_TYPE_GROUP}>
+								<{$lang.dialog_pagestyle_titletag_group_keyword|smarty:nodefaults}>
+							<{else}>
+								<{$lang.dialog_pagestyle_titletag_public_keyword|smarty:nodefaults}>
+							<{/if}>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<{* description *}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_pagestyle_meta_description_title|smarty:nodefaults}></th>
+				<td class="row">
+					<textarea onblur="this.onchange();" onchange="pagestyleCls.chg_flag = true;" cols="68" rows="5" name="meta_description" class="dialog_pagestyle_meta_textarea">
+						<{$action.pages_meta_inf.meta_description}>
+					</textarea>
+					<{* 説明 *}>
+					<div class="note">
+						<{$lang.dialog_pagestyle_meta_description_desc|smarty:nodefaults}>
+						<{if $action.pages.private_flag == _ON}>
+							<div>
+								<{$lang.dialog_pagestyle_meta_description_myportal_desc_keyword|smarty:nodefaults}>
+							</div>
+						<{/if}>
+					</div>
+				</td>
+			</tr>
+			
+			<{* keywords *}>
+			<tr>
+				<th class="row" scope="row"><{$lang.dialog_pagestyle_meta_keywords_title|smarty:nodefaults}></th>
+				<td class="row">
+					<textarea onblur="this.onchange();" onchange="pagestyleCls.chg_flag = true;" cols="68" rows="5" name="meta_keywords" class="dialog_pagestyle_meta_textarea">
+						<{$action.pages_meta_inf.meta_keywords}>
+					</textarea>
+					<{* 説明 *}>
+					<div class="note">
+						<{$lang.dialog_pagestyle_meta_keywords_desc|smarty:nodefaults}>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<{if $smarty.session._allow_layout_flag == _ON}>
+	<div class="outerdiv">
+		<{* レイアウト *}>
+		<table class="_pagestyle_layout" border="0" align="center" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<tr>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, false, false, false); return false;" class="<{if $action.type == "A"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_01.gif" alt="<{$lang.dialog_pagestyle_layout_none|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_none|smarty:nodefaults}>" class="icon" /></a></td>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, true, false, false); return false;" class="<{if $action.type == "B"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_02.gif" alt="<{$lang.dialog_pagestyle_layout_header|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_header|smarty:nodefaults}>" class="icon" /></a></td>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, true, true, false); return false;" class="<{if $action.type == "C"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_03.gif" alt="<{$lang.dialog_pagestyle_layout_headerleft|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_headerleft|smarty:nodefaults}>" class="icon" /></a></td>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, true, false, true); return false;" class="<{if $action.type == "D"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_04.gif" alt="<{$lang.dialog_pagestyle_layout_headerright|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_headerright|smarty:nodefaults}>" class="icon" /></a></td>
+			</tr>
+			<tr>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, true, true, true); return false;" class="<{if $action.type == "E"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_05.gif" alt="<{$lang.dialog_pagestyle_layout_all|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_all|smarty:nodefaults}>" class="icon" /></a></td>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, false, true, false); return false;" class="<{if $action.type == "F"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_06.gif" alt="<{$lang.dialog_pagestyle_layout_left|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_left|smarty:nodefaults}>" class="icon" /></a></td>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, false, false, true); return false;" class="<{if $action.type == "G"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_07.gif" alt="<{$lang.dialog_pagestyle_layout_right|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_right|smarty:nodefaults}>" class="icon" /></a></td>
+				<td><a href="#" onclick="pagestyleCls.layoutClick(this, false, true, true); return false;" class="<{if $action.type == "H"}>highlight<{/if}>" style="display:block; padding:8px"><img style="border:1px solid #cccccc;" src="<{""|get_image_url}>/images/common/layout/layout_08.gif" alt="<{$lang.dialog_pagestyle_layout_leftright|smarty:nodefaults}>" title="<{$lang.dialog_pagestyle_layout_leftright|smarty:nodefaults}>" class="icon" /></a></td>
+			</tr>
+		</table>
+  	</div>
+	<{/if}>
+	<{if $action.background_color != "" && $smarty.session._allow_layout_flag == _ON}>
+	<div id="_pagestyle_color" class="outerdiv">
+		<{* 配色 *}>
+		<{$lang.dialog_coloration_desc|smarty:nodefaults}>
+		<{if $smarty.session._user_auth_id == _AUTH_ADMIN}>
+			<{$lang.pagestyle_custom_confirm|sprintf:$current_theme_name|smarty:nodefaults}>
+		<{/if}>
+		<div style="width:530px;height:242px;overflow:auto;padding:2px;">
+			
+			<a class="link" title="<{$lang.dialog_pagestyle_down_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+				<img src="<{""|get_image_url}>/images/common/down_arrow.gif" alt="<{$lang.dialog_pagestyle_down_arrow}>" title="<{$lang.dialog_pagestyle_down_arrow}>" class="icon" />&nbsp;<{$lang.dialog_pagestyle_background}>
+			</a>
+			<div style="white-space:nowrap;">
+				<{foreach from=$action.background_color key=key item=color_list}>
+					<{if $key == "general"}>
+						<div id="_pagestyle_body" style="margin-left:20px; margin-right:20px; clear:left;"><{$lang.dialog_pagestyle_background}>
+						<{assign var="column_name" value="body"}>
+					<{elseif $key == "centercolumn"}>
+						<div id="_pagestyle_centercolumn" style="margin-left:20px; margin-right:20px; clear:left;"><{$lang.dialog_pagestyle_centercolumn}>
+						<{assign var="column_name" value="centercolumn"}>
+					<{elseif $key == "leftcolumn"}>
+						<div id="_pagestyle_leftcolumn" style="margin-left:20px; margin-right:20px; clear:left;"><{$lang.dialog_pagestyle_leftcolumn}>
+						<{assign var="column_name" value="leftcolumn"}>
+					<{elseif $key == "rightcolumn"}>
+						<div id="_pagestyle_rightcolumn" style="margin-left:20px; margin-right:20px; clear:left;"><{$lang.dialog_pagestyle_rightcolumn}>
+						<{assign var="column_name" value="rightcolumn"}>
+					<{elseif $key == "headercolumn"}>
+						<div id="_pagestyle_headercolumn" style="margin-left:20px; margin-right:20px; clear:left;"><{$lang.dialog_pagestyle_header}>
+						<{assign var="column_name" value="headercolumn"}>
+					<{elseif $key == "footercolumn"}>
+						<div id="_pagestyle_footercolumn" style="margin-left:20px; margin-right:20px; clear:left;"><{$lang.dialog_pagestyle_footer}>
+						<{assign var="column_name" value="footercolumn"}>
+					<{/if}>
+					<{foreach from=$color_list key=count item=color}>
+						<{if $color == "selection"}>
+							<input onkeydown="if(!commonCls.colorCheck(event)){return false} if(event.keyCode == 9 || event.keyCode == 13) {this.onchange();}" onchange="pagestyleCls.colorClick(<{if $column_name == "body"}>document.body<{else}>'<{$column_name}>'<{/if}>,'backgroundColor',this.value,this);" style="margin-top:5px; margin-left:5px;float:left; width:6em;" type="text" maxlength="7" value="" />
+						<{elseif $color == "selection_image"}>
+							<select onchange="pagestyleCls.colorClick(<{if $column_name == "body"}>document.body<{else}>'<{$column_name}>'<{/if}>,'background',this.value, this);" style="margin-top:5px; margin-left:5px; float:left; width:7em;">
+								<option value=""><{$lang.dialog_blockstyle_notsel|smarty:nodefaults}></option>
+								<{foreach name=background from=$action.background_image.$key.$count item=background_value}>
+									<{assign var="background_index" value=$smarty.foreach.background.iteration-1}>
+									<option value="<{$background_value|smarty:nodefaults}>"><{$action.background_image_lang.$key.$count.$background_index}></option>
+								<{/foreach}>
+							</select>
+						<{elseif $color == "transparent" &&  $count == 0}>
+							<a style="display:block;float:left; margin:0px 5px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>" onclick="pagestyleCls.colorClick(<{if $column_name == "body"}>document.body<{else}>'<{$column_name}>'<{/if}>,'backgroundColor','<{$color}>',this); return false;"/>
+								<div  style="border:1px solid #d2ef6a;" >
+									<img src="<{""|get_image_url}>/images/dialog/transparence.gif" title="transparent" alt="transparent" />
+								</div>
+							</a>
+						<{elseif $color == "transparent"}>
+							<a style="display:block;float:left; margin:0px 5px;margin-top:3px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>" onclick="pagestyleCls.colorClick(<{if $column_name == "body"}>document.body<{else}>'<{$column_name}>'<{/if}>,'backgroundColor','<{$color}>',this); return false;" />
+								<div  style="border:1px solid #d2ef6a;" >
+									<img style="width:14px;height:14px;" src="<{""|get_image_url}>/images/dialog/transparence_small.gif" title="transparent" alt="transparent" />
+								</div>
+							</a>
+						<{elseif $count == 0}>
+							<a style="display:block;float:left; margin:0px 5px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>" onclick="pagestyleCls.colorClick(<{if $column_name == "body"}>document.body<{else}>'<{$column_name}>'<{/if}>,'backgroundColor','<{$color}>',this); return false;" />
+								<div  style="background:<{$color}>; border:1px solid #d2ef6a; width:18px;height:18px;" >
+								</div>
+							</a>
+						<{else}>
+							<a style="display:block;float:left; margin:3px 0px;padding:5px;" href="#"  title="<{$color}>" alt="<{$color}>" onclick="pagestyleCls.colorClick(<{if $column_name == "body"}>document.body<{else}>'<{$column_name}>'<{/if}>,'backgroundColor','<{$color}>',this); return false;" />
+								<div  style="background:<{$color}>; border:1px solid #d2ef6a; width:14px;height:14px;" >
+								</div>
+							</a>
+						<{/if}>
+					<{/foreach}>
+					</div>
+				<{/foreach}>
+			</div>
+			<div style="padding-top:10px;clear:left;" class="hr"></div>
+			<a class="link" title="<{$lang.dialog_pagestyle_down_arrow}>" href="#" onclick="pagestyleCls.displayChange(this); return false;">
+				<img src="<{""|get_image_url}>/images/common/down_arrow.gif" alt="<{$lang.dialog_pagestyle_down_arrow}>" title="<{$lang.dialog_pagestyle_down_arrow}>" class="icon" />&nbsp;<{$lang.dialog_pagestyle_border}>
+			</a>
+			<div style="padding-left:20px; padding-right:20px; white-space:nowrap;">
+				<{section name=customer loop=5}>
+					<{if $action.headercolumn != ""}>
+						<{if $smarty.section.customer.index == 0}>
+							<div id="_pagestyle_headercolumn_border" style="clear:left;"><{$lang.dialog_pagestyle_header}>
+							<{assign var="column_name" value="headercolumn"}>
+						<{elseif $smarty.section.customer.index == 1}>
+							<div id="_pagestyle_leftcolumn_border" style="clear:left;"><{$lang.dialog_pagestyle_leftcolumn}>
+							<{assign var="column_name" value="leftcolumn"}>
+						<{elseif $smarty.section.customer.index == 2}>
+							<div id="_pagestyle_centercolumn_border" style="clear:left;"><{$lang.dialog_pagestyle_centercolumn}>
+							<{assign var="column_name" value="centercolumn"}>
+						<{elseif $smarty.section.customer.index == 3}>
+							<div id="_pagestyle_rightcolumn_border" style="clear:left;"><{$lang.dialog_pagestyle_rightcolumn}>
+							<{assign var="column_name" value="rightcolumn"}>
+						<{elseif $smarty.section.customer.index == 4}>
+							<div id="_pagestyle_footercolumn_border" style="clear:left;"><{$lang.dialog_pagestyle_footer}>
+							<{assign var="column_name" value="footercolumn"}>
+						<{/if}>
+						<{assign var="column" value=$action.$column_name}>
+						<div class="hr"></div>
+						<{foreach from=$column key=key item=border_list}>
+							<{if $key == "border_top_color"}>
+								<div id="_pagestyle_<{$column_name}>_border_top_color" style="padding-left:3px;clear:left;"><{$lang.dialog_pagestyle_pos_top}>
+								<{assign var="border_name" value="borderTop"}>
+							<{elseif $key == "border_right_color"}>
+								<div id="_pagestyle_<{$column_name}>_border_right_color" style="padding-left:3px;clear:left;"><{$lang.dialog_pagestyle_pos_right}>
+								<{assign var="border_name" value="borderRight"}>
+							<{elseif $key == "border_bottom_color"}>
+								<div id="_pagestyle_<{$column_name}>_border_bottom_color" style="padding-left:3px;clear:left;"><{$lang.dialog_pagestyle_pos_bottom}>
+								<{assign var="border_name" value="borderBottom"}>
+							<{elseif $key == "border_left_color"}>
+								<div id="_pagestyle_<{$column_name}>_border_left_color" style="padding-left:3px;clear:left;"><{$lang.dialog_pagestyle_pos_left}>
+								<{assign var="border_name" value="borderLeft"}>
+							<{/if}>
+							<{foreach  from=$border_list key=count item=color}>
+								<{if $color == "selection"}>
+									<input onkeydown="if(!commonCls.colorCheck(event)){return false} if (event.keyCode == 13) {this.onchange();}" onchange="pagestyleCls.colorClick('<{$column_name}>','<{$border_name}>','1px solid '+this.value,this);" style="margin-top:5px; margin-left:15px; display:block; float:left; width:6em;" type="text" maxlength="7" value="" />
+								<{elseif $color == "selection_image"}>
+								<{elseif $color == "transparent" &&  $count == 0}>
+									<a style="display:block;float:left; margin:0px 5px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>" onclick="pagestyleCls.colorClick('<{$column_name}>','<{$border_name}>','0px',this); return false;" />
+										<div  style="border:1px solid #d2ef6a;" >
+											<img src="<{""|get_image_url}>/images/dialog/transparence.gif" title="transparent" alt="transparent" />
+										</div>
+									</a>
+								<{elseif $color == "transparent"}>
+									<a style="display:block;float:left; margin:0px 5px;margin-top:3px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>"  onclick="pagestyleCls.colorClick('<{$column_name}>','<{$border_name}>','0px',this); return false;" />
+										<div  style="border:1px solid #d2ef6a;" >
+											<img style="width:14px;height:14px;" src="<{""|get_image_url}>/images/dialog/transparence_small.gif" title="transparent" alt="transparent" />
+										</div>
+									</a>
+								<{elseif $count == 0}>
+									<a style="display:block;float:left; margin:0px 5px;padding:5px;" href="#" title="<{$color}>" alt="<{$color}>"  onclick="pagestyleCls.colorClick('<{$column_name}>','<{$border_name}>','1px solid <{$color}>',this); return false;" />
+										<div  style="background-color:<{$color}>; border:1px solid #d2ef6a; width:18px;height:18px;" >
+										</div>
+									</a>
+								<{else}>
+									<a style="display:block;float:left; margin:3px 0px;padding:5px;" href="#"  title="<{$color}>" alt="<{$color}>"  onclick="pagestyleCls.colorClick('<{$column_name}>','<{$border_name}>','1px solid <{$color}>',this); return false;" />
+										<div  style="background-color:<{$color}>; border:1px solid #d2ef6a; width:14px;height:14px;" >
+										</div>
+									</a>
+								<{/if}>
+							<{/foreach}>
+							</div>
+							<div style="clear:left;"></div>
+						<{/foreach}>
+						</div>
+					<{/if}>
+				<{/section}>
+			</div>
+		</div>
+		<div class="align-right" style="clear:left;">
+			<{if $smarty.session._user_auth_id == _AUTH_ADMIN && BASE_URL == CORE_BASE_URL}>
+				<{* 設定中のページテーマすべてに適用 *}>
+				<label for="pagestyle_all_apply<{$id}>">
+					<input id="pagestyle_all_apply<{$id}>" name="pagestyle_all_apply" type="checkbox" onchange="pagestyleCls.chg_flag = true;" value="1" <{if $action.all_apply}>checked="checked"<{/if}> />
+					<{$lang.dialog_pagestyle_all_apply}>
+				</label>
+				<br />
+			<{/if}>
+			<{* 規定値に戻す：配色情報クリア *}>
+			<a class="syslink" href="#" onclick="if(commonCls.confirm('<{$lang.dialog_confirm_clearcolor|smarty:nodefaults}>')) {pagestyleCls.defaultColorClick();} return false;"><div class="dialog_pagestyle_reset"><{$lang.dialog_pagestyle_reset}></div></a>
+		</div>
+	</div>
+	<{/if}>
+</form>
+</div>
+<div class="align-center" style="margin-top:5px;">
+	<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>"  onclick="pagestyleCls.okClick('<{$id}>'); return false;" />
+	<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="pagestyleCls.cancelClick('<{$id}>'); return false;" />
+</div>
+<script class="nc_script" type="text/javascript">
+pagestyleCls.init("<{$id}>", "<{$action.page_id}>", "<{$action.theme_name}>", "<{$action.header_flag}>", "<{$action.leftcolumn_flag}>", "<{$action.rightcolumn_flag}>", "<{$action.active_tab}>", "<{$action.change_flag}>", "<{$lang.dialog_pagestyle_cancel_confirm|smarty:nodefaults}>" , "<{$lang.dialog_tab_general|smarty:nodefaults}>", "<{$lang.dialog_tab_theme|smarty:nodefaults}>","<{$lang.dialog_tab_layout|smarty:nodefaults}>","<{$lang.dialog_tab_coloration|smarty:nodefaults}>","<{$lang.dialog_pagestyle_down_arrow}>","<{$lang.dialog_pagestyle_right_arrow}>","<{$smarty.const.DEFAULT_ACTION}>","<{$smarty.const._PERMALINK_CONTENT|escape:"javascript"|smarty:nodefaults}>","<{$smarty.const._PERMALINK_PROHIBITION_REPLACE|escape:"javascript"|smarty:nodefaults}>");
+</script>
+<{/strip}>

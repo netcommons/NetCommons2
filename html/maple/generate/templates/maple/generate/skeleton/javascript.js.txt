@@ -1,0 +1,8 @@
+var cls<?php print ucfirst($skeleton->dir_name); ?> = Class.create();
+var <?php print $skeleton->dir_name; ?>Cls = Array();
+
+cls<?php print ucfirst($skeleton->dir_name); ?>.prototype = {
+	initialize: function(id) {
+		this.id = id;
+	}
+}

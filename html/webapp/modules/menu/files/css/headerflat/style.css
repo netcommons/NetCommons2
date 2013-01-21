@@ -1,0 +1,37 @@
+ul.menu_headerflat {
+	background:transparent url(<{$smarty.const.CORE_BASE_URL}>/images/menu/headerflat/header_btnback.gif) repeat-x scroll left top;
+	display:block;
+	height:36px;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0px;
+	padding:0px 20px;
+}
+ul.menu_headerflat li {
+	background:transparent url(<{$smarty.const.CORE_BASE_URL}>/images/menu/headerflat/header_btnback.gif) repeat-x scroll left top;
+	display:block;
+	float:left;
+	padding:0px;
+}
+ul.menu_headerflat li a {
+	height:20px;
+	width:130px;
+	overflow:hidden;
+	display:block;
+	padding:7px 0px;
+}
+
+.menu_headerflat_btn {
+	border-color:transparent #cccccc transparent #ffffff;
+	border-style:solid;
+	border-width:0px 1px;
+	padding:0px;
+	/*font-size:12px;*/
+	text-align:center;
+	font-weight:bold !important;
+}
+
+.menu_headerflat_highlight {
+	background:transparent url(<{$smarty.const.CORE_BASE_URL}>/images/menu/headerflat/header_light_btnback.gif) repeat-x scroll left top;
+}

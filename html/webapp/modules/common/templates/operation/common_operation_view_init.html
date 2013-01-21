@@ -1,0 +1,122 @@
+<{strip}>
+<{if $action.err_pos}>
+	<{* ブロック未配置 *}>
+	<div class="outerdiv">
+		<{$lang.mes_err_pos|smarty:nodefaults}>
+	</div>
+<{else}>
+	<form id="form<{$id}>" action="#" method="get" onsubmit="return false;">
+	<div class="top_description">
+		<{$lang.top_description|smarty:nodefaults|sprintf:$lang.move_destination:$lang.move_btn}>
+	</div>
+	<div class="outerdiv">
+	<table class="outer" summary="<{$lang._edit_operation|smarty:nodefaults}>">
+		<{* 対象 *}>
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.target_title|smarty:nodefaults}>
+			</th>
+			<td class="nowrap bold">
+				<{$action.title}>
+			</td>
+		</tr>
+		<{* 移動先(対象ページ) *}>
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="move_destination<{$id}>">
+				<{$lang.move_destination|smarty:nodefaults}>
+				</label>
+			</th>
+			<td class="nowrap">
+				<select id="move_destination<{$id}>" name="move_page_id" onchange="commonOperationCls['<{$id}>'].selectOnChange(event, this);">
+					<option value="">
+						<{$lang.none_specified|smarty:nodefaults}>
+					</option>
+					<{assign var="pages_list" value=$action.pages_list.0.0}>
+					<{include file="operation/common_operation_view_pageslist.html"}>
+					
+					
+					
+					<{if $action.headercolumn_page_id != null}>
+						<{if $action.column_space_type_use == _OFF}>
+							<option value="<{$action.headercolumn_page_id}>">
+								<{$lang.header_column|smarty:nodefaults}>
+							</option>
+							<option value="<{$action.leftcolumn_page_id}>">
+								<{$lang.left_column|smarty:nodefaults}>
+							</option>
+							<option value="<{$action.rightcolumn_page_id}>">
+								<{$lang.right_column|smarty:nodefaults}>
+							</option>
+						<{else}>
+							<{foreach key=key item=headercolumn_page_id from=$action.headercolumn_page_id}>
+								<option value="<{$headercolumn_page_id}>">
+									<{$lang.header_column|smarty:nodefaults}>
+									<{if $key == 0}>
+										(<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>)
+									<{elseif $key == 1}>
+										(<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>)
+									<{elseif $key == 2}>
+										(<{$smarty.const._SPACE_TYPE_NAME_GROUP}>)
+									<{/if}>
+								</option>
+							<{/foreach}>
+							<{foreach key=key item=leftcolumn_page_id from=$action.leftcolumn_page_id}>
+								<option value="<{$leftcolumn_page_id}>">
+									<{$lang.left_column|smarty:nodefaults}>
+									<{if $key == 0}>
+										(<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>)
+									<{elseif $key == 1}>
+										(<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>)
+									<{elseif $key == 2}>
+										(<{$smarty.const._SPACE_TYPE_NAME_GROUP}>)
+									<{/if}>
+								</option>
+							<{/foreach}>
+							<{foreach key=key item=rightcolumn_page_id from=$action.rightcolumn_page_id}>
+								<option value="<{$rightcolumn_page_id}>">
+									<{$lang.right_column|smarty:nodefaults}>
+									<{if $key == 0}>
+										(<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>)
+									<{elseif $key == 1}>
+										(<{$smarty.const._SPACE_TYPE_NAME_PRIVATE}>)
+									<{elseif $key == 2}>
+										(<{$smarty.const._SPACE_TYPE_NAME_GROUP}>)
+									<{/if}>
+								</option>
+							<{/foreach}>
+						<{/if}>
+					<{/if}>
+				</select>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<div class="align-center">
+		<{assign var="title" value="`$action.title`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+		<{assign var="page_name" value="`$action.page_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+		<{if $action.module.move_action != ""}>
+			<{* 移動 *}>
+			<input id="move<{$id}>" class="btn-width" type="button" onclick="if (!commonCls.confirm(commonOperationCls['<{$id}>'].getConfirmMes('<{$lang.move_confirm_mes|smarty:nodefaults|sprintf:"`$title`":"`$page_name`"}>'))) return false; commonCls.sendPost('<{$id}>','action=common_operation_action_init&amp;show_count=' + pagesCls.show_count[<{$page_id}>]+'&amp;mode=move&amp;'+Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){commonOperationCls['<{$id}>'].compBlock(event, '<{$action.parent_id_name}>', '<{$page_id}>', '<{$lang.comp_mes|smarty:nodefaults|sprintf:$lang.move_btn|smarty:nodefaults}>','move');}});return false;" value="<{$lang.move_btn|smarty:nodefaults}>" disabled="true">
+			&nbsp;
+		<{/if}>
+		<{if $action.module.copy_action != ""}>
+			<{* コピー *}>
+			<input id="copy<{$id}>" class="btn-width" type="button" onclick="if (!commonCls.confirm(commonOperationCls['<{$id}>'].getConfirmMes('<{$lang.copy_confirm_mes|smarty:nodefaults|sprintf:"`$title`":"`$page_name`"}>'))) return false; commonCls.sendPost('<{$id}>','action=common_operation_action_init&amp;mode=copy&amp;'+Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){commonOperationCls['<{$id}>'].compBlock(event, '<{$action.parent_id_name}>', '<{$page_id}>', '<{$lang.comp_mes|smarty:nodefaults|sprintf:$lang.copy_btn|escape:"javascript"|escape:"html"}>','copy');}});return false;" value="<{$lang.copy_btn|smarty:nodefaults}>" disabled="true">
+			&nbsp;
+		<{/if}>
+		<{if $action.module.shortcut_action != ""}>
+			<{* ショートカット *}>
+			<input id="shortcut<{$id}>" class="btn-width" type="button" onclick="if (!commonCls.confirm(commonOperationCls['<{$id}>'].getConfirmMes('<{$lang.shortcut_confirm_mes|smarty:nodefaults|sprintf:"`$title`":"`$page_name`"}>'))) return false; commonCls.sendPost('<{$id}>','action=common_operation_action_init&amp;shortcut=move&amp;'+Form.serialize($('form<{$id}>')),{'callbackfunc':function(res){commonCls.alert('<{$lang.comp_mes|smarty:nodefaults|sprintf:$lang.shortcut_btn|escape:"javascript"|escape:"html"}>');}});return false;" value="<{$lang.shortcut_btn|smarty:nodefaults}>" disabled="true">
+			&nbsp;
+		<{/if}>
+		<input class="btn-width" type="button" onclick="commonCls.sendView('<{$action.parent_id_name}>',{'action':'<{$action.block.action_name}>','block_id':'<{$block_id}>'}); return false;" value="<{$lang._cancel|smarty:nodefaults}>">
+	</div>
+	<input type="hidden" name="block_id" value="<{$block_id}>" />
+	<input type="hidden" name="page_id" value="<{$action.block.page_id}>" />
+	<input type="hidden" name="module_id" value="<{$action.module_id}>" />
+	<input type="hidden" name="unique_id" value="<{$action.unique_id}>" />
+	</form>
+	<{include file="operation/common_operation_script.html"}>
+<{/if}>
+<{/strip}>

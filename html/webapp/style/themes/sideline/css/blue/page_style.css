@@ -1,0 +1,28 @@
+body {
+	background-color:#2f7cb2;
+}
+.leftcolumn {
+	background-color:#f0f7f7;
+}
+
+.centercolumn {
+	background-color:#f0f7f7;
+}
+
+.rightcolumn {
+	background-color:#f0f7f7;
+}
+.headercolumn_menu {
+	background-color: #f0f7f7 !important;
+}
+.headercolumn {
+	background-color:#f0f7f7;
+}
+
+.footercolumn {
+	background-color:#f0f7f7;
+}
+
+#header_menu {
+	border-bottom: 1px solid #dfe4e7;
+}

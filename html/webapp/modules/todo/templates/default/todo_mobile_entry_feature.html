@@ -1,0 +1,91 @@
+<{strip}>
+<{* タスク登録（携帯）用テンプレート *}>
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<{$lang.todo_priority|smarty:nodefaults}>
+	<select name="priority">
+		<option value="<{$smarty.const.TODO_PRIORITY_HIGH}>"<{if ($action.task.priority == TODO_PRIORITY_HIGH) }> selected="selected"<{/if}>>
+			<{$lang.todo_priority_high|smarty:nodefaults}>
+		</option>
+		<option value="<{$smarty.const.TODO_PRIORITY_MIDDLE}>"<{if ($action.task.priority == TODO_PRIORITY_MIDDLE) }> selected="selected"<{/if}>>
+			<{$lang.todo_priority_middle|smarty:nodefaults}>
+		</option>
+		<option value="<{$smarty.const.TODO_PRIORITY_LOW}>"<{if ($action.task.priority == TODO_PRIORITY_LOW) }> selected="selected"<{/if}>>
+			<{$lang.todo_priority_low|smarty:nodefaults}>
+		</option>
+	</select>
+	&nbsp;
+
+	<input type="checkbox" name="state" value="<{$smarty.const._ON}>"<{if ($action.task.state == _ON) }> checked="checked"<{/if}>>
+	<{$lang.todo_state|smarty:nodefaults}>
+	<br />
+	<br />
+
+	<{$lang.todo_period|smarty:nodefaults}>
+	<input type="text" name="year" value="<{$action.task.year}>" size=4 maxlength=4 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_year|smarty:nodefaults}>
+	<input type="text" name="month" value="<{$action.task.month}>" size=2 maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_month|smarty:nodefaults}>
+	<input type="text" name="day" value="<{$action.task.day}>" size=2  maxlength=2 style="-wap-input-format:&quot;*&lt:ja:n&gt;&quot;">
+	<{$lang._mobile_day|smarty:nodefaults}>
+	<br />
+
+	<input type="checkbox" name="calendar" value="<{$smarty.const._ON}>"<{if ($action.task.calendar_id > 0) }> checked="checked"<{/if}>>
+	<span style="font-size:small;"><{$lang.todo_calendar|smarty:nodefaults}></span>
+	<br />
+	<br />
+
+	<{$lang.todo_progress|smarty:nodefaults}><br />
+	<select name="progress">
+		<{section name=progress loop=101 start=0 step=$smarty.const.TODO_PROGRESS_INTERVAL}>
+			<option value="<{$smarty.section.progress.index}>"<{if ($action.task.progress == $smarty.section.progress.index) }> selected="selected"<{/if}>>
+				<{$lang.todo_percent|smarty:nodefaults|sprintf:$smarty.section.progress.index}>
+			</option>
+		<{/section}>
+	</select>
+	<br />
+	<br />
+
+	<{if ($action.todo.used_category == _ON) }>
+		<{$lang.todo_category_name|smarty:nodefaults}><br />
+		<select name="category_id">
+			<{foreach name="category" item="category" from=$action.categories|smarty:nodefaults}>
+				<option value="<{$category.category_id}>"<{if ($category.category_id == $action.task.category_id) }> selected="selected"<{/if}>>
+					<{if ($category.category_id == 0) }>
+						<{$lang.todo_nocategory|smarty:nodefaults}>
+					<{else}>
+						<{$category.category_name}>
+					<{/if}>
+				</option>
+			<{/foreach}>
+		</select>
+		<br />
+		<br />
+	<{/if}>
+	<{$lang.todo_task_value|smarty:nodefaults}><br />
+	<textarea name="task_value" rowspan=2><{$action.task.task_value}></textarea>
+	<br />
+	<br />
+
+	<input type="hidden" name="action" value="todo_action_main_entry">
+	<input type="hidden" name="block_id" value="<{$block_id}>">
+	<input type="hidden" name="task_id" value="<{$action.task.task_id}>">
+	<input type="hidden" name="target_state" value="<{$action.target_state}>">
+
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+
+	<{if ($action.task.task_id > 0) }>
+		<input type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+	<{else}>
+		<input type="hidden" name="task_id" value="<{$action.task.task_id}>">
+		<input type="submit" name="regist" value="<{$lang.todo_add_task|smarty:nodefaults}>">
+	<{/if}>
+</form>
+<form method="get" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<input type="hidden" name="action" value="todo_view_main_init">
+	<input type="hidden" name="block_id" value="<{$block_id}>">
+	<input type="hidden" name="target_state" value="<{$action.target_state}>">
+	<{$session_form|smarty:nodefaults}>
+	<input type="submit" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>">
+</form>
+<{/strip}>

@@ -1,0 +1,7 @@
+<script class="nc_script" type="text/javascript">
+<{if $action_name == "backup_view_main_init"}>
+	backupCls['<{$id}>'].backupInit(<{$conf.backup_page_num}>, <{$action.maxNum}>);
+<{elseif $action_name == "backup_action_main_restore"}>
+	backupCls['<{$id}>'].initRestore(<{$conf.backup_restore_module_num}>, <{$action.maxNum}>);
+<{/if}>
+</script>

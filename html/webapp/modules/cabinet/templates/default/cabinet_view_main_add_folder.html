@@ -1,0 +1,41 @@
+<{strip}>
+
+<form action="#" method="post" onsubmit="return false;">
+	<input type="hidden" name="cabinet_id" value="<{$action.cabinet_id}>" />
+	<input type="hidden" name="folder_id" value="<{$action.folder_id}>" />
+
+	<table summary="">
+		<tr>
+			<th class="nowrap" scope="row">
+				<label for="cabinet_add_folder_name<{$id}>">
+					<{$lang.cabinet_folder|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<input id="cabinet_add_folder_name<{$id}>" name="file_name" type="text" value="" />
+			</td>
+		</tr>
+		<tr>
+			<th class="nowrap" scope="row">
+				<label for="cabinet_add_folder_comment<{$id}>">
+					<{$lang.cabinet_comment|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<input id="cabinet_add_folder_comment<{$id}>" class="text" name="comment" type="text" value="" />
+			</td>
+		</tr>
+	</table>
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang.cabinet_btn_add_folder|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].addFolder("<{$smarty.session.cabinet._id.$block_id}>",this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+	</div>
+</form>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($('cabinet_add_folder_name<{$id}>'));
+</script>
+
+<{/strip}>

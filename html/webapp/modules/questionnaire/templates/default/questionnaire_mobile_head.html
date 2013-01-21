@@ -1,0 +1,33 @@
+<{strip}>
+<{* アンケートタイトル用テンプレート *}>
+<h3>
+	<{if $action.questionnaire.icon_name != "" && $smarty.session._mobile_text_html_mode == $smarty.const.MOBILE_TEXTHTML_MODE_HTML}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$action.questionnaire.icon_name}>" />&nbsp;
+	<{/if}>
+	<{$action.questionnaire.questionnaire_name}>
+</h3>
+	<{if !empty($action.questionnaire.period|smarty:nodefaults)}>
+		<{if ($lang.questionnaire_period_notice != "") }>
+			<span style="color:red">
+				<{$lang.questionnaire_period_notice|sprintf:$action.questionnaire.display_period_date}>
+			</span>
+			<br />
+		<{/if}>
+	<{/if}>
+
+<p>
+	<{if $action.answerLinkShow}>
+		<a data-role="button" href="?action=questionnaire_view_main_summary&amp;block_id=<{$block_id}>&amp;questionnaire_id=<{$action.questionnaire.questionnaire_id}>&amp;answer_user_id=<{$smarty.session._user_id}><{$session_param}>">
+			<{$lang.questionnaire_goto_answer}>
+		</a>
+		<br />
+	<{/if}>
+
+	<{if $action.totalLinkShow}>
+		<a data-role="button" href="?action=questionnaire_view_main_total&amp;block_id=<{$block_id}>&amp;questionnaire_id=<{$action.questionnaire.questionnaire_id}><{$session_param}>">
+			<{$lang.questionnaire_goto_total}>
+		</a>
+		<br />
+	<{/if}>
+</p>
+<{/strip}>

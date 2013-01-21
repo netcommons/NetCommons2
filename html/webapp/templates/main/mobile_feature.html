@@ -1,0 +1,99 @@
+<{strip}>
+<head>
+	<meta http-equiv="content-type" content="application/xhtml+xml;charset=Shift_JIS">
+	<title><{$smarty.session._meta.sitename}>-<{$smarty.session._page_title}></title>
+	<{if ($smarty.session._reader_flag == _ON) }>
+		<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/css/reader.css&amp;header=0" />
+	<{/if}>
+<style type="text/css">
+<![CDATA[
+	a:link{color: <{$color_link}>;}
+	a:visited{color: <{$color_vlink}>;}
+]]>
+</style>
+</head>
+
+<body style="background-color:<{$color_back}>;color:<{$color_text}>;"><div>
+	<{counter name="number" start="0" print=false assign="number"}>
+	<{assign var="logo_flag" value=$smarty.const._OFF}>
+	<{foreach name="module" key="dir_name" item="module" from=$header_modules}>
+		<{if ($module.use_flag == _ON) }>
+			<{if ($dir_name == "mobile") }>
+				<{if ($module.upload_id == 0) }>
+					<img src="<{""|get_image_url}>/images/mobile/default/logo.jpg" alt="">
+				<{else}>
+					<img src="?action=common_download_main&amp;upload_id=<{$module.upload_id}><{$session_param}>" alt="">
+				<{/if}>
+				<{assign var="logo_flag" value=$smarty.const._ON}>
+				&nbsp;
+			<{elseif $smarty.session._closesite == _OFF}>
+				<{if ($logo_flag && $number == 1 || $number == 0) }>
+				<{else}>
+					<{$lang._mobile_separator|smarty:nodefaults}>
+				<{/if}>
+
+				<{assign var="parameter" value="`$session_param`"}>
+
+				<{if ($dir_name == "login") }>
+					<{if ($smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
+					<{else}>
+						<{if ($module.mobile_action_name == $main_action_name) }>
+							<{$lang._mobile_login}>
+						<{else}>
+							<a href="?action=<{$module.mobile_action_name}><{$parameter}>">
+								<{$lang._mobile_login}>
+							</a>
+						<{/if}>
+					<{/if}>
+
+				<{elseif ($dir_name == "menu") }>
+					<{if ($module.mobile_action_name == $main_action_name) }>
+						<{$module.module_name}>
+					<{else}>
+						<{if empty($smarty.session._mobile_room_id|smarty:nodefaults)}>
+							<a href="?action=<{$module.mobile_action_name}><{$parameter}>">
+								<{$module.module_name}>
+							</a>
+						<{else}>
+							<a href="?action=<{$module.mobile_action_name}>&amp;room_id=<{$smarty.session._mobile_room_id}>&amp;page_id=<{$smarty.session._mobile_room_id}><{$parameter}>">
+								<{$module.module_name}>
+							</a>
+						<{/if}>
+					<{/if}>
+
+				<{else}>
+					<{if ($module.mobile_action_name == $main_action_name) }>
+						<{$module.module_name}>
+					<{else}>
+						<a href="?action=<{$module.mobile_action_name}><{$parameter}>">
+							<{$module.module_name}>
+						</a>
+					<{/if}>
+				<{/if}>
+			<{/if}>
+			<{if ($dir_name == "login" && $smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
+			<{else}>
+				<{counter name="number" print=false}>
+			<{/if}>
+		<{/if}>
+	<{/foreach}>
+	<{if ($number > 0) }>
+		<hr />
+	<{/if}>
+	<{$contents|smarty:nodefaults}>
+
+	<{if ($smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
+		<hr />
+		<div style="text-align:right">
+			<a href="?action=userinf_action_mobile_init<{$session_param}>">
+				<{$smarty.session._handle}>
+			</a>
+		</div>
+		<div style="text-align:right">
+			<a href="?action=login_action_main_logout<{$session_param}>">
+				<{$lang._mobile_logout}>
+			</a>
+		</div>
+	<{/if}>
+</div></body>
+<{/strip}>

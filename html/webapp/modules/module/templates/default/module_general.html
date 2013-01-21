@@ -1,0 +1,33 @@
+<{strip}>
+<{include file=module_header.html"}>
+<{*メイン表示部分*}>
+<table class="data_grid grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+	<{foreach from=$action.modules_obj|smarty:nodefaults item=module_obj}>
+	<tr>
+		<td class="grid_row" style="width:<{$lang.module_name_width|smarty:nodefaults}>px;">
+			<{$module_obj.module_name}>(<{$module_obj.version}>)<{if $module_obj.version != $module_obj.current_version}><span class="errorstr">->(<{$module_obj.current_version}>)</span><{/if}>
+		</td>
+		<td class="grid_row" style="width:<{$lang.module_manage_width|smarty:nodefaults}>px;">
+			<{assign var="confirm" value=$lang.module_mes_update_confirm|smarty:nodefaults|sprintf:$module_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+			<a href="#" onclick="if (!commonCls.confirm('<{$confirm|smarty:nodefaults}>')) return false; moduleCls['<{$id}>'].moduleUpdate('<{$module_obj.module_id}>'); return false;">
+			<{$lang.module_update|smarty:nodefaults}>
+			</a>
+			<{if ($module_obj.module_dir != "login" && $module_obj.module_dir != "menu") || $module_obj.module_id == 0}>
+				<{$lang._separator|smarty:nodefaults}>
+				<{assign var="confirm" value=$lang.module_mes_uninstall_confirm|smarty:nodefaults|sprintf:$module_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+				<{assign var="again_confirm" value=$lang.module_mes_uninstall_confirm_again|smarty:nodefaults|sprintf:$module_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+				<a href="#" onclick="if (!commonCls.confirm('<{$confirm|smarty:nodefaults}>')) return false; if (!commonCls.confirm('<{$again_confirm|smarty:nodefaults}>')) return false; moduleCls['<{$id}>'].moduleUninstall('<{$module_obj.module_id}>'); return false;">
+					<{$lang.module_uninstall|smarty:nodefaults}>
+				</a>
+			<{/if}>
+			<{if $module_obj.disposition_flag}>
+				<{$lang._separator|smarty:nodefaults}>
+				<a href="#" onclick="moduleCls['<{$id}>'].showPopup(event, <{$module_obj.module_id}>); return false;">
+					<{$lang.module_selectauth|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</td>
+	</tr>
+<{/foreach}>
+</table>
+<{/strip}>

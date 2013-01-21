@@ -1,0 +1,32 @@
+<{strip}>
+<{* 選択肢作成画面用テンプレート *}>
+<tr id="registration_option_row<{$iteration}><{$id}>">
+	<td>
+		<label for="registration_option<{$iteration}><{$id}>">
+			<{$lang.registration_option}>
+		</label>
+	</td>
+
+	<td>
+		<input id="registration_option<{$iteration}><{$id}>" class="registration_option" type="text" name="option_value[<{$iteration}>]" />
+	</td>
+
+	<td>
+		<a class="syslink" href="#" title="" onclick="registrationCls['<{$id}>'].deleteOption(this, '<{$lang._del_confirm|sprintf:$lang.registration_option}>');return false;">
+			<img src="<{"trash.gif"|get_themes_image}>" class="icon" alt="<{$lang.registration_delete_option_title}>" title="<{$lang.registration_delete_option_title}>" />
+		</a>
+	</td>
+</tr>
+
+<script class="nc_script" type="text/javascript">
+	var registrationForm = $("registration_item_form<{$id}>");
+
+	<{if empty($action.item.option_value|smarty:nodefaults)}>
+		registrationForm["option_value[<{$iteration}>]"].value = "<{$lang.registration_new_option_value|sprintf:$iteration}>";
+	<{else}>
+		registrationForm["option_value[<{$iteration}>]"].value = "<{$option_value|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+	
+	registrationForm = null;
+</script>
+<{/strip}>

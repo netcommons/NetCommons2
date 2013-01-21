@@ -1,0 +1,58 @@
+<{strip}>
+<{if $block_obj}>
+	<{if ($block_obj.block_name != "") }>
+		<h3><{$block_obj.block_name}></h3>
+	<{/if}>
+<{/if}>
+
+<{if ($action.whatsnew_data) }>
+
+	<{include file="whatsnew_mobile_init_header.html"}>
+
+	<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_ROOM) }>
+		<{foreach name="room" key="room_id" item="room" from=$action.room_arr_flat}>
+			<{if ($action.whatsnew_data.$room_id) }>
+			    <{if ($smarty.session._smartphone_flag == _ON) }>
+					<{include file="whatsnew_mobile_result_contents_smart.html" whatsnew_data=$action.whatsnew_data.$room_id heading_title=$room.page_name display_count=$smarty.const.WHATSNEW_MOBILE_LIMIT_LITTLE more_read_param="limited_room_id=$room_id"}>
+				<{else}>
+					<{include file="whatsnew_mobile_result_contents_feature.html" whatsnew_data=$action.whatsnew_data.$room_id heading_title=$room.page_name display_count=$smarty.const.WHATSNEW_MOBILE_LIMIT_LITTLE more_read_param="limited_room_id=$room_id"}>
+				<{/if}>
+			<{/if}>
+		<{/foreach}>
+
+	<{elseif ($action.whatsnew_obj.display_type == WHATSNEW_DEF_MODULE) }>
+		<{foreach name="module" key="module_id" item="module" from=$action.whatsnew_obj.modules}>
+			<{if ($action.whatsnew_data.$module_id) }>
+			    <{if ($smarty.session._smartphone_flag == _ON) }>
+					<{include file="whatsnew_mobile_result_contents_smart.html" whatsnew_data=$action.whatsnew_data.$module_id heading_title=$module.module_name display_count=$smarty.const.WHATSNEW_MOBILE_LIMIT_LITTLE more_read_param="limited_module_id=$module_id"}>
+				<{else}>
+					<{include file="whatsnew_mobile_result_contents_feature.html" whatsnew_data=$action.whatsnew_data.$module_id heading_title=$module.module_name display_count=$smarty.const.WHATSNEW_MOBILE_LIMIT_LITTLE more_read_param="limited_module_id=$module_id"}>
+				<{/if}>
+			<{/if}>
+		<{/foreach}>
+	<{else}>
+	    <{if ($smarty.session._smartphone_flag == _ON) }>
+			<{include file="whatsnew_mobile_result_contents_smart.html" whatsnew_data=$action.whatsnew_data heading_title="" display_count=$smarty.const.WHATSNEW_MOBILE_LIMIT}>
+		<{else}>
+			<{include file="whatsnew_mobile_result_contents_feature.html" whatsnew_data=$action.whatsnew_data heading_title="" display_count=$smarty.const.WHATSNEW_MOBILE_LIMIT}>
+		<{/if}>
+	<{/if}>
+
+<{else}>
+	<{$lang.whatsnew_nothing|smarty:nodefaults}>
+<{/if}>
+
+
+<{if $block_obj}>
+	<br />
+	<div style="text-align:right;">
+		<{if ($action.block_num == 1 ) }>
+			<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+		<{else}>
+			<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+		<{/if}>
+			<{$lang._btn_prev_arrow|smarty:nodefaults}>
+		</a>
+	</div>
+<{/if}>
+<{/strip}>

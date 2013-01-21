@@ -1,0 +1,24 @@
+body {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/dot/images/default/back.gif") repeat fixed left top;
+}
+.leftcolumn {
+	background-color:transparent;
+}
+
+.centercolumn {
+	background-color:transparent;
+}
+
+.rightcolumn {
+	background-color:transparent;
+}
+.headercolumn_menu {
+	background-color: transparent !important;
+}
+.headercolumn {
+	background-color:transparent;
+}
+
+.footercolumn {
+	background-color:transparent;
+}

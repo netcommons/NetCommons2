@@ -1,0 +1,67 @@
+<{strip}>
+<table id="_theme_top<{$id}>" class="th_<{$main_theme_name}> widthmax" summary="">
+  <tr class="_block_title_event<{if $block_obj.block_name == "" && $smarty.session._layoutmode == "off" && !($smarty.session._layoutmodePage == "on" && isset($action.headerbtn_edit|smarty:nodefaults) && $action.headerbtn_edit == true)}> display-none<{/if}>">
+    <td class="th_classic_<{$dir_name}>_header">
+    	<{*ヘッダータイトル*}>
+    	<table class="_move_bar widthmax<{if $smarty.session._auth_id >=_AUTH_CHIEF}> move_bar<{/if}>" title="<{$draganddrop_move}>" summary="">
+			<tr>
+				<{if $smarty.session._shortcut_flag == _ON}>
+					<td class="th_classic_shortcut">
+						<img src="<{""|get_image_url}>/images/common/shortcut.gif" title="<{$smarty.const._SHORTCUT}>" alt="<{$smarty.const._SHORTCUT}>" />
+					</td>
+				<{/if}>
+				<td>
+					<h2 class="nc_block_title th_classic_<{$dir_name}>_title" title="<{$dblclick_edit}>">
+						<{$block_obj.block_name}>
+					</h2>
+				</td>
+				<td class="align-right">
+					<{if $smarty.session._auth_id >=_AUTH_CHIEF || (isset($action.headerbtn_edit|smarty:nodefaults) && $action.headerbtn_edit == true)}>
+					<table class="align-right" align="right"><tr>
+						<{* 編集 *}>
+						<{if $smarty.session._shortcut_flag == _OFF}>
+							<{assign var="edit_action_name" value=$module_obj.edit_action_name}>
+						<{else}>
+							<{assign var="edit_action_name" value=$module_obj.edit_style_action_name}>
+						<{/if}>
+						<td>
+						
+						<{if $edit_action_name != ""}>
+							<{if $edit_action_name == $action_name || $header_type == "edit"}>
+								<a title="<{$smarty.const._EDIT_END_BTN|smarty:nodefaults}>" class="th_classic_<{$dir_name}>_btn link" href="#" onclick="commonCls.sendView('<{$id}>','<{$module_obj.action_name}>');  Event.stop(event); return false;"><{$smarty.const._EDIT_END_BTN|smarty:nodefaults}></a>
+							<{else}>
+								<a title="<{$smarty.const._EDIT_BTN|smarty:nodefaults}>" class="th_classic_<{$dir_name}>_btn link" href="#" onclick="commonCls.sendView('<{$id}>','<{$edit_action_name}>');  Event.stop(event); return false;"><{$smarty.const._EDIT_BTN|smarty:nodefaults}></a>
+							<{/if}>
+						<{else}>
+							<{if $header_type == "main"}>
+								<a title="<{$smarty.const._EDIT_BTN|smarty:nodefaults}>" class="th_classic_<{$dir_name}>_btn link" href="#" onclick="<{eval var=$smarty.const._BLOCKSTYLE_METHOD_DIALOG|smarty:nodefaults}> Event.stop(event); return false;"><{$smarty.const._EDIT_BTN|smarty:nodefaults}></a>
+							<{else}>
+								<a title="<{$smarty.const._EDIT_END_BTN|smarty:nodefaults}>" class="th_classic_<{$dir_name}>_btn link" href="#" onclick="commonCls.sendView('<{$id}>','<{$block_obj.action_name}>'); Event.stop(event); return false;"><{$smarty.const._EDIT_END_BTN|smarty:nodefaults}></a>
+							<{/if}>
+						<{/if}>
+						</td>
+					<{if $smarty.session._auth_id >=_AUTH_CHIEF && $smarty.session._layoutmode == "on"}>
+					<{* 削除 *}>
+					<td>
+						<a title="<{$smarty.const._DELETE_BTN|smarty:nodefaults}>" class="th_classic_<{$dir_name}>_btn link" href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'close.gif','close_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'close_over.gif','close.gif');}" onclick="pagesCls.deleteBlock(event, '<{$id}>','<{$smarty.const._DELETE_CONFIRM|smarty:nodefaults}>'); Event.stop(event); return false;">
+							<{$smarty.const._DELETE_BTN|smarty:nodefaults}>
+						</a>
+					</td>
+					<{/if}>
+					</tr></table>
+					<{/if}>
+				</td>
+			</tr>
+		</table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+		<{*ヘッダーメニュー*}>
+		<{assign var="_headermenu_class" value="th_classic_headermenu"}>
+		<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+    	<div class="th_classic_content content"><{$content_field|smarty:nodefaults}></div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

@@ -1,0 +1,33 @@
+<{strip}>
+<{include file=module_header.html"}>
+<{*メイン表示部分*}>
+<table class="module_data_grid_system grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+	<{foreach from=$action.sysmodules_obj item=sysmodule_obj}>
+	<tr>
+		<td class="grid_row" style="width:<{$lang.module_name_width|smarty:nodefaults}>px;">
+			<{$sysmodule_obj.module_name}>(<{$sysmodule_obj.version}>)<{if $sysmodule_obj.version != $sysmodule_obj.current_version}><span class="errorstr">->(<{$sysmodule_obj.current_version}>)</span><{/if}>
+		</td>
+		<td class="grid_row" style="width:<{$lang.module_manage_width|smarty:nodefaults}>px;">
+			<{assign var="confirm" value=$lang.module_mes_update_confirm|smarty:nodefaults|sprintf:$sysmodule_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+			<a href="#" onclick="if (!commonCls.confirm('<{$confirm|smarty:nodefaults}>')) return false; moduleCls['<{$id}>'].moduleUpdate('<{$sysmodule_obj.module_id}>'); return false;">
+				<{$lang.module_update|smarty:nodefaults}>
+			</a>
+			<{if $sysmodule_obj.module_id == 0}>
+				<{$lang._separator|smarty:nodefaults}>
+				<{assign var="confirm" value=$lang.module_mes_uninstall_confirm|smarty:nodefaults|sprintf:$sysmodule_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+				<{assign var="again_confirm" value=$lang.module_mes_uninstall_confirm_again|smarty:nodefaults|sprintf:$sysmodule_obj.module_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>
+				<a href="#" onclick="if (!commonCls.confirm('<{$confirm|smarty:nodefaults}>')) return false; if (!commonCls.confirm('<{$again_confirm|smarty:nodefaults}>')) return false; moduleCls['<{$id}>'].moduleUninstall('<{$sysmodule_obj.module_id}>'); return false;">
+					<{$lang.module_uninstall|smarty:nodefaults}>
+				</a>
+			<{/if}>
+			<{* 管理系は、権限設定において権限毎に使えるかどうかを細かく設定しているため、ここでは変更を許さない
+			<{$lang._separator|smarty:nodefaults}>
+			<a href="#" onclick="moduleCls['<{$id}>'].showPopup(event, <{$sysmodule_obj.module_id}>); return false;">
+				<{$lang.module_selectauth|smarty:nodefaults}>
+			</a>
+			*}>
+		</td>
+	</tr>
+<{/foreach}>
+</table>
+<{/strip}>

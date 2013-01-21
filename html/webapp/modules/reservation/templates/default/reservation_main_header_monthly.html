@@ -1,0 +1,23 @@
+<{strip}>
+
+<{assign var="lang_year" value=$lang.reservation_monthly_year_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>
+<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>			
+
+<table class="reservation_head" summary="">
+	<tr>
+		<td class="reservation_prev">
+			<{include file="reservation_main_prev_date.html" view_date=$action.prev_month image_alt=$lang.reservation_alt_prev_month|smarty:nodefaults image_title=$lang.reservation_title_prev_month|smarty:nodefaults}>
+		</td>
+		<td class="reservation_this">
+			<{include file="reservation_main_this_date.html" display_type=$action.reserve_block.display_type}>
+		</td>
+		<td class="reservation_next">
+			<{include file="reservation_main_next_date.html" view_date=$action.next_month image_alt=$lang.reservation_alt_next_month|smarty:nodefaults image_title=$lang.reservation_title_next_month|smarty:nodefaults}>
+		</td>
+		<td class="reservation_switch_location">
+			<{include file="reservation_main_switch_location.html" view_location_id=$action.reserve_block.location_id main_id=$id}>
+		</td>
+	</tr>
+</table>
+
+<{/strip}>

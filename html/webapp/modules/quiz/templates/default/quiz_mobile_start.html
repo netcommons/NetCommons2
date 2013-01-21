@@ -1,0 +1,22 @@
+<{strip}>
+<{* 問題開始画面用テンプレート *}>
+<{include file="quiz_mobile_head.html"}>
+
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<input type="hidden" name="action" value="quiz_action_main_start">
+		<input type="hidden" name="quiz_id" value="<{$action.quiz.quiz_id}>">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		
+		<br />
+		<{include file="quiz_mobile_image_authentication.html"}>
+		<input type="submit" value="<{$lang.quiz_answer_start}>">
+
+		<{$token_form|smarty:nodefaults}>
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+
+<{include file = "quiz_mobile_goto_list.html"}>
+
+<{/strip}>

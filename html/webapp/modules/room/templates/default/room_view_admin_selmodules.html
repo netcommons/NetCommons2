@@ -1,0 +1,71 @@
+<{strip}>
+<{* 参加ルームの選択 *}>
+<form action="" id="form<{$id}>" onsubmit="return false;">
+	<{* タイトル *}>
+	<div class="bold">
+		<{$lang.room_select_modules}>
+	</div>
+	<div class="top_description">
+		<{$lang.room_top_descripton|smarty:nodefaults|sprintf:$lang._regist}>
+	</div>
+	<div align="center">
+		<table summary="<{$smarty.const._SUMMARY_SELECTFORM}>">
+		<tr>
+			<th class="nowrap head align-center" scope="col"><{$lang.room_target_modules}></th>
+			<td rowspan="2" class="selectlist_arrow_btn_area nowrap align-center">
+				<{* 追加 *}>
+				<input type="button" value="<{$lang._btn_add_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'not_enroll_modules[]','enroll_modules[]');" />
+				<br />
+				<br />
+				<{* 削除 *}>
+				<input type="button" value="<{$lang._btn_del_arrow|smarty:nodefaults}>" onclick="commonCls.frmTransValue(this.form,'enroll_modules[]','not_enroll_modules[]');" />
+			</td>
+			<th class="nowrap head align-center" scope="col"><{$lang.room_entry_modules}></th>
+		</tr>
+		<tr>
+			<td class="selectlist nowrap align-center valign-top">
+				<div>
+					<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'not_enroll_modules[]');" />
+					&nbsp;
+					<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'not_enroll_modules[]');" />	
+				</div>
+				<select name="not_enroll_modules[]" size="14" class="room_selectlist" multiple="multiple">
+					<{if $action.target_modules}>
+						<{foreach from=$action.target_modules item=target_module}>
+							<option value="<{$target_module.module_id}>"><{$target_module.module_name}></option>
+						<{/foreach}>
+					<{/if}>
+				</select>
+			</td>
+			<td class="selectlist nowrap align-center valign-top">
+				<div>
+					<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList(this.form,'enroll_modules[]', true);" />
+					&nbsp;
+					<input type="button" value="<{$lang._btn_release_all|smarty:nodefaults}>" onclick="commonCls.frmAllReleaseList(this.form,'enroll_modules[]');" />	
+				</div>
+				<select name="enroll_modules[]" size="14" class="room_selectlist" multiple="multiple">
+					<{if $action.entry_modules}>
+						<{foreach from=$action.entry_modules item=entry_module}>
+							<option value="<{$entry_module.module_id}>"><{$entry_module.module_name}></option>
+						<{/foreach}>
+					<{/if}>
+				</select>
+			</td>
+		</tr>
+		</table>
+	</div>
+	<div class="note">
+		<{$lang._mes_pluralselecthelp|smarty:nodefaults}>
+	</div>
+	<input name="edit_current_page_id" type="hidden" value="<{$action.edit_current_page_id}>" />
+	<input name="parent_page_id" type="hidden" value="<{$action.parent_page_id}>" />
+</form>
+<{* 各種ボタン *}>
+<div class="btn-bottom align-right">
+	<{* 決定 *}>
+	<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang.confirm_selectmodules}>')) return false; commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.sendView('<{$id}>','action=room_action_admin_selmodules&amp;'+Form.serialize($('form<{$id}>')),{'method':'post'}); return false;" />
+	<{* キャンセル *}>
+	<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="<{*if(!commonCls.confirm('<{$lang._close_block_confirm}>'))return false;*}>commonCls.sendView('<{$id}>',{'action':'room_view_admin_list','show_space_type':<{if $action.parent_page_id != 0}><{$action.parent_page.space_type}><{else}><{$action.page.space_type}><{/if}>,'show_private_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.private_flag}><{else}><{$action.page.private_flag}><{/if}>,'show_default_entry_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.default_entry_flag}><{else}><{$action.page.default_entry_flag}><{/if}>}); return false;" />
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

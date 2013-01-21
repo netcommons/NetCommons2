@@ -1,0 +1,39 @@
+<{* 一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.assignments item=assignment}>
+		<row id="assignment_row_tr<{$assignment.assignment_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file="assignment_view_edit_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file="assignment_view_edit_list_name.html"}>
+				]]>
+			</name>
+			<operate>
+				<![CDATA[
+					<{include file="assignment_view_edit_list_operate.html"}>
+				]]>
+			</operate>
+			<creator>
+				<![CDATA[
+					<{include file="assignment_view_handle.html" handle=$assignment.insert_user_name|smarty:nodefaults user_id=$assignment.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$assignment.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file="assignment_view_edit_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+
+<{/strip}>

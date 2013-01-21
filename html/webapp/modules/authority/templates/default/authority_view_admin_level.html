@@ -1,0 +1,84 @@
+<{strip}>
+<{*権限設定画面-権限追加(権限編集)*}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="bold">
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_general'); return false;">
+			<{if ($action.authority.role_authority_id > 0) }>
+				<{$lang.authority_general_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{else}>
+				<{$lang.authority_general_add_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{/if}>
+		</a>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.authority_setlevel_title|smarty:nodefaults}>
+	</div>
+	<{* 操作説明 *}>
+	<div class="top_description">
+		<{$lang.authority_level_description|smarty:nodefaults}>
+	</div>
+
+	<{* 詳細部 *}>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<div class="outerdiv">
+			<table class="outer" summary="<{$lang.authority_setlevel_title|smarty:nodefaults}>">
+				<{* レベル *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<label for="hierarchy<{$id}>">
+							<{$lang.authority_level|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<table summary="">
+							<tr>
+								<td>
+									<input id="hierarchy<{$id}>"type="text" name="hierarchy" value="<{$action.authority.hierarchy_level|intval}>" onblur="this.onkeyup(event);" onkeyup="commonCls.numberConvert(event);authorityCls['<{$id}>'].chgLevel(this);" onkeydown="if(!commonCls.numberCheck(event)){return false;}" maxlength="3" size="5"  />
+								</td>
+								<td>
+									<div class="authority_ref_level">
+									<{foreach item=mod_authorities name=loop from=$action.mod_authorities}>
+										<{assign var="level" value=$mod_authorities.hierarchy-3}>
+										<{assign var="left" value=$level*3}>
+										<{assign var="count" value=$smarty.foreach.loop.iteration-1}>
+										<{assign var="top" value=$count*-19}>
+										
+										<div class="authority_arrow_other" style="left:<{$left}>px;top:<{$top}>px;">
+											<div class="authority_mod_other_name">
+												(<{$mod_authorities.role_authority_name}>)
+											</div>
+											<img src="<{""|get_image_url}>/images/authority/arrow_small.gif" title="<{$mod_authorities.role_authority_name}>(<{$level}>)" alt="" />
+										</div>
+									<{/foreach}>
+									</div>
+									<div id="authority_level<{$id}>" class="authority_level" onclick="authorityCls['<{$id}>'].clickLevel(event, this);">
+										<{assign var="top" value=$count*-13-17}>
+										<div id="authority_arrow<{$id}>" class="authority_arrow" style="left:<{$action.authority.hierarchy_level*3}>px;top:0px;">
+										</div>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<div class="note">
+							<{$lang.authority_level_note|smarty:nodefaults}>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<input type="hidden" name="role_authority_id" value="<{$action.role_authority_id}>" />
+		<input type="hidden" name="role_authority_name" value="<{$action.role_authority_name}>" />
+		<input type="hidden" name="user_authority_id" value="<{$action.user_authority_id}>" />
+		<{* 各種ボタン *}>
+		<div class="btn-bottom align-right">
+			<{* 戻るボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_general');  return false;" />
+			<{* 次へボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showDetail();  return false;" />
+			<{* キャンセルボタン *}>
+			<input class="lined_btn btn-width" type="button" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'}); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="authority_script.html"}>
+<{/strip}>

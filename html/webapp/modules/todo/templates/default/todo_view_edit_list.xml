@@ -1,0 +1,33 @@
+<{* Todo一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.todos item=todo}>
+		<row id="todo_current_row<{$todo.todo_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file = "todo_view_edit_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file = "todo_view_edit_list_name.html"}>
+				]]>
+			</name>
+			<creator>
+				<![CDATA[
+					<{include file = "todo_view_handle.html" handle=$todo.insert_user_name|smarty:nodefaults user_id=$todo.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$todo.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file = "todo_view_edit_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

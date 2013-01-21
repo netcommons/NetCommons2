@@ -1,0 +1,143 @@
+<{strip}>
+<{* 回覧作成画面 *}>
+<{assign var="circular_info" value=$action.circular_info}>
+
+<form id="create_circular_form<{$id}>" action="#">
+	<input type="hidden" name="circular_id" value="<{$action.circular_id}>" />
+	<input type="hidden" name="icon_name" id="circular_icon_name_hidden<{$id}>" value="<{$circular_info.icon_name}>" />
+	<input type="hidden" name="receive_user_ids" />
+
+	<table class="outer circular_create_frame" summary="<{$lang.circular_summary_main_create|smarty:nodefaults}>">
+		<tr>
+			<th class="nowrap">
+				<{$lang.circular_subject|smarty:nodefaults}>
+			</th>
+			<td>
+				<a href="#">
+					<img id="circular_icon_name_img<{$id}>" class="comp_title_icon" alt="" onclick="circularCls['<{$id}>'].showIcon();return false;" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');" />
+				</a>
+				<input type="text" class="circular_create_subject" name="circular_subject" value="<{$circular_info.circular_subject|smarty:nodefaults}>" />
+			</td>
+		</tr>
+		<tr>
+			<th class="valign-top">
+				<{$lang.circular_receive_user|smarty:nodefaults}>
+			</th>
+			<td class="align-center">
+				<{include file="circular_select_member_list.html"}>
+			</td>
+		</tr>
+		<tr>
+			<th class="valign-top nowrap" scope="row">
+				<label for="circular_reply_type<{$id}>">
+					<{$lang.circular_reply_type|smarty:nodefaults}>
+	 			</label>
+			</th>
+			<td>
+				<select class="float-left" id="circular_reply_type<{$id}>" name="reply_type" onchange="circularCls['<{$id}>'].changeReplyType(this.value);return false;">
+	 				<option id="circular_reply_type_textarea<{$id}>" value="<{$smarty.const.CIRCULAR_REPLY_TYPE_TEXTAREA_VALUE}>" <{if $action.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_TEXTAREA_VALUE }>selected="selected"<{/if}>><{$lang.circular_reply_type_textarea}></option>
+	 				<option value="<{$smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE}>" <{if $action.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE }>selected="selected"<{/if}> ><{$lang.circular_reply_type_checkbox}></option>
+	 				<option value="<{$smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE}>" <{if $action.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE }>selected="selected"<{/if}>><{$lang.circular_reply_type_radio}></option>
+	 			</select>
+
+ 				<div id="circular_choice_area<{$id}>" class="display-none">
+					<div class="align-right" style="margin-right:15px;">
+						<a class="syslink" href="#" title="<{$lang.circular_add_choice_title}>" onclick="circularCls['<{$id}>'].addChoice();return false;">
+							<img class="icon" src="<{'add.gif'|get_themes_image}>" alt="" />
+							<{$lang.circular_add_choice|smarty:nodefaults}>
+						</a>
+					</div>
+
+					<table id="circular_choice<{$id}>" class="circular_choice">
+						<{foreach from=$action.choices|smarty:nodefaults item=choice name="choice"}>
+							<{assign var="iteration" value=$smarty.foreach.choice.iteration}>
+							<{include file="circular_view_main_choice.html"}>
+						<{/foreach}>
+					</table>
+
+					<div id="circular_choice_add<{$id}>" class="display-none"></div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div>
+		<textarea id="circular_body<{$id}>" class="comptextarea cicular_create_boby" name="circular_body">
+			<{$circular_info.circular_body|smarty:nodefaults}>
+		</textarea>
+	</div>
+
+	<div class="circular_create_seen_option">
+		<div>
+			<{$lang.circular_seen_option|smarty:nodefaults}>
+		</div>
+		<span>
+			<label for="<{$id}>_seen_option<{$smarty.const.CIRCULAR_SEEN_OPTION_REPLY}>">
+				<input id="<{$id}>_seen_option<{$smarty.const.CIRCULAR_SEEN_OPTION_REPLY}>" type="radio" name="seen_option" value="0" <{if !$action.seen_option || $action.seen_option == $smarty.const.CIRCULAR_SEEN_OPTION_REPLY}> checked="checked" <{/if}> />
+				<{$lang.circular_seen_option_reply|smarty:nodefaults}>
+	 		</label>
+			<label for="<{$id}>_seen_option<{$smarty.const.CIRCULAR_SEEN_OPTION_VISIT}>">
+				<input id="<{$id}>_seen_option<{$smarty.const.CIRCULAR_SEEN_OPTION_VISIT}>" type="radio" name="seen_option" value="1" <{if $action.seen_option == $smarty.const.CIRCULAR_SEEN_OPTION_VISIT }> checked="checked" <{/if}> />
+				<{$lang.circular_seen_option_visit|smarty:nodefaults}>
+	 		</label>
+	 	</span>
+	</div>
+	<div class="circular_create_option">
+		<span>
+			<input id="circular_period_checkbox<{$id}>" type="checkbox" name="period_checkbox" value="<{$smarty.const._ON}>" onclick="circularCls['<{$id}>'].changePeriod();" <{if $circular_info.period_flag == $smarty.const._ON }> checked="checked" <{/if}> />
+			<label for="circular_period_checkbox<{$id}>">
+				<{$lang.circular_period|smarty:nodefaults}>
+			</label>
+			<label>
+				<input id="circular_period<{$id}>" class="comp_calendar_text" type="text" name="period" value="<{$circular_info.period}>" />
+			</label>
+		</span>
+	</div>
+	<div class="circular_create_option">
+		<input id="circular_whatsnew<{$id}>" type="checkbox" name="circular_whatsnew" value="<{$smarty.const._ON}>" checked="checked" />
+		<label for="circular_whatsnew<{$id}>">
+			<{$lang.circular_whatsnew|smarty:nodefaults}>
+		</label>
+	</div>
+	<div class="circular_create_option">
+		<input id="notification_mail<{$id}>" type="checkbox" name="notification_mail" value="<{$smarty.const._ON}>" checked="checked" />
+		<label for="notification_mail<{$id}>">
+			<{$lang.circular_mail_notice|smarty:nodefaults}>
+		</label>
+	</div>
+	<div class="btn-bottom circular_create_width">
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].createCircular(); return false;" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'circular_view_main_init'); return false;" />
+	</div>
+	<br class="float-clear" />
+</form>
+
+<{include file="../circular_script.html"}>
+<script class="nc_script" type="text/javascript">
+	circularCls["<{$id}>"].wysiwygInit();
+	<{if empty($circular_info.icon_name|smarty:nodefaults)}>
+		$('circular_icon_name_img<{$id}>').src = "<{''|get_image_url}>/images/comp/textarea/titleicon/blank.gif";
+	<{else}>
+		$('circular_icon_name_img<{$id}>').src = "<{''|get_image_url}>/images/comp/textarea/" + "<{$circular_info.icon_name}>";
+	<{/if}>
+
+	commonCls.focus($("circular_subject<{$id}>"));
+
+	var circularForm = $("create_circular_form<{$id}>");
+
+	<{if !empty($circular_info.circular.period|smarty:nodefaults)}>
+		circularForm["period_checkbox"].checked = true;
+		circularForm["period"].value = "";
+	<{/if}>
+
+	circularCls["<{$id}>"].choiceIteration = "<{$action.choice_count}>";
+	circularCls["<{$id}>"].calendar = new compCalendar("<{$id}>", $("circular_period<{$id}>"));
+	circularCls["<{$id}>"].changePeriod();
+
+	<{if !empty($action.reply_type|smarty:nodefaults)}>
+		circularCls['<{$id}>'].changeReplyType("<{$action.reply_type}>");
+	<{/if}>
+
+	circularForm = null;
+</script>
+<{/strip}>

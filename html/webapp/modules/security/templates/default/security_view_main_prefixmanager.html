@@ -1,0 +1,62 @@
+<{strip}>
+
+<div class="outerdiv">
+
+<{* DBテーブルのプレフィックスリスト *}>
+	<div class="security_outerdiv">
+		<fieldset>
+			<b><legend><{$lang.security_dbprefix_manager}></legend></b>
+			<table class="security_table">
+				<tr class="security_table_header">
+					<th> <{$lang.security_dbprefix_usetable}> </th>
+					<th>	<{$lang.security_dbprefix}>	</th>
+					<th> <{$lang.security_dbprefix_tables}>	</th>
+					<th> <{$lang.security_dbprefix_updated}> </th>
+					<th> <{$lang.security_dbprefix_action}> </th>
+				</tr>
+				<{foreach name="dbtable" key="key" item="item" from=$action.dbtables}>
+					<tr>
+						<td class="align-center"> 
+							<{if $item.useprefix == TRUE}>
+								<img src="<{""|get_image_url}>/images/security/default/on.gif">
+							<{else}>
+								<img src="<{""|get_image_url}>/images/security/default/off.gif">
+							<{/if}>
+						</td>
+						<td class="align-center"> 
+							<{if $item.useprefix == TRUE}>
+								<b> <{$item.prefix}> </b> 
+							<{else}>
+								<{$item.prefix}> 
+							<{/if}>
+						</td>
+						<td class="align-center"> <{$item.count}> </td>
+						<td class="align-center"> <{$item.updated}> </td>
+						<td class="align-center">
+							<{if $item.useprefix == TRUE}>
+								<input type="text" name='db_prefix_new' id="db_prefix<{$id}>" />
+	 							<input type="button" value="<{$lang.security_dbprefix_copy}>" onclick="securityCls['<{$id}>'].securityPrefixmanager('<{$action_name}>', 'security_action_prefixmanager','<{$lang.security_tablecopy_success}>', '<{$item.prefix}>', '<{$smarty.const.SECURITY_ACTION_COPY}>'); return false;" />
+							<{else}>
+								<{if $item.usedtable == TRUE}>
+									<input type="button" value="<{$lang.security_dbprefix_delete}>" onclick="if(!commonCls.confirm('<{$lang.security_confirm_delete|smarty:nodefaults}>')) return false; securityCls['<{$id}>'].securityPrefixmanager('<{$action_name}>', 'security_action_delprefixmanager','<{$lang.security_tabledelete_success}>', '<{$item.prefix}>', '<{$smarty.const.SECURITY_ACTION_DELETE}>'); return false;" />
+								<{else}>
+									<{$lang.security_dbprefix_nodelete|smarty:nodefaults}>
+								<{/if}>
+							<{/if}>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+
+<{*
+			<br /> <{$lang.security_dbprefix_exposition|smarty:nodefaults}> <br />
+*}>
+			<br /> <{$lang.security_dbprefix_copy_exposition|smarty:nodefaults}> <br />
+			<br /> <{$lang.security_dbprefix_delete_exposition|smarty:nodefaults}> <br />
+			<br /> <{$lang.security_dbprefix_change|smarty:nodefaults}> <br />
+			<br /> <span class="security_database_prefix"> define('DATABASE_PREFIX', '<span class="bold"> <{$action.useprefix}> </span>'); </span>
+		</fieldset>
+	</div>
+</div>
+
+<{/strip}>

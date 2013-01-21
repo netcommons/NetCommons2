@@ -1,0 +1,99 @@
+<{strip}>
+<{* 受信トレイ一覧用テンプレート *}>
+<div class="pm_mua_body clearfix">
+	<form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+	<input type="hidden" name="action" value="pm_action_main_message_operation" />
+	<{if $action_name == "pm_view_main_search_result"}>
+		<input type="hidden" name="search_flag" value="search" />
+	<{else}>
+		<input type="hidden" name="search_flag" value="none" />
+	<{/if}>
+	<input type="hidden" name="mailbox" value="<{$action.current_menu}>" />
+	<input type="hidden" name="page" value="<{$action.page}>" />
+	<input type="hidden" name="filter" value="<{$action.filter}>" />
+	<table class="pm_base">
+		<tr>
+			<td class="pm_base_upperleft"></td>
+			<td class="pm_base_upper"></td>
+			<td class="pm_base_upperright"></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="pm_base_content">
+				<table class="widthmax">
+					<tr>
+						<td colspan="2" class="pm_hmenu_top_td">
+							<ul class="pm_hmenu_ul pm_list_create_btn">
+								<li class="pm_list_menu_li">
+									<a class="syslink pm_head" href="#" title="<{$lang.pm_new_message|smarty:nodefaults}>" alt="<{$lang.pm_new_message|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].showMessagePopup(null,'',event,'<{$smarty.const.PM_NEW_MESSAGE}>');return false;">
+										<div>
+										<img class="icon" src="<{"edit.gif"|get_themes_image}>" />
+										&nbsp;
+										<{$lang.pm_new_message|smarty:nodefaults}>
+										</div>
+									</a>
+								</li>
+								<li class="pm_list_menu_li pm_list_del_btn">
+									<{include file = "pm_view_list_toolbar_delete.html" location="main" page=$action.page}>
+								</li>
+								<li class="pm_list_menu_li pm_list_operation">
+									<{include file = "pm_view_list_toolbar_operation.html" location="main" page=$action.page}>
+								</li>
+								<li class="pm_list_menu_li pm_list_update">
+									<{include file = "pm_view_list_toolbar_update.html"}>
+								</li>
+								<li class="pm_list_menu_li pm_list_search">
+									<{include file = "pm_view_list_toolbar_filter.html"}>
+								</li>
+								<li class="pm_list_menu_li pm_list_page">
+									<{include file = "pm_view_list_toolbar_pager.html" prev=$action.pager.prev_page next=$action.pager.next_page rows=$action.pager.display_rows from=$action.pager.display_from to=$action.pager.display_to mailbox=$action.current_menu filter=$action.filter}>
+								</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="pm_menu">
+							<{* 左メニュー *}>
+							<{include file = "pm_view_left_menu.html"}>
+						</td>
+						<td class="<{if $action.messageCount > 0}>pm_content<{else}>pm_content_empty<{/if}>">
+							<{* コンテンツ *}>
+							<{if $action.messageCount > 0}>
+								<table class="widthmax pm_list_inbox">
+									<{include file = "pm_view_list_header.html"}>
+									<{foreach from=$action.messages item=message}>
+										<{include file = "pm_view_list_data.html"}> 
+									<{/foreach}>
+								</table>
+							<{else}>
+								<{include file = "pm_view_no_message.html"}>
+							<{/if}>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="pm_hmenu_bottom_td">
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td class="pm_base_right">
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_base_belowleft"></td>
+			<td class="pm_base_below"></td>
+			<td class="pm_base_belowright"></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+	pmCls["<{$id}>"].ascImg = "<{$smarty.const.PM_ASC_IMG|get_modules_image}>";
+	pmCls["<{$id}>"].descImg = "<{$smarty.const.PM_DESC_IMG|get_modules_image}>";
+	
+	var receiver_checkboxes = document.getElementsByName("receiver_id[]");
+	for(var i = 0; i < receiver_checkboxes.length; i++){
+		receiver_checkboxes[i].checked = false;
+	}
+</script>
+<{/strip}>

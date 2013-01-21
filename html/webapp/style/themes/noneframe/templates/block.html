@@ -1,0 +1,14 @@
+<{strip}>
+<{assign var="main_theme_name" value="none"}>
+<table border="0" cellspacing="0" cellpadding="0" class="th_none widthmax">
+  <tr>
+    <td class="th_none_content">
+    	<{*ヘッダータイトル*}>
+		<{include file="../../../templates/headertitle/default/title.html"}>
+    	<{*ヘッダーメニュー*}>
+		<{if $headermenu}><{include file="../../../templates/default/headermenu.html"}><{/if}>
+    	<div class="content"><{$content_field|smarty:nodefaults}></div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

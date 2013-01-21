@@ -1,0 +1,51 @@
+<{strip}>
+
+<div class="top_description">
+	<{$lang.search_description|smarty:nodefaults}>
+</div>
+<div class="outerdiv">
+	<form onsubmit="return false;">
+		<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+			<tr class="row">
+				<th scope="row" class="nowrap">
+					<{* 表示モード *}>
+					<{$lang.search_show_mode|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<select size='1' name='show_mode'>
+						<option value='<{$smarty.const.SEARCH_SHOW_MODE_NORMAL}>'<{if ($action.search_blocks.show_mode == SEARCH_SHOW_MODE_NORMAL) }> selected="selected"<{/if}>>
+							<{* 通常検索モード *}>
+							<{$lang.search_normal_mode|smarty:nodefaults}>
+						</option>
+						<option value='<{$smarty.const.SEARCH_SHOW_MODE_SIMPLE}>'<{if ($action.search_blocks.show_mode == SEARCH_SHOW_MODE_SIMPLE) }> selected="selected"<{/if}>>
+							<{* 簡易検索モード *}>
+							<{$lang.search_simple_mode|smarty:nodefaults}>
+						</option>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th scope="row" class="nowrap">
+					<{* デフォルト対象モジュール *}>
+					<{$lang.search_default_target_module|smarty:nodefaults}>
+				</th>
+				<td class="nowrap">
+					<{foreach name="module" from=$action.modules item=module}>
+						<label for="search_target_module<{$id}>_<{$module.module_id}>">
+							<input id="search_target_module<{$id}>_<{$module.module_id}>" type='checkbox' name='target_modules[]' value='<{$module.dir_name}>' <{if $module.target_module_flag}>checked="checked" <{/if}>/>
+							<{$module.module_name}>
+						</label>
+						<{if (!$smarty.foreach.module.last) }>
+							<br />
+						<{/if}>
+					<{/foreach}>
+				</td>
+			</tr>
+		</table>
+		<div class="align-center">
+			<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="searchCls['<{$id}>'].registStyle(this.form); return false;">
+		</div>
+	</form>
+</div>
+<{include file="../search_script.html"}>
+<{/strip}>

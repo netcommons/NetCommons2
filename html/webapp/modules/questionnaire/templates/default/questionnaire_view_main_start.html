@@ -1,0 +1,21 @@
+<{strip}>
+<{* 質問開始画面用テンプレート *}>
+<div class="questionnaire_head">
+	<{include file="questionnaire_view_main_head.html"}>
+</div>
+
+<form id="questionnaire_start<{$id}>" action="#" onsubmit="return false;">
+	<input type="hidden" name="action" value="questionnaire_action_main_start" />
+	<input type="hidden" name="questionnaire_id" value="<{$action.questionnaire.questionnaire_id}>" />
+
+	<{include file="questionnaire_view_main_image_authentication.html"}>
+</form>
+
+<div class="hr"></div>
+
+<div class="align-center">
+	<input type="button" value="<{$lang.questionnaire_answer_start}>" onclick="commonCls.sendPost('<{$id}>', Form.serialize($('questionnaire_start<{$id}>')), {'target_el':$('<{$id}>')});" />
+</div>
+
+<{include file = "../questionnaire_script.html"}>
+<{/strip}>

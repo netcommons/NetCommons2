@@ -1,0 +1,17 @@
+<{strip}>
+
+<{assign var="plan_obj" value=$action.plan_data.$date}>
+<{if ($plan_obj.public > 0) }>
+	<img src="<{""|get_image_url}>/images/common/blank.gif" class="calendar_plan_smark calendar_plan_public" alt="" title="" />
+<{/if}>
+<{if ($plan_obj.members > 0) }>
+	<img src="<{""|get_image_url}>/images/common/blank.gif" class="calendar_plan_smark calendar_plan_members" alt="" title="" />
+<{/if}>
+<{if ($plan_obj.group > 0) }>
+	<img src="<{""|get_image_url}>/images/common/blank.gif" class="calendar_plan_smark calendar_plan_group" alt="" title="" />
+<{/if}>
+<{if ($plan_obj.private > 0) }>
+	<img src="<{""|get_image_url}>/images/common/blank.gif" class="calendar_plan_smark calendar_plan_private" alt="" title="" />
+<{/if}>
+
+<{/strip}>

@@ -1,0 +1,16 @@
+<{strip}>
+<{* アンケート一覧（開始／終了／公開列）用テンプレート *}>
+<{if $questionnaire.question_count == 0}>
+	<{$lang.questionnaire_no_question}>
+<{else}>
+	<span id="questionnaire_operate_start<{$questionnaire.questionnaire_id}><{$id}>"<{if $questionnaire.status != QUESTIONNAIRE_STATUS_INACTIVE_VALUE}> class="display-none"<{/if}>>
+		<{$lang.questionnaire_operate_inactive}>
+	</span>
+	<a id="questionnaire_operate_stop<{$questionnaire.questionnaire_id}><{$id}>"  class="syslink<{if $questionnaire.status != QUESTIONNAIRE_STATUS_ACTIVE_VALUE}> display-none<{/if}>" href="#" title="<{$lang.questionnaire_operate_stop_title|sprintf:$questionnaire.questionnaire_name}>" onclick="questionnaireCls['<{$id}>'].stop('<{$questionnaire.questionnaire_id}>', '<{$smarty.const.QUESTIONNAIRE_STATUS_END_VALUE}>', '<{$lang.questionnaire_mes_operate_stop|sprintf:$questionnaire.questionnaire_name|escape:"html"|escape:"javascript"}>')">
+		<{$lang.questionnaire_operate_stop}>
+	</a>
+	<span id="questionnaire_operate_end<{$questionnaire.questionnaire_id}><{$id}>"<{if $questionnaire.status != QUESTIONNAIRE_STATUS_END_VALUE}> class="display-none"<{/if}>>
+		<{$lang.questionnaire_operate_end}>
+	</span>
+<{/if}>
+<{/strip}>

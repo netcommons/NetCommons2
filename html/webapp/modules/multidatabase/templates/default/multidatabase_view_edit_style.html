@@ -1,0 +1,53 @@
+<{strip}>
+<div class="outerdiv">
+	<form action="#" onsubmit="return false;">
+	<table class="outer">
+		<tr>
+			<th><{$lang.mdb_display_num|smarty:nodefaults}></th>
+			<td>
+				<select name="visible_item" size="1">
+					<option value="1" <{if ($action.mdb_obj.visible_item==1)}>selected="selected"<{/if}>>1<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="5" <{if ($action.mdb_obj.visible_item==5)}>selected="selected"<{/if}>>5<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="10" <{if ($action.mdb_obj.visible_item==10)}>selected="selected"<{/if}>>10<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="20" <{if ($action.mdb_obj.visible_item==20)}>selected="selected"<{/if}>>20<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="50" <{if ($action.mdb_obj.visible_item==50)}>selected="selected"<{/if}>>50<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<option value="100" <{if ($action.mdb_obj.visible_item==100)}>selected="selected"<{/if}>>100<{$lang.mdb_display_item|smarty:nodefaults}></option>
+					<{* <option value="0" <{if ($action.mdb_obj.visible_item==0)}>selected="selected"<{/if}>><{$lang.mdb_display_item_all|smarty:nodefaults}></option> *}>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><{$lang.mdb_display_sort|smarty:nodefaults}></th>
+			<td>
+				<select name="default_sort">
+					<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT}>" <{if $action.mdb_obj.default_sort == "" || $action.mdb_obj.default_sort == $smarty.const.MULTIDATABASE_DEFAULT_SEQUENCE_SORT}> selected="selected"<{/if}>>
+						<{$lang.mdb_sequence_sort|smarty:nodefaults}>
+					</option>
+					<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}>" <{if $action.mdb_obj.default_sort == $smarty.const.MULTIDATABASE_DEFAULT_DATE_SORT}> selected="selected"<{/if}>>
+						<{$lang.mdb_date_sort|smarty:nodefaults}>
+					</option>
+					<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}>" <{if $action.mdb_obj.default_sort == $smarty.const.MULTIDATABASE_DEFAULT_DATE_ASC_SORT}> selected="selected"<{/if}>>
+						<{$lang.mdb_date_asc_sort|smarty:nodefaults}>
+					</option>
+					<{if $action.mdb_obj.vote_flag == $smarty.const._ON}>
+						<option value="<{$smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}>" <{if $action.mdb_obj.default_sort == $smarty.const.MULTIDATABASE_DEFAULT_VOTE_SORT}> selected="selected"<{/if}>>
+							<{$lang.mdb_vote_sort|smarty:nodefaults}>
+						</option>
+					<{/if}>
+					<{foreach from=$action.sort_metadatas item=option name=selectloop}>
+						<option value="<{$option.metadata_id}>" <{if $action.mdb_obj.default_sort == $option.metadata_id}> selected="selected"<{/if}>>
+							<{$option.name}><{$lang.mdb_sort_item|smarty:nodefaults}>
+						</option>
+					<{/foreach}>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<div class="btn-bottom">
+		<input class="lined_btn btn-width" type="button" onclick="mdbCls['<{$id}>'].styleEdit(this.form); return false;" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" onclick="mdbCls['<{$id}>'].editCancel(); return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+	</div>
+	</form>
+</div>
+<{include file="../multidatabase_script.html"}>
+<{/strip}>

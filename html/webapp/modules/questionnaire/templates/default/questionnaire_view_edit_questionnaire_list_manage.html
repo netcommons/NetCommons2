@@ -1,0 +1,40 @@
+<{strip}>
+<{* アンケート一覧（管理列）用テンプレート *}>
+<{if $questionnaire.question_count > 0}>
+	<a class="syslink" href="#" title="<{$lang._ref_title|sprintf:$questionnaire.questionnaire_name}>" onclick="questionnaireCls['<{$id}>'].showReference(event, <{$questionnaire.questionnaire_id}>);return false;">
+		<{$lang._ref|smarty:nodefaults}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+<{/if}>
+
+<{if $questionnaire.answer_count > 0}>
+	<a class="syslink" href="#" title="<{$lang.questionnaire_manage_answer_title|sprintf:$questionnaire.questionnaire_name}>" onclick="questionnaireCls['<{$id}>'].showSummaryList(event, <{$questionnaire.questionnaire_id}>, null);return false;">
+		<{$lang.questionnaire_manage_answer}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+
+	<a class="syslink" href="#" title="<{$lang.questionnaire_manage_total_title|sprintf:$questionnaire.questionnaire_name}>" onclick="questionnaireCls['<{$id}>'].showTotal(event, <{$questionnaire.questionnaire_id}>);return false;">
+		<{$lang.questionnaire_manage_total}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+
+	<a class="syslink" href=".<{$smarty.const.INDEX_FILE_NAME}>?action=questionnaire_view_edit_export&amp;block_id=<{$block_id}>&amp;questionnaire_id=<{$questionnaire.questionnaire_id}>" title="<{$lang.questionnaire_manage_export_title|sprintf:$questionnaire.questionnaire_name}>">
+		<{$lang.questionnaire_manage_export}>
+	</a>
+	<{$lang._separator|smarty:nodefaults}>
+<{/if}>
+
+<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$questionnaire.questionnaire_name}>" onclick="commonCls.sendView('<{$id}>', {action:'questionnaire_view_edit_questionnaire_entry', questionnaire_id:<{$questionnaire.questionnaire_id}>});return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+
+<a class="syslink" href="#" title="<{$lang.questionnaire_manage_question_edit_title|sprintf:$questionnaire.questionnaire_name}>" onclick="commonCls.sendView('<{$id}>', {action:'questionnaire_view_edit_question_list', questionnaire_id:<{$questionnaire.questionnaire_id}>});return false;">
+	<{$lang.questionnaire_manage_question_edit}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+
+<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$questionnaire.questionnaire_name}>" onclick="questionnaireCls['<{$id}>'].deleteQuestionnaire('<{$questionnaire.questionnaire_id}>', '<{$lang._del_confirm|sprintf:$questionnaire.questionnaire_name|escape:"html"|escape:"javascript"}>');return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{/strip}>

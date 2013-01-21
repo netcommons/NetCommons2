@@ -1,0 +1,429 @@
+<{strip}>
+<{* tableタグにしないと広さが自動的に設定されない *}>
+<table class="comptextarea_dialog" cellspacing="0" cellpadding="0"><tr><td style="<{* style指定ではないとなぜかIEでpaddingされない *}>padding:5px;">
+	<div class="comptextarea_dialog_title"><{$lang.insert_image_title}></div>
+	<div class=comp_tabset></div>
+	<div class=comp_tabset_content>
+		<div class="upload_tab outerdiv" style="display:none;">
+			<form name="attachment_form<{$action.parent_id_name}>" target="attachment_form<{$action.top_id_name}>" enctype="multipart/form-data">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td colspan="2" class="nowrap">
+						<{$lang.insert_upload_message|smarty:nodefaults}>
+					</td>
+				</tr>
+				<tr>
+					<td class="valign-top">
+						<div class="nowrap">
+							<input type="file" name="upload[]" id="f_upload" onchange="changeUpSrc(this);" />
+							<input style="display:none; margin-left:5px;" id="preview_btn" type="button" value="<{$lang.insert_image_preview}>" onclick="onUpload(true);return false;" />
+						</div>
+						<{*alt*}>
+						<div class="nowrap">
+							<{$lang.insert_image_alt}>
+						</div>
+						<div class="nowrap">
+							<input class="comptextarea_text" type="text" name="alt" id="f_alt" title="<{$lang.insert_image_alt_input}>" />
+						</div>
+						<div id="insert_image_preview" style="display:none;">
+							<{*preview*}>
+							<div class="nowrap"><{$lang.insert_image_preview}></div>
+							<div class="comptextarea_preview_box">
+								<img id="up_src" />
+							</div>
+						</div>
+					</td>
+					<td colspan="2" class="comptextarea_insetrimage_right">
+						<div>
+					  		<input class="comptextarea_btn_width" type="button" name="ok" value="<{$lang.insert_image_ok}>" onclick="onUpload(false);return false;" />
+					  	</div>
+					  	<div style="margin-bottom:8px;">
+					  		<input class="comptextarea_btn_width" type="button" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>" onclick="parent.commonCls.referComp['<{$action.parent_id_name}>'].closePopup('insertimage'); return false;" />
+					  	</div>
+					  	<a class="link" href="#" onclick="displayChange(this.nextSibling); return false;">
+					  	<{$lang.insert_image_detail_link}><img id="cellbackgroud-img" src="<{""|get_image_url}>/images/comp/textarea/dialog/right-arrow.gif" />
+						</a>
+						<div id="upload_tab_detail" class="comptextarea_insetrimage_right" style="display:none;">
+							<div id="detail_field">
+							<fieldset>
+								<legend><{$lang.insert_image_align}></legend>
+								<select size="1" name="align" id="f_align" onchange="changeAppearance();" title="<{$lang.insert_image_align_input}>">
+									<option value=""><{$lang.insert_image_align_none}></option>
+									<option value="left"><{$lang.insert_image_align_left}></option>
+									<option value="right"><{$lang.insert_image_align_right}></option>
+									<option value="top"><{$lang.insert_image_align_top}></option>
+									<option value="texttop"><{$lang.insert_image_align_texttop}></option>
+									<option value="middle"><{$lang.insert_image_align_middle}></option>
+									<option value="absmiddle"><{$lang.insert_image_align_absmiddle}></option>
+									<option value="bottom"><{$lang.insert_image_align_bottom}></option>
+									<option value="baseline"><{$lang.insert_image_align_baseline}></option>
+									<option value="absbottom"><{$lang.insert_image_align_absbottom}></option>
+								</select>
+							</fieldset>
+							<fieldset>
+								<legend><{$lang.insert_image_size}></legend>
+								<div class="nowrap valign-top">
+									<{$lang.insert_image_width|smarty:nodefaults}>
+									<input maxlength="4" class="align-right" type="text" name="width" id="f_width" size="5" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);changeAppearance();" onblur="this.onkeyup(event);" title="<{$lang.insert_image_width|smarty:nodefaults}>" />
+									&nbsp;px
+								</div>
+								<div class="comptextarea_insetrimage_detail_padding nowrap valign-top">
+									<{$lang.insert_image_height|smarty:nodefaults}>
+									<input maxlength="4" class="align-right" type="text" name="height" id="f_height" size="5" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);changeAppearance();" onblur="this.onkeyup(event);" title="<{$lang.insert_image_height|smarty:nodefaults}>" />
+									&nbsp;px
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend><{$lang.insert_image_border}></legend>
+								<input maxlength="2" class="align-right" type="text" name="border" id="f_border" size="5" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event); changeAppearance();" onblur="this.onkeyup(event);" title="<{$lang.insert_image_border_input}>" />
+								&nbsp;px
+							</fieldset>
+							<fieldset>
+								<legend><{$lang.insert_image_spacing}></legend>
+								<div class="nowrap valign-top">
+									<{$lang.insert_image_horizontal|smarty:nodefaults}>
+									<input maxlength="4" class="align-right" type="text" name="horiz" id="f_horiz" size="5" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);changeAppearance();" onblur="this.onkeyup(event);" title="<{$lang.insert_image_horizontal|smarty:nodefaults}>" />
+									&nbsp;px
+								</div>
+								<div class="comptextarea_insetrimage_detail_padding nowrap valign-top">
+									<{$lang.insert_image_vertical|smarty:nodefaults}>
+									<input maxlength="4" class="align-right" type="text" name="vert" id="f_vert" size="5" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);changeAppearance();" onblur="this.onkeyup(event);" title="<{$lang.insert_image_vertical|smarty:nodefaults}>" />
+									&nbsp;px
+								</div>
+							</fieldset>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+			</form>
+		</div>
+		<div class="link_tab outerdiv">
+			<{* リンクタブ *}>
+			<form name="link_form">
+
+			<table border="0" cellspacing="0" cellpadding="0" id="link_tab_table">
+				<tr>
+					<td colspan="2" class="nowrap">
+						<{$lang.insert_image_url}>
+					</td>
+				</tr>
+				<tr>
+					<td class="valign-top">
+						<div class="nowrap">
+							<input class="comptextarea_text" type="text" name="url" id="l_url" title="<{$lang.insert_image_url_input}>" value="http://"  onchange="changeLinkSrc(this);" />
+						</div>
+						<{*alt*}>
+						<div class="nowrap">
+							<{$lang.insert_image_alt}>
+						</div>
+						<div class="nowrap">
+							<input class="comptextarea_text" type="text" name="alt" id="l_alt" title="<{$lang.insert_image_alt_input}>" />
+						</div>
+						<div id="insert_link_preview" style="display:none;">
+							<{*preview*}>
+							<div class="nowrap"><{$lang.insert_image_preview}></div>
+							<div class="comptextarea_preview_box">
+								<img id="link_src" />
+							</div>
+						</div>
+					</td>
+					<td colspan="2" class="comptextarea_insetrimage_right">
+						<div>
+							<input class="comptextarea_btn_width" type="button" name="ok" value="<{$lang.insert_imagelink_ok}>" onclick="onLink(); return false;" />
+					  	</div>
+					  	<div style="margin-bottom:8px;">
+					  		<input class="comptextarea_btn_width" type="button" name="cancel" value="<{$lang._cancel|smarty:nodefaults}>" onclick="parent.commonCls.referComp['<{$action.parent_id_name}>'].closePopup('insertimage'); return false;" />
+					  	</div>
+					  	<a class="link" href="#" onclick="displayChange(this.nextSibling); return false;">
+					  	<{$lang.insert_image_detail_link}><img id="cellbackgroud-img" src="<{""|get_image_url}>/images/comp/textarea/dialog/right-arrow.gif" />
+						</a>
+						<div id="link_tab_detail" class="comptextarea_insetrimage_right" style="display:none;">
+						</div>
+					</td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	</div>
+</td></tr></table>
+<script type="text/javascript">
+var htmlarea = parent.commonCls.referComp['<{$action.parent_id_name}>'];
+var popup = htmlarea.popup[htmlarea.popupPrefix + htmlarea.id + 'insertimage'];
+
+var download_url = "./?action="+htmlarea.downloadAction+"&upload_id=";
+var g_tab_name ="upload_tab";
+
+var g_tab_name ="upload_tab";
+
+var up_src_el = null;
+var link_src_el = null;
+var l_url_el = null;
+var l_alt_el = null;
+var f_upload_el = null;
+var f_alt_el = null;
+var f_border_el = null;
+var f_align_el = null;
+var f_vert_el = null;
+var f_horiz_el = null;
+
+var f_width_el = null;
+var f_height_el = null;
+
+function Init() {
+	if(!(parent.browser.isIE && parent.browser.version >= 9))
+		parent.commonCls.stopObserving(window, 'load',Init, false);
+	up_src_el = document.getElementById("up_src");
+	link_src_el = document.getElementById("link_src");
+	l_url_el = document.getElementById("l_url");
+	l_alt_el = document.getElementById("l_alt");
+	f_upload_el = document.getElementById("f_upload");
+	f_alt_el = document.getElementById("f_alt");
+	f_border_el = document.getElementById("f_border");
+	f_align_el = document.getElementById("f_align");
+	f_vert_el = document.getElementById("f_vert");
+	f_horiz_el = document.getElementById("f_horiz");
+
+	f_width_el = document.getElementById("f_width");
+	f_height_el = document.getElementById("f_height");
+
+	parent.commonCls.addLink(parent._nc_core_base_url + parent._nc_index_file_name + "?action=common_download_css&header=0&dir_name=/comp/default/comp_tabset.css", null, document);
+
+	var setActiveIndex = 0;
+	var params = parent.commonCls.referComp['<{$action.parent_id_name}>'].imageProperty;
+	if (params != undefined && params != null && params["f_url"] != "") {
+		l_url_el.value = params["f_url"];
+		l_alt_el.value = params["f_alt"];
+		f_border_el.value = params["f_border"];
+		f_align_el.value = params["f_align"].toLowerCase();
+		f_vert_el.value = params["f_vert"];
+		f_horiz_el.value = params["f_horiz"];
+
+		f_width_el.value = params["f_width"];
+		f_height_el.value = params["f_height"];
+
+		changeLinkSrc(l_url_el);
+		changeAppearance();
+		setActiveIndex = 1;
+	}
+	if (htmlarea.uploadAction.image != null) {
+		var tabset = new parent.compTabset(document.body);
+		tabset.addTabset("<{$lang.insert_image_upload_tab|smarty:nodefaults}>", function(){changeTabDisplay("upload_tab");});
+		tabset.addTabset("<{$lang.insert_image_link_tab|smarty:nodefaults}>", function(){changeTabDisplay("link_tab");});
+		tabset.setActiveIndex(setActiveIndex);
+		tabset.render();
+	} else {
+		<{*//画像uploadAction指定なし*}>
+		var comp_tabset_content_el = parent.Element.getChildElementByClassName(document.body, "comp_tabset_content");
+		comp_tabset_content_el.style.border = "0px none";
+	}
+	<{*//リサイズ*}>
+	popup.resize();
+}
+
+function displayChange(el) {
+	parent.commonCls.displayChange(el);
+	<{*//リサイズ*}>
+	popup.resize();
+}
+
+function changeTabDisplay(tab_name) {
+	g_tab_name = tab_name;
+	<{* 詳細移動 *}>
+	var el =  document.getElementById(tab_name+ "_detail");
+	var detail_field_el = document.getElementById("detail_field");
+	el.appendChild(detail_field_el);
+	try {
+		if(tab_name == "upload_tab" ) {
+			f_upload_el.focus();
+		} else {
+			l_url_el.focus();
+			l_url_el.select();
+		}
+	} catch (e) {}
+	<{*//リサイズ*}>
+	setTimeout(function() {
+		popup.resize();
+	}, 100);
+}
+
+function changeUpSrc(src) {
+	if (parent.browser.isIE && parent.browser.version < 7) {
+		up_src_el.src = src.value;
+		parent.commonCls.displayVisible(up_src_el);
+		var preview_el = document.getElementById("insert_image_preview");
+  		parent.commonCls.displayVisible(preview_el);
+	} else {
+		var preview_btn = document.getElementById('preview_btn');
+		parent.commonCls.displayVisible(preview_btn);
+	}
+	<{*//リサイズ*}>
+	popup.resize();
+	<{*//フォーカスの移動*}>
+	f_alt_el.focus();
+	f_alt_el.select();
+}
+
+function changeLinkSrc(src) {
+	link_src_el.src = src.value;
+	parent.commonCls.displayVisible(link_src_el);
+	var preview_el = document.getElementById("insert_link_preview");
+  	parent.commonCls.displayVisible(preview_el);
+  	var link_tab_table_el = document.getElementById("link_tab_table");
+  	if(link_tab_table_el) {
+  		parent.commonCls.displayNone(link_tab_table_el);
+  		parent.commonCls.displayVisible(link_tab_table_el);
+  	}
+
+  	<{*//リサイズ*}>
+	popup.resize();
+	<{*//フォーカスの移動*}>
+	l_alt_el.focus();
+	l_alt_el.select();
+}
+
+function onUpload(preview) {
+	if(htmlarea.uploadAction.image != null && htmlarea.uploadAction.image != "") {
+		var f_upload = document.getElementById("f_upload");
+		var url = f_upload.value;
+		if (!f_upload.value) {
+			parent.commonCls.alert("<{$lang.insert_upload_message|smarty:nodefaults}>");
+			return false;
+		}
+		<{*//パラメータ設定*}>
+		var attachment_params = new Object();
+		attachment_params['document_obj'] = document;
+		attachment_params['top_el'] = parent.document.getElementById('<{$action.top_id_name}>');
+		if(htmlarea.uploadAction.unique_id == undefined) {
+			htmlarea.uploadAction.unique_id = "0";
+		}
+		attachment_params['param'] = {"action":htmlarea.uploadAction.image,"unique_id":htmlarea.uploadAction.unique_id};
+		if (preview) {
+			attachment_params['callbackfunc'] = sendAttachmentPreview;
+		} else {
+			attachment_params['callbackfunc'] = sendAttachmentCallBack;
+		}
+		parent.commonCls.sendAttachment(attachment_params);
+	}
+}
+
+function sendAttachmentCallBack(file_list, res) {
+	if(!file_list[0]) {
+		parent.commonCls.referComp['<{$action.parent_id_name}>'].closePopup('insertimage');
+		return false;
+	}
+	/*
+	if(file_list[0]['error_mes'] != "") {
+		parent.commonCls.alert(file_list[0]['error_mes']);
+		return false;
+	}
+	if(!file_list[0]['upload_id']) {
+		parent.commonCls.alert("<{$lang.insert_image_message3}>");
+		return false;
+	}
+	*/
+	var param = new Object();
+	param["f_alt"] = f_alt_el.value;
+	param["f_align"] = f_align_el.value;
+	param["f_border"] = f_border_el.value;
+	param["f_horiz"] = f_horiz_el.value;
+	param["f_vert"] = f_vert_el.value;
+
+	param["f_width"] = f_width_el.value;
+	param["f_height"] = f_height_el.value;
+
+	param["f_url"] = download_url + file_list[0]['upload_id'];
+	parent.commonCls.referComp['<{$action.parent_id_name}>'].insertImage(param);
+}
+
+function sendAttachmentPreview(file_list, res) {
+	/*
+	if(file_list[0]['error_mes'] != "") {
+		parent.commonCls.alert(file_list[0]['error_mes']);
+		return false;
+	}
+	if(!file_list[0]['upload_id']) {
+		parent.commonCls.alert("<{$lang.insert_image_message3}>");
+		return false;
+	}
+	*/
+	var preview_el = document.getElementById("insert_image_preview");
+  	parent.commonCls.displayVisible(preview_el);
+  	up_src_el.src = download_url + file_list[0]['upload_id'];
+	parent.commonCls.displayVisible(up_src_el);
+	var count = 10;
+	setTimeout(function() {
+		resizeImg(count);
+	}, 400);
+	<{*//リサイズ*}>
+	popup.resize();
+}
+
+function resizeImg(count) {
+	if(count != 0 && up_src_el.offsetWidth == 0) {
+		count--;
+		setTimeout(function() {
+			resizeImg(count);
+		}, 500);
+	}
+	f_width_el.value = up_src_el.offsetWidth;
+	f_height_el.value = up_src_el.offsetHeight;
+}
+
+function onLink() {
+	var param = new Object();
+	param["f_url"] = l_url_el.value;
+	param["f_alt"] = l_alt_el.value;
+	param["f_align"] = f_align_el.value;
+	param["f_border"] = f_border_el.value;
+	param["f_horiz"] = f_horiz_el.value;
+	param["f_vert"] = f_vert_el.value;
+	param["f_width"] = f_width_el.value;
+	param["f_height"] = f_height_el.value;
+	if(param["f_url"] != "") {
+		parent.commonCls.referComp['<{$action.parent_id_name}>'].insertImage(param);
+	} else {
+		parent.commonCls.referComp['<{$action.parent_id_name}>'].closePopup('insertimage');
+	}
+}
+
+function changeAppearance() {
+	var f_align = f_align_el.value;
+	var f_vert = f_vert_el.value;
+	var f_horiz = f_horiz_el.value;
+	var f_border = f_border_el.value;
+
+	var f_width = f_width_el.value;
+	var f_height = f_height_el.value;
+
+	with (up_src_el) {
+		align = f_align;
+		vspace = f_vert;
+		hspace = f_horiz;
+	}
+	if(f_border != "") {
+		parent.commonCls.setStyle(up_src_el, {"border":f_border+"px solid #cccccc"});
+	}
+	if(f_width != 0 && f_width != '') up_src_el.style.width = f_width + "px";
+	else up_src_el.style.width = '';
+	if(f_height != 0 && f_height != '') up_src_el.style.height = f_height + "px";
+	else up_src_el.style.height = '';
+
+	with (link_src_el) {
+		align = f_align;
+		vspace = f_vert;
+		hspace = f_horiz;
+
+	}
+
+	if(f_border != "") {
+		parent.commonCls.setStyle(link_src_el, {"border":f_border+"px solid #cccccc"});
+	}
+	if(f_width != 0 && f_width != '') link_src_el.style.width = f_width + "px";
+	else link_src_el.style.width = '';
+	if(f_height != 0 && f_height != '') link_src_el.style.height = f_height + "px";
+	else link_src_el.style.height = '';
+}
+parent.commonCls.observe(window, 'load',Init, false, '<{$id}>');
+</script>
+<{/strip}>

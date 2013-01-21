@@ -1,0 +1,58 @@
+/* 
+ * ブロック定義
+ */
+
+/* line */
+.th_titleaccent_default_color {
+	color:#ffffff;
+	background-color:#c60a00;
+	font-size:85%;
+	padding-left:0px;
+}
+
+.th_titleaccent_default_line_color {
+	background-color:#9e0800;
+	
+}
+
+.th_titleaccent_default_color .highlight {
+	color:#ffff00;
+	background-color:#c60a00;
+}
+
+.th_titleaccent_default_color a.hover_highlight:hover {
+	color:#ffff00;
+	background-color:#c60a00;
+	text-decoration:none;
+} 
+
+/* 一般 */
+.th_titleaccent_title_area {
+	padding:3px 5px;
+}
+.th_titleaccent_title {
+	white-space:nowrap;
+	text-align: left;
+	padding: 0px 0px 0px 5px;
+	margin:0px;
+}
+
+.th_titleaccent_line_area {
+	padding: 2px 0px 2px 3px;
+}
+
+.th_titleaccent_line {
+	width:4px;
+	height:16px;
+}
+
+.th_titleaccent_sideline {
+	width:1px;
+}
+
+.th_titleaccent_content {
+	width:100%;
+}
+.th_titleaccent_maincontent {
+	padding:15px 12px 5px 12px;
+}

@@ -1,0 +1,66 @@
+<{strip}>
+	<h4 class="ui-bar-<{$smartphone_theme_color}>" style="margin:0.8em -15px 0.8em -15px;padding:0.6em 0.4em;"><{$heading_title}></h4>
+
+	<ul data-role="listview">
+
+	<{section name=i loop=$whatsnew_data max=$display_count}>
+		<{assign var="whatsnew" value=$whatsnew_data[i]|smarty:nodefaults}>
+		<div data-role="collapsible" data-theme="c">
+			<h3><{$whatsnew.title}></h3>
+			<br />
+			<p style="white-space:normal;">
+				<{$whatsnew.module_name}>,
+				<{$whatsnew.page_name}>,
+				<{$whatsnew.insert_user_name}>,
+				<{"`$whatsnew.insert_time`"|timezone_date_format:$lang.whatsnew_time_format|smarty:nodefaults}>
+			</p>
+			<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+				<{$whatsnew.description}>
+			</div>
+			<br /><br />
+			<{assign var="parameters" value="/#.*/i"|preg_replace:"":$whatsnew.parameters}>
+			<a data-role="button" data-icon="arrow-r" data-iconpos="right" href="?action=<{$whatsnew.action_name}><{$session_param}>&amp;<{$parameters|smarty:nodefaults}>">
+				<{$lang.whatsnew_mobile_base_news|smarty:nodefaults}>
+			</a>
+		</div>
+	<{sectionelse}>
+		<{$lang.whatsnew_nothing|smarty:nodefaults}>
+	<{/section}>
+
+	</ul>
+	<br />
+	<{if $action.whatsnew_obj.display_type != WHATSNEW_DEF_FLAT}>
+	<div class="ui-grid-b">
+		<div class="ui-block-a">
+			<{if $action.offset > 0 }>
+				<{if $action.offset - $display_count == 0 }>
+					<a data-role="button" data-inline="true" href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;block_id=<{$action.block_id}>">
+						<{$lang.whatsnew_mobile_prev|smarty:nodefaults|sprintf:$display_count}>
+					</a>
+				<{else}>
+					<a data-role="button" data-inline="true" href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;<{$more_read_param|smarty:nodefaults}>&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.prev_offset}>">
+						<{$lang.whatsnew_mobile_prev|smarty:nodefaults|sprintf:$display_count}>
+					</a>
+				<{/if}>
+			<{/if}>
+		</div>
+		<div class="ui-block-b">
+		</div>
+		<div class="ui-block-c">
+		<{if $action.whatsnew_obj.display_flag == _ON}>
+			 <{if $action.offset+$smarty.section.i.loop < $action.whatsnew_obj.display_number && $smarty.section.i.loop > $display_count}>
+				<a data-role="button" data-inline="true" href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;<{$more_read_param|smarty:nodefaults}>&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.next_offset}>">
+					<{$lang.whatsnew_mobile_next|smarty:nodefaults|sprintf:$display_count}>
+				</a>
+			 <{/if}>
+		<{else}>
+			 <{if $smarty.section.i.loop > $display_count}>
+				<a data-role="button" data-inline="true" href="?action=whatsnew_view_mobile_init<{$session_param}>&amp;<{$more_read_param|smarty:nodefaults}>&amp;block_id=<{$action.block_id}>&amp;offset=<{$action.next_offset}>">
+					<{$lang.whatsnew_mobile_next|smarty:nodefaults|sprintf:$display_count}>
+				</a>
+			 <{/if}>
+		<{/if}>
+		</div>
+	</div>
+	<{/if}>
+<{/strip}>

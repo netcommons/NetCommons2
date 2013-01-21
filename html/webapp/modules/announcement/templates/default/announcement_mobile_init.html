@@ -1,0 +1,26 @@
+<{strip}>
+
+<h3>
+	<{$current_module_name}>
+</h3>
+
+<ul>
+	<{section name=i loop=$action.announcements}>
+		<li>
+			<a href="?action=announcement_view_main_init&amp;block_id=<{$action.announcements[i].block_id}><{$session_param}>">
+				<{if ($action.announcements[i].title != "") }>
+					<{$action.announcements[i].title|truncate:$smarty.const.ANNOUNCEMENT_LENGTH:$smarty.const._SEARCH_MORE:true}>
+				<{else}>
+					<{$smarty.const._SEARCH_SUBJECT_NONEXISTS}>
+				<{/if}>
+			</a>
+		</li>
+	<{/section}>
+</ul>
+
+<div align="right">
+	<a href="?action=menu_view_mobile_init<{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

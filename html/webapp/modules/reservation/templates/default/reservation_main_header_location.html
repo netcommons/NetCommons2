@@ -1,0 +1,28 @@
+<{strip}>
+
+<table class="reservation_head" summary="">
+	<tr>
+		<td class="reservation_date_head">
+			<{assign var="date" value="Ymd"|date:"`$action.current_timestamp`"}>
+			<{assign var="wday" value="w"|date:"`$action.current_timestamp`"}>
+
+			<{assign var="wday_data" value=$action.week_list.$wday}>
+			<{assign var="lang_wday" value=$lang.reservation_wday_format|smarty:nodefaults|sprintf:"`$wday_data.name`"}>
+
+			<{include file="reservation_main_set_day_class.html" assign="day_class" view_date=$action.view_date set_date=$date wday=$wday}>
+
+			<{assign var="lang_year" value=$lang.reservation_daily_year_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>
+			<{assign var="lang_date" value=$lang.reservation_daily_date_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>			
+
+			&nbsp;
+			<{include file="reservation_main_this_date.html" view_date=$date display_type=$action.reserve_block.display_type}>
+			&nbsp;
+
+			&nbsp;
+			&nbsp;
+			<{include file="reservation_main_switch_category.html" view_category_id=$action.reserve_block.category_id main_id=$id}>
+		</td>
+	</tr>
+</table>
+
+<{/strip}>

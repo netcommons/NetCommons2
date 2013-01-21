@@ -1,0 +1,18 @@
+<{strip}>
+
+<{foreach from=$pages_list item=pages}>
+	<{assign var="now_page_id" value=$pages.page_id}>
+	<{assign var="next_thread_num" value=$pages.thread_num+1}>
+	<option value="<{$pages.page_id}>"<{if $pages.authority_id < _AUTH_CHIEF || $pages.page_id == _SELF_TOPPUBLIC_ID}> disabled="true" class="disable_lbl"<{/if}>>
+		<{section name=i loop=$pages.thread_num}>
+			&nbsp;&nbsp;&nbsp;
+		<{/section}>
+		<{$pages.page_name}>
+	</option>
+
+	<{if $action.pages_list.$next_thread_num.$now_page_id}>
+		<{assign var="pages_list" value=$action.pages_list.$next_thread_num.$now_page_id}>
+		<{include file="operation/common_operation_view_pageslist.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

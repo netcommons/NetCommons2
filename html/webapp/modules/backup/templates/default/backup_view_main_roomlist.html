@@ -1,0 +1,60 @@
+<{strip}>
+<{foreach name="loop" from=$room_list item=room}>
+	<{assign var="now_page_id" value=$room.page_id}>
+	<{assign var="next_thread_num" value=$room.thread_num+1}>
+	<{assign var="now_parent_id" value=$room.parent_id}>
+	<{if $room.thread_num == 0}>
+		<{if $room.private_flag == _ON}>
+			<{assign var="top_class_name" value="backup_room_private"}>
+			<{assign var="top_lbl_class_name" value="backup_lbl_room_private"}>
+		<{elseif $room.space_type == _SPACE_TYPE_PUBLIC}>
+			<{assign var="top_class_name" value="backup_room_public"}>
+			<{assign var="top_lbl_class_name" value="backup_lbl_room_public"}>
+		<{else}>
+			<{assign var="top_class_name" value="backup_room_group"}>
+			<{assign var="top_lbl_class_name" value="backup_lbl_room_group"}>
+		<{/if}>
+	<div class="backup_page_name <{$top_class_name}>">
+	<{else}>
+	<div class="backup_page_name">
+	<{/if}>
+	<{if ($room.thread_num == 0 && $room.authority_id >= _AUTH_CHIEF && $room.space_type == _SPACE_TYPE_GROUP) || 
+			($room.thread_num == 0 && $room.authority_id >= _AUTH_CHIEF && $smarty.session._user_auth_id == _AUTH_ADMIN && $room.space_type == _SPACE_TYPE_PUBLIC && $room.private_flag == _OFF) ||
+			($room.thread_num == 1 && $room.space_type== _SPACE_TYPE_PUBLIC && $action.authority.public_createroom_flag == _ON && $room.authority_id >= _AUTH_CHIEF) ||
+			($room.thread_num == 1 && $room.space_type== _SPACE_TYPE_GROUP  && $action.authority.group_createroom_flag == _ON && $room.authority_id >= _AUTH_CHIEF) ||
+			($room.space_type == _SPACE_TYPE_GROUP && $room.thread_num >= 2 && isset($action.room_arr_flat.$now_parent_id|smarty:nodefaults) && $action.room_arr_flat.$now_parent_id.authority_id >= _AUTH_CHIEF && $action.room_arr_flat.$now_parent_id.createroom_flag == _ON)}>
+		<{assign var="check_radio_flag" value=$smarty.const._ON}>
+	<{else}>
+		<{assign var="check_radio_flag" value=$smarty.const._OFF}>
+	<{/if}>
+		<label for="page_name<{$id}>_<{$room.page_id}>">
+		<{section name=i loop=$room.thread_num}>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		<{/section}>
+		<{* Backup_View_Main_Initの表示項目と同等のチェック *}>
+		<{if $check_radio_flag == _ON}>
+			<input id="page_name<{$id}>_<{$room.page_id}>" type="radio" value="<{$room.page_id}>" name="backup_page_id" />
+			<{if $smarty.session._user_auth_id !=_AUTH_ADMIN}>
+			<script class="nc_script" type="text/javascript">
+				$('page_name<{$id}>_<{$room.page_id}>').checked='true';
+			</script>
+			<{/if}>
+		<{else}>
+			<input type="radio" value="<{$room.page_id}>" disabled="disabled" />
+		<{/if}>
+		<{if $room.thread_num == 0}>
+			<span title="<{$room.page_name}>" class="<{$top_lbl_class_name}>"><{$room.page_name}></span>
+		<{elseif $room.space_type == _SPACE_TYPE_GROUP && $room.thread_num >= 2}>
+			<{* サブグループ *}>
+			<span title="<{$room.page_name}>" class="backup_lbl_subgroup"><{$room.page_name}></span>
+		<{else}>
+			<{$room.page_name}>
+		<{/if}>
+		</label>
+	</div>
+	<{if $action.room_list.$next_thread_num.$now_page_id}>
+		<{assign var="room_list" value=$action.room_list.$next_thread_num.$now_page_id}>
+		<{include file="backup_view_main_roomlist.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

@@ -1,0 +1,49 @@
+<{strip}>
+<{* ページデータツリー表示用テンプレート *}>
+
+<{if empty($parents|smarty:nodefaults) && count($action.pageTree) > 0 }>
+	<{assign var="parents" value=$action.topPage}>
+<{/if}>
+<{foreach from=$parents|smarty:nodefaults key=pageID item=page}>
+	<{if $page.thread_num != 0 || $page.private_flag == $smarty.const._ON }>
+		<{if $page.mobileModule == true && $page.visible == true}>
+			<{if $page.disabled == false || $action.menu_display_type==$smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+				&nbsp;
+			<{/if}>
+			<{if $action.menu_display_type == $smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+				<{foreach from=$page.branches item=branch}>
+					<{if $branch == "I" }>
+						<{$lang.menu_indent_markI|smarty:nodefaults}>
+					<{elseif $branch == "Y" }>
+						<{$lang.menu_indent_markY|smarty:nodefaults}>
+					<{elseif $branch == "L" }>
+						<{$lang.menu_indent_markL|smarty:nodefaults}>
+					<{elseif $branch == "B" }>
+						<{$lang.menu_indent_markB|smarty:nodefaults}>
+					<{/if}>
+				<{/foreach}>
+			<{/if}>
+			<{if $page.disabled == true}>
+				<{if $action.menu_display_type == $smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+					<{$page.page_name}>
+					<br />
+				<{/if}>
+			<{elseif $page.blockCount > 1 }>
+				<a href="./?action=menu_view_mobile_detail&amp;page_id=<{$page.page_id}>&amp;t=<{$smarty.const._ON}><{$session_param}>">
+					<{$page.page_name}>
+				</a>
+				<br />
+			<{else}>
+				<a href="./?action=pages_view_mobile&amp;block_id=<{$page.block_id}><{$session_param}>">
+					<{$page.page_name}>
+				</a>
+				<br />
+			<{/if}>
+		<{/if}>
+	<{/if}>
+	<{if !empty($action.pageTree.$pageID|smarty:nodefaults) }>
+		<{assign var="parents" value=$action.pageTree.$pageID}>
+		<{include file = "menu_mobile_recursive_page_feature.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

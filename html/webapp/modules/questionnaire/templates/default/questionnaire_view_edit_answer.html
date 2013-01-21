@@ -1,0 +1,47 @@
+<{strip}>
+<{* 質問毎の回答画面用テンプレート *}>
+<div class="questionnaire_head">
+	<{include file="questionnaire_view_main_head.html"}>
+</div>
+
+<{include file="questionnaire_view_print.html"}>
+
+<table class="outer questionnaire_summary" summary="<{$lang.questionnaire_answer_count_summary}>">
+	<{include file="questionnaire_view_answer_count.html"}>
+</table>
+
+<{assign var="question" value="`$action.question`"}>
+<{include file="questionnaire_view_question.html"}>
+<{include file="questionnaire_view_description.html"}>
+	
+<{foreach from=$action.answers item=answer name="answer"}>
+	<{assign var="summary" value="$answer"}>
+	<div class="questionnaire_question">
+		<div class="float-left">
+			<{include file = "questionnaire_view_handle.html" handle=$answer.insert_user_name|smarty:nodefaults user_id=$answer.insert_user_id}>
+			<{include file="questionnaire_view_number.html" questionnaireNumber=$lang.questionnaire_parenthesis_number|sprintf:$answer.answer_number}>
+			<{if empty($answer.answer_id|smarty:nodefaults)}>
+				<span class="questionnaire_answer_flag">
+					<{$lang.questionnaire_answer_none}>
+				</span>
+			<{/if}>
+		</div>
+		<div class="align-right">
+			<{include file = "questionnaire_view_answer_link.html" summary=$answer}>
+		</div>
+		<br class="float-clear" />
+		
+		<div class="questionnaire_answer">
+			<{if ($answer.answer_id > 0) }>
+				<{include file="questionnaire_view_answer.html" choiceDisplay=$smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+			<{/if}>
+			&nbsp;
+		</div>
+	</div>
+<{/foreach}>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	questionnaireCls['<{$id}>'].questionnaire_id = "<{$action.questionnaire.questionnaire_id}>";
+</script>
+<{/strip}>

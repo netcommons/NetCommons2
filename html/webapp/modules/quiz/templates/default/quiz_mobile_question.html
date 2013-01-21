@@ -1,0 +1,20 @@
+<{strip}>
+<{* 問題表示用テンプレート *}>
+<h4>
+	<{if empty($action.currentSequence|smarty:nodefaults)}>
+		<{$lang.quiz_mobile_question|sprintf:$smarty.foreach.question.iteration}>
+	<{else}>
+		<{$lang.quiz_mobile_single_question|sprintf:$action.currentSequence:$action.questionCount}>
+	<{/if}>
+</h4>
+<div>
+	<{$question.question_value|smarty:nodefaults|wysiwig_convert_url}>
+	<br style="clear:both;" />
+	<span style="font-size:small;"><{$lang.quiz_allotment_notice|sprintf:$question.allotment}></span>
+
+	<{if $action.correctItemShow}>
+		&nbsp;&nbsp;
+		<{include file="quiz_mobile_answer_flag.html" answer=$question.answer}>
+	<{/if}>
+</div>
+<{/strip}>

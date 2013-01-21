@@ -1,0 +1,61 @@
+<{strip}>
+<{* 携帯詳細画面 *}>
+
+<h3>
+	<{$action.circular_info.circular_subject}>
+<div style="text-align:right">
+<span style="font-size:small;">
+	<{$lang.circular_mobile_create_user|smarty:nodefaults|sprintf:$action.circular_info.handle}>
+</span>
+</div>
+</h3>
+
+<p>
+	<{$action.circular_info.circular_body|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+</p>
+<br style="clear:both;" />
+
+<{include file="circular_mobile_detail_postscript.html"}>
+<hr style="border-top:1px dotted #cccccc;width:90%;" />
+
+<{if $action.circular_info.choices }>
+	<div>
+		<{$lang.circular_detail_choice|smarty:nodefaults}>
+	</div>
+	<{foreach from=$action.circular_info.choices|smarty:nodefaults item=choice name="choice"}>
+		<div style="padding-left:15px;">
+			<span><{$lang.circular_detail_choice_sequence|sprintf:$choice.choice_sequence|smarty:nodefaults}></span>
+			<span><{$choice.choice_value|nl2br}></span>
+		</div>
+	<{/foreach}>
+<{/if}>
+<br />
+
+<{include file="circular_mobile_init_page.html"}>
+
+<table>
+	<th scope="col" style="width:27%;">
+		<div>
+			<{$lang.circular_receive_user|smarty:nodefaults}>
+		</div>
+	</th>
+	<th scope="col" style="width:36%;">
+		<div>
+			<{$lang.circular_reply_date|smarty:nodefaults}>
+		</div>
+	</th>
+	<th scope="col" style="width:37%;">
+		<div>
+			<{$lang.circular_comment|smarty:nodefaults}>
+		</div>
+	</th>
+	<{include file="./circular_view_main_detail_users.html"}>
+</table>
+
+<div style="text-align:right">
+	<a href="?action=circular_view_main_init&amp;block_id=<{$block_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

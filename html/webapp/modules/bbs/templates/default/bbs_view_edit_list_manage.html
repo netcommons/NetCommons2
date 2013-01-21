@@ -1,0 +1,14 @@
+<{strip}>
+<{* 掲示板一覧（管理列）用テンプレート *}>
+<a class="syslink" href="#" title="<{$lang._ref_title|smarty:nodefaults|sprintf:$bbs.bbs_name}>" onclick="bbsCls['<{$id}>'].referenceBbs(event, '<{$bbs.bbs_id}>', '<{$smarty.const.BBS_PREFIX_REFERENCE}>');return false;">
+	<{$lang._ref|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._edit_title|smarty:nodefaults|sprintf:$bbs.bbs_name}>" onclick="commonCls.sendView('<{$id}>', {action:'bbs_view_edit_entry', bbs_id:<{$bbs.bbs_id}>});return false;">
+	<{$lang._edit|smarty:nodefaults}>
+</a>
+<{$lang._separator|smarty:nodefaults}>
+<a class="syslink" href="#" title="<{$lang._del_title|smarty:nodefaults|sprintf:$bbs.bbs_name}>" onclick="bbsCls['<{$id}>'].deleteBbs('<{$bbs.bbs_id}>', '<{$lang._del_confirm|sprintf:"`$bbs.bbs_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+	<{$lang._delete|smarty:nodefaults}>
+</a>
+<{/strip}>

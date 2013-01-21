@@ -1,0 +1,112 @@
+/* Css定義ファイル */
+/* 一覧項目定義 */
+.authority_top_description {
+	width:400px;
+}
+.authority_note {
+	width:600px;
+}
+.authority_name {
+	width:280px;
+	white-space:nowrap;
+}
+.authority_manage {
+	width:120px;
+	white-space:nowrap;
+}
+
+.authority_auth_desc {
+	width:600px;
+	margin:10px;
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #cccccc;
+}
+.authority_auth_desc td,.authority_auth_desc th {
+	padding:5px;
+}
+/* レベル設定 */
+.authority_ref_level {
+	margin-left:10px;
+	overflow:hidden;
+	height:22px;
+}
+.authority_level {
+	margin-left:10px;
+	margin-bottom:5px;
+	width:309px;
+	height:41px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/authority/bar.gif") no-repeat left bottom;
+}
+.authority_arrow {
+	position:relative;
+	top:0px;
+	width:10px;
+	height:41px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/authority/arrow.gif") no-repeat left bottom;
+}
+.authority_arrow_other {
+	position:relative;
+	top:0px;
+	width:0px;
+	padding-left:2px;
+}
+.authority_mod_other_name {
+	width:100px;
+	overflow:hidden;
+	white-space:nowrap;
+	color:#b2b2b2;
+	font-size:10px;
+}
+
+/* モジュール選択 */
+.authority_modules_select {
+	overflow:auto;
+	height:90px;
+	border:1px solid #cccccc;
+	text-align:left;
+}
+
+.authority_modules_select_cell {
+	padding:2px;
+}
+
+.authority_sysmodules_select {
+	overflow:auto;
+	height:50px;
+	border:1px solid #cccccc;
+	text-align:left;
+}
+
+.authority_init_add_btn {
+	padding:5px;
+	text-align:right;
+	white-space:nowrap;
+}
+/* confirm */
+.authority_wizard_internal {
+	padding-left:15px;
+	padding-right:15px;
+}
+
+.authority_wizard_head {
+	white-space:nowrap;
+	padding-right:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+	text-align:left;
+}
+
+.authority_wizard_cell {
+	white-space:nowrap;
+	width:100%;
+	padding-top:5px;
+	padding-bottom:5px;
+	text-align:left;
+}
+.authority_sys_module_fieldset {
+	border: 1px solid #ff8800; 
+}
+.authority_sys_module_legend {
+	color:#ff6868;
+	font-weight:bold;
+}

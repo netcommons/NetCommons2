@@ -1,0 +1,145 @@
+<{strip}>
+<{assign var="cabinet_template_name" value="fixed-height"}>
+
+<table class="cabinet_explorer_header cabinet_right_header" cellspacing="0" summary="">
+	<tr>
+		<{counter name="cabinet_right" start=1 print=false assign="cabinet_right"}>
+		<th class="_sort_file_name " scope="col">
+			<div class="cabinet_file_name cabinet_<{$cabinet_template_name}>_file_name" style="width:190px;">
+				<{$lang.cabinet_grid_name|smarty:nodefaults}>
+			</div>
+		</th>
+		<{if ($action.cabinet.disp_size == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th class="_sort_size" scope="col">
+				<div class="cabinet_file_size cabinet_<{$cabinet_template_name}>_file_size" style="width:60px;">
+					<{$lang.cabinet_size|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_insert_user == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th class="_sort_insert_user_name" scope="col">
+				<div class="cabinet_file_ins_user cabinet_<{$cabinet_template_name}>_file_ins_user" style="width:90px;">
+					<{$lang.cabinet_insert_user|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_insert_date == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th class="_sort_insert_time" scope="col">
+				<div class="cabinet_file_ins_date cabinet_<{$cabinet_template_name}>_file_ins_date" style="width:90px;">
+					<{$lang.cabinet_insert_date|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_update_user == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th class="_sort_update_user_name" scope="col">
+				<div class="cabinet_file_upd_user cabinet_<{$cabinet_template_name}>_file_upd_user" style="width:90px;">
+					<{$lang.cabinet_update_user|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_update_date == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th class="_sort_update_time" scope="col">
+				<div class="cabinet_file_upd_date cabinet_<{$cabinet_template_name}>_file_upd_date" style="width:90px;">
+					<{$lang.cabinet_update_date|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+		<{if ($action.cabinet.disp_comment == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th class="_sort_comment" scope="col">
+				<div class="cabinet_file_comment cabinet_<{$cabinet_template_name}>_file_comment" style="width:250px;">
+					<{$lang.cabinet_comment|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+		<{counter name="cabinet_right"}>
+		<th scope="col">
+			<div class="cabinet_context cabinet_<{$cabinet_template_name}>_context" style="width:18px;">
+				&nbsp;
+			</div>
+		</th>
+		<{if ($action.cabinet.disp_download_num == _ON) }>
+			<{counter name="cabinet_right"}>
+			<th scope="col">
+				<div class="cabinet_count cabinet_<{$cabinet_template_name}>_count" style="width:40px;">
+					<{$lang.cabinet_count|smarty:nodefaults}>
+				</div>
+			</th>
+		<{/if}>
+	</tr>
+	<{if ($action.fileCount == 0) }>
+		<tr>
+			<td colspan="<{$cabinet_right}>" class="nowrap">
+				<div class="outerdiv"><{$lang.cabinet_no_file|smarty:nodefaults}></div>
+			</td>
+		</tr>
+	<{/if}>
+</table>
+
+<{if ($action.fileCount > 0) }>
+	<table class="cabinet_right" cellspacing="0" cellpadding="0" summary="">
+		<{section name="file_list" loop=$action.cabinet.disp_line start="0"}>
+			<{if $smarty.section.file_list.iteration <= $action.fileCount}>
+				<tr>
+					<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_name cabinet_<{$cabinet_template_name}>_file_name">
+						<div class="cabinet_file_name cabinet_<{$cabinet_template_name}>_file_name" style="width:190px;"></div>
+					</td>
+					<{if ($action.cabinet.disp_size == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_size cabinet_<{$cabinet_template_name}>_file_size">
+							<div class="cabinet_file_size cabinet_<{$cabinet_template_name}>_file_size" style="width:60px;"></div>
+						</td>
+					<{/if}>
+					<{if ($action.cabinet.disp_insert_user == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_ins_user cabinet_<{$cabinet_template_name}>_file_ins_user">
+							<div class="cabinet_file_ins_user cabinet_<{$cabinet_template_name}>_file_ins_user" style="width:90px;"></div>
+						</td>
+					<{/if}>
+					<{if ($action.cabinet.disp_insert_date == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_ins_date cabinet_<{$cabinet_template_name}>_file_ins_date">
+							<div class="cabinet_file_ins_date cabinet_<{$cabinet_template_name}>_file_ins_date" style="width:90px;"></div>
+						</td>
+					<{/if}>
+					<{if ($action.cabinet.disp_update_user == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_upd_user cabinet_<{$cabinet_template_name}>_file_upd_user">
+							<div class="cabinet_file_upd_user cabinet_<{$cabinet_template_name}>_file_upd_user" style="width:90px;"></div>
+						</td>
+					<{/if}>
+					<{if ($action.cabinet.disp_update_date == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_upd_date cabinet_<{$cabinet_template_name}>_file_upd_date">
+							<div class="cabinet_file_upd_date cabinet_<{$cabinet_template_name}>_file_upd_date" style="width:90px;"></div>
+						</td>
+					<{/if}>
+					<{if ($action.cabinet.disp_comment == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_file_comment cabinet_<{$cabinet_template_name}>_comment">
+							<div class="cabinet_file_comment cabinet_<{$cabinet_template_name}>_comment" style="width:250px;"></div>
+						</td>
+					<{/if}>
+					<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_context cabinet_<{$cabinet_template_name}>_context">
+						<div class="cabinet_context cabinet_<{$cabinet_template_name}>_context" style="width:18px;"></div>
+					</td>
+					<{if ($action.cabinet.disp_download_num == _ON) }>
+						<td class="cabinet_<{$cabinet_template_name}>_grid_row cabinet_count cabinet_<{$cabinet_template_name}>_count">
+							<div class="cabinet_count cabinet_<{$cabinet_template_name}>_count" style="width:40px;"></div>
+						</td>
+					<{/if}>
+				</tr>
+			<{/if}>
+		<{/section}>
+	</table>
+<{/if}>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	cabinetCls["<{$id}>"].compress_download = "<{$action.cabinet.compress_download}>";
+	cabinetCls["<{$id}>"].cabinet_id = "<{$action.cabinet_id}>";
+	cabinetCls["<{$id}>"].folder_id = "<{$action.folder_id}>";
+	cabinetCls["<{$id}>"].setAddress();
+	cabinetCls["<{$id}>"].initFileList(<{$action.cabinet.disp_line}>, <{$action.fileCount}>);
+</script>
+
+<{/strip}>

@@ -1,0 +1,81 @@
+<{strip}>
+<{* 回答欄表示用テンプレート *}>
+<{if $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_NORMAL}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>" />
+
+		<label class="questionnaire_choice" for="questionnaire_answer<{$choice.choice_id}><{$id}>">
+			<input id="questionnaire_answer<{$choice.choice_id}><{$id}>" type="radio" name="answer_value[<{$question.question_id}>]" value="<{$choice.choice_id}>" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{if !empty($question.answer|smarty:nodefaults)}>
+			<{include file="questionnaire_view_answer_check.html" answer=$question.answer}>
+		<{/if}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_REFERENCE}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label>
+			<input type="radio" onclick="if (this.checked) {this.checked = false;}" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_RADIO_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label class="questionnaire_choice" for="questionnaire_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>">
+			<input id="questionnaire_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>" type="radio" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{include file="questionnaire_view_answer_check.html"}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_NORMAL}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<input type="hidden" name="choice_id[<{$question.question_id}>][]" value="<{$choice.choice_id}>" />
+
+		<label class="questionnaire_choice" for="questionnaire_answer<{$choice.choice_id}><{$id}>">
+			<input id="questionnaire_answer<{$choice.choice_id}><{$id}>" type="checkbox" name="answer_value[<{$question.question_id}>][<{$choice.choice_id}>]" value="<{$choice.choice_id}>" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{if !empty($question.answer|smarty:nodefaults)}>
+			<{include file="questionnaire_view_answer_check.html" answer=$question.answer}>
+		<{/if}>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_REFERENCE}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label>
+			<input type="checkbox" onclick="return false;" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+	<{/foreach}>
+
+<{elseif $question.question_type == QUESTIONNAIRE_QUESTION_TYPE_CHECKBOX_VALUE && $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+	<{foreach from=$question.choices item=choice name="choice"}>
+		<label class="questionnaire_choice" for="questionnaire_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>">
+			<input id="questionnaire_answer<{$choice.choice_id}>_<{$answer.answer_id}><{$id}>" type="checkbox" />
+			<{$choice.choice_value|nl2br}>
+		</label>
+
+		<{include file="questionnaire_view_answer_check.html"}>
+	<{/foreach}>
+
+<{elseif $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_NORMAL}>
+	<textarea cols="61" rows="4" class="textarea" name="answer_value[<{$question.question_id}>]">
+		<{if !empty($question.answer|smarty:nodefaults)}>
+			<{$question.answer.answer_value|smarty:nodefaults}>
+		<{/if}>
+	</textarea>
+
+<{elseif $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_REFERENCE}>
+	<textarea cols="61" rows="4" class="textarea" onkeydown="if (event.keyCode!=9) {this.blur();return false;}"></textarea>
+
+<{elseif $choiceDisplay == $smarty.const.QUESTIONNAIRE_CHOICE_DISPLAY_ANSWER}>
+	<textarea cols="61" rows="4" class="textarea" readOnly='true'><{$answer.answer_value|smarty:nodefaults}></textarea>
+
+<{/if}>
+<{/strip}>

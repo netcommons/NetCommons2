@@ -1,0 +1,39 @@
+<{strip}>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="application/xhtml+xml;charset=Shift_JIS">
+	<title><{$header_field.sitename}></title>
+	<{if ($smarty.session._reader_flag == _ON) }>
+		<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/css/reader.css&header=0" />
+	<{/if}>
+</head>
+
+<body><div>
+
+<{$header_field.sitename}>
+<br /><hr /><br />
+<img src="<{""|get_image_url}>/images/common/redirect_arrorw.gif" alt="">
+<{if (!empty($redirect_message|smarty:nodefaults)) }>
+	<{$redirect_message|smarty:nodefaults}>
+<{elseif (!empty($action.redirect_message|smarty:nodefaults)) }>
+	<{$action.redirect_message|smarty:nodefaults}>
+<{else}>
+	<{errorList->getMessagesString}>
+<{/if}>
+
+<br />
+
+<{if (!empty($lang_ifnotreload|smarty:nodefaults)) }>
+	<{$lang_ifnotreload|smarty:nodefaults}>
+<{elseif (!empty($action.redirect_url|smarty:nodefaults)) }>
+	<{$smarty.const._IFNOTRELOAD|sprintf:$action.redirect_url|smarty:nodefaults}>
+<{else}>
+	<{assign var="redirect_url" value=$smarty.const.BASE_URL|cat:$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>
+	<{$smarty.const._IFNOTRELOAD|sprintf:$redirect_url|smarty:nodefaults}>
+<{/if}>
+
+</div></body>
+
+</html>
+
+<{/strip}>

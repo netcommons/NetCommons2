@@ -1,0 +1,50 @@
+<{strip}>
+<{* 携帯回答画面 *}>
+
+<h3>
+	<{$action.circular_info.circular_subject}>
+</h3>
+
+<div style="text-align:right">
+	<{$lang.circular_mobile_create_user|smarty:nodefaults|sprintf:$action.circular_info.handle}>
+</div>
+<div>
+	<{$action.circular_info.circular_body|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+</div>
+<br style="clear:both;" />
+
+<{include file="circular_mobile_detail_postscript.html"}>
+<br />
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<div>
+		<{if $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE || $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE }>
+			<{foreach name="choice" item="choice" from=$action.choices}>
+				<div class="circular_reply">
+					<label for="circular_choice<{$smarty.foreach.choice.iteration}><{$id}>">
+				 		<input id="circular_choice<{$smarty.foreach.choice.iteration}><{$id}>" type=<{if $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_CHECKBOX_VALUE }>"checkbox"<{elseif $action.circular_info.reply_type == $smarty.const.CIRCULAR_REPLY_TYPE_RADIO_VALUE }>"radio"<{/if}> name="choices[]" value="<{$choice.choice_sequence}>" <{if $choice.choice_sequence|in_array:$action.reply }> checked <{/if}> />
+						<{$choice.choice_value|nl2br}>
+					</label>
+				</div>
+			<{/foreach}>
+			<br />
+		<{else}>
+			<div>
+				<textarea id="circular_reply<{$id}>" class="circular_reply" name="reply_body"><{$action.reply}></textarea>
+			</div>
+		<{/if}>
+		<input type="hidden" name="action" value="circular_action_main_reply">
+		<input type="hidden" name="block_id" value="<{$block_id}>">
+		<input type="hidden" name="circular_id" value="<{$action.circular_id}>">
+		<input type="hidden" name="reply_type" value="<{$action.circular_info.reply_type}>">
+		<input type="submit" name="reply" value="<{$lang.circular_mobile_reply|smarty:nodefaults}>">
+		<{$session_form|smarty:nodefaults}>
+	</div>
+</form>
+<br />
+<div style="text-align:right">
+	<a href="?action=circular_view_main_init&amp;block_id=<{$block_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

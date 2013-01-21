@@ -1,0 +1,265 @@
+<{strip}>
+<form id="journal_form<{$id}>" action="#" method="post" onsubmit="return false;">
+	<div class="outerdiv">
+		<div>
+			<fieldset>
+				<legend><{$lang.journal_setting_normal|smarty:nodefaults}></legend>
+				<table class="outer" summary="">
+					<tr class="row">
+						<th scope="row">
+							<label for="<{$id}>_journal_name">
+								<{$lang.journal_title|smarty:nodefaults}>
+							</label>
+						</th>
+						<td>
+					 		<input id="<{$id}>_journal_name" type="text" size="50" name="journal_name" value="<{$action.journal_obj.journal_name}>" />
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_post_auth|smarty:nodefaults}>
+						</th>
+						<td>
+							<label class="disable_lbl">
+					 		<input type="checkbox" disabled="disabled" checked="checked" />
+					 		<input type="hidden" name="post_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+							<{$smarty.const._AUTH_CHIEF_NAME}>
+							</label>
+							<label for="journal_post_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+						 		<input id="journal_post_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="post_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');journalCls['<{$id}>'].chkAuth();" />
+								<{$smarty.const._AUTH_MODERATE_NAME}>
+							</label>
+							<label for="journal_post_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+								<input id="journal_post_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="post_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');journalCls['<{$id}>'].chkAuth();" />
+								<{$smarty.const._AUTH_GENERAL_NAME}>
+							</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_vote|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_vote<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_vote<{$smarty.const._ON}>" type="radio" name="vote_flag" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.vote_flag == $smarty.const._ON || $action.journal_obj.vote_flag == "") }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_comment_ok|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_journal_vote<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_vote<{$smarty.const._OFF}>" type="radio" name="vote_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.vote_flag == $smarty.const._OFF ) }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_comment_no|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_comment|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_comment<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_comment<{$smarty.const._ON}>" type="radio" name="comment_flag" onclick="journalCls['<{$id}>'].chkCommentOrTrackback();" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.comment_flag == $smarty.const._ON || $action.journal_obj.comment_flag == "") }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_comment_ok|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_journal_comment<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_comment<{$smarty.const._OFF}>" type="radio" name="comment_flag" onclick="journalCls['<{$id}>'].chkCommentOrTrackback();" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.comment_flag == $smarty.const._OFF ) }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_comment_no|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_sns|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_sns<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_sns<{$smarty.const._ON}>" type="radio" name="sns_flag" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.sns_flag == $smarty.const._ON || $action.journal_obj.sns_flag == "") }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_comment_ok|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_journal_sns<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_sns<{$smarty.const._OFF}>" type="radio" name="sns_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.sns_flag == $smarty.const._OFF ) }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_comment_no|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_trackback|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_trackback<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_trackback<{$smarty.const._ON}>" type="checkbox" name="trackback_transmit_flag" value="<{$smarty.const._ON}>" <{if $action.journal_obj.trackback_transmit_flag == $smarty.const._ON}>checked="checked"<{/if}> onclick="commonCls.displayChange($('<{$id}>_journal_trackback_detail'));" />
+				 				<{$lang.journal_trackback_send|smarty:nodefaults}>
+					 		</label>
+					 		<br />
+							<{include file="journal_view_edit_create_trackback.html"}>
+							<label for="<{$id}>_journal_trackback<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_trackback<{$smarty.const._OFF}>" type="checkbox" name="trackback_receive_flag" onclick="journalCls['<{$id}>'].chkCommentOrTrackback();" value="<{$smarty.const._ON}>" <{if $action.journal_obj.trackback_receive_flag == $smarty.const._ON}>checked="checked"<{/if}>/>
+				 				<{$lang.journal_trackback_receive|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_mail_setting|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_mail_setting<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_mail_setting<{$smarty.const._OFF}>" type="radio" name="mail_flag" value="<{$smarty.const._ON}>" onclick="commonCls.displayVisible($('<{$id}>_journal_mail_setting_detail'));" <{if ($action.journal_obj.mail_flag == $smarty.const._ON) }>checked="checked"<{/if}>/>
+				 				<{$lang.journal_mail_send|smarty:nodefaults}>
+					 		</label>
+							<label for="<{$id}>_journal_mail_setting<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_mail_setting<{$smarty.const._ON}>" type="radio" name="mail_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.mail_flag == $smarty.const._OFF || $action.journal_obj.mail_flag == "") }>checked="checked"<{/if}> onclick="commonCls.displayNone($('<{$id}>_journal_mail_setting_detail'));"/>
+				 				<{$lang.journal_mail_normal|smarty:nodefaults}>
+					 		</label>
+					 		<{include file="journal_view_edit_create_mail.html"}>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_new_display_days|smarty:nodefaults}>
+						</th>
+						<td>
+							<select name="new_period">
+								<option value="0" <{if ($action.journal_obj.new_period==0)}>selected="selected"<{/if}>><{$lang.journal_none|smarty:nodefaults}></option>
+								<option value="1" <{if ($action.journal_obj.new_period==1)}>selected="selected"<{/if}>>1<{$lang.journal_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="2" <{if ($action.journal_obj.new_period==2)}>selected="selected"<{/if}>>2<{$lang.journal_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="3" <{if ($action.journal_obj.new_period==3)}>selected="selected"<{/if}>>3<{$lang.journal_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="5" <{if ($action.journal_obj.new_period==5)}>selected="selected"<{/if}>>5<{$lang.journal_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="7" <{if ($action.journal_obj.new_period==7)}>selected="selected"<{/if}>>7<{$lang.journal_new_display_days_mark|smarty:nodefaults}></option>
+								<option value="30" <{if ($action.journal_obj.new_period==30)}>selected="selected"<{/if}>>30<{$lang.journal_new_display_days_mark|smarty:nodefaults}></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+		<div>
+			<fieldset>
+				<legend><{$lang.journal_setting_confirm|smarty:nodefaults}></legend>
+				<table class="outer" summary="">
+					<tr class="row">
+						<td>
+							<div class="note">
+								<{$lang.journal_setting_confirm_readme|smarty:nodefaults}>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<table class="outer" summary="">
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_post_agree|smarty:nodefaults}>
+						</th>
+						<td>
+							<label id="<{$id}>_journal_post_agree_label<{$smarty.const._OFF}>" for="<{$id}>_journal_post_agree<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_post_agree<{$smarty.const._OFF}>" type="radio" name="agree_flag" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.agree_flag == $smarty.const._ON) }>checked="checked"<{/if}> onclick="commonCls.displayVisible($('<{$id}>_journal_post_agree_mail_flag'));"/>
+				 				<{$lang.journal_post_agree_no|smarty:nodefaults}>
+					 		</label>
+							<label id="<{$id}>_journal_post_agree_label<{$smarty.const._ON}>" for="<{$id}>_journal_post_agree<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_post_agree<{$smarty.const._ON}>" type="radio" name="agree_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.agree_flag == $smarty.const._OFF || $action.journal_obj.agree_flag == "") }>checked="checked"<{/if}> onclick="commonCls.displayNone($('<{$id}>_journal_post_agree_mail_flag'));"/>
+				 				<{$lang.journal_post_agree_ok|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row" id="<{$id}>_journal_post_agree_mail_flag" <{if $action.journal_obj.agree_flag == $smarty.const._OFF || $action.journal_obj.agree_flag == ""}>style="display:none;"<{/if}>>
+						<th scope="row">
+							<{$lang.journal_post_agree_mail|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_post_agree_mail_flag<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_post_agree_mail_flag<{$smarty.const._ON}>" type="radio" name="agree_mail_flag" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.agree_mail_flag == $smarty.const._ON ) }>checked="checked"<{/if}> onclick="commonCls.displayVisible($('<{$id}>_journal_post_agree_mail_detail'));"/>
+				 				<{$lang.journal_post_agree_mail_ok|smarty:nodefaults}>
+					 		</label>
+					 		<label for="<{$id}>_journal_post_agree_mail_flag<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_post_agree_mail_flag<{$smarty.const._OFF}>" type="radio" name="agree_mail_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.agree_mail_flag == $smarty.const._OFF || $action.journal_obj.agree_mail_flag == "") }>checked="checked"<{/if}> onclick="commonCls.displayNone($('<{$id}>_journal_post_agree_mail_detail'));"/>
+				 				<{$lang.journal_post_agree_mail_no|smarty:nodefaults}>
+					 		</label>
+					 		<div id="<{$id}>_journal_post_agree_mail_detail" <{if $action.journal_obj.agree_mail_flag == $smarty.const._OFF}>class="display-none"<{/if}>>
+					 			<div class="hr"></div>
+					 			<{$lang.journal_mail_send_title|smarty:nodefaults}>
+					 			<label for="<{$id}>_journal_post_agree_mail_subject">
+					 				<input id="<{$id}>_journal_post_agree_mail_subject" type="text" size="50" name="agree_mail_subject" value="<{if $action.journal_obj.agree_mail_subject != ""}><{$action.journal_obj.agree_mail_subject}><{else}><{$lang.journal_post_agree_mail_subject|smarty:nodefaults}><{/if}>" />
+					 			</label>
+								<div class="hr"></div>
+					 			<{$lang.journal_mail_send_content_title|smarty:nodefaults}><br/>
+								<label for="<{$id}>_journal_post_agree_mail_detail_detail">
+									<textarea id="<{$id}>_journal_post_agree_mail_detail_detail" class="textarea" name="agree_mail_body"><{if $action.journal_obj.agree_mail_body != ""}><{$action.journal_obj.agree_mail_body}><{else}><{$lang.journal_post_agree_mail_detail|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}><{/if}></textarea>
+								</label>
+					 		</div>
+						</td>
+					</tr>
+					<tr class="row">
+						<th scope="row">
+							<{$lang.journal_comment_agree|smarty:nodefaults}>
+						</th>
+						<td>
+							<label id="<{$id}>_journal_comment_agree_label<{$smarty.const._OFF}>" for="<{$id}>_journal_comment_agree<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_comment_agree<{$smarty.const._OFF}>" type="radio" name="comment_agree_flag" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.comment_agree_flag == $smarty.const._ON) }>checked="checked"<{/if}> onclick="commonCls.displayVisible($('<{$id}>_journal_comment_agree_mail_flag'));"/>
+				 				<{$lang.journal_post_agree_no|smarty:nodefaults}>
+					 		</label>
+							<label id="<{$id}>_journal_comment_agree_label<{$smarty.const._ON}>" for="<{$id}>_journal_comment_agree<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_comment_agree<{$smarty.const._ON}>" type="radio" name="comment_agree_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.comment_agree_flag == $smarty.const._OFF || $action.journal_obj.comment_agree_flag == "") }>checked="checked"<{/if}> onclick="commonCls.displayNone($('<{$id}>_journal_comment_agree_mail_flag'));"/>
+				 				<{$lang.journal_post_agree_ok|smarty:nodefaults}>
+					 		</label>
+						</td>
+					</tr>
+					<tr class="row" id="<{$id}>_journal_comment_agree_mail_flag" <{if $action.journal_obj.comment_agree_flag == $smarty.const._OFF || $action.journal_obj.comment_agree_flag == ""}>style="display:none;"<{/if}>>
+						<th scope="row">
+							<{$lang.journal_comment_agree_mail|smarty:nodefaults}>
+						</th>
+						<td>
+							<label for="<{$id}>_journal_comment_agree_mail_flag<{$smarty.const._ON}>">
+						 		<input id="<{$id}>_journal_comment_agree_mail_flag<{$smarty.const._ON}>" type="radio" name="comment_agree_mail_flag" value="<{$smarty.const._ON}>" <{if ($action.journal_obj.comment_agree_mail_flag == $smarty.const._ON ) }>checked="checked"<{/if}> onclick="commonCls.displayVisible($('<{$id}>_journal_comment_agree_mail_detail'));"/>
+				 				<{$lang.journal_post_agree_mail_ok|smarty:nodefaults}>
+					 		</label>
+					 		<label for="<{$id}>_journal_comment_agree_mail_flag<{$smarty.const._OFF}>">
+						 		<input id="<{$id}>_journal_comment_agree_mail_flag<{$smarty.const._OFF}>" type="radio" name="comment_agree_mail_flag" value="<{$smarty.const._OFF}>" <{if ($action.journal_obj.comment_agree_mail_flag == $smarty.const._OFF || $action.journal_obj.comment_agree_mail_flag == "") }>checked="checked"<{/if}> onclick="commonCls.displayNone($('<{$id}>_journal_comment_agree_mail_detail'));"/>
+				 				<{$lang.journal_post_agree_mail_no|smarty:nodefaults}>
+					 		</label>
+					 		<div id="<{$id}>_journal_comment_agree_mail_detail" <{if $action.journal_obj.comment_agree_mail_flag == $smarty.const._OFF || $action.journal_obj.comment_agree_mail_flag == ""}>class="display-none"<{/if}>>
+					 			<div class="hr"></div>
+					 			<{$lang.journal_mail_send_title|smarty:nodefaults}>
+					 			<label for="<{$id}>_journal_comment_agree_mail_subject">
+					 				<input id="<{$id}>_journal_comment_agree_mail_subject" type="text" size="50" name="comment_agree_mail_subject" value="<{if $action.journal_obj.comment_agree_mail_subject != ""}><{$action.journal_obj.comment_agree_mail_subject}><{else}><{$lang.journal_comment_agree_mail_subject|smarty:nodefaults}><{/if}>" />
+					 			</label>
+								<div class="hr"></div>
+					 			<{$lang.journal_mail_send_content_title|smarty:nodefaults}><br/>
+								<label for="<{$id}>_journal_comment_agree_mail_detail_detail">
+									<textarea id="<{$id}>_journal_comment_agree_mail_detail_detail" class="textarea" name="comment_agree_mail_body"><{if $action.journal_obj.comment_agree_mail_body != ""}><{$action.journal_obj.comment_agree_mail_body}><{else}><{$lang.journal_comment_agree_mail_detail|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}><{/if}></textarea>
+								</label>
+					 		</div>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+	</div>
+	<div class="btn-bottom">
+		<{if ($action.journal_obj.journal_id > 0) }>
+			<input type="hidden" name="journal_id" value="<{$action.journal_obj.journal_id}>" />
+		<{/if}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='journalCls["<{$id}>"].insJournal(this.form); return false;' />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'journal_view_edit_list'); return false;" />
+
+	</div>
+</form>
+
+<{include file="../journal_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus("<{$id}>");
+	var journalForm = $("journal_form<{$id}>");
+
+	if (journalForm["post_authority[<{$action.journal_obj.post_authority}>]"]) {
+		journalForm["post_authority[<{$action.journal_obj.post_authority}>]"].checked = true;
+		commonCls.changeAuthority(journalForm["post_authority[<{$action.journal_obj.post_authority}>]"], "<{$id}>");
+	}
+
+	if (journalForm["mail_authority[<{$action.journal_obj.mail_authority}>]"]) {
+		journalForm["mail_authority[<{$action.journal_obj.mail_authority}>]"].checked = true;
+		commonCls.changeAuthority(journalForm["mail_authority[<{$action.journal_obj.mail_authority}>]"], "<{$id}>");
+	}
+	journalCls['<{$id}>'].chkAuth();
+	journalCls['<{$id}>'].chkCommentOrTrackback();
+
+	journalForm = null;
+</script>
+<{/strip}>

@@ -1,0 +1,55 @@
+<{include file="backup_initscript.html"}>
+<{strip}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang.backup_top_description|smarty:nodefaults|sprintf:$lang.backup_backup|smarty:nodefaults}>
+	</div>
+	<div class="backup_header_btn">
+		<a href="#" class="syslink hover_highlight" onclick="backupCls['<{$id}>'].showPopup(this); return false;" title="<{$lang.backup_upload_title|smarty:nodefaults}>">
+			<img class="icon" src="<{"add_file.gif"|get_themes_image}>" alt="" title="" />
+			&nbsp;<{*バックアップファイル追加*}><{$lang.backup_upload|smarty:nodefaults}>
+		</a>
+	</div>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+	<table cellspacing="0" cellpadding="0" summary="<{$lang.backup_list_summay|smarty:nodefaults}>">
+		<tr>
+			<td class="backup_side_top">
+				<div class="backup_side_menu_header">
+					<{$lang.backup_room_list|smarty:nodefaults}>
+				</div>
+				<div class="backup_side_menu">
+					<{* 管理者だけラジオボタン表示 *}>
+					<{if $smarty.session._user_auth_id ==_AUTH_ADMIN}>
+						<div class="backup_full_backup">
+							<label for="page_name<{$id}>_0">
+								<input id="page_name<{$id}>_0" type="radio" checked="checked" value="0" name="backup_page_id" />
+								<{$lang.backup_full_backup|smarty:nodefaults}>
+							</label>
+						</div>
+					<{/if}>
+					<{assign var="room_list" value=$action.room_list.0.0}>
+					<{include file="backup_view_main_roomlist.html"}>
+				</div>
+				<{if $action.check_flag == 1}>
+					<{* バックアップ *}>
+					<a class="backup_btn" href="#" onclick="if(!commonCls.confirm('<{$lang.backup_confirm_mes|smarty:nodefaults|escape:"javascript"}>'))return false; commonCls.sendPost('<{$id}>','action=backup_action_main_init&amp;'+Form.serialize($('form<{$id}>')),{'loading_el':null, 'callbackfunc_error':function(res){commonCls.alert(res); backupCls['<{$id}>'].refreshDetail();}}); setTimeout(backupCls['<{$id}>'].refreshDetail.bind(backupCls['<{$id}>']), 1000); return false;">
+						<{$lang.backup_backup|smarty:nodefaults}>
+						&nbsp;&nbsp;
+						<img class="icon" src="<{"backup_arrow.gif"|get_modules_image}>" alt="" />
+					</a>
+				<{/if}>
+			</td>
+			<td class="backup_main" id="backup_main<{$id}>">
+				<{* メインGrid *}>
+				<{include file="backup_view_main_detail.html"}>
+				<{if $action.check_flag == 0}>
+					<div class="align-center">
+						<{$lang.backup_none_backroom|smarty:nodefaults}>
+					</div>
+				<{/if}>
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{/strip}>

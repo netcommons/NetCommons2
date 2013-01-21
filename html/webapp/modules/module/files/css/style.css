@@ -1,0 +1,27 @@
+.module_result_str {
+	overflow:auto;
+	width:500px;
+	height:300px;
+}
+
+.module_result_detail_str {
+	width:480px;
+}
+
+.module_selectauth_width {
+	width:300px;
+}
+
+.module_selectauth_description {
+	background-color:#FFE4B5;
+	padding:3px;
+}
+
+.module_current_version {
+	font-weight:bold;
+	border:1px solid #cccccc;
+	padding:2px;
+	margin:2px;
+	text-align:center;
+	background-color:#eeeeee;
+}

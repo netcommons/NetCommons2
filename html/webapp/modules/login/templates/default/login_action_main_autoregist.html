@@ -1,0 +1,43 @@
+<{strip}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<{$header_field.meta_language}>" lang="<{$header_field.meta_language}>">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<{$smarty.const._CHARSET}>" />
+<script language="JavaScript" type="text/javascript">
+function Init() {
+	parent.document.getElementById('<{$smarty.request._attachment_callback}>').className = "_attachment_end";
+}
+</script>
+</head>
+<body onload="Init();">
+	<{if $action.error_flag}>
+		<{assign var="error_path" value=$smarty.const.VIEW_TEMPLATE_DIR|cat:"main/error.html"}>
+		<{include file=$error_path}>
+	<{else}>
+		<{* 正常終了 *}>
+		<div class="login_mes_autoregist_confirm">
+			<{if $action.autoregist_approver == _AUTOREGIST_SELF}>
+				<div class="bold align-left"><{$lang.login_autoregist_self|smarty:nodefaults}></div>
+			<{elseif $action.autoregist_approver == _AUTOREGIST_AUTO}>
+				<div class="login_autoregist_comp"><{$lang.login_autoregist_comp|smarty:nodefaults}></div>
+				<{$lang.login_autoregist_auto|smarty:nodefaults}>
+			<{else}>
+				<div class="bold align-left"><{$lang.login_autoregist_admin|smarty:nodefaults}></div>
+			<{/if}>
+		</div>
+		<div class="login_autoregist_content">
+			<{* 登録された内容 *}>
+			<div><{$lang.login_autoregist_confirm_title|smarty:nodefaults}></div>
+			<textarea readonly="readonly" class="login_autoregist_content_textarea">
+				<{$action.post_mail_body}>
+			</textarea>
+		</div>
+		<{* 各種ボタン *}>
+		<div class="btn-bottom">
+			<{* 閉じる *}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang.login_close_btn|smarty:nodefaults}>" onclick="<{if ($action.use_ssl == _ON) }>parent.location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>';<{else}>commonCls.removeBlock('<{$id}>');<{/if}> return false;" />
+		</div>
+	<{/if}>
+</body>
+</html>
+<{/strip}>

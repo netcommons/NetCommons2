@@ -1,0 +1,49 @@
+<{strip}>
+
+<h6>
+	<{if ($smarty.session.calendar_mobile.display_type == CALENDAR_DAILY) }>
+		<{$lang.calendar_mobile_daily|smarty:nodefaults}>
+	<{else}>
+		<a href="?action=calendar_view_mobile_init&amp;dtype=<{$smarty.const.CALENDAR_DAILY}><{$session_param}>">
+			<{$lang.calendar_mobile_daily|smarty:nodefaults}>
+		</a>
+	<{/if}>
+	<{$lang._mobile_separator|smarty:nodefaults|smarty:nodefaults}>
+
+	<{if ($smarty.session.calendar_mobile.display_type == CALENDAR_WEEKLY) }>
+		<{$lang.calendar_mobile_weekly|smarty:nodefaults}>
+	<{else}>
+		<a href="?action=calendar_view_mobile_init&amp;dtype=<{$smarty.const.CALENDAR_WEEKLY}><{$session_param}>">
+			<{$lang.calendar_mobile_weekly|smarty:nodefaults}>
+		</a>
+	<{/if}>
+	<{$lang._mobile_separator|smarty:nodefaults}>
+
+	<{if ($smarty.session.calendar_mobile.display_type == CALENDAR_S_MONTHLY || $smarty.session.calendar_mobile.display_type == CALENDAR_L_MONTHLY) }>
+		<{$lang.calendar_mobile_monthly|smarty:nodefaults}>
+	<{else}>
+		<a href="?action=calendar_view_mobile_init&amp;dtype=<{$smarty.const.CALENDAR_L_MONTHLY}><{$session_param}>">
+			<{$lang.calendar_mobile_monthly|smarty:nodefaults}>
+		</a>
+	<{/if}>
+	<{$lang._mobile_separator|smarty:nodefaults}>
+
+	<a href="?action=calendar_view_main_movedate<{$session_param}>">
+		<{$lang.calendar_mobile_move_date|smarty:nodefaults}>
+	</a>
+
+	<{if ($action.goto_today == _ON) }>
+		<{$lang._mobile_separator|smarty:nodefaults}>
+		<a href="?action=calendar_view_mobile_init&amp;date=<{$action.today}><{$session_param}>">
+			<{if ($smarty.session.calendar_mobile.display_type == CALENDAR_YEARLY) }>
+				<{$lang.calendar_mobile_goto_this_year|smarty:nodefaults}>
+			<{elseif ($smarty.session.calendar_mobile.display_type == CALENDAR_S_MONTHLY || $smarty.session.calendar_mobile.display_type == CALENDAR_L_MONTHLY) }>
+				<{$lang.calendar_mobile_goto_this_month|smarty:nodefaults}>
+			<{elseif ($smarty.session.calendar_mobile.display_type == CALENDAR_WEEKLY || $smarty.session.calendar_mobile.display_type == CALENDAR_DAILY) }>
+				<{$lang.calendar_mobile_goto_today|smarty:nodefaults}>
+			<{/if}>
+		</a>
+	<{/if}>
+</h6>
+
+<{/strip}>

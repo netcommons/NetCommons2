@@ -1,0 +1,12 @@
+<{strip}>
+<{* 期限表示テンプレート *}>
+
+<span<{if ($assignment.period_class_name != "") }> class="<{$assignment.period_class_name}>"<{/if}>>
+	<{if ($assignment.period == "") }>
+		<{$lang.assignment_no_period|smarty:nodefaults}>
+	<{else}>
+		<{$assignment.display_period_date}> <{$assignment.display_period_time}>
+	<{/if}>
+</span>
+
+<{/strip}>

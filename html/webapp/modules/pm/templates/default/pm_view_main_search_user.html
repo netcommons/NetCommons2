@@ -1,0 +1,33 @@
+<{strip}>
+<div id="pm_user_search_top<{$id}>" class="pm_user_search_outerdiv">
+	<h2 class="th_researchmap_public_title">
+		<{$lang.pm_user_search|smarty:nodefaults}>
+	</h2>
+	<form id="pm_user_form<{$id}>" onsubmit="return false;" action="#" method="post">
+		<table class="pm_user_search_table">
+			<{* ハンドル *}>
+			<tr>
+				<th scope="row" class="nowrap bold">
+					<label for="pm_user_handle<{$id}>">
+						<{$lang.pm_user_handle|smarty:nodefaults}>
+					</label>
+				</th>
+				<td>
+					<input onkeydown="if(event.keyCode == 13){$('pm_user_search_btn<{$id}>').click();}" id="pm_user_handle<{$id}>" class="pm_user_search_input" type="text" value="" size="30" name="handle" />
+				</td>
+			</tr>
+			<tr>
+				<td class="pm_user_search_footer btn-bottom" colspan="2">
+					<div>
+						<input id="pm_user_search_btn<{$id}>" class="btn-width lined_btn" type="button" onclick="commonCls.sendPost('<{$id}>', 'action=pm_action_main_searchuser&amp;' + Form.serialize($('pm_user_form<{$id}>')), {'target_el':$('pm_user_search_result<{$id}>')}); return false;" value="<{$lang.pm_search_button|smarty:nodefaults}>" />
+						<input class="btn-width lined_btn" type="button" onclick="commonCls.removeBlock('<{$id}>');return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<div id="pm_user_search_result<{$id}>" class="pm_user_search_outerdiv">
+</div>
+<{include file = "../pm_script.html"}>
+<{/strip}>

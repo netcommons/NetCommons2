@@ -1,0 +1,36 @@
+body {
+	background-color:#8f3a5a;
+}
+.leftcolumn {
+	background-color: #fff5fa;
+}
+
+.centercolumn {
+	background-color: #fff5fa;
+}
+
+.rightcolumn {
+	background-color: #fff5fa;
+	border:0px none;
+}
+.headercolumn_menu {
+	background-color: #fff5fa !important;
+}
+.headercolumn {
+	background-color: #fff5fa;
+}
+
+.footercolumn {
+	background-color: #fff5fa;
+}
+
+#header_menu {
+	border-bottom: 1px solid #dfe4e7;
+}
+/* highlight */
+/*
+.highlight {
+	background-color:#f5dae0;
+	color:#967294;
+}
+*/

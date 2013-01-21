@@ -1,0 +1,36 @@
+<{strip}>
+<{* 追記登録画面 *}>
+<div class="outerdiv circular_postscript">
+	<form id="postscript_circular_form<{$id}>" action="#">
+		<input type="hidden" name="circular_id" value="<{$action.circular_id}>" />
+
+		<div>
+			<textarea id="circular_postscript<{$id}>" name="postscript_body"></textarea>
+		</div>
+		<label for="<{$id}>postscript_mail_flag<{$smarty.const._ON}>">
+			<input id="<{$id}>postscript_mail_flag<{$smarty.const._ON}>" type="radio" name="postscript_mail_flag" value="<{$smarty.const._ON}>" checked="checked" onclick="commonCls.displayVisible($('<{$id}>_circular_postscript_mail_setting'));"/>
+			<{$lang.circular_mail_notice|smarty:nodefaults}>
+		</label>
+		<label for="<{$id}>postscript_mail_flag<{$smarty.const._OFF}>">
+			<input id="<{$id}>postscript_mail_flag<{$smarty.const._OFF}>" type="radio" name="postscript_mail_flag" value="<{$smarty.const._OFF}>" onclick="commonCls.displayNone($('<{$id}>_circular_postscript_mail_setting'));"/>
+			<{$lang.circular_mail_notice_no|smarty:nodefaults}>
+		</label>
+		<div id="<{$id}>_circular_postscript_mail_setting">
+			<label>
+				<textarea name="postscript_mail_body"><{$lang.circular_postscript_mail_body|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}></textarea>
+			</label>
+			<div class="note">
+				<{$lang.circular_postscript_setting_note|smarty:nodefaults}>
+			</div>
+		</div>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].addPostscript(); return false;" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="../circular_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($("circular_postscript<{$id}>"));
+</script>
+<{/strip}>

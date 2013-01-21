@@ -1,0 +1,297 @@
+<{strip}>
+<{* アンケート登録画面用テンプレート *}>
+<form id="questionnaire_form<{$id}>" action="#">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="questionnaire_id" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<{if !empty($action.oldQuestionnaires|smarty:nodefaults)}>
+			<tr>
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label for="questionnaire_old_use<{$id}>">
+						<input id="questionnaire_old_use<{$id}>" type="checkbox" name="old_use" value="<{$smarty.const._ON}>" onclick="questionnaireCls['<{$id}>'].changeOldUse(this.checked);" />
+						<{$lang.questionnaire_old_use}>
+					</label>
+					<select id="questionnaire_old<{$id}>" name="old_questionnaire_id">
+						<{foreach from=$action.oldQuestionnaires item=old_questionnaire name="old_questionnaire"}>
+							<option value="<{$old_questionnaire.questionnaire_id}>"><{$old_questionnaire.questionnaire_name}></option>
+						<{/foreach}>
+					</select>
+				</td>
+			</tr>
+		<{/if}>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="questionnaire_name<{$id}>">
+					<{$lang.questionnaire_questionnaire_name}>
+				</label>
+			</th>
+			<td>
+				<a href="#">
+					<img id="questionnaire_icon_name_img<{$id}>" class="comp_title_icon" alt="" onclick="questionnaireCls['<{$id}>'].showIcon();return false;" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');" />
+				</a>
+				<input id="questionnaire_icon_name_hidden<{$id}>" type="hidden" name="icon_name" />
+		 		<input id="questionnaire_name<{$id}>" class="text" type="text" name="questionnaire_name" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.questionnaire_type}>
+			</th>
+			<td>
+				<label id="questionnaire_type_list_label<{$id}>" for="questionnaire_type_list<{$id}>">
+					<input id="questionnaire_type_list<{$id}>" type="radio" name="questionnaire_type" value="<{$smarty.const.QUESTIONNAIRE_TYPE_LIST_VALUE}>" onclick="questionnaireCls['<{$id}>'].selectQuestionnaireTypeList();" />
+					<{$lang.questionnaire_type_list}>
+				</label>
+				<br />
+				<label id="questionnaire_type_sequence_label<{$id}>" for="questionnaire_type_sequence<{$id}>">
+					<input id="questionnaire_type_sequence<{$id}>" type="radio" name="questionnaire_type" value="<{$smarty.const.QUESTIONNAIRE_TYPE_SEQUENCE_VALUE}>" onclick="questionnaireCls['<{$id}>'].selectQuestionnaireTypeSequence();" />
+					<{$lang.questionnaire_type_sequence}>
+				</label>
+				<label id="questionnaire_type_random_label<{$id}>" for="questionnaire_type_random<{$id}>">
+					<input id="questionnaire_type_random<{$id}>" type="checkbox" name="questionnaire_type_random" value="<{$smarty.const._ON}>" />
+					<{$lang.questionnaire_type_random}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="questionnaire_period_checkbox_label<{$id}>" for="questionnaire_period_checkbox<{$id}>">
+					<input id="questionnaire_period_checkbox<{$id}>" type="checkbox" name="period_checkbox" value="<{$smarty.const._ON}>" onclick="questionnaireCls['<{$id}>'].changePeriod();" />
+					<{$lang.questionnaire_period}>
+				</label>
+				<label>
+					<input id="questionnaire_period<{$id}>" class="date" type="text" name="period" />
+				</label>
+			</td>
+		</tr>
+
+		<{if $smarty.session._space_type != _SPACE_TYPE_PUBLIC && ($smarty.session._main_room_page.private_flag == _OFF || $smarty.session._main_room_page.default_entry_flag == _OFF)}>
+			<input type="hidden" name="nonmember_flag" value="<{$smarty.const._OFF}>" />
+		<{else}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label id="questionnaire_nonmember_label<{$id}>" for="questionnaire_nonmember<{$id}>">
+						<input id="questionnaire_nonmember<{$id}>" type="checkbox" name="nonmember_flag" value="<{$smarty.const._ON}>" onclick="questionnaireCls['<{$id}>'].changeNonmember(this.checked);" />
+		 				<{$lang.questionnaire_nonmember}>
+		 			</label>
+				</td>
+			</tr>
+		<{/if}>
+
+		<{if !function_exists("gd_info") || ($smarty.session._space_type != _SPACE_TYPE_PUBLIC && ($smarty.session._main_room_page.private_flag == _OFF || $smarty.session._main_room_page.default_entry_flag == _OFF))}>
+			<input type="hidden" name="image_authentication" value="<{$smarty.const._OFF}>" />
+		<{else}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label id="questionnaire_image_authentication_label<{$id}>" for="questionnaire_image_authentication<{$id}>">
+						<input id="questionnaire_image_authentication<{$id}>" type="checkbox" name="image_authentication" value="<{$smarty.const._ON}>" />
+		 				<{$lang.questionnaire_image_authentication}>
+		 			</label>
+				</td>
+			</tr>
+		<{/if}>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="questionnaire_anonymity_label<{$id}>" for="questionnaire_anonymity<{$id}>">
+					<input id="questionnaire_anonymity<{$id}>" type="checkbox" name="anonymity_flag" value="<{$smarty.const._ON}>" onclick="questionnaireCls['<{$id}>'].changeAnonymity(this.checked);" />
+	 				<{$lang.questionnaire_anonymity}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label id="questionnaire_repeat_label<{$id}>" for="questionnaire_repeat<{$id}>">
+					<input id="questionnaire_repeat<{$id}>" type="checkbox" name="repeat_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.questionnaire_repeat}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label for="questionnaire_total<{$id}>">
+					<input id="questionnaire_total<{$id}>" type="checkbox" name="total_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.questionnaire_total}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.questionnaire_mail_send}>
+			</th>
+			<td>
+				<label id="questionnaire_mail_send_on_label<{$id}>" for="questionnaire_mail_send_on<{$id}>">
+					<input id="questionnaire_mail_send_on<{$id}>" type="radio" name="mail_send" value="<{$smarty.const._ON}>" onclick="questionnaireCls['<{$id}>'].changeMailSend(true);" />
+					<{$lang.questionnaire_mail_send_on}>
+				</label>
+				<label id="questionnaire_mail_send_off_label<{$id}>" for="questionnaire_mail_send_off<{$id}>">
+					<input id="questionnaire_mail_send_off<{$id}>" type="radio" name="mail_send" value="<{$smarty.const._OFF}>" onclick="questionnaireCls['<{$id}>'].changeMailSend(false);" />
+					<{$lang.questionnaire_mail_send_off}>
+				</label>
+
+				<div id="questionnaire_mail_send_content<{$id}>" class="display-none">
+					<div class="hr"></div>
+					<label for="questionnaire_mail_subject<{$id}>">
+						<{$lang.questionnaire_mail_subject}>
+						<input id="questionnaire_mail_subject<{$id}>" class="mail_subject" type="text" name="mail_subject" />
+					</label>
+
+					<div class="hr"></div>
+					<label for="questionnaire_mail_body<{$id}>">
+						<{$lang.questionnaire_mail_body}>
+						<br />
+						<textarea cols="40" rows="11" id="questionnaire_mail_body<{$id}>" class="mail_body" name="mail_body"></textarea>
+					</label>
+
+					<div class="note">
+						<{$lang.questionnaire_mail_note|smarty:nodefaults}>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="questionnaireCls['<{$id}>'].enterQuestionnaire();" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'questionnaire_view_edit_questionnaire_list');" />
+	</div>
+</form>
+
+<{include file = "../questionnaire_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var questionnaireForm = $("questionnaire_form<{$id}>");
+	questionnaireForm["action"].value = "questionnaire_action_edit_questionnaire_entry";
+	questionnaireForm["questionnaire_id"].value = "<{$action.questionnaire.questionnaire_id}>";
+
+	<{if $action.questionnaire.old_use == _ON}>
+		questionnaireForm["old_use"].checked = true;
+	<{/if}>
+	<{if !empty($action.oldQuestionnaires|smarty:nodefaults) && empty($action.questionnaire.questionnaire_id|smarty:nodefaults)}>
+		questionnaireCls["<{$id}>"].changeOldUse(questionnaireForm["old_use"].checked);
+	<{/if}>
+
+	<{if empty($action.questionnaire.icon_name|smarty:nodefaults)}>
+		$('questionnaire_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/titleicon/blank.gif";
+	<{else}>
+		$('questionnaire_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/" + "<{$action.questionnaire.icon_name}>";
+	<{/if}>
+
+	<{if empty($action.questionnaire.questionnaire_id|smarty:nodefaults)}>
+		questionnaireForm["questionnaire_name"].value = "<{$lang.questionnaire_new_name|sprintf:$action.questionnaireNumber}>";
+	<{else}>
+		questionnaireForm["questionnaire_name"].value = "<{$action.questionnaire.questionnaire_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.questionnaire.questionnaire_type == QUESTIONNAIRE_TYPE_LIST_VALUE}>
+		$("questionnaire_type_list<{$id}>").checked = true;
+		questionnaireCls["<{$id}>"].selectQuestionnaireTypeList();
+	<{else}>
+		$("questionnaire_type_sequence<{$id}>").checked = true;
+		questionnaireCls["<{$id}>"].selectQuestionnaireTypeSequence();
+	<{/if}>
+	<{if $action.questionnaire.questionnaire_type == QUESTIONNAIRE_TYPE_RANDOM_VALUE}>
+		questionnaireForm["questionnaire_type_random"].checked = true;
+	<{/if}>
+
+	<{if !empty($action.questionnaire.period|smarty:nodefaults)}>
+		questionnaireForm["period_checkbox"].checked = true;
+		questionnaireForm["period"].value = "<{$action.questionnaire.display_period_date}>";
+	<{/if}>
+	questionnaireCls["<{$id}>"].calendar = new compCalendar("<{$id}>", "questionnaire_period<{$id}>");
+	questionnaireCls["<{$id}>"].changePeriod();
+
+	<{if $smarty.session._space_type == _SPACE_TYPE_PUBLIC || ($smarty.session._main_room_page.private_flag == _ON && $smarty.session._main_room_page.default_entry_flag == _ON)}>
+		<{if $action.questionnaire.nonmember_flag == _ON}>
+			$("questionnaire_nonmember<{$id}>").checked = true;
+		<{/if}>
+
+		<{if $action.questionnaire.image_authentication == _ON && function_exists("gd_info")}>
+			$("questionnaire_image_authentication<{$id}>").checked = true;
+		<{/if}>
+
+		questionnaireCls["<{$id}>"].changeNonmember($("questionnaire_nonmember<{$id}>").checked);
+	<{/if}>
+
+	<{if $action.questionnaire.anonymity_flag == _ON}>
+		$("questionnaire_anonymity<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.questionnaire.repeat_flag == _ON}>
+		$("questionnaire_repeat<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.questionnaire.total_flag == _ON}>
+		$("questionnaire_total<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.questionnaire.mail_send == _ON && $action.questionnaire.anonymity_flag != _ON}>
+		$("questionnaire_mail_send_on<{$id}>").checked = true;
+		questionnaireCls["<{$id}>"].changeMailSend(true);
+	<{else}>
+		$("questionnaire_mail_send_off<{$id}>").checked = true;
+	<{/if}>
+	questionnaireCls["<{$id}>"].changeAnonymity($("questionnaire_anonymity<{$id}>").checked);
+
+	<{if empty($action.questionnaire.questionnaire_id|smarty:nodefaults)}>
+		questionnaireForm["mail_subject"].value = "<{$lang.questionnaire_mail_subject_default|smarty:nodefaults}>";
+		questionnaireForm["mail_body"].value = "<{$lang.questionnaire_mail_body_default|smarty:nodefaults}>";
+	<{else}>
+		questionnaireForm["mail_subject"].value = "<{$action.questionnaire.mail_subject|smarty:nodefaults|escape:"javascript"}>";
+		questionnaireForm["mail_body"].value = "<{$action.questionnaire.mail_body|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	<{if $action.questionnaire.status != QUESTIONNAIRE_STATUS_INACTIVE_VALUE}>
+		Element.addClassName($("questionnaire_icon_name_img<{$id}>"), "display-none");
+		questionnaireForm["questionnaire_name"].disabled = true;
+
+		$("questionnaire_type_list<{$id}>").disabled = true;
+		$("questionnaire_type_sequence<{$id}>").disabled = true;
+		questionnaireForm["questionnaire_type_random"].disabled = true;
+		Element.addClassName($("questionnaire_type_list_label<{$id}>"), "disable_lbl");
+		Element.addClassName($("questionnaire_type_sequence_label<{$id}>"), "disable_lbl");
+		Element.addClassName($("questionnaire_type_random_label<{$id}>"), "disable_lbl");
+
+		<{if $smarty.session._space_type == _SPACE_TYPE_PUBLIC || ($smarty.session._main_room_page.private_flag == _ON && $smarty.session._main_room_page.default_entry_flag == _ON)}>
+			$("questionnaire_nonmember<{$id}>").disabled = true;
+			Element.addClassName($("questionnaire_nonmember_label<{$id}>"), "disable_lbl");
+		<{/if}>
+
+		$("questionnaire_anonymity<{$id}>").disabled = true;
+		Element.addClassName($("questionnaire_anonymity_label<{$id}>"), "disable_lbl");
+
+		$("questionnaire_repeat<{$id}>").disabled = true;
+		Element.addClassName($("questionnaire_repeat_label<{$id}>"), "disable_lbl");
+	<{/if}>
+
+	<{if $action.questionnaire.status == QUESTIONNAIRE_STATUS_END_VALUE}>
+		questionnaireForm["period_checkbox"].disabled = true;
+		Element.addClassName($("questionnaire_period_checkbox_label<{$id}>"), "disable_lbl");
+
+		questionnaireForm["period"].disabled = true;
+		questionnaireCls["<{$id}>"].calendar.disabledCalendar(true);
+	<{/if}>
+
+	questionnaireForm = null;
+</script>
+<{/strip}>

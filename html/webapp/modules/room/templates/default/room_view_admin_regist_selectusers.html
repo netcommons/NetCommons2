@@ -1,0 +1,165 @@
+<{strip}>
+<{* タイトル *}>
+<div class="outerdiv">
+	<div class="bold">
+		<{if $action.edit_current_page_id}>
+			<{* ルーム参加者修正 *}>
+			<{$lang.room_select_edit_users}>[<{$action.room_name}>]
+		<{else}>
+			<a class="link" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_regist_init','parent_page_id':<{$action.parent_page_id}><{if $action.edit_current_page_id}>,'edit_current_page_id':<{$action.edit_current_page_id}><{/if}>}); return false;">
+				<{$lang.room_regist_init}>
+			</a>
+			<{$lang._arrow_separator|smarty:nodefaults}>
+			<{$lang.room_select_users}>
+		<{/if}>
+	</div>
+	<{* 説明 *}>
+	<div class="top_description">
+		<{$lang.room_top_description|smarty:nodefaults|sprintf:$lang._regist:$lang._btn_select_all:$lang.room_continue_regist}>
+	</div>
+	<{* 対象会員絞込み *}>
+	<div class="align-center">
+		<input class="room_header_btn" type="button" value="<{$lang.room_selected_entry_users}>" onclick="commonCls.sendPopupView(event, {'action':'user_view_main_search','room_top_id_name':'<{$id}>','room_parent_id':<{$action.parent_page_id}><{if $action.edit_current_page_id}>,'room_current_id':<{$action.edit_current_page_id}><{/if}>,'prefix_id_name':'room_popup_search'},{'top_el':$('<{$id}>'),center_flag:1,'modal_flag':1});return false;" />
+	</div>
+	<{assign var="edit_current_page_id" value=$action.edit_current_page_id}>
+	<form action="" id="form<{$id}>" onsubmit="return false;">
+		<{*ヘッダー表示部分*}>
+		<table class="grid_header" summary="">
+		<tr>
+			<th rowspan="2" scope="col">
+				<div class="room_selectauth_entry_users">
+					<{$lang.room_entry_users|smarty:nodefaults}>
+				</div>
+			</th>
+			<{if $action.edit_current_page_id != _SELF_TOPPUBLIC_ID && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)}>
+				<{* 不参加:パブリックスペース以外 *}>
+				<th rowspan="2" scope="col" class="room_selectauth_noentry">
+					<div class="room_selectauth_auth_list">
+						<{$lang.room_not_entry|smarty:nodefaults}>
+						<{* 全選択 *}>
+						<div>
+							<input class="align-center" type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectRadio(this.form, '<{$smarty.const._ROLE_AUTH_OTHER}>',roomCls['<{$id}>'].chkRadioSelectauth);roomCls['<{$id}>'].selAuth('<{$smarty.const._ROLE_AUTH_OTHER}>',this.form);" />
+						</div>
+					</div>
+				</th>
+				<th rowspan="2" scope="col" class="room_selectauth_sep">
+					<div class="room_selectauth_sep">
+					</div>
+				</th>
+			<{/if}>
+			<th rowspan="2" scope="col">
+				<div class="room_selectauth_auth_list">
+					<{$smarty.const._AUTH_CHIEF_NAME|smarty:nodefaults}>
+				</div>
+			</th>
+			<th <{if $smarty.session.room.$edit_current_page_id.authorities_count > 1}>colspan="<{$smarty.session.room.$edit_current_page_id.authorities_count}>"<{else}>rowspan="2"<{/if}> scope="col">
+				<div class="room_selectauth_auth_list" <{*width変更(style指定:固定値)*}><{if $smarty.session.room.$edit_current_page_id.authorities_count > 1}>style="width:<{$smarty.session.room.$edit_current_page_id.authorities_count*90}>px"<{/if}>>
+					<{$smarty.const._AUTH_MODERATE_NAME|smarty:nodefaults}>
+				</div>
+			</th>
+			<th rowspan="2" scope="col">
+				<div class="room_selectauth_auth_list">
+					<{$smarty.const._AUTH_GENERAL_NAME|smarty:nodefaults}>
+					<{* 全選択 *}>
+					<div>
+						<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectRadio(this.form, '<{$smarty.const._ROLE_AUTH_GENERAL}>',roomCls['<{$id}>'].chkRadioSelectauth);roomCls['<{$id}>'].selAuth('<{$smarty.const._ROLE_AUTH_GENERAL}>');" />
+					</div>
+				</div>
+			</th>
+			<th rowspan="2" scope="col">
+				<div class="room_selectauth_auth_list">
+					<{$smarty.const._AUTH_GUEST_NAME|smarty:nodefaults}>
+					<{* 全選択 *}>
+					<div>
+						<input class="align-center" type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectRadio(this.form, '<{$smarty.const._ROLE_AUTH_GUEST}>',roomCls['<{$id}>'].chkRadioSelectauth);roomCls['<{$id}>'].selAuth('<{$smarty.const._ROLE_AUTH_GUEST}>');" />
+					</div>
+				</div>
+			</th>
+			<{* サブグループ作成許可 *}>
+			<{if $action.edit_current_page_id != _SELF_TOPPUBLIC_ID && ($action.parent_page.thread_num == 0 && $action.parent_page.private_flag == _OFF && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC) && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)}>
+				<th rowspan="2" scope="col">
+					<div class="room_selectauth_auth_list">
+						<{$lang._createroom_flag_name|smarty:nodefaults}>
+					</div>
+				</th>
+			<{/if}>
+		</tr>
+		<{if $smarty.session.room.$edit_current_page_id.authorities_count > 1}>
+		<tr>
+			<{foreach from=$smarty.session.room.$edit_current_page_id.authorities item=authority}>
+				<th scope="col">
+					<div class="user_selectauth_auth_list user_selectauth_moderate_color">
+						<{$authority.role_authority_name}>
+					</div>
+				</th>
+			<{/foreach}>
+		</tr>
+		<{/if}>
+		</table>
+		<{*メイン表示部分-Grid*}>
+		<table class="grid" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+			<{section name="user_list" loop=$conf.room_users_list start="0"}>
+				<{if $smarty.section.user_list.iteration <= $action.count}>
+				<tr class="grid_row room_grid_rows">
+					<td class="room_selectauth_entry_users">
+						<div class="room_selectauth_entry_users">
+						</div>
+					</td>
+					<{if $action.edit_current_page_id != _SELF_TOPPUBLIC_ID && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)}>
+						<td class="room_selectauth_auth_list">
+							<div class="room_selectauth_auth_list">
+							</div>
+						</td>
+						<{* セパレータ *}>
+						<td class="room_selectauth_sep">
+							<div class="room_selectauth_sep">
+							</div>
+						</td>
+					<{/if}>
+					<td class="room_selectauth_auth_list">
+						<div class="room_selectauth_auth_list">
+						</div>
+					</td>
+					<{* モデレータ *}>
+					<{foreach from=$smarty.session.room.$edit_current_page_id.authorities item=authority}>
+						<td class="room_selectauth_auth_list">
+							<div class="room_selectauth_auth_list">
+							</div>
+						</td>
+					<{/foreach}>
+					
+					<td class="room_selectauth_auth_list">
+						<div class="room_selectauth_auth_list">
+						</div>
+					</td>
+					<td class="room_selectauth_auth_list">
+						<div class="room_selectauth_auth_list">
+						</div>
+					</td>
+					<{* サブグループ作成許可 *}>
+					<{if $action.edit_current_page_id != _SELF_TOPPUBLIC_ID &&  ($action.parent_page.thread_num == 0 && $action.parent_page.private_flag == _OFF && $action.parent_page.space_type != _SPACE_TYPE_PUBLIC) && (!isset($action.page.private_flag|smarty:nodefaults) || $action.page.private_flag == _OFF)}>
+						<td class="room_selectauth_auth_list">
+							<div class="room_selectauth_auth_list">
+							</div>
+						</td>
+					<{/if}>
+				</tr>
+				<{/if}>
+			<{/section}>
+		</table>
+	</form>
+</div>
+<{* 各種ボタン *}>
+<div class="btn-bottom align-right">
+	<{if $action.edit_current_page_id == 0}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="roomCls['<{$id}>'].showConfirm('room_view_admin_regist_init',<{$action.parent_page_id}>,<{$action.edit_current_page_id}>,<{$conf.room_users_regist_once}><{if $action.subgroup_flag}>,1<{/if}>); return false;" />
+	<{/if}>
+	<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="roomCls['<{$id}>'].showConfirm('room_action_admin_regist_selectusers',<{$action.parent_page_id}>,<{$action.edit_current_page_id}>,<{$conf.room_users_regist_once}>); return false;" />
+	<{* 続けて登録 *}>
+	<input class="btn-width lined_btn" type="button" value="<{$lang.room_continue_regist}>" onclick="roomCls['<{$id}>'].showConfirm('room_action_admin_regist_continue',<{$action.parent_page_id}>,<{$action.edit_current_page_id}>,<{$conf.room_users_regist_once}>); return false;" />
+	
+	<{* キャンセル *}>
+	<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang._close_block_confirm}>'))return false; commonCls.sendView('<{$id}>',{'action':'room_view_admin_list','show_space_type':<{if $action.parent_page_id != 0}><{$action.parent_page.space_type}><{else}><{$action.page.space_type}><{/if}>,'show_private_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.private_flag}><{else}><{$action.page.private_flag}><{/if}>,'show_default_entry_flag':<{if $action.parent_page_id != 0}><{$action.parent_page.default_entry_flag}><{else}><{$action.page.default_entry_flag}><{/if}>}); return false;" />
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

@@ -1,0 +1,62 @@
+<{strip}>
+<{* 投稿用テンプレート *}>
+<form id="bbs_post_form<{$id}>" class="bbs_post_form display-none" action="#" onsubmit="return false;">
+	<div>
+		<{$lang.bbs_subject|smarty:nodefaults}>
+		<a href="#">
+			<img id="bbs_icon_name_img<{$id}>" class="comp_title_icon" alt="" onclick="bbsCls['<{$id}>'].showIcon();return false;" onmouseover="Element.addClassName(this, 'comptextarea_dialog_highlight');" onmouseout="Element.removeClassName(this, 'comptextarea_dialog_highlight');" />
+		</a>
+		<input class="text" name="subject" type="text" />
+		<input id="bbs_icon_name_hidden<{$id}>" name="icon_name" type="hidden" />
+	</div>
+	<div class="hr"></div>
+
+	<textarea class="comptextarea" name="body"><{$action.post.body|smarty:nodefaults|wysiwig_convert_url}></textarea>
+
+	<div class="hr"></div>
+
+	<div class="align-center">
+		<{if $action_name == "bbs_view_main_init"}>
+			<input class="tempbtn-width" type="button" value="<{$lang._temporary|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].post(<{$smarty.const._ON}>);">
+			<input class="lined_btn btn-width" type="button" value="<{$lang.bbs_post|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].post();">
+		<{elseif $action_name == "bbs_view_main_post_body"}>
+			<input class="tempbtn-width" type="button" value="<{$lang._temporary|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].reply(<{$smarty.const._ON}>);">
+			<input class="lined_btn btn-width" type="button" value="<{$lang.bbs_post|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].reply();">
+		<{elseif $action_name == "bbs_view_main_post_edit"}>
+			<{if $action.post.temporary_authority}>
+				<input class="tempbtn-width" type="button" value="<{$lang._temporary|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].editPost(<{$smarty.const._ON}>);">
+			<{/if}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].editPost();">
+		<{/if}>
+
+		<{if $action_name != "bbs_view_main_post_edit"}>
+			<input id="bbs_cancel<{$id}>" class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="Element.addClassName($('bbs_post_form<{$id}>'), 'display-none');$('_href<{$id}>').focus();" />
+		<{else}>
+			<input id="bbs_cancel<{$id}>" class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].showPost('<{$action.post.post_id}>');" />
+		<{/if}>
+	</div>
+</form>
+<script class="nc_script" type="text/javascript">
+	<{if $action_name != "bbs_view_main_post_edit" || empty($action.post.icon_name|smarty:nodefaults)}>
+		$('bbs_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/titleicon/blank.gif";
+	<{/if}>
+
+	<{if $action_name == "bbs_view_main_post_edit"}>
+		bbsCls["<{$id}>"].bbs_id = "<{$action.post.bbs_id}>";
+		bbsCls["<{$id}>"].post_id = "<{$action.post.post_id}>";
+
+		<{if !empty($action.post.icon_name|smarty:nodefaults)}>
+			$('bbs_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/" + "<{$action.post.icon_name}>";
+			$('bbs_icon_name_hidden<{$id}>').value = "<{$action.post.icon_name}>";
+		<{/if}>
+
+		var bbsForm = $("bbs_post_form<{$id}>");
+		bbsForm["subject"].value = "<{$action.post.subject|smarty:nodefaults|escape:"javascript"}>";
+		bbsForm["body"].value = "<{$action.post.body|smarty:nodefaults|wysiwig_convert_url|escape:"javascript"}>";
+
+		bbsCls['<{$id}>'].showPostArea();
+
+		bbsForm = null;
+	<{/if}>
+</script>
+<{/strip}>

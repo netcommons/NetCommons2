@@ -1,0 +1,29 @@
+/* 
+ * ブロック定義
+ */
+.th_none_content {
+	border:0px;
+	padding:0px;
+}
+
+/*ヘッダータイトル*/
+.th_none_title {
+	white-space:nowrap;
+	text-align: left;
+	margin-bottom:10px;
+}
+
+
+/* 
+ * ヘッダーメニュー(サブメニュー部)
+ */
+/*
+.th_none_headermenu {
+	padding:3px;
+	text-align:right;
+}
+.th_none_headermenu .header_btn {
+	padding-left:3px;
+	padding-right:3px;
+}
+*/

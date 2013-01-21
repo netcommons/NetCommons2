@@ -1,0 +1,27 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<{$lang.reservation_category|smarty:nodefaults}>
+</th>
+<td class="nowrap">
+	<label for="reservation_category<{$id}>">
+		<select id="reservation_category<{$id}>" class="reservation_style_select" name="category_id" onchange='reservationCls["<{$id}>"].switchDefaultCategory(this.form);'>
+			<option value="0"<{if ($current_category_id=="0") }> selected="selected"<{/if}>>
+				<{$lang.reservation_all_category|smarty:nodefaults}>
+			</option>
+			<{foreach name="category" key="category_id" item="category_name" from=$action.category_list}>
+				<{if ($action.location_count_list.$category_id > 0 || $smarty.session._user_auth_id == _AUTH_ADMIN) }>
+					<option value="<{$category_id}>"<{if ($category_id == $current_category_id) }> selected="selected"<{/if}>>
+						<{if ($category_name == "") }>
+							<{$lang.reservation_no_category|smarty:nodefaults}>
+						<{else}>
+							<{$category_name|smarty:nodefaults}>
+						<{/if}>
+					</option>
+				<{/if}>
+			<{/foreach}>
+		</select>
+	</label>
+</td>
+
+<{/strip}>

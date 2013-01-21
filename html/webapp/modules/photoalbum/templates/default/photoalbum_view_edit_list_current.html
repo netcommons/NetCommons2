@@ -1,0 +1,6 @@
+<{strip}>
+<{* フォトアルバム一覧（カレント）用テンプレート *}>
+<label for="photoalbum_current<{$photoalbum.photoalbum_id}><{$id}>">
+	<input id="photoalbum_current<{$photoalbum.photoalbum_id}><{$id}>" type="radio" name="current" value="<{$photoalbum.photoalbum_id}>" onclick="photoalbumCls['<{$id}>'].changeCurrent(<{$photoalbum.photoalbum_id}>);" />
+</label>
+<{/strip}>

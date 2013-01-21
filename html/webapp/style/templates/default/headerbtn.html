@@ -1,0 +1,37 @@
+<{strip}>
+<{if $smarty.session._auth_id >=_AUTH_CHIEF || (isset($action.headerbtn_edit|smarty:nodefaults) && $action.headerbtn_edit == true)}>
+	<{* 編集 *}>
+	<{if $smarty.session._shortcut_flag == _OFF}>
+		<{assign var="edit_action_name" value=$module_obj.edit_action_name}>
+	<{else}>
+		<{assign var="edit_action_name" value=$module_obj.edit_style_action_name}>
+	<{/if}>
+	<{if $edit_action_name != ""}>
+		<{if $edit_action_name == $action_name || $header_type == "edit"}>
+			<a href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_over.gif','setting_end_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_end_over.gif','setting_over.gif');}" onclick="commonCls.sendView('<{$id}>','<{$module_obj.action_name}>'); Event.stop(event); return false;">
+				<img src="<{"setting_over.gif"|get_themes_image}>" title="<{$smarty.const._EDIT_END_BTN|smarty:nodefaults}>" alt="<{$smarty.const._EDIT_END_BTN|smarty:nodefaults}>"  class="th_system_btn" />
+			</a>
+		<{else}>
+			<a href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting.gif','setting_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_over.gif','setting.gif');}" onclick="commonCls.sendView('<{$id}>','<{$edit_action_name}>'); Event.stop(event); return false;">
+				<img src="<{"setting.gif"|get_themes_image}>" title="<{$smarty.const._EDIT_BTN|smarty:nodefaults}>" alt="<{$smarty.const._EDIT_BTN|smarty:nodefaults}>"  class="th_system_btn" />
+			</a>
+		<{/if}>
+	<{else}>
+		<{if $header_type == "main"}>
+			<a href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting.gif','setting_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_over.gif','setting.gif');}" onclick="<{eval var=$smarty.const._BLOCKSTYLE_METHOD_DIALOG|smarty:nodefaults}> Event.stop(event); return false;">
+				<img src="<{"setting.gif"|get_themes_image}>" title="<{$smarty.const._EDIT_BTN|smarty:nodefaults}>" alt="<{$smarty.const._EDIT_BTN|smarty:nodefaults}>"  class="th_system_btn" />
+			</a>
+		<{else}>
+			<a href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_over.gif','setting_end_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'setting_end_over.gif','setting_over.gif');}" onclick="commonCls.sendView('<{$id}>','<{$block_obj.action_name}>'); Event.stop(event); return false;">
+				<img src="<{"setting_over.gif"|get_themes_image}>" title="<{$smarty.const._EDIT_END_BTN|smarty:nodefaults}>" alt="<{$smarty.const._EDIT_END_BTN|smarty:nodefaults}>"  class="th_system_btn" />
+			</a>
+		<{/if}>
+	<{/if}>
+<{/if}>
+<{if $smarty.session._auth_id >=_AUTH_CHIEF && $smarty.session._layoutmode == "on"}>
+	<{* 削除 *}>
+	<a href="#" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'close.gif','close_over.gif');}" onmouseout="if(typeof(commonCls) != 'undefined') {commonCls.imgChange(this,'close_over.gif','close.gif');}" onclick="pagesCls.deleteBlock(event, '<{$id}>','<{$smarty.const._DELETE_CONFIRM}>'); return false;">
+		<img src="<{"close.gif"|get_themes_image}>" title="<{$smarty.const._DELETE_BTN|smarty:nodefaults}>" alt="<{$smarty.const._DELETE_BTN|smarty:nodefaults}>"  class="th_system_btn" />
+	</a>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,19 @@
+;preExecute以外からの呼び出し禁止
+[RecursiveNocall]
+ValidateDef =
+
+[ValidateDef]
+requiredfalse ="1:lang._invalid_input"
+
+[DIContainer]
+filename_operation = "dicon.ini"
+
+[TokenExtra]
+mode = "nobuild"
+
+[Action]
+db = "ref:DbObject"
+commonOperation = "ref:commonOperation"
+
+[View]
+define:nouse = 1

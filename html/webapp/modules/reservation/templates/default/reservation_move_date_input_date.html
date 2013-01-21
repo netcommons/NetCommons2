@@ -1,0 +1,21 @@
+<{strip}>
+	
+<form action="#" onsubmit="return false;">
+	<input type="hidden" name="id" value="<{$smarty.session.reservation._id.$block_id}>" />
+
+	<label for="reservation_move_date<{$id}>">
+		<input id="reservation_move_date<{$id}>" type="text" name="move_date" value="<{$action.input_date}>" size="13" maxlength="10" />
+	</label>
+
+	<input type="button" value="<{$lang.reservation_move|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].moveDate(this.form); return false;' />
+	&nbsp;
+	&nbsp;
+	<a id="reservation_move_today<{$id}>" class="hover_highlight" href="#" title="<{$lang._show_today|smarty:nodefaults}>" onclick='reservationCls["<{$smarty.session.reservation._id.$block_id}>"].changeReservation("<{$action.today}>"); return false;'>
+		<{$lang.reservation_move_today|smarty:nodefaults}>
+	</a>
+	<span class="highlight">
+		<{$lang.reservation_today|smarty:nodefaults}>
+	</span>
+</form>
+
+<{/strip}>

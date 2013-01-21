@@ -1,0 +1,146 @@
+<{strip}>
+<{* タスク一覧用テンプレート *}>
+<div class="todo_head">
+	<input id="todo_all_view<{$id}>" name="todo_all_view" value="<{$smarty.const._ON}>" type="checkbox"<{if (!isset($action.target_state|smarty:nodefaults)) }> checked="checked"<{/if}> onclick="commonCls.sendView('<{$id}>', {'action':'todo_view_main_init','all_view':<{if (isset($action.target_state|smarty:nodefaults)) }><{$smarty.const._ON}><{else}><{$smarty.const._OFF}><{/if}>,'todo_id':'<{$action.todo.todo_id}>'}); return false;" />
+	<label for="todo_all_view<{$id}>">
+		<{$lang.todo_all_view|smarty:nodefaults}>
+	</label>
+	&nbsp;
+	<{if $action.todo.task_authority}>
+		<a class="syslink todo_head" href="#" title="<{$lang.todo_add_task_title|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].showPopup(null, <{$smarty.const.TODO_NONE}>, event);return false;">
+			<img class="icon" src="<{"add_file.gif"|get_themes_image}>" alt="" title="" />
+			<{$lang.todo_add_task|smarty:nodefaults}>
+		</a>
+	<{/if}>
+	<{if $action.showChangeSequence && $smarty.session._auth_id >= $smarty.const._AUTH_CHIEF }>
+		<a class="syslink todo_head" href="#" title="<{$lang.todo_change_sequence_mode_title|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'todo_view_main_sequence'});return false;">
+			<{$lang.todo_change_sequence_mode|smarty:nodefaults}>
+		</a>
+	<{/if}>
+</div>
+
+<{if $action.taskCount > 0}>
+	<table class="grid" summary="<{$lang.todo_task_list_summary|smarty:nodefaults}>">
+		<tr class="grid_row">
+			<th class="task_table_header grid_sort" scope="col" style="cursor: pointer;" onclick="todoCls['<{$id}>'].sortBy('priority', '<{$action.todo.todo_id}>'); return false;">
+				<div class="nowrap">
+					<{$lang.todo_priority|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon todo_sort_img" id="todo_sort_img<{$id}>_priority" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+			<th class="task_table_header grid_sort" scope="col" style="cursor: pointer;" onclick="todoCls['<{$id}>'].sortBy('state', '<{$action.todo.todo_id}>'); return false;">
+				<div class="nowrap">
+					<{$lang.todo_state|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon todo_sort_img" id="todo_sort_img<{$id}>_state" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+			<th class="task_table_header grid_sort" scope="col" style="cursor: pointer;" onclick="todoCls['<{$id}>'].sortBy('period', '<{$action.todo.todo_id}>'); return false;">
+				<div class="nowrap">
+					<{$lang.todo_period|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon todo_sort_img" id="todo_sort_img<{$id}>_period" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+			<th class="task_table_header grid_sort" scope="col" style="cursor: pointer;" onclick="todoCls['<{$id}>'].sortBy('task_value', '<{$action.todo.todo_id}>'); return false;">
+				<div class="task_table_header_block">
+					<{$lang.todo_task_value|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon todo_sort_img" id="todo_sort_img<{$id}>_task_value" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+			<th class="task_table_header grid_sort" scope="col" style="cursor: pointer;" onclick="todoCls['<{$id}>'].sortBy('progress', '<{$action.todo.todo_id}>'); return false;">
+				<div class="nowrap">
+					<{$lang.todo_progress|smarty:nodefaults}>
+					<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon todo_sort_img" id="todo_sort_img<{$id}>_progress" alt="" title="" style="display:none;" />
+				</div>
+			</th>
+			<{if $action.todo.task_authority}>
+				<th class="task_table_header" scope="col">
+					<{$lang.todo_delete|smarty:nodefaults}>
+				</th>
+			<{/if}>
+		</tr>
+		<{if ($action.todo.used_category == _ON) }>
+			<{foreach from=$action.categories item=category}>
+				<{assign var=category_id value=$category.category_id}>
+				<{if (isset($action.tasks.$category_id|smarty:nodefaults)) }>
+					<tr class="grid_row<{if ($task.state == _OFF) }> <{$task.period_class_name}><{/if}>">
+						<td colspan="<{if $action.todo.task_authority}>6<{else}>5<{/if}>" class="todo_category nowrap">
+							<{if ($category_id == 0) }>
+								<{$lang.todo_nocategory|smarty:nodefaults}>
+							<{else}>
+								<{$category.category_name}>
+							<{/if}>
+						</td>
+					</tr>
+
+					<{foreach from=$action.tasks.$category_id|smarty:nodefaults item=task}>
+						<tr class="grid_row<{if ($task.state == _OFF) }> <{$task.period_class_name}><{/if}>">
+							<td class="todo_priority nowrap">
+								<{include file = "todo_view_main_init_priority.html"}>
+							</td>
+							<td class="todo_state align-center nowrap">
+								<{include file = "todo_view_main_init_state.html"}>
+							</td>
+							<td class="todo_period nowrap">
+								<{include file = "todo_view_main_init_period.html"}>
+							</td>
+							<td class="todo_task_value">
+								<{include file = "todo_view_main_init_task_value.html"}>
+							</td>
+							<td class="todo_progress nowrap">
+								<{include file = "todo_view_main_init_progress.html"}>
+							</td>
+							<{if $action.todo.task_authority}>
+								<td class="todo_delete">
+									<{if $task.edit_authority}>
+										<a class="link display-block" href="#" title="" onclick="todoCls['<{$id}>'].deleteTask('<{$task.task_id}>', '<{$lang._del_confirm|smarty:nodefaults|sprintf:$lang.todo_task_value}>');return false;">
+											<img class="icon" src="<{"trash_silhouette.gif"|get_themes_image}>" alt="<{$lang._delete|smarty:nodefaults}>" title="<{$lang._del_title|smarty:nodefaults|sprintf:$task.task_value}>" />
+										</a>
+									<{/if}>
+								</td>
+							<{/if}>
+						</tr>
+					<{/foreach}>
+				<{/if}>
+			<{/foreach}>
+		<{else}>
+			<{foreach from=$action.tasks|smarty:nodefaults item=task}>
+				<tr class="grid_row<{if ($task.state == _OFF) }> <{$task.period_class_name}><{/if}>">
+					<td class="todo_priority nowrap">
+						<{include file = "todo_view_main_init_priority.html"}>
+					</td>
+					<td class="todo_state align-center nowrap">
+						<{include file = "todo_view_main_init_state.html"}>
+					</td>
+					<td class="todo_period nowrap">
+						<{include file = "todo_view_main_init_period.html"}>
+					</td>
+					<td class="todo_task_value">
+						<{include file = "todo_view_main_init_task_value.html"}>
+					</td>
+					<td class="todo_progress nowrap">
+						<{include file = "todo_view_main_init_progress.html"}>
+					</td>
+					<{if $action.todo.task_authority}>
+						<td class="todo_delete">
+							<{if $task.edit_authority}>
+								<a class="link display-block" href="#" title="" onclick="todoCls['<{$id}>'].deleteTask('<{$task.task_id}>', '<{$lang._del_confirm|smarty:nodefaults|sprintf:$lang.todo_task_value}>');return false;">
+									<img class="icon" src="<{"trash_silhouette.gif"|get_themes_image}>" alt="<{$lang._delete|smarty:nodefaults}>" title="<{$lang._del_title|smarty:nodefaults|sprintf:$task.task_value}>" />
+								</a>
+							<{/if}>
+						</td>
+					<{/if}>
+				</tr>
+			<{/foreach}>
+		<{/if}>
+	</table>
+<{else}>
+	<{$lang.todo_no_task|smarty:nodefaults}>
+<{/if}>
+<{include file = "../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	todoCls["<{$id}>"].ascImg = "<{""|get_image_url}>/<{$smarty.const.TODO_ASC_IMG}>";
+	todoCls["<{$id}>"].descImg = "<{""|get_image_url}>/<{$smarty.const.TODO_DESC_IMG}>";
+	todoCls["<{$id}>"].stateLang["none"] = "<{$lang.todo_state_none|smarty:nodefaults|escape:"javascript"}>";
+	todoCls["<{$id}>"].stateLang["finish"] = "<{$lang.todo_state_finish|smarty:nodefaults|escape:"javascript"}>";
+</script>
+<{/strip}>

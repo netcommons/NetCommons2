@@ -1,0 +1,21 @@
+<{strip}>
+<{if $smarty.session._user_id != "0"  || $columns}>
+<table class="widthmax" summary="">
+	<tr>
+		<{if $columns}>
+		<{foreach name=column_loop from=$columns key=i item=column}>
+		<td class="column valign-top">
+			<{if $column}>
+			<{foreach from=$column key=j item=value}>
+				<div class="cell" style="<{$style.$i.$j}>">
+					<{$column.$j|smarty:nodefaults}>
+				</div>
+			<{/foreach}>
+			<{/if}>
+		</td>
+		<{/foreach}>
+		<{/if}>
+	</tr>
+</table>
+<{/if}>
+<{/strip}>

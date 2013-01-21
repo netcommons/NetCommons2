@@ -1,0 +1,57 @@
+<{strip}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="nowrap bold">
+		<{$action.journal_obj.journal_name}>
+	</div>
+	<table class="journal_head_table">
+		<tr>
+			<td class="nowrap journal_top journal_right_space">
+				<{* 日誌を書く *}>
+				<{if $action.journal_obj.has_post_auth && $action.journal_obj.active_flag == $smarty.const._ON}>
+					<a class="syslink" href="#" title="<{$lang.journal_new_title|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', {'action':'journal_view_main_post'}, {'loading_el':this}); return false;">
+						<img class="icon" alt="" src="<{"edit.gif"|get_themes_image}>"/>
+						<{$lang.journal_new|smarty:nodefaults}>
+					</a>
+				<{/if}>
+			</td>
+			<td class="nowrap align-right">
+				<{if $action.pager.total_page > 1}>
+					<{include file="journal_view_main_init_page.html"}>
+				<{/if}>
+				<{include file = "journal_view_main_init_control.html" position="top"}>
+			</td>
+		</tr>
+	</table>
+	<{if $action.journal_count == 0}>
+		<{$lang.journal_none_post|smarty:nodefaults}>
+	<{else}>
+		<div class="outerdiv">
+			<{foreach item=post from=$action.journal_list}>
+			<div id="journal_detail<{$id}>_<{$post.post_id}>">
+				<{include file="journal_view_main_item.html" item=$post|smarty:nodefaults from="list"}>
+			</div>
+			<{/foreach}>
+		</div>
+		<table class="journal_head_table">
+			<tr>
+				<td class="nowrap"/>
+				<td class="nowrap align-right">
+					<{if $action.pager.total_page > 1}>
+						<{include file="journal_view_main_init_page.html"}>
+					<{/if}>
+					<{include file = "journal_view_main_init_control.html" position="bottom"}>
+				</td>
+			</tr>
+		</table>
+	<{/if}>
+	<input type="hidden" id="journal_id<{$id}>" value="<{$action.journal_obj.journal_id}>" />
+</div>
+<{* Javascriptクラス作成ファイルインクルード *}>
+<{include file="../journal_script.html"}>
+<{if !empty($action.trackback_result|smarty:nodefaults)}>
+	<script class="nc_script" type="text/javascript">
+		commonCls.alert('<{$action.trackback_result}>');
+	</script>
+<{/if}>
+<{/strip}>

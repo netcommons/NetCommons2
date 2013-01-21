@@ -1,0 +1,126 @@
+<{strip}>
+<h2><{$lang.mdb_search_result_title|smarty:nodefaults}></h2>
+<div class="outerdiv">
+	<{if $action.keyword != ""}>
+		<span class="mdb_separator">
+			<{$lang.mdb_search_keyword|smarty:nodefaults}>:
+			<{$action.keyword}>
+		</span>
+	<{/if}>
+	<{if $action.handle != ""}>
+		<span class="mdb_separator">
+			<{$lang.mdb_search_handle|smarty:nodefaults}>:
+			<{$action.handle}>
+		</span>
+	<{/if}>
+	<{if ($action.date_from != "" || $action.date_to != "") }>
+		<span class="mdb_separator">
+			<{$lang.mdb_search_date|smarty:nodefaults}>:
+			<{$action.date_from}><{$lang.mdb_search_target_date_separator|smarty:nodefaults}><{$action.date_to}>
+		</span>
+	<{/if}>
+	<{if $action.status != ""}>
+		<span class="mdb_separator">
+			<{$lang.mdb_search_status|smarty:nodefaults}>:
+			<{if $action.status == $smarty.const.MULTIDATABASE_STATUS_ALL}>
+				<{$lang.mdb_display_item_all|smarty:nodefaults}>
+			<{elseif $action.status == $smarty.const.MULTIDATABASE_STATUS_AGREE_VALUE}>
+				<{$lang.mdb_search_open|smarty:nodefaults}>
+			<{elseif $action.status == $smarty.const.MULTIDATABASE_STATUS_WAIT_AGREE_VALUE}>
+				<{$lang.mdb_search_not_ready|smarty:nodefaults}>
+			<{/if}>
+		</span>
+	<{/if}>
+	<{foreach from=$action.section_metadatas item=item key=key}>
+		<span class="mdb_separator">
+			<{$item.name}>:
+			<{if !strlen($action.sort_section.$key)}>
+				<{$lang.mdb_display_item_all|smarty:nodefaults}>
+			<{else}>
+				<{$action.sort_section.$key}>
+			<{/if}>
+		</span>
+	<{/foreach}>
+	<{$lang.mdb_search_result|smarty:nodefaults}>
+</div>
+<div class="hr"></div>
+<div id="mdb_search_result<{$id}>" class="mdb_search_result_contents">
+	<h3>
+		<a href="#" title="<{$lang.mdb_back_list|smarty:nodefaults|sprintf:$action.mdb_obj.multidatabase_name}>" class="syslink" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_init', multidatabase_id:<{$action.mdb_obj.multidatabase_id}>}); return false;">
+			<{$action.mdb_obj.multidatabase_name}>
+		</a>
+		<{if $action.result_count > 0 }>
+			<span class="mdb_search_page_count">
+				<{$lang.mdb_search_page_count|smarty:nodefaults|sprintf:"`$action.result_count`":"`$action.disp_begin+1`":"`$action.disp_end`"}>
+			</span>
+		<{/if}>
+	</h3>
+	<{if $action.result_count > 0 }>
+		<{assign var="title_metadata_id" value="`$action.mdb_obj.title_metadata_id`"}>
+		<{foreach key=key item=item from=$action.result_contents}>
+			<div class="mdb_search_result_content">
+				<{if strpos($id, MULTIDATABASE_REFERENCE_PREFIX_NAME)}>
+					<a href="#" class="syslink" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_detail', content_id:<{$item.content_id}>, multidatabase_id:<{$action.multidatabase_id}>}); return false;">
+				<{elseif ($item.short_url != "") }>
+					<a class="syslink"  title="<{$lang.mdb_detail_link_title|smarty:nodefaults}>" href="<{include file="../../../../templates/main/abbreviate_url.html" short_url=$item.short_url request_param="search=`$smarty.const._ON`"}>">
+				<{else}>
+					<a class="syslink"  title="<{$lang.mdb_detail_link_title|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?active_action=multidatabase_view_main_detail&amp;content_id=<{$item.content_id}>&amp;multidatabase_id=<{$item.multidatabase_id}>&amp;block_id=<{$block_id}>&search_flag=<{$smarty.const._ON}>#<{$smarty.session._id}>">
+				<{/if}>
+				<{if $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_INSERT_TIME}>
+					<{$item.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{elseif $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_UPDATE_TIME}>
+					<{$item.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+				<{elseif $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_FILE || $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_IMAGE}>
+					<{assign var="file_name_key" value="file_name`$title_metadata_id`"}>
+					<{if empty($item.$file_name_key|smarty:nodefaults)}>
+						<{$lang.mdb_notitle|smarty:nodefaults}>
+					<{else}>
+						<{$item.$file_name_key}>
+					<{/if}>
+				<{elseif empty($item.$title_metadata_id|smarty:nodefaults)}>
+					<{$lang.mdb_notitle|smarty:nodefaults}>
+				<{elseif $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_WYSIWYG}>
+					<{$item.$title_metadata_id|html_to_text|smarty:nodefaults}>
+				<{elseif $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_AUTONUM}>
+					<{$item.$title_metadata_id|intval}>
+				<{elseif $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_DATE}>
+					<{$item.$title_metadata_id|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+				<{elseif $action.title_metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_MULTIPLE}>
+					<{assign var="multipleArr" value="|"|explode:$item.$title_metadata_id}>
+					<{$multipleArr.0|smarty:nodefaults}>
+				<{else}>
+					<{$item.$title_metadata_id}>
+				<{/if}>
+				</a>
+				<{$lang.mdb_search_time_prefix|smarty:nodefaults}>
+				<span class="mdb_search_user_name">
+					<a class="syslink" href="#" title="<{if $smarty.session._login_id == ''}><{$lang.mdb_detail_writer_title|smarty:nodefaults|sprintf:$item.insert_user_name}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$item.insert_user_name}><{/if}>" onclick="commonCls.showUserDetail(event, '<{$item.insert_user_id}>'); return false;">
+						<{$item.insert_user_name}>
+					</a>
+				</span>
+				<{$lang.mdb_search_time_prefix|smarty:nodefaults}>
+				<span class="mdb_search_time">
+					<a href="#" class="syslink" onclick="commonCls.sendView('<{$id}>', {action:'multidatabase_view_main_detail', content_id:<{$item.content_id}>, multidatabase_id:<{$action.multidatabase_id}>}); return false;">
+						<{$item.insert_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+					</a>
+				</span>
+			</div>
+		<{/foreach}>
+	<{else}>
+		<{$lang.mdb_search_result_no_match|smarty:nodefaults}>
+	<{/if}>
+	<{if $action.total_page > 1}>
+		<div class="align-right">
+			<{include file="multidatabase_view_main_search_page.html"}>
+		</div>
+	<{/if}>
+</div>
+<div class="hr"></div>
+<div id="mdb_search_condition<{$id}>">
+	<{include file="multidatabase_view_main_search_condition.html"}>
+</div>
+<{include file="../multidatabase_script.html"}>
+<script class="nc_script" type="text/javascript">
+	mdbCls["<{$id}>"].initCalendar();
+</script>
+<{/strip}>

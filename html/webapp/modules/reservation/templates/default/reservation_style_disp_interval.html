@@ -1,0 +1,18 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<label for="reservation_interval<{$id}>">
+		<{$lang.reservation_interval_lbl|smarty:nodefaults}>
+	</label>
+</th>
+<td class="nowrap">
+	<select name="display_interval">
+		<{section name=interval loop=25 start=4 step=1}>
+			<option value="<{$smarty.section.interval.index}>"<{if ($smarty.section.interval.index == $display_interval) }> selected="selected"<{/if}>>
+				<{$lang.reservation_interval_val|smarty:nodefaults|sprintf:"`$smarty.section.interval.index`"}>
+			</option>
+		<{/section}>
+	</select>
+</td>
+
+<{/strip}>

@@ -1,0 +1,546 @@
+<{strip}>
+
+<div class="outerdiv nowrap">
+	<div id="calendar_error_message<{$id}>" class="errorstr display-none">
+		<{$lang.calendar_error_plan_flag|smarty:nodefaults}>
+	</div>
+	<div id="calendar_error_message_notfound<{$id}>" class="errorstr display-none">
+		<{$lang.calendar_error_no_plan_flag|smarty:nodefaults}>
+	</div>
+	<form id="calendar_form<{$id}>" action="#" method="post" onsubmit="return false;">
+		<table class="outer" summary="<{$lang.calendar_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="plan_title<{$id}>">
+						<{$lang.calendar_plan_title}>
+					</lable>
+				</th>
+				<td>
+					<a href="#" alt="" title="">
+						<img id="icon_name_img<{$id}>" class="comp_title_icon" src="<{""|get_image_url}>/images/comp/textarea/<{if $action.calendar_obj.title_icon != "" }><{$action.calendar_obj.title_icon}><{else}>titleicon/blank.gif<{/if}>" alt="" onclick='calendarCls["<{$id}>"].showIcon();return false;' onmouseover='Element.addClassName(this, "comptextarea_dialog_highlight");' onmouseout='Element.removeClassName(this, "comptextarea_dialog_highlight");' />
+					</a>
+					<input id="icon_name_hidden<{$id}>" name="icon_name" value="<{$action.calendar_obj.title_icon}>" type="hidden" />
+					<input id="plan_title<{$id}>" class="text" name="title" type="text" value="<{$action.calendar_obj.title}>" />
+				</td>
+			</tr>
+
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="plan_flag<{$id}>">
+						<{$lang.calendar_plan_flag|smarty:nodefaults}>
+					</lable>
+				</th>
+				<td>
+					<{assign var="next_thread_num" value=0}>
+					<{assign var="next_parent_id" value=0}>
+					<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+					<select id="plan_flag<{$id}>" name="plan_room_id" onchange='calendarCls["<{$id}>"].switchRoom(this);' class="calendar_plan_room_id">
+						<{include file="./calendar_view_recursive_room.html"}>
+					</select>
+					<{if $action.block.select_room == _ON && count($action.block.select_room_list) > 0}>
+						<div>
+							<{$lang.calendar_open_object_desc|smarty:nodefaults}>
+						</div>
+					<{/if}>
+				</td>
+			</tr>
+
+			<{if ($action.details_flag == _OFF) }>
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="start_date<{$id}>">
+							<{$lang.calendar_plan_time|smarty:nodefaults}>
+						</lable>
+					</th>
+					<td class="nowrap">
+						<input id="start_date<{$id}>" class="calendar_start_date" name="start_date" type="text" value="<{$action.calendar_obj.input_start_date}>" size="13" maxlength="10" />
+						<label for="allday_flag<{$id}>">
+							<input id="allday_flag<{$id}>" type="checkbox" name="allday_flag" value="<{$smarty.const._ON}>"<{if ($action.calendar_obj.allday_flag == _ON) }> checked="checked"<{/if}> onclick='calendarCls["<{$id}>"].switchAllday(this.form);' />
+							<{$lang.calendar_allday_flag|smarty:nodefaults}>
+						</label>
+						<input type="hidden" name="end_date" value="" />
+
+						<br />
+						<select name="start_hour"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+							<{section name=hour loop=24 start=0 step=1}>
+								<{assign var=hour value=$smarty.section.hour.index}>
+								<{assign var=plan_hour value=$action.calendar_obj.start_time|substr:0:2|intval}>
+								<option value="<{$hour|string_format:"%02d"}>"<{if ($hour == $plan_hour) }> selected="selected"<{/if}>>
+									<{$hour|string_format:$lang.calendar_hour_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+						&nbsp;
+						<select name="start_minute"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+							<{section name=minute loop=60 start=0 step=5}>
+								<{assign var=minute value=$smarty.section.minute.index}>
+								<{assign var=plan_minute value=$action.calendar_obj.start_time|substr:2:2|intval}>
+								<option value="<{$minute|string_format:"%02d"}>"<{if ($minute == $plan_minute) }> selected="selected"<{/if}>>
+									<{$minute|string_format:$lang.calendar_minute_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+
+						<{$lang.calendar_time_pause|smarty:nodefaults}>
+
+						<select name="end_hour"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}> onchange='calendarCls["<{$id}>"].switchTime24(this.form);'>
+							<{section name=hour loop=25 start=0 step=1}>
+								<{assign var=hour value=$smarty.section.hour.index}>
+								<{assign var=plan_hour value=$action.calendar_obj.end_time|substr:0:2|intval}>
+								<option value="<{$hour|string_format:"%02d"}>"<{if ($hour == $plan_hour) }> selected="selected"<{/if}>>
+									<{$hour|string_format:$lang.calendar_hour_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+						&nbsp;
+						<select name="end_minute"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+							<{section name=minute loop=60 start=0 step=5}>
+								<{assign var=minute value=$smarty.section.minute.index}>
+								<{assign var=plan_minute value=$action.calendar_obj.end_time|substr:2:2|intval}>
+								<option value="<{$minute|string_format:"%02d"}>"<{if ($minute == $plan_minute) }> selected="selected"<{/if}>>
+									<{$minute|string_format:$lang.calendar_minute_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+					</td>
+				</tr>
+
+			<{else}>
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="start_date<{$id}>">
+							<{$lang.calendar_start_time|smarty:nodefaults}>
+						</lable>
+					</th>
+					<td class="nowrap">
+						<input id="start_date<{$id}>" class="calendar_start_date" name="start_date" type="text" value="<{$action.calendar_obj.input_start_date}>" size="13" maxlength="10" />
+
+						<select name="start_hour"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+							<{section name=hour loop=24 start=0 step=1}>
+								<{assign var=hour value=$smarty.section.hour.index}>
+								<{assign var=plan_hour value=$action.calendar_obj.start_time|substr:0:2|intval}>
+								<option value="<{$hour|string_format:"%02d"}>"<{if ($hour == $plan_hour) }> selected="selected"<{/if}>>
+									<{$hour|string_format:$lang.calendar_hour_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+						&nbsp;
+						<select name="start_minute"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+							<{section name=minute loop=60 start=0 step=5}>
+								<{assign var=minute value=$smarty.section.minute.index}>
+								<{assign var=plan_minute value=$action.calendar_obj.start_time|substr:2:2|intval}>
+								<option value="<{$minute|string_format:"%02d"}>"<{if ($minute == $plan_minute) }> selected="selected"<{/if}>>
+									<{$minute|string_format:$lang.calendar_minute_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+						&nbsp;&nbsp;
+						<label for="allday_flag<{$id}>">
+							<input id="allday_flag<{$id}>" type="checkbox" name="allday_flag" value="<{$smarty.const._ON}>"<{if ($action.calendar_obj.allday_flag == _ON) }> checked="checked"<{/if}> onclick='calendarCls["<{$id}>"].switchAllday(this.form);' />
+							<{$lang.calendar_allday_flag|smarty:nodefaults}>
+						</label>
+					</td>
+				</tr>
+
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="end_date<{$id}>">
+							<{$lang.calendar_end_time|smarty:nodefaults}>
+						</lable>
+					</th>
+					<td class="nowrap">
+						<input id="end_date<{$id}>" class="calendar_end_date" name="end_date" type="text" value="<{$action.calendar_obj.input_end_date}>" size="13" maxlength="10" />
+
+						<select name="end_hour"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}> onchange='calendarCls["<{$id}>"].switchTime24(this.form);'>
+							<{section name=hour loop=25 start=0 step=1}>
+								<{assign var=hour value=$smarty.section.hour.index}>
+								<{assign var=plan_hour value=$action.calendar_obj.end_time|substr:0:2|intval}>
+								<option value="<{$hour|string_format:"%02d"}>"<{if ($hour == $plan_hour) }> selected="selected"<{/if}>>
+									<{$hour|string_format:$lang.calendar_hour_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+						&nbsp;
+						<select name="end_minute"<{if ($action.calendar_obj.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+							<{section name=minute loop=60 start=0 step=5}>
+								<{assign var=minute value=$smarty.section.minute.index}>
+								<{assign var=plan_minute value=$action.calendar_obj.end_time|substr:2:2|intval}>
+								<option value="<{$minute|string_format:"%02d"}>"<{if ($minute == $plan_minute) }> selected="selected"<{/if}>>
+									<{$minute|string_format:$lang.calendar_minute_format|smarty:nodefaults}>
+								</option>
+							<{/section}>
+						</select>
+						&nbsp;&nbsp;&nbsp;
+						<{include file="./calendar_view_timezone.html" timezone_offset=$action.calendar_obj.timezone_offset_key|smarty:nodefaults}>
+					</td>
+				</tr>
+
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="location<{$id}>">
+							<{$lang.calendar_location|smarty:nodefaults}>
+						</lable>
+					</th>
+					<td class="nowrap">
+						<input id="location<{$id}>" class="text" type="text" name="location" value="<{$action.calendar_obj.location}>" />
+					</td>
+				</tr>
+
+				<tr class="row">
+					<th class="nowrap" scope="row">
+						<label for="contact<{$id}>">
+							<{$lang.calendar_contact|smarty:nodefaults}>
+						</lable>
+					</th>
+					<td class="nowrap">
+						<input id="contact<{$id}>" class="text" type="text" name="contact" value="<{$action.calendar_obj.contact}>" />
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="2" class="nowrap">
+						<textarea id="description<{$id}>" class="comptextarea">
+							<{$action.calendar_obj.description|smarty:nodefaults|wysiwig_convert_url|escape:"html"}>
+						</textarea>
+					</td>
+				</tr>
+
+				<input type="hidden" name="edit_rrule" value="<{$action.edit_rrule}>" />
+				<{if ($action.edit_rrule != CALENDAR_PLAN_EDIT_THIS) }>
+					<tr class="row">
+						<td colspan="2" id="_calendar_repeat<{$id}>" class="calendar_repeat">
+							<{assign var="rrule_arr" value=$action.calendar_obj.rrule_arr}>
+							<{assign var="freq" value=$rrule_arr.FREQ}>
+							<{if ($freq == "NONE") }>
+								<{assign var="display_class" value=" display-none"}>
+							<{else}>
+								<{assign var="display_class" value=""}>
+							<{/if}>
+							<{assign var="weekKeyArr" value="|"|explode:$smarty.const.CALENDAR_REPEAT_WDAY}>
+							<{assign var="weekValArr" value="|"|explode:$smarty.const.CALENDAR_RRULE_WDAY}>
+
+							<div class="_calendar_disp_repeat align-right<{if ($display_class == "") }> display-none<{/if}>">
+								<input name="repeat_btn" type="button" value="<{$lang.calendar_repeat_btn|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].switchRepeatBtn(this);' />
+							</div>
+
+							<div class="_calendar_disp_repeat hr<{$display_class}>"></div>
+
+							<div class="_calendar_disp_repeat calendar_freq<{$display_class}>">
+								<label for="calendar_not_repeat<{$id}>">
+									<input id="calendar_not_repeat<{$id}>" type="radio" name="repeat_flag" value="<{$smarty.const._OFF}>"<{if ($display_class != "") }> checked="checked"<{/if}> onclick='calendarCls["<{$id}>"].switchRepeat(this.form,"NONE");' />
+									<{$lang.calendar_not_repeat|smarty:nodefaults}>
+								</label>
+								<br />
+								<label for="calendar_do_repeat<{$id}>">
+									<input id="calendar_do_repeat<{$id}>" type="radio" name="repeat_flag" value="<{$smarty.const._ON}>"<{if ($display_class == "") }> checked="checked"<{/if}> onclick='calendarCls["<{$id}>"].switchRepeat(this.form,null);' />
+									<{$lang.calendar_do_repeat|smarty:nodefaults}>
+								</label>
+
+								<div class="hr"></div>
+								<div class="calendar_r_daily">
+									<{assign var="rrule" value=$rrule_arr.DAILY}>
+									<div class="calendar_r_margin">
+										<label for="calendar_repeat_freq_daily<{$id}>">
+											<input id="calendar_repeat_freq_daily<{$id}>" type="radio" name="repeat_freq" value="DAILY" onclick='calendarCls["<{$id}>"].switchRepeat(this.form,"DAILY");'<{if ($freq == "DAILY") }> checked="checked"<{/if}> />
+											<{$lang.calendar_rrule_freq_daily|smarty:nodefaults}>
+										</label>
+
+										&nbsp;
+										&nbsp;
+										<{$lang.calendar_rrule_interval_prefix|smarty:nodefaults}>
+										<select name="rrule_interval[DAILY]">
+											<{section name=interval loop=7 start=1 step=1}>
+												<{assign var=interval value=$smarty.section.interval.index}>
+												<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+													<{$lang.calendar_rrule_interval_day|smarty:nodefaults|sprintf:$interval}>
+												</option>
+											<{/section}>
+										</select>
+										<{$lang.calendar_rrule_interval_suffix|smarty:nodefaults}>
+									</div>
+								</div>
+
+								<div class="hr"></div>
+								<div class="calendar_r_weekly">
+									<{assign var="rrule" value=$rrule_arr.WEEKLY}>
+
+									<div class="calendar_r_margin">
+										<label for="calendar_repeat_freq_weekly<{$id}>">
+											<input id="calendar_repeat_freq_weekly<{$id}>" type="radio" name="repeat_freq" value="WEEKLY" onclick='calendarCls["<{$id}>"].switchRepeat(this.form,"WEEKLY");'<{if ($freq == "WEEKLY") }> checked="checked"<{/if}> />
+											<{$lang.calendar_rrule_freq_weekly|smarty:nodefaults}>
+										</label>
+
+										&nbsp;
+										&nbsp;
+										<{$lang.calendar_rrule_interval_prefix|smarty:nodefaults}>
+										<select name="rrule_interval[WEEKLY]">
+											<{section name=interval loop=6 start=1 step=1}>
+												<{assign var=interval value=$smarty.section.interval.index}>
+												<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+													<{$lang.calendar_rrule_interval_week|smarty:nodefaults|sprintf:$interval}>
+												</option>
+											<{/section}>
+										</select>
+										<{$lang.calendar_rrule_interval_suffix|smarty:nodefaults}>
+									</div>
+
+									<div class="calendar_r_margin">
+										<{assign var="rrule_byday" value=$rrule.BYDAY}>
+										<{section name="wday" loop=$weekKeyArr}>
+											<{assign var="wKeyDay" value=$weekKeyArr[wday]}>
+											<{assign var="wValDay" value=$weekValArr[wday]}>
+											<label for="calendar_rrule_byday_weekly_<{$wKeyDay}><{$id}>">
+												<input id="calendar_rrule_byday_weekly_<{$wKeyDay}><{$id}>" type="checkbox" name="rrule_byday[WEEKLY][]" value="<{$wKeyDay}>"<{if (in_array($wKeyDay, $rrule_byday))}> checked="checked"<{/if}> />
+												<{$wValDay}>
+											</label>
+											&nbsp;
+											&nbsp;
+										<{/section}>
+									</div>
+								</div>
+
+								<div class="hr"></div>
+								<div class="calendar_r_monthly">
+									<{assign var="rrule" value=$rrule_arr.MONTHLY}>
+
+									<div class="calendar_r_margin">
+										<label for="calendar_repeat_freq_monthly<{$id}>">
+											<input id="calendar_repeat_freq_monthly<{$id}>" type="radio" name="repeat_freq" value="MONTHLY" onclick='calendarCls["<{$id}>"].switchRepeat(this.form,"MONTHLY");'<{if ($freq == "MONTHLY") }> checked="checked"<{/if}> />
+											<{$lang.calendar_rrule_freq_monthly|smarty:nodefaults}>
+										</label>
+
+										&nbsp;
+										&nbsp;
+										<{$lang.calendar_rrule_interval_prefix|smarty:nodefaults}>
+										<select name="rrule_interval[MONTHLY]">
+											<{section name=interval loop=12 start=1 step=1}>
+												<{assign var=interval value=$smarty.section.interval.index}>
+												<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+													<{$lang.calendar_rrule_interval_month|smarty:nodefaults|sprintf:$interval}>
+												</option>
+											<{/section}>
+										</select>
+										<{$lang.calendar_rrule_interval_suffix|smarty:nodefaults}>
+									</div>
+
+									<div class="calendar_r_margin">
+										<{assign var="rrule_byday" value=$rrule.BYDAY}>
+										<select name="rrule_byday[MONTHLY][]" onclick="calendarCls['<{$id}>'].switchRruleMonthly(this.form);">
+											<option value=""<{if (count($rrule_byday) == 0)}> selected="selected"<{/if}>>
+												<{$lang.calendar_rrule_select_wday|smarty:nodefaults}>
+											</option>
+
+											<{section name="week" loop=6 start=1 step=1}>
+												<{section name="wday" loop=$weekKeyArr}>
+													<{assign var="wKeyDay" value=$weekKeyArr[wday]}>
+													<{assign var="wValDay" value=$weekValArr[wday]}>
+													<{assign var="week" value=$smarty.section.week.index}>
+
+													<{if ($week == 1) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_first|smarty:nodefaults}>
+
+													<{elseif ($week == 2) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_second|smarty:nodefaults}>
+
+													<{elseif ($week == 3) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_third|smarty:nodefaults}>
+
+													<{elseif ($week == 4) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_fourth|smarty:nodefaults}>
+
+													<{else}>
+														<{assign var="week" value="-1"}>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_end|smarty:nodefaults}>
+													<{/if}>
+
+													<{assign var="byday" value="`$week``$wKeyDay`"}>
+													<option value="<{$byday}>"<{if (in_array($byday, $rrule_byday))}> selected="selected"<{/if}>>
+														<{$weeknum}><{$wValDay}>
+													</option>
+												<{/section}>
+											<{/section}>
+										</select>
+
+										<{$lang.calendar_rrule_monthly_pause|smarty:nodefaults}>
+
+										<{assign var="rrule_bymonthday" value=$rrule.BYMONTHDAY}>
+										<select name="rrule_bymonthday[MONTHLY][]" onclick="calendarCls['<{$id}>'].switchRruleMonthly(this.form);">
+											<option value=""<{if (count($rrule_bymonthday) == 0)}> selected="selected"<{/if}>>
+												<{$lang.calendar_rrule_select_date|smarty:nodefaults}>
+											</option>
+											<{section name="day" loop=32 start=1 step=1}>
+												<{assign var="day" value=$smarty.section.day.index}>
+												<option value="<{$day}>"<{if (in_array($day, $rrule_bymonthday))}> selected="selected"<{/if}>>
+													<{$lang.calendar_rrule_input_day|smarty:nodefaults|sprintf:"`$day`"}>
+												</option>
+											<{/section}>
+										</select>
+									</div>
+								</div>
+
+								<div class="hr"></div>
+								<div class="calendar_r_yearly">
+									<{assign var="rrule" value=$rrule_arr.YEARLY}>
+
+									<div class="calendar_r_margin">
+										<label for="calendar_repeat_freq_yearly<{$id}>">
+											<input id="calendar_repeat_freq_yearly<{$id}>" type="radio" name="repeat_freq" value="YEARLY" onclick='calendarCls["<{$id}>"].switchRepeat(this.form,"YEARLY");'<{if ($freq == "YEARLY") }> checked="checked"<{/if}> />
+											<{$lang.calendar_rrule_freq_yearly|smarty:nodefaults}>
+										</label>
+
+										&nbsp;
+										&nbsp;
+										<{$lang.calendar_rrule_interval_prefix|smarty:nodefaults}>
+										<select name="rrule_interval[YEARLY]">
+											<{section name=interval loop=13 start=1 step=1}>
+												<{assign var=interval value=$smarty.section.interval.index}>
+												<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+													<{$lang.calendar_rrule_interval_year|smarty:nodefaults|sprintf:$interval}>
+												</option>
+											<{/section}>
+										</select>
+										<{$lang.calendar_rrule_interval_suffix|smarty:nodefaults}>
+									</div>
+
+									<div class="calendar_r_margin">
+										<{assign var="rrule_bydmonth" value=$rrule.BYMONTH}>
+										<{section name=bymonth loop=13 start=1 step=1}>
+											<{assign var="month" value=$smarty.section.bymonth.index|string_format:"%d"}>
+
+											<label for="calendar_repeat_bymonth_yearly_<{$month}><{$id}>">
+												<input id="calendar_repeat_bymonth_yearly_<{$month}><{$id}>" type="checkbox" name="rrule_bymonth[YEARLY][]" value="<{$month}>"<{if (in_array($month, $rrule_bydmonth))}> checked="checked"<{/if}> />
+												<{$lang.calendar_rrule_month|smarty:nodefaults|sprintf:$smarty.section.bymonth.index}>
+											</label>
+											&nbsp;
+											&nbsp;
+											<{if ($smarty.section.bymonth.index == 6) }>
+												<br />
+											<{/if}>
+										<{/section}>
+									</div>
+
+									<div class="calendar_r_margin">
+										<{assign var="rrule_byday" value=$rrule.BYDAY}>
+										<select name="rrule_byday[YEARLY][]">
+											<option value=""<{if (count($rrule_byday) == 0)}> selected="selected"<{/if}>>
+												<{$lang.calendar_rrule_startdate|smarty:nodefaults}>
+											</option>
+
+											<{section name="week" loop=6 start=1 step=1}>
+												<{section name="wday" loop=$weekKeyArr}>
+													<{assign var="wKeyDay" value=$weekKeyArr[wday]}>
+													<{assign var="wValDay" value=$weekValArr[wday]}>
+													<{assign var="week" value=$smarty.section.week.index}>
+
+													<{if ($week == 1) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_first|smarty:nodefaults}>
+
+													<{elseif ($week == 2) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_second|smarty:nodefaults}>
+
+													<{elseif ($week == 3) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_third|smarty:nodefaults}>
+
+													<{elseif ($week == 4) }>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_fourth|smarty:nodefaults}>
+
+													<{else}>
+														<{assign var="week" value="-1"}>
+														<{assign var="weeknum" value=$lang.calendar_rrule_week_end|smarty:nodefaults}>
+													<{/if}>
+
+													<{assign var="byday" value="`$week``$wKeyDay`"}>
+													<option value="<{$byday}>"<{if (in_array($byday, $rrule_byday))}> selected="selected"<{/if}>>
+														<{$weeknum}><{$wValDay}>
+													</option>
+												<{/section}>
+											<{/section}>
+										</select>
+									</div>
+								</div>
+
+								<div class="hr"></div>
+								<div class="calendar_terminator">
+									<div class="calendar_r_margin">
+										<{assign var="rrule" value=$rrule_arr.YEARLY}>
+										<label for='calendar_rrule_term_count<{$id}>'>
+											<input id='calendar_rrule_term_count<{$id}>' type='radio' name="rrule_term" value='COUNT'<{if ($rrule_arr.REPEAT_COUNT == _ON) }> checked="checked"<{/if}> onclick="calendarCls['<{$id}>'].switchTerm(this.form);commonCls.focus(this.form.rrule_count);" />
+											<{$lang.calendar_rrule_term_count|smarty:nodefaults}>
+										</label>
+										<label for="calendar_rrule_count<{$id}>">
+											<input id="calendar_rrule_count<{$id}>" type='text' name="rrule_count" size="3" maxlength="3" value="<{$rrule_arr.COUNT}>" />
+											<{$lang.calendar_rrule_count|smarty:nodefaults}>
+										</label>
+									</div>
+
+									<div class="calendar_r_margin">
+										<label for='calendar_rrule_term_until<{$id}>'>
+											<input id='calendar_rrule_term_until<{$id}>' type='radio' name="rrule_term" value='UNTIL'<{if ($rrule_arr.REPEAT_UNTIL == _ON) }> checked="checked"<{/if}> onclick="calendarCls['<{$id}>'].switchTerm(this.form); commonCls.focus(this.form.rrule_until);" />
+											<{$lang.calendar_rrule_term_until|smarty:nodefaults}>
+										</label>
+										<label for="calendar_rrule_until<{$id}>">
+											<input id="calendar_rrule_until<{$id}>" name="rrule_until" class="rrule_until" type="text" value="<{$rrule_arr.UNTIL_VIEW}>" size="13" maxlength="10" />
+										</label>
+									</div>
+								</div>
+								<div class="hr"></div>
+							</div>
+						</td>
+					</tr>
+				<{/if}>
+			<{/if}>
+			<{if ($action.calendar_block.mail_send == _ON) }>
+				<tr class="row">
+					<td colspan="2" class="nowrap">
+						<label for="<{$id}>_notification_mail">
+							<input id="<{$id}>_notification_mail" type="checkbox" name="notification_mail" value="<{$smarty.const._ON}>"<{if ($action.notification_mail == _ON) }> checked="checked"<{/if}> />
+							<{$lang.calendar_notification_mail|smarty:nodefaults}>
+						</label>
+					</td>
+				</tr>
+			<{/if}>
+		</table>
+
+		<div class="btn-bottom">
+			<{if ($action.calendar_obj.plan_id == 0) }>
+				<input class="btn-width" name="regist" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].addPlan(this.form); return false;' />
+				&nbsp;
+				<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+			<{else}>
+				<input class="btn-width" name="regist" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].modifyPlan(this.form); return false;' />
+				&nbsp;
+				<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+			<{/if}>
+		</div>
+
+		<{if ($action.details_flag != _ON) }>
+			<div class="btn-bottom align-right">
+				<a id="calendar_addplan_details_link<{$id}>" href="#" onclick='calendarCls["<{$id}>"].showAddPlan(event,"<{$action.date}>",null,<{$smarty.const._ON}>); return false;'>
+					<{$lang.calendar_details_addplan|smarty:nodefaults}>
+				</a>
+				<span class="disable_lbl display-none">
+					<{$lang.calendar_details_addplan|smarty:nodefaults}>
+				</span>
+			</div>
+			<input type="hidden" name="details_flag" value="<{$smarty.const._OFF}>" />
+		<{else}>
+			<{if ($action.calendar_obj.plan_id > 0) }>
+				<input type="hidden" name="calendar_id" value="<{$action.calendar_obj.calendar_id}>" />
+			<{/if}>
+			<input type="hidden" name="details_flag" value="<{$smarty.const._ON}>" />
+		<{/if}>
+	</form>
+</div>
+
+<{include file="../calendar_script.html"}>
+<script class="nc_script" type="text/javascript">
+	calendarCls["<{$id}>"].initModifyPlan(<{$action.details_flag}>);
+	calendarCls["<{$id}>"].setAddPlanRoom($("plan_flag<{$id}>"));
+	<{if ($action.edit_rrule != CALENDAR_PLAN_EDIT_THIS && $action.details_flag == _ON) }>
+		calendarCls["<{$id}>"].initRepeat();
+	<{/if}>
+	calendarCls["<{$id}>"].switchTime24($("calendar_form<{$id}>"));
+	calendarCls["<{$id}>"].switchRoom($("plan_flag<{$id}>"));
+	commonCls.focus("<{$id}>");
+</script>
+<{/strip}>

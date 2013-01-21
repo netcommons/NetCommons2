@@ -1,0 +1,60 @@
+<{strip}>
+	<{* ページ移動 *}>
+	<div class="align-center">
+		<ul class="nc_wysiwyg_insertamazon_pager">
+
+			<{if $action.pageNumber-$smarty.const.COMP_AWS_DEFAULT_PAGE_NEXT < 1}>
+				<{assign var="start_section" value=1}>
+			<{else}>
+				<{assign var="start_section" value=$action.pageNumber-$smarty.const.COMP_AWS_DEFAULT_PAGE_NEXT}>
+			<{/if}>
+
+			<{section name=i loop=$action.pageNumber start=$start_section max=$action.pageNumber+1}>
+				<{if $smarty.section.i.first}>
+					<li>
+						<{* 前へ *}>
+						<a class="hover_highlight" href="<{$smarty.const.CURRENT_URL}>&amp;pageNumber=<{$action.pageNumber-2}>">
+							<{$lang._btn_prev_arrow|smarty:nodefaults}>
+						</a>
+					</li>
+				<{/if}>
+				<li>
+					<a class="hover_highlight" href="<{$smarty.const.CURRENT_URL}>&amp;pageNumber=<{$smarty.section.i.index-1}>">
+						<{$smarty.section.i.index}>
+					</a>
+				</li>
+			<{sectionelse}>
+				<li>
+					<span class="visible-hide">
+						<{$lang._btn_prev_arrow|smarty:nodefaults}>
+					</span>
+				</li>
+			<{/section}>
+
+			<{if $action.amazonList.totalPages > 1}>
+				<li class="nc_wysiwyg_insertamazon_active"><span><{$action.pageNumber}></span></li>
+			<{/if}>
+			<{section name=i loop=$action.amazonList.totalPages-1 start=$action.pageNumber+1 max=$smarty.const.COMP_AWS_DEFAULT_PAGE_NEXT}>
+				<li>
+					<a class="hover_highlight" href="<{$smarty.const.CURRENT_URL}>&amp;pageNumber=<{$smarty.section.i.index-1}>">
+						<{$smarty.section.i.index}>
+					</a>
+				</li>
+				<{if $smarty.section.i.last}>
+					<li>
+						<{* 次へ *}>
+						<a class="hover_highlight" href="<{$smarty.const.CURRENT_URL}>&amp;pageNumber=<{$action.pageNumber}>">
+							<{$lang._btn_next_arrow|smarty:nodefaults}>
+						</a>
+					</li>
+				<{/if}>
+			<{sectionelse}>
+				<li>
+					<span class="visible-hide">
+						<{$lang._btn_next_arrow|smarty:nodefaults}>
+					</span>
+				</li>
+			<{/section}>
+		</ul>
+	</div>
+<{/strip}>

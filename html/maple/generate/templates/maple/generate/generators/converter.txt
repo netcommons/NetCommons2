@@ -1,0 +1,3 @@
+Usage: nc [options] converter <converter_name>
+
+Type "nc help" to list the general options.

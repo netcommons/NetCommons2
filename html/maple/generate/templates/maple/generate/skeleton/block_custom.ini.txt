@@ -1,0 +1,52 @@
+;--------------------------------------------------------------------
+; Usage: こちらのUsage項目は、編集後、削除してください
+;
+; [(class_name)]
+; (css property_name) = (value)
+; css property_nameは、「background-color or border-color or color or border-left-color等の色を変更する項目」
+; valueは「,」区切り
+; valueの最左値は、作成したブロックの指定クラスの色を指定するほうがよい（デフォルト値を最左に表示させるため）
+;
+; valueで使用できるもの
+; 
+;・#999999                                      - colorコード
+;  sample:
+;     明るい色：#ffffff,#e6e6e6,#fafafa,#f2ffeb,#f1fff7,#f0fcff,#ebf3ff,#f5edff,#ffeffc,#fff4f0,#feffe4
+;     暗い色  ：#2f7cb2,#5c666b,#324684,#674174,#327177,#8f3a5a,#7a7040
+;・transparent                                  - 透明
+;・selection                                    - #999999形式でテキスト入力できる項目
+;・selection_auto:(class_name) (property_name)  - 「:」の後ろにクラス名を指定し、そのクラスの色と同じ色が自動的に指定されるテキスト項目が追加
+;・selection_image:(/images/background/下のディレクトリ名(スペース区切りで複数指定可能)):(backgroundスタイルのurlの項目以外を設定)
+;                                               - 背景画像選択セレクトボックスの項目が追加
+;    example:selection_image:border dot:transparent repeat fixed left top
+;--------------------------------------------------------------------
+;--------------------------------------------------------------------
+; ブロックスタイル　配色タブ設定項目
+;--------------------------------------------------------------------
+;クラス名
+<?php
+print ";[th_".$skeleton->action_name."]\n";
+?>
+;background-color     ="#ffffff,#e6e6e6,#fafafa,#f2ffeb,#f1fff7,#f0fcff,#ebf3ff,#f5edff,#ffeffc,#fff4f0,#feffe4,selection,selection_image(transparent repeat fixed left top):border:dot"
+;border-color         ="#c8c8c8,#e6e6e6,#5c666b,#92d0dd,#324684,#674174,#b0db67,#327177,#fcb099,#f57f7f,#8f3a5a,#7a7040,selection"
+
+;タイトルライン
+<?php
+print "[th_".$skeleton->action_name."_title_line]\n";
+?>
+background-color="#c2c6c9,#666666,selection"
+
+;タイトル
+<?php
+print ";[th_".$skeleton->action_name."_title]\n";
+?>
+;color                ="#5c666b,#3ba6bd,#324684,#91c830,#e61212,#eb8b4e,selection"
+
+;ハイライト
+<?php
+print "[th_".$skeleton->action_name." highlight]\n";
+?>
+background-color="#e9f2fb,selection_auto:th_<?php print($skeleton->action_name);?>_title_line background-color"
+color="#4e62a9,selection_auto:th_<?php print($skeleton->action_name);?>_title_line background-color"
+;background-color     ="#eaeaea,#e8f5f8,#f2ffef,#ffefff,#ffeeee"
+;color                ="#476296,#3ba6bd,#91c830,#e61212,#f13e07"

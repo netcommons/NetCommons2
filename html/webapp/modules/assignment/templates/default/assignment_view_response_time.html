@@ -1,0 +1,15 @@
+<{strip}>
+<{* 最終解答日テンプレート *}>
+
+<{if (!empty($action.report|smarty:nodefaults)) }>
+	<{$action.report.submit_update_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+
+<{elseif ($action.response.response_update_time != "") }>
+	<{$action.response.response_update_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+
+<{else}>
+	<{$lang.assignment_no_value|smarty:nodefaults}>
+
+<{/if}>
+
+<{/strip}>

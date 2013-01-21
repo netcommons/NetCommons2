@@ -1,0 +1,43 @@
+<{strip}>
+
+<div class="popupClass contextMenu cabinet_context_menu">
+	<{if ($action.reference == _OFF && $action.file.hasEditAuthority == _ON) }>
+		<{include file = "cabinet_view_main_context_item.html" item_type="edit" file_id=$action.file.file_id file_type=$action.file.file_type file_name=$action.file.file_name}>
+	<{else}>
+		<div class="contextDisableRow"><{$lang.cabinet_edit|smarty:nodefaults}></div>
+	<{/if}>
+
+	<{if ($action.reference == _OFF && $action.file.hasEditAuthority == _ON && $action.cabinet.hasAddAuthority == _ON) }>
+		<{include file = "cabinet_view_main_context_item.html" item_type="move" file_id=$action.file.file_id  file_type=$action.file.file_type file_name=$action.file.file_name}>
+	<{else}>
+		<div class="contextDisableRow"><{$lang.cabinet_move|smarty:nodefaults}></div>
+	<{/if}>
+
+	<{if ($action.reference == _OFF && $action.file.hasEditAuthority == _ON) }>
+		<{include file = "cabinet_view_main_context_item.html" item_type="delete" file_id=$action.file.file_id file_type=$action.file.file_type file_name=$action.file.file_name}>
+	<{else}>
+		<div class="contextDisableRow"><{$lang.cabinet_delete|smarty:nodefaults}></div>
+	<{/if}>
+	
+	<div class="hr"></div>
+
+	<{if ($action.cabinet.compress_download == _ON) }>
+		<{include file = "cabinet_view_main_context_item.html" item_type="compress_download" file_id=$action.file.file_id file_type=$action.file.file_type file_name=$action.file.file_name}>
+	<{elseif ($action.reference == _OFF && $action.file.hasEditAuthority == _ON && $action.cabinet.hasAddAuthority == _ON) }>
+		<{include file = "cabinet_view_main_context_item.html" item_type="compress" file_id=$action.file.file_id file_type=$action.file.file_type file_name=$action.file.file_name}>
+	<{else}>
+		<div class="contextDisableRow"><{$lang.cabinet_compression|smarty:nodefaults}></div>
+	<{/if}>
+
+	<{if ($action.reference == _OFF && $action.file.decompress_flag && $action.file.hasEditAuthority == _ON && $action.cabinet.hasAddAuthority == _ON) }>
+		<{include file = "cabinet_view_main_context_item.html" item_type="decompress" file_id=$action.file.file_id file_type=$action.file.file_type file_name=$action.file.file_name}>
+	<{else}>
+		<div class="contextDisableRow"><{$lang.cabinet_decompression|smarty:nodefaults}></div>
+	<{/if}>
+	
+	<div class="hr"></div>
+
+	<{include file = "cabinet_view_main_context_item.html" item_type="property" file_id=$action.file.file_id file_type=$action.file.file_type file_name=$action.file.file_name}>
+</div>
+
+<{/strip}>

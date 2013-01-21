@@ -1,0 +1,32 @@
+<{strip}>
+
+<table class="reservation_move_category" cellspacing="0" summary="">
+	<tr>
+		<td class="reservation_move_image">
+			<img class="icon" src="<{"move_bar.gif"|get_modules_image}>" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" title="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+		</td>
+		<td class="reservation_move_cate_name">
+			<{if ($category_name == "") }>
+				<div><{$lang.reservation_no_category|smarty:nodefaults}></div>
+			<{else}>
+				<div>
+					<a id="reservation_category_name<{$category_id}><{$id}>" class="link display-block" href="#" onclick='reservationCls["<{$id}>"].showRenameInput(this); return false;' onfocus='this.onmouseover(event);' onmouseover='if (typeof(commonCls) != "undefined") { commonCls.blockNotice(event, this); }'>
+						<{$category_name|smarty:nodefaults}>
+					</a>
+					<input class="display-none" name="category_name" type="text" value="<{$category_name|smarty:nodefaults}>" onkeypress='reservationCls["<{$id}>"].renameCategory(event,this,<{$category_id}>);' />
+				</div>
+			<{/if}>
+		</td>
+		<td class="reservation_move_delete">
+			<{if ($category_name == "") }>
+				<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon" style="width:23px;" alt="" title="" />
+			<{else}>
+				<a id="reservation_category_delete_<{$category_id}><{$id}>" href="#" class="syslink" onclick='reservationCls["<{$id}>"].deleteCategory(<{$category_id}>); return false;'>
+					<img class="icon" src="<{"trash.gif"|get_themes_image}>" alt="<{$lang._delete|smarty:nodefaults}>" title="<{$lang._del_title|sprintf:$category_name}>" />
+				</a>
+			<{/if}>
+		</td>
+	</tr>
+</table>
+
+<{/strip}>

@@ -1,0 +1,32 @@
+/* 
+ * ブロック定義
+ */
+
+/* line */
+.th_underline_default_line {
+	height:1px;
+	background-color:#c2c6c9;
+	margin-right:3px;
+}
+
+.th_underline_default_title_line {
+	width:6px;
+	height:20px;
+	background-color:#c2c6c9;
+}
+/* 一般 */
+.th_underline_title {
+	width:100%;
+	margin-bottom:5px;
+}
+
+.th_underline_title_header {
+	padding-top:2px;
+	vertical-align:top;
+	width:10px;
+}
+
+.th_underline_content {
+	border: 0px;
+	padding: 5px 15px 5px 15px;
+}

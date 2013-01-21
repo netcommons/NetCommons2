@@ -1,0 +1,110 @@
+<{strip}>
+<{* タスク登録（スマホ）用テンプレート *}>
+<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+	<{$lang.todo_priority|smarty:nodefaults}>
+
+	<div class="ui-grid-a">
+		<div class="ui-block-a">
+			<select name="priority">
+				<option value="<{$smarty.const.TODO_PRIORITY_HIGH}>"<{if ($action.task.priority == TODO_PRIORITY_HIGH) }> selected="selected"<{/if}>>
+					<{$lang.todo_priority_high|smarty:nodefaults}>
+				</option>
+				<option value="<{$smarty.const.TODO_PRIORITY_MIDDLE}>"<{if ($action.task.priority == TODO_PRIORITY_MIDDLE) }> selected="selected"<{/if}>>
+					<{$lang.todo_priority_middle|smarty:nodefaults}>
+				</option>
+				<option value="<{$smarty.const.TODO_PRIORITY_LOW}>"<{if ($action.task.priority == TODO_PRIORITY_LOW) }> selected="selected"<{/if}>>
+					<{$lang.todo_priority_low|smarty:nodefaults}>
+				</option>
+			</select>
+		</div>
+		<div class="ui-block-b" style="padding-top:0.4em;">
+			<input type="checkbox" id="state" name="state" value="<{$smarty.const._ON}>"<{if ($action.task.state == _ON) }> checked="checked"<{/if}>>
+			<label for="state"><{$lang.todo_state|smarty:nodefaults}></label>
+		</div>
+	</div>
+	<{$lang.todo_period|smarty:nodefaults}>
+	<fieldset data-role="controlgroup" data-type="horizontal">
+		<{assign var="current_year" value="`null`"|timezone_date:false:"Y"}>
+		<{assign var="start_year" value=$current_year}>
+		<{if !empty($action.task.year|smarty:nodefaults) && $action.task.year>$current_year}>
+			<{assign var="end_year" value=$action.task.year+1+10}>
+		<{else}>
+			<{assign var="end_year" value=$current_year+10}>
+		<{/if}>
+
+		<select name="year">
+			<option value=""><{$lang._mobile_year_label|smarty:nodefaults}></option>
+			<{section name=year_loop start=$start_year loop=$end_year}>
+				<option value="<{$smarty.section.year_loop.index}>" <{if $smarty.section.year_loop.index == $action.task.year}>selected="selected"<{/if}>>
+					<{$smarty.section.year_loop.index}>
+				</option>
+			<{/section}>
+		</select>
+		<select id="month" name="month">
+			<option value=""><{$lang._mobile_month_label|smarty:nodefaults}></option>
+			<{section name=month start=1 loop=13}>
+				<option value="<{$smarty.section.month.index}>" <{if $action.task.month==$smarty.section.month.index}>selected="selected"<{/if}>>
+					<{$smarty.section.month.index}>
+				</option>
+			<{/section}>
+		</select>
+		<select id="day" name="day">
+			<option value=""><{$lang._mobile_day_label|smarty:nodefaults}></option>
+			<{section name=day start=1 loop=32}>
+				<option value="<{$smarty.section.day.index}>" <{if $action.task.day==$smarty.section.day.index}>selected="selected"<{/if}>>
+					<{$smarty.section.day.index}>
+				</option>
+			<{/section}>
+		</select>
+	</fieldset>
+
+	<input type="checkbox" id="calendar" name="calendar" value="<{$smarty.const._ON}>"<{if ($action.task.calendar_id > 0) }> checked="checked"<{/if}>>
+	<label for="calendar"><{$lang.todo_calendar|smarty:nodefaults}></label>
+
+	<label for="progress"><{$lang.todo_progress|smarty:nodefaults}></label>
+	<select id="progress" name="progress">
+		<{section name=progress loop=101 start=0 step=$smarty.const.TODO_PROGRESS_INTERVAL}>
+			<option value="<{$smarty.section.progress.index}>"<{if ($action.task.progress == $smarty.section.progress.index) }> selected="selected"<{/if}>>
+				<{$lang.todo_percent|smarty:nodefaults|sprintf:$smarty.section.progress.index}>
+			</option>
+		<{/section}>
+	</select>
+
+	<{if ($action.todo.used_category == _ON) }>
+		<label for="todo_category">
+			<{$lang.todo_category_name|smarty:nodefaults}>
+		</label>
+
+		<select id="todo_category" name="category_id">
+			<{foreach name="category" item="category" from=$action.categories|smarty:nodefaults}>
+				<option value="<{$category.category_id}>"<{if ($category.category_id == $action.task.category_id) }> selected="selected"<{/if}>>
+					<{if ($category.category_id == 0) }>
+						<{$lang.todo_nocategory|smarty:nodefaults}>
+					<{else}>
+						<{$category.category_name}>
+					<{/if}>
+				</option>
+			<{/foreach}>
+		</select>
+	<{/if}>
+
+	<{$lang.todo_task_value|smarty:nodefaults}><br />
+	<textarea name="task_value" rowspan=2><{$action.task.task_value}></textarea>
+
+	<input type="hidden" name="action" value="todo_action_main_entry">
+	<input type="hidden" name="block_id" value="<{$block_id}>">
+	<input type="hidden" name="task_id" value="<{$action.task.task_id}>">
+	<input type="hidden" name="target_state" value="<{$action.target_state}>">
+
+	<{$token_form|smarty:nodefaults}>
+	<{$session_form|smarty:nodefaults}>
+
+	<{if ($action.task.task_id > 0) }>
+		<input data-inline="true" type="submit" name="regist" value="<{$lang._regist|smarty:nodefaults}>">
+	<{else}>
+		<input type="hidden" name="task_id" value="<{$action.task.task_id}>">
+		<input data-inline="true" type="submit" name="regist" value="<{$lang.todo_add_task|smarty:nodefaults}>">
+	<{/if}>
+	<a data-rel="back" data-role="button" data-inline="true" ><{$lang._cancel|smarty:nodefaults}></a>
+</form>
+<{/strip}>

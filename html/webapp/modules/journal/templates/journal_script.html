@@ -1,0 +1,17 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+	if(!journalCls["<{$id}>"]) {
+		journalCls["<{$id}>"] = new clsJournal("<{$id}>");
+	}
+	
+	<{if $action_name == "journal_view_main_post"}>
+		journalCls["<{$id}>"].postInit();
+		<{if empty($action.post.icon_name|smarty:nodefaults)}>
+			$('journal_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/titleicon/blank.gif";
+		<{/if}>
+		<{if !empty($action.post.icon_name|smarty:nodefaults)}>
+			$('journal_icon_name_img<{$id}>').src = "<{""|get_image_url}>/images/comp/textarea/" + "<{$action.post.icon_name}>";
+		<{/if}>
+	<{/if}>
+</script>
+<{/strip}>

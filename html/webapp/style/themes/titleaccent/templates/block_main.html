@@ -1,0 +1,39 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="widthmax th_<{$main_theme_name}>">
+  <tr>
+    <td class="th_<{$main_theme_name}>_color">
+    	<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_titleaccent_sideline" />
+	</td>
+	<td class="th_titleaccent_content">
+    	<{*ヘッダータイトル*}>
+		<table border="0" cellspacing="0" cellpadding="0" class="_block_title_event th_<{$main_theme_name}>_color widthmax<{if $block_obj.block_name == "" && $smarty.session._layoutmode=="off"}> display-none<{/if}>">
+			<tr>
+				<td class="th_titleaccent_line_area">
+					<div class="th_<{$main_theme_name}>_line_color">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_titleaccent_line" />
+					</div>
+				</td>
+				<td class="th_titleaccent_line_area">
+					<div class="th_<{$main_theme_name}>_line_color">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_titleaccent_line" />
+					</div>
+				</td>
+				<td class="th_titleaccent_line_area">
+					<div class="th_<{$main_theme_name}>_line_color">
+					<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" class="th_titleaccent_line" />
+					</div>
+				</td>
+				<td class="widthmax th_titleaccent_title_area">
+					<h2 class="nc_block_title th_titleaccent_title" title="<{$dblclick_edit}>"><{$block_obj.block_name}></h2>
+				</td>
+			</tr>
+		</table>
+		<div class="th_titleaccent_maincontent">
+    		<{*ヘッダーメニュー*}>
+			<{if $headermenu}><{include file="../../../templates/default/headermenu.html"}><{/if}>
+    		<div class="content"><{$content_field|smarty:nodefaults}></div>
+    	</div>
+    </td>
+  </tr>
+</table>
+<{/strip}>

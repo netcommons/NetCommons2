@@ -1,0 +1,15 @@
+Usage: nc [options] <generator_name> [args]
+
+Options:
+  -w, --webapp-dir=DIR    WEBAPP_DIR.
+  -b, --base-dir=DIR      BASE_DIR. If this option is not specified, the parent
+                          directory of the WEBAPP_DIR is used, instead.
+  -a, --webapp-name=name  directory name of the WEBAPP_DIR. 
+                          If -w is specified, this option is ignored.
+  -c, --config-path=FILE  a path to the configuration file.
+
+Installed Generators:
+<?php print $action->getGenerators(); ?>
+
+
+Type "nc help <generator_name>" to get the help for the specified generator.

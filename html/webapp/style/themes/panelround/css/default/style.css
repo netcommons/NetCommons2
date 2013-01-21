@@ -1,0 +1,54 @@
+/* 
+ * ブロック定義
+ */
+
+/* title_line */
+.th_panelround_default_title_line {
+	width:19px;
+	height:19px;
+	background-color:#d1dbdd;
+}
+/* 一般 */
+.th_panelround_content {
+	border: 0px;
+	padding: 0px 5px 0px 5px;
+	background-color:#ffffff;
+}
+
+.th_panelround_upperleft {
+	width:15px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_panelround_upper {
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/upper.gif") repeat-x scroll center bottom;
+}
+.th_panelround_upperright {
+	width:15px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/upperright.gif") no-repeat scroll right bottom;
+}
+.th_panelround_left {
+	width:15px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/left.gif") repeat-y scroll left center;
+}
+.th_panelround_right {
+	width:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/right.gif") repeat-y scroll right center;
+}
+.th_panelround_belowleft {
+	width:15px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/belowleft.gif") no-repeat scroll left top;
+}
+.th_panelround_below {
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/below.gif") repeat-x scroll center top;
+}
+.th_panelround_belowright {
+	width:15px;
+	height:15px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/panelround/images/default/belowright.gif") no-repeat scroll right top;
+}

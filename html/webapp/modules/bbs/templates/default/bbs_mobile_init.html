@@ -1,0 +1,43 @@
+<{strip}>
+<{* 記事一覧画面用テンプレート *}>
+
+<h3>
+	<{$action.bbs.bbs_name}>
+	<span style="font-size:small;">
+	<br /><{include file = "bbs_view_main_display.html"}>
+	</span>
+</h3>
+
+<{assign var="operationPosition" value="head"}>
+<{include file = "bbs_mobile_init_operation.html"}>
+<br />
+<{if $action.postExists}>
+	<{if $action.expand == BBS_EXPAND_THREAD_VALUE}>
+		<{include file = "bbs_mobile_thread.html"}>
+	<{elseif $action.expand == BBS_EXPAND_FLAT_VALUE}>
+		<{include file = "bbs_mobile_flat.html"}>
+	<{/if}>
+<{else}>
+	<p><{$lang.bbs_no_post|smarty:nodefaults}></p>
+<{/if}>
+
+<br />
+<{if $action.bbs.topic_authority}>
+	<div>
+		<a data-role="button" href="?action=bbs_view_mobile_post_add&amp;block_id=<{$block_id}>&amp;bbs_id=<{$action.bbs.bbs_id}><{$session_param}>">
+			<{$lang.bbs_post_topic|smarty:nodefaults}>
+		</a>
+	</div>
+<{/if}>
+<br />
+<div style="text-align:right">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail&amp;page_id=<{$block_obj.page_id}><{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<br />
+<{/strip}>

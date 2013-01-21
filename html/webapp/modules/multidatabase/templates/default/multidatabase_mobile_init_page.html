@@ -1,0 +1,32 @@
+<{strip}>
+<{* 携帯用改ページ部分 *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<div data-role="navbar" data-type="horizontal">
+<{if $action.prev_link}>
+	<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;now_page=<{$action.now_page-1}>&amp;block_id=<{$action.block_id}><{$session_param}>" style="padding-left:3px;padding-right:3px;">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+	&nbsp;
+<{/if}>
+<{section name=cnt loop=$action.link_array}>
+	<{* PCだとsection name=cnt loop～が２重LOOPだが、ここは1重LOOPでいいので携帯版は修正した。PCも１重でいいはず *}>
+	<{if $action.total_page > 1}>
+		<{if $action.now_page==$action.link_array[cnt]}>
+			<{* 現在のページ *}>
+			<span class="ui-btn-up-d ui-btn-corner-all ui-btn ui-btn-inline" style="padding:12px 3px;cursor:default;"><{$action.link_array[cnt]}></span>
+			&nbsp;
+		<{else}>
+			<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;now_page=<{$action.link_array[cnt]}>&amp;block_id=<{$action.block_id}><{$session_param}>" style="padding-left:3px;padding-right:3px;">
+				<{$action.link_array[cnt]}>
+			</a>
+			&nbsp;
+		<{/if}>
+	<{/if}>
+<{/section}>
+<{if $action.next_link}>
+	<a data-role="button" data-inline="true" class="ui-btn-corner-all" href="?action=multidatabase_view_main_init&amp;multidatabase_id=<{$action.multidatabase_id}>&amp;now_page=<{$action.now_page+1}>&amp;block_id=<{$action.block_id}><{$session_param}>" style="padding-left:3px;padding-right:3px;">
+		<{$lang._btn_next_arrow|smarty:nodefaults}>
+	</a>
+<{/if}>
+</div>
+<{/strip}>

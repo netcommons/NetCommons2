@@ -1,0 +1,13 @@
+<{strip}>
+
+<{if ($task) }>
+	<{assign var=progress value=$task.progress}>
+<{else}>
+	<{assign var=progress value=$action.progress}>
+<{/if}>
+
+<img class="icon" src="<{"progress/`$progress`.gif"|get_modules_image}>" alt="" title="" />
+&nbsp;
+<{$lang.todo_percent|smarty:nodefaults|sprintf:$progress}>
+
+<{/strip}>

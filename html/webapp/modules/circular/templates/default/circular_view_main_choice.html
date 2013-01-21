@@ -1,0 +1,30 @@
+<{strip}>
+<{* 選択肢部分テンプレート *}>
+<tr>
+	<td class="center">
+		<input type="hidden" name="choice_id[<{$iteration}>]" />
+		<{$choice.label|smarty:nodefaults}>
+	</td>
+	<td>
+		<textarea rows="1" cols="40" class="circular_choice" name="choice_value[<{$iteration}>]"></textarea>
+	</td>
+	<td>
+		<a class="syslink" href="#" onclick="circularCls['<{$id}>'].deleteChoice(this, '<{$lang._del_confirm|sprintf:$lang.circular_choice|sprintf:$choice.label|escape:"html"|escape:"javascript"}>');return false;">
+			<img class="icon" src="<{'trash.gif'|get_themes_image}>" title="<{$lang.circular_delete_choice}>" alt="<{$lang.circular_delete_choice}>" />
+		</a>
+	</td>
+</tr>
+
+<script class="nc_script" type="text/javascript">
+	var circularForm = $("create_circular_form<{$id}>");
+
+	circularForm["choice_id[<{$iteration}>]"].value = "<{$choice.choice_id}>";
+	<{if empty($choice.choice_id|smarty:nodefaults)}>
+		circularForm["choice_value[<{$iteration}>]"].value = "<{$lang.circular_choice|sprintf:$choice.label|smarty:nodefaults|escape:"javascript"}>";
+	<{else}>
+		circularForm["choice_value[<{$iteration}>]"].value = "<{$choice.choice_value|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	circularForm = null;
+</script>
+<{/strip}>

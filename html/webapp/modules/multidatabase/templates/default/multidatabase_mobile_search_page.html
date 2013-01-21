@@ -1,0 +1,15 @@
+<{strip}>
+<{* 携帯用サーチページ *}>
+<{* @author T.Hashimoto,R.Fujiwara /@copyright 2009 AllCreator Co., Ltd. / @license NetCommons License *}>
+<{if !$action.prev_link}>
+	<{* なにも表示しない *}>
+<{else}>
+	<input data-inline="true" type="submit" name="prev_pg" value="<{$lang.mdb_search_prev|smarty:nodefaults}>" >
+<{/if}>
+&nbsp;&nbsp;
+<{if !$action.next_link}>
+	<{* なにも表示しない *}>
+<{else}>
+	<input data-inline="true" type="submit" name="next_pg" value="<{$lang.mdb_search_next|smarty:nodefaults}>" >
+<{/if}>
+<{/strip}>

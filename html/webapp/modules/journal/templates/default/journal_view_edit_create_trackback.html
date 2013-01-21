@@ -1,0 +1,11 @@
+<div id="<{$id}>_journal_trackback_detail" style="display:<{if $action.journal_obj.trackback_transmit_flag == $smarty.const._ON}>block;<{else}>none;<{/if}>">
+	<div class="hr"></div>
+	<span class="separator"><{$lang.journal_trackback_send_blog|smarty:nodefaults}></span>
+	<label>
+		<input id="<{$id}>_transmit_blogname" size="60" type="text" value="<{if $action.journal_obj.transmit_blogname != ""}><{$action.journal_obj.transmit_blogname}><{else}><{$lang.journal_trackback_send_blog_detail|smarty:nodefaults}><{/if}>" name="transmit_blogname"/>
+	</label>
+	<div class="note">
+		<{$lang.journal_trackback_send_readme|smarty:nodefaults}>
+	</div>
+	<div class="hr"></div>
+</div>

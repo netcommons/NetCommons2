@@ -1,0 +1,38 @@
+<{* アンケート一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.questionnaires item=questionnaire}>
+		<row id="questionnaire_current_row<{$questionnaire.questionnaire_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file = "questionnaire_view_edit_questionnaire_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file = "questionnaire_view_edit_questionnaire_list_name.html"}>
+				]]>
+			</name>
+			<operate>
+				<![CDATA[
+					<{include file = "questionnaire_view_edit_questionnaire_list_operate.html"}>
+				]]>
+			</operate>
+			<creator>
+				<![CDATA[
+					<{include file = "questionnaire_view_handle.html" handle=$questionnaire.insert_user_name|smarty:nodefaults user_id=$questionnaire.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$questionnaire.insert_time|timezone_date_format:$lang._date_format}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file = "questionnaire_view_edit_questionnaire_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

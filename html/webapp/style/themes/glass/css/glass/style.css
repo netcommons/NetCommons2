@@ -1,0 +1,73 @@
+/* 
+ * ブロック定義
+ */
+.th_glass_title_header {
+	padding-top:2px;
+	vertical-align:top;
+	width:13px;
+}
+/* title */
+.th_glass_title {
+	color:#5b6e7c;
+}
+
+.th_glass color {
+	color:#49748c;
+}
+/* highlight */
+.th_glass .highlight {
+	background-color:#dae7e9;
+	color:#49748c;
+}
+
+.th_glass a.hover_highlight:hover {
+	background-color:#dae7e9;
+	color:#49748c;
+	text-decoration:none;
+}
+
+/* 一般 */
+.th_glass_content {
+	border: 0px;
+	padding: 5px 10px 5px 10px;
+	background-color:#eff7f7;
+}
+
+.th_glass_upperleft {
+	width:13px;
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/upperleft.gif") no-repeat scroll left bottom;
+}
+.th_glass_upper {
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/upper.gif") repeat-x scroll center bottom;
+}
+.th_glass_upperright {
+	width:13px;
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/upperright.gif") no-repeat scroll right bottom;
+}
+.th_glass_left {
+	width:13px;
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/left.gif") repeat-y scroll left center;
+}
+.th_glass_right {
+	width:13px;
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/right.gif") repeat-y scroll right center;
+}
+.th_glass_belowleft {
+	width:13px;
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/belowleft.gif") no-repeat scroll left top;
+}
+.th_glass_below {
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/below.gif") repeat-x scroll center top;
+}
+.th_glass_belowright {
+	width:13px;
+	height:13px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/glass/images/belowright.gif") no-repeat scroll right top;
+}

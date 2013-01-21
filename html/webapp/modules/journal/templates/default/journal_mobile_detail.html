@@ -1,0 +1,95 @@
+<{strip}>
+<h4>
+	<{$action.post.journal_date|timezone_date_format:$lang.journal_mobile_date|smarty:nodefaults}>
+	<{if ($action.post.status != $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE) }>
+		<{$lang._mobile_temporary_state|smarty:nodefaults}>
+		&nbsp;
+	<{/if}>
+	<{if $action.post.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE && $action.post.agree_flag == $smarty.const._ON}>
+		<span style="color:red;background-color:#FFDDDD;"><{$lang.journal_wait_agree|smarty:nodefaults}></span>
+		&nbsp;
+	<{/if}>
+</h4>
+<h3>
+	<{if $action.post.icon_name != "" && $action.html_flag == _ON}>
+		<img src="<{""|get_image_url}>/images/comp/textarea/<{$action.post.icon_name}>" />
+	<{/if}>
+	<{$action.post.title}>
+	<span style="font-size:small;">
+	<{if $action.journal_obj.new_period_time <= $action.post.journal_date}>
+		<{$lang._mobile_new|smarty:nodefaults}>
+	<{/if}>
+	</span>
+</h3>
+
+<div style="text-align:right;font-size:small;">
+	<{$action.post.journal_date|timezone_date_format:$lang._short_time_format|smarty:nodefaults}>
+	&nbsp;
+	<{$lang._mobile_user|smarty:nodefaults}>
+	<{$action.post.insert_user_name}>
+	<{if ($action.category.category_name != "") }>
+		<br />
+		<{$lang.journal_mobile_category|smarty:nodefaults|sprintf:$action.category.category_name}>
+	<{/if}>
+</div>
+
+    <{if ($smarty.session._smartphone_flag == _ON) }>
+		<{include file="journal_mobile_detail_smart.html"}>
+	<{else}>
+		<{include file="journal_mobile_detail_feature.html"}>
+	<{/if}>
+
+<{if $action.journal_obj.active_flag == $smarty.const._ON}>
+	<{if $action.post.status == $smarty.const.JOURNAL_POST_STATUS_REREASED_VALUE && $action.post.agree_flag != $smarty.const._ON}>
+		<{if (!$action.post.voted && $action.journal_obj.vote_flag == $smarty.const._ON) }>
+			<form method="post" data-transition="fade" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+				<input type="hidden" name="action" value="journal_action_main_vote">
+				<input type="hidden" name="block_id" value="<{$block_id}>">
+				<input type="hidden" name="p_id" value="<{$action.post.post_id}>">
+				<input data-icon="star" type="submit" name="vote" value="<{$lang.journal_vote|smarty:nodefaults}>">
+				<{$token_form|smarty:nodefaults}>
+				<{$session_form|smarty:nodefaults}>
+			</form>
+		<{/if}>
+	<{/if}>
+	<{if $action.post.agree_flag == $smarty.const._ON && $action.post.has_confirm_auth}>
+		<form method="post" action=".<{$smarty.const.INDEX_FILE_NAME}>">
+			<input type="hidden" name="action" value="journal_action_main_confirm">
+			<input type="hidden" name="block_id" value="<{$block_id}>">
+			<input type="hidden" name="p_id" value="<{$action.post.post_id}>">
+			<input type="submit" name="vote" value="<{$lang.journal_confirm}>">
+			<{$token_form|smarty:nodefaults}>
+			<{$session_form|smarty:nodefaults}>
+		</form>
+	<{/if}>
+<{/if}>
+
+<br />
+<div style="text-align:center;">
+	<{if !empty($action.post.older_post_id|smarty:nodefaults)}>
+		<a data-role="button" data-inline="true" title="<{$lang.journal_mobile_older_post|smarty:nodefaults}>" href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.older_post_id}><{$session_param}>">
+			<{$lang.journal_mobile_older_post|smarty:nodefaults}>
+		</a>
+	<{else}>
+			<{$lang.journal_mobile_er_post_empty|smarty:nodefaults}>
+	<{/if}>
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	<{if !empty($action.post.newer_post_id|smarty:nodefaults)}>
+		<a data-role="button" data-inline="true" title="<{$lang.journal_mobile_newer_post|smarty:nodefaults}>" href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.newer_post_id}><{$session_param}>"><{$lang.journal_mobile_newer_post|smarty:nodefaults}></a>
+	<{else}>
+			<{$lang.journal_mobile_er_post_empty|smarty:nodefaults}>
+	<{/if}>
+</div>
+<br />
+
+<div style="text-align:right">
+	<a href="?action=journal_view_main_init&amp;block_id=<{$block_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>

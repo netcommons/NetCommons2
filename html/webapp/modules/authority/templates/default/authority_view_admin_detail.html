@@ -1,0 +1,283 @@
+<{strip}>
+<{*権限設定画面-権限追加(権限編集)*}>
+<div class="outerdiv">
+	<{* タイトル *}>
+	<div class="bold">
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_general'); return false;">
+			<{if ($action.authority.role_authority_id > 0) }>
+				<{$lang.authority_general_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{else}>
+				<{$lang.authority_general_add_title|smarty:nodefaults}>[<{$action.role_authority_name}>]
+			<{/if}>
+		</a>
+		<{if $action.user_authority_id == _AUTH_MODERATE}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<a class="link" href="#" onclick="authorityCls['<{$id}>'].showDetail(); return false;">
+			<{$lang.authority_setlevel_title|smarty:nodefaults}>
+		</a>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.authority_detail_title|smarty:nodefaults}>
+	</div>
+	<{* 操作説明 *}>
+	<div class="top_description">
+		<{$lang.authority_description|smarty:nodefaults}>
+	</div>
+
+	<{* 詳細部 *}>
+	<form id="form<{$id}>" action="" onsubmit="return false;">
+		<div class="outerdiv">
+			<table class="outer" summary="<{$lang.authority_detail_title|smarty:nodefaults}>">
+				<{* プライベートスペース *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<{$lang.authority_private_space|smarty:nodefaults}>
+					</th>
+					<td class="nowrap">
+						<label for="private_use_flag_do<{$id}>">
+							<input onclick="authorityCls['<{$id}>'].clickUsedPrivate(this);" id="private_use_flag_do<{$id}>" name="detail[myroom_use_flag]" type="radio" value="<{$smarty.const._ON}>"<{$action.config.myroom_use_flag.default.1}><{$action.config.myroom_use_flag.disabled}> />
+							<{$lang.authority_private_space_do|smarty:nodefaults}>
+						</label>
+						<label for="private_use_flag_no<{$id}>">
+							<input onclick="authorityCls['<{$id}>'].clickUsedPrivate(this);" id="private_use_flag_no<{$id}>" name="detail[myroom_use_flag]" type="radio" value="<{$smarty.const._OFF}>"<{$action.config.myroom_use_flag.default.0}><{$action.config.myroom_use_flag.disabled}> />
+							<{$lang.authority_private_space_no|smarty:nodefaults}>
+						</label>
+						<{* hidden *}>
+						<{if isset($action.config.myroom_use_flag.disabled|smarty:nodefaults) && isset($action.config.myroom_use_flag.default.1|smarty:nodefaults)}>
+							<input type="hidden" name="detail[myroom_use_flag]" value="<{$smarty.const._ON}>" />
+						<{/if}>
+					</td>
+				</tr>
+				<{* HTMLを許可 *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<{$lang.authority_allow_htmltag_flag|smarty:nodefaults}>
+					</th>
+					<td class="nowrap">
+						<label for="allow_htmltag_flag_do<{$id}>">
+							<input id="allow_htmltag_flag_do<{$id}>" type="radio" name="detail[allow_htmltag_flag]" value="<{$smarty.const._ON}>"<{$action.config.allow_htmltag_flag.default.1}><{$action.config.allow_htmltag_flag.disabled}> />
+							<{$lang.authority_allow_htmltag_flag_do|smarty:nodefaults}>
+						</label>
+						&nbsp;&nbsp;
+						<label for="allow_htmltag_flag_no<{$id}>">
+							<input id="allow_htmltag_flag_no<{$id}>" type="radio" name="detail[allow_htmltag_flag]" value="<{$smarty.const._OFF}>"<{$action.config.allow_htmltag_flag.default.0}><{$action.config.allow_htmltag_flag.disabled}> />
+							<{$lang.authority_allow_htmltag_flag_no|smarty:nodefaults}>
+						</label>
+						<{* hidden *}>
+						<{if isset($action.config.allow_htmltag_flag.disabled|smarty:nodefaults) && isset($action.config.allow_htmltag_flag.default.1|smarty:nodefaults)}>
+							<input type="hidden" name="detail[allow_htmltag_flag]" value="<{$smarty.const._ON}>" />
+						<{/if}>
+					</td>
+				</tr>
+				
+				<{* レイアウトの許可 *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<{$lang.authority_allow_layout_flag|smarty:nodefaults}>
+					</th>
+					<td class="nowrap">
+						<label for="allow_layout_flag_do<{$id}>">
+							<input id="allow_layout_flag_do<{$id}>" type="radio" name="detail[allow_layout_flag]" value="<{$smarty.const._ON}>"<{$action.config.allow_layout_flag.default.1}><{$action.config.allow_layout_flag.disabled}> />
+							<{$lang.authority_allow_layout_flag_do|smarty:nodefaults}>
+						</label>
+						&nbsp;&nbsp;
+						<label for="allow_layout_flag_no<{$id}>">
+							<input id="allow_layout_flag_no<{$id}>" type="radio" name="detail[allow_layout_flag]" value="<{$smarty.const._OFF}>"<{$action.config.allow_layout_flag.default.0}><{$action.config.allow_layout_flag.disabled}> />
+							<{$lang.authority_allow_layout_flag_no|smarty:nodefaults}>
+						</label>
+						<{* hidden *}>
+						<{if isset($action.config.allow_layout_flag.disabled|smarty:nodefaults) && isset($action.config.allow_layout_flag.default.1|smarty:nodefaults)}>
+							<input type="hidden" name="detail[allow_layout_flag]" value="<{$smarty.const._ON}>" />
+						<{/if}>
+					</td>
+				</tr>
+				
+				<{* アップロードの許可 *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<{$lang.authority_allow_attachment|smarty:nodefaults}>
+					</th>
+					<td class="nowrap">
+						<label for="allow_attachment_all<{$id}>">
+							<input id="allow_attachment_all<{$id}>" type="radio" name="detail[allow_attachment]" value="<{$smarty.const._ALLOW_ATTACHMENT_ALL}>"<{$action.config.allow_attachment.default.2}><{$action.config.allow_attachment.disabled}> />
+							<{$lang.authority_allow_attachment_all|smarty:nodefaults}>
+						</label>
+						<label for="allow_attachment_image<{$id}>">
+							<input id="allow_attachment_image<{$id}>" type="radio" name="detail[allow_attachment]" value="<{$smarty.const._ALLOW_ATTACHMENT_IMAGE}>"<{$action.config.allow_attachment.default.1}><{$action.config.allow_attachment.disabled}> />
+							<{$lang.authority_allow_attachment_image|smarty:nodefaults}>
+						</label>
+						<label for="allow_attachment_no<{$id}>">
+							<input id="allow_attachment_no<{$id}>" type="radio" name="detail[allow_attachment]" value="<{$smarty.const._ALLOW_ATTACHMENT_NO}>"<{$action.config.allow_attachment.default.0}><{$action.config.allow_attachment.disabled}> />
+							<{$lang.authority_allow_attachment_no|smarty:nodefaults}>
+						</label>
+						<{* hidden *}>
+						<{if isset($action.config.allow_attachment.disabled|smarty:nodefaults) && isset($action.config.allow_attachment.default.2|smarty:nodefaults)}>
+							<input type="hidden" name="detail[allow_attachment]" value="<{$smarty.const._ALLOW_ATTACHMENT_ALL}>" />
+						<{elseif isset($action.config.allow_attachment.disabled|smarty:nodefaults) && isset($action.config.allow_attachment.default.1|smarty:nodefaults)}>
+							<input type="hidden" name="detail[allow_attachment]" value="<{$smarty.const._ALLOW_ATTACHMENT_IMAGE}>" />
+						<{elseif isset($action.config.allow_attachment.disabled|smarty:nodefaults) && isset($action.config.allow_attachment.default.0|smarty:nodefaults)}>
+							<input type="hidden" name="detail[allow_attachment]" value="<{$smarty.const._ALLOW_ATTACHMENT_NO}>" />
+						<{/if}>
+					</td>
+				</tr>
+				
+				<{* 編集画面からの動画ファイル貼り付け *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<{$lang.authority_allow_video|smarty:nodefaults}>
+					</th>
+					<td class="nowrap">
+						<label for="allow_video_do<{$id}>">
+							<input id="allow_video_do<{$id}>" type="radio" name="detail[allow_video]" value="<{$smarty.const._ON}>"<{$action.config.allow_video.default.1}><{$action.config.allow_video.disabled}> />
+							<{$lang.authority_allow_layout_flag_do|smarty:nodefaults}>
+						</label>
+						&nbsp;&nbsp;
+						<label for="allow_video_no<{$id}>">
+							<input id="allow_video_no<{$id}>" type="radio" name="detail[allow_video]" value="<{$smarty.const._OFF}>"<{$action.config.allow_video.default.0}><{$action.config.allow_video.disabled}> />
+							<{$lang.authority_allow_layout_flag_no|smarty:nodefaults}>
+						</label>
+						<{* hidden *}>
+						<{if isset($action.config.allow_video.disabled|smarty:nodefaults) && isset($action.config.allow_video.default.1|smarty:nodefaults)}>
+							<input type="hidden" name="detail[allow_video]" value="<{$smarty.const._ON}>" />
+						<{/if}>
+					</td>
+				</tr>
+	
+				<{* アップロードの最大容量 *}>
+				<tr class="row">
+					<th class="nowrap align-left valign-top" scope="row">
+						<label for="max_size<{$id}>">
+							<{$lang.authority_max_size|smarty:nodefaults}>
+						</label>
+					</th>
+					<td class="nowrap">
+						<select id="max_size<{$id}>" name="detail[max_size]"<{if isset($action.config.myroom_use_flag.default.0|smarty:nodefaults)}>disabled='true'<{else}><{$action.config.max_size.disabled}><{/if}>>
+							<{foreach item=max_size name=loop from=$action.config.max_size.list}>
+								<{assign var="max_size_key" value=$smarty.foreach.loop.iteration-1}>
+								<option value="<{$max_size}>"<{$action.config.max_size.default.$max_size_key}>><{$action.config.max_size.list_value.$max_size_key}></option>
+							<{/foreach}>
+							<{assign var="max_size_key" value=$max_size_key+1}>
+							<option value="0"<{$action.config.max_size.default.$max_size_key}>><{$lang.authority_unlimited|smarty:nodefaults}></option>
+						</select>
+					</td>
+				</tr>
+	
+			</table>
+		</div>
+		
+		<{* システムコントロールモジュールの選択 *}>
+		<div class="outerdiv">
+			<fieldset class="authority_sys_module_fieldset">
+				<legend class="authority_sys_module_legend"><{$lang.authority_sys_modules|smarty:nodefaults}></legend>
+				<{foreach item=sys_modules_id name=loop key=mod from=$action.sys_modules.sys_modules_id}>
+					<{if ($action.sys_modules.sys_modules_dir[$mod] == "user") }>
+						<{assign var="modselect_onclick" value=" onclick=\"authorityCls['$id'].clickModuleUser(this.form);\""}>
+					<{elseif ($action.sys_modules.sys_modules_dir[$mod] == "room") }>
+						<{assign var="modselect_onclick" value=" onclick=\"authorityCls['$id'].clickModuleRoom(this.form);\""}>
+					<{else}>
+						<{assign var="modselect_onclick" value=""}>
+					<{/if}>
+					
+					<label for="module_list_<{$action.sys_modules.sys_modules_dir[$mod]}><{$id}>">
+						<input id="module_list_<{$action.sys_modules.sys_modules_dir[$mod]}><{$id}>" type="checkbox" name="detail[modselect][<{$action.sys_modules.sys_modules_dir[$mod]}>]" value="<{$smarty.const._ON}>"<{$modselect_onclick|smarty:nodefaults}><{$action.sys_modules.default[$mod]}><{$action.sys_modules.disabled[$mod]}> />
+						<{$action.sys_modules.sys_modules_name[$mod]}>
+					</label>
+					<{if (!$smarty.foreach.loop.first && $smarty.foreach.loop.iteration % 6 == 0) }>
+						<br />
+					<{else}>
+						&nbsp;&nbsp;
+					<{/if}>
+				<{/foreach}>
+			</fieldset>
+		</div>
+		<{* サイト運営モジュールの選択 *}>
+		<div class="outerdiv">
+			<fieldset>
+				<legend><{$lang.authority_site_modules|smarty:nodefaults}></legend>
+				<{foreach item=sys_modules_id name=loop key=mod from=$action.site_modules.sys_modules_id}>
+					<{if ($action.site_modules.sys_modules_dir[$mod] == "user") }>
+						<{assign var="modselect_onclick" value=" onclick=\"authorityCls['$id'].clickModuleUser(this.form);\""}>
+					<{elseif ($action.site_modules.sys_modules_dir[$mod] == "room") }>
+						<{assign var="modselect_onclick" value=" onclick=\"authorityCls['$id'].clickModuleRoom(this.form);\""}>
+					<{else}>
+						<{assign var="modselect_onclick" value=""}>
+					<{/if}>
+					
+					<label for="module_list_<{$action.site_modules.sys_modules_dir[$mod]}><{$id}>">
+						<input id="module_list_<{$action.site_modules.sys_modules_dir[$mod]}><{$id}>" type="checkbox" name="detail[modselect][<{$action.site_modules.sys_modules_dir[$mod]}>]" value="<{$smarty.const._ON}>"<{$modselect_onclick|smarty:nodefaults}><{$action.site_modules.default[$mod]}><{$action.site_modules.disabled[$mod]}> />
+						<{$action.site_modules.sys_modules_name[$mod]}>
+					</label>
+					<{if (!$smarty.foreach.loop.first && $smarty.foreach.loop.iteration % 6 == 0) }>
+						<br />
+					<{else}>
+						&nbsp;&nbsp;
+					<{/if}>
+				<{/foreach}>
+			</fieldset>
+		</div>
+		<{* 会員管理を使用する条件 *}>
+		<{assign var="role_authority_id" value=$action.role_authority_id}>
+		<div class="outerdiv">
+			<fieldset>
+				<legend>
+					<label for="usermodule_auth<{$id}>">
+						<{$lang.authority_usermodule_auth|smarty:nodefaults}>
+					</label>
+				</legend>
+				<{if isset($smarty.session.authority.$role_authority_id.detail.usermodule_auth|smarty:nodefaults)}>
+					<{assign var="user_authority_id" value=$smarty.session.authority.$role_authority_id.detail.usermodule_auth}>
+				<{else}>
+					<{assign var="user_authority_id" value=$action.usermodule_auth}>
+				<{/if}>
+				<select id="usermodule_auth<{$id}>" name="detail[usermodule_auth]">
+					<option <{if $user_authority_id == _AUTH_ADMIN}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_ADMIN}>"><{$lang.authority_usermodule_auth_on|smarty:nodefaults}></option>
+					<option <{if $user_authority_id != _AUTH_ADMIN}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_OTHER}>"><{$lang.authority_usermodule_auth_off|smarty:nodefaults}></option>
+					<{*
+					<option <{if $user_authority_id == _AUTH_ADMIN}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_ADMIN}>"><{$smarty.const._AUTH_ADMIN_NAME}></option>
+					<option <{if $user_authority_id == _AUTH_CHIEF}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_CHIEF}>"><{$smarty.const._AUTH_CHIEF_NAME}></option>
+					<option <{if $user_authority_id == _AUTH_MODERATE}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_MODERATE}>"><{$smarty.const._AUTH_MODERATE_NAME}></option>
+					<option <{if $user_authority_id == _AUTH_GENERAL}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_GENERAL}>"><{$smarty.const._AUTH_GENERAL_NAME}></option>
+					<option <{if $user_authority_id == _AUTH_GUEST}>selected="selected" <{/if}>value="<{$smarty.const._AUTH_GUEST}>"><{$smarty.const._AUTH_GUEST_NAME}></option>
+					*}>
+				</select>
+				<div class="note authority_note">
+					<{$lang.authority_usermodule_auth_desc|smarty:nodefaults}>
+				</div>
+			</fieldset>
+		</div>
+		<{* ルームの作成を許可する条件 *}>
+		<div class="outerdiv">
+			<fieldset>
+				<legend><{$lang.authority_createroom_flag|smarty:nodefaults}></legend>
+				<label for="public_createroom_flag<{$id}>">
+					<input <{if $smarty.session.authority.$role_authority_id.detail.public_createroom_flag == _ON}>checked='checked' <{elseif $action.user_authority_id == $smarty.const._AUTH_ADMIN}>disabled='true' checked='checked' <{elseif $action.user_authority_id == $smarty.const._AUTH_GUEST}>disabled='true' <{/if}>id="public_createroom_flag<{$id}>" type="checkbox" name="detail[public_createroom_flag]" value="<{$smarty.const._ON}>" />
+					<{$lang.authority_createroom_public|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="group_createroom_flag<{$id}>">
+					<input <{if $smarty.session.authority.$role_authority_id.detail.group_createroom_flag == _ON}>checked='checked' <{elseif $action.user_authority_id == $smarty.const._AUTH_ADMIN}>disabled='true' checked='checked' <{elseif $action.user_authority_id == $smarty.const._AUTH_GUEST}>disabled='true' <{/if}>id="group_createroom_flag<{$id}>" type="checkbox" name="detail[group_createroom_flag]" value="<{$smarty.const._ON}>" />
+					<{$lang.authority_createroom_group|smarty:nodefaults}>
+				</label>
+			</fieldset>
+		</div>
+		<input type="hidden" name="role_authority_id" value="<{$action.role_authority_id}>" />
+		<input type="hidden" name="role_authority_name" value="<{$action.role_authority_name}>" />
+		<input type="hidden" name="user_authority_id" value="<{$action.user_authority_id}>" />
+		<{* 各種ボタン *}>
+		<div class="btn-bottom align-right">
+			<{if $action.user_authority_id == _AUTH_MODERATE}>
+				<{* 戻るボタン *}>
+				<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showDetail(true);  return false;" />
+			<{else}>
+				<{* 戻るボタン *}>
+				<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_general');  return false;" />
+			<{/if}>
+			<{* 次へボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="authorityCls['<{$id}>'].showCommon('authority_view_admin_selectmodules',{'method':'post'});  return false;" />
+			<{* キャンセルボタン *}>
+			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'}); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="authority_script.html"}>
+<{/strip}>

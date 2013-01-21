@@ -1,0 +1,75 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="nowrap bold">
+		<{$action.mdb_obj.multidatabase_name}>
+	</div>
+	<div class="top_description">
+		<{$lang.mdb_metadata_edit_readme|smarty:nodefaults}>
+	</div>
+	<table id="mdb_metadata_setting<{$id}>" class="mdb_metadata_detail_main" summary="" cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="valign-top" colspan="2">
+				<div class="mdb_metadata_add_btn">
+					<a id="mdb_addmetadata<{$id}>" class="syslink" href="#" title="<{$lang.mdb_add_metadata_title|smarty:nodefaults|sprintf:$action.mdb_obj.multidatabase_name}>" onclick="mdbCls['<{$id}>'].showPopupMetadata(event); return false;">
+						<img src="<{"add.gif"|get_themes_image}>" alt="" title="" />
+						&nbsp;
+						<{*項目追加*}><{$lang.mdb_add_metadata|smarty:nodefaults}>
+					</a>
+				</div>
+			</td>
+		</tr>
+		<{if $action.count == 0}>
+			<tr>
+				<td colspan="2">
+					<{$lang.mdb_noneexists_metadata|smarty:nodefaults}>
+				</td>
+			</tr>
+		<{else}>
+			<tr>
+				<td class="valign-top align-left" colspan="2">
+					<table class="mdb_metadata_detail_top_bottom mdb_drop_pos_1 mdb_metadata_detail_pos_1" summary="" cellspacing="0" cellpadding="0">
+						<{foreach item=metadata from=$action.metadatas_layout.1}>
+							<{include file="multidatabase_view_edit_metadata.html"}>
+						<{/foreach}>
+					</table>
+					<div class="mdb_drop_event" id="mdb_drop_event1<{$id}>"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="valign-top align-left mdb_chg_col">
+					<table class="mdb_metadata_detail mdb_drop_pos_2 mdb_metadata_detail_pos_2" summary="" cellspacing="0" cellpadding="0">
+						<{foreach item=metadata from=$action.metadatas_layout.2}>
+							<{include file="multidatabase_view_edit_metadata.html"}>
+						<{/foreach}>
+					</table>
+					<div class="mdb_drop_event" id="mdb_drop_event2<{$id}>"></div>
+				</td>
+				<td class="valign-top align-left mdb_chg_col">
+					<table class="mdb_metadata_detail mdb_drop_pos_3 mdb_metadata_detail_pos_3" summary="" cellspacing="0" cellpadding="0">
+						<{foreach item=metadata from=$action.metadatas_layout.3}>
+							<{include file="multidatabase_view_edit_metadata.html"}>
+						<{/foreach}>
+					</table>
+					<div class="mdb_drop_event" id="mdb_drop_event3<{$id}>"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="valign-top align-left" colspan="2">
+					<table class="mdb_metadata_detail_top_bottom mdb_drop_pos_4 mdb_metadata_detail_pos_4" summary="" cellspacing="0" cellpadding="0">
+						<{foreach item=metadata from=$action.metadatas_layout.4}>
+							<{include file="multidatabase_view_edit_metadata.html"}>
+						<{/foreach}>
+					</table>
+					<div class="mdb_drop_event" id="mdb_drop_event4<{$id}>"></div>
+				</td>
+			</tr>
+		<{/if}>
+	</table>
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang.mdb_preview|smarty:nodefaults}>" onclick="mdbCls['<{$id}>'].showPopupEditPreview(event, '<{$action.multidatabase_id}>'); return false;" />
+		&nbsp;
+		<input class="btn-width lined_btn" type="button" value="<{$lang._list|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'multidatabase_view_edit_list'); return false;" />
+	</div>
+</div>
+<{include file="../multidatabase_script.html"}>
+<{/strip}>

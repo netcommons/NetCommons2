@@ -1,0 +1,36 @@
+<{strip}>
+<{* 一問形式画面用テンプレート *}>
+<div class="quiz_head">
+	<{include file="quiz_view_main_head.html"}>
+</div>
+
+<form id="quiz_answer_form<{$id}>" action="#" onsubmit="return false;">
+	<{if $action.quiz.quiz_type == QUIZ_TYPE_LIST_VALUE}>
+		<input type="hidden" name="action" value="quiz_action_main_confirm" />
+	<{else}>
+		<input type="hidden" name="action" value="quiz_action_main_answer" />
+	<{/if}>
+	<input type="hidden" name="quiz_id" value="<{$action.quiz.quiz_id}>" />
+
+	<{if $action.single}>
+		<input type="hidden" name="question_id" value="<{$action.question.question_id}>" />
+
+		<{assign var="question" value="`$action.question`"}>
+		<{include file="quiz_view_main_question_answer.html"}>
+	<{else}>
+		<{foreach from=$action.questions item=question name="question"}>
+			<{include file="quiz_view_main_question_answer.html"}>
+		<{/foreach}>
+
+		<{include file="quiz_view_main_image_authentication.html"}>
+	<{/if}>
+</form>
+
+<{if !$action.reference}>
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang.quiz_answer}>" onclick="quizCls['<{$id}>'].answer();" />
+	</div>
+<{/if}>
+
+<{include file = "../quiz_script.html"}>
+<{/strip}>

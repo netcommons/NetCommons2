@@ -1,0 +1,97 @@
+<{strip}>
+<{* アルバム一覧用テンプレート *}>
+<div class="photoalbum_photoalbum_name">
+	<{$action.photoalbum.photoalbum_name}>
+</div>
+		
+<{include file = "photoalbum_view_main_album_list_operation.html" operationPosition="head"}>
+
+<{if $action.albumCount > 0}>
+	<table class="photoalbum_album" summary="<{$lang.photoalbum_album_list_summary}>">
+		<{foreach key=key item=album from=$action.albums}>
+				<tr>
+				<td class="photoalbum_album_jacket">
+					<{* リンク *}>
+					<a id="photoalbum_album<{$id}>_<{$album.album_id}>" name="photoalbum_album<{$id}>_<{$album.album_id}>"></a>
+					<a class="photoalbum_album_jacket" href="#" title="<{$lang.photoalbum_album_jacket_title|sprintf:$album.album_name}>" onclick="photoalbumCls['<{$id}>'].showPhoto(event, <{$album.album_id}>);return false;">
+						<{if empty($album.upload_id|smarty:nodefaults)}>
+							<img class="photoalbum_album_jacket" src="<{$smarty.const.PHOTOALBUM_SAMPLR_JACKET_DIR|cat:$album.album_jacket|get_modules_image}>" alt="<{$lang.photoalbum_album_jacket_title|sprintf:$album.album_name}>" title="" style="<{$album.jacket_style}>" />
+						<{else}>
+							<img class="photoalbum_album_jacket" src=".<{$smarty.const.INDEX_FILE_NAME}><{$album.album_jacket}>" alt="<{$lang.photoalbum_album_jacket_title|sprintf:$album.album_name}>" title="" style="<{$album.jacket_style}>" />
+						<{/if}>
+					</a>
+					
+					<div class="photoalbum_album_photo_count">
+						<{$lang.photoalbum_photo_count|sprintf:$album.photo_count}>
+					</div>
+				</td>
+				
+				<td class="photoalbum_album_data">
+					<div class="photoalbum_album_data_main">
+						<div class="photoalbum_album_name">
+							<{$album.album_name}>
+							<{if $album.public_flag == _OFF}>
+								<span class="photoalbum_public_flag">
+									<{$lang.photoalbum_public_flag_off_notice}>
+								</span>
+							<{/if}>
+							
+							<{if $action.photoalbum.album_new_period_time <= $album.insert_time}>
+								<img class="icon" src="<{"album_new.gif"|get_modules_image}>" alt="<{$lang._new}>" title="<{$lang._new}>" />
+							<{elseif $album.photo_count > 0 && $album.photo_new_period_time <= $album.photo_upload_time}>
+								<img class="icon" src="<{"photo_new.gif"|get_modules_image}>" alt="<{$lang.bbs_new}>" title="<{$lang.bbs_new}>" />
+							<{/if}>
+						</div>
+					</div>
+					
+					<{if $album.edit_authority}>
+						<div class="align-right">
+							<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$album.album_name}>" onclick="photoalbumCls['<{$id}>'].showAlbumEntry(event, <{$album.album_id}>);return false;">
+								<img class="icon photoalbum_album_edit" src="<{"setting_h.gif"|get_themes_image}>" alt="<{$lang._edit_title|sprintf:$album.album_name}>" title="" />
+							</a>
+							<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$album.album_name}>" onclick="photoalbumCls['<{$id}>'].deleteAlbum(<{$album.album_id}>, '<{$lang._del_confirm|sprintf:"`$album.album_name`"|smarty:nodefaults|escape:"javascript"|escape:"html"}>');return false;">
+								<img class="icon photoalbum_album_edit" src="<{"trash.gif"|get_themes_image}>" alt="<{$lang._delete_title|sprintf:$album.album_name}>" title="" />
+							</a>
+						</div>
+					<{/if}>
+					<br class="float-clear" />
+				
+					<div class="photoalbum_album_description">
+						<{$album.album_description|nl2br}>
+					</div>
+	
+					<div class="photoalbum_album_infomation">
+						<{$lang.photoalbum_album_creator}>
+						<{include file = "photoalbum_view_handle.html" handle=$album.insert_user_name|smarty:nodefaults user_id=$album.insert_user_id}>
+						<{$lang._separator|smarty:nodefaults}>
+						<{$album.insert_time|timezone_date_format:$lang._date_format}>
+						
+						<{if $album.vote_flag == _ON}>
+							<span class="photoalbum_vote">
+								<{$lang.photoalbum_vote_unit|sprintf:$album.album_vote_count}>
+							</span>
+						<{/if}>
+					</div>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+
+	<{include file = "photoalbum_view_main_album_list_operation.html" operationPosition="foot"}>
+<{else}>
+	<{$lang.photoalbum_no_album}>
+<{/if}>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	photoalbumCls["<{$id}>"].photoalbum_id = "<{$action.photoalbum.photoalbum_id}>";
+	photoalbumCls["<{$id}>"].callbackAction = "photoalbum_view_main_init";
+	
+	<{if $action.albumCount > 0}>
+		$("photoalbum_visible_row_head<{$id}>").value = "<{$action.visible_row}>";
+		$("photoalbum_visible_row_foot<{$id}>").value = "<{$action.visible_row}>";
+		$("photoalbum_album_sort_head<{$id}>").value = "<{$action.sort}>";
+		$("photoalbum_album_sort_foot<{$id}>").value = "<{$action.sort}>";
+	<{/if}>
+</script>
+<{/strip}>

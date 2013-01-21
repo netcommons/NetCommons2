@@ -1,0 +1,9 @@
+<{strip}>
+
+<{if ($smarty.session._user_id && $smarty.session._user_id != "0") }>
+	<a data-role="button" href="?action=calendar_view_main_plan_add<{$session_param}>">
+		<{$lang.calendar_mobile_add_plan|smarty:nodefaults}>
+	</a>
+<{/if}>
+
+<{/strip}>

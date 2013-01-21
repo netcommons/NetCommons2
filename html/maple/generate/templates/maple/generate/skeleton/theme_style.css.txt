@@ -1,0 +1,80 @@
+/* 
+;--------------------------------------------------------------------
+; Usage: こちらのUsage項目は、編集後、削除してください
+;
+; ブロックスタイルのCSSファイル
+; prefixに必ず「th_(theme_name)」を付与すること
+;--------------------------------------------------------------------
+ */
+/* 
+ * ブロック定義
+ */
+/* title_line */
+<?php
+print ".th_".$skeleton->action_name."_title_line {\n";
+?>
+	width:6px;
+	height:20px;
+	background-color:#c2c6c9;
+}
+/* 一般 */
+<?php
+print ".th_".$skeleton->theme_name."_content {\n";
+?>
+	border: 0px;
+	padding: 5px 10px 5px 10px;
+	background-color:#ffffff;
+}
+<?php
+print ".th_".$skeleton->theme_name."_upperleft {\n";
+?>
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/upperleft.gif") no-repeat scroll left bottom;
+}
+<?php
+print ".th_".$skeleton->theme_name."_upper {\n";
+?>
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/upper.gif") repeat-x scroll bottom;
+}
+<?php
+print ".th_".$skeleton->theme_name."_upperright {\n";
+?>
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/upperright.gif") no-repeat scroll right bottom;
+}
+<?php
+print ".th_".$skeleton->theme_name."_left {\n";
+?>
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/left.gif") repeat-y scroll left;
+}
+<?php
+print ".th_".$skeleton->theme_name."_right {\n";
+?>
+	width:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/right.gif") repeat-y scroll right;
+}
+<?php
+print ".th_".$skeleton->theme_name."_belowleft {\n";
+?>
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/belowleft.gif") no-repeat scroll left top;
+}
+<?php
+print ".th_".$skeleton->theme_name."_below {\n";
+?>
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/below.gif") repeat-x scroll top;
+}
+<?php
+print ".th_".$skeleton->theme_name."_belowright {\n";
+?>
+	width:8px;
+	height:8px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/themes/<?php print($skeleton->theme_name);?>/images/belowright.gif") no-repeat scroll right top;
+}

@@ -1,0 +1,24 @@
+<{strip}>
+<{* 参加ルーム表示画面 *}>
+<div class="outerdiv">
+	<div class="top_description">
+		<{$lang.userinf_top_description|smarty:nodefaults|sprintf:$action.user.handle:$lang.userinf_view_main_room|smarty:nodefaults}>
+	</div>
+</div>
+<{*ヘッダー表示部分*}>
+<table class="grid_header" summary="">
+	<tr>
+		<th class="_sort_page_name userinf_room_name"><{$lang.userinf_room_name|smarty:nodefaults}></th>
+		<th class="_sort_authority_id userinf_room_authority_id"><{$lang.userinf_room_authority_id|smarty:nodefaults}></th>
+		<th class="_sort_createroom_flag userinf_room_createroom_flag"><{$lang.userinf_room_createroom_flag|smarty:nodefaults}></th>
+		<th class="_sort_display_flag userinf_room_display_flag"><{$lang.userinf_room_display_flag|smarty:nodefaults}></th>
+		<th class="_sort_last_access_time userinf_room_last_access_time"><{$lang.userinf_room_last_access_time|smarty:nodefaults}></th>
+	</tr>
+</table>
+<{*メイン表示部分-Grid*}>
+<table class="userinf_room_grid grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+	<{assign var="room_list" value=$action.room_list.0.0}>
+	<{include file="userinf_view_main_roomlist.html"}>
+</table>
+<{include file="userinf_script.html"}>
+<{/strip}>

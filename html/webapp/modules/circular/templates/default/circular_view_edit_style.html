@@ -1,0 +1,39 @@
+<{strip}>
+<{* 編集画面(表示方法変更) *}>
+<div class="outerdiv">
+	<form action="#">
+		<table class="outer" summary="<{$lang.circular_summary_edit_style|smarty:nodefaults}>">
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="circular_visible_row<{$id}>">
+						<{$lang.circular_visible_row|smarty:nodefaults}>
+					</label>
+				</th>
+				<td>
+					<select name="visible_row" size="1">
+						<{html_options options=$action.visible_row_map selected=$action.visible_row}>
+					</select>
+				</td>
+			</tr>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+					<label for="block_type<{$id}>">
+						<{$lang.circular_block_type|smarty:nodefaults}>
+					</label>
+				</th>
+				<td>
+					<select name="block_type" size="1">
+						<option value="<{$smarty.const.CIRCULAR_BLOCK_TYPE_NORMAL}>" <{if $action.block_type == null || $action.block_type == CIRCULAR_BLOCK_TYPE_NORMAL }>selected="selected"<{/if}>><{$lang.circular_block_type_normal|smarty:nodefaults}></option>
+						<option value="<{$smarty.const.CIRCULAR_BLOCK_TYPE_PORTAL}>" <{if $action.block_type == CIRCULAR_BLOCK_TYPE_PORTAL }>selected="selected"<{/if}>><{$lang.circular_block_type_portal|smarty:nodefaults}></option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="circularCls['<{$id}>'].editStyle(this.form); return false;" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>','circular_view_main_init'); return false;" />
+		</div>
+	</form>
+</div>
+<{include file="../circular_script.html"}>
+<{/strip}>

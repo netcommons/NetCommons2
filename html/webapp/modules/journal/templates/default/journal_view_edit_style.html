@@ -1,0 +1,27 @@
+<{strip}>
+<div class="outerdiv">
+	<form action="post" onsubmit="return false;">
+		<table class="outer">
+			<tr>
+				<th><{$lang.journal_display_items|smarty:nodefaults}></th>
+				<td>
+					<select name="visible_item" size="1">
+						<option value="1" <{if ($action.journal_obj.visible_item==1)}>selected="selected"<{/if}>>1<{$lang.journal_display_item|smarty:nodefaults}></option>
+						<option value="5" <{if ($action.journal_obj.visible_item==5)}>selected="selected"<{/if}>>5<{$lang.journal_display_item|smarty:nodefaults}></option>
+						<option value="10" <{if ($action.journal_obj.visible_item==10)}>selected="selected"<{/if}>>10<{$lang.journal_display_item|smarty:nodefaults}></option>
+						<option value="20" <{if ($action.journal_obj.visible_item==20)}>selected="selected"<{/if}>>20<{$lang.journal_display_item|smarty:nodefaults}></option>
+						<option value="50" <{if ($action.journal_obj.visible_item==50)}>selected="selected"<{/if}>>50<{$lang.journal_display_item|smarty:nodefaults}></option>
+						<option value="100" <{if ($action.journal_obj.visible_item==100)}>selected="selected"<{/if}>>100<{$lang.journal_display_item|smarty:nodefaults}></option>
+						<{* <option value="0" <{if ($action.journal_obj.visible_item==0)}>selected="selected"<{/if}>><{$lang.journal_display_item_all|smarty:nodefaults}></option> *}>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" onclick="journalCls['<{$id}>'].styleEdit(this.form); return false;" value="<{$lang._regist|smarty:nodefaults}>" />
+			<input class="btn-width lined_btn" type="button" onclick="journalCls['<{$id}>'].editCancel(); return false;" value="<{$lang._cancel|smarty:nodefaults}>" />
+		</div>
+	</form>
+</div>
+<{include file="../journal_script.html"}>
+<{/strip}>

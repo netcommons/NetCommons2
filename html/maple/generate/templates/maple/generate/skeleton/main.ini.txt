@@ -1,0 +1,11 @@
+;<?php print $skeleton->main_path_list; ?>アクションで使用する言語
+[<?php print $skeleton->main_path_list; ?>]
+<?php print ";".$skeleton->dir_name."_hogehoge=\"@Smartyにassignする言語を記述方法->呼び出し方法(\$lang.".$skeleton->dir_name."_hogehoge)@\"\n"; ?>
+<?php print ";define:".strtoupper($skeleton->dir_name)."_HOGEHOGE=\"@PHPでdefineする言語を記述方法@\"\n"; ?>
+;global:_hoge= ;global.iniの[Global]で定義された言語ファイルを使用する場合、使用
+<?php if($skeleton->edit_path_list != ""){print "\n;".ucfirst($skeleton->dir_name)."_View_Editアクションで使用する言語\n";} ?>
+<?php if($skeleton->edit_path_list != ""){print "[".ucfirst($skeleton->dir_name)."_View_Edit]\n".$skeleton->dir_name."_edit_title=\"編集\"\n".$skeleton->dir_name."_style_title=\"表示方法変更\"\n";} ?>
+<?php if($skeleton->edit_path_list != ""){print "\n;".$skeleton->edit_path_list."アクションで使用する言語\n";} ?>
+<?php if($skeleton->edit_path_list != ""){print "[".$skeleton->edit_path_list."]\n";} ?>
+<?php if($skeleton->edit_style_path_list != ""){print "\n;".$skeleton->edit_style_path_list."アクションで使用する言語\n";} ?>
+<?php if($skeleton->edit_style_path_list != ""){print "[".$skeleton->edit_style_path_list."]\n";} ?>

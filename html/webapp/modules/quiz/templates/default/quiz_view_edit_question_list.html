@@ -1,0 +1,103 @@
+<{strip}>
+<{* 小テスト問題一覧画面用テンプレート *}>
+<div class="outerdiv">
+	<div class="bold">
+		<{$action.quiz.quiz_name}>
+	</div>
+
+	<div class="top_description">
+		<{$lang.quiz_question_list_text}>
+	</div>
+
+	<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+		<div class="align-right">
+			<a class="syslink" href="#" title="<{$lang.quiz_add_question_title|sprintf:$action.quiz.quiz_name}>" onclick="quizCls['<{$id}>'].showQuestionEntry(event, null);return false;">
+				<img class="icon" src="<{"add.gif"|get_themes_image}>" alt="" />
+				<{$lang.quiz_add_question}>
+			</a>
+		</div>
+	<{/if}>
+
+	<table id="quiz_question_list<{$id}>" class="quiz_question_list" summary="<{$lang.quiz_question_list_summary}>">
+		<{foreach from=$action.questions item=question name="question"}>
+			<tr id="quiz_question_row<{$question.question_id}><{$id}>">
+				<td class="comp_draganddrop">
+				</td>
+
+				<td class="quiz_question_list_value">
+					<div class="quiz_question_list_value">
+						<{$question.question_value|smarty:nodefaults|wysiwig_convert_url}>
+					</div>
+				</td>
+
+				<td class="quiz_question_list_manage" >
+					<a class="syslink" href="#" title="<{$lang._edit_title|sprintf:$question.question_value|smarty:nodefaults}>" onclick="quizCls['<{$id}>'].showQuestionEntry(event, '<{$question.question_id}>');return false;">
+						<{$lang._edit|smarty:nodefaults}>
+					</a>
+					<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE}>
+						<{$lang._separator|smarty:nodefaults}>
+						<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$question.question_value|smarty:nodefaults}>" onclick="quizCls['<{$id}>'].deleteQuestion('<{$question.question_id}>', '<{$lang._del_confirm|sprintf:$lang.quiz_question_delete_message|sprintf:$smarty.foreach.question.iteration}>');return false;">
+							<{$lang._delete|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+
+	<div class="btn-bottom">
+		<{if $action.quiz.status == QUIZ_STATUS_INACTIVE_VALUE && ($action.questions != null)}>
+			<input class="btn-width" type="button" value="<{$lang.quiz_operate_start}>" onclick="quizCls['<{$id}>'].startQuiz('<{$action.quiz.quiz_id}>','<{$lang.quiz_mes_operate_start|sprintf:$action.quiz.quiz_name|escape:"html"|escape:"javascript"}>');return false;" />
+			<input class="btn-width lined_btn" type="button" value="<{$lang.quiz_back_to_list}>" onclick="commonCls.sendView('<{$id}>', 'quiz_view_edit_quiz_list');" />
+		<{else}>
+			<input class="btn-width" type="button" value="<{$lang.quiz_back_to_list}>" onclick="commonCls.sendView('<{$id}>', 'quiz_view_edit_quiz_list');" />
+		<{/if}>
+	</div>
+</div>
+
+<{include file = "../quiz_script.html"}>
+<script class="nc_script" type="text/javascript">
+	quizCls["<{$id}>"].quiz_id = "<{$action.quiz.quiz_id}>";
+
+	dropZone = Class.create();
+	dropZone.prototype = Object.extend((new compDropzone), {
+		showHover: function(event) {
+			this.showChgSeqHover(event);
+		},
+
+		hideHover: function(event) {
+			this.hideChgSeqHover(event);
+		},
+
+		accept: function(draggableObjects) {
+			this.acceptChgSeq(draggableObjects);
+		},
+
+		save: function(draggableObjects) {
+			if(this.ChgSeqPosition == null) {
+				return false;
+			}
+	    	var drag = draggableObjects[0].getHTMLElement();
+	    	var drop = this.getHTMLElement();
+
+			var id = this.getParams();
+			quizCls[id].changeQuestionSequence(drag.id, drop.id, this.ChgSeqPosition);
+			return true;
+		}
+	});
+
+	var dragArea = $("quiz_question_list<{$id}>");
+	dragDrop = new compDragAndDrop();
+	dragDrop.registerDraggableRange(dragArea);
+	var rows = dragArea.getElementsByTagName("tr");
+	for (var i = 0; i < rows.length; i++) {
+		dragDrop.registerDraggable(new compDraggable(rows[i], rows[i].firstChild));
+		dragDrop.registerDropZone(new dropZone(rows[i], "<{$id}>"));
+	}
+
+	dropZone = null;
+	dragArea = null;
+	dragDrop = null;
+	rows = null;
+</script>
+<{/strip}>

@@ -1,0 +1,22 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<label for="reservation_disp_type<{$id}>">
+		<{$lang.reservation_disp_type|smarty:nodefaults}>
+	</label>
+</th>
+<td class="nowrap">
+	<select id="reservation_disp_type<{$id}>" size="3" name="display_type" onchange="reservationCls['<{$id}>'].switchDispType(this.form);">
+		<option value="<{$smarty.const.RESERVATION_DEF_MONTHLY}>"<{if ($display_type==RESERVATION_DEF_MONTHLY) }> selected="selected"<{/if}>>
+			<{$lang.reservation_monthly|smarty:nodefaults}>
+		</option>
+		<option value="<{$smarty.const.RESERVATION_DEF_WEEKLY}>"<{if ($display_type==RESERVATION_DEF_WEEKLY) }> selected="selected"<{/if}>>
+			<{$lang.reservation_weekly|smarty:nodefaults}>
+		</option>
+		<option value="<{$smarty.const.RESERVATION_DEF_LOCATION}>"<{if ($display_type==RESERVATION_DEF_LOCATION) }> selected="selected"<{/if}>>
+			<{$lang.reservation_each_location|smarty:nodefaults}>
+		</option>
+	</select>
+</td>
+
+<{/strip}>

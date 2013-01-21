@@ -1,0 +1,16 @@
+<{strip}>
+<div class="outerdiv">
+	<form action="" onsubmit="return false;">
+		<div class="top_description">
+			<{$lang.rescue_top_description|smarty:nodefaults}>
+		</div>
+		<div class="errorstr" id="errorstr<{$id}>">
+		</div>
+		<input id="password<{$id}>" type='password' name='password' size='30' />
+		<input class="lined_btn btn-width" name="regist" type="button" onclick="commonCls.sendPost('<{$id}>',{'action':'pages_action_rescue','password':this.form.password.value},{'callbackfunc':function(res){$('errorstr<{$id}>').innerHTML = '';commonCls.alert('<{$lang.rescue_success|smarty:nodefaults}>');location.href=_nc_base_url+_nc_index_file_name;},'callbackfunc_error':function(res){$('errorstr<{$id}>').innerHTML = res; commonCls.focus($('password<{$id}>'));}}); return false;" value="<{$lang._regist|smarty:nodefaults}>">
+	</form>
+</div>
+<script class="nc_script" type="text/javascript">
+commonCls.focus($('password<{$id}>'));
+</script>
+<{/strip}>

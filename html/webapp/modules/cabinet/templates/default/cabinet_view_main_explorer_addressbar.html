@@ -1,0 +1,16 @@
+<{strip}>
+
+<table class="widthmax" summary="">
+	<tr>
+		<td class="nowrap">
+			<label for="cabinet_address_input<{$id}>">
+				<{$lang.cabinet_address|smarty:nodefaults}>
+			</label>
+		</td>
+		<td class="nowrap cabinet_address">
+			<input id="cabinet_address_input<{$id}>" type="text" value="" onkeydown="if(event.keyCode == 13){cabinetCls['<{$id}>'].switchAddress(this);}" />
+		</td>
+	</tr>
+</table>
+
+<{/strip}>

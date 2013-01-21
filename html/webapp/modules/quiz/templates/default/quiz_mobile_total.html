@@ -1,0 +1,37 @@
+<{strip}>
+<{* 集計結果画面用テンプレート *}>
+<{include file="quiz_mobile_head.html"}>
+<{include file="quiz_mobile_average.html"}>
+
+<{foreach from=$action.questions item=question name="question"}>
+	<p>
+		<{include file="quiz_mobile_question.html"}>
+			<ul data-role="listview" data-inset="true" style="list-style-type:square;">
+			<{foreach from=$question.choices item=choice name="choice"}>
+				<li>
+					<strong>
+					<{$lang.quiz_choice_label|sprintf:$choice.label}>
+					<{if ($question.question_type != QUIZ_QUESTION_TYPE_TEXTAREA_VALUE && $question.question_type != QUIZ_QUESTION_TYPE_WORD_VALUE) }>
+						<{$choice.choice_value|nl2br}>
+					<{elseif $smarty.foreach.choice.iteration == 1}>
+						<{$lang.quiz_answer_not_mark}>
+					<{elseif $smarty.foreach.choice.iteration == 2}>
+						<span style="color:blue;"><{$lang.quiz_answer_correct}></span>
+					<{else}>
+						<span style="color:red;"><{$lang.quiz_answer_wrong}></span>
+					<{/if}>
+					</strong>
+					<br />
+					&nbsp;&nbsp;
+					<{$lang.quiz_choice_count|sprintf:$choice.label:$choice.choice_count}>
+					&nbsp;
+					<{$lang.quiz_percent|sprintf:$choice.share}>
+				</li>
+			<{/foreach}>
+		</ul>
+	</p>
+<{/foreach}>
+<br />
+<{include file = "quiz_mobile_goto_main.html"}>
+
+<{/strip}>

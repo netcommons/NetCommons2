@@ -1,0 +1,49 @@
+<{strip}>
+<{if $smarty.session._user_id != "0"}>
+<{*header*}>
+<table border="0" class="control_header">
+	<tr>
+		<td class="control_header_left_menu">
+		</td>
+		<td class="control_header_right_menu">
+			<a class="menulink header_btn_left" href="#" onclick="commonCls.showUserDetail(event, '<{$smarty.session._user_id}>');return false;">
+				<{$smarty.session._handle}>
+			</a>
+			<{*管理終了*}>
+			<a class="menulink header_btn" href="<{$edit_end_url}>">
+				<{$smarty.const._ADMIN_END_BTN}>
+			</a>
+			<{*ログアウト*}>
+			<a class="menulink header_btn" href="#" onclick="loginCls['_0'].loginLogout(event);return false;"><{$lang._logout}></a>
+		</td>
+	<tr>
+</table>
+<table id="_<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME}>?action=control_view_main" class="widthmax">
+  <tr>
+    <td class="control_panel_header">
+    	<{$smarty.const.CONTROL_TITLE}>
+	</td>
+  </tr>
+  <tr>
+    <td class="control_panel">
+		<div class="content">
+<{*コントロールパネルContent*}>
+<div>
+	<{foreach item=system_content from=$modules_obj}>
+		<div id="action=<{$system_content.action_name}><{if $system_content.action_name == "userinf_view_main_init"}>&prefix_id_name=popup_userinf<{$smarty.session._user_id}>&user_id=<{$smarty.session._user_id}>&theme_name=system<{else}>&module_id=<{$system_content.module_id}><{/if}>" class="control_system_icon">
+			<img src="<{""|get_image_url}>/images/<{$system_content.icon_path}>" alt="<{$system_content.module_name}>" title="<{$system_content.module_name}>" /><br />
+			<div class="mod_title"><{$system_content.module_name}></div>
+		</div>
+	<{/foreach}>
+</div>
+    	</div>
+	</td>
+  </tr>
+</table>
+<{else}>
+<{*TODO:後にフィルターで行う*}>
+<script class="nc_script" type="text/javascript">
+location.href = '<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=login_view_main_init&error_mes=1&_redirect_url='+'<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?_sub_action=control_view_main';
+</script>
+<{/if}>
+<{/strip}>

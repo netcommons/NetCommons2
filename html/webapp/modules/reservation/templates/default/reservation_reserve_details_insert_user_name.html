@@ -1,0 +1,13 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<{$lang.reservation_insert_user_name|smarty:nodefaults}>
+</th>
+<td>
+	<{assign var=handle value=$action.reserve.insert_user_name}>
+	<a class="syslink" href="#" title="<{if $smarty.session._login_id == ''}><{$lang.reservation_insert_user_title|smarty:nodefaults|sprintf:$handle}><{else}><{$lang._user_title|smarty:nodefaults|sprintf:$handle}><{/if}>" onclick="commonCls.showUserDetail(event, '<{$action.reserve.insert_user_id}>');return false;">
+		<{$action.reserve.insert_user_name}>
+	</a>
+</td>
+
+<{/strip}>

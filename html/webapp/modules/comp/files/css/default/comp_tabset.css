@@ -1,0 +1,124 @@
+table.comptabset_tabs {
+	width:100%;
+	border-collapse:separate;
+}
+td.comptabset_linespace {
+	border-bottom: 1px solid #999999;
+	width:3px;
+}
+img.comptabset_linespace {
+	width:3px;
+}
+
+td.comptabset_line {
+	border-bottom: 1px solid #999999;
+	width:100%;
+}
+/*
+table.comptabset_tabs ul {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+}
+*/
+
+table.comptabset_tabs td {
+	/*float:left;*/
+	margin:0px;
+	/*line-height:18px;*/
+	/*margin:0pt 2px 0pt 0px;*/
+	padding:0pt;
+}
+
+img.comptabset_sidespace {
+	width:5px;
+	height:0px;
+}
+
+.comptabset_tabs .comptabset_upperleft {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/upperleft.gif") no-repeat scroll left top;
+}
+
+.comptabset_tabs .comptabset_upper {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/upper.gif") repeat-x scroll center top;
+}
+
+.comptabset_tabs .comptabset_upperright {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/upperright.gif") no-repeat scroll left top;
+}
+
+.comptabset_tabs .comptabset_left {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/left.gif") repeat-y scroll right center;
+	border-bottom: 1px solid #999999;
+}
+
+.comptabset_tabs .comptabset_content {
+	background-color:#e5e5e5;
+	padding-left:3px;
+	padding-right:3px;
+	padding-bottom:3px;
+	white-space:nowrap;
+	border-bottom: 1px solid #999999;
+}
+
+.comptabset_tabs .comptabset_right {
+	width:5px;
+	height:5px;
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/right.gif") repeat-y scroll left center;
+	border-bottom: 1px solid #999999;
+}
+
+
+.comptabset_tabs table.comptabset_active .comptabset_upperleft {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/upperleft_sell.gif") no-repeat scroll left top;
+}
+
+.comptabset_tabs table.comptabset_active .comptabset_upper {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/upper_sell.gif") repeat-x scroll top center;
+}
+
+.comptabset_tabs table.comptabset_active .comptabset_upperright {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/upperright_sell.gif") no-repeat scroll left top;
+}
+
+.comptabset_tabs table.comptabset_active .comptabset_left {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/left_sell.gif") repeat-y scroll right center;
+	border-bottom: 1px solid #ffffff;
+}
+
+.comptabset_tabs table.comptabset_active .comptabset_content {
+	background-color:#ffffff;
+	border-bottom: 1px solid #ffffff;
+}
+
+.comptabset_tabs table.comptabset_active .comptabset_right {
+	background:transparent url("<{$smarty.const.CORE_BASE_URL}>/images/comp/tabset/default/right_sell.gif") repeat-y scroll left center;
+	border-bottom: 1px solid #ffffff;
+}
+
+.comp_tabset {
+}
+
+.comp_tabset_content {
+	/*border-top:1px solid #f2f3f1; */
+	/*border-left:1px solid #f2f3f1; */
+	border-left:1px solid #999999;
+	border-bottom:1px outset #91a7b4;
+	border-right:1px outset #91a7b4;
+	padding:1px;
+	/*clear:left;*/
+}
+
+.comptabset_caption {
+	display:none;
+}

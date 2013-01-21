@@ -1,0 +1,206 @@
+<{strip}>
+<{* 掲示板登録画面用テンプレート *}>
+<form id="bbs_form<{$id}>" action="#">
+	<input type="hidden" name="action" />
+	<input type="hidden" name="bbs_id" />
+	
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="bbs_name<{$id}>">
+					<{$lang.bbs_bbs_name|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+		 		<input id="bbs_name<{$id}>" class="text" type="text" name="bbs_name" />
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.bbs_topic_authority|smarty:nodefaults}>
+			</th>
+			<td>
+				<label class="disable_lbl">
+			 		<input type="checkbox" disabled="disabled" checked="checked" />
+			 		<input type="hidden" name="topic_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+					<{$smarty.const._AUTH_CHIEF_NAME}>
+				</label>
+				<label for="bbs_topic_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+			 		<input id="bbs_topic_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="topic_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_MODERATE_NAME}>
+				</label>
+				<label for="bbs_topic_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+					<input id="bbs_topic_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="topic_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+					<{$smarty.const._AUTH_GENERAL_NAME}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.bbs_child_flag|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="bbs_child_flag<{$smarty.const._ON}><{$id}>">
+					<input id="bbs_child_flag<{$smarty.const._ON}><{$id}>" type="radio" name="child_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.bbs_child_flag_on|smarty:nodefaults}>
+	 			</label>
+				<label for="bbs_child_flag<{$smarty.const._OFF}><{$id}>">
+					<input id="bbs_child_flag<{$smarty.const._OFF}><{$id}>" type="radio" name="child_flag" value="<{$smarty.const._OFF}>" />
+	 				<{$lang.bbs_child_flag_off|smarty:nodefaults}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.bbs_vote_flag|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="bbs_vote_flag<{$smarty.const._ON}><{$id}>">
+					<input id="bbs_vote_flag<{$smarty.const._ON}><{$id}>" type="radio" name="vote_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.bbs_vote_flag_on|smarty:nodefaults}>
+	 			</label>
+				<label for="bbs_vote_flag<{$smarty.const._OFF}><{$id}>">
+					<input id="bbs_vote_flag<{$smarty.const._OFF}><{$id}>" type="radio" name="vote_flag" value="<{$smarty.const._OFF}>" />
+	 				<{$lang.bbs_vote_flag_off|smarty:nodefaults}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="bbs_new_period<{$id}>">
+					<{$lang.bbs_new_period|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<select id="bbs_new_period<{$id}>" name="new_period">
+					<option value="0"><{$lang.bbs_new_period_none|smarty:nodefaults}></option>
+					<option value="1"><{$lang.bbs_new_period_unit|smarty:nodefaults|sprintf:"1"}></option>
+					<option value="2"><{$lang.bbs_new_period_unit|smarty:nodefaults|sprintf:"2"}></option>
+					<option value="5"><{$lang.bbs_new_period_unit|smarty:nodefaults|sprintf:"5"}></option>
+					<option value="7"><{$lang.bbs_new_period_unit|smarty:nodefaults|sprintf:"7"}></option>
+					<option value="30"><{$lang.bbs_new_period_unit|smarty:nodefaults|sprintf:"30"}></option>
+					<option value="90"><{$lang.bbs_new_period_unit|smarty:nodefaults|sprintf:"90"}></option>
+				</select>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.bbs_mail_send|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="bbs_mail_send<{$smarty.const._ON}><{$id}>">
+					<input id="bbs_mail_send<{$smarty.const._ON}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._ON}>" onclick="bbsCls['<{$id}>'].changeMailSend(true);" />
+					<{$lang.bbs_mail_send_on|smarty:nodefaults}>
+				</label>
+				<label for="bbs_mail_send<{$smarty.const._OFF}><{$id}>">
+					<input id="bbs_mail_send<{$smarty.const._OFF}><{$id}>" type="radio" name="mail_send" value="<{$smarty.const._OFF}>" onclick="bbsCls['<{$id}>'].changeMailSend(false);" />
+					<{$lang.bbs_mail_send_off|smarty:nodefaults}>
+				</label>
+				
+				<div id="bbs_mail_send_content<{$id}>" class="display-none">
+					<div class="hr"></div>
+					<{$lang.bbs_mail_authority|smarty:nodefaults}><br />
+					<label class="disable_lbl">
+						<input type="checkbox" disabled="disabled" checked="checked" />
+				 		<input type="hidden" name="mail_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+						<{$smarty.const._AUTH_CHIEF_NAME}>
+					</label>
+					<label for="bbs_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+				 		<input id="bbs_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+						<{$smarty.const._AUTH_MODERATE_NAME}>
+					</label>
+					<label for="bbs_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+						<input id="bbs_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+						<{$smarty.const._AUTH_GENERAL_NAME}>
+					</label>
+					<label for="bbs_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>">
+						<input id="bbs_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GUEST}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+						<{$smarty.const._AUTH_GUEST_NAME}>
+					</label>
+					
+					<div class="hr"></div>
+					<label for="bbs_mail_subject<{$id}>">
+						<{$lang.bbs_mail_subject|smarty:nodefaults}>
+						<input id="bbs_mail_subject<{$id}>" class="mail_subject" type="text" name="mail_subject" />
+					</label>
+					
+					<div class="hr"></div>
+					<label for="bbs_mail_body<{$id}>">
+						<{$lang.bbs_mail_body|smarty:nodefaults}><br />
+						<textarea id="bbs_mail_body<{$id}>" class="mail_body" name="mail_body"></textarea>
+					</label>
+					
+					<div class="note">
+						<{$lang.bbs_mail_note|smarty:nodefaults}>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="commonCls.sendPost('<{$id}>', Form.serialize($('bbs_form<{$id}>')), {'target_el':$('<{$id}>'),'focus_flag':true});" />
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'bbs_view_edit_list');" />
+	</div>
+</form>
+
+<{include file = "../bbs_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var bbsForm = $("bbs_form<{$id}>");
+	bbsForm["action"].value = "bbs_action_edit_entry";
+	bbsForm["bbs_id"].value = "<{$action.bbs.bbs_id}>";
+
+	<{if empty($action.bbs.bbs_id|smarty:nodefaults)}>
+		bbsForm["bbs_name"].value = "<{$lang.bbs_new_name|smarty:nodefaults|sprintf:$action.bbsNumber}>";
+	<{else}>
+		bbsForm["bbs_name"].value = "<{$action.bbs.bbs_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	bbsForm["new_period"].value = "<{$action.bbs.new_period}>";
+
+	<{if $action.bbs.child_flag == _ON}>
+		$("bbs_child_flag<{$smarty.const._ON}><{$id}>").checked = true;
+	<{else}>
+		$("bbs_child_flag<{$smarty.const._OFF}><{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.bbs.vote_flag == _ON}>
+		$("bbs_vote_flag<{$smarty.const._ON}><{$id}>").checked = true;
+	<{else}>
+		$("bbs_vote_flag<{$smarty.const._OFF}><{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.bbs.mail_send == _ON}>
+		$("bbs_mail_send<{$smarty.const._ON}><{$id}>").checked = true;
+		bbsCls["<{$id}>"].changeMailSend(true);
+	<{else}>
+		$("bbs_mail_send<{$smarty.const._OFF}><{$id}>").checked = true;
+		bbsCls["<{$id}>"].changeMailSend(false);
+	<{/if}>
+
+	<{if empty($action.bbs.bbs_id|smarty:nodefaults)}>
+		bbsForm["mail_subject"].value = "<{$lang.bbs_mail_subject_default|smarty:nodefaults}>";
+		bbsForm["mail_body"].value = "<{$lang.bbs_mail_body_default|smarty:nodefaults}>";
+	<{else}>
+		bbsForm["mail_subject"].value = "<{$action.bbs.mail_subject|smarty:nodefaults|escape:"javascript"}>";
+		bbsForm["mail_body"].value = "<{$action.bbs.mail_body|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	if (bbsForm["topic_authority[<{$action.bbs.topic_authority}>]"]) {
+		bbsForm["topic_authority[<{$action.bbs.topic_authority}>]"].checked = true;
+		commonCls.changeAuthority(bbsForm["topic_authority[<{$action.bbs.topic_authority}>]"], "<{$id}>");
+	}
+
+	if (bbsForm["mail_authority[<{$action.bbs.mail_authority}>]"]) {
+		bbsForm["mail_authority[<{$action.bbs.mail_authority}>]"].checked = true;
+		commonCls.changeAuthority(bbsForm["mail_authority[<{$action.bbs.mail_authority}>]"], "<{$id}>");
+	}
+
+	bbsForm = null;
+</script>
+<{/strip}>

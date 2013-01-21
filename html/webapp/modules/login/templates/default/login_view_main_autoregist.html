@@ -1,0 +1,200 @@
+<{strip}>
+<div class="outerdiv" id="target<{$id}>">
+	<div class="top_description">
+		<{$lang.login_top_description|smarty:nodefaults|sprintf:$lang._regist|smarty:nodefaults}>
+	</div>
+	<{* 詳細部 *}>
+	<form id="login_form<{$id}>" action=""  target="login_attachment<{$id}>" onsubmit="return false;" enctype="multipart/form-data">
+	<table class="outer" summary="<{$lang._dialog_name|smarty:nodefaults}>">
+		<tr>
+			<{foreach from=$action.items item=item_list}>
+			<td class="valign-top align-left">
+				<table class="widthmax" summary="">
+					<{foreach from=$item_list item=item}>
+						<{assign var="item_id" value=$item.item_id}>
+						<{if $action.autoregist_use_items.$item_id == $item.item_id && $item.type != "label" && $item.type != "system"}>
+							<{* 会員詳細 *}>
+							<tr>
+								<th class="login_detail_head" scope="row">
+									<{if $item.type != $smarty.const.USER_TYPE_CHECKBOX &&  $item.type != $smarty.const.USER_TYPE_RADIO}>
+										<label for="login_items<{$id}>_<{$item.item_id}>">
+											<{$item.item_name}>
+										</label>
+									<{else}>
+										<{$item.item_name}>
+									<{/if}>
+									<{* 必須 *}>
+									<{if $item.require_flag == _ON || $action.autoregist_use_items_req.$item_id}>
+										<{$lang.login_require_flag|smarty:nodefaults}>
+									<{/if}>
+								</th>
+								<td class="login_detail_detail" style="width:<{$conf.login_detail_min_width}>px;">
+									<{if $item.type == $smarty.const.USER_TYPE_TEXT}>
+										<{* テキスト *}>
+										<input name="items[<{$item.item_id}>]" id="login_items<{$id}>_<{$item.item_id}>" type="text" value="" <{$item.attribute|smarty:nodefaults}> />
+									<{elseif $item.type == $smarty.const.USER_TYPE_EMAIL || $item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL}>
+										<{* email *}>
+										<input name="items[<{$item.item_id}>]" id="login_items<{$id}>_<{$item.item_id}>" type="text" value="" <{$item.attribute|smarty:nodefaults}> />
+											</td>
+											</tr>
+											<tr>
+											<th class="login_detail_head" scope="row">
+												<label for="login_items_confirm<{$id}>_<{$item.item_id}>">
+													<{if ($item.type == $smarty.const.USER_TYPE_EMAIL) }>
+														<{$lang.login_email_confirm|smarty:nodefaults}>
+													<{elseif ($item.type == $smarty.const.USER_TYPE_MOBILE_EMAIL) }>
+														<{$lang.login_mobile_email_confirm|smarty:nodefaults}>
+													<{/if}>
+												</label>
+												<{* 必須 *}>
+												<{if $item.require_flag == _ON || $action.autoregist_use_items_req.$item_id}>
+													<{$lang.login_require_flag|smarty:nodefaults}>
+												<{/if}>
+											</th>
+											<td class="login_detail_detail" style="width:<{$conf.login_detail_min_width}>px;">
+												<input name="items_mail_confirm[<{$item.item_id}>]" id="login_items_confirm<{$id}>_<{$item.item_id}>" type="text" value="<{if (!empty($smarty.session.ufinity|smarty:nodefaults)) }><{$smarty.session.ufinity.email}><{else}><{$action.email}><{/if}>" <{$item.attribute|smarty:nodefaults}> />
+										<{if $item.allow_email_reception_flag == _ON}>
+											<{* メールを受け取る *}>
+											<div>
+											<label for="login_items_reception<{$id}>_<{$item.item_id}>">
+												<input name="items_reception[<{$item.item_id}>]" id="login_items_reception<{$id}>_<{$item.item_id}>" type="checkbox" value="1" />
+												<{$lang.login_reception_email|smarty:nodefaults}>
+											</label>
+											</div>
+										<{/if}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_TEXTAREA}>
+										<textarea name="items[<{$item.item_id}>]" id="login_items<{$id}>_<{$item.item_id}>" <{$item.attribute|smarty:nodefaults}>>
+											<{$content|smarty:nodefaults}>
+										</textarea>
+									<{elseif $item.type == $smarty.const.USER_TYPE_FILE}>
+										<{* ファイル *}>
+										<input name="items[<{$item.item_id}>]" id="login_items<{$id}>_<{$item.item_id}>" type="file" value="" <{$item.attribute|smarty:nodefaults}> />
+										<{*
+										<input name="files[]" id="login_items<{$id}>_<{$item.item_id}>" type="file" value="" <{$item.attribute|smarty:nodefaults}> />
+										*}>
+									<{elseif $item.type == $smarty.const.USER_TYPE_CHECKBOX}>
+										<{* チェックボックス *}>
+										<div <{$item.attribute|smarty:nodefaults}>>
+											<{foreach from=$item.set_options item=option name=selectloop}>
+												<label class="nowrap" for="login_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>">
+													<input name="items[<{$item.item_id}>][<{$smarty.foreach.selectloop.iteration-1}>]" name="login_selected[]" type="checkbox" value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.def_options}>" id="login_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>" <{if $option.default_selected}>checked="checked" <{/if}>/>
+													<{$option.options}>
+												</label>
+											<{/foreach}>
+										</div>
+									<{elseif $item.type == $smarty.const.USER_TYPE_RADIO}>
+										<{* ラジオボタン *}>
+										<div <{$item.attribute|smarty:nodefaults}>>
+											<{foreach from=$item.set_options item=option name=selectloop}>
+												<label class="nowrap" for="login_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>">
+													<input name="items[<{$item.item_id}>]" type="radio" value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.def_options}>" id="login_items<{$id}>_<{$item.item_id}>_<{$smarty.foreach.selectloop.iteration}>" <{if $option.default_selected}>checked="checked" <{/if}>/>
+													<{$option.options}>
+												</label>
+											<{/foreach}>
+										</div>
+									<{elseif $item.type == $smarty.const.USER_TYPE_SELECT}>
+										<{* セレクトリスト *}>
+										<select name="items[<{$item.item_id}>]" id="login_items<{$id}>_<{$item.item_id}>" <{$item.attribute|smarty:nodefaults}>>
+											<{foreach from=$item.set_options item=option name=selectloop}>
+												<option value="<{if isset($option.options_value|smarty:nodefaults)}><{$option.options_value}>|<{/if}><{$option.def_options}>"<{if $option.default_selected}> selected="selected"<{/if}>>
+													<{$option.options}>
+												</option>
+											<{/foreach}>
+										</select>
+									<{elseif $item.type == $smarty.const.USER_TYPE_PASSWORD}>
+										<{* パスワード *}>
+										<input  name="items[<{$item.item_id}>]" id="login_items<{$id}>_<{$item.item_id}>" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+										</td>
+										</tr>
+										<tr>
+										<th class="login_detail_head" scope="row">
+											<label for="login_items_confirm<{$id}>_<{$item.item_id}>">
+												<{$lang.login_password_confirm|smarty:nodefaults}>
+											</label>
+											<{* 必須 *}>
+											<{$lang.login_require_flag|smarty:nodefaults}>
+										</th>
+										<td class="login_detail_detail" style="width:<{$conf.login_detail_min_width}>px;">
+										<input name="items_password_confirm[<{$item.item_id}>]" id="login_items_confirm<{$id}>_<{$item.item_id}>" type="password" value="" <{$item.attribute|smarty:nodefaults}> />
+									<{/if}>
+									<{if $item.description}>
+										<div class="login_desc">
+											<{$item.description}>
+										</div>
+									<{/if}>
+									<{if $item.allow_public_flag == _ON}>
+										<div>
+											<label for="login_items_public<{$id}>_<{$item.item_id}>">
+												<input name="items_public[<{$item.item_id}>]" id="login_items_public<{$id}>_<{$item.item_id}>" type="checkbox" value="1" <{if $item.public_flag == _ON}>checked="checked"<{/if}> />
+												<{$lang.login_public_flag|smarty:nodefaults}>
+											</label>
+										</div>
+									<{/if}>
+									<{* Absolute-Body要素を越えた場合、幅が狭くなるためblank画像挿入 *}>
+									<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" style="height:0px; width:<{$conf.login_detail_min_width}>px;"/>
+								</td>
+							</tr>
+						<{/if}>
+					<{/foreach}>
+				</table>
+			</td>
+			<{/foreach}>
+		</tr>
+	</table>
+
+	<{* 利用許諾、入力キー *}>
+	<{if ($action.autoregist_disclaimer != "" || $action.autoregist_input_key != "") }>
+		<table class="outer" summary="<{$lang.login_autoregist_disclaimer|smarty:nodefaults}>">
+			<{* 利用許諾 *}>
+			<{if ($action.autoregist_disclaimer != "")}>
+				<tr>
+					<th class="login_detail_head" scope="row">
+						<label for="login_autoregist_disclaimer<{$id}>">
+							<{$lang.login_autoregist_disclaimer|smarty:nodefaults}>
+						</label>
+						<{$lang.login_require_flag|smarty:nodefaults}>
+					</th>
+					<td class="login_detail_detail">
+						<textarea id="login_autoregist_disclaimer<{$id}>" readonly="readonly" class="login_disclaimer" name="login_disclaimer" cols="75" rows="10">
+							<{$action.autoregist_disclaimer}>
+						</textarea>
+						<br />
+						<label for="login_autoregist_disclaimer_ok<{$id}>">
+							<input name="autoregist_disclaimer_ok" id="login_autoregist_disclaimer_ok<{$id}>"type="checkbox" />
+							<{$lang.login_autoregist_disclaimer_ok|smarty:nodefaults}>
+						</label>
+					</td>
+				</tr>
+			<{/if}>
+			<{* 入力キー *}>
+			<{if ($action.autoregist_use_input_key == _ON) }>
+				<tr>
+					<th class="login_detail_head" scope="row">
+						<label for="login_autoregist_input_key<{$id}>">
+							<{$lang.login_autoregist_input_key|smarty:nodefaults}>
+						</label>
+						<{$lang.login_require_flag|smarty:nodefaults}>
+					</th>
+					<td class="login_detail_detail">
+						<input id="login_autoregist_input_key<{$id}>" type="password" name="autoregist_input_key" value="" />
+						<div class="login_desc">
+							<{$lang.login_autoregist_input_key_desc|smarty:nodefaults}>
+						</div>
+					</td>
+				</tr>
+			<{/if}>
+		</table>
+	<{/if}>
+
+	<{* 各種ボタン *}>
+	<div class="btn-bottom">
+		<{* 決定 *}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="loginCls['<{$id}>'].insAutoregist(this.form); return false;" />
+		<{* キャンセル *}>
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>'); return false;" />
+	</div>
+	<input type="hidden" name="prefix_id_name" value="login_popup_autoregist" />
+	</form>
+</div>
+<{/strip}>
+<{include file="login_script.html"}>

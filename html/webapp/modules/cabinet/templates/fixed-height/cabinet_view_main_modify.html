@@ -1,0 +1,42 @@
+<{strip}>
+
+<form action="#" method="post" onsubmit="return false;">
+	<input type="hidden" name="cabinet_id" value="<{$action.cabinet_id}>" />
+	<input type="hidden" name="folder_id" value="<{$action.folder_id}>" />
+
+	<table cellspacing="0" cellpadding="0" border="0" summary="">
+		<tr>
+			<th class="nowrap">
+				<label for="cabinet_file_name<{$id}>">
+					<{$lang.cabinet_grid_name|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<input id="cabinet_file_name<{$id}>" class="text" name="file_name" type="text" value="<{$action.file.org_file_name}>" />
+			</td>
+		</tr>
+		<tr>
+			<th class="nowrap">
+				<label for="cabinet_comment<{$id}>">
+					<{$lang.cabinet_comment|smarty:nodefaults}>
+				</label>
+			</th>
+			<td>
+				<input id="cabinet_comment<{$id}>" class="text" name="comment" type="text" value="<{$action.file.comment}>" />
+			</td>
+		</tr>
+	</table>
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].modifyFile("<{$smarty.session.cabinet._id.$block_id}>",this.form); return false;' />
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+	</div>
+	<input type="hidden" name="file_id" value="<{$action.file.file_id}>" />
+	<input type="hidden" name="file_type" value="<{$action.file.file_type}>" />
+</form>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus($('cabinet_file_name<{$id}>'));
+</script>
+
+<{/strip}>

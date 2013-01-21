@@ -1,0 +1,232 @@
+<{strip}>
+<{* ルーム一覧取得セレクトボックス *}>
+	<{foreach from=$room_list item=pages}>
+		<{assign var="now_page_id" value=$pages.page_id}>
+		<{assign var="next_thread_num" value=$pages.thread_num+1}>
+		<{if $mode == "search"}>
+			<{* グループスペースのルームのみ表示 *}>
+			<{if $pages.thread_num >= 1 && $pages.space_type == _SPACE_TYPE_GROUP && $pages.private_flag == _OFF}>
+				<option value="<{$pages.page_id}>"
+					<{if $pages.action_name == ""}> class="disable_lbl" disabled="true"<{/if}>
+					<{if $action.room_top_id_name == null && isset($smarty.session.user|smarty:nodefaults) && $smarty.session.user.search.0 == $pages.page_id}> selected='selected'
+					<{elseif $action.room_top_id_name != null && isset($smarty.session.room|smarty:nodefaults) && $smarty.session.room.search.0 == $pages.page_id}> selected='selected'<{/if}>
+				>
+					<{section name=i loop=$pages.thread_num-1}>
+						&nbsp;&nbsp;&nbsp;
+					<{/section}>
+					<{$pages.page_name}>
+				</option>	
+			<{/if}>	
+		<{elseif $action_name == "user_view_admin_regist_selroom"}>
+			<{* ルーム選択 *}>
+			<{if $pages.page_name != '' && ($pages.thread_num >= 1 || ($pages.thread_num == 0 && $pages.space_type == _SPACE_TYPE_PUBLIC)) && $pages.private_flag == _OFF}>
+				<option<{if $pages.default_entry_flag == _ON && $pages.space_type == _SPACE_TYPE_PUBLIC}> disabled="true" class="disable_lbl" <{/if}> value="<{$pages.page_id}>_<{$pages.parent_id}><{if $action.edit_flag == _ON && $pages.authority_id}>_<{$pages.authority_id}><{/if}><{if $action.edit_flag == _ON && $pages.createroom_flag != null}>_<{$pages.createroom_flag}><{/if}>">
+					<{if $pages.space_type == _SPACE_TYPE_PUBLIC}>
+						<{section name=i loop=$pages.thread_num}>
+							&nbsp;&nbsp;&nbsp;
+						<{/section}>
+					<{else}>
+						<{section name=i loop=$pages.thread_num-1}>
+							&nbsp;&nbsp;&nbsp;
+						<{/section}>
+					<{/if}>
+					<{$pages.page_name}>
+					<{if isset($pages.parent_page_name|smarty:nodefaults)}>(<{$pages.parent_page_name}>)<{/if}>
+					<{if $pages.space_type == _SPACE_TYPE_PUBLIC}><{$lang.user_public_room|smarty:nodefaults}><{/if}>
+				</option>
+			<{/if}>
+		<{elseif $action_name == "user_view_admin_regist_selauth"}>
+			<{* 権限設定 *}>
+			<{if ($pages.thread_num >= 1 || ($pages.thread_num == 0 && $pages.space_type == _SPACE_TYPE_PUBLIC)) && $pages.private_flag == _OFF}>
+				<tr class="grid_row">
+					<{if $pages.private_flag == _ON}>
+						<{assign var="top_createroom_flag" value=$action.current_authority.private_createroom_flag}>
+					<{elseif $pages.space_type == _SPACE_TYPE_GROUP}>
+						<{assign var="top_createroom_flag" value=$action.current_authority.group_createroom_flag}>
+					<{else}>
+						<{assign var="top_createroom_flag" value=$action.current_authority.public_createroom_flag}>
+					<{/if}> 
+					<td>
+						<div class="user_selectauth_entry_room">
+							<{if $pages.space_type == _SPACE_TYPE_PUBLIC}>
+								<{section name=i loop=$pages.thread_num}>
+									&nbsp;&nbsp;&nbsp;
+								<{/section}>
+							<{else}>
+								<{section name=i loop=$pages.thread_num-1}>
+									&nbsp;&nbsp;&nbsp;
+								<{/section}>
+							<{/if}>
+							<{if $pages.space_type == _SPACE_TYPE_GROUP && $pages.thread_num >= 2}>
+								<{* サブグループ *}>
+								<span class="user_lbl_subgroup"><{$pages.page_name}></span>
+							<{else}>
+								<{if $pages.private_flag == _ON}>
+									<span class="user_lbl_room_private"><{$pages.page_name}></span>
+								<{elseif $pages.space_type == _SPACE_TYPE_PUBLIC}>
+									<span class="user_lbl_room_public"><{$pages.page_name}></span>
+								<{else}>
+									<span class="user_lbl_room_group"><{$pages.page_name}></span>
+								<{/if}>
+							<{/if}>
+						</div>
+					</td>
+					
+					<{assign var="page_id" value=$pages.page_id}>
+					<{if isset($smarty.session.user|smarty:nodefaults) && $smarty.session.user.selauth.$user_id.room_authority.$page_id}>
+						<{* セッションデータ取得 *}>
+						<{assign var="select_auth" value=$smarty.session.user.selauth.$user_id.room_authority.$page_id}>
+						<{assign var="createroom_flag" value=$smarty.session.user.selauth.$user_id.createroom_flag.$page_id}>
+					<{elseif $action.edit_flag == _OFF}>
+						<{* 新規作成中 *}>
+						<{if $action.user_auth_id == _AUTH_ADMIN}>
+							<{assign var="select_auth" value=$smarty.const._ROLE_AUTH_ADMIN}>
+						<{elseif $action.user_auth_id == _AUTH_GUEST}>
+							<{assign var="select_auth" value=$smarty.const._ROLE_AUTH_GUEST}>
+						<{else}>
+							<{if $pages.private_flag == _ON}>
+								<{assign var="select_auth" value=$action.default_entry_role_auth_private}>
+							<{elseif $pages.space_type == _SPACE_TYPE_GROUP}>
+								<{assign var="select_auth" value=$action.default_entry_role_auth_group}>
+							<{elseif $pages.space_type == _SPACE_TYPE_PUBLIC}>
+								<{assign var="select_auth" value=$action.default_entry_role_auth_public}>
+							<{/if}>
+						<{/if}>
+						<{if ($pages.space_type == _SPACE_TYPE_GROUP && $pages.thread_num == 1) && ($action.user_auth_id==_AUTH_ADMIN || $action.user_auth_id==_AUTH_CHIEF || $top_createroom_flag == _ON)}>
+							<{assign var="createroom_flag" value=$smarty.const._ON}>
+						<{else}>
+							<{assign var="createroom_flag" value=$smarty.const._OFF}>
+						<{/if}>
+					<{else}>
+						<{* 編集中 *}>
+						<{if !is_null($pages.role_authority_id|smarty:nodefaults) && $pages.role_authority_id != _ROLE_AUTH_OTHER}>
+							<{assign var="select_auth" value=$pages.role_authority_id}>
+							<{assign var="createroom_flag" value=$pages.createroom_flag}>
+						<{else}>
+							<{if $action.user_auth_id == _AUTH_ADMIN}>
+								<{assign var="select_auth" value=$smarty.const._ROLE_AUTH_ADMIN}>
+							<{elseif $action.user_auth_id == _AUTH_GUEST}>
+								<{assign var="select_auth" value=$smarty.const._ROLE_AUTH_GUEST}>
+							<{else}>
+								<{if $pages.private_flag == _ON}>
+									<{assign var="select_auth" value=$action.default_entry_role_auth_private}>
+								<{elseif $pages.space_type == _SPACE_TYPE_GROUP}>
+									<{assign var="select_auth" value=$action.default_entry_role_auth_group}>
+								<{elseif $pages.space_type == _SPACE_TYPE_PUBLIC}>
+									<{assign var="select_auth" value=$action.default_entry_role_auth_public}>
+								<{/if}>
+							<{/if}>
+							<{assign var="createroom_flag" value=$smarty.const._OFF}>
+						<{/if}>
+					<{/if}>
+					<{*
+					<{if $action.role_auth_id > $select_auth && $pages.thread_num != 2}>
+						<{assign var="select_auth" value=$action.role_auth_id}>
+					<{/if}>
+					*}>
+					<{* 主担 *}>
+					<td onclick="var child_el = Element.getChildElement(this,2);if(child_el){child_el.onclick();}" class="user_selectauth_auth_list<{if ($select_auth == NULL && ($action.role_auth_id==_ROLE_AUTH_ADMIN || $action.role_auth_id==_ROLE_AUTH_CHIEF)) || ($select_auth == _ROLE_AUTH_ADMIN || $select_auth == _ROLE_AUTH_CHIEF)}> user_active_auth_id<{/if}>">
+						<{if $action.role_auth_id!=_ROLE_AUTH_GUEST && ($pages.thread_num == 2 || $action.current_authority.hierarchy>=_HIERARCHY_CHIEF || $top_createroom_flag == _ON || (($select_auth == NULL && ($action.current_authority.hierarchy==_HIERARCHY_ADMIN || $action.current_authority.hierarchy==_HIERARCHY_CHIEF)) || ($select_auth == _ROLE_AUTH_ADMIN || $select_auth == _ROLE_AUTH_CHIEF)))}>
+							<input onclick="userCls['<{$id}>'].chkRadioSelectauth(this);" type="radio" name="room_authority[<{$pages.page_id}>]" value="<{$smarty.const._ROLE_AUTH_CHIEF}>" <{if ($select_auth == NULL && ($action.role_auth_id==_ROLE_AUTH_ADMIN || $action.role_auth_id==_ROLE_AUTH_CHIEF)) || ($select_auth == _ROLE_AUTH_ADMIN || $select_auth == _ROLE_AUTH_CHIEF)}>checked="checked" <{/if}><{if $action.user_auth_id==_AUTH_ADMIN || ($smarty.session._user_id == $pages.insert_user_id && $user_id == $pages.insert_user_id)}>disabled="true"<{/if}>/>
+						<{/if}>
+					</td>
+					<{* モデレータ *}>
+					<{foreach from=$action.authorities item=authority}>
+						<td onclick="var child_el = Element.getChildElement(this,2);if(child_el){child_el.onclick();}" class="user_selectauth_auth_list<{if ($select_auth == NULL && $action.role_auth_id==$authority.role_authority_id) || $select_auth == $authority.role_authority_id}> user_active_auth_id<{/if}>">
+							<{if $action.role_auth_id!=_ROLE_AUTH_GUEST && ($pages.thread_num == 2 || $action.current_authority.hierarchy>=$authority.hierarchy || $top_createroom_flag == _ON || (($select_auth == NULL && $action.role_auth_id==$authority.role_authority_id) || $select_auth == $authority.role_authority_id))}>
+								<input onclick="userCls['<{$id}>'].chkRadioSelectauth(this);" type="radio" name="room_authority[<{$pages.page_id}>]" value="<{$authority.role_authority_id}>" <{if ($select_auth == NULL && $action.role_auth_id==$authority.role_authority_id) || $select_auth == $authority.role_authority_id}>checked="checked" <{/if}><{if $action.role_auth_id==_ROLE_AUTH_ADMIN || ($smarty.session._user_id == $pages.insert_user_id && $user_id == $pages.insert_user_id)}>disabled="true"<{/if}>/>
+							<{/if}>
+						</td>
+					<{/foreach}>
+					<{* 一般 *}>
+					<td onclick="var child_el = Element.getChildElement(this,2);if(child_el){child_el.onclick();}" class="user_selectauth_auth_list<{if ($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_GENERAL) || $select_auth == _ROLE_AUTH_GENERAL}> user_active_auth_id<{/if}>">
+						<{if $action.role_auth_id!=_ROLE_AUTH_GUEST && ($pages.thread_num == 2 || $action.current_authority.hierarchy>=_HIERARCHY_GENERAL || $top_createroom_flag == _ON || (($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_GENERAL) || $select_auth == _ROLE_AUTH_GENERAL))}>
+							<input onclick="userCls['<{$id}>'].chkRadioSelectauth(this);" type="radio" name="room_authority[<{$pages.page_id}>]" value="<{$smarty.const._ROLE_AUTH_GENERAL}>" <{if ($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_GENERAL) || $select_auth == _ROLE_AUTH_GENERAL}>checked="checked" <{/if}><{if $action.role_auth_id==_ROLE_AUTH_ADMIN || ($smarty.session._user_id == $pages.insert_user_id && $user_id == $pages.insert_user_id)}>disabled="true"<{/if}>/>
+						<{/if}>
+					</td>
+					<{* ゲスト *}>
+					<td onclick="var child_el = Element.getChildElement(this,2);if(child_el){child_el.onclick();}" class="user_selectauth_auth_list<{if ($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_GUEST) || $select_auth == _ROLE_AUTH_GUEST}> user_active_auth_id<{/if}>">
+						<input onclick="userCls['<{$id}>'].chkRadioSelectauth(this);" type="radio" name="room_authority[<{$pages.page_id}>]" value="<{$smarty.const._ROLE_AUTH_GUEST}>" <{if $action.role_auth_id==_ROLE_AUTH_GUEST || $select_auth == _ROLE_AUTH_GUEST}>checked="checked" <{/if}><{if $action.role_auth_id==_ROLE_AUTH_ADMIN || ($smarty.session._user_id == $pages.insert_user_id && $user_id == $pages.insert_user_id)}>disabled="true"<{/if}>/>
+					</td>
+					<{* サブグループ作成許可 *}>
+					<td onclick="var child_el = Element.getChildElement(this,2);if(child_el){child_el.onclick();}" class="user_selectauth_auth_list<{if $createroom_flag || ((($pages.space_type == _SPACE_TYPE_GROUP && $pages.thread_num == 1 && $createroom_flag == _ON) && $action.role_auth_id==_ROLE_AUTH_ADMIN))}> user_active_auth_id<{/if}>">
+						<input onclick="if(!this.disabled){userCls['<{$id}>'].chkCheckboxCreateroom(this);}" name="createroom_flag[<{$pages.page_id}>]" type="checkbox" value="1"<{if $createroom_flag || ((($pages.space_type == _SPACE_TYPE_GROUP && $pages.thread_num == 1) && $action.role_auth_id==_ROLE_AUTH_ADMIN))}>checked="checked" <{/if}><{if ($action.role_auth_id==_ROLE_AUTH_GUEST) || ($action.role_auth_id==_ROLE_AUTH_ADMIN) || !($pages.space_type == _SPACE_TYPE_GROUP && $pages.thread_num == 1 && $top_createroom_flag == _ON)}>disabled="true"<{/if}>/>
+					</td>
+				</tr>
+			<{/if}>
+		<{else}>
+			<{* 確認画面 *}>
+			<{if ($pages.thread_num >= 1 || ($pages.thread_num == 0 && $pages.space_type == _SPACE_TYPE_PUBLIC)) && $pages.private_flag == _OFF}>
+				<tr class="grid_row">
+					<td>
+						<div class="user_selectauth_entry_room">
+							<{if $pages.space_type == _SPACE_TYPE_PUBLIC}>
+								<{section name=i loop=$pages.thread_num}>
+									&nbsp;&nbsp;&nbsp;
+								<{/section}>
+							<{else}>
+								<{section name=i loop=$pages.thread_num-1}>
+									&nbsp;&nbsp;&nbsp;
+								<{/section}>
+							<{/if}>
+							<{if $pages.space_type == _SPACE_TYPE_GROUP && $pages.thread_num >= 2}>
+								<{* サブグループ *}>
+								<span class="user_lbl_subgroup"><{$pages.page_name}></span>
+							<{else}>
+								<{if $pages.private_flag == _ON}>
+									<span class="user_lbl_room_private"><{$pages.page_name}></span>
+								<{elseif $pages.space_type == _SPACE_TYPE_PUBLIC}>
+									<span class="user_lbl_room_public"><{$pages.page_name}></span>
+								<{else}>
+									<span class="user_lbl_room_group"><{$pages.page_name}></span>
+								<{/if}>
+							<{/if}>
+						</div>
+					</td>
+					<{assign var="page_id" value=$pages.page_id}>
+					<{if isset($smarty.session.user|smarty:nodefaults) && $smarty.session.user.selauth.$user_id.room_authority.$page_id}>
+						<{* セッションデータ取得 *}>
+						<{assign var="select_auth" value=$smarty.session.user.selauth.$user_id.room_authority.$page_id}>
+						<{assign var="createroom_flag" value=$smarty.session.user.selauth.$user_id.createroom_flag.$page_id}>
+					<{else}>
+						<{assign var="select_auth" value=$smarty.const._ROLE_AUTH_GUEST}>
+						<{assign var="createroom_flag" value=$smarty.const._OFF}>
+					<{/if}>
+					
+					<td>
+						<div class="user_confirm_auth_list">
+						<{if ($select_auth == NULL && ($action.role_auth_id==_ROLE_AUTH_ADMIN || $action.role_auth_id==_ROLE_AUTH_CHIEF)) || ($select_auth == _ROLE_AUTH_ADMIN || $select_auth == _ROLE_AUTH_CHIEF)}>
+							<{$smarty.const._AUTH_CHIEF_NAME}>
+						<{elseif ($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_MODERATE) || $select_auth == _ROLE_AUTH_MODERATE}>
+							<{$smarty.const._AUTH_MODERATE_NAME}>
+							<{if $action.authorities_count>1}>
+							(<{$pages.role_authority_name}>)
+							<{/if}>
+						<{elseif ($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_GENERAL) || $select_auth == _ROLE_AUTH_GENERAL}>
+							<{$smarty.const._AUTH_GENERAL_NAME}>
+						<{elseif ($select_auth == NULL && $action.role_auth_id==_ROLE_AUTH_GUEST) || $select_auth == _ROLE_AUTH_GUEST}>
+							<{$smarty.const._AUTH_GUEST_NAME}>
+						<{elseif $select_auth === _ROLE_AUTH_OTHER}>
+							<{$lang.user_not_entry|smarty:nodefaults}>
+						<{/if}>
+						</div>
+					</td>
+					<{* サブグループ作成許可 *}>
+					<td>
+						<div class="user_selectauth_auth_list">
+						<{if $createroom_flag == _ON}>
+							<{$lang.user_subgroup_create_on|smarty:nodefaults}>
+						<{else}>
+							<{$lang.user_subgroup_create_off|smarty:nodefaults}>
+						<{/if}>
+						</div>
+					</td>
+				</tr>
+			<{/if}>
+		<{/if}>
+		<{if isset($action_room_list.$next_thread_num.$now_page_id|smarty:nodefaults)}>
+			<{assign var="room_list" value=$action_room_list.$next_thread_num.$now_page_id}>
+			<{include file="user_select_room_list.html"}>
+		<{/if}>
+	<{/foreach}>
+<{/strip}>

@@ -1,0 +1,6 @@
+<{strip}>
+<{* 掲示板一覧（カレント）用テンプレート *}>
+<label for="bbs_current<{$bbs.bbs_id}><{$id}>">
+	<input id="bbs_current<{$bbs.bbs_id}><{$id}>" type="radio" name="current" value="<{$bbs.bbs_id}>" onclick="bbsCls['<{$id}>'].changeCurrent(<{$bbs.bbs_id}>);" />
+</label>
+<{/strip}>

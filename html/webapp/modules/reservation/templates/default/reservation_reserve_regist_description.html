@@ -1,0 +1,9 @@
+<{strip}>
+
+<td colspan="2" class="nowrap">
+	<textarea id="description<{$id}>" class="comptextarea">
+		<{$reserve.description|smarty:nodefaults|wysiwig_convert_url|escape:"html"}>
+	</textarea>
+</td>
+
+<{/strip}>

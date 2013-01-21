@@ -1,0 +1,12 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+	if(!mdbCls["<{$id}>"]) {
+		mdbCls["<{$id}>"] = new clsMultidatabase("<{$id}>");
+	}
+	<{if $action_name == "multidatabase_view_edit_metadata_list"}>	
+		mdbCls["<{$id}>"].initMetadatas($('mdb_addmetadata<{$id}>'), '<{$action.multidatabase_id}>');
+	<{elseif $action_name == "multidatabase_view_edit_metadata_detail"}>	
+		mdbCls["<{$id}>"].initPopupMetadata($('mdb_addmetadata_form<{$id}>'));
+	<{/if}>
+</script>
+<{/strip}>

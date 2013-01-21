@@ -1,0 +1,180 @@
+<{strip}>
+<{* アルバム登録画面用テンプレート *}>
+<form id="photoalbum_album_form<{$id}>" class="photoalbum_album_form" action="#" target="photoalbum_jacket<{$id}>" enctype="multipart/form-data" onsubmit="photoalbumCls['<{$id}>'].enterAlbum();return false;">
+	<input type="hidden" name="photoalbum_id" />
+	<input type="hidden" name="album_id" />
+
+	<table id="photoalbum_album_entry<{$id}>" class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_album_name<{$id}>">
+					<{$lang.photoalbum_album_name}>
+				</label>
+			</th>
+			
+			<td>
+		 		<input id="photoalbum_album_name<{$id}>" class="text" type="text" name="album_name" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_album_jacket<{$id}>">
+					<{$lang.photoalbum_album_jacket}>
+				</label>
+			</th>
+			
+			<td>
+				<div class="photoalbum_album_jacket">
+					<{include file = "photoalbum_view_album_jacket.html"}>
+				</div>
+				
+				<div class="photoalbum_album_jacket_sample">
+					<{foreach item=albumJacketSample from=$action.albumJacketSamples name=albumJacketSample}>
+						<a href="#" onclick="photoalbumCls['<{$id}>'].selectJacket('<{$smarty.const.PHOTOALBUM_SAMPLR_JACKET_DIR|cat:$albumJacketSample|get_modules_image}>');return false;" >
+							<img class="photoalbum_album_jacket_sample" src="<{$smarty.const.PHOTOALBUM_SAMPLR_JACKET_DIR|cat:$albumJacketSample|get_modules_image}>" title="<{$albumJacketSample}>" alt="<{$albumJacketSample}>" />
+						</a>
+					<{/foreach}>
+				</div>
+				<br class="float-clear" />
+
+				<div class="align-right">
+					<{$lang.photoalbum_album_jacket_custom}>
+					<input type="file" name="album_jacket_custom" />
+					<input class="lined_btn btn-width" type="button" value="<{$lang.photoalbum_upload}>" onclick="photoalbumCls['<{$id}>'].uploadJacket();return false;" />
+				</div>
+				<input type="hidden" name="album_jacket" />
+				<input type="hidden" name="upload_id" />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_album_description<{$id}>">
+					<{$lang.photoalbum_album_description}>
+				</label>
+			</th>
+
+			<td>
+		 		<textarea id="photoalbum_album_description<{$id}>" class="photoalbum_album_description" name="album_description"></textarea>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label for="photoalbum_photo_new_period<{$id}>">
+					<{$lang.photoalbum_photo_new_period}>
+				</label>
+			</th>
+			
+			<td>
+				<select id="photoalbum_photo_new_period<{$id}>" name="photo_new_period">
+					<{include file = "photoalbum_view_new_period_option.html"}>
+				</select>
+			</td>
+		</tr>
+		
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.photoalbum_vote_flag}>
+			</th>
+			
+			<td>
+				<label for="photoalbum_vote_flag_on<{$id}>">
+					<input id="photoalbum_vote_flag_on<{$id}>" type="radio" name="vote_flag" value="<{$smarty.const._ON}>" />
+					<{$lang.photoalbum_vote_flag_on}>
+				</label>
+				<label for="photoalbum_vote_flag_off<{$id}>">
+					<input id="photoalbum_vote_flag_off<{$id}>" type="radio" name="vote_flag" value="<{$smarty.const._OFF}>" />
+					<{$lang.photoalbum_vote_flag_off}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.photoalbum_comment_flag}>
+			</th>
+
+			<td>
+				<label for="photoalbum_comment_flag_on<{$id}>">
+					<input id="photoalbum_comment_flag_on<{$id}>" type="radio" name="comment_flag" value="<{$smarty.const._ON}>" />
+					<{$lang.photoalbum_comment_flag_on}>
+				</label>
+				<label for="photoalbum_comment_flag_off<{$id}>">
+					<input id="photoalbum_comment_flag_off<{$id}>" type="radio" name="comment_flag" value="<{$smarty.const._OFF}>" />
+					<{$lang.photoalbum_comment_flag_off}>
+				</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<{$lang.photoalbum_public_flag}>
+			</th>
+
+			<td>
+				<label for="photoalbum_public_flag_on<{$id}>">
+					<input id="photoalbum_public_flag_on<{$id}>" type="radio" name="public_flag" value="<{$smarty.const._ON}>" />
+					<{$lang.photoalbum_public_flag_on}>
+				</label>
+				<label for="photoalbum_public_flag_off<{$id}>">
+					<input id="photoalbum_public_flag_off<{$id}>" type="radio" name="public_flag" value="<{$smarty.const._OFF}>" />
+					<{$lang.photoalbum_public_flag_off}>
+				</label>
+			</td>
+		</tr>
+	</table>
+	
+	<div class="photoalbum_album_detail">
+		<a href="#" onclick="photoalbumCls['<{$id}>'].showAlbumDetail();return false;" >
+			<{$lang.photoalbum_album_detail}>
+		</a>
+	</div>
+	
+	<div class="btn-bottom">
+		<input class="btn-width" type="submit" value="<{$lang._regist|smarty:nodefaults}>" />
+		<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');" />
+	</div>
+</form>
+
+<{include file="../photoalbum_script.html"}>
+<script class="nc_script" type="text/javascript">
+	var photoalbumForm = $("photoalbum_album_form<{$id}>");
+	photoalbumForm["photoalbum_id"].value = "<{$action.photoalbum.photoalbum_id}>";
+	photoalbumForm["album_id"].value = "<{$action.album.album_id}>";
+
+	photoalbumCls["<{$id}>"].showAlbumDetail();
+	<{if empty($action.album.album_id|smarty:nodefaults)}>
+		photoalbumForm["album_name"].value = "<{$lang.photoalbum_album_new_name|sprintf:$action.albumNumber}>";
+	<{else}>
+		photoalbumForm["album_name"].value = "<{$action.album.album_name|smarty:nodefaults|escape:"javascript"}>";
+	<{/if}>
+
+	photoalbumForm["upload_id"].value = "<{$action.album.upload_id}>";
+	photoalbumForm["album_jacket"].value = "<{$action.album.album_jacket|smarty:nodefaults|escape:"javascript"}>";
+	photoalbumForm["album_description"].value = "<{$action.album.album_description|smarty:nodefaults|escape:"javascript"}>";
+	photoalbumForm["photo_new_period"].value = "<{$action.album.photo_new_period}>";
+	
+	<{if $action.album.vote_flag== _ON}>
+		$("photoalbum_vote_flag_on<{$id}>").checked = true;
+	<{else}>
+		$("photoalbum_vote_flag_off<{$id}>").checked = true;
+	<{/if}>
+	
+	<{if $action.album.comment_flag== _ON}>
+		$("photoalbum_comment_flag_on<{$id}>").checked = true;
+	<{else}>
+		$("photoalbum_comment_flag_off<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.album.public_flag== _ON}>
+		$("photoalbum_public_flag_on<{$id}>").checked = true;
+	<{else}>
+		$("photoalbum_public_flag_off<{$id}>").checked = true;
+	<{/if}>
+
+	commonCls.focus("<{$id}>");
+	photoalbumForm = null;
+</script>
+<{/strip}>

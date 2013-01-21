@@ -1,0 +1,14 @@
+<{strip}>
+<{* ハンドル名用テンプレート *}>
+<{if $action.questionnaire.anonymity_flag == _ON}>
+	<span class="require">
+		<{$lang.questionnaire_anonymity_name}>
+	</span>
+<{elseif $handle == $lang.questionnaire_nonmember_answer}>
+		<{$handle}>
+<{else}>
+	<a class="syslink" href="#" title="<{$lang._user_title|sprintf:$handle}>" onclick="commonCls.showUserDetail(event, '<{$user_id}>');return false;">
+		<{$handle}>
+	</a>
+<{/if}>
+<{/strip}>

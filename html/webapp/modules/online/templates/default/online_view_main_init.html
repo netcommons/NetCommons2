@@ -1,0 +1,35 @@
+<{strip}>
+<{* オンライン状況画面用テンプレート *}>
+<table class="outer" summary="">
+	<{if $action.user_flag}>
+	<tr>
+		<th class="online_title" scope="row">
+			<{$lang.online_user|smarty:nodefaults}>
+		</th>
+		<td class="online_count">
+			<{$lang.online_count|smarty:nodefaults|sprintf:$action.userCount}>
+		</td>
+	</tr>
+	<{/if}>
+	<{if $action.member_flag}>
+	<tr>
+		<th class="online_title" scope="row">
+			<{$lang.online_member|smarty:nodefaults}>
+		</th>
+		<td class="online_count">
+			<{$lang.online_count|smarty:nodefaults|sprintf:$action.memberCount}>
+		</td>
+	</tr>
+	<{/if}>
+	<{if $action.total_member_flag}>
+	<tr>
+		<th class="online_title" scope="row">
+			<{$lang.online_total_merber|smarty:nodefaults}>
+		</th>
+		<td class="online_count">
+			<{$lang.online_count|smarty:nodefaults|sprintf:$action.totalMemberCount}>
+		</td>
+	</tr>
+	<{/if}>
+</table>
+<{/strip}>

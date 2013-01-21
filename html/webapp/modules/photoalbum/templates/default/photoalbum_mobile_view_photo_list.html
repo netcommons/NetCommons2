@@ -1,0 +1,54 @@
+<{strip}>
+<h3>
+	<{$action.album.album_name}>
+</h3>
+
+<{if $action.photoCount > 0}>
+
+	<{include file = "photoalbum_mobile_view_photo_list_operation.html" operationPosition="head"}>
+
+	<div class="photolist_<{$action.pageNumber}>">
+	<{foreach name=photo_list key=key item=photo from=$action.photos}>
+		<a href="?action=photoalbum_view_mobile_photo&amp;block_id=<{$block_id}>&amp;album_id=<{$action.album_id}>&amp;photo_id=<{$photo.photo_id}>&amp;seq=<{$photo.photo_sequence}>">
+			<img src=".<{$smarty.const.INDEX_FILE_NAME}><{$photo.photo_path}>&amp;w=50<{$session_param}>" width="50" alt="<{$photo_name}>" style="margin-left:5px;margin-top:5px;"/>
+		</a>
+	<{/foreach}>
+	</div>
+
+	<{include file = "photoalbum_mobile_view_photo_list_operation.html" operationPosition="foot"}>
+<{else}>
+	<{$lang.photoalbum_no_photo}>
+<{/if}>
+<br />
+<div style="text-align:right;">
+	<a href="?action=photoalbum_view_main_init&amp;block_id=<{$block_id}><{$session_param}>">
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<{/strip}>
+<{if $smarty.session._smartphone_flag == _ON}>
+<script type="text/javascript">
+	$(".photolist_<{$action.pageNumber}>").bind( "swiperight" );
+	$(".photolist_<{$action.pageNumber}>").bind( "swipeleft" );
+	<{if $action.pagePrevious > 0}>
+		$(".photolist_<{$action.pageNumber}>").bind( "swiperight", function(e) {
+			$.mobile.changePage("?action=photoalbum_view_mobile_list&block_id=<{$block_id}>&album_id=<{$action.album_id}>&pageNumber=<{$action.pagePrevious}><{$session_param}>",{ transition: "slide", reverse:"true"});
+			e.preventDefault();
+		});
+	<{else}>
+		$(".photolist_<{$action.pageNumber}>").bind( "swiperight", function(e) {
+			$(this).nc_jqm_alert("<{$lang.photoalbum_no_more_photos|smarty:nodefaults}>");
+		});
+	<{/if}>
+	<{if $action.pageNext < $action.pageEnd}>
+		$(".photolist_<{$action.pageNumber}>").bind( "swipeleft", function(e) {
+			$.mobile.changePage("?action=photoalbum_view_mobile_list&block_id=<{$block_id}>&album_id=<{$action.album_id}>&pageNumber=<{$action.pageNext}><{$session_param}>");
+			e.preventDefault();
+		});
+	<{else}>
+		$(".photolist_<{$action.pageNumber}>").bind( "swipeleft", function(e) {
+			$(this).nc_jqm_alert("<{$lang.photoalbum_no_more_photos|smarty:nodefaults}>");
+		});
+	<{/if}>
+</script>
+<{/if}>

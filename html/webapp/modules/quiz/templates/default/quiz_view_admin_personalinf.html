@@ -1,0 +1,76 @@
+<{strip}>
+<{* 小テスト解答一覧（会員詳細）用テンプレート *}>
+<div id="quiz_personal_information_outer<{$id}>" class="quiz_personal_information">
+	<table class="quiz_personal_information" summary="<{$lang.quiz_summary_list_summary}>">
+		<tr> 
+			<th scope="col">
+				<{$lang.quiz_room_name}>
+			</th>
+			
+			<th scope="col">
+				<{$lang.quiz_quiz_name}>
+			</th>
+
+			<th scope="col">
+				<{$lang.quiz_answer_number}>
+			</th>
+			
+			<th scope="col">
+				<{$lang.quiz_answer_date}>
+			</th>
+
+			<th scope="col">
+				<{$lang.quiz_score}>
+			</th>
+			
+			<th scope="col">
+				<{$lang.quiz_deviation}>
+			</th>
+		</tr>
+		
+		<{foreach from=$action.personalSummaries item=personalSummary name="summary"}>
+			<tr>
+				<td>
+					<{$personalSummary.page_name}>
+				</td>
+	
+				<td>
+					<{$personalSummary.quiz_name}>
+				</td>
+		
+				<{if empty($personalSummary.summary_id|smarty:nodefaults)}>
+					<td class="require">
+						<{$lang.quiz_answer_none}>
+					</td>
+
+					<td></td>
+					<td></td>
+					<td></td>
+				<{else}>
+					<td>
+						<{$lang.quiz_number|sprintf:$personalSummary.answer_number}>
+					</td>			
+			
+					<td>
+						<{$personalSummary.answer_time|timezone_date_format:$lang._date_format}>
+					</td>
+					
+					<td class="align-right">
+						<{$lang.quiz_point_allocation|sprintf:$personalSummary.summary_score:$personalSummary.perfect_score}>
+					</td>
+		
+					<td class="align-right">
+						<{$lang.quiz_deviation_value|sprintf:$personalSummary.deviation}>
+					</td>
+				<{/if}>
+			</tr>
+		<{/foreach}>
+	</table>
+</div>
+
+<{if count($action.personalSummaries) > QUIZ_PERSONAL_INFORMATION_MAX_ROW}>
+	<script class="nc_script" type="text/javascript">
+		Element.addClassName($("quiz_personal_information_outer<{$id}>"), "quiz_personal_information_over");
+	</script>
+<{/if}>
+<{/strip}>

@@ -1,0 +1,282 @@
+<{strip}>
+
+<td colspan="2" id="reservation_repeat<{$id}>" class="reservation_repeat">
+	<{assign var="rrule_arr" value=$reserve.rrule_set_arr}>
+	<{assign var="freq" value=$rrule_arr.FREQ}>
+	<{if ($freq == "NONE") }>
+		<{assign var="repeat_display_class" value=" display-none"}>
+	<{else}>
+		<{assign var="repeat_display_class" value=""}>
+	<{/if}>
+
+	<div class="reservation_disp_repeat align-right<{if ($repeat_display_class == "") }> display-none<{/if}>">
+		<input name="repeat_btn" type="button" value="<{$lang.reservation_repeat_btn|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].switchRepeatBtn(this);' />
+	</div>
+
+	<div class="reservation_disp_repeat hr<{$repeat_display_class}>"></div>
+	
+	<div class="reservation_disp_repeat reservation_freq<{$repeat_display_class}>">
+		<label for="reservation_not_repeat<{$id}>">
+			<input id="reservation_not_repeat<{$id}>" type="radio" name="repeat_flag" value="<{$smarty.const._OFF}>"<{if ($repeat_display_class != "") }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchRepeat(this.form,"NONE");' />
+			<{$lang.reservation_not_repeat|smarty:nodefaults}>
+		</label>
+		<br />
+		<label for="reservation_do_repeat<{$id}>">
+			<input id="reservation_do_repeat<{$id}>" type="radio" name="repeat_flag" value="<{$smarty.const._ON}>"<{if ($repeat_display_class == "") }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchRepeat(this.form,null);' />
+			<{$lang.reservation_do_repeat|smarty:nodefaults}>
+		</label>
+		
+		<div class="hr"></div>
+		<div class="reservation_r_daily">
+			<{assign var="rrule" value=$rrule_arr.DAILY}>
+			<div class="reservation_r_margin">
+				<label for="reservation_repeat_freq_daily<{$id}>">
+					<input id="reservation_repeat_freq_daily<{$id}>" type="radio" name="repeat_freq" value="DAILY" onclick='reservationCls["<{$id}>"].switchRepeat(this.form,"DAILY");'<{if ($freq == "DAILY") }> checked="checked"<{/if}> />
+					<{$lang.reservation_rrule_freq_daily|smarty:nodefaults}>
+				</label>
+				
+				&nbsp;
+				&nbsp;
+				<label for="reservation_repeat_freq_daily_interval<{$id}>">
+					<{$lang.reservation_rrule_interval_prefix|smarty:nodefaults}>
+					<select id="reservation_repeat_freq_daily_interval<{$id}>" name="rrule_interval[DAILY]">
+						<{section name=interval loop=7 start=1 step=1}>
+							<{assign var=interval value=$smarty.section.interval.index}>
+							<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+								<{$lang.reservation_rrule_interval_day|smarty:nodefaults|sprintf:$interval}>
+							</option>
+						<{/section}>
+					</select>
+					<{$lang.reservation_rrule_interval_suffix|smarty:nodefaults}>
+				</label>
+			</div>
+		</div>
+
+		<div class="hr"></div>
+		<div class="reservation_r_weekly">
+			<{assign var="rrule" value=$rrule_arr.WEEKLY}>
+
+			<div class="reservation_r_margin">
+				<label for="reservation_repeat_freq_weekly<{$id}>">
+					<input id="reservation_repeat_freq_weekly<{$id}>" type="radio" name="repeat_freq" value="WEEKLY" onclick='reservationCls["<{$id}>"].switchRepeat(this.form,"WEEKLY");'<{if ($freq == "WEEKLY") }> checked="checked"<{/if}> />
+					<{$lang.reservation_rrule_freq_weekly|smarty:nodefaults}>
+				</label>
+
+				&nbsp;
+				&nbsp;
+				<label for="reservation_repeat_freq_weekly_interval<{$id}>">
+					<{$lang.reservation_rrule_interval_prefix|smarty:nodefaults}>
+					<select id="reservation_repeat_freq_weekly_interval<{$id}>" name="rrule_interval[WEEKLY]">
+						<{section name=interval loop=6 start=1 step=1}>
+							<{assign var=interval value=$smarty.section.interval.index}>
+							<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+								<{$lang.reservation_rrule_interval_week|smarty:nodefaults|sprintf:$interval}>
+							</option>
+						<{/section}>
+					</select>
+					<{$lang.reservation_rrule_interval_suffix|smarty:nodefaults}>
+				</label>
+			</div>
+			
+			<div class="reservation_r_margin">
+				<{assign var="rrule_byday" value=$rrule.BYDAY}>
+				
+				<{foreach name="week_list" key="wday" item="week_item" from=$action.week_list}>
+					<label for="reservation_rrule_byday_weekly_<{$wday}><{$id}>">
+						<input id="reservation_rrule_byday_weekly_<{$wday}><{$id}>" type="checkbox" name="rrule_byday[WEEKLY][]" value="<{$wday}>"<{if ($rrule_byday && in_array($wday|smarty:nodefaults, $rrule_byday))}> checked="checked"<{/if}> />
+						<{$week_item.long_name}>
+					</label>
+					&nbsp;
+					&nbsp;
+				<{/foreach}>
+			</div>
+		</div>
+
+		<div class="hr"></div>
+		<div class="reservation_r_monthly">
+			<{assign var="rrule" value=$rrule_arr.MONTHLY}>
+
+			<div class="reservation_r_margin">
+				<label for="reservation_repeat_freq_monthly<{$id}>">
+					<input id="reservation_repeat_freq_monthly<{$id}>" type="radio" name="repeat_freq" value="MONTHLY" onclick='reservationCls["<{$id}>"].switchRepeat(this.form,"MONTHLY");'<{if ($freq == "MONTHLY") }> checked="checked"<{/if}> />
+					<{$lang.reservation_rrule_freq_monthly|smarty:nodefaults}>
+				</label>
+
+				&nbsp;
+				&nbsp;
+				<label for="reservation_repeat_freq_monthly_interval<{$id}>">
+					<{$lang.reservation_rrule_interval_prefix|smarty:nodefaults}>
+					<select id="reservation_repeat_freq_monthly_interval<{$id}>" name="rrule_interval[MONTHLY]">
+						<{section name=interval loop=12 start=1 step=1}>
+							<{assign var=interval value=$smarty.section.interval.index}>
+							<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+								<{$lang.reservation_rrule_interval_month|smarty:nodefaults|sprintf:$interval}>
+							</option>
+						<{/section}>
+					</select>
+					<{$lang.reservation_rrule_interval_suffix|smarty:nodefaults}>
+				</label>
+			</div>
+			
+			<div class="reservation_r_margin">
+
+				<{assign var="rrule_byday" value=$rrule.BYDAY}>
+				<select name="rrule_byday[MONTHLY][]" onclick="reservationCls['<{$id}>'].switchRruleMonthly(this.form);">
+					<option value=""<{if (count($rrule_byday) == 0)}> selected="selected"<{/if}>>
+						<{$lang.reservation_rrule_select_wday|smarty:nodefaults}>
+					</option>
+
+					<{section name="week" loop=6 start=1 step=1}>
+						<{foreach name="week_list" key="wday" item="week_item" from=$action.week_list}>
+							<{assign var="week" value=$smarty.section.week.index}>
+							<{if ($week == 1) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_first|smarty:nodefaults}>
+
+							<{elseif ($week == 2) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_second|smarty:nodefaults}>
+							
+							<{elseif ($week == 3) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_third|smarty:nodefaults}>
+
+							<{elseif ($week == 4) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_fourth|smarty:nodefaults}>
+
+							<{else}>
+								<{assign var="week" value="-1"}>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_end|smarty:nodefaults}>
+							<{/if}>
+
+							<{assign var="byday" value=$week|smarty:nodefaults|cat:$wday}>
+							<option value="<{$byday}>"<{if ($rrule_byday && in_array($byday, $rrule_byday))}> selected="selected"<{/if}>>
+								<{$weeknum}><{$week_item.long_name}>
+							</option>
+						<{/foreach}>
+					<{/section}>
+				</select>
+				
+				<{$lang.reservation_rrule_monthly_pause|smarty:nodefaults}>
+				
+				<{assign var="rrule_bymonthday" value=$rrule.BYMONTHDAY}>
+				<select name="rrule_bymonthday[MONTHLY][]" onclick="reservationCls['<{$id}>'].switchRruleMonthly(this.form);">
+					<option value=""<{if (count($rrule_bymonthday) == 0)}> selected="selected"<{/if}>>
+						<{$lang.reservation_rrule_select_date|smarty:nodefaults}>
+					</option>
+					<{section name="day" loop=32 start=1 step=1}>
+						<{assign var="day" value=$smarty.section.day.index}>
+						<option value="<{$day}>"<{if ($rrule_bymonthday && in_array($day, $rrule_bymonthday))}> selected="selected"<{/if}>>
+							<{$lang.reservation_rrule_input_day|smarty:nodefaults|sprintf:$day}>
+						</option>
+					<{/section}>
+				</select>
+			</div>
+		</div>
+
+		<div class="hr"></div>
+		<div class="reservation_r_yearly">
+			<{assign var="rrule" value=$rrule_arr.YEARLY}>
+
+			<div class="reservation_r_margin">
+				<label for="reservation_repeat_freq_yearly<{$id}>">
+					<input id="reservation_repeat_freq_yearly<{$id}>" type="radio" name="repeat_freq" value="YEARLY" onclick='reservationCls["<{$id}>"].switchRepeat(this.form,"YEARLY");'<{if ($freq == "YEARLY") }> checked="checked"<{/if}> />
+					<{$lang.reservation_rrule_freq_yearly|smarty:nodefaults}>
+				</label>
+
+				&nbsp;
+				&nbsp;
+				<label for="reservation_repeat_freq_yearly_interval<{$id}>">
+					<{$lang.reservation_rrule_interval_prefix|smarty:nodefaults}>
+					<select id="reservation_repeat_freq_yearly_interval<{$id}>" name="rrule_interval[YEARLY]">
+						<{section name=interval loop=13 start=1 step=1}>
+							<{assign var=interval value=$smarty.section.interval.index}>
+							<option value="<{$interval}>"<{if ($interval == $rrule.INTERVAL) }> selected="selected"<{/if}>>
+								<{$lang.reservation_rrule_interval_year|smarty:nodefaults|sprintf:$interval}>
+							</option>
+						<{/section}>
+					</select>
+					<{$lang.reservation_rrule_interval_suffix|smarty:nodefaults}>
+				</label>
+			</div>
+
+			<div class="reservation_r_margin">
+				<{assign var="rrule_bydmonth" value=$rrule.BYMONTH}>
+				<{section name=bymonth loop=13 start=1 step=1}>
+					<{assign var="month" value="%d"|sprintf:$smarty.section.bymonth.index}>
+
+					<label for="reservation_repeat_bymonth_yearly_<{$month}><{$id}>">
+						<input id="reservation_repeat_bymonth_yearly_<{$month}><{$id}>" type="checkbox" name="rrule_bymonth[YEARLY][]" value="<{$month}>"<{if ($rrule_bydmonth && in_array($month, $rrule_bydmonth))}> checked="checked"<{/if}> />
+						<{$lang.reservation_rrule_month|smarty:nodefaults|sprintf:$smarty.section.bymonth.index}>
+					</label>
+					&nbsp;
+					&nbsp;
+					<{if ($smarty.section.bymonth.index == 6) }>
+						<br />
+					<{/if}>
+				<{/section}>
+			</div>
+			
+			<div class="reservation_r_margin">
+				<{assign var="rrule_byday" value=$rrule.BYDAY}>
+				<select name="rrule_byday[YEARLY][]">
+					<option value=""<{if (count($rrule_byday) == 0)}> selected="selected"<{/if}>>
+						<{$lang.reservation_rrule_startdate|smarty:nodefaults}>
+					</option>
+
+					<{section name="week" loop=6 start=1 step=1}>
+						<{foreach name="week_list" key="wday" item="week_item" from=$action.week_list}>
+							<{assign var="week" value=$smarty.section.week.index}>
+							<{if ($week == 1) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_first|smarty:nodefaults}>
+
+							<{elseif ($week == 2) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_second|smarty:nodefaults}>
+							
+							<{elseif ($week == 3) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_third|smarty:nodefaults}>
+
+							<{elseif ($week == 4) }>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_fourth|smarty:nodefaults}>
+
+							<{else}>
+								<{assign var="week" value="-1"}>
+								<{assign var="weeknum" value=$lang.reservation_rrule_week_end|smarty:nodefaults}>
+							<{/if}>
+
+							<{assign var="byday" value=$week|smarty:nodefaults|cat:$wday}>
+							<option value="<{$byday}>"<{if ($rrule_byday && in_array($byday, $rrule_byday))}> selected="selected"<{/if}>>
+								<{$weeknum}><{$week_item.long_name}>
+							</option>
+						<{/foreach}>
+					<{/section}>
+				</select>
+			</div>
+		</div>
+
+		<div class="hr"></div>
+		<div class="reservation_terminator">
+			<div class="reservation_r_margin">
+				<{assign var="rrule" value=$rrule_arr.YEARLY}>
+				<label for='reservation_rrule_term_count<{$id}>'>
+					<input id='reservation_rrule_term_count<{$id}>' type='radio' name="rrule_term" value='COUNT'<{if ($rrule_arr.REPEAT_COUNT == _ON) }> checked="checked"<{/if}> onclick="reservationCls['<{$id}>'].switchTerm(this.form);commonCls.focus(this.form.rrule_count);" />
+					<{$lang.reservation_rrule_term_count|smarty:nodefaults}>
+				</label>
+				<label for="reservation_rrule_count<{$id}>">
+					<input id="reservation_rrule_count<{$id}>" type='text' name="rrule_count" size="3" maxlength="3" value="<{$rrule_arr.COUNT}>" />
+					<{$lang.reservation_rrule_count|smarty:nodefaults}>
+				</label>
+			</div>
+
+			<div class="reservation_r_margin">
+				<label for='reservation_rrule_term_until<{$id}>'>
+					<input id='reservation_rrule_term_until<{$id}>' type='radio' name="rrule_term" value='UNTIL'<{if ($rrule_arr.REPEAT_UNTIL == _ON) }> checked="checked"<{/if}> onclick="reservationCls['<{$id}>'].switchTerm(this.form); commonCls.focus(this.form.rrule_until);" />
+					<{$lang.reservation_rrule_term_until|smarty:nodefaults}>
+				</label>
+				<label for="reservation_rrule_until<{$id}>">
+					<input id="reservation_rrule_until<{$id}>" name="rrule_until" class="rrule_until" type="text" value="<{$rrule_arr.UNTIL_VIEW}>" size="13" maxlength="10" />
+				</label>
+			</div>
+		</div>
+		<div class="hr"></div>
+	</div>
+</td>
+
+<{/strip}>

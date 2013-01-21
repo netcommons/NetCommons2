@@ -1,0 +1,53 @@
+<{* Tooltip *}>
+<script class="nc_script" type="text/javascript">
+	<{* セキュリティチェック *}>
+	var security_show_second = 6000;
+	commonCls.observeTooltip($('security_check_set_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_check|smarty:nodefaults}>:</span><br /><{$lang.security_check_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* セキュリティレベル *}>
+	commonCls.observeTooltip($('security_level_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_level|smarty:nodefaults}>:</span><br /><{$lang.security_level_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* ログレベル *}>
+	commonCls.observeTooltip($('log_level_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_log_level|smarty:nodefaults}>:</span><br /><{$lang.security_log_level_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* ヌル文字列をスペースに変更する *}>
+	commonCls.observeTooltip($('san_nullbyte_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_san_nullbyte|smarty:nodefaults}>:</span><br /><{$lang.security_san_nullbyte_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 変数汚染が見つかった時の処理 *}>
+	commonCls.observeTooltip($('contami_action_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_contami_action|smarty:nodefaults}>:</span><br /><{$lang.security_contami_action_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 孤立コメントが見つかった時の処理 *}>
+	commonCls.observeTooltip($('isocom_action_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_isocom_action|smarty:nodefaults}>:</span><br /><{$lang.security_isocom_action_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* UNIONが見つかった時の処理 *}>
+	commonCls.observeTooltip($('union_action_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_union_action|smarty:nodefaults}>:</span><br /><{$lang.security_union_action_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 疑わしいファイル指定の禁止 *}>
+	commonCls.observeTooltip($('file_dotdot_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_file_dotdot|smarty:nodefaults}>:</span><br /><{$lang.security_file_dotdot_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* DoS等の監視時間 *}>
+	commonCls.observeTooltip($('dos_expire_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_dos_expire|smarty:nodefaults}>:</span><br /><{$lang.security_dos_expire_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* F5アタックとみなす回数 *}>
+	commonCls.observeTooltip($('dos_f5count_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_dos_f5count|smarty:nodefaults}>:</span><br /><{$lang.security_dos_f5count_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* F5アタックの対処 *}>
+	commonCls.observeTooltip($('dos_f5action_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_dos_f5action|smarty:nodefaults}>:</span><br /><{$lang.security_dos_f5action_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 除外するIPアドレス *}>
+	commonCls.observeTooltip($('reliable_ips_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_reliable_ips|smarty:nodefaults}>:</span><br /><{$lang.security_reliable_ips_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 悪意あるクローラーとみなす回数 *}>
+	commonCls.observeTooltip($('dos_crcount_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_dos_crcount|smarty:nodefaults}>:</span><br /><{$lang.security_dos_crcount_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 悪意あるクローラーの対処 *}>
+	commonCls.observeTooltip($('dos_craction_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_dos_craction|smarty:nodefaults}>:</span><br /><{$lang.security_dos_craction_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 拒否しない User-Agent *}>
+	commonCls.observeTooltip($('dos_crsafe_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_dos_crsafe|smarty:nodefaults}>:</span><br /><{$lang.security_dos_crsafe_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 拒否IP登録の保護グループ *}>
+	commonCls.observeTooltip($('bip_except_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_bip_except|smarty:nodefaults}>:</span><br /><{$lang.security_bip_except_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* IPアクセス拒否の有効 *}>
+	commonCls.observeTooltip($('enable_badips_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_enable_badips|smarty:nodefaults}>:</span><br /><{$lang.security_enable_badips_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* アクセス拒否IP *}>
+	commonCls.observeTooltip($('bad_ips_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_bad_ips|smarty:nodefaults}>:</span><br /><{$lang.security_bad_ips_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 禁止用語処理の有効 *}>
+	commonCls.observeTooltip($('censor_enable_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_censor_enable|smarty:nodefaults}>:</span><br /><{$lang.security_censor_enable_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 禁止用語 *}>
+	commonCls.observeTooltip($('censor_words_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_censor_words|smarty:nodefaults}>:</span><br /><{$lang.security_censor_words_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* 禁止用語を置き換える文字列 *}>
+	commonCls.observeTooltip($('censor_replace_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_censor_replace|smarty:nodefaults}>:</span><br /><{$lang.security_censor_replace_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* アップロードファイルの許可拡張子 *}>
+	commonCls.observeTooltip($('allow_extension_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_allow_extension|smarty:nodefaults}>:</span><br /><{$lang.security_allow_extension_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* IP変動を禁止するベース権限 *}>
+	commonCls.observeTooltip($('groups_denyipmove_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_groups_denyipmove|smarty:nodefaults}>:</span><br /><{$lang.security_groups_denyipmove_exposition|smarty:nodefaults}></span>', security_show_second);
+	<{* レスキューパスワード *}>
+	commonCls.observeTooltip($('passwd_disabling_bip_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_passwd_disabling_bip|smarty:nodefaults}>:</span><br /><{$lang.security_passwd_disabling_bip_exposition|smarty:nodefaults}></span>', security_show_second);
+	commonCls.observeTooltip($('repasswd_disabling_bip_lbl<{$id}>'), '<{$id}>', '<span class=\'security_tooltip\'><span class=\'bold\'><{$lang.security_repasswd_disabling_bip|smarty:nodefaults}>:</span><br /><{$lang.security_repasswd_disabling_bip_exposition|smarty:nodefaults}></span>', security_show_second);
+</script>

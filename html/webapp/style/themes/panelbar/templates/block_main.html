@@ -1,0 +1,25 @@
+<{strip}>
+<table border="0" cellspacing="0" cellpadding="0" class="th_<{$main_theme_name}> th_<{$sub_main_theme_name}> widthmax">
+	<tr>
+		<td class="th_panelbar_upperleft th_<{$main_theme_name}>_line"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_panelbar_upperleft" /></td>
+		<td class="th_panelbar_upper"></td>
+		<td class="th_panelbar_upperright"><img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="th_panelbar_upperright" /></td>
+	</tr>
+	<tr>
+		<td class="th_panelbar_left th_<{$main_theme_name}>_line"></td>
+		<td class="th_panelbar_content">
+			<{*ヘッダータイトル*}>
+			<{include file="../../../../templates/headertitle/default/title.html"}>
+			<{*ヘッダーメニュー*}>
+			<{if $headermenu}><{include file="../../../../templates/default/headermenu.html"}><{/if}>
+			<div class="content"><{$content_field|smarty:nodefaults}></div>
+		</td>
+		<td class="th_panelbar_right"></td>
+	</tr>
+	<tr>
+		<td class="th_panelbar_belowleft th_<{$main_theme_name}>_line"></td>
+		<td class="th_panelbar_below"></td>
+		<td class="th_panelbar_belowright"></td>
+	</tr>
+</table>
+<{/strip}>

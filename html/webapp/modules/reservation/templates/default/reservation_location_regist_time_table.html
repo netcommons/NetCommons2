@@ -1,0 +1,77 @@
+<{strip}>
+
+<th scope="row" class="nowrap">
+	<label for="time_table<{$id}>">
+		<{$lang.reservation_time_table|smarty:nodefaults}>
+	</label>
+</th>
+<td class="nowrap">
+ 	<{assign var="start_hour" value="`$location.start_time`"|substr:8:2}>
+	<select name="start_hour">
+		<{section name=start_hour loop=24 start=0 step=1}>
+			<{assign var=hour value=$smarty.section.start_hour.index|string_format:"%02d"}>
+			<option value="<{$hour}>"<{if ($hour == $start_hour) }> selected="selected"<{/if}>>
+				<{$lang.reservation_hour|smarty:nodefaults|sprintf:$hour}>
+			</option>
+		<{/section}>
+	</select>
+	&nbsp;
+	<{assign var="start_minute" value="`$location.start_time`"|substr:10:2}>
+	<select name="start_minute">
+		<{section name=start_minute loop=60 start=0 step=5}>
+			<{assign var=minute value=$smarty.section.start_minute.index|string_format:"%02d"}>
+			<option value="<{$minute}>"<{if ($minute == $start_minute) }> selected="selected"<{/if}>>
+				<{$lang.reservation_minute|smarty:nodefaults|sprintf:$minute}>
+			</option>
+		<{/section}>
+	</select>
+	
+	<{$lang.reservation_pause|smarty:nodefaults}>
+	
+	<{assign var="end_hour" value="`$location.end_time`"|substr:8:2}>
+	<select name="end_hour" onchange='reservationCls["<{$id}>"].switchLocationTime24(this.form);'>
+		<{section name=end_hour loop=25 start=0 step=1}>
+			<{assign var=hour value=$smarty.section.end_hour.index|string_format:"%02d"}>
+			<option value="<{$hour}>"<{if ($hour == $end_hour) }> selected="selected"<{/if}>>
+				<{$lang.reservation_hour|smarty:nodefaults|sprintf:$hour}>
+			</option>
+		<{/section}>
+	</select>
+	&nbsp;
+	<{assign var="end_minute" value="`$location.end_time`"|substr:10:2}>
+	<select name="end_minute">
+		<{section name=end_minute loop=60 start=0 step=5}>
+			<{assign var=minute value=$smarty.section.end_minute.index|string_format:"%02d"}>
+			<option value="<{$minute}>"<{if ($minute == $end_minute) }> selected="selected"<{/if}>>
+				<{$lang.reservation_minute|smarty:nodefaults|sprintf:$minute}>
+			</option>
+		<{/section}>
+	</select>
+	
+	<label for="allday_flag<{$id}>">
+		<input id="allday_flag<{$id}>" type="checkbox" name="allday_flag" value="<{$smarty.const._ON}>"<{if ($location.allday_flag == _ON) }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchLocationAlldayTime(this.form);' />
+		<{$lang.reservation_allday_flag|smarty:nodefaults}>
+	</label>
+	
+	<{if ($smarty.session._timezone_offset != $location.timezone_offset) }>
+		<br />
+		<{include file="./reservation_view_timezone.html" timezone_offset=$location.timezone_string}>
+	<{/if}>
+
+	<{foreach name="week_list" key="wday" item="week" from=$action.week_list}>
+		<{if ($smarty.foreach.week_list.index % 4 == 0) }>
+			<br />
+		<{else}>
+			&nbsp;
+			&nbsp;
+		<{/if}>
+		
+		<label for="reservation_rrule_byday_<{$wday}><{$id}>">
+			<{assign var="timetable_arr" value=$location.time_table_arr}>
+			<input id="reservation_rrule_byday_<{$wday}><{$id}>" type="checkbox" name="rrule_byday[<{$smarty.foreach.week_list.index}>]" value="<{$wday}>"<{if (!empty($location.time_table|smarty:nodefaults) && in_array($wday, $timetable_arr))}> checked="checked"<{/if}> />
+			<{$week.long_name}>
+		</label>
+	<{/foreach}>
+</td>
+
+<{/strip}>

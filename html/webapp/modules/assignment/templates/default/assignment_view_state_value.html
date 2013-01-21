@@ -1,0 +1,12 @@
+<{strip}>
+<{* 状態表示テンプレート *}>
+
+<{if ($activity == _ON) }>
+	<{$lang.assignment_state_operation|smarty:nodefaults}>
+<{else}>
+	<span class="assignment_state_finish">
+		<{$lang.assignment_state_finish|smarty:nodefaults}>
+	</span>
+<{/if}>
+
+<{/strip}>

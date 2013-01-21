@@ -1,0 +1,107 @@
+<{strip}>
+<form action="" id="form<{$id}>" onsubmit="return false;">
+	<{* タイトル *}>
+	<div class="bold">
+		<{if $action.edit_flag == _ON}>
+			<{* ルーム参加者修正 *}>
+			<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', $('form<{$id}>'), $('<{$id}>')); return false;">
+				<{assign var="user_id" value=$action.user_id}>
+				<{$lang.user_view_admin_edit_init|smarty:nodefaults}>[<{* Hangle:item_id=2固定*}><{$smarty.session.user.regist.$user_id.2}>]
+			</a>
+		<{else}>
+			<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_init', $('form<{$id}>'), $('<{$id}>')); return false;">
+				<{$lang.user_view_admin_regist_init|smarty:nodefaults}>
+			</a>
+		<{/if}>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<a class="link" href="#" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selroom', $('form<{$id}>'), $('form<{$id}>').parentNode); return false;">
+			<{$lang.user_select_room|smarty:nodefaults}>
+		</a>
+		<{$lang._arrow_separator|smarty:nodefaults}>
+		<{$lang.user_select_auth|smarty:nodefaults}>
+	</div>
+	<{* 説明 *}>
+	<div class="top_description">
+		<{if $action.user_auth_id == _AUTH_CHIEF}>
+			<{assign var="user_authority_name" value=$smarty.const._AUTH_CHIEF_NAME|smarty:nodefaults}>
+		<{elseif $action.user_auth_id == _AUTH_MODERATE}>
+			<{assign var="user_authority_name" value=$smarty.const._AUTH_MODERATE_NAME|smarty:nodefaults}>
+		<{elseif $action.user_auth_id == _AUTH_GENERAL}>
+			<{assign var="user_authority_name" value=$smarty.const._AUTH_GENERAL_NAME|smarty:nodefaults}>
+		<{else}>
+			<{assign var="user_authority_name" value=$smarty.const._AUTH_GUEST_NAME}>
+		<{/if}>
+		<{$lang.user_top_descripton|smarty:nodefaults|sprintf:"`$lang._btn_next_arrow`":"`$user_authority_name`":"`$lang._btn_select_all`"}>
+	</div>
+	<table class="grid_header" summary="">
+	<tr>
+		<th rowspan="2" scope="col">
+			<div class="user_selectauth_entry_room">
+				<{$lang.user_entry_room|smarty:nodefaults}>
+			</div>
+		</th>
+		<th rowspan="2" scope="col">
+			<div class="user_selectauth_auth_list">
+				<{$smarty.const._AUTH_CHIEF_NAME|smarty:nodefaults}>
+			</div>
+		</th>
+		<th <{if $action.authorities_count>1}>colspan="<{$action.authorities_count}>"<{else}>rowspan="2"<{/if}> scope="col">
+			<div class="user_selectauth_auth_list">
+				<{$smarty.const._AUTH_MODERATE_NAME|smarty:nodefaults}>
+			</div>
+		</th>
+		<th rowspan="2" scope="col">
+			<div class="user_selectauth_auth_list">
+				<{$smarty.const._AUTH_GENERAL_NAME|smarty:nodefaults}>
+				<{* 全選択 *}>
+				<div>
+					<input type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectRadio(this.form, '<{$smarty.const._ROLE_AUTH_GENERAL}>',userCls['<{$id}>'].chkRadioSelectauth)" />
+				</div>
+			</div>
+			
+		</th>
+		<th rowspan="2" scope="col">
+			<div class="user_selectauth_auth_list">
+				<{$smarty.const._AUTH_GUEST_NAME|smarty:nodefaults}>
+				<{* 全選択 *}>
+				<div>
+					<input class="align-center" type="button" value="<{$lang._btn_select_all|smarty:nodefaults}>" onclick="commonCls.frmAllSelectRadio(this.form, '<{$smarty.const._ROLE_AUTH_GUEST}>',userCls['<{$id}>'].chkRadioSelectauth)" />
+				</div>
+			</div>
+		</th>
+		<{* サブグループ作成許可 *}>
+		<th rowspan="2" scope="col">
+			<div class="user_selectauth_auth_list">
+				<{$lang._createroom_flag_name|smarty:nodefaults}>
+			</div>
+		</th>
+	</tr>
+	<{if $action.authorities_count>1}>
+	<tr>
+		<{foreach from=$action.authorities item=authority}>
+			<th scope="col">
+				<div class="user_selectauth_auth_list user_selectauth_moderate_color">
+					<{$authority.role_authority_name}>
+				</div>
+			</th>
+		<{/foreach}>
+	</tr>
+	<{/if}>
+	</table>
+	<table class="grid" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+		<{assign var="action_room_list" value=$action.enroll_room_list}>
+		<{assign var="room_list" value=$action.enroll_room_list.0.0}>
+		<{assign var="user_id" value=$action.user_id}>
+		<{include file="user_select_room_list.html"}>
+	</table>
+	<div class="align-right room_selectauth_btnlist">
+		<input class="btn-width lined_btn" name="prev" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_selroom', this.form, this.form.parentNode); return false;" />
+		<input class="btn-width lined_btn" name="next" type="button" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="userCls['<{$id}>'].formSerializeMain('user_view_admin_regist_confirm', this.form, this.form.parentNode); return false;" />
+		<{if $action.edit_flag == 1}>
+			<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="if(!commonCls.confirm('<{$lang._close_block_confirm|smarty:nodefaults|escape:"javascript"|escape:"html"}>'))return false;commonCls.removeBlock('<{$id}>'); return false;" />
+		<{/if}>
+	</div>
+	<input name="user_id" type="hidden" value="<{$action.user_id}>" />
+</form>
+<{include file="user_script.html"}>
+<{/strip}>

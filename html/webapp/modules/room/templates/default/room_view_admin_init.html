@@ -1,0 +1,26 @@
+<{strip}>
+<div class="outerdiv">
+	<table class="room_top" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+		<tr>
+		<{foreach from=$action.pages item=pages}>
+			<{if !($pages.private_flag == _ON && $action.authority.myroom_use_flag == _OFF)}>
+			<td>
+				<a class="link" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_list','show_default_entry_flag':<{$pages.default_entry_flag}>,'show_space_type':<{$pages.space_type}>,'show_private_flag':<{$pages.private_flag}>}); return false;">
+					<div class="room_init_icon">
+						<img src="<{""|get_image_url}>/images/room/<{if $pages.space_type == _SPACE_TYPE_PUBLIC}>room_public.gif<{elseif $pages.space_type == _SPACE_TYPE_GROUP && $pages.private_flag == _OFF}>room_group.gif<{else}>room_private.gif<{/if}>" alt="<{$pages.page_name}>" title="<{$pages.page_name}>" /><br />
+						<div class="room_init_icon_title"><{$pages.page_name}></div>
+					</div>
+				</a>
+			</td>
+			<{/if}>
+		<{/foreach}>
+		</tr>
+	</table>
+</div>
+<{include file="room_script.html"}>
+<script class="nc_script" type="text/javascript">
+commonCls.closeCallbackFuncEvent["<{$id}>"] = function() {
+	location.reload(true);
+};
+</script>
+<{/strip}>

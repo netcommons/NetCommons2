@@ -1,0 +1,95 @@
+<{strip}>
+<{* Todo表示方法変更画面用テンプレート *}>
+<form id="todo_form<{$id}>" action="#">
+	<input type="hidden" name="action" value="todo_action_edit_style" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_SETTINGFORM}>">
+		<tr class="row">
+			<th scope="row">
+				<{$lang.todo_todo_name|smarty:nodefaults}>
+			</th>
+			<td>
+				<{$action.todo.todo_name}>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label>
+					<{$lang.todo_default_sort|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<label for="todo_default_sort_priority<{$id}>">
+					<input id="todo_default_sort_priority<{$id}>" type="radio" name="default_sort" value="<{$smarty.const.TODO_PRIORITY}>" />
+					<{$lang.todo_priority|smarty:nodefaults}>
+				</label><br />
+				<label for="todo_default_sort_state<{$id}>">
+					<input id="todo_default_sort_state<{$id}>" type="radio" name="default_sort" value="<{$smarty.const.TODO_STATE}>" />
+					<{$lang.todo_state|smarty:nodefaults}>
+				</label><br />
+				<label for="todo_default_sort_period<{$id}>">
+					<input id="todo_default_sort_period<{$id}>" type="radio" name="default_sort" value="<{$smarty.const.TODO_PERIOD}>" />
+					<{$lang.todo_period|smarty:nodefaults}>
+				</label><br />
+				<label for="todo_default_sort_task<{$id}>">
+					<input id="todo_default_sort_task<{$id}>" type="radio" name="default_sort" value="<{$smarty.const.TODO_TASK_VALUE}>" />
+					<{$lang.todo_task_value|smarty:nodefaults}>
+				</label><br />
+				<label for="todo_default_sort_progress<{$id}>">
+					<input id="todo_default_sort_progress<{$id}>" type="radio" name="default_sort" value="<{$smarty.const.TODO_PROGRESS}>" />
+					<{$lang.todo_progress|smarty:nodefaults}>
+				</label><br />
+				<label for="todo_default_sort_none<{$id}>">
+					<input id="todo_default_sort_none<{$id}>" type="radio" name="default_sort" value="<{$smarty.const.TODO_NONE}>" />
+					<{$lang.todo_default_sort_none|smarty:nodefaults}>
+				</label><br />
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+				<label>
+					<{$lang.todo_used_category|smarty:nodefaults}>
+				</label>
+			</th>
+
+			<td>
+				<label for="todo_used_category_no<{$id}>">
+					<input id="todo_used_category_no<{$id}>" type="radio" name="used_category" value="<{$smarty.const._OFF}>"<{if $action.todo.used_category == _OFF}> checked="checked"<{/if}> />
+					<{$lang.todo_used_category_no|smarty:nodefaults}>
+				</label>
+				&nbsp;&nbsp;
+				<label for="todo_used_category_yes<{$id}>">
+					<input id="todo_used_category_yes<{$id}>" type="radio" name="used_category" value="<{$smarty.const._ON}>"<{if $action.todo.used_category == _ON}> checked="checked"<{/if}> />
+					<{$lang.todo_used_category_yes|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].changeStyle(this.form);" />
+		<input class="btn-width lined_btn" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'todo_view_edit_list');" />
+	</div>
+</form>
+
+<{include file = "../todo_script.html"}>
+<script class="nc_script" type="text/javascript">
+	<{if $action.todo.default_sort == TODO_PRIORITY}>
+		$("todo_default_sort_priority<{$id}>").checked = true;
+	<{elseif $action.todo.default_sort == TODO_STATE}>
+		$("todo_default_sort_state<{$id}>").checked = true;
+	<{elseif $action.todo.default_sort == TODO_PERIOD}>
+		$("todo_default_sort_period<{$id}>").checked = true;
+	<{elseif $action.todo.default_sort == TODO_PROGRESS}>
+		$("todo_default_sort_progress<{$id}>").checked = true;
+	<{elseif $action.todo.default_sort == TODO_TASK_VALUE}>
+		$("todo_default_sort_task<{$id}>").checked = true;
+	<{else}>
+		$("todo_default_sort_none<{$id}>").checked = true;
+	<{/if}>
+</script>
+<{/strip}>

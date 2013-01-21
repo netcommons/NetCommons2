@@ -1,0 +1,9 @@
+<{strip}>
+<{* 説明用テンプレート *}>
+<div class="questionnaire_description">
+	<{if !empty($question.description|smarty:nodefaults)}>
+		<{$question.description|smarty:nodefaults|wysiwig_convert_url}>
+		<br class="float-clear" />
+	<{/if}>
+</div>
+<{/strip}>

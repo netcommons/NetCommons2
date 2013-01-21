@@ -1,0 +1,77 @@
+<{strip}>
+<{* レポート解答一覧（会員詳細）用テンプレート *}>
+
+<div id="assignment_personal_information_outer<{$id}>" class="assignment_personal_information">
+	<table class="assignment_personal_information" summary="<{$lang.assignment_summary_list_summary}>">
+		<tr> 
+			<th scope="col">
+				<{$lang.assignment_room_name}>
+			</th>
+			
+			<th scope="col">
+				<{$lang.assignment_assignment_name}>
+			</th>
+
+			<th scope="col">
+				<{$lang.assignment_state}>
+			</th>
+
+			<th scope="col">
+				<{$lang.assignment_period}>
+			</th>
+
+			<th scope="col">
+				<{$lang.assignment_response_date}>
+			</th>
+			
+			<th scope="col">
+				<{$lang.assignment_grade}>
+			</th>
+		</tr>
+
+		<{foreach from=$action.personalAssignments item=personal name="personalAssignments"}>
+			<tr>
+				<td>
+					<{$personal.page_name}>
+				</td>
+	
+				<td>
+					<{$personal.assignment_name}>
+				</td>
+				
+				<td class="align-center nowrap">
+					<{include file="assignment_view_state_value.html" activity=$personal.activity}>
+				</td>
+				
+				<td class="align-center nowrap">
+					<{include file="assignment_view_period.html" assignment=$personal|smarty:nodefaults}>
+				</td>
+				
+				<td class="align-center nowrap">
+					<{if (!empty($personal.submit_update_time|smarty:nodefaults) && $personal.submit_flag != ASSIGNMENT_SUBMIT_FLAG_YET_REREASED) }>
+						<{$personal.submit_update_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+					<{else}>
+						<{$lang.assignment_no_value}>
+					<{/if}>
+				</td>
+				
+				<td class="align-center nowrap">
+					<{if (!empty($personal.submit_flag|smarty:nodefaults)) }>
+						<{include file="assignment_view_grade_value.html" submit_flag=$personal.submit_flag grade_value=$personal.grade_value|smarty:nodefaults forcedDisplay=true}>
+					<{else}>
+						<{include file="assignment_view_grade_value.html" submit_flag="" grade_value="" forcedDisplay=true}>
+					<{/if}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+
+</div>
+
+<{if (count($action.personalAssignments) > ASSIGNMENT_PERSONAL_INFORMATION_MAX_ROW) }>
+	<script class="nc_script" type="text/javascript">
+		Element.addClassName($("assignment_personal_information_outer<{$id}>"), "assignment_personal_information_over");
+	</script>
+<{/if}>
+
+<{/strip}>

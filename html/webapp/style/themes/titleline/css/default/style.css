@@ -1,0 +1,28 @@
+/* 
+ * ブロック定義
+ */
+
+/* line */
+.th_titleline_default_color {
+	background-color:#c2c6c9;
+}
+
+/* 一般 */
+.th_titleline_title {
+	white-space:nowrap;
+	text-align: left;
+	padding: 0px 4px;
+	margin:0px;
+}
+
+.th_titleline_line {
+	width:5px;
+}
+
+.th_titleline_underline {
+	height:2px;
+}
+
+.th_titleline_content {
+	width:100%;
+}

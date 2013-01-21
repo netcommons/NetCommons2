@@ -1,0 +1,88 @@
+<{strip}>
+
+<div class="outerdiv nowrap">
+	<form id="reservation_form<{$id}>" action="#" method="post" onsubmit="return false;">
+
+		<table class="outer" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
+			<tr class="row">
+				<{include file="reservation_reserve_regist_title.html" reserve=$action.reserve|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_reserve_regist_reserve_flag.html" reserve=$action.reserve|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_reserve_regist_reserve_time.html" reserve=$action.reserve|smarty:nodefaults}>
+			</tr>
+
+			<tr class="row">
+				<{include file="reservation_reserve_regist_location.html" reserve=$action.reserve|smarty:nodefaults}>
+			</tr>
+			
+			<{if ($action.details_flag == _ON) }>
+				<tr class="row">
+					<{include file="reservation_reserve_regist_contact.html" reserve=$action.reserve|smarty:nodefaults}>
+				</tr>
+
+				<tr>
+					<{include file="reservation_reserve_regist_description.html" reserve=$action.reserve|smarty:nodefaults}>
+				</tr>
+
+				<input type="hidden" name="edit_rrule" value="<{$action.edit_rrule}>" />
+				<{if ($action.edit_rrule != RESERVATION_RESERVE_EDIT_THIS) }>
+					<tr class="row">
+						<{include file="reservation_reserve_regist_repeat.html" reserve=$action.reserve|smarty:nodefaults}>
+					</tr>
+				<{/if}>
+			<{/if}>
+			
+			<{if ($action.mail_send == _ON) }>
+				<tr class="row">
+					<{include file="reservation_reserve_regist_mail.html" reserve=$action.reserve|smarty:nodefaults}>
+				</tr>
+			<{/if}>
+
+			<tr class="row">
+				<{include file="reservation_reserve_regist_entry_calendar.html" reserve=$action.reserve|smarty:nodefaults}>
+			</tr>
+		</table>
+
+		<div class="btn-bottom">
+			<{if ($action.reserve.reserve_id == 0) }>
+				<input class="btn-width" name="regist" type="button" value="<{$lang._regist|smarty:nodefaults}>"<{if ($action.location_count == 0) }> disabled="disabled"<{/if}> onclick='reservationCls["<{$id}>"].addReserve("<{$smarty.session.reservation._id.$block_id}>",this.form,"<{$action.details_flag}>"); return false;' />
+			<{else}>
+				<input class="btn-width" name="regist" type="button" value="<{$lang._regist|smarty:nodefaults}>"<{if ($action.location_count == 0) }> disabled="disabled"<{/if}> onclick='reservationCls["<{$id}>"].modifyReserve("<{$smarty.session.reservation._id.$block_id}>",this.form); return false;' />
+			<{/if}>
+			&nbsp;
+			<input class="btn-width" name="cancel" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+		</div>
+
+		<{if ($action.details_flag != _ON) }>
+			<div class="btn-bottom align-right">
+				<a id="reservation_details<{$id}>" href="#" title="<{$lang.reservation_detail_items|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].showAddReserve(event,$("reservation_form<{$id}>")); return false;'>
+					<{$lang.reservation_details_addreserve|smarty:nodefaults}>
+				</a>
+				<span class="disable_lbl">
+					<{$lang.reservation_details_addreserve|smarty:nodefaults}>
+				</span>
+			</div>
+		<{else}>
+			<{if ($action.reserve.reserve_id > 0) }>
+				<input type="hidden" name="reserve_id" value="<{$action.reserve.reserve_id}>" />
+			<{/if}>
+		<{/if}>
+	</form>
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].initReserve(<{$action.details_flag}>);
+	<{if ($action.edit_rrule != RESERVATION_RESERVE_EDIT_THIS && $action.details_flag == _ON) }>
+		reservationCls["<{$id}>"].initRepeat();
+	<{/if}>
+	reservationCls["<{$id}>"].switchTime24Reserve($("reservation_form<{$id}>"));
+	commonCls.focus("<{$id}>");
+</script>
+
+<{/strip}>

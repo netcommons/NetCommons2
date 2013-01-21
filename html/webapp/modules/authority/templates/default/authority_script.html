@@ -1,0 +1,19 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!authorityCls["<{$id}>"]) {
+	authorityCls["<{$id}>"] = new clsAuthority("<{$id}>");
+}
+
+<{if $action_name == "authority_view_admin_init"}>
+	authorityCls['<{$id}>'].initMain(<{$conf.authority_limit_pagenum}>, <{$action.maxNum}>);
+<{elseif $action_name == "authority_view_admin_general"}>
+	authorityCls['<{$id}>'].initGeneral();
+<{elseif $action_name == "authority_view_admin_detail"}>
+	authorityCls['<{$id}>'].initDetail();
+<{elseif $action_name == "authority_view_admin_level"}>
+	authorityCls['<{$id}>'].initLevel();
+<{elseif $action_name == "authority_view_admin_selectmodules"}>
+	authorityCls['<{$id}>'].initSelectModules();
+<{/if}>
+</script>
+<{/strip}>

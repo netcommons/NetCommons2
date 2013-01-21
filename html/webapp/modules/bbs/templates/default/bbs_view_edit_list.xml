@@ -1,0 +1,38 @@
+<{* 掲示板一覧用XML *}>
+<?xml version="1.0" encoding="<{$smarty.const._CHARSET}>"?>
+<{strip}>
+<lists>
+	<{foreach from=$action.bbses item=bbs}>
+		<row id="bbs_current_row<{$bbs.bbs_id}><{$id}>">
+			<disp_change>
+				<![CDATA[
+					<{include file = "bbs_view_edit_list_current.html"}>
+				]]>
+			</disp_change>
+			<name>
+				<![CDATA[
+					<{include file = "bbs_view_edit_list_name.html"}>
+				]]>
+			</name>
+			<operate>
+				<![CDATA[
+					<{include file = "bbs_view_edit_list_operate.html"}>
+				]]>
+			</operate>
+			<creator>
+				<![CDATA[
+					<{include file = "bbs_view_handle.html" handle=$bbs.insert_user_name|smarty:nodefaults user_id=$bbs.insert_user_id}>
+				]]>
+			</creator>
+			<create_date>
+				<{$bbs.insert_time|timezone_date_format:$lang._date_format|smarty:nodefaults}>
+			</create_date>
+			<manage>
+				<![CDATA[
+					<{include file = "bbs_view_edit_list_manage.html"}>
+				]]>
+			</manage>
+		</row>
+	<{/foreach}>
+</lists>
+<{/strip}>

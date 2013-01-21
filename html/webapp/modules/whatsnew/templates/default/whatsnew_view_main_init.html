@@ -1,0 +1,71 @@
+<{strip}>
+
+<div class="nowrap">
+	<{if ($action.whatsnew_obj.allow_switch_days == _ON) }>
+		<{if ($action.whatsnew_obj.display_flag == _OFF) }>
+			<label for="whatsnew_display_days<{$id}>">
+				<{$lang.whatsnew_days_prefix|smarty:nodefaults}>
+				<select id="whatsnew_display_days<{$id}>" name="display_days" onchange='whatsnewCls["<{$id}>"].switchMain(null,this.value, <{$smarty.const._OFF}>);'>
+					<{section name=days loop=32 start=0 step=1}>
+						<{assign var=days value=$smarty.section.days.index}>
+						<option value="<{$days}>"<{if ($days == $action.whatsnew_obj.display_days) }> selected="selected"<{/if}>>
+							<{if ($days == "0") }>
+								<{$lang.whatsnew_days_today|smarty:nodefaults}>
+							<{else}>
+								<{$days|string_format:$lang.whatsnew_days_format|smarty:nodefaults}>
+							<{/if}>
+						</option>
+					<{/section}>
+				</select>
+				<{$lang.whatsnew_days_suffix|smarty:nodefaults}>
+			</label>
+			&nbsp;
+		<{else}>
+			<label for="whatsnew_the_number_of_display<{$id}>">
+				<{$lang.whatsnew_the_number_of_display|smarty:nodefaults}>&nbsp;
+					<select id="whatsnew_the_number_of_display<{$id}>" name="display_number" onchange='whatsnewCls["<{$id}>"].switchMain(null,this.value, <{$smarty.const._ON}>);'>
+					<{assign var="test" value="|"|explode:$smarty.const.WHATSNEW_THE_NUMBER_OF_DISPLAY}>
+					<{foreach name="number" key="key" item="num" from=$test}>
+						<option value="<{$num}>" <{if ($action.whatsnew_obj.display_number == $num)}>selected="selected"<{/if}>><{$lang.whatsnew_display_number|smarty:nodefaults|sprintf:"$num"}></option>
+					<{/foreach}>
+					</select>
+			</label>
+			&nbsp;
+		<{/if}>
+	<{/if}>
+
+	<{if ($action.whatsnew_obj.allow_switch_type == _ON) }>
+		<label for="whatsnew_display_type<{$id}>">
+			<select id="whatsnew_display_type<{$id}>" name="display_type" onchange='whatsnewCls["<{$id}>"].switchMain(this.value,null);'>
+				<option value="<{$smarty.const.WHATSNEW_DEF_FLAT}>"<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_FLAT) }> selected="selected"<{/if}> />
+					<{$lang.whatsnew_display_type_flat|smarty:nodefaults}>
+				</option>
+				<option value="<{$smarty.const.WHATSNEW_DEF_MODULE}>"<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_MODULE) }> selected="selected"<{/if}> />
+					<{$lang.whatsnew_display_type_module|smarty:nodefaults}>
+				</option>
+				<option value="<{$smarty.const.WHATSNEW_DEF_ROOM}>"<{if ($action.whatsnew_obj.display_type == WHATSNEW_DEF_ROOM) }> selected="selected"<{/if}> />
+					<{$lang.whatsnew_display_type_room|smarty:nodefaults}>
+				</option>
+			</select>
+		</label>
+		&nbsp;
+	<{/if}>
+
+	<{if ($action.whatsnew_obj.allow_rss_feed == _ON) }>
+		<a id="whatsnew_rss<{$id}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=whatsnew_view_main_rss&amp;page_id=<{$page_id}>&amp;block_id=<{$block_id}>&amp;<{if ($action.whatsnew_obj.display_flag == _OFF) }>display_days=<{$action.whatsnew_obj.display_days}><{else}>display_number=<{$action.whatsnew_obj.display_number}><{/if}>&amp;_header=<{$smarty.const._OFF}>" class="whatsnew_rss_link" target="_blank" title="<{$lang.whatsnew_title_rss|smarty:nodefaults}>">
+			<img class="icon" src="<{"rss.gif"|get_modules_image}>" alt="<{$lang.whatsnew_alt_rss|smarty:nodefaults}>" title="" />
+		</a>
+	<{/if}>
+</div>
+
+<{if ($action.whatsnew_obj.allow_switch_days == _ON || $action.whatsnew_obj.allow_switch_type == _ON) }>
+	<div class="hr"></div>
+<{/if}>
+
+<div id="whatsnew_contents<{$id}>">
+	<{include file="whatsnew_view_main_result.html"}>
+</div>
+
+<{include file="../whatsnew_script.html"}>
+
+<{/strip}>

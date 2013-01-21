@@ -1,0 +1,47 @@
+<{strip}>
+
+<tr class="row">
+	<th class="head calendar_room_name" scope="col">
+		<div class="<{$plan_class}>">
+			<{if !empty($indent|smarty:nodefaults) }>
+				<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>
+			<{/if}>
+			<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$plan_class}> calendar_plan_mark" alt="" title="" />
+			<{$plan_name}>
+		</div>
+	</th>
+	<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
+		<{assign var="timestamp" value=$smarty.section.timestamp.index}>
+		<{assign var="date" value=$smarty.section.timestamp.index|date_format:"%Y%m%d"}>
+		<td class="calendar_date">
+			<{assign var="room_plan_list" value=$action.plan_data.$room_id}>
+			<{if ($room_plan_list.$date != "") }>
+				<{assign var="plan_list" value=$room_plan_list.$date}>
+			<{else}>
+				<{assign var="plan_list" value=""}>
+			<{/if}>
+			<{if ($plan_list != "") }>
+				<{section name=idx loop=$plan_list}>
+					<{assign var="plan_obj" value=$plan_list[idx]|smarty:nodefaults}>
+					<div class="calendar_plan">
+						<{if ($plan_obj.allday_flag == _OFF || $plan_obj.timezone_offset != $smarty.session._timezone_offset) }>
+							<div class="calendar_plan_time">
+								<{$lang.calendar_show_time_format|smarty:nodefaults|sprintf:$plan_obj.start_time_str:$plan_obj.end_time_str}>
+							</div>
+						<{/if}>
+						<a class="link calendar_plan_title hover_highlight" href="#" title="<{$lang.calendar_scheduled_title|smarty:nodefaults|sprintf:$plan_obj.short_title|smarty:nodefaults}>" onclick='calendarCls["<{$id}>"].showDetails(event, <{$plan_obj.calendar_id}>, false); return false;'>
+							<{if $plan_obj.title_icon != "" }>
+								<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$plan_obj.title_icon}>" alt="" />
+							<{/if}>
+							<{$plan_obj.short_title}>
+						</a>
+					</div>
+				<{/section}>
+			<{else}>
+				&nbsp;
+			<{/if}>
+		</td>
+	<{/section}>
+</tr>
+
+<{/strip}>

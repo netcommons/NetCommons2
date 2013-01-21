@@ -1,0 +1,16 @@
+<{strip}>
+<{* 選択肢追加画面用テンプレート *}>
+<table>
+	<{assign var="choice" value=$action.choice}>
+	<{assign var="iteration" value=$action.choice_iteration}>
+	<{if ($action.type == QUIZ_QUESTION_TYPE_WORD_VALUE) }>
+		<{include file="quiz_view_edit_choice_word.html"}>
+	<{else}>
+		<{include file="quiz_view_edit_choice.html"}>
+	<{/if}>
+</table>
+
+<script class="nc_script" type="text/javascript">
+	quizCls["<{$id}>"].changeQuestionType($("quiz_question_type<{$id}>").value);
+</script>
+<{/strip}>

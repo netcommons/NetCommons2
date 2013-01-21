@@ -1,0 +1,142 @@
+ul.nc_wysiwyg_tableboder {
+	margin: 0;
+	padding: 0;
+	width: 375px;
+}
+.nc_wysiwyg_tableboder li {
+	list-style-type: none;
+	padding:0;
+	margin:0;
+}
+
+ul.nc_wysiwyg_tableborder_align {
+	margin: 0;
+	padding: 0;
+	width: 245px;
+	height: 245px;
+	border: 1px solid #ababab;
+}
+
+li.nc_wysiwyg_tableborder_content{
+	margin:5px;
+}
+
+.nc_wysiwyg_tableboder_align_clear {
+	width:245px;
+	clear: both;
+}
+
+ul.nc_wysiwyg_tableboder_icon_l {
+	padding : 0 8px 0 0;
+	margin  : 0;
+	float   : right;
+	width   : 150px;
+}
+
+ul.nc_wysiwyg_tableboder_icon_l li {
+	float : left;
+	padding : 5px 10px; 
+}
+
+ul.nc_wysiwyg_tableboder_icon {
+	padding:0;
+	margin:0;
+}
+
+ul.nc_wysiwyg_tableboder_icon li {
+	padding : 26px 0 26px 20px;
+}
+
+.nc_wysiwyg_tableborder_preview {
+	float:right;
+	padding:0 !important;
+	margin:0 20px 0 0 !important;
+	width:151px;
+	height:151px;
+	border-width : 1px;
+	border-style : solid;
+	border-color : #d3d3d3 #acacac #acacac #d3d3d3;
+	overflow:hidden;
+}
+
+#nc_wysiwyg_tableborder_preview {
+	height: 120px;
+	width: 120px;
+	margin: 13px;
+	padding: 0;
+}
+
+ul.nc_wysiwyg_tableboder_icon_bottom {
+	padding:0;
+	margin:0 0 0 75px;
+}
+
+ul.nc_wysiwyg_tableboder_icon_bottom li {
+	padding : 5px 26px;
+	float : left;
+}
+
+/* タイトル */
+.nc_wysiwyg_tableborder_title {
+	width:375px;
+	overflow:auto;
+	float:none !important;
+}
+
+.nc_wysiwyg_tableborder_title dt {
+	float:left;
+	padding: 3px;
+}
+
+.nc_wysiwyg_tableborder_title dd {
+	padding: 3px !important;
+}
+
+/* 線selectbox */
+.nc_wysiwyg_tableborder_border {
+	width : 100px;
+	height:58px;
+}
+
+a.nc_wysiwyg_tableborder_border {
+	margin: 3px 0 0;
+}
+
+div.nc_wysiwyg_tableborder_border a {
+	height : 20px;
+}
+div.nc_wysiwyg_tableborder_border div {
+	height : 10px;
+}
+
+a.nc_wysiwyg_tableborder_border {
+	height : 20px;
+	color: #333333;
+}
+
+a.nc_wysiwyg_tableborder_border div {
+	height : 7px;
+}
+
+a.nc_wysiwyg_tableborder_border .listcontent {
+	padding-right: 17px;
+}
+
+.nc_wysiwyg_tableborder_btn {
+	padding: 5px 0;
+	clear : left;
+	text-align : center;
+	width: 375px;
+}
+/* 色選択 */
+.nc_wysiwyg_tableborder_color_input {
+	width: 60px;
+	margin-right:3px;
+}
+
+.nc_wysiwyg_tableborder_color {
+	vertical-align:bottom;
+}
+.nc_wysiwyg_tableborder_color img {
+	background-color:#ffffff;
+}

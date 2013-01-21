@@ -1,0 +1,7 @@
+<{strip}>
+   <{if $message.mailbox == $smarty.const.PM_LEFTMENU_STOREBOX}>
+   	  <a href="#" alt="<{if $message.subject}><{$message.subject}><{else}><{$lang.pm_list_no_subject|smarty:nodefaults}><{/if}>" title="<{if $message.subject}><{$message.subject}><{else}><{$lang.pm_list_no_subject|smarty:nodefaults}><{/if}>" class="pm_syslink" onclick="pmCls['<{$id}>'].showMessagePopup('<{$message.receiver_id}>','<{$message.first_receiver|escape:"html"}>', event, '<{$smarty.const.PM_EDIT_MESSAGE}>');return false;"><{if $message.subject}><{$message.subject}><{else}><{$lang.pm_list_no_subject|smarty:nodefaults}><{/if}></a>
+   <{else}>
+	  <a href="#" alt="<{if $message.subject}><{$message.subject}><{else}><{$lang.pm_list_no_subject|smarty:nodefaults}><{/if}>" title="<{if $message.subject}><{$message.subject}><{else}><{$lang.pm_list_no_subject|smarty:nodefaults}><{/if}>" class="pm_syslink" onclick="pmCls['<{$id}>'].showDetailPopup('<{$message.receiver_id}>', 'pm_list_row<{$id}>_<{$message.receiver_id}>', '<{$message.read_state}>', '<{$page}>', event,'<{$action.search_flag}>');return false;"><{if $message.subject}><{$message.subject}><{else}><{$lang.pm_list_no_subject|smarty:nodefaults}><{/if}></a>
+   <{/if}>
+<{/strip}>

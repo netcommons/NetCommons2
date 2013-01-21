@@ -1,0 +1,64 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="bold">
+		<{$action.journal_obj.journal_name}>
+	</div>
+	<div class="nowrap align-left">
+		<{$lang.journal_cat_edit_readme|smarty:nodefaults}>
+	</div>
+	<div class="nowrap align-right">
+		<{* カテゴリの追加 *}>
+		<a class="syslink" href="#" title="<{$lang.journal_cat_add_title|smarty:nodefaults}>" onclick="journalCls['<{$id}>'].showAddPopup(this); return false;">
+			<img src="<{"add.gif"|get_themes_image}>" alt="<{$lang.journal_cat_add|smarty:nodefaults}>" title="" />
+			&nbsp;
+			<{$lang.journal_cat_add|smarty:nodefaults}>
+		</a>
+		<{* 追加用ポップアップファイルインクルード *}>
+		<{ include file="journal_view_edit_category_comp.html" }>
+	</div>
+	<{if $action.category_count == 0}>
+		<{$lang.noneexists_category|smarty:nodefaults}>
+	<{else}>
+		<div id="_journal_cat<{$id}>" class="journal_cat_main_sort_range">
+			<{foreach item=cat from=$action.categories}>
+				<div class="_journal_cat_top" id="_journal_cat<{$id}>_category_id_<{$cat.category_id}>">
+				<form onsubmit="return false;">
+				<table class="journal_cat_edit_inside" cellspacing="0" cellpadding="2" border="0">
+					<tr>
+						<{* 表示順変更 *}>
+						<td class="_journal_cat_chg_seq journal_cat_chg_seq" title="<{$smarty.const._DRAGANDDROP_MOVE}>">
+							<a class="journal_cat_chg_seq_href" href="#" onclick="return false;">
+								<img src="<{""|get_image_url}>/images/journal/default/move_bar.gif" alt="<{$smarty.const._DRAGANDDROP_MOVE}>" />
+							</a>
+						</td>
+						<td class="journal_cat_sort_row journal_cat_name">
+							<a class="journal_cat_item_label link display-block" href="#" title="<{$smarty.const._CLICK_EDIT}>" onclick="journalCls['<{$id}>'].clkItems(this);return false;" onfocus="this.onmouseover(event);" onmouseover="if(typeof(commonCls) != 'undefined') {commonCls.blockNotice(event, this);}">
+								<{$cat.category_name}>
+							</a>
+							<div class="journal_cat_edit_item display-none">
+								<input id="journal_cat_<{$id}>_<{$cat.category_id}>" type="text" value="<{$cat.category_name}>" onblur="journalCls['<{$id}>'].focusItem(<{$cat.category_id}>, false); journalCls['<{$id}>'].updItems(event, this, '<{$action.journal_id}>', '<{$cat.category_id}>');" onkeypress="if (event.keyCode == 13) {this.onblur(event);}" onfocus="journalCls['<{$id}>'].focusItem(<{$cat.category_id}>, true);" />
+							</div>
+						</td>
+						<td class="journal_cat_sort_row journal_cat_delete">
+							<a href="#" title="" onclick="journalCls['<{$id}>'].delCategory('<{$action.journal_id}>', '<{$cat.category_id}>', '<{$lang._del_confirm|sprintf:$cat.category_name|escape:"html"|escape:"javascript"}>'); return false;">
+								<img class="icon" src="<{"trash.gif"|get_themes_image}>" alt="<{$lang.journal_cat_delete_title|sprintf:$cat.category_name|escape:"html"}>" title="<{$lang.journal_cat_delete_title|sprintf:$cat.category_name|escape:"html"}>" />
+							</a>
+						</td>
+					</tr>
+				</table>
+				<input name="category_id" type="hidden" value="<{$cat.category_id}>" />
+				</form>
+				</div>
+			<{/foreach}>
+		</div>
+		<div class="btn-bottom">
+			<input class="btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>', 'journal_view_edit_list'); return false;" />
+		</div>
+	<{/if}>
+</div>
+<{* Javascriptクラス作成ファイルインクルード *}>
+<{include file="../journal_script.html"}>
+<script class="nc_script" type="text/javascript">
+	journalCls["<{$id}>"].initCategory('<{$action.journal_id}>');
+</script>
+<{/strip}>

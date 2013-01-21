@@ -1,0 +1,34 @@
+<{strip}>
+<div class="outerdiv">
+	<div class="clean_result">
+	<table summary="<{$lang.cleanup_result}>" class="outer">
+		<tr>
+			<th scope="col" colspan="2" class="head cleanup_result_detail_str">
+				<{$lang.cleanup_result}>
+			</th>
+		</tr>
+		<{foreach from=$action.ret_module_name_arr|smarty:nodefaults key=dirname item=module_name}>
+			<tr class="row">
+				<th scope="row">
+					<{$lang.cleanup_module_name}>
+				</th>
+				<td>
+					<span class="bold"><{$module_name}></span>
+				</td>
+			<tr>
+			<tr class="row">
+				<th scope="row">
+					<{$lang.cleanup_result_content}>
+				</th>
+				<td>
+					<{$action.ret_str_arr.$dirname|smarty:nodefaults}>
+				</td>
+			<tr>
+		<{/foreach}>	
+	</table>
+	</div>
+	<div class="btn-bottom">
+		<input type="button" onclick="commonCls.sendView('<{$id}>',{'action':'cleanup_view_main_init'}); return false;" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" class="btn-width lined_btn" />
+	</div>
+</div>
+<{/strip}>

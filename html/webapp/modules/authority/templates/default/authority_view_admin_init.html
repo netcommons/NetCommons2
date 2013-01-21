@@ -1,0 +1,45 @@
+<{strip}>
+<{*権限設定画面(一覧)*}>
+<div class="outerdiv">
+	<{* 権限の追加 *}>
+	<div class="authority_init_add_btn">
+		<a id="authority_add<{$id}>" class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_general','role_authority_id':'0'}); return false;">
+			<img src="<{"add.gif"|get_themes_image}>" alt="<{$lang.authority_add|smarty:nodefaults}>" title="<{$lang.authority_add|smarty:nodefaults}>" />
+			&nbsp;
+			<{$lang.authority_add|smarty:nodefaults}>
+		</a>
+	</div>
+	<div class="top_description authority_top_description">
+		<{$lang.authority_description|smarty:nodefaults}>
+	</div>
+	<table class="grid_header" summary="">
+		<tr class="row">
+			<th class="authority_name" scope="col"><{$lang.authority_name|smarty:nodefaults}></th>
+			<th class="authority_manage" scope="col"><{$lang.authority_admin_btn|smarty:nodefaults}></th>
+		</tr>
+	</table>
+	<table class="data_grid grid" summary="<{$smarty.const._SUMMARY_DISPLIST}>">
+		<{foreach item=authority from=$action.authorities}>
+			<tr class="grid_row">
+				<td class="authority_name">
+					<div class="role_authority_name_<{$authority.role_authority_id}>">
+						<{$authority.role_authority_name}>
+					</div>
+				</td>
+				<td class="authority_manage">
+					<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_general','role_authority_id':'<{$authority.role_authority_id}>'}); return false;">
+						<{$lang.authority_edit|smarty:nodefaults}>
+					</a>
+					<{if $authority.system_flag==_OFF }>
+						<{$lang._separator|smarty:nodefaults}>
+						<a class="syslink" href="#" onclick="if (commonCls.confirm('<{$lang.authority_mes_confirm|smarty:nodefaults|sprintf:"`$authority.role_authority_name`"|escape:"javascript"|escape:"html"}>')) { commonCls.sendPost('<{$id}>',{'action':'authority_action_admin_delete', 'role_authority_id':'<{$authority.role_authority_id}>'},{'callbackfunc':function(res){commonCls.sendRefresh('<{$id}>');}}); } return false;">
+							<{$lang.authority_delete|smarty:nodefaults}>
+						</a>
+					<{/if}>
+				</td>
+			</tr>
+		<{/foreach}>
+	</table>
+</div>
+<{include file="authority_script.html"}>
+<{/strip}>

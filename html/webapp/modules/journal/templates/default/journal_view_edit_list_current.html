@@ -1,0 +1,6 @@
+<{strip}>
+<{* 日誌一覧（カレント）用テンプレート *}>
+<label for="journal_current<{$journal.journal_id}><{$id}>">
+	<input id="journal_current<{$journal.journal_id}><{$id}>" type="radio" name="current" onclick="journalCls['<{$id}>'].changeCurrent(<{$journal.journal_id}>);" />
+</label>
+<{/strip}>

@@ -1,0 +1,3 @@
+Usage: nc [options] validator <validator_name> [module_name]
+
+Type "nc help" to list the general options.

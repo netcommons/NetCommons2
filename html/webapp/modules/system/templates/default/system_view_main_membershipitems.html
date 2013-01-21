@@ -1,0 +1,23 @@
+<{strip}>
+<{* 項目追加-リスト値 *}>
+<{if !$membership_item}>
+	<{* リスト追加時使用 *}>
+	<{assign var="membership_item" value=$action.membership_item}>
+	<{assign var="iteration" value=$action.iteration}>
+<{/if}>
+<{assign var="item_id" value=$membership_item.item_id}>
+<tr class="system_autoregist_item <{if $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_HIDE_ITEM}>display-none<{elseif $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_DEFAULT_MUST_ITEM}>must_visible<{/if}>">
+	<td>
+		<label for="autoregist_use_item<{$id}>_<{$item_id}>">
+			<{$membership_item.item_name}>
+		</label>
+	</td>
+	<td>
+		<select size="1" name="autoregist_use_items[]" id="autoregist_use_item<{$id}>_<{$item_id}>"<{if $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_DEFAULT_MUST_ITEM}> disabled="disabled"<{/if}>>
+			<option value="<{$item_id}>:<{$smarty.const.SYSTEM_AUTOREGIST_SELECTABLE_ITEM}>"<{if $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_SELECTABLE_ITEM}> selected="selected"<{/if}>><{$lang.system_use_item_voluntary|smarty:nodefaults}></option>
+			<option value="<{$item_id}>:<{if $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_CHECKED_ITEM}><{$smarty.const.SYSTEM_AUTOREGIST_CHECKED_ITEM}><{else}><{$smarty.const.SYSTEM_AUTOREGIST_DEFAULT_MUST_ITEM}><{/if}>"<{if $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_CHECKED_ITEM or $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_DEFAULT_MUST_ITEM}> selected="selected"<{/if}>><{$lang.system_use_item_must|smarty:nodefaults}></option>
+			<option value="<{$item_id}>:<{$smarty.const.SYSTEM_AUTOREGIST_HIDE_ITEM}>"<{if $membership_item.display_attribute == $smarty.const.SYSTEM_AUTOREGIST_HIDE_ITEM}> selected="selected"<{/if}>><{$lang.system_use_item_hide|smarty:nodefaults}></option>
+		</select>
+	</td>
+</tr>
+<{/strip}>

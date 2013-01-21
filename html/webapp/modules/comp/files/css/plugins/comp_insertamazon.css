@@ -1,0 +1,103 @@
+/* insertamazon */
+.nc_wysiwyg_insertamazon_title {
+	margin: 5px;
+	text-align: center;
+	white-space:nowrap;
+}
+.nc_wysiwyg_insertamazon_desc {
+	padding:5px;
+	border:1px solid #6f6f6f;
+}
+
+.nc_wysiwyg_insertamazon_dialog {
+	width:492px;
+}
+form.nc_wysiwyg_insertamazon_form {
+	margin:0;
+}
+
+form.nc_wysiwyg_insertamazon_form input[type="text"] {
+	border:1px solid #aaaaaa;
+	padding:2px;
+	width:18em;
+}
+ul.nc_wysiwyg_insertamazon_ul_list {
+	margin: 0;
+	padding: 0;
+}
+ul.nc_wysiwyg_insertamazon_ul_list li {
+	clear : both;
+	list-style-position:outside;
+	list-style-type:none;
+	margin: 0;
+	padding: 0;
+}
+ul.nc_wysiwyg_insertamazon_ul_list li dl dt {
+	float : left;
+	width : 100px;
+	padding : 6px 3px;
+}
+
+ul.nc_wysiwyg_insertamazon_ul_list li dl dd {
+	padding:5px;
+	width : 280px;
+	overflow:hidden;
+}
+
+div.nc_wysiwyg_insertamazon_btn {
+	text-align : center;
+	margin-top : 5px;
+	clear : both;
+}
+
+.nc_wysiwyg_insertamazon_results {
+	border-style:solid;
+	border-width:1px;
+	border-color: #666665 #cccccc #cccccc #666665;
+	background-color:#ffffff;
+	overflow:auto;
+	width:470px;
+	height:400px;
+	margin:5px;
+}
+
+.nc_wysiwyg_insertamazon_result {
+	border: 1px solid #dddddd;
+	overflow:hidden;
+	padding:5px;
+	width:330px;
+}
+
+.nc_wysiwyg_insertamazon_insert {
+	border: 1px solid #dddddd;
+	text-align:center;
+	background-color:#f8f2f5;
+}
+
+.nc_wysiwyg_insertamazon_noexist {
+	border: 1px solid #6f6f6f;
+	margin:10px 5px 5px;
+	padding:15px;
+	background-color:#ffffff;
+}
+
+ul.nc_wysiwyg_insertamazon_pager {
+	margin: 10px 0 0;
+	padding: 0;
+}
+ul.nc_wysiwyg_insertamazon_pager li {
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	padding:0px;
+	margin:0px;
+	display:inline;
+}
+
+ul.nc_wysiwyg_insertamazon_pager span,ul.nc_wysiwyg_insertamazon_pager a {
+	padding:0 8px;
+}
+
+li.nc_wysiwyg_insertamazon_active {
+	color:#cccccc;
+}

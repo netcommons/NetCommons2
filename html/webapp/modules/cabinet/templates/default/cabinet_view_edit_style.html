@@ -1,0 +1,86 @@
+<{strip}>
+
+<form action="#" method="post" onsubmit="return false;">
+	<input type="hidden" name="action" value="cabinet_action_edit_style" />
+
+	<table class="outer" summary="<{$smarty.const._SUMMARY_DISPCHANGE_FORM}>">
+		<tr class="row">
+			<th scope="row">
+				<{$lang.cabinet_edit_name|smarty:nodefaults}>
+			</th>
+			<td>
+				<{$action.cabinet.cabinet_name}>
+			</td>
+		</tr>
+		<tr class="row">
+			<th scope="row">
+				<{$lang.cabinet_disp_item|smarty:nodefaults}>
+			</th>
+			<td>
+				<label for="disp_standard_btn<{$id}>">
+					<input id="disp_standard_btn<{$id}>" name="disp_standard_btn" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_standard_btn == _ON) }> checked="checked"<{/if}> disabled="disabled" />
+					<span class="disable_lbl"><{$lang.cabinet_standard_btn|smarty:nodefaults}></span>
+				</label>
+				<br />
+				<label for="disp_address<{$id}>">
+					<input id="disp_address<{$id}>" name="disp_address" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_address == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_address|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_folder<{$id}>">
+					<input id="disp_folder<{$id}>" name="disp_folder" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_folder == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_folder|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_download_num<{$id}>">
+					<input id="disp_download_num<{$id}>" name="disp_download_num" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_download_num == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_download_num|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_size<{$id}>">
+					<input id="disp_size<{$id}>" name="disp_size" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_size == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_size|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_insert_user<{$id}>">
+					<input id="disp_insert_user<{$id}>" name="disp_insert_user" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_insert_user == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_insert_user|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_insert_date<{$id}>">
+					<input id="disp_insert_date<{$id}>" name="disp_insert_date" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_insert_date == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_insert_date}>
+				</label>
+				<br />
+				<label for="disp_update_user<{$id}>">
+					<input id="disp_update_user<{$id}>" name="disp_update_user" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_update_user == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_update_user|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_update_date<{$id}>">
+					<input id="disp_update_date<{$id}>" name="disp_update_date" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_update_date == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_update_date|smarty:nodefaults}>
+				</label>
+				<br />
+				<label for="disp_comment<{$id}>">
+					<input id="disp_comment<{$id}>" name="disp_comment" type="checkbox" value="<{$smarty.const._ON}>"<{if ($action.cabinet.disp_comment == _ON) }> checked="checked"<{/if}> />
+					<{$lang.cabinet_comment|smarty:nodefaults}>
+				</label>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='cabinetCls["<{$id}>"].changeStyle(this.form); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.sendView("<{$id}>","cabinet_view_main_init"); return false;' />
+		<input type="hidden" name="cabinet_id" value="<{$action.cabinet.cabinet_id}>" />
+	</div>
+</form>
+
+<{include file="../cabinet_script.html"}>
+<script class="nc_script" type="text/javascript">
+	commonCls.focus("<{$id}>");
+</script>
+
+<{/strip}>

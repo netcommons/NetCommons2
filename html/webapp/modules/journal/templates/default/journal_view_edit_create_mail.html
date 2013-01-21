@@ -1,0 +1,34 @@
+<div id="<{$id}>_journal_mail_setting_detail" style="display: <{if ($action.journal_obj.mail_flag == $smarty.const._ON) }>block;<{else}>none;<{/if}>">
+	<div class="hr"></div>
+	<{$lang.journal_mail_authority|smarty:nodefaults}><br />
+	<label class="disable_lbl">
+		<input type="checkbox" disabled="disabled" checked="checked" />
+ 		<input type="hidden" name="mail_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+		<{$smarty.const._AUTH_CHIEF_NAME}>
+	</label>
+	<label for="journal_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+ 		<input id="journal_mail_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+		<{$smarty.const._AUTH_MODERATE_NAME}>
+	</label>
+	<label for="journal_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+		<input id="journal_mail_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+		<{$smarty.const._AUTH_GENERAL_NAME}>
+	</label>
+	<label for="journal_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>">
+		<input id="journal_mail_authority<{$smarty.const._AUTH_GUEST}><{$id}>" type="checkbox" name="mail_authority[<{$smarty.const._AUTH_GUEST}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+		<{$smarty.const._AUTH_GUEST_NAME}>
+	</label>
+	<div class="hr"></div>
+	<{$lang.journal_mail_send_title|smarty:nodefaults}>
+	<label>
+		<input class="text" type="text" value="<{if $action.journal_obj.mail_subject == ""}><{$lang.journal_mail_send_title_detail|smarty:nodefaults}><{else}><{$action.journal_obj.mail_subject}><{/if}>" name="mail_subject"/>
+	</label>
+	<div class="hr"></div>
+	<{$lang.journal_mail_send_content_title|smarty:nodefaults}><br/>
+	<label>
+		<textarea class="mail_body" name="mail_body"><{if $action.journal_obj.mail_body == ""}><{$lang.journal_mail_send_content_detail|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}><{else}><{$action.journal_obj.mail_body}><{/if}></textarea>
+	</label>
+	<div class="note">
+		<{$lang.journal_mail_note|smarty:nodefaults}>
+	</div>
+</div>

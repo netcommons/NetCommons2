@@ -1,0 +1,66 @@
+<{strip}>
+<{* 携帯初期画面 *}>
+<{if ($block_obj.block_name != "") }>
+	<h3><{$block_obj.block_name}></h3>
+<{/if}>
+<{include file="circular_mobile_init_switch.html"}>
+<{include file="circular_mobile_init_page.html"}>
+<p>
+	<{if $action.circular_count == 0}>
+		<{$lang.circular_not_found|smarty:nodefaults}>
+	<{else}>
+		<{foreach from=$action.circular_list key="date" item="list"}>
+			<{assign var="date" value=`$date`000000}>
+
+			<h4><{$date|timezone_date_format:$lang.circular_mobile_date|smarty:nodefaults}></h4>
+			<ul>
+				<{foreach from=$list item="item"}>
+					<li>
+						<{$item.circular_subject|smarty:nodefaults|truncate:$smarty.const._MOBILE_TITLE_LENGTH:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+						<br />
+						<span style="font-size:small;"><{$lang.circular_mobile_create_user|smarty:nodefaults|sprintf:$item.handle}></span>
+						<div data-role="controlgroup" data-type="horizontal">
+						<{if $item.has_reply_auth && $action.list_type != CIRCULAR_LIST_TYPE_CIRCULATING}>
+							<a data-role="button" data-inline="true" href="?action=circular_view_main_reply_init&amp;block_id=<{$block_id}>&amp;c_id=<{$item.circular_id}>&amp;r_type=<{$item.reply_type}><{$session_param}>">
+								<{$lang.circular_mobile_reply|smarty:nodefaults}>
+							</a>
+							<{$lang._mobile_separator|smarty:nodefaults}>
+						<{/if}>
+						<a data-role="button" data-inline="true" href="?action=circular_view_main_detail&amp;block_id=<{$block_id}>&amp;c_id=<{$item.circular_id}>&amp;r_type=<{$item.reply_type}><{$session_param}>">
+							<{$lang.circular_mobile_list|smarty:nodefaults}>
+						</a>
+						</div>
+						<{if $item.period }>
+							<span style="color:#af2c4d;">
+							<{$lang.circular_period|smarty:nodefaults}>
+							<{$item.period|timezone_date_format:$lang.circular_mobile_date|smarty:nodefaults}>
+							</span>
+						<{/if}>
+						<{if ($action.list_type == CIRCULAR_LIST_TYPE_CIRCULATING || $action.list_type == CIRCULAR_LIST_TYPE_ALL) }>
+							<br />
+							<{if $item.seen_count == $item.total_count}>
+								<{$lang.circular_circulated|smarty:nodefaults}>
+							<{else}>
+								<{$lang.circular_circulating|smarty:nodefaults}>
+							<{/if}>
+							<{$lang.circular_ratio|smarty:nodefaults|sprintf:$item.seen_count:$item.total_count}>
+						<{/if}>
+						<br />
+					</li>
+				<{/foreach}>
+			</ul>
+		<{/foreach}>
+	<{/if}>
+</p>
+
+<div style="text-align:right;">
+	<{if ($action.block_num == 1 ) }>
+		<a href="?action=menu_view_mobile_init<{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_detail<{$session_param}>">
+	<{/if}>
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+
+<{/strip}>

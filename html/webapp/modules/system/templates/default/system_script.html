@@ -1,0 +1,11 @@
+<{strip}>
+<script class="nc_script" type="text/javascript">
+if(!systemCls["<{$id}>"]) {
+	systemCls["<{$id}>"] = new clsSystem("<{$id}>");
+}
+systemCls['<{$id}>'].systemInit('<{$lang._update_comp}>');
+<{if $action_name == "system_view_main_pagestyle"}>
+	systemCls['<{$id}>'].pagestyleInit();
+<{/if}>
+</script>
+<{/strip}>

@@ -1,0 +1,70 @@
+<{strip}>
+<{* 初期化 *}><{if $action.month}><{assign var="current_month" value=$action.month}><{else}><{assign var="current_month" value=1}><{/if}>
+<{foreach name="room_loop" from=$room_list item=room}>
+	<{assign var="now_page_id" value=$room.page_id}>
+	<{assign var="next_thread_num" value=$room.thread_num+1}>
+	<{if $monthly_row_exists.$now_page_id}>
+		<{if $tr_flag}>
+			<tr>
+		<{/if}>
+		<{if $action.show_room_id == null}>
+			<{* ページ名称表示 *}>
+			<td scope="row">
+				<{section name=j loop=$room.thread_num}>
+					&nbsp;&nbsp;&nbsp;
+				<{/section}>
+				<{if $room.thread_num == 0}>
+					<{if $room.private_flag == _ON}>
+						<{assign var="top_class_name" value="userinf_room_private"}>
+						<{assign var="top_lbl_class_name" value="userinf_lbl_room_private"}>
+					<{elseif $room.space_type == _SPACE_TYPE_PUBLIC}>
+						<{assign var="top_class_name" value="userinf_room_public"}>
+						<{assign var="top_lbl_class_name" value="userinf_lbl_room_public"}>
+					<{else}>
+						<{assign var="top_class_name" value="userinf_room_group"}>
+						<{assign var="top_lbl_class_name" value="userinf_lbl_room_group"}>
+					<{/if}>
+					<img title="" alt="" class="icon <{$top_class_name}> userinf_room_prefix_icon" src="<{""|get_image_url}>/images/common/blank.gif" />
+					<span class="<{$top_lbl_class_name}>"><{$room.page_name}></span>
+				<{elseif $room.space_type == _SPACE_TYPE_GROUP && $room.thread_num >= 2}>
+					<{* サブグループ *}>
+					<span class="userinf_lbl_subgroup"><{$room.page_name}></span>
+				<{else}>
+					<{$room.page_name}>
+				<{/if}>
+			</td>
+		<{/if}>
+		<{section name=i start=12 step=-1 loop=12}>
+			<{assign var="index" value=$smarty.section.i.index}>
+			<{if $action.month - $index < 1}>
+				<{math equation="val1-val2+val3" val1=12 val2=$index val3=$current_month assign=month}>
+			<{else}>
+				<{assign var="month" value=$action.month-$index}>
+			<{/if}>
+			<td class="align-right">
+				<{if $monthly_list.$now_page_id.$month}>
+					<{$monthly_list.$now_page_id.$month}>
+				<{elseif $room.thread_num == 0 && $room.space_type == _SPACE_TYPE_GROUP && $room.private_flag == _OFF}>
+					<div class="align-center">-</div>
+				<{else}>
+					0
+				<{/if}>
+			</td>
+		<{/section}>
+		
+		</tr>
+		<{assign var="tr_flag" value=1}>
+		
+		<{* 再帰処理 *}>
+		<{if $action.pages_list.$next_thread_num.$now_page_id}>
+			<{assign var="room_list" value=$action.pages_list.$next_thread_num.$now_page_id}>
+			<{if $monthlynumber_path}>
+				<{assign var="monthlynumber_file" value=$monthlynumber_path|cat:"monthlynumber.html"}>
+				<{include file=$monthlynumber_file}>
+			<{else}>
+				<{include file="monthlynumber.html"}>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

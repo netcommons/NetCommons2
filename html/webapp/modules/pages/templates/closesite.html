@@ -1,0 +1,23 @@
+<{strip}>
+<table summary="<{$lang.pages_summary_heder_menu}>" id="header_menu">
+	<tr>
+		<td class="menu_left"/>
+		<td class="menu_right">
+			<a onclick="loginCls['_0'].showLogin(event);return false;" href="#" class="menulink header_btn_left show_center">
+				<{$lang.pages_close_site_login}>
+			</a>
+		</td>
+	</tr>
+</table>
+
+<{include file = "login.html"}>
+
+<table class="redirect_main" summary="">
+	<tr>
+		<td class="valign-top"><img src="<{""|get_image_url}>/images/common/redirect_arrorw.gif" title="" alt="" /></td>
+		<td class="redirect_text">
+			<{$action.closesite_message|smarty:nodefaults}>
+		</td>
+	</tr>
+</table>
+<{/strip}>

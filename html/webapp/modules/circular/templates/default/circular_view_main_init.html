@@ -1,0 +1,145 @@
+<{strip}>
+<{* 初期画面 *}>
+
+<div class="outerdiv">
+	<div>
+		<div>
+			<{if $action.has_create_auth}>
+				<a class="syslink" href="#" onclick="circularCls['<{$id}>'].displayEntry();return false;">
+					<img class="icon" src="<{'edit.gif'|get_themes_image}>" alt="<{$lang.circular_new|smarty:nodefaults}>" />
+					<{$lang.circular_new|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</div>
+		<div class="float-right">
+			<{foreach name="type_loop" key="menu_list_type" item="item" from=$action.menu_type}>
+				<span <{if $menu_list_type == $action.list_type }>class="selected_menu"<{/if}>>
+					<a href="#" class="<{if $item.list_name == $lang.circular_unseen && $item.circular_count != 0 }>circular_menu_unseen<{else}>link menulink hover_highlight<{/if}>" onclick="circularCls['<{$id}>'].displayList(1, '<{$menu_list_type}>'); return false;">
+						<{$lang.circular_menu_list|sprintf:$item.list_name:$item.circular_count|smarty:nodefaults}>
+					</a>
+				</span>
+				<{if !$smarty.foreach.type_loop.last}>
+					<span>
+						<{$lang._separator|smarty:nodefaults}>
+					</span>
+				<{/if}>
+			<{/foreach}>
+		</div>
+	</div>
+	<br class="float-clear" />
+	<div class="circular_main_list">
+		<{if $action.circular_count == 0 }>
+			<{$lang.circular_not_found|smarty:nodefaults}>
+		<{else}>
+			<div class="float-right">
+				<{if $action.pager.total_page > 1}>
+					<{include file="circular_view_main_init_page.html"}>
+				<{/if}>
+				<{if $action.circular_count > 0}>
+					<select name="visible_row" class="visible_item<{$id}>" onchange="circularCls['<{$id}>'].toPage(this, '<{$action_name}>', 'visible_item<{$id}>', '', '')" id="visible_item<{$id}>" size="1">
+						<{html_options options=$action.visible_row_map selected=$action.visible_row}>
+					</select>
+				<{/if}>
+			</div>
+			<table class="grid circular_list_table" summary="<{$lang.circular_summary_main_listtable|smarty:nodefaults}>">
+				<tr>
+					<th scope="col" class="subject">
+						<div class="align-left nowrap">
+							<{$lang.circular_subject|smarty:nodefaults}>
+						</div>
+					</th>
+					<th scope="col" class="status">
+						<div class="align-center nowrap">
+							<{$lang.circular_status|smarty:nodefaults}>
+						</div>
+					</th>
+					<th scope="col" class="option">
+						<div class="align-center nowrap">
+							<{$lang.circular_seen_option|smarty:nodefaults}>
+						</div>
+					</th>
+					<th scope="col" class="user">
+						<div class="align-center nowrap">
+							<{$lang.circular_create_user|smarty:nodefaults}>
+						</div>
+					</th>
+					<th class="grid_bar date" scope="col" onclick="circularCls['<{$id}>'].displayList('<{$action.pager.now_page}>', '<{$action.list_type}>', true); return false;">
+						<div class="align-center circular_table_header_block">
+							<{$lang.circular_create_date|smarty:nodefaults}>
+							<img class="icon" id="circular_sort_img<{$id}>" alt="" src="<{''|get_image_url}>/images/comp/textarea/titleicon/blank.gif" />
+						</div>
+					</th>
+				</tr>
+				<{foreach name="circular_list_loop" key="key" item="item" from=$action.circular_list}>
+					<tr class="grid_row">
+						<td class="<{$item.periodClassName}> subject">
+							<div class="align-left nowrap">
+								<a href="#" title="<{$item.circular_subject}>" class="link display-block" onmouseover="commonCls.blockNotice(event);" onfocus="this.onmouseover(event);" onclick="commonCls.sendView('<{$id}>',{'action':'circular_view_main_detail','circular_id':'<{$item.circular_id}>'}); return false;">
+									<{if !empty($item.icon_name|smarty:nodefaults)}>
+										<img class="icon" src="<{''|get_image_url}>/images/comp/textarea/<{$item.icon_name}>" alt="" title="" />
+									<{/if}>
+									<{$item.circular_subject|smarty:nodefaults|truncate:40:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+								</a>
+							</div>
+						</td>
+						<td class="<{if ($action.list_type == CIRCULAR_REPLY_FLG_UNSEEN)}>require <{/if}><{$item.periodClassName}> status">
+							<div class="align-center">
+								<{if ($action.list_type == $smarty.const.CIRCULAR_LIST_TYPE_UNSEEN || $action.list_type == $smarty.const.CIRCULAR_LIST_TYPE_SEEN)}>
+									<{if ($item.reply_flag == $smarty.const.CIRCULAR_REPLY_FLAG_UNSEEN)}>
+										<{$lang.circular_unseen|smarty:nodefaults}>
+									<{elseif ($item.reply_flag == $smarty.const.CIRCULAR_REPLY_FLAG_SEEN)}>
+										<{$lang.circular_seen|smarty:nodefaults}>
+									<{/if}>
+								<{elseif ($action.list_type == $smarty.const.CIRCULAR_LIST_TYPE_CIRCULATING || $action.list_type == $smarty.const.CIRCULAR_LIST_TYPE_CIRCULATED || $action.list_type == $smarty.const.CIRCULAR_LIST_TYPE_ALL)}>
+									<{if $item.seen_count == $item.total_count}>
+										<{$lang.circular_circulated|smarty:nodefaults}>
+									<{else}>
+										<{$lang.circular_circulating|smarty:nodefaults}>
+									<{/if}>
+									<{$lang.circular_ratio|smarty:nodefaults|sprintf:$item.seen_count:$item.total_count}>
+								<{/if}>
+							</div>
+						</td>
+						<td class="<{$item.periodClassName}> option">
+							<div class="align-center nowrap">
+								<{if $item.seen_option == CIRCULAR_SEEN_OPTION_REPLY}>
+									<{$lang.circular_seen_option_reply|smarty:nodefaults}>
+								<{elseif $item.seen_option == CIRCULAR_SEEN_OPTION_VISIT}>
+									<{$lang.circular_seen_option_visit|smarty:nodefaults}>
+								<{/if}>
+							</div>
+						</td>
+						<td class="<{$item.periodClassName}> user">
+							<div class="align-center nowrap">
+								<a href="#" title="<{$lang._user_title|smarty:nodefaults|sprintf:$item.handle|smarty:nodefaults}>" class="syslink" onclick='commonCls.showUserDetail(event,"<{$item.insert_user_id}>");return false;'>
+									<{$item.handle}>
+								</a>
+							</div>
+						</td>
+						<td class="<{$item.periodClassName}> date">
+							<div class="align-center nowrap">
+								<{$item.insert_time|timezone_date_format:$lang.circular_date_format|smarty:nodefaults}>
+							</div>
+						</td>
+					</tr>
+				<{/foreach}>
+			</table>
+			<div class="float-right">
+				<{if $action.pager.total_page > 1}>
+					<{include file="circular_view_main_init_page.html"}>
+				<{/if}>
+				<{if $action.circular_count > 0}>
+					<select name="visible_row" class="visible_item<{$id}>" onchange="circularCls['<{$id}>'].toPage(this, '<{$action_name}>', 'visible_item<{$id}>', '', 'bottom')" id="visible_item<{$id}>_bottom" size="1">
+						<{html_options options=$action.visible_row_map selected=$action.visible_row}>
+					</select>
+				<{/if}>
+			</div>
+			<br class="float-clear" />
+		<{/if}>
+	</div>
+</div>
+<{include file="../circular_script.html"}>
+<script class="nc_script" type="text/javascript">
+	circularCls['<{$id}>'].setImage("<{$action.order_type}>");
+</script>
+<{/strip}>

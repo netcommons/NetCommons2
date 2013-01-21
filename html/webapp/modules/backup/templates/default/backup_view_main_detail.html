@@ -1,0 +1,70 @@
+<{strip}>
+<{*ヘッダー表示部分*}>
+<table class="grid_header" summary="">
+	<tr>
+		<th class="backup_file_name" scope="col"><{$lang.backup_file_name|smarty:nodefaults}></th>
+		<th class="backup_size" scope="col"><{$lang.backup_size|smarty:nodefaults}></th>
+		<th class="backup_insert_user_name" scope="col"><{$lang._creator|smarty:nodefaults}></th>
+		<th class="backup_create_time" scope="col"><{$lang._create_date|smarty:nodefaults}></th>
+		<th class="backup_admin" scope="col"><{$lang._manage|smarty:nodefaults}></th>
+	</tr>
+</table>
+<{*メイン表示部分-Grid*}>
+<table class="grid" summary="<{$smarty.const._SUMMARY_LIST}>">
+	<{foreach from=$action.backup_files item=backup_file}>
+		<tr>
+			<td class="grid_row backup_file_name">
+				<{if $backup_file.state == _OFF}>
+					<{* 処理中 *}>
+					<span title="<{$backup_file.file_name}><{$lang.backup_backing|smarty:nodefaults}>">
+						<{$backup_file.file_name}>
+						<span class='backup_backing'>
+							<{$lang.backup_backing|smarty:nodefaults}>
+						</span>
+					</span>
+					<script class="nc_script" type="text/javascript">
+						backupCls['<{$id}>'].chkBackupSize('<{$backup_file.upload_id}>');
+					</script>
+				<{elseif $backup_file.state == 2}>
+					<{* 失敗:現状、未使用 *}>
+					<span title="<{$backup_file.file_name}><{$lang.backup_failure|smarty:nodefaults}>">
+						<{$backup_file.file_name}>
+						<span class='backup_backing'>
+							<{$lang.backup_failure|smarty:nodefaults}>
+						</span>
+					</span>
+				<{else}>
+					<a class="link" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=<{$smarty.const.BACKUP_DOWNLOAD_ACTION_NAME}>&amp;upload_id=<{$backup_file.upload_id}>">
+						<{$backup_file.file_name}>
+					</a>
+				<{/if}>
+			</td>
+			<td class="grid_row backup_size align-right">
+				<span id="backup_size<{$id}><{$backup_file.upload_id}>">
+					<{$backup_file.size}>
+				</span>
+			</td>
+			<td class="grid_row backup_insert_user_name">
+				<{$backup_file.insert_user_name}>
+			</td>
+			<td class="grid_row backup_create_time">
+				<{$backup_file.create_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+			</td>
+			<td class="grid_row backup_admin">
+				<{if $backup_file.room_backup_flag}>
+					<a class="syslink" href="#" onclick="if(!commonCls.confirm('<{$lang.backup_restore_confirm_mes|smarty:nodefaults|escape:"javascript"}>'))return false; commonCls.sendPost('<{$id}>','action=backup_action_main_restore&amp;upload_id=<{$backup_file.upload_id}>&amp;backup_page_id=<{$backup_file.page_id}>',{'callbackfunc_error':function(res){commonCls.alert(res); commonCls.sendRefresh('<{$id}>');},'target_el':$('<{$id}>')}); return false;">
+						<{* リストア*}>
+						<{$lang.backup_restore|smarty:nodefaults}>
+					</a>
+					<{$lang._separator|smarty:nodefaults}>
+				<{/if}>
+				<a class="syslink" href="#" onclick="if(!commonCls.confirm('<{$lang.backup_delete_confirm_mes|smarty:nodefaults|escape:"javascript"}>'))return false; commonCls.sendPost('<{$id}>','action=backup_action_main_delete&amp;upload_id=<{$backup_file.upload_id}>&amp;backup_page_id=<{$backup_file.page_id}>',{'callbackfunc_error':function(res){commonCls.alert(res); backupCls['<{$id}>'].refreshDetail();},'callbackfunc':function(){commonCls.sendRefresh('<{$id}>');}}); return false;">
+					<{* 削除 *}>
+					<{$lang.backup_delete|smarty:nodefaults}>
+				</a>
+			</td>
+		</tr>
+	<{/foreach}>
+</table>
+<{/strip}>
+<{include file="backup_script.html"}>

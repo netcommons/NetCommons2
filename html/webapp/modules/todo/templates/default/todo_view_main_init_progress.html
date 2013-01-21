@@ -1,0 +1,18 @@
+<{strip}>
+<{* 進捗率用テンプレート *}>
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	<a class="link display-block" href="#" title="<{$lang.todo_progress_edit|smarty:nodefaults}>" onclick="todoCls['<{$id}>'].showEnterProgress(this); return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);">
+<{/if}>
+
+<img class="icon" src="<{"progress/`$task.progress`.gif"|get_modules_image}>" alt="" title="" />
+&nbsp;
+<{$lang.todo_percent|sprintf:$task.progress}>
+
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	</a>
+	<form action="#" onsubmit="return false;" class="display-none">
+		<input type="hidden" name="task_id" value="<{$task.task_id}>" />
+		<{include file = "todo_view_main_entry_progress.html" task_id=$task.task_id progress=$task.progress onchange=$smarty.const._ON}>
+	</form>
+<{/if}>
+<{/strip}>

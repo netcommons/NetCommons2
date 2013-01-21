@@ -1,0 +1,6 @@
+<{strip}>
+<{* リンクリスト一覧（カレント）用テンプレート *}>
+<label for="linklist_current<{$linklist.linklist_id}><{$id}>">
+	<input id="linklist_current<{$linklist.linklist_id}><{$id}>" type="radio" name="current" onclick="linklistCls['<{$id}>'].changeCurrent(<{$linklist.linklist_id}>);" />
+</label>
+<{/strip}>

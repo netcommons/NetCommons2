@@ -1,0 +1,31 @@
+<{strip}>
+<div>
+	<{$action.chat_obj.status}>
+</div>
+<div>
+	<{$action.chat_obj.display_type}>
+</div>
+<div>
+	<{$action.chat_obj.reload}>
+</div>
+<div>
+	<{$action.chat_login}>
+</div>
+<div>
+	<{$action.chat_contents[0].chat_id}>
+</div>
+<div>
+	<{$action.chat_obj.line_num}>
+</div>
+<{foreach from=$action.chat_contents item=content}>
+	<div class="chat_content">
+		<div class="chat_text" style="color:<{$content.color}>">
+			<{$content.update_user_name}>&nbsp;>>&nbsp;<{$content.chat_text}>
+		</div>
+		<div class="chat_time">
+			<{$content.update_time|timezone_date_format:$lang._full_date_format|smarty:nodefaults}>
+		</div>
+		<div class="hr"></div>
+	</div>
+<{/foreach}>
+<{/strip}>

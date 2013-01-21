@@ -1,0 +1,52 @@
+<{strip}>
+	<li <{if $action.todo.task_authority==false}>data-inset="true"<{/if}> data-icon="check">
+
+		<{if $action.todo.task_authority && ($task.edit_authority) }>
+			<a href="?action=todo_view_main_entry&amp;block_id=<{$block_id}>&amp;task_id=<{$task.task_id}><{$session_param}>">
+		<{/if}>
+
+		<p style="white-space:normal; margin:-.5em -3em .6em 0px;">
+
+			<{* レベル *}>
+			<{if $task.priority == TODO_PRIORITY_HIGH}>
+				<{$lang.todo_mobile_priority|smarty:nodefaults|sprintf:$lang.todo_priority_high}>
+			<{elseif $task.priority == TODO_PRIORITY_MIDDLE}>
+				<{$lang.todo_mobile_priority|smarty:nodefaults|sprintf:$lang.todo_priority_middle}>
+			<{else}>
+				<{$lang.todo_mobile_priority|smarty:nodefaults|sprintf:$lang.todo_priority_low}>
+			<{/if}>
+			&nbsp;
+
+			<{* 進捗 *}>
+			<{$lang.todo_mobile_progress|smarty:nodefaults|sprintf:$task.progress}>
+
+			<br />
+
+			<{* 期限 *}>
+			<{if $task.period_class_name == TODO_PERIOD_CLASS_NAME_SOON}>
+				<span style="color:red">
+					<{$lang.todo_mobile_period|smarty:nodefaults|sprintf:$task.display_period_date}>
+				</span>
+				<br />
+			<{elseif $task.period_class_name == TODO_PERIOD_CLASS_NAME_OVER}>
+				<span style="color:blue">
+					<{$lang.todo_mobile_period|smarty:nodefaults|sprintf:$task.display_period_date}>
+				</span>
+				<br />
+			<{elseif $task.display_period_date != ""}>
+				<{$lang.todo_mobile_period|smarty:nodefaults|sprintf:$task.display_period_date}>
+				<br />
+			<{/if}>
+
+			<{* TODO 詳細 *}>
+			<{$task.task_value|nl2br}>
+		</p>
+
+		<{if $action.todo.task_authority && ($task.edit_authority) }>
+			</a>
+			<a data-transition="pop" href="?action=todo_view_mobile_dialog&amp;block_id=<{$block_id}>&amp;task_id=<{$task.task_id}>&amp;target_state=<{$action.target_state}><{$session_param}>">
+				<{$lang._delete|smarty:nodefaults}>
+			</a>
+		<{/if}>
+	</li>
+<{/strip}>

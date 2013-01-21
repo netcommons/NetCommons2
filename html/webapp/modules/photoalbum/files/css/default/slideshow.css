@@ -1,0 +1,97 @@
+body {
+	background-color:#000000;
+	color:#ffffff;
+	margin:0px; 
+	padding:0px; 
+	text-decoration:none; 
+	font-size:80%;
+	font-family:Arial, sans-serif;
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+img {
+	border:0px;
+}
+a, a:link, a:visited, a:active {
+	color:#ffffff;
+}
+.visible-hide {
+	visibility:hidden;
+}
+.display-none {
+	display:none;
+}
+img.icon {
+	vertical-align:middle;
+}
+
+
+div.photoalbum_slideshow_photo_area {
+	overflow:hidden;
+	position:absolute;
+	min-width:80px;
+}
+img.photoalbum_slideshow_photo {
+	position:relative;
+}
+
+div.photoalbum_slideshow_photo_name, div.photoalbum_slideshow_photo_description, div.photoalbum_slideshow_operation {
+	position:absolute;
+	z-index:1;
+	overflow: hidden;
+}
+div.photoalbum_slideshow_photo_name_bg, div.photoalbum_slideshow_photo_description_bg, div.photoalbum_slideshow_operation_bg {
+	position:absolute;
+	z-index:2;
+	opacity: 0.7;
+	width:100%;
+}
+div.photoalbum_slideshow_photo_name_bg, div.photoalbum_slideshow_photo_description_bg {
+	background:#666666 none repeat scroll 0%;
+}
+div.photoalbum_slideshow_photo_name_fg, div.photoalbum_slideshow_photo_description_fg, div.photoalbum_slideshow_operation_fg {
+	position:relative;
+	z-index:3;
+	color:#ffffff;
+}
+
+div.photoalbum_slideshow_photo_name {
+	height:40px;
+	left:3em;
+	top:4em;
+}
+div.photoalbum_slideshow_photo_name_bg {
+	height:40px;
+}
+div.photoalbum_slideshow_photo_name_fg {
+	font-size:2em;
+	font-weight:bold;
+	padding:0.2em;
+}
+
+div.photoalbum_slideshow_photo_description, div.photoalbum_slideshow_operation {
+	margin:0.2em auto 0pt;
+}
+div.photoalbum_slideshow_photo_description {
+}
+div.photoalbum_slideshow_photo_description_fg {
+	font-weight:bold;
+	padding:0pt 0.5em;
+}
+
+div.photoalbum_slideshow_operation {
+	height:55px;
+	border:1px solid #666666;
+}
+div.photoalbum_slideshow_operation_bg {
+	height:55px;
+	background:#112132 none repeat scroll 0%;
+}
+div.photoalbum_slideshow_operation_fg {
+	padding:0.5em 0.5em 0.2em;
+	white-space:nowrap;
+}
+div.photoalbum_slideshow_operation_fg a {
+	margin:2px;
+}

@@ -1,0 +1,44 @@
+<{strip}>
+<{* 件名用テンプレート *}>
+
+<{if !empty($post.icon_name|smarty:nodefaults)}>
+	<img class="icon" src="<{""|get_image_url}>/images/comp/textarea/<{$post.icon_name}>" alt="" />
+<{/if}>
+
+<{if $action_name != "bbs_view_main_post_body"}>
+	<a href="#" title="<{$lang.bbs_contained_subject_title|smarty:nodefaults}>" onclick="bbsCls['<{$id}>'].showPost('<{$post.post_id}>');return false;">
+		<{$post.subject|smarty:nodefaults|truncate:$smarty.const.BBS_SUBJECT_TRUNCATE_LENGTH:$smarty.const._SEARCH_MORE:true|escape:"html"}>
+	</a>
+<{else}>
+	<span id="bbs_subject<{$id}>"><{$post.subject}></span>
+<{/if}>
+
+<{if $post.parent_id == "0" && $action.bbs.child_flag == _ON}>
+	<{$lang.bbs_child_number_unit|smarty:nodefaults|sprintf:$post.child_num}>
+<{/if}>
+
+<{if $post.status != BBS_STATUS_RELEASED_VALUE}>
+	<span class="require">
+		<{$lang._temporary_state|smarty:nodefaults}>
+	</span>
+<{elseif $action.bbs.new_period_time <= $post.insert_time}>
+	<img class="icon" src="<{"new.gif"|get_modules_image}>" alt="<{$lang._new|smarty:nodefaults}>" title="<{$lang._new|smarty:nodefaults}>" />
+<{elseif $action.bbs.new_period_time <= $post.newest_time}>
+	<img class="icon" src="<{"new_res.gif"|get_modules_image}>" alt="<{$lang._new|smarty:nodefaults}>" title="<{$lang._new|smarty:nodefaults}>" />
+<{/if}>
+
+<{assign var="contained_sign" value=$post.contained_sign}>
+<{if $contained_sign[0] == _ON}>
+	<img class="icon" src="<{"mail.gif"|get_modules_image}>" alt="<{$lang.bbs_contained_icon_mail|smarty:nodefaults}>" title="<{$lang.bbs_contained_icon_mail|smarty:nodefaults}>" />
+<{/if}>
+<{if $contained_sign[1] == _ON}>
+	<img class="icon" src="<{"url.gif"|get_modules_image}>" alt="<{$lang.bbs_contained_icon_url|smarty:nodefaults}>" title="<{$lang.bbs_contained_icon_url|smarty:nodefaults}>" />
+<{/if}>
+<{if $contained_sign[2] == _ON}>
+	<img class="icon" src="<{"image.gif"|get_modules_image}>" alt="<{$lang.bbs_contained_icon_image|smarty:nodefaults}>" title="<{$lang.bbs_contained_icon_image|smarty:nodefaults}>" />
+<{/if}>
+<{if $contained_sign[3] == _ON}>
+	<img class="icon" src="<{"upload.gif"|get_modules_image}>" alt="<{$lang.bbs_contained_icon_upload|smarty:nodefaults}>" title="<{$lang.bbs_contained_icon_upload|smarty:nodefaults}>" />
+<{/if}>
+
+<{/strip}>

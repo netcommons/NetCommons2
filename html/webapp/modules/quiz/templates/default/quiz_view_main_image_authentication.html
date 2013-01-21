@@ -1,0 +1,11 @@
+<{strip}>
+<{* 画像認証項目用テンプレート *}>
+<{if $action.quiz.image_authentication == _ON && function_exists("gd_info")}>
+	<label for="quiz_image_authentication<{$id}>">
+		<{$lang.quiz_image_authentication_label}>
+		<img class="icon quiz_image_authentication" src=".<{$smarty.const.INDEX_FILE_NAME}>?action=common_imageauth_main&amp;id=<{$id}>&amp;<{$action.imageAuthenticationGenerator}>" title="<{$lang._image_auth}>" alt="<{$lang._image_auth}>" />
+		<input id="quiz_image_authentication<{$id}>" type="text" name="image_authentication" />
+		<input type="hidden" name="id" value="<{$id}>" />
+	</label>
+<{/if}>
+<{/strip}>

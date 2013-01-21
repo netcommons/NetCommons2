@@ -1,0 +1,24 @@
+<{strip}>
+
+<div class="calendar_foot_switch print_preview_none nowrap align-right">
+	<{if ($action.calendar_block.show_help == _ON) }>
+		<a class="syslink" href="#" onclick='calendarCls["<{$id}>"].showHelp(event); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "help", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "help", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_help" src="<{"help.gif"|get_modules_image}>" alt="<{$lang.calendar_help|smarty:nodefaults}>" title="<{$lang.calendar_title_help|smarty:nodefaults}>" />
+		</a>
+	<{/if}>
+	<{if ($action.calendar_block.display_type != CALENDAR_L_MONTHLY && $action.calendar_block.display_type != CALENDAR_YEARLY) }>
+		<a class="syslink" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.date}>", "<{$smarty.const.CALENDAR_L_MONTHLY}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "expansion", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "expansion", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_expansion" src="<{"expansion.gif"|get_modules_image}>" alt="<{$lang.calendar_expansion|smarty:nodefaults}>" title="<{$lang.calendar_title_expansion|smarty:nodefaults}>" />
+		</a>
+	<{/if}>
+	<{if ($action.calendar_block.display_type != CALENDAR_S_MONTHLY && $action.calendar_block.display_type != CALENDAR_YEARLY)}>
+		<a class="syslink" href="#" onclick='calendarCls["<{$id}>"].changeCalendar("<{$action.date}>", "<{$smarty.const.CALENDAR_S_MONTHLY}>"); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "reduction", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "reduction", <{$smarty.const._OFF}>);'>
+			<img class="icon calendar_reduction" src="<{"reduction.gif"|get_modules_image}>" alt="<{$lang.calendar_reduction|smarty:nodefaults}>" title="<{$lang.calendar_title_reduction|smarty:nodefaults}>" />
+		</a>
+	<{/if}>
+	<a class="syslink" href="#" title="" onclick='calendarCls["<{$id}>"].showDateMove(event); return false;' onmouseover='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "move", <{$smarty.const._ON}>);' onmouseout='if (typeof calendarCls == "undefined" || typeof calendarCls["<{$id}>"] == "undefined") { return false; } calendarCls["<{$id}>"].onmouseImage(this, "move", <{$smarty.const._OFF}>);'>
+		<img class="icon calendar_date_move" src="<{"move.gif"|get_modules_image}>" alt="<{$lang._calendar_menu|smarty:nodefaults}>" title="<{$lang._calendar_menu|smarty:nodefaults}>" />
+	</a>
+</div>
+
+<{/strip}>

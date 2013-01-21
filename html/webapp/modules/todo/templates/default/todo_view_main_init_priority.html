@@ -1,0 +1,18 @@
+<{strip}>
+<{* タスク一覧（レベル）用テンプレート *}>
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	<a class="link display-block" href="#" title="" onclick="todoCls['<{$id}>'].showPopup('<{$task.task_id}>', '<{$smarty.const.TODO_PRIORITY}>', event);return false;" onfocus="this.onmouseover(event);" onmouseover="commonCls.blockNotice(event);">
+<{/if}>
+
+<{if $task.priority == TODO_PRIORITY_HIGH}>
+	<img src="<{"high.gif"|get_modules_image}>" alt="<{if !$task.edit_authority}><{$lang.todo_priority_high|smarty:nodefaults}><{/if}>" title="<{if !$task.edit_authority}><{$lang.todo_priority_high|smarty:nodefaults}><{else}><{$lang.todo_priority_edit|smarty:nodefaults}><{/if}>" />
+<{elseif $task.priority == TODO_PRIORITY_MIDDLE}>
+	<img src="<{"middle.gif"|get_modules_image}>" alt="<{if !$task.edit_authority}><{$lang.todo_priority_middle|smarty:nodefaults}><{/if}>" title="<{if !$task.edit_authority}><{$lang.todo_priority_middle|smarty:nodefaults}><{else}><{$lang.todo_priority_edit|smarty:nodefaults}><{/if}>" />
+<{else}>
+	<img src="<{"low.gif"|get_modules_image}>" alt="<{if !$task.edit_authority}><{$lang.todo_priority_low|smarty:nodefaults}><{/if}>" title="<{if !$task.edit_authority}><{$lang.todo_priority_low|smarty:nodefaults}><{else}><{$lang.todo_priority_edit|smarty:nodefaults}><{/if}>" />
+<{/if}>
+
+<{if $task.edit_authority && $action_name == "todo_view_main_init"}>
+	</a>
+<{/if}>
+<{/strip}>		

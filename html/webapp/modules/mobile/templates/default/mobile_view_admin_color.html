@@ -1,0 +1,71 @@
+<{strip}>
+<div class="outerdiv">
+	<form id="form<{$id}>" action="" onsubmit="return false;" enctype="multipart/form-data">
+		<fieldset>
+			<legend class="bold"><{$lang.mobile_color|smarty:nodefaults}></legend>
+	
+			<div class="top_description">
+				<{$lang.title_message|smarty:nodefaults}>
+			</div>
+	
+			<div class="tab_color">
+				<table class="outer system_setting" summary="<{$smarty.const._SUMMARY_SETTINGITEM}>">
+				<tr class="row">
+					<th scope="row"><label for="color_back<{$id}>"><{$lang.mobile_color_back|smarty:nodefaults}></label></th>
+					<td>
+						<input type="text" name="color_back" id="color_back<{$id}>" size="10" value="<{$action.config.mobile_color_back.conf_value}>" onchange="mobileCls['<{$id}>'].setSampleColor(this);"/>
+					</td>
+					<td id="mobile_sample_color_back" style="border:1px solid #888; background-color:<{if $action.config.mobile_color_back.conf_value==""}>#FFFFFF<{else}><{$action.config.mobile_color_back.conf_value}><{/if}>;">
+					</td>
+				</tr>
+				<tr class="row">
+					<th scope="row"><label for="color_text<{$id}>"><{$lang.mobile_color_text|smarty:nodefaults}></label></th>
+					<td>
+						<input type="text" name="color_text" id="color_text<{$id}>" size="10" value="<{$action.config.mobile_color_text.conf_value}>" onchange="mobileCls['<{$id}>'].setSampleColor(this);" />
+					</td>
+					<td id="mobile_sample_color_text" style="border:1px solid #aaa; background-color:<{if $action.config.mobile_color_text.conf_value==""}>#000000<{else}><{$action.config.mobile_color_text.conf_value}><{/if}>;">
+					</td>
+				</tr>
+				<tr class="row">
+					<th scope="row"><label for="color_link<{$id}>"><{$lang.mobile_color_link|smarty:nodefaults}></label></th>
+					<td>
+						<input type="text" name="color_link" id="color_link<{$id}>" size="10" value="<{$action.config.mobile_color_link.conf_value}>" onchange="mobileCls['<{$id}>'].setSampleColor(this);" />
+					</td>
+					<td id="mobile_sample_color_link" style="border:1px solid #aaa; background-color:<{if $action.config.mobile_color_link.conf_value==""}>#0000FF<{else}><{$action.config.mobile_color_link.conf_value}><{/if}>;">
+					</td>
+				</tr>
+				<tr class="row">
+					<th scope="row"><label for="color_vlink<{$id}>"><{$lang.mobile_color_vlink|smarty:nodefaults}></label></th>
+					<td>
+						<input type="text" name="color_vlink" id="color_vlink<{$id}>" size="10" value="<{$action.config.mobile_color_vlink.conf_value}>" onchange="mobileCls['<{$id}>'].setSampleColor(this);" />
+					</td>
+					<td id="mobile_sample_color_vlink" style="border:1px solid #aaa; background-color:<{if $action.config.mobile_color_vlink.conf_value==""}>#FF0000<{else}><{$action.config.mobile_color_vlink.conf_value}><{/if}>;">
+					</td>
+				</tr>
+				</table>
+			</div>
+		</fieldset>
+		<br />
+		<fieldset>
+			<legend class="bold"><{$lang.mobile_smt_color|smarty:nodefaults}></legend>
+
+			<div class="top_description">
+				<{$lang.mobile_smt_title_message|smarty:nodefaults}>
+			</div>
+			<select name="smartphone_theme_color">
+			<option value="b" class="ui-btn-up-b"<{if $action.config.mobile_smt_theme_color.conf_value == "b"}> selected="selected" <{/if}>><{$lang.mobile_smt_color_b|smarty:nodefaults}></option>
+			<option value="f" class="ui-btn-up-f"<{if $action.config.mobile_smt_theme_color.conf_value == "f"}> selected="selected" <{/if}>><{$lang.mobile_smt_color_f|smarty:nodefaults}></option>
+			<option value="g" class="ui-btn-up-g"<{if $action.config.mobile_smt_theme_color.conf_value == "g"}> selected="selected" <{/if}>><{$lang.mobile_smt_color_g|smarty:nodefaults}></option>
+			<option value="h" class="ui-btn-up-h"<{if $action.config.mobile_smt_theme_color.conf_value == "h"}> selected="selected" <{/if}>><{$lang.mobile_smt_color_h|smarty:nodefaults}></option>
+			<option value="i" class="ui-btn-up-i"<{if $action.config.mobile_smt_theme_color.conf_value == "i"}> selected="selected" <{/if}>><{$lang.mobile_smt_color_i|smarty:nodefaults}></option>
+			<option value="j" class="ui-btn-up-j"<{if $action.config.mobile_smt_theme_color.conf_value == "j"}> selected="selected" <{/if}>><{$lang.mobile_smt_color_j|smarty:nodefaults}></option>
+			</select>
+		</fieldset>
+		<div class="btn-bottom">
+			<input class="btn-width lined_btn" type="button" value="<{$lang.mobile_submit}>" onclick="mobileCls['<{$id}>'].setColorConfig('mobile_action_admin_color','<{$lang._update_comp}>'); return false;" />
+			&nbsp;
+			<input class="btn-width lined_btn" type="button" value="<{$lang.mobile_reset}>" onclick="commonCls.sendRefresh('<{$id}>');" />
+		</div>
+	</form>
+</div>
+<{/strip}>

@@ -1,0 +1,107 @@
+<{strip}>
+<{* フォワード用テンプレート *}>
+<div class="pm_mua_body clearfix">
+   <form id="pm_form<{$id}>" onsubmit="return false;" action="#">
+   <input type="hidden" name="action" value="pm_action_main_forward" />
+   <table class="pm_base">
+		<tr>
+			<td class="pm_base_upperleft">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperleft" />
+			</td>
+			<td class="pm_base_upper"></td>
+			<td class="pm_base_upperright">
+				<img src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" class="pm_base_upperright" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="pm_base_content">	
+				<table class="widthmax">
+					<tr>
+						<td class="pm_hmenu_top_td pm_hmenu_top_td_fix">
+							<ul class="pm_hmenu_ul pm_list_create_btn">
+								<li class="pm_list_menu_li">
+									<a class="syslink pm_head" href="#" title="<{$lang.pm_new_message|smarty:nodefaults}>" alt="<{$lang.pm_new_message|smarty:nodefaults}>" onclick="pmCls['<{$id}>'].showMessagePopup(null,'',event,'<{$smarty.const.PM_NEW_MESSAGE}>');return false;">
+										<div>
+										<img class="icon" src="<{"edit.gif"|get_themes_image}>" />
+										&nbsp;
+										<{$lang.pm_new_message|smarty:nodefaults}>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</td>
+						
+						<td rowspan="2" class="pm_content">
+							<{* コンテンツ *}>
+							<table class="widthmax">
+								<tr>
+									<td class="pm_upd_tabset_head">
+								   		<div>
+									 		<div class="comp_tabset"></div>
+									 		<div class="comp_tabset_content" style="border: 0px;">
+												<div class="tab1" style="border: 0px;"></div>
+												<div class="tab2" style="border: 0px;"></div>
+												<div class="tab3" style="border: 0px;"></div>
+									 		</div>
+								   		</div>
+									</td>
+								</tr>
+						
+								<tr>
+									<td class="pm_upd_tabset_body">
+										<p><{$lang.pm_mail_intro|smarty:nodefaults}></p>
+										<{if $action.no_email_flag}>
+											<p><span class="deadline"><{$lang.pm_no_forward_email|smarty:nodefaults}></span></p>
+										<{/if}>
+										<table class="pm_upd_fwd_select">
+											<tr>
+												<td class="pm_upd_fwd_select_dt"><{$lang.pm_mail_title|smarty:nodefaults}></td>
+												<td class="pm_upd_fwd_select_dd">
+													<ul class="pm_upd_fwd_select_dd_ul">
+														<li class="pm_upd_fwd_select_dd_li">
+														<input class="pm_upd_fwd_select_dd_input" id="pm_form<{$id}>_mail_no" type="radio" name="mail" value="<{$smarty.const._OFF}>" onclick="pmCls['<{$id}>'].saveMailForward(this.form);" <{if $action.mail_no == $smarty.const._ON}>checked<{/if}> <{if $action.no_email_flag}>disabled='disabled'<{/if}>/>
+															<label for="pm_form<{$id}>_mail_no"><{$lang.pm_mail_option_no|smarty:nodefaults}></label>
+														</li>
+														<li class="pm_upd_fwd_select_dd_li">
+															<input class="pm_upd_fwd_select_dd_input" id="pm_form<{$id}>_mail_yes" type="radio" name="mail" value="<{$smarty.const._ON}>" onclick="pmCls['<{$id}>'].saveMailForward(this.form);" <{if $action.mail_yes == $smarty.const._ON}>checked<{/if}> <{if $action.no_email_flag}>disabled='disabled'<{/if}>/>
+															<label for="pm_form<{$id}>_mail_yes"><{$lang.pm_mail_option_yes|smarty:nodefaults}></label>
+														</li>
+													</ul>
+												</td>
+											</tr>
+										 </table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="pm_menu">
+							<{* 左メニュー *}>
+							<{include file = "pm_view_left_menu.html"}>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="pm_hmenu_bottom_td">
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td class="pm_base_right">
+			</td>
+		</tr>
+		<tr>
+			<td class="pm_base_belowleft"></td>
+			<td class="pm_base_below"></td>
+			<td class="pm_base_belowright"></td>
+		</tr>
+   </table>
+   </form>
+</div>
+
+<{include file = "../pm_script.html"}>
+<script class="nc_script" type="text/javascript">
+	pmCls["<{$id}>"].createSettingTabset(0, '<{$lang.pm_tab_mail_title|smarty:nodefaults}>', '<{$lang.pm_tab_filter_title|smarty:nodefaults}>', '<{$lang.pm_tab_tag_title|smarty:nodefaults}>');
+</script>
+<{/strip}>

@@ -1,0 +1,38 @@
+body {
+	font-size:medium;
+	margin-left:15px;
+}
+div {
+	font-size:110%;
+}
+ul {
+	padding-top:5px;
+	padding-bottom:10px;
+}
+li {
+	padding-top:3px;
+	padding-bottom:5px;
+}
+a {
+	padding:10px 7px;
+	line-height:200%;
+}
+h3 {
+	font-size:110%;
+}
+h4 {
+	font-size:110%;
+}
+h5 {
+	font-size:110%;
+}
+h6 {
+	font-size:110%;
+	line-height:150%;
+}
+img {
+	vertical-align:middle;
+}
+textarea {
+	width:400px;
+}

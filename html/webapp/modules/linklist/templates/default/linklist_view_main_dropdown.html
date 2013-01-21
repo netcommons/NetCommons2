@@ -1,0 +1,25 @@
+<{strip}>
+<{* リンクリストドロップダウン画面用テンプレート *}>
+<select class="linklist_dropdown" onchange="linklistCls['<{$id}>'].selectLink(this)">
+	<option value=""><{$action.linklist.linklist_name}></option>
+	<{foreach name=categoryLink item=categoryLink from=$action.categoryLinks}>
+		<{if $categoryLink.default_flag == _OFF}>
+			<optgroup label="<{$categoryLink.category_name}>">
+		<{/if}>
+			<{foreach item=link from=$categoryLink.links|smarty:nodefaults}>
+				<option value="<{$link.link_id}>|<{$link.url}>">
+					<{if $categoryLink.default_flag == _ON}>
+						&nbsp;&nbsp;
+					<{/if}>
+					<{$link.title}>
+					<{if $action.linklist.view_count_flag}>
+						<{$lang.linklist_view_count|smarty:nodefaults|sprintf:$link.view_count}>
+					<{/if}>
+				</option>
+			<{/foreach}>
+		<{if $categoryLink.default_flag == _OFF}>
+			</optgroup>
+		<{/if}>
+	<{/foreach}>
+</select>
+<{/strip}>

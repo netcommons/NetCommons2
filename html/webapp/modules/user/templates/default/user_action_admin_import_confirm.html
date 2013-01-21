@@ -1,0 +1,38 @@
+<{strip}>
+<div class="user_outerdiv">
+	<form id="import_action_confirm_form<{$id}>" action="" onsubmit="return false;">	
+		<fieldset>				
+			<legend>
+				<span class="bold"> <{$lang.user_import_insert|smarty:nodefaults}> </span>
+			</legend>
+			
+			<{* 登録結果（新規登録数、更新登録数、エラー数、現在の登録会員数） *}>
+			<table>
+				<tr class="user_grid_row">
+					<th class="user_grid_header"> <{$lang.user_import_insert_usersnum|smarty:nodefaults}> </th>
+					<td class="user_grid_col grid_name align-right"> <{$action.insUser_cnt}> </td>
+				</tr>				
+				<tr class="user_grid_row">
+					<th class="user_grid_header"> <{$lang.user_import_update_usersnum|smarty:nodefaults}> </th>
+					<td class="user_grid_col align-right"> <{$action.updUser_cnt}> </td>
+				</tr>	
+				<{if $action.errUser_cnt > 0}>			
+					<tr class="user_grid_row">
+						<th class="user_import_error"> <{$lang.user_import_insert_errusersnum|smarty:nodefaults}> </th>
+						<td class="user_import_error align-right"> <{$action.errUser_cnt}> </td>
+					</tr>		
+				<{/if}>
+				<tr class="user_grid_row">
+					<th class="user_grid_header"> <{$lang.user_import_insert_allusersnum|smarty:nodefaults}> </th>
+					<td class="user_grid_col align-right"> <{$action.allusers_num}> </td>
+				</tr>				
+			</table>
+			
+			<div class="btn-bottom">
+				<{* 閉じる *}>
+				<input class="btn-width lined_btn" type="button" value="<{$lang._close_btn|smarty:nodefaults}>" onclick="userCls['<{$id}>'].user_importreturn(this.form); return false;" />
+			</div>
+		</fieldset>
+	</form>
+</div>
+<{/strip}>
