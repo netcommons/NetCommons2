@@ -87,11 +87,11 @@ class Reservation_Components_View
 	{
 		if (strlen($from_time) == 6) {
 			$dateTimeBegin = mktime(substr($from_time,0,2), substr($from_time,2,2), substr($from_time,4));
-			$dateTimeEnd  = mktime(substr($to_time,0,2), substr($to_time,2,2), substr($to_time,4));
+			$dateTimeEnd = mktime(substr($to_time,0,2), substr($to_time,2,2), substr($to_time,4));
 		} else {
 			$dateTimeBegin = mktime(substr($from_time,8,2), substr($from_time,10,2), substr($from_time,12,2),
 									substr($from_time,4,2), substr($from_time,6,2), substr($from_time,0,4));
-			$dateTimeEnd  = mktime(substr($to_time,8,2), substr($to_time,10,2), substr($to_time,12,2),
+			$dateTimeEnd = mktime(substr($to_time,8,2), substr($to_time,10,2), substr($to_time,12,2),
 									substr($to_time,4,2), substr($to_time,6,2), substr($to_time,0,4));
 		}
 
@@ -113,7 +113,7 @@ class Reservation_Components_View
 		foreach ($this->_wdayArrary as $i=>$key) {
 			$weekArray[$i] = array("name" => $this->_weekNameArray[$i], "long_name" => $this->_weekLongNameArray[$i]);
 		}
-    	return $weekArray;
+		return $weekArray;
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Reservation_Components_View
 				}
 			}
 		}
-    	return $time_table_str;
+		return $time_table_str;
 	}
 	/**
 	 * タイムテーブルの選択データ取得
@@ -151,7 +151,7 @@ class Reservation_Components_View
 		foreach ($this->_wdayArrary as $i=>$key) {
 			$weekArray[$key] = array("name" => $this->_weekNameArray[$i], "long_name" => $this->_weekLongNameArray[$i]);
 		}
-    	return $weekArray;
+		return $weekArray;
 	}
 
 
@@ -216,42 +216,42 @@ class Reservation_Components_View
 		return true;
 	}
 
-    /**
-     * カテゴリー件数を取得する
-     *
-     * @param   mixed   $category_id カテゴリーID
-     *
-     * @return  integer	カテゴリー件数
-     * @access  public
-     */
-    function getCountCategory($category_id=null)
-    {
+	/**
+	 * カテゴリー件数を取得する
+	 *
+	 * @param   mixed   $category_id カテゴリーID
+	 *
+	 * @return  integer	カテゴリー件数
+	 * @access  public
+	 */
+	function getCountCategory($category_id=null)
+	{
 		if (isset($category_id)) {
 			$params = array("category_id"=>$category_id);
 		} else {
 			$params = null;
 		}
-    	$count = $this->_db->countExecute("reservation_category", $params);
-    	return $count;
-    }
+		$count = $this->_db->countExecute("reservation_category", $params);
+		return $count;
+	}
 
-    /**
-     * カテゴリーの存在チェックする
-     *
-     * @param   mixed   $category_id カテゴリーID
-     *
-     * @return  boolean
-     * @access  public
-     */
-    function categoryExists($category_id=null)
-    {
-    	$count = $this->getCountCategory($category_id);
-    	if ($count > 0) {
-    		return true;
-    	} else {
-    		return false;
-    	}
-    }
+	/**
+	 * カテゴリーの存在チェックする
+	 *
+	 * @param   mixed   $category_id カテゴリーID
+	 *
+	 * @return  boolean
+	 * @access  public
+	 */
+	function categoryExists($category_id=null)
+	{
+		$count = $this->getCountCategory($category_id);
+		if ($count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * カテゴリー取得
@@ -290,7 +290,7 @@ class Reservation_Components_View
 			$this->_db->addError();
 			return false;
 		}
-        return $result;
+		return $result;
 	}
 	/**
 	 * カテゴリー取得
@@ -306,23 +306,23 @@ class Reservation_Components_View
 		return $result;
 	}
 
-    /**
-     * カテゴリー取得
-     *
-     * @param   mixed   $category_id カテゴリーID
-     *
-     * @return  array	カテゴリー
-     * @access  public
-     */
-    function getCategory($category_id)
-    {
-    	$category =& $this->_db->selectExecute("reservation_category", array("category_id"=>$category_id));
+	/**
+	 * カテゴリー取得
+	 *
+	 * @param   mixed   $category_id カテゴリーID
+	 *
+	 * @return  array	カテゴリー
+	 * @access  public
+	 */
+	function getCategory($category_id)
+	{
+		$category =& $this->_db->selectExecute("reservation_category", array("category_id"=>$category_id));
 		if ($category === false) {
 			return $category;
 		}
 		$category = $category[0];
-    	return $category;
-    }
+		return $category;
+	}
 	/**
 	 * カテゴリー取得
 	 *
@@ -330,32 +330,32 @@ class Reservation_Components_View
 	 */
 	function getCategorySequence()
 	{
-    	$max_sequence = $this->_db->maxExecute("reservation_category", "display_sequence");
-        if ($max_sequence === false) {
-        	return false;
-        }
-        if (empty($max_sequence)) {
-        	$max_sequence = 0;
-        }
-        return $max_sequence;
+		$max_sequence = $this->_db->maxExecute("reservation_category", "display_sequence");
+		if ($max_sequence === false) {
+			return false;
+		}
+		if (empty($max_sequence)) {
+			$max_sequence = 0;
+		}
+		return $max_sequence;
 	}
-    /**
-     * カテゴリー取得
-     *
-     * @param   mixed   $category_id カテゴリーID
-     *
-     * @return  array	カテゴリー
-     * @access  public
-     */
-    function getNonCategory()
-    {
-    	$categories =& $this->_db->selectExecute("reservation_category", array("category_name"=>""));
+	/**
+	 * カテゴリー取得
+	 *
+	 * @param   mixed   $category_id カテゴリーID
+	 *
+	 * @return  array	カテゴリー
+	 * @access  public
+	 */
+	function getNonCategory()
+	{
+		$categories =& $this->_db->selectExecute("reservation_category", array("category_name"=>""));
 		if ($categories === false) {
 			return $categories;
 		}
 		$category = $categories[0];
-    	return $category;
-    }
+		return $category;
+	}
 
 	/**
 	 * デフォルト値取得
@@ -364,65 +364,65 @@ class Reservation_Components_View
 	 */
 	function getDefaultBlock()
 	{
-    	$module_id = $this->_request->getParameter("module_id");
+		$module_id = $this->_request->getParameter("module_id");
 		$configView =& $this->_container->getComponent("configView");
 		$config = $configView->getConfig($module_id, false);
 		if ($config === false) {
-    		return false;
-    	}
+			return false;
+		}
 
-    	if (defined($config['display_type']["conf_value"])) {
-    		$display_type = constant($config['display_type']["conf_value"]);
-    	} else {
-    		$display_type = $config['display_type']["conf_value"];
-    	}
+		if (defined($config['display_type']["conf_value"])) {
+			$display_type = constant($config['display_type']["conf_value"]);
+		} else {
+			$display_type = $config['display_type']["conf_value"];
+		}
 		$room_id_arr = $this->_request->getParameter("room_id_arr");
 
-    	switch ($display_type) {
-    		case RESERVATION_DEF_MONTHLY:
-    		case RESERVATION_DEF_WEEKLY:
+		switch ($display_type) {
+			case RESERVATION_DEF_MONTHLY:
+			case RESERVATION_DEF_WEEKLY:
 				$result = $this->getFirstLocation();
 				if ($result === false) {
 					return $result;
 				}
 				$category_id = $result["category_id"];
 				$location_id = $result["location_id"];
-    			break;
-    		case RESERVATION_DEF_LOCATION:
-    			$category_id = $this->getFirstCategory();
- 				if ($category_id === false) {
+				break;
+			case RESERVATION_DEF_LOCATION:
+				$category_id = $this->getFirstCategory();
+				if ($category_id === false) {
 					return $category_id;
 				}
-    			$category_id = $category_id;
-    			$location_id = 0;
-    			break;
-    		default:
-    			$category_id = 0;
-    			$location_id = 0;
-    	}
+				$category_id = $category_id;
+				$location_id = 0;
+				break;
+		default:
+			$category_id = 0;
+				$location_id = 0;
+		}
 
-    	if (defined($config['display_interval']["conf_value"])) {
-    		$display_interval = constant($config['display_interval']["conf_value"]);
-    	} else {
-    		$display_interval = intval($config['display_interval']["conf_value"]);
-    	}
+		if (defined($config['display_interval']["conf_value"])) {
+		$display_interval = constant($config['display_interval']["conf_value"]);
+		} else {
+			$display_interval = intval($config['display_interval']["conf_value"]);
+	}
 
-    	if (defined($config['display_start_time']["conf_value"])) {
-    		$display_start_time = constant($config['display_start_time']["conf_value"]);
-    	} else {
-    		$display_start_time = $config['display_start_time']["conf_value"];
-    	}
+		if (defined($config['display_start_time']["conf_value"])) {
+			$display_start_time = constant($config['display_start_time']["conf_value"]);
+		} else {
+			$display_start_time = $config['display_start_time']["conf_value"];
+		}
 
-    	$default = array(
-    		"block_id" => 0,
-    		"display_type" => $display_type,
-    		"display_start_time" => $display_start_time,
-    		"start_time_hour" => $config['start_time_hour']["conf_value"],
-    		"display_interval" => $display_interval,
-    		"category_id" => $category_id,
-    		"location_id" => $location_id
-    	);
-    	return $default;
+		$default = array(
+			"block_id" => 0,
+			"display_type" => $display_type,
+			"display_start_time" => $display_start_time,
+			"start_time_hour" => $config['start_time_hour']["conf_value"],
+			"display_interval" => $display_interval,
+			"category_id" => $category_id,
+			"location_id" => $location_id
+		);
+		return $default;
 	}
 
 	/**
@@ -439,7 +439,7 @@ class Reservation_Components_View
 		if (!isset($result[0])) {
 			return false;
 		}
-        return $result[0];
+		return $result[0];
 	}
 
 	/**
@@ -449,14 +449,14 @@ class Reservation_Components_View
 	 */
 	function getLocationSequence($category_id)
 	{
-    	$max_sequence = $this->_db->maxExecute("reservation_location", "display_sequence", array("category_id"=>$category_id));
-        if ($max_sequence === false) {
-        	return false;
-        }
-        if (empty($max_sequence)) {
-        	$max_sequence = 0;
-        }
-        return $max_sequence;
+		$max_sequence = $this->_db->maxExecute("reservation_location", "display_sequence", array("category_id"=>$category_id));
+		if ($max_sequence === false) {
+			return false;
+		}
+		if (empty($max_sequence)) {
+			$max_sequence = 0;
+		}
+		return $max_sequence;
 	}
 
 	/**
@@ -466,8 +466,8 @@ class Reservation_Components_View
 	 */
 	function getLocations($category_id = null, $limit = null, $offset = null, $func=null)
 	{
-        $_user_auth_id = $this->_session->getParameter("_user_auth_id");
-        $_user_id = $this->_session->getParameter("_user_id");
+		$_user_auth_id = $this->_session->getParameter("_user_auth_id");
+		$_user_id = $this->_session->getParameter("_user_id");
 
 		if (!isset($func)) {
 			$func = array($this,"_getLocations");
@@ -486,22 +486,7 @@ class Reservation_Components_View
 					"ON (location.location_id = l_rooms.location_id) ";
 		if ($_user_auth_id != _AUTH_ADMIN) {
 			$sql .= "WHERE (";
-
-			$pagesView =& $this->_container->getComponent("pagesView");
-			$private_spase = $pagesView->getPrivateSpaceByUserId($_user_id);
-			if ($private_spase === false) {
-				return false;
-			}
-			if (!empty($private_spase)) {
-				$private_room_id = $private_spase[0]["page_id"];
-			} else {
-				$private_room_id = 0;
-			}
-
-			if ($private_room_id > 0) {
-				$sql .= "location.use_private_flag = ". _ON . " AND location.add_authority <= " . $_user_auth_id . " OR ";
-			}
-			$sql .= "location.allroom_flag = ". _ON;
+			$sql .= 	"location.allroom_flag = ". _ON;
 			if (!empty($room_id_arr)) {
 				$sql .= " OR location.allroom_flag = ". _OFF ." AND l_rooms.room_id IN (".implode(",",$room_id_arr).")";
 			}
@@ -519,7 +504,7 @@ class Reservation_Components_View
 			$this->_db->addError();
 			return false;
 		}
-        return $result;
+		return $result;
 	}
 	/**
 	 * 施設取得
@@ -528,7 +513,7 @@ class Reservation_Components_View
 	 */
 	function _getLocations(&$recordSet, $params)
 	{
-        $_user_auth_id = $this->_session->getParameter("_user_auth_id");
+		$_user_auth_id = $this->_session->getParameter("_user_auth_id");
 
 		$result = array();
 		$commonMain =& $this->_container->getComponent("commonMain");
@@ -565,12 +550,6 @@ class Reservation_Components_View
 				$row["timezone_string"] = $timezoneMain->getLangTimeZone($row["timezone_offset"]);
 			} else {
 				$row["timezone_string"] = $timezoneMain->getLangTimeZone($row["timezone_offset"], false);
-			}
-
-			if ($row["use_private_flag"] == _ON && $_user_auth_id >= $row["add_authority"]) {
-				$row["hasPrivateAddReserve"] = _ON;
-			} else {
-				$row["hasPrivateAddReserve"] = _OFF;
 			}
 
 			if ($actionName == "reservation_view_main_init" && $params[0] == _OFF && $display_type == RESERVATION_DEF_LOCATION) {
@@ -610,9 +589,9 @@ class Reservation_Components_View
 		$actionChain =& $this->_container->getComponent("ActionChain");
 		$actionName = $actionChain->getCurActionName();
 		if ($actionName == "reservation_action_edit_location_sequence") {
-	        $result = $this->_db->execute($sql, array("location_id"=>$location_id));
+			$result = $this->_db->execute($sql, array("location_id"=>$location_id));
 		} else {
-	        $result = $this->_db->execute($sql, array("location_id"=>$location_id), null, null, true, array($this,"_getLocations"), array(_ON));
+			$result = $this->_db->execute($sql, array("location_id"=>$location_id), null, null, true, array($this,"_getLocations"), array(_ON));
 		}
 		if ($result === false) {
 			$this->_db->addError();
@@ -636,35 +615,35 @@ class Reservation_Components_View
 		$configView =& $this->_container->getComponent("configView");
 		$config = $configView->getConfig($module_id, false);
 		if ($config === false) {
-    		return false;
-    	}
+			return false;
+		}
 
- 		$commonMain =& $this->_container->getComponent("commonMain");
- 		$timezoneMain =& $commonMain->registerClass(WEBAPP_DIR.'/components/timezone/Main.class.php', "Timezone_Main", "timezoneMain");
+		$commonMain =& $this->_container->getComponent("commonMain");
+		$timezoneMain =& $commonMain->registerClass(WEBAPP_DIR.'/components/timezone/Main.class.php', "Timezone_Main", "timezoneMain");
 
- 		$timezone_offset = $this->_session->getParameter("_timezone_offset");
-    	$location = array(
-    		"location_id" => 0,
-    		"category_id" => 0,
-    		"location_name" => "",
-    		"active_flag" => _ON,
-    		"add_authority" => _AUTH_CHIEF,
-    		"time_table" => RESERVATION_DEF_WEEKYDAY,
-    		"time_table_arr" => explode(",", RESERVATION_DEF_WEEKYDAY),
-    		"start_time" => timezone_date_format(null, "Ymd090000"),
-    		"end_time" => timezone_date_format(null, "Ymd180000"),
-    		"timezone_offset" => $timezone_offset,
-    		"timezone_string" => $timezoneMain->getLangTimeZone($timezone_offset, false),
-    		"allday_flag" => _OFF,
-    		"contact" => "",
-    		"description" => "",
-    		"duplication_flag" => _OFF,
-    		"use_private_flag" => (defined($config['use_private_flag']["conf_value"]) ?
-    									constant($config['use_private_flag']["conf_value"]) : intval($config['use_private_flag']["conf_value"])),
-    		"allroom_flag" => (defined($config['allroom_flag']["conf_value"]) ?
-    									constant($config['allroom_flag']["conf_value"]) : intval($config['allroom_flag']["conf_value"])),
-    		"display_sequence" => 0
-    	);
+		$timezone_offset = $this->_session->getParameter("_timezone_offset");
+		$location = array(
+			"location_id" => 0,
+			"category_id" => 0,
+			"location_name" => "",
+			"active_flag" => _ON,
+			"add_authority" => _AUTH_CHIEF,
+			"time_table" => RESERVATION_DEF_WEEKYDAY,
+			"time_table_arr" => explode(",", RESERVATION_DEF_WEEKYDAY),
+			"start_time" => timezone_date_format(null, "Ymd090000"),
+			"end_time" => timezone_date_format(null, "Ymd180000"),
+			"timezone_offset" => $timezone_offset,
+			"timezone_string" => $timezoneMain->getLangTimeZone($timezone_offset, false),
+			"allday_flag" => _OFF,
+			"contact" => "",
+			"description" => "",
+			"duplication_flag" => _OFF,
+			"use_private_flag" => (defined($config['use_private_flag']["conf_value"]) ?
+										constant($config['use_private_flag']["conf_value"]) : intval($config['use_private_flag']["conf_value"])),
+			"allroom_flag" => (defined($config['allroom_flag']["conf_value"]) ?
+										constant($config['allroom_flag']["conf_value"]) : intval($config['allroom_flag']["conf_value"])),
+			"display_sequence" => 0
+		);
 		return $location;
 	}
 
@@ -675,8 +654,8 @@ class Reservation_Components_View
 	 */
 	function getCountLocationByCategory()
 	{
-        $_user_auth_id = $this->_session->getParameter("_user_auth_id");
-        $_user_id = $this->_session->getParameter("_user_id");
+		$_user_auth_id = $this->_session->getParameter("_user_auth_id");
+		$_user_id = $this->_session->getParameter("_user_id");
 
 		$room_id_arr = $this->_request->getParameter("room_id_arr");
 
@@ -721,7 +700,7 @@ class Reservation_Components_View
 				return false;
 			}
 		}
-        return $result;
+		return $result;
 	}
 
 	/**
@@ -745,8 +724,8 @@ class Reservation_Components_View
 	 */
 	function getCountLocation($location_id = null)
 	{
-        $_user_auth_id = $this->_session->getParameter("_user_auth_id");
-        $_user_id = $this->_session->getParameter("_user_id");
+		$_user_auth_id = $this->_session->getParameter("_user_auth_id");
+		$_user_id = $this->_session->getParameter("_user_id");
 
 		$room_id_arr = $this->_request->getParameter("room_id_arr");
 
@@ -800,7 +779,7 @@ class Reservation_Components_View
 				$this->_db->addError();
 				return false;
 			}
-	        return intval($result[0][0]);
+			return intval($result[0][0]);
 		}
 	}
 
@@ -823,12 +802,12 @@ class Reservation_Components_View
 		$sql .= " WHERE location.location_id = ?".
 				" AND l_rooms.room_id IN (".implode(",",$room_id_arr).")";
 
-        $result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getLocationRoom"));
+		$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getLocationRoom"));
 		if ($result === false) {
 			$this->_db->addError();
 			return $result;
 		}
-        return $result;
+		return $result;
 	}
 	/**
 	 * 施設に紐付くルーム取得
@@ -901,25 +880,25 @@ class Reservation_Components_View
 			"block_id" => $this->_request->getParameter("block_id")
 		);
 
-    	$result =& $this->_db->selectExecute("reservation_block", $params);
-        if (empty($result)) {
-        	$result[0] = $this->getDefaultBlock();
-        }
-        if (empty($result)) {
-        	return false;
-        }
+		$result =& $this->_db->selectExecute("reservation_block", $params);
+		if (empty($result)) {
+			$result[0] = $this->getDefaultBlock();
+		}
+		if (empty($result)) {
+			return false;
+		}
 
-        $reserve_block = $result[0];
+		$reserve_block = $result[0];
 		$room_id_arr = $this->_request->getParameter("room_id_arr");
 
 		if (isset($display_type) && $display_type > 0) {
 			$reserve_block["display_type"] = $display_type;
 		}
 
-    	switch ($reserve_block["display_type"]) {
-    		case RESERVATION_DEF_MONTHLY:
-    		case RESERVATION_DEF_WEEKLY:
-    			$location_id = $this->_request->getParameter("location_id");
+		switch ($reserve_block["display_type"]) {
+			case RESERVATION_DEF_MONTHLY:
+			case RESERVATION_DEF_WEEKLY:
+				$location_id = $this->_request->getParameter("location_id");
 				if (!isset($location_id)) {
 					$location_id = $reserve_block["location_id"];
 				} else {
@@ -933,15 +912,15 @@ class Reservation_Components_View
 					}
 					$location_id = intval($location["location_id"]);
 				}
-    			$location =& $this->getLocation($location_id, false);
+				$location =& $this->getLocation($location_id, false);
 				if ($location === false) {
 					return false;
 				}
 				$reserve_block["category_id"] = $location["category_id"];
 				$reserve_block["location_id"] = $location["location_id"];
-    			break;
-    		case RESERVATION_DEF_LOCATION:
-    			$category_id = $this->_request->getParameter("category_id");
+				break;
+			case RESERVATION_DEF_LOCATION:
+				$category_id = $this->_request->getParameter("category_id");
 				if (!isset($category_id)) {
 					$category_id = $reserve_block["category_id"];
 				} else {
@@ -958,9 +937,9 @@ class Reservation_Components_View
 				}
 				$reserve_block["category_id"] = $category_id;
 				$reserve_block["location_id"] = 0;
-    			break;
+				break;
 			default:
-    	}
+		}
 
 		//表示タイプの設定
 		$type = substr($reserve_block["display_start_time"], -1);
@@ -970,13 +949,13 @@ class Reservation_Components_View
 			$reserve_block["start_time_hour"] = $reserve_block["display_start_time"];
 		} else {
 			$reserve_block["start_time_type"] = RESERVATION_DEF_START_TIME_DEFAULT;
-	    	$module_id = $this->_request->getParameter("module_id");
+			$module_id = $this->_request->getParameter("module_id");
 			$configView =& $this->_container->getComponent("configView");
 			$config = $configView->getConfigByConfname($module_id, "start_time_hour");
 			if ($config === false) {
-	    		return false;
-	    	}
-	    	$reserve_block["start_time_hour"] = $config["conf_value"];
+				return false;
+			}
+			$reserve_block["start_time_hour"] = $config["conf_value"];
 		}
 		return $reserve_block;
 	}
@@ -1008,10 +987,10 @@ class Reservation_Components_View
 			"reserve_id" => $reserve_id
 		);
 
-    	$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getReserve"));
+		$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getReserve"));
 		if ($result === false) {
-	       	$this->_db->addError();
-	       	return $result;
+			$this->_db->addError();
+			return $result;
 		}
 		return $result;
 	}
@@ -1022,7 +1001,7 @@ class Reservation_Components_View
 	 */
 	function &_getReserve(&$recordSet)
 	{
-    	$authCheck =& $this->_container->getComponent("authCheck");
+		$authCheck =& $this->_container->getComponent("authCheck");
 
 		$_user_id = $this->_session->getParameter("_user_id");
 
@@ -1177,26 +1156,26 @@ class Reservation_Components_View
 					" OR (reserve.end_date >= ? AND reserve.end_date <= ?)" .
 					" OR (reserve.start_date <= ? AND reserve.end_date >= ?))";
 
-    	switch ($reserve_block["display_type"]) {
-    		case RESERVATION_DEF_LOCATION:
-    			if ($reserve_block["category_id"] != 0) {
-	    			$sql .= " AND location.category_id = ?";
-	    			$params["category_id"] = $reserve_block["category_id"];
-    			}
+		switch ($reserve_block["display_type"]) {
+			case RESERVATION_DEF_LOCATION:
+				if ($reserve_block["category_id"] != 0) {
+					$sql .= " AND location.category_id = ?";
+					$params["category_id"] = $reserve_block["category_id"];
+				}
 				$sql .= " ORDER BY reserve.location_id, reserve.allday_flag DESC, reserve.start_date, reserve.start_time, reserve.end_date, reserve.end_time, reserve.reserve_id";
 				break;
-    		case RESERVATION_DEF_WEEKLY:
-    		case RESERVATION_DEF_MONTHLY:
-    		default:
-    			$sql .= " AND reserve.location_id = ?";
-    			$params["location_id"] = $reserve_block["location_id"];
+			case RESERVATION_DEF_WEEKLY:
+			case RESERVATION_DEF_MONTHLY:
+			default:
+				$sql .= " AND reserve.location_id = ?";
+				$params["location_id"] = $reserve_block["location_id"];
 				$sql .= " ORDER BY reserve.allday_flag DESC, reserve.start_date, reserve.start_time, reserve.end_date, reserve.end_time, reserve.location_id, reserve.reserve_id";
-    	}
+		}
 
-    	$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getReserveByDate"));
+		$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getReserveByDate"));
 		if ($result === false) {
-	       	$this->_db->addError();
-	       	return $result;
+			$this->_db->addError();
+			return $result;
 		}
 		return $result;
 	}
@@ -1372,63 +1351,84 @@ class Reservation_Components_View
 
 		$title_icon = $this->_request->getParameter("icon_name");
 
-	   	$reserve = array(
-    		"room_id" => intval($this->_request->getParameter("reserve_room_id")),
-    		"location_id" => $this->_request->getParameter("location_id"),
-    		"category_id" => $this->_request->getParameter("category_id"),
-    		"title" => $this->_request->getParameter("title"),
-    		"title_icon" => $title_icon,
-    		"allday_flag" => intval($this->_request->getParameter("allday_flag")),
-    		"start_date" => date("Ymd", $current_timestamp),
-	   		"input_start_date" => date(_INPUT_DATE_FORMAT, $current_timestamp),
-    		"start_time_view" => $start_time,
-    		"end_date" => date("Ymd", $current_timestamp),
-    		"input_end_date" => date(_INPUT_DATE_FORMAT, $current_timestamp),
-    		"end_time_view" => $end_time,
-    		"timezone_offset" => $this->_session->getParameter("_timezone_offset"),
-    		"contact" => "",
-    		"description" => "",
-    		"rrule" => "",
-    		"rrule_arr" => $this->parseRRule(""),
-    		"rrule_set_arr" => $this->parseRRule("", true),
-    	);
+		$reserve = array(
+			"room_id" => intval($this->_request->getParameter("reserve_room_id")),
+			"location_id" => $this->_request->getParameter("location_id"),
+			"category_id" => $this->_request->getParameter("category_id"),
+			"title" => $this->_request->getParameter("title"),
+			"title_icon" => $title_icon,
+			"allday_flag" => intval($this->_request->getParameter("allday_flag")),
+			"start_date" => date("Ymd", $current_timestamp),
+			"input_start_date" => date(_INPUT_DATE_FORMAT, $current_timestamp),
+			"start_time_view" => $start_time,
+			"end_date" => date("Ymd", $current_timestamp),
+			"input_end_date" => date(_INPUT_DATE_FORMAT, $current_timestamp),
+			"end_time_view" => $end_time,
+			"timezone_offset" => $this->_session->getParameter("_timezone_offset"),
+			"contact" => "",
+			"description" => "",
+			"rrule" => "",
+			"rrule_arr" => $this->parseRRule(""),
+			"rrule_set_arr" => $this->parseRRule("", true),
+		);
 
 		return $reserve;
 	}
 
 	/**
-	 * 施設に紐付くルーム取得
+	 * 施設に紐付く予約できる権限のルーム取得
 	 *
+	 * @param	&$location	施設情報
 	 * @access	public
 	 */
-	function getAddLocationRoom()
+	function getAddLocationRoom(&$location)
 	{
 		$pagesView =& $this->_container->getComponent("pagesView");
-
-        $_user_auth_id = $this->_session->getParameter("_user_auth_id");
-
-		$location = $this->_request->getParameter("location");
+		$_user_auth_id = $this->_session->getparameter('_user_auth_id');
 
 		$room_id_arr = $pagesView->getRoomIdByUserId(null, $location["add_authority"]);
 		if ($room_id_arr === false) {
 			return false;
 		}
-		$private_spase = $pagesView->getPrivateSpaceByUserId($this->_session->getParameter("_user_id"));
-		if ($private_spase === false) {
+		if ($location['add_authority'] == _AUTH_GENERAL) {
+			$search_result = array_search(_SELF_TOPGROUP_ID, $room_id_arr);
+			if ($search_result) {
+				unset($room_id_arr[$search_result]);
+			}
+		}
+		$private_space = $pagesView->getPrivateSpaceByUserId($this->_session->getParameter("_user_id"));
+		if ($private_space === false) {
 			return false;
 		}
-		if (!empty($private_spase)) {
-			$private_room_id = $private_spase[0]["page_id"];
+		if (!empty($private_space)) {
+			$private_room_id = $private_space[0]["page_id"];
 		} else {
 			$private_room_id = 0;
 		}
 
-		if ($location["hasPrivateAddReserve"] == _OFF || $_user_auth_id < $location["add_authority"]) {
+		$actionChain =& $this->_container->getComponent('ActionChain');
+		$actionName = $actionChain->getCurActionName();
+
+		$location['hasPrivateReserveAuthority'] = false;
+		if ($location['use_private_flag'] == _ON && !empty($room_id_arr)
+			&& $actionName != 'reservation_view_main_reserve_switch_location'
+			&& $actionName != 'reservation_view_edit_import_init') {
+
+			if ($location['use_auth_flag'] == RESERVATION_USE_AUTH_USER
+				&& ($_user_auth_id == _AUTH_ADMIN || $location['add_authority'] <= $_user_auth_id)) {
+				$location['hasPrivateReserveAuthority'] = true;
+			} elseif ($location['use_auth_flag'] == RESERVATION_USE_AUTH_ROOM
+				&& count($room_id_arr) > 1) {
+				$location['hasPrivateReserveAuthority'] = true;
+			}
+		}
+		if (!$location['hasPrivateReserveAuthority']) {
 			$search_result = array_search($private_room_id, $room_id_arr);
 			if ($search_result != 0 || $search_result === 0) {
 				unset($room_id_arr[$search_result]);
 			}
 		}
+
 		if (count($room_id_arr) == 0) {
 			return false;
 		}
@@ -1436,7 +1436,6 @@ class Reservation_Components_View
 		if ($location["allroom_flag"] == _ON) {
 			return $room_id_arr;
 		}
-
 		$params = array("location_id" => $location["location_id"]);
 		$sql = "SELECT location.location_id, l_rooms.room_id, page.thread_num, page.private_flag, page.space_type, page.page_name";
 		$sql .= " FROM {reservation_location} location".
@@ -1447,32 +1446,21 @@ class Reservation_Components_View
 		$sql .= " WHERE location.location_id = ?".
 				" AND l_rooms.room_id IN (".implode(",",$room_id_arr).")";
 
-        $result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getLocationRoom"));
-		if ($result === false) {
+		$allow_add_rooms = $this->_db->execute($sql, $params, null, null, true, array($this,"_getLocationRoom"));
+		if ($allow_add_rooms === false) {
 			$this->_db->addError();
-			return $result;
+			return false;
+		}
+		if ($location['hasPrivateReserveAuthority']) {
+			$allow_add_rooms[] = $private_room_id;
 		}
 
-		$actionChain =& $this->_container->getComponent("ActionChain");
-		$actionName = $actionChain->getCurActionName();
-		if ($actionName == "reservation_action_edit_location_modify" ||
-			$actionName == "reservation_view_edit_import_init" ||
-			$actionName == "reservation_action_edit_import" ||
-			$actionName == "reservation_view_main_reserve_add" ||
-			$actionName == "reservation_view_main_reserve_modify" ||
-			$actionName == "reservation_action_main_reserve_add" ||
-			$actionName == "reservation_action_main_reserve_modify" ||
-			$actionName == "reservation_view_main_reserve_switch_location") {
-
-			if ($location["hasPrivateAddReserve"] == _ON && $private_room_id > 0 && in_array($private_room_id, $room_id_arr)) {
-				$result[] = $private_room_id;
-			}
-		} else {
-			if ($location["hasPrivateAddReserve"] == _ON && $private_room_id > 0 && in_array($private_room_id, $room_id_arr)) {
-				$result[RESERVATION_PRIVATE][$private_room_id] = $private_spase[0]["page_name"];
-			}
+		if ($location['use_auth_flag'] == RESERVATION_USE_AUTH_ROOM
+			&& count($allow_add_rooms) == 0) {
+			$location['hasPrivateReserveAuthority'] = false;
 		}
-        return $result;
+
+		return $allow_add_rooms;
 	}
 
 	/**
@@ -1644,30 +1632,30 @@ class Reservation_Components_View
 		$configView =& $this->_container->getComponent("configView");
 		$config = $configView->getConfig($module_id, false);
 		if ($config === false) {
-    		return false;
-    	}
+			return false;
+		}
 
 		$result = array();
-    	if (defined($config["mail_send"]["conf_value"])) {
-    		$result["mail_send"] = constant($config["mail_send"]["conf_value"]);
-    	} else {
-    		$result["mail_send"] = intval($config["mail_send"]["conf_value"]);
-    	}
-    	if (defined($config["mail_authority"]["conf_value"])) {
-    		$result["mail_authority"] = constant($config["mail_authority"]["conf_value"]);
-    	} else {
-    		$result["mail_authority"] = intval($config["mail_authority"]["conf_value"]);
-    	}
-    	if (defined($config["mail_subject"]["conf_value"])) {
-    		$result["mail_subject"] = constant($config["mail_subject"]["conf_value"]);
-    	} else {
-    		$result["mail_subject"] = $config["mail_subject"]["conf_value"];
-    	}
-    	if (defined($config["mail_body"]["conf_value"])) {
-    		$result["mail_body"] = preg_replace("/\\\\n/s", "\n", constant($config["mail_body"]["conf_value"]));
-    	} else {
-    		$result["mail_body"] = preg_replace("/\\\\n/s", "\n", $config["mail_body"]["conf_value"]);
-    	}
+		if (defined($config["mail_send"]["conf_value"])) {
+			$result["mail_send"] = constant($config["mail_send"]["conf_value"]);
+		} else {
+			$result["mail_send"] = intval($config["mail_send"]["conf_value"]);
+		}
+		if (defined($config["mail_authority"]["conf_value"])) {
+			$result["mail_authority"] = constant($config["mail_authority"]["conf_value"]);
+		} else {
+			$result["mail_authority"] = intval($config["mail_authority"]["conf_value"]);
+		}
+		if (defined($config["mail_subject"]["conf_value"])) {
+			$result["mail_subject"] = constant($config["mail_subject"]["conf_value"]);
+		} else {
+			$result["mail_subject"] = $config["mail_subject"]["conf_value"];
+		}
+		if (defined($config["mail_body"]["conf_value"])) {
+			$result["mail_body"] = preg_replace("/\\\\n/s", "\n", constant($config["mail_body"]["conf_value"]));
+		} else {
+			$result["mail_body"] = preg_replace("/\\\\n/s", "\n", $config["mail_body"]["conf_value"]);
+		}
 
 		return $result;
 	}
@@ -1687,10 +1675,10 @@ class Reservation_Components_View
 			"reserve_details_id" => $reserve_details_id
 		);
 
-    	$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getRepeatReserveId"));
+		$result = $this->_db->execute($sql, $params, null, null, true, array($this,"_getRepeatReserveId"));
 		if ($result === false) {
-	       	$this->_db->addError();
-	       	return $result;
+			$this->_db->addError();
+			return $result;
 		}
 		return $result;
 	}
@@ -1748,7 +1736,7 @@ class Reservation_Components_View
 		$result_array["DAILY"] = array(
 			"INTERVAL" => 1
 		);
-        return $result_array;
+		return $result_array;
 	}
 
 	/**
@@ -1801,7 +1789,7 @@ class Reservation_Components_View
 				$result_array[$freq][$key] = explode(",", $val);
 			}
 		}
-        return $result_array;
+		return $result_array;
 	}
 
 	/**
@@ -1920,7 +1908,7 @@ class Reservation_Components_View
 			$result_str .= "<br />";
 			$result_str .= sprintf(RESERVATION_RRULE_COUNT, $rrule["COUNT"]);
 		}
-        return $result_str;
+		return $result_str;
 	}
 
 
@@ -2127,7 +2115,7 @@ class Reservation_Components_View
 			default:
 				$repeat_time = null;
 		}
-       	return $repeat_time;
+		return $repeat_time;
 	}
 
 	/**
@@ -2262,18 +2250,18 @@ class Reservation_Components_View
 		$timestamp = mktime(0, 0, 0, substr($s_time,4,2), 1, substr($s_time,0,4));
 		$year = date("Y", $timestamp);
 		$month = date("m", $timestamp);
-    	if ($week == -1) {
+		if ($week == -1) {
 			$last_day = date("t", $timestamp);
 			$timestamp = mktime(0, 0, 0, $month, $last_day, $year);
 			$w_last_day = date("w", $timestamp);
 			$w_last_day = ($wday_num <= $w_last_day ? $w_last_day : 7 + $w_last_day);
-     		$timestamp = mktime(0, 0, 0, $month, $last_day - $w_last_day + $wday_num, $year);
-    	} else {
+	 		$timestamp = mktime(0, 0, 0, $month, $last_day - $w_last_day + $wday_num, $year);
+		} else {
 			$w_1day = date("w", $timestamp);
 			$w_1day = ($w_1day <= $wday_num ? 7 + $w_1day : $w_1day);
 			$day = $week * 7 + $wday_num + 1;
 			$timestamp = mktime(0, 0, 0, $month, $day - $w_1day, $year);
-    	}
+		}
 		$byday = date("YmdHis", $timestamp);
 		if ($first && $s_time >= $byday) {
 			$rrule["INDEX"]--;
@@ -2370,18 +2358,18 @@ class Reservation_Components_View
 		$timestamp = mktime(0, 0, 0, substr($s_time,4,2) + ($first ? 0 : $rrule["INTERVAL"]), 1, substr($s_time,0,4));
 		$year = date("Y", $timestamp);
 		$month = date("m", $timestamp);
-    	if ($week == -1) {
+		if ($week == -1) {
 			$last_day = date("t", $timestamp);
 			$timestamp = mktime(0, 0, 0, $month, $last_day, $year);
 			$w_last_day = date("w", $timestamp);
 			$w_last_day = ($wday_num <= $w_last_day ? $w_last_day : 7 + $w_last_day);
-    		$timestamp = mktime(0, 0, 0, $month, $last_day - $w_last_day + $wday_num, $year);
-    	} else {
+			$timestamp = mktime(0, 0, 0, $month, $last_day - $w_last_day + $wday_num, $year);
+		} else {
 			$w_1day = date("w", $timestamp);
 			$w_1day = ($w_1day <= $wday_num ? 7 + $w_1day : $w_1day);
 			$day = $week * 7 + $wday_num + 1;
 			$timestamp = mktime(0, 0, 0, $month, $day - $w_1day, $year);
-    	}
+		}
 		$byday = date("YmdHis", $timestamp);
 		if ($first && $s_time >= $byday) {
 			$rrule["INDEX"]--;
@@ -2527,7 +2515,7 @@ class Reservation_Components_View
 		);
 		$repeat_time[] = $r_array;
 
-    	return $repeat_time;
+		return $repeat_time;
 	}
 
 	/**
@@ -2597,7 +2585,7 @@ class Reservation_Components_View
 			$ret_row["pubDate"] = $row["start_time_full"];
 			$ret_row["title_icon"] = $row["title_icon"];
 			$ret_row["title"] = $row["title"];
-    		$ret_row["url"] = "?action=".DEFAULT_ACTION.
+			$ret_row["url"] = "?action=".DEFAULT_ACTION.
 								"&page_id=".$this->_session->getParameter("_main_page_id").
 								"&active_center=reservation_view_main_init" .
 								"&reserve_id=".$row["reserve_id"];

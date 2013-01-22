@@ -309,29 +309,35 @@ class Uploads_View {
 	 * @param string filename
 	 * @access	public
 	 */
-    function headerOutput($pathname, $filename, $physical_file_name = null, $cache_flag = false) {
-    	if($physical_file_name == null) $physical_file_name = $filename;
-    	$pathname = $pathname.$physical_file_name;	//urlencode($filename);
-    	if ($pathname != null && file_exists($pathname)) {
-    		$mimetype = $this->mimeinfo("type", $filename);
+	function headerOutput($pathname, $filename, $physical_file_name = null, $cache_flag = false) {
+		if($physical_file_name == null) $physical_file_name = $filename;
+		$pathname = $pathname.$physical_file_name;	//urlencode($filename);
+		if ($pathname != null && file_exists($pathname)) {
+			$mimetype = $this->mimeinfo("type", $filename);
 			if($this->_headerOutput($filename, $pathname, filesize($pathname), $mimetype, $cache_flag) == "200") {
-				readfile($pathname);
+				$handle = fopen($pathname, 'rb');
+				while (!feof($handle)) {
+					echo fread($handle, 1 * (1024 * 1024));
+					ob_flush();
+					flush();
+				}
+				fclose($handle);
 			}else{
 				exit;
 			}
 		} else {
 			header("HTTP/1.0 404 not found");
 		}
-    }
+	}
 
-    function _headerOutput($filename, $pathname, $filesize, $mimetype, $cache_flag = false) {
-    	$status_code = "200";
-    	$etag = null;
+	function _headerOutput($filename, $pathname, $filesize, $mimetype, $cache_flag = false) {
+		$status_code = "200";
+		$etag = null;
 
-    	if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-    		//HTTP_USER_AGENTがない場合、
-    		header("Content-disposition: inline; filename=\"".$filename."\"");
-    	} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+			//HTTP_USER_AGENTがない場合、
+			header("Content-disposition: inline; filename=\"".$filename."\"");
+		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
 			// IEの場合
 			header("Content-disposition: inline; filename=\"".mb_convert_encoding($filename, "SJIS", _CHARSET)."\"");
 		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "Opera")) {

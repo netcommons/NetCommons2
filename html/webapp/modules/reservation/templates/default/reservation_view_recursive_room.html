@@ -22,7 +22,7 @@
 		<{assign var="reserve_name" value=$room.page_name}>
 	<{/if}>
 
-	<{if (($reserve_flag != RESERVATION_PRIVATE || $action.private_space && $reserve_flag == RESERVATION_PRIVATE) && ($reserve_flag != RESERVATION_GROUP || $reserve_flag == RESERVATION_GROUP && $room.thread_num != 0)) }>
+	<{if (($reserve_flag != RESERVATION_PRIVATE || $action.location.hasPrivateReserveAuthority && $reserve_flag == RESERVATION_PRIVATE) && ($reserve_flag != RESERVATION_GROUP || $reserve_flag == RESERVATION_GROUP && $room.thread_num != 0)) }>
 		<{assign var="room_id" value=$room.page_id}>
 		<{if ($reserve_flag == RESERVATION_GROUP) }>
 			<{assign var="indent" value=$room.thread_num-1}>
@@ -30,7 +30,7 @@
 			<{assign var="indent" value=$room.thread_num}>
 		<{/if}>
 
-		<{if ($reserve_flag != RESERVATION_PUBLIC && ($action_name == "reservation_view_edit_location_add" || $action_name == "reservation_view_edit_location_modify")) }>
+		<{if ($action_name == "reservation_view_edit_location_add" || $action_name == "reservation_view_edit_location_modify") }>
 			<{assign var="select_rooms" value=$action.select_rooms.$reserve_flag}>
 			<div>
 				<label for="select_room<{$room_id}><{$id}>">
@@ -41,7 +41,7 @@
 				</label>
 			</div>
 
-		<{elseif ($reserve_flag != RESERVATION_PUBLIC && ($action_name == "reservation_view_main_location_details"))}>
+		<{elseif ($action_name == "reservation_view_main_location_details") }>
 			<{assign var="select_rooms" value=$action.select_rooms.$reserve_flag}>
 			<div<{if ($select_rooms.$room_id) }><{else}> class="disable_lbl"<{/if}>>
 				<{"&nbsp;&nbsp;&nbsp;"|str_repeat:$indent}>

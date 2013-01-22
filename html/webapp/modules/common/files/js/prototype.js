@@ -217,7 +217,7 @@ Object.extend(String.prototype, {
 
   escapeHTML: function() {
     //IEの場合、テキストノードに含まれる\nが空白になってしまうため修正
-  	return this.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;").replace(/ /g, "&nbsp;");
+  	return String(this).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;").replace(/ /g, "&nbsp;");
 
     //var div = document.createElement('div');
     //var text = document.createTextNode(this);
@@ -227,7 +227,7 @@ Object.extend(String.prototype, {
 
   unescapeHTML: function() {
   	//escapeHTMLを修正したため、同様に修正
-  	return this.replace(/&quot;/g,'"').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&#039;/g, "'").replace(/&nbsp;/g, " ").replace(/&amp;/g,'&');
+  	return String(this).replace(/&quot;/g,'"').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&#039;/g, "'").replace(/&nbsp;/g, " ").replace(/&amp;/g,'&');
     //var div = document.createElement('div');
     //div.innerHTML = this.stripTags();
     //return div.childNodes[0] ? (div.childNodes.length > 1 ?

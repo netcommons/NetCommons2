@@ -122,8 +122,17 @@ div.circular_postscript {
 }
 
 div.circular_postscript textarea {
-	width:300px;
-	height:100px;
+	height:150px;
+}
+
+div.circular_postscript_mail {
+	width:530px;
+}
+div.circular_postscript_mail input {
+	width:400px;
+}
+div.circular_postscript_mail textarea {
+	width:99%;
 }
 
 table.circular_create_frame {

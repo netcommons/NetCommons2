@@ -199,7 +199,7 @@ CREATE TABLE `users_items_link` (
   `content` text,
   PRIMARY KEY  (`user_id`,`item_id`),
   KEY `item_id` (`item_id`,`email_reception_flag`),
-  FULLTEXT KEY `content` (`content`)
+  KEY `content` (`content`(255))
 ) ENGINE=MyISAM;
 
 -- -

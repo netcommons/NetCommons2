@@ -2059,7 +2059,7 @@ class Pm_Components_View
 	function getAuthoritySQL()
 	{
 		$usersView =& $this->_container->getComponent('usersView');
-		$from_sql = " FROM {authorities},{users}".
+		$from_sql = " FROM ({authorities},{users})".
 					" INNER JOIN {authorities_modules_link}".
 						" ON {authorities_modules_link}.module_id = ".$this->_request->getParameter("module_id").
 						" AND {authorities}.role_authority_id = {authorities_modules_link}.role_authority_id";

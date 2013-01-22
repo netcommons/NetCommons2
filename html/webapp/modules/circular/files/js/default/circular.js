@@ -323,6 +323,8 @@ clsCircular.prototype = {
 	addPostscript: function() {
 		var form_el = $("postscript_circular_form" + this.id);
 
+		form_el.postscript_body.value = this.textarea.getTextArea();
+
 		var viewParams = new Object();
 		viewParams["action"] = "circular_view_main_postscript_add";
 		viewParams["circular_id"] = form_el.circular_id.value;
@@ -342,14 +344,15 @@ clsCircular.prototype = {
 		parameter["callbackfunc"] = function(){
 			for (i=0; i<form_el.postscript_mail_flag.length; i++) {
 				if (form_el.postscript_mail_flag[i].checked) {
-				    chkflg  = form_el.postscript_mail_flag[i].value
-				    break;
+					chkflg  = form_el.postscript_mail_flag[i].value
+					break;
 				}
 			}
 			if (chkflg == "1") {
 				var mailParams = new Object();
 				mailParams["action"] = "circular_action_main_postscript_mail";
 				mailParams["circular_id"] = form_el.circular_id.value;
+				mailParams["mail_subject"] = form_el.postscript_mail_subject.value;
 				mailParams["mail_body"] = form_el.postscript_mail_body.value;
 				commonCls.sendPost(this.id, mailParams);
 			}

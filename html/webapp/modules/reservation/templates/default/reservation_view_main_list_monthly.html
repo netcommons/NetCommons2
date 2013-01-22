@@ -20,7 +20,7 @@
 				<{$reserve.short_title}>
 			</a>
 		<{else}>
-			<a class="<{$reserve_class}> reservation_reserve_title hover_highlight" href="#" title="<{$reserve.insert_user_name|smarty:nodefaults}>" onclick='commonCls.showUserDetail(event, "<{$reserve.insert_user_id}>"); return false;'>
+			<a class="<{$reserve_class}> reservation_reserve_title hover_highlight" href="#" title="<{$reserve.insert_user_name}>" onclick='commonCls.showUserDetail(event, "<{$reserve.insert_user_id}>"); return false;'>
 				<img src="<{""|get_image_url}>/images/common/blank.gif" class="icon <{$reserve_class}> reservation_reserve_mark" alt="" title="" />
 				<{$reserve.insert_user_name}>
 			</a>

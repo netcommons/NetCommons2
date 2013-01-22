@@ -109,9 +109,9 @@
 $(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swiperight" );
 $(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swipeleft" );
 
-<{if $action.prevPhoto != null}>
+<{if $action.photo.prev_photo_id != null}>
 	$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swiperight", function(e) {
-		$.mobile.changePage("?action=photoalbum_view_mobile_photo&block_id=<{$block_id}>&album_id=<{$action.album_id}>&photo_id=<{$action.prevPhoto.photo_id}>&seq=<{$action.seq-1}><{$session_param}>",{ transition: "slide", reverse:"true"});
+		$.mobile.changePage("?action=photoalbum_view_mobile_photo&block_id=<{$block_id}>&album_id=<{$action.album_id}>&photo_id=<{$action.photo.prev_photo_id}>&seq=<{$action.seq-1}><{$session_param}>",{ transition: "slide", reverse:"true"});
 		e.preventDefault();
 	});
 <{else}>
@@ -119,9 +119,9 @@ $(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swipeleft" );
 		$(this).nc_jqm_alert("<{$lang.photoalbum_no_more_photos|smarty:nodefaults}>");
 	});
 <{/if}>
-<{if $action.nextPhoto != null}>
+<{if $action.photo.next_photo_id != null}>
 	$(".photo_image_wrapper<{$action.photo.photo_id}>").bind( "swipeleft", function(e) {
-		$.mobile.changePage("?action=photoalbum_view_mobile_photo&block_id=<{$block_id}>&album_id=<{$action.album_id}>&photo_id=<{$action.nextPhoto.photo_id}>&seq=<{$action.photo.photo_sequence+1}><{$session_param}>");
+		$.mobile.changePage("?action=photoalbum_view_mobile_photo&block_id=<{$block_id}>&album_id=<{$action.album_id}>&photo_id=<{$action.photo.next_photo_id}>&seq=<{$action.photo.photo_sequence+1}><{$session_param}>");
 		e.preventDefault();
 	});
 <{else}>

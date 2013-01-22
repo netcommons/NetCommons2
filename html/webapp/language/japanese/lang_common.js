@@ -33,7 +33,19 @@ compCalendarLang = {
 	btn_prev_year : "«",
 	btn_next_year : "»",
 	btn_prev_month : "‹",
-	btn_next_month : "›"
+	btn_next_month : "›",
+	month_jan : "&nbsp;1月",
+	month_feb : "&nbsp;2月",
+	month_mar : "&nbsp;3月",
+	month_apr : "&nbsp;4月",
+	month_may : "&nbsp;5月",
+	month_jun : "&nbsp;6月",
+	month_jul : "&nbsp;7月",
+	month_aug : "&nbsp;8月",
+	month_sep : "&nbsp;9月",
+	month_oct : "10月",
+	month_nov : "11月",
+	month_dec : "12月"
 };
 /*WYSIWYG用定義ファイル*/
 compTextareaLang = {

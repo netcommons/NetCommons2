@@ -593,11 +593,7 @@ class Journal_Components_View
 			$sql_common .= "WHERE P.root_id = 0 AND P.parent_id = 0 AND P.journal_id = ".$post[0]['journal_id']." ";
 			$sql_common .= $this->_getAuthorityWhereSQL($params);
 
-			$where_params = array(
-				"P.journal_date <= ".$post[0]['journal_date'] => null,
-				"P.post_id < ".$post[0]['post_id'] => null
-			);
-			$sql_where = $this->_db->getWhereSQL($params, $where_params, false);
+			$sql_where = " AND  (P.journal_date < '".$post[0]['journal_date']."' OR P.journal_date = '".$post[0]['journal_date']."' AND P.post_id < ".$post[0]['post_id'].")";
 			$sql_order = " ORDER BY P.journal_date DESC, P.post_id DESC";
 
 			$sql = $sql_common.$sql_where.$sql_order;
@@ -609,11 +605,7 @@ class Journal_Components_View
 			$post[0]['older_post_id'] = empty($result) ? "":$result[0]['post_id'];
 			$post[0]['older_short_url'] = empty($result) ? "":$result[0]['short_url'];
 
-			$where_params = array(
-				"P.journal_date >= ".$post[0]['journal_date'] => null,
-				"P.post_id > ".$post[0]['post_id'] => null
-			);
-			$sql_where = $this->_db->getWhereSQL($params, $where_params, false);
+			$sql_where = " AND  (P.journal_date > '".$post[0]['journal_date']."' OR P.journal_date = '".$post[0]['journal_date']."' AND P.post_id > ".$post[0]['post_id'].")";
 			$sql_order = " ORDER BY P.journal_date ASC, P.post_id ASC";
 
 			$sql = $sql_common.$sql_where.$sql_order;

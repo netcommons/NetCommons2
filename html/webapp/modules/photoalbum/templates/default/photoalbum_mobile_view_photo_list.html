@@ -30,7 +30,7 @@
 <script type="text/javascript">
 	$(".photolist_<{$action.pageNumber}>").bind( "swiperight" );
 	$(".photolist_<{$action.pageNumber}>").bind( "swipeleft" );
-	<{if $action.pagePrevious > 0}>
+	<{if $action.pageNumber > 0}>
 		$(".photolist_<{$action.pageNumber}>").bind( "swiperight", function(e) {
 			$.mobile.changePage("?action=photoalbum_view_mobile_list&block_id=<{$block_id}>&album_id=<{$action.album_id}>&pageNumber=<{$action.pagePrevious}><{$session_param}>",{ transition: "slide", reverse:"true"});
 			e.preventDefault();

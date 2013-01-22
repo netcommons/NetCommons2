@@ -407,102 +407,175 @@ class Whatsnew_Action
 	}
 
 	/**
-	 * 新着情報の削除
-	 *
+	 * ルーム、モジュール毎で、指定件数以上の古いデータを削除する
+	 * 
+	 * @param string $moduleId モジュールID
+	 * @param mixed $roomIds ルームID、ルームID配列
+	 * @return boolean true or false
 	 * @access	public
 	 */
-	function _deletePeriod($module_id, $arr_room_id)
+	function _deletePeriod($moduleId, $roomIds)
 	{
-		if (rand(0, 10) != 0) { return true; }
+		//if (rand(0, 10) != 0) { return true; }
 
-		$modulesView =& $this->_container->getComponent("modulesView");
-		$module = $modulesView->getModuleByDirname("whatsnew");
+		$modulesView =& $this->_container->getComponent('modulesView');
+		$module = $modulesView->getModuleByDirname('whatsnew');
 
-		$configView =& $this->_container->getComponent("configView");
-		$config = $configView->getConfig($module["module_id"], false);
+		$configView =& $this->_container->getComponent('configView');
+		$config = $configView->getConfig($module['module_id'], false);
 		if ($config === false) {
-    		return false;
-    	}
-		$whatsnew_period = $config["whatsnew_period"]["conf_value"];
-        $offset = $config["whatsnew_delete_number"]["conf_value"];
-        $limit = 1;
-		$time = timezone_date();
-		$timestamp = mktime(intval(substr($time,8,2)),intval(substr($time,10,2)),intval(substr($time,12,2)),
-							intval(substr($time,4,2)),intval(substr($time,6,2))-intval($whatsnew_period),intval(substr($time,0,4)));
-		$timestamp = date("YmdHis", $timestamp);
-
-		$array_room = array();
-		if(is_array($arr_room_id)){
-			$array_room = $arr_room_id;
-		}else{
-			$array_room[0] = $arr_room_id;
+			return false;
 		}
-		foreach($array_room as $room_id){
-			$sql = "SELECT insert_time, child_update_time, room_id FROM {whatsnew}" .
-					" WHERE module_id = ".$module_id.
-					" AND room_id = ".$room_id.
-					" ORDER BY child_update_time desc";
-			$result = $this->_db->execute($sql, null, $limit, $offset);
-			if ($result === false) {
-				$this->_db->addError();
-				return false;
-			}
-			//一定の件数以前の新着情報で一定の期間を過ぎている新着情報を削除する。
-			if(isset($result[0]["insert_time"]) && ($result[0]["insert_time"] < $timestamp)){
-				$max_time = ($result[0]["insert_time"] > $result[0]["child_update_time"]) ? $result[0]["insert_time"] : $result[0]["child_update_time"];
-				$sql = "SELECT whatsnew_id FROM {whatsnew}" .
-						" WHERE insert_time < ? AND child_update_time < ?".
-						" AND  module_id = ".$module_id.
-						" AND room_id = ".$result[0]["room_id"];
-				$in_str = $this->_db->execute($sql, array("insert_time"=>$max_time, "child_update_time"=>$max_time),null,null,false,array($this,"_deletePeriodCallback"));
-				if ($in_str === false) {
-					$this->_db->addError();
-					return false;
-				}
-				if($in_str != "") {
-					$sql = "DELETE FROM {whatsnew}" .
-							" WHERE 1 = 1".
-							$in_str;
-					$result = $this->_db->execute($sql);
-					if ($result === false) {
-						$this->_db->addError();
-						return false;
-					}
+		$period = $config['whatsnew_period']['conf_value'];
+		$maximumNumber = $config['whatsnew_delete_number']['conf_value'];
 
-					$sql = "DELETE FROM {whatsnew_user}" .
-							" WHERE 1 = 1".
-							$in_str;
-					$result = $this->_db->execute($sql);
-					if ($result === false) {
-						$this->_db->addError();
-						return false;
-					}
+		$periodTime = timezone_date();
+		$periodTime = mktime(intval(substr($periodTime, 8, 2)),
+							intval(substr($periodTime, 10, 2)),
+							intval(substr($periodTime, 12, 2)),
+							intval(substr($periodTime, 4, 2)),
+							intval(substr($periodTime, 6, 2)) - intval($period),
+							intval(substr($periodTime,0,4)));
+		$periodTime = date('YmdHis', $periodTime);
+
+		if (!is_array($roomIds)) {
+			$roomIds = array(
+				$roomIds
+			);
+		}
+
+		$sql = "SELECT room_id, COUNT(*) count "
+				. "FROM {whatsnew} "
+				. "WHERE room_id IN ('" . implode("','", $roomIds) . "') "
+				. "AND module_id = ? "
+				. "GROUP BY room_id "
+				. "HAVING count > ?";
+		$bindValues = array(
+			$moduleId,
+			$maximumNumber
+		);
+		$whatsnews = $this->_db->execute($sql, $bindValues);
+
+		$inValue = '';
+		foreach($whatsnews as $whatsnew){
+			$sql = "SELECT whatsnew_id "
+					. "FROM {whatsnew} "
+					. "WHERE insert_time < ? "
+					. "AND child_update_time < ? "
+					. "AND module_id = ? "
+					. "AND room_id = ? "
+					. "ORDER BY child_update_time";
+			$bindValues = array(
+				$periodTime,
+				$periodTime,
+				$moduleId,
+				$whatsnew['room_id']
+			);
+			$oldWhatsnews = $this->_db->execute($sql, $bindValues);
+
+			$deleteNumber = $whatsnew['count'] - $maximumNumber;
+			foreach ($oldWhatsnews as $oldWhatsnew) {
+				$inValue .= $oldWhatsnew['whatsnew_id'] . ',';
+				$deleteNumber--;
+				if ($deleteNumber <= 0) {
+					break;
 				}
 			}
+		}				
+
+		if (empty($inValue)) {
+			return true;
 		}
+		$inValue = substr($inValue, 0, -1);
+
+		if (!$this->_deleteByInOperator('whatsnew_user', $inValue)) {
+			return false;
+		}
+		if (!$this->_deleteByInOperator('whatsnew', $inValue)) {
+			return false;
+		}
+
 		return true;
 	}
 
-/**
-	 * 新着情報の削除
+	/**
+	 * ルームIDで新着データを削除する
 	 *
-	 * @access	public
+	 * @param string $roomId ルームID
+	 * @return boolean true or false
+	 * @access public
 	 */
-	function _deletePeriodCallback(&$recordSet)
+	function deleteByRoomId($roomId)
 	{
-		$ret = "";
-		$str = "";
-		$first = true;
-		while ($row = $recordSet->fetchRow()) {
-			if($first == false) {
-				$str .= ",";
-			}
-			$str .= $row[0];
-			$first = false;
+		$module =& $this->_modulesView->getModuleByDirname('whatsnew');
+		if (!$module) {
+			return true;
 		}
-		if($str != "")
-			$ret = " AND whatsnew_id IN (".$str.")";
-		return $ret;
+
+		$sql = "SELECT whatsnew_id "
+				. "FROM {whatsnew} "
+				. "WHERE room_id = ? ";
+		$inValue = $this->_db->execute($sql, $roomId, null, null, false, array($this, '_createDelimitedString'));
+		if ($inValue == false) {
+			$this->_db->addError();
+			return false;
+		}
+
+		if (!$this->_deleteByInOperator('whatsnew_user', $inValue)) {
+			return false;
+		}
+
+		$sql = "DELETE FROM {whatsnew} "
+				. "WHERE room_id = ? ";
+		if (!$this->_db->execute($sql, $roomId)) {
+			$this->_db->addError();
+			return false;
+		}
+	}
+
+	/**
+	 * ADORecordSetの1カラム目（ID）を指定文字区切りの文字列にする
+	 * 
+	 * @param object $recordSet ADORecordSetオブジェクト
+	 * @param string $glue 区切り文字
+	 * @return string 指定文字区切りの文字列
+	 * @access private
+	 */
+	function &_createDelimitedIdString(&$recordSet, $glue = ',')
+	{
+		$string = '';
+		while ($whatsnew = $recordSet->fetchRow()) {
+			$string .= $whatsnew[0]. $glue;
+		}
+		if (!strlen($glue)) {
+			$string = substr($string, 0, strlen($glue) * -1);
+		}
+
+		return $string;
+	}
+
+	/**
+	 * IN演算子でデータを削除する。
+	 *
+	 * @param string $tableName 対象テーブル名称
+	 * @param string $inValue IN演算子の値（カンマ区切り文字列）
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function _deleteByInOperator($tableName, $inValue)
+	{
+		if (!strlen($inValue)) {
+			return true;
+		}
+
+		$sql = "DELETE FROM {" . $tableName . "} "
+				. "WHERE whatsnew_id IN (" . $inValue . ")";
+		if (!$this->_db->execute($sql)) {
+			$this->_db->addError();
+			return false;
+		}
+
+		return true;
 	}
 }
 ?>

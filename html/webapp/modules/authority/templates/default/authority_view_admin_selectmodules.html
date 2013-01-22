@@ -95,7 +95,7 @@
 			<{* 戻るボタン *}>
 			<input class="lined_btn btn-width" type="button" value="<{$lang._btn_prev_arrow|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList($('form<{$id}>'),'not_enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); authorityCls['<{$id}>'].showDetail(<{if $action.user_authority_id == _AUTH_MODERATE}>false<{/if}>); return false;" />
 			<{* 次へボタン *}>
-			<input class="lined_btn btn-width" type="button" name="next_arrow" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList($('form<{$id}>'),'not_enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.sendView('<{$id}>','action=authority_view_admin_confirm&amp;aaa=1&amp;'+Form.serialize($('form<{$id}>')),{'method':'post'}); return false;" />
+			<input class="lined_btn btn-width" type="button" name="next_arrow" value="<{$lang._btn_next_arrow|smarty:nodefaults}>" onclick="commonCls.frmAllSelectList($('form<{$id}>'),'not_enroll_modules[]'); commonCls.frmAllSelectList($('form<{$id}>'),'enroll_modules[]'); commonCls.sendView('<{$id}>','action=authority_view_admin_confirm&amp;'+Form.serialize($('form<{$id}>')),{'method':'post'}); return false;" />
 			<{* キャンセルボタン *}>
 			<input class="lined_btn btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'authority_view_admin_init'}); return false;" />
 		</div>

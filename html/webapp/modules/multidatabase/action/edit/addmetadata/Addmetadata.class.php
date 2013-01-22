@@ -76,29 +76,38 @@ class Multidatabase_Action_Edit_Addmetadata extends Action
 			$this->search_flag = _OFF;
 		}
 
-		if(!empty($metadata_id)) {
+		$beforeType = null;
+		$afterType = $this->type;
+		if (!empty($metadata_id)) {
 			// 編集
 			$where_params = array("metadata_id" => $metadata_id);
 			$metadata_before_update = $this->db->selectExecute("multidatabase_metadata", $where_params);
 			if($metadata_before_update === false || !isset($metadata_before_update[0])) {
 				return 'error';
 			}
-			if(($metadata_before_update[0]['type'] == MULTIDATABASE_META_TYPE_TEXT || $metadata_before_update[0]['type'] == MULTIDATABASE_META_TYPE_TEXTAREA ||
-					$metadata_before_update[0]['type'] == MULTIDATABASE_META_TYPE_WYSIWYG || $metadata_before_update[0]['type'] == MULTIDATABASE_META_TYPE_AUTONUM ||
-					$metadata_before_update[0]['type'] == MULTIDATABASE_META_TYPE_MAIL || $metadata_before_update[0]['type'] == MULTIDATABASE_META_TYPE_DATE)
-				&& ($this->type == MULTIDATABASE_META_TYPE_FILE || $this->type == MULTIDATABASE_META_TYPE_IMAGE)) {
-				$param = array("content" => "");
-				$result = $this->db->updateExecute("multidatabase_metadata_content", $param, $where_params, true);
+			$beforeType = $metadata_before_update[0]['type'];
+
+			if ($beforeType != MULTIDATABASE_META_TYPE_WYSIWYG
+					&& $afterType == MULTIDATABASE_META_TYPE_WYSIWYG) {
+				$sql = "SELECT metadata_content_id, "
+							. "content "
+						. "FROM {multidatabase_metadata_content} "
+						. "WHERE metadata_id = ?";
+				$result = $this->db->execute($sql, $where_params, null, null, true, array($this, '_escapeHtml'));
 				if ($result === false) {
 					return 'error';
 				}
-			} elseif ($this->type == MULTIDATABASE_META_TYPE_DATE) {
+			}
+
+			if ($beforeType != MULTIDATABASE_META_TYPE_DATE
+					&& $afterType == MULTIDATABASE_META_TYPE_DATE) {
 				$param = array("content" => "");
 				$result = $this->db->updateExecute('multidatabase_metadata_content', $param, $where_params, true);
 				if ($result === false) {
 					return 'error';
 				}
 			}
+
 			$param = array(
 				"name" => $this->name,
 				"type" => $this->type,
@@ -142,8 +151,8 @@ class Multidatabase_Action_Edit_Addmetadata extends Action
 			}
 		}
 
-		if ($this->type == MULTIDATABASE_META_TYPE_AUTONUM) {
-			$sql = "";
+		if ($beforeType != MULTIDATABASE_META_TYPE_AUTONUM
+				&& $afterType == MULTIDATABASE_META_TYPE_AUTONUM) {
 			$sql = "SELECT MC.content_id AS content_id, ".$metadata_id." AS metadata_id, MMC.metadata_content_id AS metadata_content_id, MC.temporary_flag, MC.agree_flag " .
 					" FROM {multidatabase_content} MC" .
 					" LEFT JOIN {multidatabase_metadata_content} MMC" .
@@ -219,5 +228,32 @@ class Multidatabase_Action_Edit_Addmetadata extends Action
 		return true;
 	}
 
+	/**
+	 * 既存コンテンツをHTMLエスケープする
+	 *
+	 * @param array $recordSet コンテンツデータADORecordSet
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function _escapeHtml(&$recordSet)
+	{
+		$sql = "UPDATE {multidatabase_metadata_content} "
+				. "SET "
+				. "content = ? "
+				. "WHERE metadata_content_id = ?";
+
+		while ($row = $recordSet->fetchRow()) {
+			$bindValues = array(
+					htmlspecialchars($row['content']),
+					$row['metadata_content_id']
+				);
+			$result = $this->db->execute($sql, $bindValues);
+			if ($result === false) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
 ?>

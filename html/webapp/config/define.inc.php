@@ -219,7 +219,7 @@ define('_PERMALINK_MYPORTAL_PREFIX_NAME', 'myportal');
 define('_PERMALINK_PRIVATE_PREFIX_NAME', 'private');
 define('_PERMALINK_GROUP_PREFIX_NAME', 'group');
 
-define('_PERMALINK_CONTENT', '(%| |#|<|>|\+|\\\\|\"|\'|&|\?|\.|=|\/|~|:|;|,|\$|@)');
+define('_PERMALINK_CONTENT', '(%| |#|<|>|\+|\\\\|\"|\'|&|\?|\.$|=|\/|~|:|;|,|\$|@|^\.|\||\]|\[|\!|\(|\)|\*)');
 define('_PERMALINK_PROHIBITION', "/"._PERMALINK_CONTENT."/i");
 define('_PERMALINK_PROHIBITION_REPLACE', "-");
 define('_PERMALINK_DIR_CONTENT', "^(install|css|js|images|themes|htdocs|webapp|maple|".

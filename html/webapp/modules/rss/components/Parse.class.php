@@ -79,15 +79,26 @@ class Rss_Components_Parse
 				"webmaster" => $xmlArray["author"]["name"],
 				"generator" => !empty($xmlArray["generator"]) ? $xmlArray["generator"] : "",
 			);
+			if (isset($xmlArray["entry"]["title"])) {
+				$entry = $xmlArray["entry"];
+				unset($xmlArray["entry"]);
+				$xmlArray["entry"][0] = $entry;
+			}
 
 			foreach ($xmlArray["entry"] as $entry ) {
+				if (!empty($entry["content"])) {
+					$description = !is_array($entry["content"]) ? $entry["content"] : $entry["content"]["_content"];
+				} elseif (!empty($entry["summary"])) {
+					$description = !is_array($entry["summary"]) ? $entry["summary"] : $entry["summary"]["_content"];
+				} else {
+					$description = "";
+				}
 				$atomArray["item"][] = array(
 					"title" => !is_array($entry["title"]) ? $entry["title"] : $entry["title"]["_content"],
 					"link" => $entry["link"]["href"],
 					"id" => $entry["id"],
 					"pubdate" => !empty($entry["updated"]) ? $entry["updated"] : (!empty($entry["modified"]) ? $entry["modified"] : ""),
-					"description" => !empty($entry["content"]["_content"]) ? $entry["content"]["_content"] :
-										!empty($entry["summary"]["_content"]) ? $entry["summary"]["_content"] : ''
+					"description" => $description
 				) ;
 			}
 

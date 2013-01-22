@@ -92,6 +92,35 @@ class Chat_Update extends Action
 			$result = $this->db->execute($sql);
 			if($result === false) return false;
 		}
+
+		$sql = "SELECT block_id "
+			. "FROM " . $this->db->getPrefix() . "chat_contents "
+			. "GROUP BY block_id "
+			. "HAVING COUNT(chat_id) != MAX(chat_id)";
+		$chatBlocks = $this->db->execute($sql);
+		foreach ($chatBlocks as $chatBlock) {
+			$chatId = 1;
+			$sql = "SELECT chat_id "
+				. "FROM " . $this->db->getPrefix() . "chat_contents "
+				. "WHERE block_id = ? "
+				. "ORDER BY chat_id";
+			$chatContents = $this->db->execute($sql, $chatBlock['block_id']);
+			foreach ($chatContents as $chatContent) {
+				$updateColumns = array(
+					'chat_id' => $chatId
+				);
+				$whereColumns = array(
+					'block_id' => $chatBlock['block_id'],
+					'chat_id' => $chatContent['chat_id']
+				);
+				$result = $this->db->updateExecute('chat_contents', $updateColumns, $whereColumns, false);
+				if ($result === false) {
+					return false;
+				}
+				$chatId++;
+			}
+		}
+
 		return true;
 	}
 }

@@ -71,36 +71,25 @@ class Reservation_Validator_LocationView extends Validator
 			$request->setParameter("location_list", $location_list);
 			$request->setParameter("location_count", count($location_list));
 
-		} elseif ($actionName == "reservation_action_main_reserve_add" || $actionName == "reservation_action_main_reserve_modify" ||
-				$actionName == "reservation_action_edit_import") {
+		} elseif ($actionName == "reservation_view_main_reserve_add" || $actionName == "reservation_view_main_reserve_modify" 
+				|| $actionName == "reservation_view_main_reserve_switch_category" || $actionName == "reservation_view_main_reserve_switch_location"
+				|| $actionName == "reservation_action_main_reserve_add" || $actionName == "reservation_action_main_reserve_modify"
+				|| $actionName == "reservation_action_edit_import"
+				) {
 			$location = $reservationView->getLocation($attributes["location_id"]);
 			if (empty($location)) {
 				return $errStr;
 			}
-			$request->setParameter("location", $location);
-
-			$select_rooms = $reservationView->getAddLocationRoom();
-			if (empty($select_rooms)) {
-				$select_rooms = array();
-			}
-			$request->setParameter("allow_add_rooms", $select_rooms);
-
-		} elseif ($actionName == "reservation_view_main_reserve_add" || $actionName == "reservation_view_main_reserve_modify" ||
-				$actionName == "reservation_view_main_reserve_switch_category" || $actionName == "reservation_view_main_reserve_switch_location") {
-
-			$location = $reservationView->getLocation($attributes["location_id"]);
-			if (empty($location)) {
-				return $errStr;
+			$allow_add_rooms = $reservationView->getAddLocationRoom($location);
+			if (empty($allow_add_rooms)) {
+				$allow_add_rooms = array();
 			}
 			$request->setParameter("location", $location);
+			$request->setParameter("allow_add_rooms", $allow_add_rooms);
 
-			$select_rooms = $reservationView->getAddLocationRoom();
-			if (empty($select_rooms)) {
-				$select_rooms = array();
-			}
-			$request->setParameter("allow_add_rooms", $select_rooms);
-
-			if ($actionName != "reservation_view_main_reserve_switch_location") {
+			if ($actionName == "reservation_view_main_reserve_add" || $actionName == "reservation_view_main_reserve_modify"
+				|| $actionName == "reservation_view_main_reserve_switch_category"
+				) {
 				if ($attributes["category_id"] > 0) {
 					$location_list = $reservationView->getLocations($attributes["category_id"]);
 				} else {

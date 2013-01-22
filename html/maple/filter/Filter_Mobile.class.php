@@ -13,94 +13,94 @@
  */
 class Filter_Mobile extends Filter
 {
-    var $_classname = "Filter_Mobile";
+	var $_classname = "Filter_Mobile";
 
-    var $_container;
-    var $_log;
-    var $_filterChain;
-    var $_actionChain;
-    var $_db;
-    var $_session;
-    var $_request;
-    var $_modulesView;
-    //var $_mobile_obj;
+	var $_container;
+	var $_log;
+	var $_filterChain;
+	var $_actionChain;
+	var $_db;
+	var $_session;
+	var $_request;
+	var $_modulesView;
+	//var $_mobile_obj;
 	var $_usersView;
-    var $_clear_page_id = array("pages_view_main", "login_action_mobile_init", "login_action_main_logout", "pages_view_mobile");
-    var $_clear_reader = array("pages_view_main", "login_action_mobile_init", "login_action_main_logout");
+	var $_clear_page_id = array("pages_view_main", "login_action_mobile_init", "login_action_main_logout", "pages_view_mobile");
+	var $_clear_reader = array("login_action_main_logout");
 
-    /**
-     * コンストラクター
-     *
-     * @access  public
-     */
-    function Filter_Mobile()
-    {
-        parent::Filter();
-    }
+	/**
+	 * コンストラクター
+	 *
+	 * @access  public
+	 */
+	function Filter_Mobile()
+	{
+		parent::Filter();
+	}
 
-    /**
-     * Mobile用クラス実行
-     *
-     * @access  public
-     *
-     */
-    function execute()
-    {
-        $this->_container =& DIContainerFactory::getContainer();
-        $this->_log =& LogFactory::getLog();
-        $this->_filterChain =& $this->_container->getComponent("FilterChain");
-        $this->_actionChain =& $this->_container->getComponent("ActionChain");
-        $this->_db =& $this->_container->getComponent("DbObject");
-        $this->_session =& $this->_container->getComponent("Session");
+	/**
+	 * Mobile用クラス実行
+	 *
+	 * @access  public
+	 *
+	 */
+	function execute()
+	{
+		$this->_container =& DIContainerFactory::getContainer();
+		$this->_log =& LogFactory::getLog();
+		$this->_filterChain =& $this->_container->getComponent("FilterChain");
+		$this->_actionChain =& $this->_container->getComponent("ActionChain");
+		$this->_db =& $this->_container->getComponent("DbObject");
+		$this->_session =& $this->_container->getComponent("Session");
 		$this->_request =& $this->_container->getComponent("Request");
-        $this->_modulesView =& $this->_container->getComponent("modulesView");
+		$this->_modulesView =& $this->_container->getComponent("modulesView");
 		//$this->_mobile_obj = $this->_modulesView->getModuleByDirname("mobile");
-        $this->_usersView =& $this->_container->getComponent("usersView");
+		$this->_usersView =& $this->_container->getComponent("usersView");
 
 		//mb_stringがロードされているかどうか
-    	if (!extension_loaded('mbstring') && !function_exists("mb_convert_encoding")) {
+		if (!extension_loaded('mbstring') && !function_exists("mb_convert_encoding")) {
 			include_once MAPLE_DIR  . '/includes/mbstring.php';
-    	} else if(function_exists("mb_detect_order")){
-    		mb_detect_order(_MB_DETECT_ORDER_VALUE);
-    	}
+		} else if(function_exists("mb_detect_order")){
+			mb_detect_order(_MB_DETECT_ORDER_VALUE);
+		}
 		if (function_exists("mb_internal_encoding")) {
 			mb_internal_encoding(INTERNAL_CODE);
 		}
-    	if (function_exists("mb_language")) {
-    		mb_language("Japanese");
-    	}
+		if (function_exists("mb_language")) {
+			mb_language("Japanese");
+		}
 
-        $this->_log->trace("{$this->_classname}の前処理が実行されました", "{$this->_classname}#execute");
-        $this->_preFilter();
+		$this->_log->trace("{$this->_classname}の前処理が実行されました", "{$this->_classname}#execute");
+		$this->_preFilter();
 
-        $this->_filterChain->execute();
+		$this->_filterChain->execute();
 
-        $this->_log->trace("{$this->_classname}の後処理が実行されました", "{$this->_classname}#execute");
-        $this->_postFilter();
-    }
+		$this->_log->trace("{$this->_classname}の後処理が実行されました", "{$this->_classname}#execute");
+		$this->_postFilter();
+	}
 
-    /**
-     * プレフィルタ
-     *
-     * @access  private
-     */
-    function _preFilter()
-    {
+	/**
+	 * プレフィルタ
+	 *
+	 * @access  private
+	 */
+	function _preFilter()
+	{
 		require_once( WEBAPP_DIR . "/config/mobile.inc.php" );
 
 		$this->_session->setParameter("_mobile_flag", _OFF);
 		$this->_session->setParameter("_smartphone_flag", _OFF);
 		//if (!$this->_mobile_obj) { return; }
 
-    	// 読み上げソフト対応
+		// 読み上げソフト対応
 		$actionName = $this->_actionChain->getCurActionName();
 		if ($actionName == DEFAULT_MOBILE_ACTION) {
-	    	$reader_flag = $this->_request->getParameter("reader_flag");
-	    	if (isset($reader_flag)) {
-	    		$reader_flag = intval($reader_flag);
-	    	} else {
-	    		$reader_flag = intval($this->_session->getParameter("_reader_flag"));
-	    	}
+			$reader_flag = $this->_request->getParameter("reader_flag");
+			if (isset($reader_flag)) {
+				$reader_flag = intval($reader_flag);
+			} else {
+				$reader_flag = intval($this->_session->getParameter("_reader_flag"));
+			}
 		} else {
 			$reader_flag = intval($this->_session->getParameter("_reader_flag"));
 		}
@@ -184,8 +184,8 @@ class Filter_Mobile extends Filter
 		$block_id = intval($this->_request->getParameter("block_id"));
 
 
-        $mobileView =& $this->_container->getComponent("mobileView");
-        $getdata =& $this->_container->getComponent("GetData");
+		$mobileView =& $this->_container->getComponent("mobileView");
+		$getdata =& $this->_container->getComponent("GetData");
 
 		$mobile_modules = $mobileView->getModules(null, array($this,"_callbackFunc"));
 		$getdata->setParameter("mobile_modules", $mobile_modules);
@@ -204,11 +204,11 @@ class Filter_Mobile extends Filter
 				if (empty($value) || is_array($value)) { continue; }
 				if (substr($key, 0, 1) == "_") { continue; }
 
-    			$key = htmlspecialchars($key, ENT_QUOTES);
+				$key = htmlspecialchars($key, ENT_QUOTES);
 				if ($key == session_name()) {
 					$value = session_id();
 				} else {
-	    			$value = rawurlencode($value);
+					$value = rawurlencode($value);
 				}
 				$str_params .= "&" . $key."=".$value;
 			}
@@ -265,8 +265,8 @@ class Filter_Mobile extends Filter
 		/*
 		 * リクエストの変換
 		 */
-    	$action =& $this->_actionChain->getCurAction();
-    	$attributes = $this->getAttributes();
+		$action =& $this->_actionChain->getCurAction();
+		$attributes = $this->getAttributes();
 		//if (empty($attributes)) { return; }
 
 		$params = $this->_request->getParameters();
@@ -337,14 +337,14 @@ class Filter_Mobile extends Filter
 			$this->_request->setParameter($value, $parameter);
 		}
 
-    }
-    /**
-     * 携帯モジュール取得
-     *
-     * @access  private
-     */
-    function _callbackFunc(&$recordSet)
-    {
+	}
+	/**
+	 * 携帯モジュール取得
+	 *
+	 * @access  private
+	 */
+	function _callbackFunc(&$recordSet)
+	{
 		$result = array();
 		while ($row = $recordSet->fetchRow()) {
 			$pathList = explode("_", $row["mobile_action_name"]);
@@ -353,30 +353,30 @@ class Filter_Mobile extends Filter
 			$result[$row["display_position"]][$row["dir_name"]] = $row;
 		}
 		return $result;
-    }
-    /**
-     * 携帯モジュール取得
-     *
-     * @access  private
-     */
-    function _strtoconvert(&$params)
-    {
+	}
+	/**
+	 * 携帯モジュール取得
+	 *
+	 * @access  private
+	 */
+	function _strtoconvert(&$params)
+	{
 		foreach (array_keys($params) as $key) {
 			if (is_array($params[$key])) {
 				$this->_strtoconvert($params[$key]);
 			} else {
-		    	$params[$key] = mb_convert_encoding($params[$key], "utf-8", "auto");
+				$params[$key] = mb_convert_encoding($params[$key], "utf-8", "auto");
 			}
 		}
-    }
+	}
 
-    /**
-     * ポストフィルタ
-     *
-     * @access  private
-     */
-    function _postFilter()
-    {
+	/**
+	 * ポストフィルタ
+	 *
+	 * @access  private
+	 */
+	function _postFilter()
+	{
 		//if (!$this->_mobile_obj) { return true; }
 
 		$tel_id = $this->_session->getParameter("_mobile_tel_id");
@@ -413,6 +413,6 @@ class Filter_Mobile extends Filter
 		if ($module_id > 0) {
 			$this->_session->setParameter("_mobile_module_id", $module_id);
 		}
-    }
+	}
 }
 ?>
