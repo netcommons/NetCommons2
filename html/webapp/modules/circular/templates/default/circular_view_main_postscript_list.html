@@ -9,7 +9,7 @@
 	<a href="#" title="<{$lang._user_title|smarty:nodefaults|sprintf:$postscript.insert_user_name|smarty:nodefaults}>" class="syslink" onclick="commonCls.showUserDetail(event, '<{$action.postscript.insert_user_id}>');return false;">
 		<{$postscript.insert_user_name}>
 	</a>
-	<div class="circular_detail_content"><{$postscript.postscript_value|nl2br}></div>
+	<div class="circular_detail_content"><{$postscript.postscript_value|smarty:nodefaults}></div>
 </div>
 <script class="nc_script" type="text/javascript">
 </script>

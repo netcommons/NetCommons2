@@ -109,6 +109,23 @@ class Menu_View_Mobile_Init extends Action
 			$this->pageCount = count($this->pageTree[$this->page_id]);
 		}
 		$this->topPage = current($this->pageTree);
+		if ($this->each_room_flag == _OFF) {
+			$root = array();
+			$dummy = array('thread_num'=>0,'visible'=>true);
+			if (isset($this->pageTree[_SPACE_TYPE_PUBLIC])) {
+				$root[0][_SPACE_TYPE_PUBLIC] = $dummy;
+			}
+			if (isset($this->pageTree[_SPACE_TYPE_GROUP])) {
+				$root[0][_SPACE_TYPE_GROUP] = $dummy;
+			}
+			if (isset($_SESSION['_self_myroom_page']['room_id'])) {
+				$root[0][$_SESSION['_self_myroom_page']['room_id']] = $dummy;
+			}
+			if (isset($root[0])) {
+				$this->topPage = $root[0];
+				$this->pageTree += $root;
+			}
+		}
 		$this->mobileView->getRoomTree($this->room_arr, $this->menu_display_type, $this->each_room_flag, $roomIds);
 
 		if($this->t == _ON || $is_room_detail_display) {

@@ -16,7 +16,7 @@ compCalendarLang = {
 	summary : "Calendar",
 	icon_alt : "Calendar",
 	icon_title : "Show Calendar",
-	year : "Year",
+	year : "",
 	month : "Month",
 	week_sun : "Sun",
 	week_mon : "Mon",
@@ -34,7 +34,19 @@ compCalendarLang = {
 	btn_prev_year : "«",
 	btn_next_year : "»",
 	btn_prev_month : "‹",
-	btn_next_month : "›"
+	btn_next_month : "›",
+	month_jan : "Jan",
+	month_feb : "Feb",
+	month_mar : "Mar",
+	month_apr : "Apr",
+	month_may : "May",
+	month_jun : "Jun",
+	month_jul : "Jul",
+	month_aug : "Aug",
+	month_sep : "Sep",
+	month_oct : "Oct",
+	month_nov : "Nov",
+	month_dec : "Dec"
 };
 /*WYSIWYG用定義ファイル*/
 compTextareaLang = {
@@ -128,7 +140,7 @@ compInsertLinkLang = {
 	url 	          : "URL(href=)",
 	title	          : "Title(title=)",
 	target	          : "Target(target=)",
-	target_none	      : "No specification",
+	target_none	      : "Not specified",
 	target_blank	  : "New window(_blank)",
 	target_other	  : "Other",
 	ok	              : "Insert Link",
@@ -210,7 +222,7 @@ compTableBorderLang = {
 	row         : "Row",
 	col         : "Col",
 	cell        : "Cell",
-	none        : "No specification",
+	none        : "Not specified",
 	outer       : "Borders",
 	top         : "Overline",
 	bottom      : "Underline",

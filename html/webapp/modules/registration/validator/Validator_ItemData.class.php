@@ -105,7 +105,7 @@ class Registration_Validator_ItemData extends Validator
 			}
 			if ($item["item_type"] == REGISTRATION_TYPE_TEXTAREA) {
 				$itemDataValues[$itemID] = preg_replace("/\r\n/", "\n", $itemDataValues[$itemID]);
-				$entryDatas[$itemID]["item_data_value"]	= $itemDataValues[$itemID];
+				$entryDatas[$itemID]["item_data_value"] = $itemDataValues[$itemID];
 			}
 			if ($item["item_type"] == REGISTRATION_TYPE_FILE) {
 				if ($mobileFlag
@@ -137,8 +137,8 @@ class Registration_Validator_ItemData extends Validator
 			}
 
 			if ($item["require_flag"] == _ON
-					&& (empty($itemDataValues)
-							|| empty($itemDataValues[$itemID]))) {
+					&& (!isset($itemDataValues[$itemID])
+						|| $itemDataValues[$itemID] == '')) {
 				$errors[] = sprintf($smartyAssign->getLang("_required"), $item["item_name"]);
 				continue;
 			}

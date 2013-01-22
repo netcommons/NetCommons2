@@ -2361,7 +2361,7 @@ compTextareamain.prototype = {
 										} catch(e){}
 									}
 									if(name=="value" || name=="alt" || name=="title") {
-										value = value.escapeHTML();
+										value = String(value).escapeHTML();
 									}
 									if(name=="style" && value == "")
 										continue;

@@ -418,7 +418,7 @@ class Filter_AllowIdList extends Filter
 					$row['page_name'] = _SPACE_TYPE_NAME_PUBLIC;
 				} else if($row['space_type'] ==_SPACE_TYPE_GROUP && $row['private_flag'] ==_ON){
 					if($row['default_entry_flag'] ==_ON)
-						$row['page_name'] = RMAP_MYPOTAL;
+						$row['page_name'] = _SPACE_TYPE_NAME_MYPORTAL;
 					else
 						$row['page_name'] = _SPACE_TYPE_NAME_PRIVATE;
 				} else {

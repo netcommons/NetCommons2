@@ -36,32 +36,32 @@ class Reservation_View_Edit_Import_Init extends Action
 	var $help_end_time = "";
 	var $location_id = 0;
 
-    /**
-     * execute処理
-     *
-     * @access  public
-     */
-    function execute()
-    {
-    	$this->help_start_time = "090000";
-    	$this->help_end_time = "180000";
-    	$this->help_reserve_time = timezone_date_format(null, "Ymd");
+	/**
+	 * execute処理
+	 *
+	 * @access  public
+	 */
+	function execute()
+	{
+		$this->help_start_time = "090000";
+		$this->help_end_time = "180000";
+		$this->help_reserve_time = timezone_date_format(null, "Ymd");
 
 		$this->category_list = $this->reservationView->getCategories();
 		$this->location_count_list = $this->reservationView->getCountLocationByCategory();
 
-    	$this->location_list = $this->reservationView->getLocations();
-    	$this->location_count = count($this->location_list);
-    	foreach ($this->location_list as $location) {
-    		$this->location = $location;
-    		$this->location_id = $this->location["location_id"];
+		$this->location_list = $this->reservationView->getLocations();
+		$this->location_count = count($this->location_list);
+		foreach ($this->location_list as $location) {
+			$this->location = $location;
+			$this->location_id = $this->location["location_id"];
 			$this->request->setParameter("location", $location);
-    		break;
-    	}
+			break;
+		}
 
-		$this->allow_add_rooms = $this->reservationView->getAddLocationRoom();
+		$this->allow_add_rooms = $this->reservationView->getAddLocationRoom($location);
 
 		return 'success';
-    }
+	}
 }
 ?>

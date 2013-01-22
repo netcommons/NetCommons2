@@ -20,7 +20,6 @@ class User_View_Admin_Import_Upload extends Action
 	//使用コンポーネント
 	var $session = null;
 	var $actionChain = null;
-	var $db = null;
 	var $uploadsAction = null;
 	var $usersView = null;
 	var $authoritiesView = null;
@@ -33,53 +32,53 @@ class User_View_Admin_Import_Upload extends Action
 	var $handle_list = null;		// インポートファイル内の重複確認のためのハンドルリスト
 
 	var $email_list_all = null;		//インポートファイル内の重複確認のためのすべてのeメールリスト
-	var $email_column_cnt = 0; 		//ユーザ情報中のemail又はmobile_emailの個数
+	var $email_column_cnt = 0;		//ユーザ情報中のemail又はmobile_emailの個数
 	var $email_column_name = array(); //ユーザ情報中にemail又はmobile_emailの見出し
 
-    /**
-     * インポートファイルのアップロード
-     *
-     * @access  public
-     */
-    function execute()
-    {
-        set_time_limit(USER_TIME_LIMIT);
+	/**
+	 * インポートファイルのアップロード
+	 *
+	 * @access  public
+	 */
+	function execute()
+	{
+		set_time_limit(USER_TIME_LIMIT);
 		// メモリ最大サイズ設定
 		ini_set('memory_limit', -1);
 
-        $errorList =& $this->actionChain->getCurErrorList();
+		$errorList =& $this->actionChain->getCurErrorList();
 		$errUser_cnt = 0;
 
 		if ($this->user_import_option_data_set == "1") $this->duplicate_data = _ON;
 		if ($this->user_import_option_detail_set == "1") $this->detail_res = _ON;
 
-        // ファイルアップロード
+		// ファイルアップロード
 		$garbage_flag = _ON;
-    	$filelist = $this->uploadsAction->uploads($garbage_flag);
-    	if(isset($filelist['error_mes']) && $filelist['error_mes'] != "") {
-    		$errorList->add(get_class($this), sprintf(_FILE_UPLOAD_ERR_FAILURE."(%s)", $filelist['error_mes']));
-   	 		return 'error';
-    	}else if($filelist[0]['extension'] != "csv") {
-    		$errorList->add(get_class($this), sprintf(_FILE_UPLOAD_ERR_FILENAME_REJECRED."(%s)", $filelist[0]['file_name']));
+		$filelist = $this->uploadsAction->uploads($garbage_flag);
+		if(isset($filelist['error_mes']) && $filelist['error_mes'] != "") {
+			$errorList->add(get_class($this), sprintf(_FILE_UPLOAD_ERR_FAILURE."(%s)", $filelist['error_mes']));
+			return 'error';
+		}else if($filelist[0]['extension'] != "csv") {
+			$errorList->add(get_class($this), sprintf(_FILE_UPLOAD_ERR_FILENAME_REJECRED."(%s)", $filelist[0]['file_name']));
 			$this->_delImportFile(FILEUPLOADS_DIR."user/".$filelist[0]['physical_file_name']);
-    		return 'error';
-    	}
+			return 'error';
+		}
 
 		$file = FILEUPLOADS_DIR."user/".$filelist[0]['physical_file_name'];
-    	//$file = WEBAPP_DIR."/uploads/user/".$filelist[0]['physical_file_name'];
-    	$handle = fopen($file, 'r');
-    	if($handle == false) {
-    		$errorList->add(get_class($this), sprintf(USER_IMPORT_UPLOAD_OPENERR."(%s)", $file));
-    		$this->_delImportFile($file);
-    		return 'error';
-    	}
+		//$file = WEBAPP_DIR."/uploads/user/".$filelist[0]['physical_file_name'];
+		$handle = fopen($file, 'r');
+		if($handle == false) {
+			$errorList->add(get_class($this), sprintf(USER_IMPORT_UPLOAD_OPENERR."(%s)", $file));
+			$this->_delImportFile($file);
+			return 'error';
+		}
 
 		$users_admin = $this->usersView->getUsers(array("user_authority_id" => _AUTH_ADMIN));
 		if (isset($users_admin) && is_array($users_admin)) {
-    		$showitems = $this->usersView->getShowItems($users_admin[0]['user_id'], _AUTH_ADMIN, null);
+			$showitems = $this->usersView->getShowItems($users_admin[0]['user_id'], _AUTH_ADMIN, null);
 		}
 		if (!isset($showitems) || !is_array($showitems)) {
-    		$errorList->add(get_class($this), sprintf("show items error"));
+			$errorList->add(get_class($this), sprintf("show items error"));
 			$this->_delImportFile($file);
 			return 'error';
 		}
@@ -89,7 +88,7 @@ class User_View_Admin_Import_Upload extends Action
 		$row_data_headers = fgets($handle);
 		$row_data_headers = mb_convert_encoding($row_data_headers, "UTF-8", "SJIS");
 		if (empty($row_data_headers)) {
-    		$errorList->add(get_class($this), sprintf(USER_IMPORT_UPLOAD_NODATA."(%s)", $filelist[0]['file_name']));
+			$errorList->add(get_class($this), sprintf(USER_IMPORT_UPLOAD_NODATA."(%s)", $filelist[0]['file_name']));
 			$this->_delImportFile($file);
 			return 'error';
 		}
@@ -107,16 +106,16 @@ class User_View_Admin_Import_Upload extends Action
 			$row_data_header = preg_replace('/'.$e.$e.'/su', $e, $row_data_header);
 			$row_data_headers[$i] = $row_data_header;
 			foreach($showitems as $item_list) {
-	    		foreach($item_list as $showitem) {
-	    			$strncmp = strncmp($row_data_header, $showitem['item_name'], strlen($showitem['item_name']));
-	    			if ($strncmp != 0 && $showitem['item_name'] == "ID") {
-	    				$strncmp = strncmp($row_data_header, strtolower($showitem['item_name']), strlen($showitem['item_name']));
-	    				if ($strncmp == 0) {
-	    					$row_data_header = $showitem['item_name'];
-	    					$row_data_headers[$i] = $showitem['item_name'];
-	    				}
-	    			}
-	    			if (!$strncmp) {
+				foreach($item_list as $showitem) {
+					$strncmp = strncmp($row_data_header, $showitem['item_name'], strlen($showitem['item_name']));
+					if ($strncmp != 0 && $showitem['item_name'] == "ID") {
+						$strncmp = strncmp($row_data_header, strtolower($showitem['item_name']), strlen($showitem['item_name']));
+						if ($strncmp == 0) {
+							$row_data_header = $showitem['item_name'];
+							$row_data_headers[$i] = $showitem['item_name'];
+						}
+					}
+					if (!$strncmp) {
 						if (!strcmp($row_data_header, sprintf(USER_IMPORT_RECEPTION_EMAIL, $showitem['item_name']))) {
 							$reception = "1";
 						} else if (!strcmp($row_data_header, sprintf(USER_IMPORT_PUBLIC_FLAG, $showitem['item_name']))) {
@@ -125,16 +124,16 @@ class User_View_Admin_Import_Upload extends Action
 							continue;
 						}
 						$item_poss[] = array("name" => $row_data_header,
-											 "item_id" => $showitem['item_id'],
-											 "public_flag" => $public,
-											 "reception" => $reception,
-											 "showitem" => $showitem);
+											"item_id" => $showitem['item_id'],
+											"public_flag" => $public,
+											"reception" => $reception,
+											"showitem" => $showitem);
 						$item_found = _ON;
 						$row_data_headers_disp[] = $row_data_header;
 
 						if ( ($reception != "1" ) && 
-							 ($public != "1" ) && 
-							 (($showitem['type'] == 'email') || ($showitem['type'] == 'mobile_email')) ) {
+							($public != "1" ) && 
+							(($showitem['type'] == 'email') || ($showitem['type'] == 'mobile_email')) ) {
 							$this->email_column_cnt++;
 							$this->email_column_name[] = $showitem['item_name'];
 						}
@@ -146,10 +145,10 @@ class User_View_Admin_Import_Upload extends Action
 			}
 			if ($item_found != _ON) {
 				$item_poss[] = array("name" => trim($row_data_header),
-									 "item_id" => "none",
-									 "public_flag" => $public,
-									 "reception" => $reception,
-									 "showitem" => $showitem);
+									"item_id" => "none",
+									"public_flag" => $public,
+									"reception" => $reception,
+									"showitem" => $showitem);
 			}
 		}
 		$row_data_headers_disp[] = USER_IMPORT_DATACHK_RES;
@@ -158,7 +157,7 @@ class User_View_Admin_Import_Upload extends Action
 		// データチェック
 		$idx = 0;
 		$chkusers_num = 0;
- 		while (!feof($handle)) {
+		while (!feof($handle)) {
 			$items = null; $items_public = null; $items_reception = null;
 			$row_data_user_str = fgets($handle);
 			if (empty($row_data_user_str)) continue;
@@ -261,9 +260,9 @@ class User_View_Admin_Import_Upload extends Action
 			// 会員情報の重複チェック
 			$user_id="0";
 			$attributes = array("user_id" => $user_id,
-							   "items" => $items,
-							   "item_public" => $items_public,
-							   "item_reception" => $items_reception);
+								"items" => $items,
+								"item_public" => $items_public,
+								"item_reception" => $items_reception);
 			$res = $this->dataCheck($attributes, "error");
 			$user_id = $res["userid"];
 			$errlists = $res["errlist"];
@@ -309,8 +308,8 @@ class User_View_Admin_Import_Upload extends Action
 		fclose($handle);
 		if($chkusers_num > USER_IMPORT_ROW_NUM) {
 			$errorList->add(get_class($this), sprintf(USER_IMPORT_ROW_OVER_ERROR, USER_IMPORT_ROW_NUM));
-    		$this->_delImportFile($file);
-    		return 'error';
+			$this->_delImportFile($file);
+			return 'error';
 		}
 		//if($errUser) {
 			$this->_delImportFile($file);
@@ -320,7 +319,7 @@ class User_View_Admin_Import_Upload extends Action
 		$this->session->setParameter(array("user", "import", "errUser_cnt"), $errUser_cnt);
 	}
 
-    /**
+	/**
 	 * 設定値が設定可能範囲かチェック
 	 * @param item　name
 	 * @return res
@@ -365,7 +364,7 @@ class User_View_Admin_Import_Upload extends Action
 		return $res;
 	}
 
-    /**
+	/**
 	 * 設定値を数値から名称に変更
 	 * @param item　name
 	 * @return name
@@ -415,21 +414,21 @@ class User_View_Admin_Import_Upload extends Action
 	function setDefault($item)
 	{
 		switch ($item['item_name']) {
-		 case USER_ITEM_TIMEZONE_OFFSET:
-	 		$res = USER_IMPORT_TIMEZONE_DEFAULT;
-	 		break;
-		 case USER_ITEM_LANG_DIRNAME:
-	 		$res = USER_IMPORT_LANG_DEFAULT;
-	 		break;
-		 case USER_ITEM_ROLE_AUTHORITY_ID:
+		case USER_ITEM_TIMEZONE_OFFSET:
+			$res = USER_IMPORT_TIMEZONE_DEFAULT;
+			break;
+		case USER_ITEM_LANG_DIRNAME:
+			$res = USER_IMPORT_LANG_DEFAULT;
+			break;
+		case USER_ITEM_ROLE_AUTHORITY_ID:
 			$res = USER_IMPORT_ROLE_DEFAULT;
-		 	break;
-		 case USER_ITEM_ACTIVE_FLAG:
-		 	$res = USER_IMPORT_ACTIVE_DEFAULT;
-	 		break;
-		 default:
+			break;
+		case USER_ITEM_ACTIVE_FLAG:
+			$res = USER_IMPORT_ACTIVE_DEFAULT;
+			break;
+		default:
 			$res = "";
-			 break;
+			break;
 		}
 
 		return trim($res);
@@ -469,185 +468,154 @@ class User_View_Admin_Import_Upload extends Action
 		$edit_flag = false;
 
 		$where_params = array(
-    						"user_authority_id" => _AUTH_ADMIN		// 管理者固定
-    					);
+							"user_authority_id" => _AUTH_ADMIN		// 管理者固定
+						);
 		$show_items =& $this->usersView->getItems($where_params, null, null, null, array($this, "_getItemsFetchcallback"));
 		if($show_items === false) return $errStr;
 
 		$current_user = null;
 		foreach($show_items as $items) {
 			if((isset($attributes['items']) && is_array($attributes['items'])) && isset($attributes['items'][$items['item_id']])) {
-    			$content = $attributes['items'][$items['item_id']];
-    		} else {
-    			$content = "";
-    		}
+				$content = $attributes['items'][$items['item_id']];
+			} else {
+				$content = "";
+			}
 
-    		if($items['define_flag'] == _ON && defined($items['item_name'])) $items['item_name'] = constant($items['item_name']);
-    		// 必須入力チェック
-    		if($items['require_flag'] == _ON) {
-    			if($content == "") {
-    				if ($this->duplicate_data == _OFF || !isset($current_user) || $items['tag_name'] != "password") {
+			if($items['define_flag'] == _ON && defined($items['item_name'])) $items['item_name'] = constant($items['item_name']);
+			// 必須入力チェック
+			if($items['require_flag'] == _ON) {
+				if($content == "") {
+					if ($this->duplicate_data == _OFF || !isset($current_user) || $items['tag_name'] != "password") {
 						// パスワードで既存会員ならば、エラーにしない
 						$errlist[] = sprintf(_REQUIRED, $items['item_name']).$edit_flag;
-	    				$user_id = $errStr;
-	    				continue;
-    				}
-    			}
-    		}
-    		if($items['tag_name'] == "login_id") {
-	 			// 文字チェック
-	 			$login_id = $content;
-	 			$login_len = strlen($content);
+						$user_id = $errStr;
+						continue;
+					}
+				}
+			}
+			if($items['tag_name'] == "login_id") {
+				// 文字チェック
+				$login_id = $content;
+				$login_len = strlen($content);
 
-		    	if($login_len < USER_LOGIN_ID_MINSIZE || $login_len > USER_LOGIN_ID_MAXSIZE) {
+				if($login_len < USER_LOGIN_ID_MINSIZE || $login_len > USER_LOGIN_ID_MAXSIZE) {
 					$errlist[] = sprintf(_MAXRANGE_ERROR, USER_ITEM_LOGIN, USER_LOGIN_ID_MINSIZE, USER_LOGIN_ID_MAXSIZE);
-		    		$user_id = $errStr;
-		    	}
+					$user_id = $errStr;
+				}
 
-		    	// 半角英数または、記号
-		    	if(preg_match(_REGEXP_ALLOW_HALFSIZE_SYMBOL, $login_id)) {
+				// 半角英数または、記号
+				if(preg_match(_REGEXP_ALLOW_HALFSIZE_SYMBOL, $login_id)) {
 					$errlist[] = sprintf(_HALFSIZESYMBOL_ERROR, USER_ITEM_LOGIN);
-		    		$user_id = $errStr;
-		       	}
+					$user_id = $errStr;
+				}
 
-		    	// 重複チェック
-	 			$where_params = array("login_id" => $login_id);
-	 			$users =& $this->usersView->getUsers($where_params);
-	 			$count = count($users);
-	 			if($count >= 1) {
-	 				if ($this->duplicate_data == _OFF) {
+				// 重複チェック
+				$where_params = array("login_id" => $login_id);
+				$users =& $this->usersView->getUsers($where_params);
+				$count = count($users);
+				if($count >= 1) {
+					if ($this->duplicate_data == _OFF) {
 						$errlist[] = sprintf(USER_IMPORT_MES_ERROR_DUPLICATE, USER_ITEM_LOGIN);
-	 					$user_id = $errStr;
-	 				} else {
+						$user_id = $errStr;
+					} else {
 						if ($user_id != $errStr) {
 							$user_id = $users[0]['user_id'];
 							$attributes['user_id'] = $user_id;
 						}
 						$edit_flag = _ON;
-	 				}
-	 				$current_user = $users[0];
-	 			} else {
-	 				$current_user = null;
-	 			}
+					}
+					$current_user = $users[0];
+				} else {
+					$current_user = null;
+				}
 
-	 			$this->loginid_list[] = $login_id;
-    		} else if($items['tag_name'] == "password" && $content != "") {
-		    	$new_password = $content;
-		    	// 文字チェック
-		    	$pass_len = strlen($new_password);
-		    	if($pass_len < USER_PASSWORD_MINSIZE || $pass_len > USER_PASSWORD_MAXSIZE) {
+				$this->loginid_list[] = $login_id;
+			} else if($items['tag_name'] == "password" && $content != "") {
+				$new_password = $content;
+				// 文字チェック
+				$pass_len = strlen($new_password);
+				if($pass_len < USER_PASSWORD_MINSIZE || $pass_len > USER_PASSWORD_MAXSIZE) {
 					$errlist[] = sprintf(_MAXRANGE_ERROR, USER_ITEM_PASSWORD, USER_PASSWORD_MINSIZE, USER_PASSWORD_MAXSIZE);
-		    		$user_id = $errStr;
-		    	}
-		    	// 半角英数または、記号
-		    	if(preg_match(_REGEXP_ALLOW_HALFSIZE_SYMBOL, $new_password)) {
+					$user_id = $errStr;
+				}
+				// 半角英数または、記号
+				if(preg_match(_REGEXP_ALLOW_HALFSIZE_SYMBOL, $new_password)) {
 					$errlist[] = sprintf(_HALFSIZESYMBOL_ERROR, USER_ITEM_PASSWORD);
-		    		$user_id = $errStr;
-		    	}
-    		} else if($items['tag_name'] == "handle") {
-   				// 重複チェック
-	 			$handle = $content;
-	 			$where_params = array("handle" => $handle);
-	 			$users =& $this->usersView->getUsers($where_params);
-	 			$count = count($users);
-	 			if($count >= 1 && $users[0]['user_id'] != $attributes['user_id']) {
+					$user_id = $errStr;
+				}
+			} else if($items['tag_name'] == "handle") {
+				// 重複チェック
+				$handle = $content;
+				$where_params = array("handle" => $handle);
+				$users =& $this->usersView->getUsers($where_params);
+				$count = count($users);
+				if($count >= 1 && $users[0]['user_id'] != $attributes['user_id']) {
 					$errlist[] = sprintf(USER_IMPORT_MES_ERROR_DUPLICATE, USER_ITEM_HANDLE);
- 					$user_id = $errStr;
-	 			}
+					$user_id = $errStr;
+				}
 
-	 			$this->handle_list[] = $handle;
-    		} else if($items['tag_name'] == "active_flag_lang") {
-	 			//システム管理者の場合、使用不可にはできない
-	 			if($attributes['user_id'] == $_system_user_id && $content == _OFF) {
+				$this->handle_list[] = $handle;
+			} else if($items['tag_name'] == "active_flag_lang") {
+				//システム管理者の場合、使用不可にはできない
+				if($attributes['user_id'] == $_system_user_id && $content == _OFF) {
 					$errlist[] = sprintf(USER_IMPORT_SYSTEM_ADMIN_ERR, $items['item_name']);
 					$user_id = $errStr;
-	 			}
-	 		} else if($items['tag_name'] == "role_authority_name") {
-	 			//システム管理者の場合、変更不可
-	 			if($attributes['user_id'] == $_system_user_id && $content != _SYSTEM_ROLE_AUTH_ID) {
+				}
+			} else if($items['tag_name'] == "role_authority_name") {
+				//システム管理者の場合、変更不可
+				if($attributes['user_id'] == $_system_user_id && $content != _SYSTEM_ROLE_AUTH_ID) {
 					$errlist[] = sprintf(USER_IMPORT_SYSTEM_ADMIN_ERR, $items['item_name']);
-	 				$user_id = $errStr;
-	 			}
+					$user_id = $errStr;
+				}
 
-	 			$authority = $this->authoritiesView->getAuthorityByID($content);
-	 			if ((($authority !== false) && ($authority != null)) && ($authority["user_authority_id"] >= $_user_auth_id)) {
+				$authority = $this->authoritiesView->getAuthorityByID($content);
+				if ((($authority !== false) && ($authority != null)) && ($authority["user_authority_id"] >= $_user_auth_id)) {
 					$errlist[] = sprintf(USER_IMPORT_SYSTEM_AUTH_ERR, $items['item_name']);
-	 				$user_id = $errStr;
-	 			} else if ($content == "") {
-	 				$errlist[] = sprintf(_REQUIRED, $items['item_name']);
-	 				$user_id = $errStr;
-	 			}
-	   		}
-    		if($items['type'] == "email" || $items['type'] == "mobile_email") {
-	 			$email = $content;
+					$user_id = $errStr;
+				} else if ($content == "") {
+					$errlist[] = sprintf(_REQUIRED, $items['item_name']);
+					$user_id = $errStr;
+				}
+			}
+			if($items['type'] == "email" || $items['type'] == "mobile_email") {
+				$email = $content;
 
-	 			// 文字チェック
-	 			if ( $email != "" && !strpos($email, "@") ) {
+				// 文字チェック
+				if ( $email != "" && !strpos($email, "@") ) {
 					$errlist[] = sprintf(_FORMAT_WRONG_ERROR, $items['item_name']);
-	    			$user_id = $errStr;
-	    		}
-	 			// 重複チェック
-    			if($email != "") {
-	    			$sql = "SELECT item_id, type FROM {items}".
-						" WHERE ({items}.type='email' OR {items}.type='mobile_email')";
-					$email_items = $this->db->execute($sql);
-					if(count($email_items) > 0) {
-						$sql = "SELECT {users_items_link}.user_id, {users_items_link}.item_id, {users_items_link}.content".
-								" FROM {users_items_link}".
-								" WHERE {users_items_link}.item_id IN (";
-		 				$first = true;
-		 				foreach($email_items as $email_item) {
-							if($first == false)
-								$sql .= ",";
-							$sql .= $email_item['item_id'];
-							$first = false;
-						}
-						$where_params = array();
-						if (mb_strlen($email) < _MYSQL_FT_MIN_WORD_LEN) {
-							$sql .= ")".
-								" AND {users_items_link}.content=? ";
-							$where_params = array(
-			 									"{users_items_link}.content" => $email
-											);
-						} else {
-							$sql .= ")".
-								" AND MATCH({users_items_link}.content) AGAINST (? IN BOOLEAN MODE)";
-							$where_params = array(
-	 									"{users_items_link}.content" => '"'.$email.'"'
-									);
-						}
-						$chk_items =& $this->db->execute($sql, $where_params);
-						$count = !empty($chk_items) ? count($chk_items) : 0;
-			 			if($count >= 1 && $chk_items[0]['user_id'] != $attributes['user_id']) {
-							$errlist[] = sprintf(USER_IMPORT_MES_ERROR_DUPLICATE, $items['item_name']);
-		 					$user_id = $errStr;
-			 			}
-					}
-	 			}
-	 			// メール受信可否
-	 			if((isset($attributes['items_reception']) && is_array($attributes['items_reception'])) && isset($attributes['items_reception'][$items['item_id']])) {
-		 			if($items['allow_email_reception_flag'] == _OFF ||
-		 				!($attributes['items_reception'][$items['item_id']] == _ON ||
-		 					$attributes['items_reception'][$items['item_id']] == _OFF)) {
-	 					$errlist[] = sprintf(USER_IMPORT_INVALID_INPUT, $items['item_name'], USER_IMPORT_EMAIL_USE_SET);
+					$user_id = $errStr;
+				}
+				// 重複チェック
+				$userIdByMail = $this->usersView->getUserIdByMail($email);
+				if (!empty($userIdByMail)
+						&& $userIdByMail != $attributes['user_id']) {
+					$errlist[] = sprintf(USER_IMPORT_MES_ERROR_DUPLICATE, $items['item_name']);
+					$user_id = $errStr;
+				}
+				// メール受信可否
+				if((isset($attributes['items_reception']) && is_array($attributes['items_reception'])) && isset($attributes['items_reception'][$items['item_id']])) {
+					if($items['allow_email_reception_flag'] == _OFF ||
+						!($attributes['items_reception'][$items['item_id']] == _ON ||
+							$attributes['items_reception'][$items['item_id']] == _OFF)) {
+						$errlist[] = sprintf(USER_IMPORT_INVALID_INPUT, $items['item_name'], USER_IMPORT_EMAIL_USE_SET);
 						$user_id = $errStr;
-		 			}
-	 			}
+					}
+				}
 
 				$this->email_list_all[] = $email;
-	 		}
+			}
 
-	 		// 公開設定
-	 		if((isset($attributes['items_public']) && is_array($attributes['items_public'])) && isset($attributes['items_public'][$items['item_id']])) {
-	 			if($items['allow_public_flag'] == _OFF ||
-	 				!($attributes['items_public'][$items['item_id']] == _ON ||
-	 					$attributes['items_public'][$items['item_id']] == _OFF)) {
+			// 公開設定
+			if((isset($attributes['items_public']) && is_array($attributes['items_public'])) && isset($attributes['items_public'][$items['item_id']])) {
+				if($items['allow_public_flag'] == _OFF ||
+					!($attributes['items_public'][$items['item_id']] == _ON ||
+						$attributes['items_public'][$items['item_id']] == _OFF)) {
 						$errlist[] = sprintf(USER_IMPORT_INVALID_INPUT, $items['item_name'], USER_IMPORT_PUBLIC_SET);
-	 					$user_id = $errStr;
-	 			}
- 			}
-    	}
-    	$res = array("errlist" => $errlist, "userid" => $user_id);
+						$user_id = $errStr;
+				}
+			}
+		}
+		$res = array("errlist" => $errlist, "userid" => $user_id);
 		return $res;
 	}
 

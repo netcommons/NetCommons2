@@ -15,6 +15,7 @@ class Circular_Action_Main_Postscript_Mail extends Action
 	// リクエストパラメータを受け取るため
 	var $block_id = null;
 	var $circular_id = null;
+	var $mail_subject = null;
 	var $mail_body = null;
 
 	// 使用コンポーネントを受け取るため
@@ -33,7 +34,7 @@ class Circular_Action_Main_Postscript_Mail extends Action
 			return "success";
 		}
 
-		$this->mailMain->setSubject(CIRCULAR_MAIL_SUBJECT);
+		$this->mailMain->setSubject($this->mail_subject);
 		$this->mailMain->setBody($this->mail_body);
 
 		$circularInfo = $this->circularView->getCircularInfo($this->circular_id);
@@ -48,7 +49,7 @@ class Circular_Action_Main_Postscript_Mail extends Action
 
 		$tags['X-CIRCULAR_SUBJECT'] = htmlspecialchars($circularInfo['circular_subject']);
 		$tags['X-CIRCULAR_BODY'] = $circularInfo['circular_body'];
-		$tags['X-POSTSCRIPT_BODY'] = htmlspecialchars($sendPostscript['postscript_value']);
+		$tags['X-POSTSCRIPT_BODY'] = $sendPostscript['postscript_value'];
 		$tags['X-POSTSCRIPT_DATE'] = timezone_date($sendPostscript['insert_time'], false, _FULL_DATE_FORMAT);
 		$tags['X-CIRCULAR_URL'] = BASE_URL. INDEX_FILE_NAME .
 									'?action=' . DEFAULT_ACTION .

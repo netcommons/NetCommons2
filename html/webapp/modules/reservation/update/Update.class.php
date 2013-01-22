@@ -16,6 +16,15 @@ class Reservation_Update extends Action
 
 	function execute()
 	{
+		$adodb = $this->db->getAdoDbObject();
+		$metaColumns = $adodb->MetaColumns($this->db->getPrefix()."reservation_location");
+		if (!isset($metaColumns["use_auth_flag"]) && !isset($metaColumns["USE_AUTH_FLAG"])) {
+			$sql = "ALTER TABLE `".$this->db->getPrefix()."reservation_location"."` ADD `use_auth_flag` TINYINT unsigned NOT NULL default '0' AFTER `use_private_flag` ;";
+			$result = $this->db->execute($sql);
+			if ($result === false) {
+				return false;
+			}
+		}
 		// reservation_blockにindexを追加
 		$sql = "SHOW INDEX FROM `".$this->db->getPrefix()."reservation_block` ;";
 		$results = $this->db->execute($sql);

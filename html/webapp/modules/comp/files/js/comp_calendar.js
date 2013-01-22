@@ -6,17 +6,17 @@ var calendarComp = Array();
     モジュール側のjavascriptクラスから
 	this.calendar = new compCalendar(id, text_el, options);
 	@param string top_id
-	@param text_el or string text_el_id 	
+	@param text_el or string text_el_id
 	       text_elの後ろにカレンダーアイコンを挿入する
     @param object options
     	onClickCallback   日付選択時コールバック関数
     	parentFrame       text_elがあるFrame(default:document)
     	designatedDate    日付指定（20070101のように指定）
     				      日付指定されていれば、テキストエリアの日付に有無にかかわらず優先される
-    	calendarImgPath   カレンダーImgPath(themes/images/icons）  
-    	calendarColorDir  カレンダーColorDir(default）  
+    	calendarImgPath   カレンダーImgPath(themes/images/icons）
+    	calendarColorDir  カレンダーColorDir(default）
     	calendarImg       テキスト横につくカレンダーアイコンimage(style/images/icons/下)
-    	calendarThemeDir  カレンダーCSSの定義ファイルDir(htdocs/css/comp/XXX/comp_calendar.css) default: default 	
+    	calendarThemeDir  カレンダーCSSの定義ファイルDir(htdocs/css/comp/XXX/comp_calendar.css) default: default
 */
 compCalendar.prototype = {
 	initialize: function(id, text_el, options) {
@@ -24,7 +24,7 @@ compCalendar.prototype = {
 		this.popup = null;
 		this.text_el = null;
 		this.calendarIcon_el = null;
-		
+
 		this.options = {
 				onClickCallback:       null,
 				parentFrame:           "",
@@ -38,26 +38,26 @@ compCalendar.prototype = {
 				calendarThemeDir:      "default"
 		};
 		Object.extend(this.options, options || {});
-		
+
 		// private
 		this.date = null;
-		
+
 		this.todayYear = null;
 		this.todayMonth = null;
 		this.todayDay = null;
-		
+
 		this.selectedYear = null;
 		this.selectedMonth = null;
 		this.selectedDay = null;
-		
+
 		this.currentYear = null;
 		this.currentMonth = null;
 		this.currentDay = null;
 		this.currentDate = null;
 		this.setDesignatedDateFlag = false;
-		
+
 		this.Mdays = {"01":"31", "02":"28", "03":"31", "04":"30", "05":"31", "06":"30", "07":"31", "08":"31", "09":"30", "10":"31", "11":"30", "12":"31"};
-		
+
 		// １ブロック内に複数、カレンダーコンポーネントを張ってあった場合の対応
 		var key = id;
 		var count = 1;
@@ -67,9 +67,9 @@ compCalendar.prototype = {
   		}
   		calendarComp[key] = this;
   		this.key = key;
-		
+
 		////calendarComp[id + this.calendar_classname] = this;
-		
+
 		this._showCalendarImg(text_el);
 	},
 	//------------------------------
@@ -86,7 +86,7 @@ compCalendar.prototype = {
 		this.currentMonth = yyyymmdd.substr(4, 2);
 		this.currentDay = yyyymmdd.substr(6, 2);
 		this.currentDate = yyyymmdd;
-		
+
 		var popup_el = this.popup.getPopupElement();
 		popup_el.contentWindow.document.body.innerHTML = this._render();
 		this.popup.resize();
@@ -127,7 +127,7 @@ compCalendar.prototype = {
 	//------------------------------
 	// カレンダーボタン表示処理
 	//------------------------------
-	_showCalendarImg: function(text_el) {	
+	_showCalendarImg: function(text_el) {
 		if(typeof text_el == 'string') {
 			if(this.options.parentFrame == "" || this.options.parentFrame == null) {
 				text_el = $(text_el);
@@ -136,17 +136,17 @@ compCalendar.prototype = {
 			}
 		}
 		if(typeof text_el != 'object') return;
-		
+
 		if(this.options.parentFrame == "" || this.options.parentFrame == null) {
 			var calendarA_el = document.createElement("a");
 			var calendarImg_el = document.createElement("img");
 		} else {
 			var calendarA_el = this.options.parentFrame.contentWindow.document.createElement("a");
 			var calendarImg_el = this.options.parentFrame.contentWindow.document.createElement("img");
-		}		
+		}
 		calendarA_el.href = "#";
-		
-		calendarImg_el.src = this.options.calendarImgPath + "/" +  this.options.calendarColorDir + "/" + this.options.calendarImg;	
+
+		calendarImg_el.src = this.options.calendarImgPath + "/" +  this.options.calendarColorDir + "/" + this.options.calendarImg;
 		Element.addClassName(calendarA_el, "comp_calendar_icon");
 		if(text_el.tagName.toLowerCase() == 'input' && text_el.type.toLowerCase() == 'text') {
 			Element.addClassName(text_el, "comp_calendar_text");
@@ -156,13 +156,13 @@ compCalendar.prototype = {
 		text_el.parentNode.insertBefore(calendarA_el, text_el);
 		text_el.parentNode.insertBefore(text_el, calendarA_el);
 		calendarA_el.appendChild(calendarImg_el);
-		
-		Event.observe(calendarA_el, "click", 
+
+		Event.observe(calendarA_el, "click",
 						function(event){
 							this._showCalendar();
 							Event.stop(event);
 						}.bindAsEventListener(this), false, this.id);
-		
+
 		this.text_el = text_el;
 		this.calendarIcon_el = calendarA_el;
 	},
@@ -175,13 +175,13 @@ compCalendar.prototype = {
 		this.todayYear = this._getFormat(this.date.getFullYear());	//文字列変換
 		this.todayMonth = this._getFormat(this.date.getMonth() + 1);
 		this.todayDay = this._getFormat(this.date.getDate());
-		
+
 		if(this.setDesignatedDateFlag == true) {
 			// 初期化
-			this.options.designatedDate = null; 
+			this.options.designatedDate = null;
 			this.setDesignatedDateFlag = false;
 		}
-		
+
 		if((this.options.designatedDate == null || this.options.designatedDate == "") &&
 			this.text_el.tagName.toLowerCase() == 'input' && this.text_el.type.toLowerCase() == 'text') {
 			var sel_date = this.text_el.value;
@@ -197,30 +197,30 @@ compCalendar.prototype = {
 				}
 			}
 		}
-		
+
 		// 指定した日付
 		if(this.options.designatedDate == null || this.options.designatedDate == "") {
 			this.selectedYear = null;
 			this.selectedMonth = null;
 			this.selectedDay = null;
-			
+
 			this.currentYear = this.todayYear;
 			this.currentMonth = this.todayMonth;
 			this.currentDay = "01";
-			
+
 		} else {
 			this.selectedYear = this.options.designatedDate.substr(0, 4);
 			this.selectedMonth = this.options.designatedDate.substr(4, 2);
 			this.selectedDay = this.options.designatedDate.substr(6, 2);
-			
+
 			this.currentYear = this.selectedYear;
 			this.currentMonth = this.selectedMonth;
 			this.currentDay = "01";
 		}
 		this.currentDate = this.currentYear + this.currentMonth + this.currentDay;
-		
+
 		var html = this._render();
-		
+
 		if(!this.popup) {
 			this.popup = new compPopup(this.id,  "compCalendar");
 			var new_dir_name ="/comp/"+this.options.calendarThemeDir+"/comp_calendar.css";
@@ -228,7 +228,7 @@ compCalendar.prototype = {
 			this.popup.addCSSFiles(css_name);
 			this.popup.observer = function(event) {this._popupClose(); }.bind(this);
 			//this.popup.loadObserver = function(event) {
-			//	this.popup.resize(); 
+			//	this.popup.resize();
 			//}.bind(this);
 		}
 		if(this.options.parentFrame) {
@@ -240,7 +240,7 @@ compCalendar.prototype = {
 	},
 	_getNextYear: function(yyyy, mm, dd) {
 		yyyy = valueParseInt(yyyy) + 1;
-		
+
 		// 文字列として連結
 		return this._getFormat(yyyy) + this._getFormat(mm) + this._getFormat(dd);
 	},
@@ -248,7 +248,7 @@ compCalendar.prototype = {
 		yyyy = valueParseInt(yyyy) - 1;
 		if(yyyy < 1900) {
 			yyyy = 1900;
-		}  
+		}
 		// 文字列として連結
 		return this._getFormat(yyyy) + this._getFormat(mm) + this._getFormat(dd);
 	},
@@ -257,7 +257,7 @@ compCalendar.prototype = {
 		if(mm == 13) {
 			mm = 1;
 			yyyy = valueParseInt(yyyy) + 1;
-		}  
+		}
 		// 文字列として連結
 		return this._getFormat(yyyy) + this._getFormat(mm) + this._getFormat(dd);
 	},
@@ -266,7 +266,7 @@ compCalendar.prototype = {
 		if(mm <= 0) {
 			mm = 12;
 			yyyy = valueParseInt(yyyy) - 1;
-		}  
+		}
 		// 文字列として連結
 		return this._getFormat(yyyy) + this._getFormat(mm) + this._getFormat(dd);
 	},
@@ -297,10 +297,10 @@ compCalendar.prototype = {
 		var prev_year = this._getPrevYear(this.currentYear, this.currentMonth, this.currentDay);
 		var next_month = this._getNextDate(this.currentYear, this.currentMonth, this.currentDay);
 		var prev_month = this._getPrevDate(this.currentYear, this.currentMonth, this.currentDay);
-		
+
 		var pre_end_date = this._getMonthDays(prev_month.substr(2, 2), prev_month.substr(4, 2));
 		var end_date = this._getMonthDays(this.currentYear.substr(2, 2), this.currentMonth);
-		
+
 		var start_w = this._getWeekDays(this.currentYear, this.currentMonth, this.currentDay);
 		if(start_w == 0) {
 			if(this.options.pre_show_week != 0) {
@@ -310,12 +310,27 @@ compCalendar.prototype = {
 			}
 		} else {
 			var pre_start_date = pre_end_date - 7*this.options.pre_show_week - (start_w - 1);
-		}	
+		}
 		var loop_week = valueParseInt(Math.ceil((valueParseInt(end_date) + start_w + 7*this.options.pre_show_week + 7*this.options.next_show_week)  / 7));
-		
+
 		var currentMonth = valueParseInt(this.currentMonth);
-		if(currentMonth < 10) currentMonth = "&nbsp;" + currentMonth;
-		var html = 
+		//if(currentMonth < 10) currentMonth = "&nbsp;" + currentMonth;
+		switch (currentMonth) {
+			case 1: currentMonth = compCalendarLang.month_jan; break;
+			case 2: currentMonth = compCalendarLang.month_feb; break;
+			case 3: currentMonth = compCalendarLang.month_mar; break;
+			case 4: currentMonth = compCalendarLang.month_apr; break;
+			case 5: currentMonth = compCalendarLang.month_may; break;
+			case 6: currentMonth = compCalendarLang.month_jun; break;
+			case 7: currentMonth = compCalendarLang.month_jul; break;
+			case 8: currentMonth = compCalendarLang.month_aug; break;
+			case 9: currentMonth = compCalendarLang.month_sep; break;
+			case 10: currentMonth = compCalendarLang.month_oct; break;
+			case 11: currentMonth = compCalendarLang.month_nov; break;
+			case 12: currentMonth = compCalendarLang.month_dec; break;
+			default:
+		}
+		var html =
 		"<table class=\"compcalendar_top\" summary=\"\"><tr><td class=\"compcalendar_top_td\">" +
 			"<table border=\"0\" class=\"compcalendar\" summary=\"" + compCalendarLang.summary + "\">" +
 				"<tr>" +
@@ -324,7 +339,6 @@ compCalendar.prototype = {
 						compCalendarLang.year +
 						"&nbsp;" +
 						currentMonth +
-						compCalendarLang.month +
 					"</td>" +
 				"</tr>" +
 				"<tr class=\"compcalendar_button\">" +
@@ -389,7 +403,7 @@ compCalendar.prototype = {
 						compCalendarLang.week_sat +
 					"</td>" +
 				"</tr>";
-				
+
 				var pre_outside_day = pre_start_date;
 				var current_day = 1;
 				var post_end_date = 1;
@@ -445,7 +459,7 @@ compCalendar.prototype = {
 				}
 			html += "</table>" +
 		"</td></tr></table>";
-		
+
 		return html;
 	},
 	_popupClose: function() {

@@ -79,7 +79,7 @@
 			</a>
 		</div>
 	<{/if}>
-	<a data-role="button" data-icon="alert" href="#" onclick="location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=pages_view_main&amp;pcviewer_flag=<{$smarty.const._ON}>';return false;">
+	<a data-role="button" data-icon="alert" href="#" onclick="if (confirm('<{$lang._confirm_pc_view}>')) location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=pages_view_main&amp;pcviewer_flag=<{$smarty.const._ON}>';">
 		<img src="<{""|get_image_url}>/images/comp/textarea/titleicon/icon-pc.gif" alt="<{$lang._pc_viewer}>" title="<{$lang._pc_viewer}>" />
 	</a>
 </div>

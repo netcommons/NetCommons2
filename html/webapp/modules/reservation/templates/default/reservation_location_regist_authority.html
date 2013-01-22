@@ -7,24 +7,43 @@
 </th>
 <td class="nowrap">
 	<label class="disable_lbl" for="add_authority<{$smarty.const._AUTH_CHIEF}><{$id}>">
- 		<input type="checkbox" disabled="disabled" checked="checked" />
- 		<input type="hidden" name="add_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
+		<input type="checkbox" disabled="disabled" checked="checked" />
+		<input type="hidden" name="add_authority[<{$smarty.const._AUTH_CHIEF}>]" value="<{$smarty.const._ON}>" />
 		<{$smarty.const._AUTH_CHIEF_NAME}>
 	</label>
- 		&nbsp;
- 		&nbsp;
- 		&nbsp;
-		<label for="add_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
- 		<input id="add_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	<label for="add_authority<{$smarty.const._AUTH_MODERATE}><{$id}>">
+		<input id="add_authority<{$smarty.const._AUTH_MODERATE}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_MODERATE}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
 		<{$smarty.const._AUTH_MODERATE_NAME}>
 	</label>
- 		&nbsp;
- 		&nbsp;
- 		&nbsp;
-		<label for="add_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
+	&nbsp;
+	&nbsp;
+	&nbsp;
+	<label for="add_authority<{$smarty.const._AUTH_GENERAL}><{$id}>">
 		<input id="add_authority<{$smarty.const._AUTH_GENERAL}><{$id}>" type="checkbox" name="add_authority[<{$smarty.const._AUTH_GENERAL}>]" value="<{$smarty.const._ON}>" onclick="commonCls.changeAuthority(this, '<{$id}>');" />
 		<{$smarty.const._AUTH_GENERAL_NAME}>
 	</label>
+	<br />
+	<label for="use_private_flag<{$id}>">
+		<input id="use_private_flag<{$id}>" type="checkbox" name="use_private_flag" value="<{$smarty.const._ON}>"<{if ($location.use_private_flag == _ON) }> checked="checked"<{/if}> onchange="commonCls.displayChange($('reservation_use_auth<{$id}>')); return false;" />
+		<{$lang.reservation_use_private_flag|smarty:nodefaults}>
+	</label>
+	<div id="reservation_use_auth<{$id}>" class="reservation_use_auth<{if ($location.use_private_flag != _ON) }> display-none<{/if}>">
+		<div class="reservation_use_private_desc">
+			<{$lang.reservation_use_private_desc|smarty:nodefaults}>
+		</div>
+		<label for="reservation_use_auth_user<{$id}>">
+			<input id="reservation_use_auth_user<{$id}>" type="radio" name="use_auth_flag" value="<{$smarty.const.RESERVATION_USE_AUTH_USER}>"<{if ($location.use_auth_flag == "" || $location.use_auth_flag == $smarty.const.RESERVATION_USE_AUTH_USER) }> checked="checked"<{/if}> />
+			<{$lang.reservation_use_auth_user|smarty:nodefaults}>
+		</label>
+		<br />
+		<label for="reservation_use_auth_room<{$id}>">
+			<input id="reservation_use_auth_room<{$id}>" type="radio" name="use_auth_flag" value="<{$smarty.const.RESERVATION_USE_AUTH_ROOM}>"<{if ($location.use_auth_flag == $smarty.const.RESERVATION_USE_AUTH_ROOM) }> checked="checked"<{/if}> />
+			<{$lang.reservation_use_auth_room|smarty:nodefaults}>
+		</label>
+	</div>
 </td>
 
 <{/strip}>

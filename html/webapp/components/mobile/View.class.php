@@ -88,6 +88,8 @@ class Mobile_View
 	{
 		$result = array();
 		$i = 0;
+		$this->_session->setParameter('mobileDisplayTextHtml', _OFF);
+		$isSmartphone = $this->_session->getParameter('_smartphone_flag');
 		while ($row = $recordSet->fetchRow()) {
 			if( !is_null( $row['display_position'] ) && $row['display_position'] != _DISPLAY_POSITION_CENTER ) {
 				continue;
@@ -97,6 +99,13 @@ class Mobile_View
 				$pathList = explode("_", $row["mobile_action_name"]);
 				$row["dir_name"] = $pathList[0];
 				$row["module_name"] = $this->_modulesView->loadModuleName($row["dir_name"]);
+			}
+
+			if (!$isSmartphone
+					&& !empty($row['module_id'])
+					&& empty($row['block_name'])
+					&& !empty($row['content'])) {
+				$this->_session->setParameter('mobileDisplayTextHtml', _ON);
 			}
 
 			$result[ $row['parent_id'] ][ $row['block_id'] ] = $row;
@@ -493,7 +502,7 @@ class Mobile_View
 						}
 						foreach ($mobileModuleChecks as $childPage) {
 							if ($childPage['mobileModule']
-									|| $childPage['visible']) {
+									&& $childPage['visible']) {
 								$pageTree[$parentID][$mobileModuleCheckParentId]['mobileModule'] = true;
 								break;
 							}

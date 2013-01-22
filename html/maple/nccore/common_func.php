@@ -198,6 +198,15 @@ function wysiwig_convert_url($str) {
 	} else {
 		$str = preg_replace("/".sprintf(_WYSIWYG_CONVERT_OUTER, 'BASE_URL')."/iu", BASE_URL, $str);
 	}
+
+	$container =& DIContainerFactory::getContainer();
+	$session =& $container->getComponent('Session');
+	$isSmartphone = $session->getParameter('_smartphone_flag');
+	if ($isSmartphone) {
+		$str = preg_replace('/(<a.*href=(["\'])#\\2)(.*>)/iU', '\\1 onclick="$.mobile.silentScroll(0);"\\3', $str);
+		$str = preg_replace('/(<a.*href=(["\']))(.*)#\S+(\\2.*>)/iU', '\\1\\3\\4', $str);
+	}
+
 	return $str;
 }
 

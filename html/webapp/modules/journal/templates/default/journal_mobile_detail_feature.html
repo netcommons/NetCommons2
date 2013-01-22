@@ -54,7 +54,7 @@
 		<{/if}>
 
 		<{if ($action.journal_obj.comment_flag == $smarty.const._ON) }>
-			<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;comment_flag=<{$smarty.const._ON}><{$session_param}>">
+			<a href="?action=journal_view_main_detail&amp;block_id=<{$block_id}>&amp;p_id=<{$action.post.post_id}>&amp;mobile_comment_flag=<{$smarty.const._ON}><{$session_param}>">
 				<{$lang.journal_comment|smarty:nodefaults}>(<{$action.post.comment_count}>)
 			</a>
 		<{/if}>

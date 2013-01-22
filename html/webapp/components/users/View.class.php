@@ -1075,5 +1075,56 @@ class Users_View
 		// 不参加者を返す
 		return $absence_users;
 	}
+
+	/**
+	 * メールアドレスからユーザーIDを取得する
+	 *
+	 * @param string $mail メールアドレス
+	 * @param boolean $isActive 利用可能ユーザー対象フラグ
+	 * @return ユーザーID
+	 * @access private
+	 */
+	function &getUserIdByMail($mail, $isActive = false) {
+		$userId = null;
+		if (empty($mail)) {
+			return $userId;
+		}
+
+		$sql = "SELECT UI.user_id "
+			. "FROM {items} I "
+			. "INNER JOIN {users_items_link} UI "
+				. "ON I.item_id = UI.item_id ";
+
+		if ($isActive) {
+			$sql .= "INNER JOIN {users} U "
+					. "ON UI.user_id = U.user_id ";
+		}
+
+		$sql .= "WHERE (I.type = ? "
+					. "OR I.type = ?) "
+				. "AND UI.content = ? ";
+
+		$bindValues = array(
+			USER_TYPE_EMAIL,
+			USER_TYPE_MOBILE_EMAIL,
+			$mail
+		);
+
+		if ($isActive) {
+			$sql .= "AND U.active_flag = ? ";
+			$bindValues[] = _USER_ACTIVE_FLAG_ON;
+		}
+
+		$users = $this->_db->execute($sql, $bindValues);
+		if ($users === false) {
+			$this->_db->addError();
+		}
+
+		if (!empty($users)) {
+			$userId = $users[0]['user_id'];
+		}
+
+		return $userId;
+	}
 }
 ?>

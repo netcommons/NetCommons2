@@ -61,8 +61,6 @@ class Photoalbum_View_Mobile_List extends Action
 		if ($pageCount > 1) {
 			if ($this->pageNumber === null && $this->session->getParameter('photoalbum_photolist_page_number'. $this->block_id) !== null) {
 				$this->pageNumber = $this->session->getParameter('photoalbum_photolist_page_number'. $this->block_id);
-			} else {
-				$this->pageNumber = intval($this->pageNumber);
 			}
 			$this->pageNumber = intval($this->pageNumber);
 			$this->session->setParameter('photoalbum_photolist_page_number'. $this->block_id, $this->pageNumber);

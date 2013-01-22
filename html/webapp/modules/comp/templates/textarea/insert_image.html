@@ -60,7 +60,7 @@
 									<option value="absbottom"><{$lang.insert_image_align_absbottom}></option>
 								</select>
 							</fieldset>
-							<fieldset>
+							<fieldset name="size_f" id="size_f">
 								<legend><{$lang.insert_image_size}></legend>
 								<div class="nowrap valign-top">
 									<{$lang.insert_image_width|smarty:nodefaults}>
@@ -72,6 +72,16 @@
 									<input maxlength="4" class="align-right" type="text" name="height" id="f_height" size="5" onkeydown="if(!parent.commonCls.numberCheck(event)){return false;}" onkeyup="parent.commonCls.numberConvert(event);changeAppearance();" onblur="this.onkeyup(event);" title="<{$lang.insert_image_height|smarty:nodefaults}>" />
 									&nbsp;px
 								</div>
+							</fieldset>
+							<fieldset name="resolution_f" id="resolution_f">
+								<legend><{$lang.insert_image_size}></legend>
+								<select size="1" name="resolution" id="resolution" title="<{$lang.insert_image_resolution_input}>">
+									<option value="normal"><{$lang.insert_image_resolution_size_normal}></option>
+									<option value="asis"><{$lang.insert_image_resolution_size_asis}></option>
+									<option value="large"><{$lang.insert_image_resolution_size_large}></option>
+									<option value="middle"><{$lang.insert_image_resolution_size_middle}></option>
+									<option value="small"><{$lang.insert_image_resolution_size_small}></option>
+								</select>
 							</fieldset>
 							<fieldset>
 								<legend><{$lang.insert_image_border}></legend>
@@ -228,6 +238,17 @@ function displayChange(el) {
 }
 
 function changeTabDisplay(tab_name) {
+	<{*// 「大きさ」内容の切り替え *}>
+	var resolution_obj = document.getElementById("resolution_f");
+	var size_obj = document.getElementById("size_f");
+	if(tab_name == "upload_tab") {
+		resolution_obj.style.display = "block";
+		size_obj.style.display = "none";
+	} else {
+		resolution_obj.style.display = "none";
+		size_obj.style.display = "block";
+	}
+
 	g_tab_name = tab_name;
 	<{* 詳細移動 *}>
 	var el =  document.getElementById(tab_name+ "_detail");

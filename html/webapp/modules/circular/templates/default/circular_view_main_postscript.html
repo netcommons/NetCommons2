@@ -5,7 +5,7 @@
 		<input type="hidden" name="circular_id" value="<{$action.circular_id}>" />
 
 		<div>
-			<textarea id="circular_postscript<{$id}>" name="postscript_body"></textarea>
+			<textarea id="circular_postscript<{$id}>" class="comptextarea" name="postscript_body"></textarea>
 		</div>
 		<label for="<{$id}>postscript_mail_flag<{$smarty.const._ON}>">
 			<input id="<{$id}>postscript_mail_flag<{$smarty.const._ON}>" type="radio" name="postscript_mail_flag" value="<{$smarty.const._ON}>" checked="checked" onclick="commonCls.displayVisible($('<{$id}>_circular_postscript_mail_setting'));"/>
@@ -15,10 +15,10 @@
 			<input id="<{$id}>postscript_mail_flag<{$smarty.const._OFF}>" type="radio" name="postscript_mail_flag" value="<{$smarty.const._OFF}>" onclick="commonCls.displayNone($('<{$id}>_circular_postscript_mail_setting'));"/>
 			<{$lang.circular_mail_notice_no|smarty:nodefaults}>
 		</label>
-		<div id="<{$id}>_circular_postscript_mail_setting">
-			<label>
-				<textarea name="postscript_mail_body"><{$lang.circular_postscript_mail_body|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}></textarea>
-			</label>
+		<div id="<{$id}>_circular_postscript_mail_setting" class="circular_postscript_mail">
+			<input type="text" name="postscript_mail_subject" value="<{$lang.circular_postscript_mail_subject|smarty:nodefaults}>">
+			<br />
+			<textarea name="postscript_mail_body"><{$lang.circular_postscript_mail_body|smarty:nodefaults|regex_replace:"/<br \/>/":"\n"}></textarea>
 			<div class="note">
 				<{$lang.circular_postscript_setting_note|smarty:nodefaults}>
 			</div>
@@ -31,6 +31,7 @@
 </div>
 <{include file="../circular_script.html"}>
 <script class="nc_script" type="text/javascript">
+	circularCls["<{$id}>"].wysiwygInit();
 	commonCls.focus($("circular_postscript<{$id}>"));
 </script>
 <{/strip}>

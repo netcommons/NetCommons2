@@ -50,10 +50,10 @@
 					<{$lang.linklist_target_blank_flag_on|smarty:nodefaults}>
 				</label>
 			</td>
-	    </tr>
+		</tr>
 
-	    <tr class="row">
-	    	<th class="nowrap" scope="row">
+		<tr class="row">
+			<th class="nowrap" scope="row">
 				<label for="linklist_view_count_flag<{$id}>">
 					<{$lang.linklist_view_count_flag|smarty:nodefaults}>
 				</label>
@@ -65,9 +65,9 @@
 					<{$lang.linklist_view_count_flag_on|smarty:nodefaults}>
 				</label>
 			</td>
-	    </tr>
+		</tr>
 
-	    <{* TODO:タブで次のエレメント、PgUp,PgDnで選択できるように修正すること *}>
+		<{* TODO:タブで次のエレメント、PgUp,PgDnで選択できるように修正すること *}>
 		<tr class="row">
 			<th class="nowrap" scope="row">
 				<label for="linklist_line<{$id}>">
@@ -144,6 +144,7 @@
 <script class="nc_script" type="text/javascript">
 	<{if $action.linklist.display == LINKLIST_DISPLAY_DROPDOWN}>
 		$("linklist_display_dropdown<{$id}>").checked = true;
+		linklistCls["<{$id}>"].selectDisplayDropdown();
 	<{else}>
 		$("linklist_display_list<{$id}>").checked = true;
 	<{/if}>
@@ -164,7 +165,7 @@
 
 	Element.addClassName($("<{$mark_highlight}>"), "highlight");
 	$("linklist_mark<{$id}>").scrollTop = $("<{$mark_highlight}>").offsetTop;
-	
+
 	commonCls.focus($("linklist_display_dropdown<{$id}>"));
 </script>
 <{/strip}>

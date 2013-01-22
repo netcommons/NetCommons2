@@ -170,7 +170,7 @@ class Linklist_Components_View
 	function &_getMarkStyle($mark)
 	{
         if(preg_match("/[.gif|.jpg|.png|bmp]$/i", $mark)) {
-        	$style = "list-style-image:url('".CORE_BASE_URL."/images/common/mark/". $mark. "');";
+        	$style = "list-style-image:url('".get_image_url()."/images/common/mark/". $mark. "');";
         } else {
         	$style = "list-style-type:". $mark. ";";
         }

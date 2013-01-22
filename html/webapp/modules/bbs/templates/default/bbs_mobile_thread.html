@@ -8,6 +8,9 @@
 <dl style="margin-top:0.3em;padding-left:1em;">
 	<{foreach from=$parents|smarty:nodefaults key=postID item=post}>
 		<dt style="margin-top:0.3em">
+			<{if $smarty.session._smartphone_flag != _ON}>
+				<{"&nbsp;"|str_repeat:$depth}>
+			<{/if}>
 			<{include file = "bbs_mobile_subject.html"  display_type="list"}>
 		</dt>
 

@@ -14,6 +14,23 @@
 <{/if}>
 <br />
 
+<{if $smarty.session.mobileDisplayTextHtml == _ON}>
+	<div style="text-align:right;">
+		<h6>
+			<{if $action.html_flag == _ON}>
+				<a href="?action=menu_view_mobile_detail&amp;page_id=<{$page_id}>&amp;html_flag=<{$smarty.const._OFF}><{$session_param}>">
+					<{$lang._mobile_view_text|smarty:nodefaults}>
+				</a>
+			<{else}>
+				<a href="?action=menu_view_mobile_detail&amp;page_id=<{$page_id}>&amp;html_flag=<{$smarty.const._ON}><{$session_param}>">
+					<{$lang._mobile_view_html|smarty:nodefaults}>
+				</a>
+			<{/if}>
+		</h6>
+	</div>
+	<br />
+<{/if}>
+
 <{if ( $action.page_id == $action.room_id && $action.each_room_flag == _ON ) }>
 	<div>
 		<{if !empty($action.pageTree|smarty:nodefaults)}>
@@ -40,7 +57,6 @@
 	</div>
 <{/if}>
 
-<br />
 <div style="text-align:right;">
 	<{if $action.each_room_flag==_ON && $action.room_id != $action.page_id }>
 		<a href="?action=menu_action_mobile_init<{$action.return_param}><{$session_param}>">

@@ -36,7 +36,6 @@ class Reservation_View_Main_Reserve_Modify extends Action
 
     // 値をセットするため
 	var $edit_rrule = null;
-	var $private_space = null;
 	var $reserve_room_id = null;
 	var $week_list = null;
 	var $timezone_list = null;
@@ -51,9 +50,6 @@ class Reservation_View_Main_Reserve_Modify extends Action
      */
     function execute()
     {
-		if ($this->location["hasPrivateAddReserve"] == _ON) {
-			$this->private_space = _ON;
-		}
 		$this->reserve_room_id = $this->reserve["room_id"];
 
 		$this->week_list = $this->reservationView->getLocationWeekArray();

@@ -17,32 +17,32 @@
 class Backup_Action_Main_Restoreresult extends Action
 {
 	//
-    // リクエストパラメータを受け取るため
-    //
-    var $upload_id = null;
-    var $backup_page_id = null;
-    var $module_id = null;
+	// リクエストパラメータを受け取るため
+	//
+	var $upload_id = null;
+	var $backup_page_id = null;
+	var $module_id = null;
 
-    // 状態　(restore_type != "top")
-    // バブリックのTop or　プライベートのTopならば、必ず公開
-    var $display_flag = null;
+	// 状態　(restore_type != "top")
+	// バブリックのTop or　プライベートのTopならば、必ず公開
+	var $display_flag = null;
 
-    // バックアップされた会員を参加させる（restore_type != "top" && restore_type != "subgroup"）
-    // サブグループならば、必ず初期化
-    // パブリックスペース、プライベートスペースならば、参加者は変更しない
-    //			パブリックスペース内のルームについては、初期化する
-    var $entry_user = null;
+	// バックアップされた会員を参加させる（restore_type != "top" && restore_type != "subgroup"）
+	// サブグループならば、必ず初期化
+	// パブリックスペース、プライベートスペースならば、参加者は変更しない
+	//			パブリックスペース内のルームについては、初期化する
+	var $entry_user = null;
 
-    // サブグループならばリストア位置を変更できる(restore_type == "subgroup")
-    var $regist_location = null;
+	// サブグループならばリストア位置を変更できる(restore_type == "subgroup")
+	var $regist_location = null;
 
-    // リストアするモジュール
-    var $entry_modules = null;
+	// リストアするモジュール
+	var $entry_modules = null;
 
-    // 使用コンポーネントを受け取るため
-    var $backupRestore = null;
-    var $fileAction = null;
-    var $pagesView = null;
+	// 使用コンポーネントを受け取るため
+	var $backupRestore = null;
+	var $fileAction = null;
+	var $pagesView = null;
 	var $configView = null;
 	var $db = null;
 	var $usersView = null;
@@ -54,71 +54,71 @@ class Backup_Action_Main_Restoreresult extends Action
 	//var $room_arr_flat = null;
 
 
-    // 値をセットするため
-    var $transfer_id_arr = array();
-    var $del_physical_file_name_arr = array();
-    var $temporary_file_path = "";
+	// 値をセットするため
+	var $transfer_id_arr = array();
+	var $del_physical_file_name_arr = array();
+	var $temporary_file_path = "";
 
-    var $_self_flag = false;
+	var $_self_flag = false;
 
-    // 手動ロールバックは、メモリが大量に使う可能性があるため、別ファイルに吐き出すほうがよい
-    var $deleteParams = array();	// 手動ロールバック用
-    var $insertParams = array();	// 手動ロールバック用
-    var $uploadParams = array();	// 手動ロールバック用
-    var $uploadWhereParams = array();	// 手動ロールバック用
-    var $selectParams = array();	// 手動ロールバック用
+	// 手動ロールバックは、メモリが大量に使う可能性があるため、別ファイルに吐き出すほうがよい
+	var $deleteParams = array();	// 手動ロールバック用
+	var $insertParams = array();	// 手動ロールバック用
+	var $uploadParams = array();	// 手動ロールバック用
+	var $uploadWhereParams = array();	// 手動ロールバック用
+	var $selectParams = array();	// 手動ロールバック用
 
-    /**
-     * バックアップファイル-リストア処理(実行)
-     *
-     * @access  public
-     */
-    function execute()
-    {
-    	$temporary_file_path = FILEUPLOADS_DIR."backup/".BACKUP_TEMPORARY_DIR_NAME."/".BACKUP_RESTORE_DIR_NAME."/" . $this->backup_page_id. "/";
+	/**
+	 * バックアップファイル-リストア処理(実行)
+	 *
+	 * @access  public
+	 */
+	function execute()
+	{
+		$temporary_file_path = FILEUPLOADS_DIR."backup/".BACKUP_TEMPORARY_DIR_NAME."/".BACKUP_RESTORE_DIR_NAME."/" . $this->backup_page_id. "/";
 		$this->backupRestore->mkdirTemporary(BACKUP_RESTORE_DIR_NAME);
-    	$ret = $this->backupRestore->getRestoreArray($this->upload_id, $this->backup_page_id, $this->module_id, $temporary_file_path);
+		$ret = $this->backupRestore->getRestoreArray($this->upload_id, $this->backup_page_id, $this->module_id, $temporary_file_path);
 
-    	if($ret === false) {
-    		return 'error';
-    	}
-    	$backup_uploads = $this->db->selectExecute("backup_uploads", array("upload_id" => $this->upload_id));
-    	if($backup_uploads === false && !isset($backup_uploads[0])) {
-    		return 'error';
-    	}
-    	$this->temporary_file_path = $temporary_file_path;
+		if($ret === false) {
+			return 'error';
+		}
+		$backup_uploads = $this->db->selectExecute("backup_uploads", array("upload_id" => $this->upload_id));
+		if($backup_uploads === false && !isset($backup_uploads[0])) {
+			return 'error';
+		}
+		$this->temporary_file_path = $temporary_file_path;
 
-    	list($room_inf, $restore_modules, $version_arr, $modules) = $ret;
+		list($room_inf, $restore_modules, $version_arr, $modules) = $ret;
 
-    	$restore_data = $this->backupRestore->getRoomArray();
+		$restore_data = $this->backupRestore->getRoomArray();
 
-    	$restore_type = $restore_modules["system"]['restore_type'];
-    	if(!isset($restore_data['system']['room'])) {
-    		// 現状、未処理
-    		$this->fileAction->delDir($this->temporary_file_path);
-    		return 'error';
-    	}
-    	$this->_self_flag = $restore_modules["system"]['self_flag'];
+		$restore_type = $restore_modules["system"]['restore_type'];
+		if(!isset($restore_data['system']['room'])) {
+			// 現状、未処理
+			$this->fileAction->delDir($this->temporary_file_path);
+			return 'error';
+		}
+		$this->_self_flag = $restore_modules["system"]['self_flag'];
 
 
-    	//--------------------------------------------------
-    	// システム関連テーブルリストア
-    	// - PKを振りなおす -
-    	// XMLは、改竄されていないとして処理（電子認証）
-    	//--------------------------------------------------
-    	$pages_buf = array();
-    	$page_id_arr = array();
-    	$pages_users_link_room_id = array();
-    	$normal_block_col_arr = array();
-    	$err_block_row_arr = array();
-    	$upload_id_arr = array();
-    	$physical_file_name_arr = array();
-    	$this->del_physical_file_name_arr = array();
-    	//$insert_blocks = array();
-    	$login_user_id = $this->session->getParameter("_user_id");
+		//--------------------------------------------------
+		// システム関連テーブルリストア
+		// - PKを振りなおす -
+		// XMLは、改竄されていないとして処理（電子認証）
+		//--------------------------------------------------
+		$pages_buf = array();
+		$page_id_arr = array();
+		$pages_users_link_room_id = array();
+		$normal_block_col_arr = array();
+		$err_block_row_arr = array();
+		$upload_id_arr = array();
+		$physical_file_name_arr = array();
+		$this->del_physical_file_name_arr = array();
+		//$insert_blocks = array();
+		$login_user_id = $this->session->getParameter("_user_id");
 
-    	// room_idで削除できる項目は、はじめに削除
-    	if($restore_type == "top") {
+		// room_idで削除できる項目は、はじめに削除
+		if($restore_type == "top") {
 			// Topのものは置き換える対象なので
 			// 現在のものを削除する
 			// RollBackのため、SelectしてDelete
@@ -131,10 +131,10 @@ class Backup_Action_Main_Restoreresult extends Action
 					$top_page = $this->pagesView->getPrivateSpaceByUserId($login_user_id, 0, 0, false);
 					if($top_page === false) return 'error';
 					if($room_inf['default_entry_flag'] == _ON && isset($top_page[1])) {
-			    		$index_count = 1;
-			    	} else {
-			    		$index_count = 0;
-			    	}
+						$index_count = 1;
+					} else {
+						$index_count = 0;
+					}
 				} else {
 					// パブリックスペース
 					$where_params = array(
@@ -158,21 +158,21 @@ class Backup_Action_Main_Restoreresult extends Action
 			}
 		}
 
-    	//$adodb = $this->db->getAdoDbObject();
-    	foreach($restore_data['system']['room'] as $room_id => $restore_table_arr) {
-    		//
-    		// room_id毎にリストアしていく
-    		//
-    		foreach($restore_table_arr as $table_name => $rec_sets) {
-    			foreach($rec_sets as $rec_set) {
-	    			if($restore_type == "top" && !$this->_self_flag) {
-	    				if(isset($rec_set['page_id']) && $rec_set['page_id'] == $pre_top_page_id) {
-	    					$rec_set['page_id'] = $room_inf['page_id'];
-	    				}
-	    				if(isset($rec_set['room_id']) && $rec_set['room_id'] == $pre_top_room_id) {
-	    					$rec_set['room_id'] = $room_inf['room_id'];
-	    				}
-	    			}
+		//$adodb = $this->db->getAdoDbObject();
+		foreach($restore_data['system']['room'] as $room_id => $restore_table_arr) {
+			//
+			// room_id毎にリストアしていく
+			//
+			foreach($restore_table_arr as $table_name => $rec_sets) {
+				foreach($rec_sets as $rec_set) {
+					if($restore_type == "top" && !$this->_self_flag) {
+						if(isset($rec_set['page_id']) && $rec_set['page_id'] == $pre_top_page_id) {
+							$rec_set['page_id'] = $room_inf['page_id'];
+						}
+						if(isset($rec_set['room_id']) && $rec_set['room_id'] == $pre_top_room_id) {
+							$rec_set['room_id'] = $room_inf['room_id'];
+						}
+					}
 					if ($restore_type == "top" && $room_inf['private_flag'] == _ON) {
 						if (isset($rec_set['insert_site_id'])) {
 							$rec_set['insert_site_id'] = $this->session->getParameter("_site_id");
@@ -188,152 +188,152 @@ class Backup_Action_Main_Restoreresult extends Action
 						}
 					}
 
-	    			if($table_name == "pages") {
-	    				//-------------------------------------------------------------------------
-	    				// ページテーブル
-	    				//-------------------------------------------------------------------------
-	    				$prev_page_id = $rec_set['page_id'];
-	    				$prev_thread_num = $rec_set['thread_num'];
-	    				if($restore_type == "top" && $rec_set['thread_num'] == 0) {
-	    					// パブリックスペース、プライベートスペースならば、ID変更なし
-	    					// Insertも行わない
-	    					$this->_transferId($table_name, $rec_set, "page_id", null, $rec_set['page_id']);
-	    				} else if($rec_set['display_position'] != _DISPLAY_POSITION_CENTER){
-	    					// 左右カラム、ヘッダー、フッターならばID変更なし
-	    					// Insertも行わない
-	    					$this->_transferId($table_name, $rec_set, "page_id", null, $rec_set['page_id']);
-	    				} else {
-	    					// サブグループならばリストア位置を変更
-	    					if($this->regist_location != null && $restore_type  == "subgroup") {
-    							$restore_page = $this->pagesView->getPageById(intval($this->regist_location));
-    							if($restore_page === false || !isset($restore_page['page_id'])) {
-    								$this->_rollBack();
-					       			return 'error';
-    							}
-    							if((($this->backup_page_id == 0 && $backup_uploads[0]['thread_num'] == $prev_thread_num) || $this->backup_page_id == $prev_page_id) &&
-    								$restore_page['authority_id'] >= _AUTH_CHIEF && $restore_page['createroom_flag'] == _ON) {
-    								// リストアOKなルームID
-    								$rec_set['parent_id'] = intval($this->regist_location);
-    							}
-    						}
+					if($table_name == "pages") {
+						//-------------------------------------------------------------------------
+						// ページテーブル
+						//-------------------------------------------------------------------------
+						$prev_page_id = $rec_set['page_id'];
+						$prev_thread_num = $rec_set['thread_num'];
+						if($restore_type == "top" && $rec_set['thread_num'] == 0) {
+							// パブリックスペース、プライベートスペースならば、ID変更なし
+							// Insertも行わない
+							$this->_transferId($table_name, $rec_set, "page_id", null, $rec_set['page_id']);
+						} else if($rec_set['display_position'] != _DISPLAY_POSITION_CENTER){
+							// 左右カラム、ヘッダー、フッターならばID変更なし
+							// Insertも行わない
+							$this->_transferId($table_name, $rec_set, "page_id", null, $rec_set['page_id']);
+						} else {
+							// サブグループならばリストア位置を変更
+							if($this->regist_location != null && $restore_type  == "subgroup") {
+								$restore_page = $this->pagesView->getPageById(intval($this->regist_location));
+								if($restore_page === false || !isset($restore_page['page_id'])) {
+									$this->_rollBack();
+									return 'error';
+								}
+								if((($this->backup_page_id == 0 && $backup_uploads[0]['thread_num'] == $prev_thread_num) || $this->backup_page_id == $prev_page_id) &&
+									$restore_page['authority_id'] >= _AUTH_CHIEF && $restore_page['createroom_flag'] == _ON) {
+									// リストアOKなルームID
+									$rec_set['parent_id'] = intval($this->regist_location);
+								}
+							}
 
-	    					// ページ名称
-	    					if($restore_type != "top" && ($this->backup_page_id == $rec_set['page_id'] || ($this->backup_page_id == 0 && $backup_uploads[0]['thread_num'] == $prev_thread_num))) {
-	    						$rec_set['page_name'] = $room_inf['page_name'];
-	    						$display_sequence = $this->pagesView->getMaxChildPage($rec_set['parent_id'], $rec_set['lang_dirname']);
-	    						$display_sequence = intval($display_sequence) + 1;
-	    						$rec_set['display_sequence'] = $display_sequence;
-	    					}
+							// ページ名称
+							if($restore_type != "top" && ($this->backup_page_id == $rec_set['page_id'] || ($this->backup_page_id == 0 && $backup_uploads[0]['thread_num'] == $prev_thread_num))) {
+								$rec_set['page_name'] = $room_inf['page_name'];
+								$display_sequence = $this->pagesView->getMaxChildPage($rec_set['parent_id'], $rec_set['lang_dirname']);
+								$display_sequence = intval($display_sequence) + 1;
+								$rec_set['display_sequence'] = $display_sequence;
+							}
 
-	    					// page_id振替
-	    					$this->_transferId($table_name, $rec_set, "page_id");
+							// page_id振替
+							$this->_transferId($table_name, $rec_set, "page_id");
 
-	    					//if($restore_type != "top") {
-	    						// room_id振替
-	    						$this->_transferId($table_name, $rec_set, "page_id", "room_id");
-	    					//}
-	    					if(isset($this->transfer_id_arr['page_id'][$rec_set['root_id']])) {
-	    						// root_id振替
-	    						$this->_transferId($table_name, $rec_set, "page_id", "root_id");
-	    					}
-	    					if(isset($this->transfer_id_arr['page_id'][$rec_set['parent_id']])) {
-	    						// parent_id振替
-	    						//if($this->regist_location != null && $restore_type  == "subgroup") {
-	    						//	$this->_transferId($table_name, $rec_set, "page_id", "parent_id", $rec_set['parent_id']);
-	    						//} else {
-		    						$this->_transferId($table_name, $rec_set, "page_id", "parent_id");
-	    						//}
-	    					}
-	    					// display_flagを_PAGES_DISPLAY_FLAG_DISABLEDにしておく
-	    					// TODO:準備中のルームも最終的に公開中にされてしまうが、仕様とする
-	    					if($rec_set['page_id'] == $rec_set['room_id']) {
-	    						$rec_set['display_flag'] = _PAGES_DISPLAY_FLAG_DISABLED;
-	    					} else {
-	    						$rec_set['display_flag'] = _ON;
-	    					}
-	    					$rec_set['site_id'] = $this->session->getParameter("_site_id");
-	    					$result = $this->db->insertExecute($table_name, $rec_set, false);
-				        	if ($result === false) {
-				        		$this->_rollBack();
-					       		return 'error';
+							//if($restore_type != "top") {
+								// room_id振替
+								$this->_transferId($table_name, $rec_set, "page_id", "room_id");
+							//}
+							if(isset($this->transfer_id_arr['page_id'][$rec_set['root_id']])) {
+								// root_id振替
+								$this->_transferId($table_name, $rec_set, "page_id", "root_id");
+							}
+							if(isset($this->transfer_id_arr['page_id'][$rec_set['parent_id']])) {
+								// parent_id振替
+								//if($this->regist_location != null && $restore_type  == "subgroup") {
+								//	$this->_transferId($table_name, $rec_set, "page_id", "parent_id", $rec_set['parent_id']);
+								//} else {
+									$this->_transferId($table_name, $rec_set, "page_id", "parent_id");
+								//}
+							}
+							// display_flagを_PAGES_DISPLAY_FLAG_DISABLEDにしておく
+							// TODO:準備中のルームも最終的に公開中にされてしまうが、仕様とする
+							if($rec_set['page_id'] == $rec_set['room_id']) {
+								$rec_set['display_flag'] = _PAGES_DISPLAY_FLAG_DISABLED;
+							} else {
+								$rec_set['display_flag'] = _ON;
+							}
+							$rec_set['site_id'] = $this->session->getParameter("_site_id");
+							$result = $this->db->insertExecute($table_name, $rec_set, false);
+							if ($result === false) {
+								$this->_rollBack();
+								return 'error';
 							}
 
 							$this->deleteParams[$table_name][] = $rec_set;
-	    				}
-	    				// permalink
-	    				if(($this->backup_page_id == 0 && $backup_uploads[0]['thread_num'] == $prev_thread_num) || $this->backup_page_id == $prev_page_id) {
-    						$pages_permalink = $rec_set;
-    					}
-	    				// Bufferセット
-	    				$page_id_arr[] = $rec_set['page_id'];
-	    				$pages_buf[$rec_set['page_id']] = $rec_set;
-	    			} else if($table_name == "pages_modules_link") {
-	    				//-------------------------------------------------------------------------
-	    				// ページモジュールリンクテーブル
-	    				// module_idからリストア先のmodule_idに変換
-	    				// エラーがあったモジュールはリストアしない
-	    				//-------------------------------------------------------------------------
-	    				if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
-	    					// パブリックスペース、プライベートスペースならば、ID変更なし
-	    					// Insertも行わない
-	    					$this->_transferId($table_name, $rec_set, "page_id", "room_id", $rec_set['room_id']);
-	    				} else {
-		    				// dirname取得
-		    				if(isset($version_arr['__'.$rec_set['module_id']])) {
-		    					$dirname = $version_arr['__'.$rec_set['module_id']];
-			    				if(!isset($restore_modules[$dirname]['error_mes'])) {
-			    					// エラーなし
-			    					// module_id振替
-			    					$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
+						}
+						// permalink
+						if(($this->backup_page_id == 0 && $backup_uploads[0]['thread_num'] == $prev_thread_num) || $this->backup_page_id == $prev_page_id) {
+							$pages_permalink = $rec_set;
+						}
+						// Bufferセット
+						$page_id_arr[] = $rec_set['page_id'];
+						$pages_buf[$rec_set['page_id']] = $rec_set;
+					} else if($table_name == "pages_modules_link") {
+						//-------------------------------------------------------------------------
+						// ページモジュールリンクテーブル
+						// module_idからリストア先のmodule_idに変換
+						// エラーがあったモジュールはリストアしない
+						//-------------------------------------------------------------------------
+						if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
+							// パブリックスペース、プライベートスペースならば、ID変更なし
+							// Insertも行わない
+							$this->_transferId($table_name, $rec_set, "page_id", "room_id", $rec_set['room_id']);
+						} else {
+							// dirname取得
+							if(isset($version_arr['__'.$rec_set['module_id']])) {
+								$dirname = $version_arr['__'.$rec_set['module_id']];
+								if(!isset($restore_modules[$dirname]['error_mes'])) {
+									// エラーなし
+									// module_id振替
+									$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
 
-			    					// room_id振替
-			    					$this->_transferId($table_name, $rec_set, "page_id", "room_id");
+									// room_id振替
+									$this->_transferId($table_name, $rec_set, "page_id", "room_id");
 
-		    						$result = $this->db->insertExecute($table_name, $rec_set, false);
-						        	if ($result === false) {
-						        		$this->_rollBack();
-							       		return 'error';
+									$result = $this->db->insertExecute($table_name, $rec_set, false);
+									if ($result === false) {
+										$this->_rollBack();
+										return 'error';
 									}
 									$this->deleteParams[$table_name][] = $rec_set;
-			    				}
+								}
 
-		    				}
-	    				}
-	    			} else if($table_name == "pages_users_link") {
-	    				//-------------------------------------------------------------------------
-	    				// ページユーザーリンクテーブル
-	    				//
-	    				// バックアップされた会員を参加させる（restore_type != "top" && restore_type != "subgroup"）
-					    // サブグループならば、必ず初期化
-					    // パブリックスペース、プライベートスペースならば、参加者は変更しない
-					    //			パブリックスペース内のルームについては、初期化する
-	    				//-------------------------------------------------------------------------
-	    				if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
-	    					// 参加者情報はリストアしない（現状のまま）
-	    				} else{
-	    					// room_id振替
-		    				$this->_transferId($table_name, $rec_set, "page_id", "room_id");
+							}
+						}
+					} else if($table_name == "pages_users_link") {
+						//-------------------------------------------------------------------------
+						// ページユーザーリンクテーブル
+						//
+						// バックアップされた会員を参加させる（restore_type != "top" && restore_type != "subgroup"）
+						// サブグループならば、必ず初期化
+						// パブリックスペース、プライベートスペースならば、参加者は変更しない
+						//			パブリックスペース内のルームについては、初期化する
+						//-------------------------------------------------------------------------
+						if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
+							// 参加者情報はリストアしない（現状のまま）
+						} else{
+							// room_id振替
+							$this->_transferId($table_name, $rec_set, "page_id", "room_id");
 
-	    					if ($restore_type != "top" && $restore_type != "subgroup" &&  $this->entry_user == _ON &&
-	    						(!isset($admin_users) || !isset($admin_users[$rec_set['user_id']]))) {
+							if ($restore_type != "top" && $restore_type != "subgroup" &&  $this->entry_user == _ON &&
+								(!isset($admin_users) || !isset($admin_users[$rec_set['user_id']]))) {
 								// バックアップされた会員を参加させる
-		    					// 登録されていない会員がいれば、INSERTしない
-		    					$pages_users_link_user = $this->usersView->getUserById($rec_set['user_id']);
-	    						if(isset($pages_users_link_user['user_id'])) {
+								// 登録されていない会員がいれば、INSERTしない
+								$pages_users_link_user = $this->usersView->getUserById($rec_set['user_id']);
+								if(isset($pages_users_link_user['user_id'])) {
 
-	    							$result = $this->db->insertExecute($table_name, $rec_set, false);
-					        		if ($result === false) {
-					        			$this->_rollBack();
-						       			return 'error';
+									$result = $this->db->insertExecute($table_name, $rec_set, false);
+									if ($result === false) {
+										$this->_rollBack();
+										return 'error';
 									}
 									$this->deleteParams[$table_name][] = $rec_set;
-		    					}
-		    				}
+								}
+							}
 
-		    				//
-		    				// リストアを行った会員、管理者は少なくとも参加
-		    				//
-		    				// 管理者一覧取得
+							//
+							// リストアを行った会員、管理者は少なくとも参加
+							//
+							// 管理者一覧取得
 							if(!isset($admin_users)) {
 								if($pages_buf[$rec_set['room_id']]['private_flag'] == _OFF) {
 									// プライベートルームは自分自身のみ
@@ -379,117 +379,117 @@ class Backup_Action_Main_Restoreresult extends Action
 									}
 									$result = $this->db->insertExecute($table_name, $rec_set, false);
 									if ($result === false) {
-						        		$this->_rollBack();
-							       		return 'error';
+										$this->_rollBack();
+										return 'error';
 									}
 									$this->deleteParams[$table_name][] = $rec_set;
 								}
 							}
-	    				}
-	    			} else if($table_name == "pages_meta_inf") {
-	    				//-------------------------------------------------------------------------
-	    				// pages_meta_infテーブル
-	    				//-------------------------------------------------------------------------
-	    				// page_id振替
-	    				$this->_transferId($table_name, $rec_set, "page_id");
+						}
+					} else if($table_name == "pages_meta_inf") {
+						//-------------------------------------------------------------------------
+						// pages_meta_infテーブル
+						//-------------------------------------------------------------------------
+						// page_id振替
+						$this->_transferId($table_name, $rec_set, "page_id");
 
 						$result = $this->db->insertExecute($table_name, $rec_set, false);
-			        	if ($result === false) {
-			        		$this->_rollBack();
-				       		return 'error';
+						if ($result === false) {
+							$this->_rollBack();
+							return 'error';
 						}
 						$this->deleteParams[$table_name][] = $rec_set;
-	    			} else if($table_name == "pages_style") {
-	    				//-------------------------------------------------------------------------
-	    				// ページスタイルテーブル
-	    				// 自サイトでないならば、本テーブルは、デフォルトに強制的に戻す
-	    				// header_flag,leftcolumn_flag等が、権限によっては変更できなくなるおそれがあるため
-	    				// 権限毎で、レイアウトを変更できるかどうかをもっているので
-	    				// レイアウト変更できる権限の場合のみリストアすることも可能だが、現状、しない
-	    				//-------------------------------------------------------------------------
-	    				if($restore_modules["system"]['self_flag']) {
-	    					// set_page_id振替
-	    					$this->_transferId($table_name, $rec_set, "page_id", "set_page_id");
-
-    						$result = $this->db->insertExecute($table_name, $rec_set, false);
-				        	if ($result === false) {
-				        		$this->_rollBack();
-					       		return 'error';
-							}
-							$this->deleteParams[$table_name][] = $rec_set;
-	    				}
-	    			} else if($table_name == "monthly_number") {
-	    				//-------------------------------------------------------------------------
-	    				// 月別一覧テーブル
-	    				//-------------------------------------------------------------------------
-	    				$insert_flag = false;
-
-	    				if($rec_set['module_id'] == 0) {
-	    					// アクセス数等
-	    					$insert_flag = true;
-	    				} else if(isset($version_arr['__'.$rec_set['module_id']])) {
-	    					$dirname = $version_arr['__'.$rec_set['module_id']];
-		    				if(!isset($restore_modules[$dirname]['error_mes'])) {
-		    					// エラーなし
-		    					// module_id振替
-		    					$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
-		    					if(isset($this->entry_modules[$dirname]) &&
-		    						$this->entry_modules[$dirname] == _ON) {
-		    						// リストアするモジュールに含まれている
-		    						$insert_flag = true;
-		    					}
-
-		    				}
-	    				}
-	    				/* ループ前に行うので、ここはコメント　後に削除
-	    				if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
-	    					// Topのものは置き換える対象なので
-	    					// 現在のものを削除する
-	    					// RollBackのため、SelectしてDelete
-	    					$sel_where_params = array(
-	    						"room_id" => $rec_set['room_id']
-	    					);
-	    					//$sel_where_params = array(
-	    					//	"user_id" => $rec_set['user_id'],
-	    					//	"room_id" => $rec_set['room_id'],
-	    					//	"module_id" => $rec_set['module_id']
-	    					//);
-	    					if(!$this->_selectDelete($table_name, $sel_where_params)) {
-	    						return 'error';
-	    					}
-	    				}
-	    				*/
-	    				if($insert_flag == true) {
-		    				// room_id振替
-		    				$this->_transferId($table_name, $rec_set, "page_id", "room_id");
+					} else if($table_name == "pages_style") {
+						//-------------------------------------------------------------------------
+						// ページスタイルテーブル
+						// 自サイトでないならば、本テーブルは、デフォルトに強制的に戻す
+						// header_flag,leftcolumn_flag等が、権限によっては変更できなくなるおそれがあるため
+						// 権限毎で、レイアウトを変更できるかどうかをもっているので
+						// レイアウト変更できる権限の場合のみリストアすることも可能だが、現状、しない
+						//-------------------------------------------------------------------------
+						if($restore_modules["system"]['self_flag']) {
+							// set_page_id振替
+							$this->_transferId($table_name, $rec_set, "page_id", "set_page_id");
 
 							$result = $this->db->insertExecute($table_name, $rec_set, false);
-				        	if ($result === false) {
-				        		$this->_rollBack();
-					       		return 'error';
+							if ($result === false) {
+								$this->_rollBack();
+								return 'error';
 							}
 							$this->deleteParams[$table_name][] = $rec_set;
-	    				}
-	    			} else if($table_name == "blocks") {
-	    				//-------------------------------------------------------------------------
-	    				// ブロックテーブル
-	    				//-------------------------------------------------------------------------
-	    				if($rec_set['module_id'] == 0) {
-	    					// グループ化されたブロック
-	    					// 内部にモジュールがあるかどうかチェック
-	    					// なければリストア対象としない
-	    					if(!isset($normal_block_col_arr[$rec_set['page_id']][$rec_set['block_id']])) {
-	    						$dirname = "";
-	    					} else {
-	    						$dirname = "_grouping";
-	    					}
-	    				} else if(isset($version_arr['__'.$rec_set['module_id']])) {
-	    					$dirname = $version_arr['__'.$rec_set['module_id']];
-	    				} else {
-	    					$dirname = "";
-	    				}
-	    				if(($dirname != "_grouping" &&
-	    					(!isset($this->entry_modules[$dirname]) ||
+						}
+					} else if($table_name == "monthly_number") {
+						//-------------------------------------------------------------------------
+						// 月別一覧テーブル
+						//-------------------------------------------------------------------------
+						$insert_flag = false;
+
+						if($rec_set['module_id'] == 0) {
+							// アクセス数等
+							$insert_flag = true;
+						} else if(isset($version_arr['__'.$rec_set['module_id']])) {
+							$dirname = $version_arr['__'.$rec_set['module_id']];
+							if(!isset($restore_modules[$dirname]['error_mes'])) {
+								// エラーなし
+								// module_id振替
+								$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
+								if(isset($this->entry_modules[$dirname]) &&
+									$this->entry_modules[$dirname] == _ON) {
+									// リストアするモジュールに含まれている
+									$insert_flag = true;
+								}
+
+							}
+						}
+						/* ループ前に行うので、ここはコメント　後に削除
+						if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
+							// Topのものは置き換える対象なので
+							// 現在のものを削除する
+							// RollBackのため、SelectしてDelete
+							$sel_where_params = array(
+								"room_id" => $rec_set['room_id']
+							);
+							//$sel_where_params = array(
+							//	"user_id" => $rec_set['user_id'],
+							//	"room_id" => $rec_set['room_id'],
+							//	"module_id" => $rec_set['module_id']
+							//);
+							if(!$this->_selectDelete($table_name, $sel_where_params)) {
+								return 'error';
+							}
+						}
+						*/
+						if($insert_flag == true) {
+							// room_id振替
+							$this->_transferId($table_name, $rec_set, "page_id", "room_id");
+
+							$result = $this->db->insertExecute($table_name, $rec_set, false);
+							if ($result === false) {
+								$this->_rollBack();
+								return 'error';
+							}
+							$this->deleteParams[$table_name][] = $rec_set;
+						}
+					} else if($table_name == "blocks") {
+						//-------------------------------------------------------------------------
+						// ブロックテーブル
+						//-------------------------------------------------------------------------
+						if($rec_set['module_id'] == 0) {
+							// グループ化されたブロック
+							// 内部にモジュールがあるかどうかチェック
+							// なければリストア対象としない
+							if(!isset($normal_block_col_arr[$rec_set['page_id']][$rec_set['block_id']])) {
+								$dirname = "";
+							} else {
+								$dirname = "_grouping";
+							}
+						} else if(isset($version_arr['__'.$rec_set['module_id']])) {
+							$dirname = $version_arr['__'.$rec_set['module_id']];
+						} else {
+							$dirname = "";
+						}
+						if(($dirname != "_grouping" &&
+							(!isset($this->entry_modules[$dirname]) ||
 							$this->entry_modules[$dirname] == _OFF ||
 							$dirname == "" ||
 							isset($restore_modules[$dirname]['error_mes'])
@@ -500,39 +500,39 @@ class Backup_Action_Main_Restoreresult extends Action
 
 							$err_block_row_arr[$rec_set['page_id']][$rec_set['parent_id']][$rec_set['col_num']][$rec_set['row_num']] = true;
 						} else {
-		    				// エラーなし
-		    				$normal_block_col_arr[$rec_set['page_id']][$rec_set['parent_id']][$rec_set['col_num']] = true;
-		    				// 詰めるかどうかチェック
-		    				if($rec_set['row_num'] > 1 && isset($err_block_row_arr[$rec_set['page_id']][$rec_set['parent_id']])) {
-		    					$set_row_num = $rec_set['row_num'];
-		    					$chk_row_num = intval($set_row_num) - 1;
-			    				while(1) {
-			    					if($chk_row_num == 0) break;
-			    					if(isset($err_block_row_arr[$rec_set['page_id']][$rec_set['parent_id']][$rec_set['col_num']][$chk_row_num])) {
-			    						$set_row_num--;
-			    					}
-			    					$chk_row_num--;
-			    				}
-			    				$rec_set['row_num'] = $set_row_num;
-		    				}
-		    				if($rec_set['col_num'] > 1) {
-		    					$set_col_num = $rec_set['col_num'];
-		    					$chk_col_num = intval($set_col_num) - 1;
-			    				while(1) {
-			    					if($chk_col_num == 0) break;
-			    					if(!isset($normal_block_col_arr[$rec_set['page_id']][$rec_set['parent_id']][$chk_col_num])) {
-			    						$set_col_num--;
-			    					}
-			    					$chk_col_num--;
-			    				}
-			    				$rec_set['col_num'] = $set_col_num;
-		    				}
+							// エラーなし
+							$normal_block_col_arr[$rec_set['page_id']][$rec_set['parent_id']][$rec_set['col_num']] = true;
+							// 詰めるかどうかチェック
+							if($rec_set['row_num'] > 1 && isset($err_block_row_arr[$rec_set['page_id']][$rec_set['parent_id']])) {
+								$set_row_num = $rec_set['row_num'];
+								$chk_row_num = intval($set_row_num) - 1;
+								while(1) {
+									if($chk_row_num == 0) break;
+									if(isset($err_block_row_arr[$rec_set['page_id']][$rec_set['parent_id']][$rec_set['col_num']][$chk_row_num])) {
+										$set_row_num--;
+									}
+									$chk_row_num--;
+								}
+								$rec_set['row_num'] = $set_row_num;
+							}
+							if($rec_set['col_num'] > 1) {
+								$set_col_num = $rec_set['col_num'];
+								$chk_col_num = intval($set_col_num) - 1;
+								while(1) {
+									if($chk_col_num == 0) break;
+									if(!isset($normal_block_col_arr[$rec_set['page_id']][$rec_set['parent_id']][$chk_col_num])) {
+										$set_col_num--;
+									}
+									$chk_col_num--;
+								}
+								$rec_set['col_num'] = $set_col_num;
+							}
 
-		    				// block_id振替
-		    				$this->_transferId($table_name, $rec_set, "block_id");
+							// block_id振替
+							$this->_transferId($table_name, $rec_set, "block_id");
 
-	    					// page_id振替
-	    					$this->_transferId($table_name, $rec_set, "page_id");
+							// page_id振替
+							$this->_transferId($table_name, $rec_set, "page_id");
 
 							// root_id振替
 							if($rec_set['root_id'] != 0) {
@@ -547,53 +547,53 @@ class Backup_Action_Main_Restoreresult extends Action
 								$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
 							}
 							$result = $this->db->insertExecute($table_name, $rec_set, false);
-				        	if ($result === false) {
-				        		$this->_rollBack();
-					       		return 'error';
+							if ($result === false) {
+								$this->_rollBack();
+								return 'error';
 							}
 							$this->deleteParams[$table_name][] = $rec_set;
-		    			}
-	    			} else if($table_name == "uploads") {
-	    				//-------------------------------------------------------------------------
-	    				// アップロードテーブル
-	    				// アップロードする実ファイルは、リストアが完全に終わった後
-	    				// コピー or 削除を行う
-	    				// 現状、アップロードできる拡張子以外のものがあってもリストアしている
-	    				//-------------------------------------------------------------------------
-	    				$insert_flag = false;
+						}
+					} else if($table_name == "uploads") {
+						//-------------------------------------------------------------------------
+						// アップロードテーブル
+						// アップロードする実ファイルは、リストアが完全に終わった後
+						// コピー or 削除を行う
+						// 現状、アップロードできる拡張子以外のものがあってもリストアしている
+						//-------------------------------------------------------------------------
+						$insert_flag = false;
 
-	    				if(isset($version_arr['__'.$rec_set['module_id']])) {
-	    					$dirname = $version_arr['__'.$rec_set['module_id']];
-		    				if(!isset($restore_modules[$dirname]['error_mes'])) {
-		    					// エラーなし
-		    					// module_id振替
-		    					$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
+						if(isset($version_arr['__'.$rec_set['module_id']])) {
+							$dirname = $version_arr['__'.$rec_set['module_id']];
+							if(!isset($restore_modules[$dirname]['error_mes'])) {
+								// エラーなし
+								// module_id振替
+								$this->_transferId($table_name, $rec_set, "module_id", null, $modules[$dirname]['module_id']);
 
-		    					if(isset($this->entry_modules[$dirname]) &&
-		    						$this->entry_modules[$dirname] == _ON) {
-		    						// リストアするモジュールに含まれている
-		    						$insert_flag = true;
-		    					}
-		    				}
-	    				}
-	    				/* ループ前に行うので、ここはコメント　後に削除
-	    				if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
-	    					// Topのものは置き換える対象なので
-	    					// 現在のものを削除する
-	    					// RollBackのため、SelectしてDelete
-	    					$sel_where_params = array(
-	    						"room_id" => $rec_set['room_id']
-	    					);
-	    					if(!$this->_selectDelete($table_name, $sel_where_params)) {
-	    						return 'error';
-	    					}
-	    				}
-	    				*/
-	    				if($insert_flag == true) {
-	    					//$old_upload_id = $rec_set['upload_id'];
-	    					$old_physical_file_name = $rec_set['file_path'] . $rec_set['physical_file_name'];
-		    				// upload_id振替
-		    				$this->_transferId($table_name, $rec_set, "upload_id");
+								if(isset($this->entry_modules[$dirname]) &&
+									$this->entry_modules[$dirname] == _ON) {
+									// リストアするモジュールに含まれている
+									$insert_flag = true;
+								}
+							}
+						}
+						/* ループ前に行うので、ここはコメント　後に削除
+						if($restore_type == "top" && $room_inf['page_id'] == $rec_set['room_id']) {
+							// Topのものは置き換える対象なので
+							// 現在のものを削除する
+							// RollBackのため、SelectしてDelete
+							$sel_where_params = array(
+								"room_id" => $rec_set['room_id']
+							);
+							if(!$this->_selectDelete($table_name, $sel_where_params)) {
+								return 'error';
+							}
+						}
+						*/
+						if($insert_flag == true) {
+							//$old_upload_id = $rec_set['upload_id'];
+							$old_physical_file_name = $rec_set['file_path'] . $rec_set['physical_file_name'];
+							// upload_id振替
+							$this->_transferId($table_name, $rec_set, "upload_id");
 
 							// room_id振替
 							$this->_transferId($table_name, $rec_set, "page_id", "room_id");
@@ -607,22 +607,23 @@ class Backup_Action_Main_Restoreresult extends Action
 
 							// insert
 							$result = $this->db->insertExecute($table_name, $rec_set, false);
-				        	if ($result === false) {
-				        		$this->_rollBack();
-					       		return 'error';
+							if ($result === false) {
+								$this->_rollBack();
+								return 'error';
 							}
-							$this->deleteParams[$table_name][] = $rec_set;
+							$key = $rec_set['upload_id'];
+							$this->deleteParams[$table_name][$key] = $rec_set;
 
 							// upload_id保存
-							$upload_id_arr[$dirname][$rec_set['upload_id']] = $rec_set['unique_id'];
+							$upload_id_arr[$dirname][$key] = $rec_set['unique_id'];
 							$physical_file_name_arr[$old_physical_file_name] = $rec_set['file_path'] . $rec_set['physical_file_name'];
-	    				}
-	    			}
-    			}
-    		}
-    	}
+						}
+					}
+				}
+			}
+		}
 
-    	// permalink
+		// permalink
 		if(isset($pages_permalink)) {
 			$permalink = $pages_permalink['permalink'];
 			$buf_permalink = $permalink;
@@ -649,19 +650,19 @@ class Backup_Action_Main_Restoreresult extends Action
 			}
 		}
 
-    	//--------------------------------------------------
-    	// 一般系テーブルリストア
-    	//--------------------------------------------------
-    	$all_transfer_id_arr = array();
-    	$transfer_user_id_arr = array();
-    	foreach($restore_data as $dirname => $modules_restore_arr) {
-    		if($dirname == "system") {
-    			continue;
-    		}
-    		//
-    		// リストア対象かどうかチェック
-    		//
-    		if(isset($restore_modules[$dirname]['error_mes'])) {
+		//--------------------------------------------------
+		// 一般系テーブルリストア
+		//--------------------------------------------------
+		$all_transfer_id_arr = array();
+		$transfer_user_id_arr = array();
+		foreach($restore_data as $dirname => $modules_restore_arr) {
+			if($dirname == "system") {
+				continue;
+			}
+			//
+			// リストア対象かどうかチェック
+			//
+			if(isset($restore_modules[$dirname]['error_mes'])) {
 				// エラーあり
 				continue;
 			}
@@ -742,146 +743,146 @@ class Backup_Action_Main_Restoreresult extends Action
 			}
 
 			//
-    		// room_id毎にリストアしていく
-    		//
-    		foreach($modules_restore_arr['room'] as $room_id => $restore_table_arr) {
-    			foreach($restore_table_arr as $table_name => $rec_sets) {
-	    			if(isset($transfer_module_id_arr[$table_name]["*"]) &&
-	    				$transfer_module_id_arr[$table_name]["*"] == "none_transfer") {
-	    				// 本テーブルは振替対象外
-	    				continue;
-	    			}
-	    			// ハンドル名が重複する可能性があるため、
-	    			// ハンドル名称を振り替える
-	    			$this->_transferIdHandle($transfer_user_id_arr, $rec_sets);
+			// room_id毎にリストアしていく
+			//
+			foreach($modules_restore_arr['room'] as $room_id => $restore_table_arr) {
+				foreach($restore_table_arr as $table_name => $rec_sets) {
+					if(isset($transfer_module_id_arr[$table_name]["*"]) &&
+						$transfer_module_id_arr[$table_name]["*"] == "none_transfer") {
+						// 本テーブルは振替対象外
+						continue;
+					}
+					// ハンドル名が重複する可能性があるため、
+					// ハンドル名称を振り替える
+					$this->_transferIdHandle($transfer_user_id_arr, $rec_sets);
 
-	    			foreach($rec_sets as $rec_set) {
-	    				if($restore_type == "top" && !$this->_self_flag) {
-		    				if(isset($rec_set['page_id']) && $rec_set['page_id'] == $pre_top_page_id) {
-		    					$rec_set['page_id'] = $room_inf['page_id'];
-		    				}
-		    				if(isset($rec_set['room_id']) && $rec_set['room_id'] == $pre_top_room_id) {
-		    					$rec_set['room_id'] = $room_inf['room_id'];
-		    				}
-		    			}
+					foreach($rec_sets as $rec_set) {
+						if($restore_type == "top" && !$this->_self_flag) {
+							if(isset($rec_set['page_id']) && $rec_set['page_id'] == $pre_top_page_id) {
+								$rec_set['page_id'] = $room_inf['page_id'];
+							}
+							if(isset($rec_set['room_id']) && $rec_set['room_id'] == $pre_top_room_id) {
+								$rec_set['room_id'] = $room_inf['room_id'];
+							}
+						}
 
-	    				if($rec_set["room_id"] && $rec_set["room_id"] == BACKUP_NULL_COLUMN) {
-	    				//if($this->_self_flag && $rec_set["room_id"] && $rec_set["room_id"] == BACKUP_NULL_COLUMN) {
-	    					//
-	    					// room_idがnullのカラムがあった場合
-	    					//
-	    					continue;
-    					}
+						if($rec_set["room_id"] && $rec_set["room_id"] == BACKUP_NULL_COLUMN) {
+						//if($this->_self_flag && $rec_set["room_id"] && $rec_set["room_id"] == BACKUP_NULL_COLUMN) {
+							//
+							// room_idがnullのカラムがあった場合
+							//
+							continue;
+						}
 
-	    				foreach($rec_set as $column_name => $value) {
-	    					// null表記
-	    					if($value == BACKUP_NULL_COLUMN) {
-	    						$rec_set[$column_name] = null;
-	    						$value = null;
-	    					}
-	    					if($value != "0") {
-	    						$transfer_column_name = "";
-	    						if(isset($transfer_module_id_arr["all"][$column_name])) {
-    								$transfer_column_name = $transfer_module_id_arr["all"][$column_name];
-    								$set_key = "all";
-    							} else if(isset($transfer_module_id_arr[$table_name][$column_name])) {
-    								$transfer_column_name = $transfer_module_id_arr[$table_name][$column_name];
-    								$set_key = $table_name;
-    							}
-	    						$mode = "";
-    							if(isset($set_key) && isset($transfer_core_id_arr[$set_key][$column_name])) {
-    								$mode = $transfer_core_id_arr[$set_key][$column_name];
-    							}
-    							$other_module = "";
-    							if(isset($set_key) && isset($transfer_other_module_id_arr[$set_key][$column_name])) {
-    								$other_module = $transfer_other_module_id_arr[$set_key][$column_name];
-    							}
-    							$separator = "";
-    							if(isset($set_key) && isset($transfer_separator_id_arr[$set_key][$column_name])) {
-    								$separator = $transfer_separator_id_arr[$set_key][$column_name];
-    							}
+						foreach($rec_set as $column_name => $value) {
+							// null表記
+							if($value == BACKUP_NULL_COLUMN) {
+								$rec_set[$column_name] = null;
+								$value = null;
+							}
+							if($value != "0") {
+								$transfer_column_name = "";
+								if(isset($transfer_module_id_arr["all"][$column_name])) {
+									$transfer_column_name = $transfer_module_id_arr["all"][$column_name];
+									$set_key = "all";
+								} else if(isset($transfer_module_id_arr[$table_name][$column_name])) {
+									$transfer_column_name = $transfer_module_id_arr[$table_name][$column_name];
+									$set_key = $table_name;
+								}
+								$mode = "";
+								if(isset($set_key) && isset($transfer_core_id_arr[$set_key][$column_name])) {
+									$mode = $transfer_core_id_arr[$set_key][$column_name];
+								}
+								$other_module = "";
+								if(isset($set_key) && isset($transfer_other_module_id_arr[$set_key][$column_name])) {
+									$other_module = $transfer_other_module_id_arr[$set_key][$column_name];
+								}
+								$separator = "";
+								if(isset($set_key) && isset($transfer_separator_id_arr[$set_key][$column_name])) {
+									$separator = $transfer_separator_id_arr[$set_key][$column_name];
+								}
 
-    							if($transfer_column_name == "none_transfer") {
-    								// 振替ない
-    							} else if($transfer_column_name != "") {
-    								if($mode != "" && $mode != "wysiwyg" && $mode != "text" && $mode != "physical_file_name" && !isset($this->transfer_id_arr[$transfer_column_name][$rec_set[$column_name]])) {
-    									// Coreから振替
-    									continue;
-    								}
-    								if($separator == "") {
-	    								if($mode != "") {
-			    							// Coreから振替
-			    							if($transfer_column_name == "module_id") {
-			    								if(isset($version_arr['__'.$rec_set[$column_name]])) {
-			    									// module_idに対応したモジュールあり
-			    									$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, $modules[$version_arr['__'.$rec_set[$column_name]]]['module_id'], $mode);
-			    								}
-			    							} else {
-			    								$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, null, $mode);
-			    							}
-	    								} else if($other_module != "") {
-	    									$this->_transferIdModules($dirname, $all_transfer_id_arr[$other_module], $table_name, $rec_set, $transfer_column_name, $column_name);
-			    						} else {
-			    							$this->_transferIdModules($dirname, $transfer_id_arr, $table_name, $rec_set, $transfer_column_name, $column_name);
-	    								}
-    								} else {
-    									$rec_set_column_arr = explode($separator, $rec_set[$column_name]);
-    									$rec_set_column_str = "";
-    									foreach($rec_set_column_arr as $rec_set_column) {
-    										if($rec_set_column_str != "") {
-		    									$rec_set_column_str .= ",";
-		    								}
-		    								if($rec_set_column != "") {
-	    										$rec_set[$column_name] = $rec_set_column;
-	    										if($mode != "") {
-					    							// Coreから振替
-					    							if($transfer_column_name == "module_id") {
-					    								if(isset($version_arr['__'.$rec_set[$column_name]])) {
-					    									// module_idに対応したモジュールあり
-					    									$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, $modules[$version_arr['__'.$rec_set[$column_name]]]['module_id'], $mode);
-					    								}
-					    							} else {
-			    										$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, null, $mode);
-					    							}
-					    						} else if($other_module != "") {
-	    											$this->_transferIdModules($dirname, $all_transfer_id_arr[$other_module], $table_name, $rec_set, $transfer_column_name, $column_name);
-					    						} else {
-					    							$this->_transferIdModules($dirname, $transfer_id_arr, $table_name, $rec_set, $transfer_column_name, $column_name);
-			    								}
-			    								$rec_set_column_str .= $rec_set[$column_name];
-		    								}
-    									}
-    									$rec_set[$column_name] = $rec_set_column_str;
-    								}
-    							}
+								if($transfer_column_name == "none_transfer") {
+									// 振替ない
+								} else if($transfer_column_name != "") {
+									if($mode != "" && $mode != "wysiwyg" && $mode != "text" && $mode != "physical_file_name" && !isset($this->transfer_id_arr[$transfer_column_name][$rec_set[$column_name]])) {
+										// Coreから振替
+										continue;
+									}
+									if($separator == "") {
+										if($mode != "") {
+											// Coreから振替
+											if($transfer_column_name == "module_id") {
+												if(isset($version_arr['__'.$rec_set[$column_name]])) {
+													// module_idに対応したモジュールあり
+													$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, $modules[$version_arr['__'.$rec_set[$column_name]]]['module_id'], $mode);
+												}
+											} else {
+												$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, null, $mode);
+											}
+										} else if($other_module != "") {
+											$this->_transferIdModules($dirname, $all_transfer_id_arr[$other_module], $table_name, $rec_set, $transfer_column_name, $column_name);
+										} else {
+											$this->_transferIdModules($dirname, $transfer_id_arr, $table_name, $rec_set, $transfer_column_name, $column_name);
+										}
+									} else {
+										$rec_set_column_arr = explode($separator, $rec_set[$column_name]);
+										$rec_set_column_str = "";
+										foreach($rec_set_column_arr as $rec_set_column) {
+											if($rec_set_column_str != "") {
+												$rec_set_column_str .= ",";
+											}
+											if($rec_set_column != "") {
+												$rec_set[$column_name] = $rec_set_column;
+												if($mode != "") {
+													// Coreから振替
+													if($transfer_column_name == "module_id") {
+														if(isset($version_arr['__'.$rec_set[$column_name]])) {
+															// module_idに対応したモジュールあり
+															$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, $modules[$version_arr['__'.$rec_set[$column_name]]]['module_id'], $mode);
+														}
+													} else {
+														$this->_transferId($table_name, $rec_set, $transfer_column_name, $column_name, null, $mode);
+													}
+												} else if($other_module != "") {
+													$this->_transferIdModules($dirname, $all_transfer_id_arr[$other_module], $table_name, $rec_set, $transfer_column_name, $column_name);
+												} else {
+													$this->_transferIdModules($dirname, $transfer_id_arr, $table_name, $rec_set, $transfer_column_name, $column_name);
+												}
+												$rec_set_column_str .= $rec_set[$column_name];
+											}
+										}
+										$rec_set[$column_name] = $rec_set_column_str;
+									}
+								}
 
-	    					}
-	    				}
+							}
+						}
 
-	    				$result = $this->db->insertExecute($table_name, $rec_set, false);
-			        	if ($result === false) {
-			        		$this->_rollBack();
-				       		return 'error';
+						$result = $this->db->insertExecute($table_name, $rec_set, false);
+						if ($result === false) {
+							$this->_rollBack();
+							return 'error';
 						}
 						$this->deleteParams[$table_name][] = $rec_set;
-	    			}
-	    		}
-    		}
-    		//
-    		// uploadsテーブルのunique_idの振替
-    		//
-    		if(isset($transfer_module_id_arr['uploads']['unique_id']) && isset($upload_id_arr[$dirname]) && $upload_id_arr[$dirname]) {
-    			$other_module = "";
+					}
+				}
+			}
+			//
+			// uploadsテーブルのunique_idの振替
+			//
+			if(isset($transfer_module_id_arr['uploads']['unique_id']) && isset($upload_id_arr[$dirname]) && $upload_id_arr[$dirname]) {
+				$other_module = "";
 				if(isset($transfer_other_module_id_arr['uploads']['unique_id'])) {
 					$other_module = $transfer_other_module_id_arr['uploads']['unique_id'];
 				}
 				$transfer_column_name = $transfer_module_id_arr['uploads']['unique_id'];
-    			foreach($upload_id_arr[$dirname] as $new_upload_id => $unique_id) {
-    				if($unique_id != "0") {
-    					$buf_rec_set['unique_id'] = $unique_id;
-    					// 振替対象
-    					// Coreからの振替はないものとして処理
-    					if($other_module != "") {
+				foreach($upload_id_arr[$dirname] as $new_upload_id => $unique_id) {
+					if($unique_id != "0") {
+						$buf_rec_set['unique_id'] = $unique_id;
+						// 振替対象
+						// Coreからの振替はないものとして処理
+						if($other_module != "") {
 							$this->_transferIdModules($dirname, $all_transfer_id_arr[$other_module], 'uploads', $buf_rec_set, $transfer_column_name, 'unique_id');
 						} else {
 							$this->_transferIdModules($dirname, $transfer_id_arr, 'uploads', $buf_rec_set, $transfer_column_name, 'unique_id');
@@ -889,67 +890,66 @@ class Backup_Action_Main_Restoreresult extends Action
 						$upd_params = array("unique_id" => $buf_rec_set['unique_id']);
 						$upd_where_params = array("upload_id" => $new_upload_id);
 						$result = $this->db->updateExecute('uploads', $upd_params, $upd_where_params, false);
-			        	if ($result === false) {
-			        		$this->_rollBack();
-				       		return false;
+						if ($result === false) {
+							$this->_rollBack();
+							return false;
 						}
-						$upd_params = array("unique_id" => $unique_id);
-						$this->uploadParams['uploads'][] = $upd_params;
-						$this->uploadWhereParams['uploads'][] = $upd_where_params;
-    				}
-    			}
-    		}
 
-    		//
-    		// 振替たIDをセット
-    		// モジュール間の振替が必要なモジュールがあるため（施設予約、TODOのカレンダーID等）
-    		//
-    		$all_transfer_id_arr[$dirname] = $transfer_id_arr;
-    	}
+						$this->deleteParams['uploads'][$new_upload_id]['unique_id'] = $buf_rec_set['unique_id'];
+					}
+				}
+			}
+
+			//
+			// 振替たIDをセット
+			// モジュール間の振替が必要なモジュールがあるため（施設予約、TODOのカレンダーID等）
+			//
+			$all_transfer_id_arr[$dirname] = $transfer_id_arr;
+		}
 		// test
-    	//$this->_rollBack();
+		//$this->_rollBack();
 
-        //---------------------------------------------------------
-        // 画像コピー・削除
-        //---------------------------------------------------------
-        //$this->del_physical_file_name_arr
-        foreach($this->del_physical_file_name_arr as $del_name) {
-        	if(file_exists(FILEUPLOADS_DIR.$del_name)) {
-        		// エラー処理は行わない
-        		$this->fileAction->delDir(FILEUPLOADS_DIR.$del_name);
-        	}
-        }
-        //$physical_file_name_arr
-        foreach($physical_file_name_arr as $old_name => $new_name) {
-        	if(file_exists($temporary_file_path. "uploads/".$old_name)) {
-        		$this->fileAction->copyFile($temporary_file_path. "uploads/".$old_name, FILEUPLOADS_DIR . $new_name);
-        	}
-        }
-        $this->fileAction->delDir($this->temporary_file_path);
-        //---------------------------------------------------------
-        // 正常終了
-        //---------------------------------------------------------
-        $this->display_flag = ($this->display_flag == _OFF && $this->display_flag != null) ? _OFF : _ON;
-        // display_flag=_PAGES_DISPLAY_FLAG_DISABLEDを元に戻す
-        $params = array(
-        	"display_flag" => $this->display_flag
-        );
-        $where_params = array(
-        	"page_id IN (". implode(",", $page_id_arr). ") " => null,
-        	"{pages}.page_id = {pages}.room_id" => null
-        );
-        //page_id IN (". implode(",", $page_id_arr). ") ";
-        $result = $this->db->updateExecute("pages", $params, $where_params, false);
+		//---------------------------------------------------------
+		// 画像コピー・削除
+		//---------------------------------------------------------
+		//$this->del_physical_file_name_arr
+		foreach($this->del_physical_file_name_arr as $del_name) {
+			if(file_exists(FILEUPLOADS_DIR.$del_name)) {
+				// エラー処理は行わない
+				$this->fileAction->delDir(FILEUPLOADS_DIR.$del_name);
+			}
+		}
+		//$physical_file_name_arr
+		foreach($physical_file_name_arr as $old_name => $new_name) {
+			if(file_exists($temporary_file_path. "uploads/".$old_name)) {
+				$this->fileAction->copyFile($temporary_file_path. "uploads/".$old_name, FILEUPLOADS_DIR . $new_name);
+			}
+		}
+		$this->fileAction->delDir($this->temporary_file_path);
+		//---------------------------------------------------------
+		// 正常終了
+		//---------------------------------------------------------
+		$this->display_flag = ($this->display_flag == _OFF && $this->display_flag != null) ? _OFF : _ON;
+		// display_flag=_PAGES_DISPLAY_FLAG_DISABLEDを元に戻す
+		$params = array(
+			"display_flag" => $this->display_flag
+		);
+		$where_params = array(
+			"page_id IN (". implode(",", $page_id_arr). ") " => null,
+			"{pages}.page_id = {pages}.room_id" => null
+		);
+		//page_id IN (". implode(",", $page_id_arr). ") ";
+		$result = $this->db->updateExecute("pages", $params, $where_params, false);
 
-        // 正常終了
-        $errorList =& $this->actionChain->getCurErrorList();
-        $errorList->add("backup", BACKUP_RESTORE_SUCCESS_MES);
+		// 正常終了
+		$errorList =& $this->actionChain->getCurErrorList();
+		$errorList->add("backup", BACKUP_RESTORE_SUCCESS_MES);
 
-        return 'success';
-    }
+		return 'success';
+	}
 
-    // 手動ロールバック
-    function _rollBack()
+	// 手動ロールバック
+	function _rollBack()
 	{
 		foreach($this->deleteParams as $table_name => $params) {
 			if(is_array($params)) {
@@ -1021,16 +1021,16 @@ class Backup_Action_Main_Restoreresult extends Action
 
 			$sel_result = $this->db->selectExecute($table_name, $sel_where_params);
 			if ($sel_result === false) {
-        		$this->_rollBack();
-	       		return false;
+				$this->_rollBack();
+				return false;
 			}
 			$this->selectParams[$table_name][$whereStr] = $sel_where_params;
 
 			if(is_array($sel_result) && count($sel_result) > 0) {
 				$result = $this->db->deleteExecute($table_name, $sel_where_params);
 				if ($result === false) {
-	        		$this->_rollBack();
-		       		return false;
+					$this->_rollBack();
+					return false;
 				}
 				foreach($sel_result as $row) {
 					if($table_name == "uploads") {
@@ -1051,7 +1051,7 @@ class Backup_Action_Main_Restoreresult extends Action
 	 * @param array  column_records
 	 * @param string 変換配列保存キー
 	 * @param string 変換カラム名称
-	 * @param int    変換ID 指定がなければ振りなおす（nextSeq）
+	 * @param int 変換ID 指定がなければ振りなおす（nextSeq）
 	 * @param string core or wysiwyg
 	 * @access	private
 	 */
@@ -1133,7 +1133,7 @@ class Backup_Action_Main_Restoreresult extends Action
 	 * @param array  column_records
 	 * @param string 変換配列保存キー
 	 * @param string 変換カラム名称
-	 * @param int    変換ID 指定がなければ振りなおす（nextSeq）
+	 * @param int 変換ID 指定がなければ振りなおす（nextSeq）
 	 * @access	private
 	 */
 	function _transferIdModules($dirname, &$transfer_id_arr, $table_name, &$rec_set, $transfer_column_name, $column_name = null, $transfer_id = null) {
@@ -1271,9 +1271,9 @@ class Backup_Action_Main_Restoreresult extends Action
 				$upd_params = array("display_flag" => _PAGES_DISPLAY_FLAG_DISABLED);
 				$upd_where_params = array("page_id" => $page['page_id']);
 				$result = $this->db->updateExecute($table_name, $upd_params, $upd_where_params, false);
-	        	if ($result === false) {
-	        		$this->_rollBack();
-		       		return false;
+				if ($result === false) {
+					$this->_rollBack();
+					return false;
 				}
 				$upd_params = array("display_flag" => _ON);
 				$this->uploadParams[$table_name][] = $upd_params;
