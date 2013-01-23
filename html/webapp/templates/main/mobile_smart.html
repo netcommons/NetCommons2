@@ -67,10 +67,10 @@
 	<{$contents|smarty:nodefaults}>
 </div>
 
-<div data-role="footer" class="ui-bar" data-theme="<{$smartphone_theme_color}>" >
+<div data-role="footer" data-theme="<{$smartphone_theme_color}>" >
 	<h1 style="text-align:left;"><{$smarty.session._meta.sitename}></h1>
 	<{if ($smarty.session._user_id != "" && $smarty.session._user_id != "0") }>
-		<div style="float:right;margin-right:25px;">
+		<div style="float:right;margin-right:8px;margin-bottom:10px;">
 			<a  data-transition="slideup" href="?action=userinf_action_mobile_init<{$session_param}>" data-role="button" data-icon="gear">
 				<{$smarty.session._handle}>
 			</a>
@@ -79,7 +79,7 @@
 			</a>
 		</div>
 	<{/if}>
-	<a data-role="button" data-icon="alert" href="#" onclick="if (confirm('<{$lang._confirm_pc_view}>')) location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=pages_view_main&amp;pcviewer_flag=<{$smarty.const._ON}>';">
+	<a data-role="button" data-icon="alert" style="margin-left:10px;margin-bottom:10px;" href="#" onclick="location.href='<{$smarty.const.BASE_URL|smarty:nodefaults}><{$smarty.const.INDEX_FILE_NAME|smarty:nodefaults}>?action=pages_view_main&amp;pcviewer_flag=<{$smarty.const._ON}>';return false;">
 		<img src="<{""|get_image_url}>/images/comp/textarea/titleicon/icon-pc.gif" alt="<{$lang._pc_viewer}>" title="<{$lang._pc_viewer}>" />
 	</a>
 </div>
