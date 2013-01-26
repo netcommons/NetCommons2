@@ -93,7 +93,8 @@ class Multidatabase_View_Main_Init extends Action
 		$sort_section = $this->session->getParameter(array("multidatabase", $this->block_id, "sort_section"));
 		if(!empty($this->sort_section)) {
 			$this->session->setParameter(array("multidatabase", $this->block_id, "sort_section"), $this->sort_section);
-			if($sort_section != $this->sort_section) {
+			// 初回、セッションの $sort_section は空なので、その判定を追加 by nagahara@opensource-workshop.jp
+			if(!empty($sort_section) && $sort_section != $this->sort_section) {
 				// カテゴリ変更を行った場合、1ページ目を表示する。
 				$this->now_page = 1;
 			}
@@ -122,7 +123,8 @@ class Multidatabase_View_Main_Init extends Action
 		$sort_metadata = $this->session->getParameter(array("multidatabase", $this->block_id, "sort_metadata"));
 		if(!empty($this->sort_metadata)) {
 			$this->session->setParameter(array("multidatabase", $this->block_id, "sort_metadata"), $this->sort_metadata);
-			if($sort_metadata != $this->sort_metadata) {
+			// 初回、セッションの $sort_metadata は空なので、その判定を追加 by nagahara@opensource-workshop.jp
+			if(!empty($sort_metadata) && $sort_metadata != $this->sort_metadata) {
 				// 並べ替えを行った場合、1ページ目を表示する。
 				$this->now_page = 1;
 			}
