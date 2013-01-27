@@ -50,6 +50,9 @@ class Multidatabase_Validator_MultidatabaseView extends Validator
         $mdbView =& $container->getComponent("mdbView");
 		if (empty($attributes['multidatabase_id'])) {
 			$mdb_obj = $mdbView->getDefaultMdb();
+		} elseif ( $actionName == 'multidatabase_view_edit_style' ) {
+			// 表示方法変更の場合は、現在設定されている表示件数や表示順を取得したいため、getCurrentMdb()を呼ぶ。 by nagahara@opensource-workshop.jp
+			$mdb_obj = $mdbView->getCurrentMdb();
 		} elseif ($prefix_id_name == MULTIDATABASE_REFERENCE_PREFIX_NAME.$attributes['multidatabase_id']
 					|| !strncmp($actionName, 'multidatabase_view_edit', 23)) {
 			$mdb_obj = $mdbView->getMdb();
