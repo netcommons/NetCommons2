@@ -268,7 +268,8 @@ class Reservation_Components_View
 		if (!empty($key_array)) {
 			return $key_array[0];
 		}
-		if ($actionName == "reservation_action_edit_addblock") {
+		// 2013.02.12 bugfix modify
+		if ($actionName == "reservation_action_edit_addblock" || $actionName == "reservation_action_edit_location_delete") {
 			return "0";
 		} else {
 			return false;
@@ -396,16 +397,16 @@ class Reservation_Components_View
 				$category_id = $category_id;
 				$location_id = 0;
 				break;
-		default:
-			$category_id = 0;
+			default:
+				$category_id = 0;
 				$location_id = 0;
 		}
 
 		if (defined($config['display_interval']["conf_value"])) {
-		$display_interval = constant($config['display_interval']["conf_value"]);
+			$display_interval = constant($config['display_interval']["conf_value"]);
 		} else {
 			$display_interval = intval($config['display_interval']["conf_value"]);
-	}
+		}
 
 		if (defined($config['display_start_time']["conf_value"])) {
 			$display_start_time = constant($config['display_start_time']["conf_value"]);
@@ -957,6 +958,29 @@ class Reservation_Components_View
 			}
 			$reserve_block["start_time_hour"] = $config["conf_value"];
 		}
+		return $reserve_block;
+	}
+
+	// 2013.02.12 bugfix insert
+	/**
+	 * デフォルト値取得 by location_id
+	 *
+	 * @access	public
+	 */
+	function getBlockByLocationId()
+	{
+		$params = array(
+			"block_id" => $this->_request->getParameter("block_id"),
+			"location_id" => $this->_request->getParameter("location_id")
+		);
+
+		$result =& $this->_db->selectExecute("reservation_block", $params);
+		if (empty($result)) {
+			return false;
+		}
+
+		$reserve_block = $result[0];
+
 		return $reserve_block;
 	}
 
