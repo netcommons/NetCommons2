@@ -276,7 +276,7 @@ class Reservation_Components_Action
 		if ($actionName == "reservation_action_edit_addblock") {
 			$default = $this->_reservationView->getDefaultBlock();
 			$params = array(
-					"block_id" => $this->_request->getParameter("block_id"),
+				"block_id" => $this->_request->getParameter("block_id"),
 				"display_type" => $default["display_type"],
 				"display_start_time" => $default["display_start_time"],
 				"display_interval" => $default["display_interval"],
@@ -301,6 +301,35 @@ class Reservation_Components_Action
 			$result = $this->_db->updateExecute("reservation_block", $params, $where_params, true);
 			if ($result === false) {
 				return false;
+			}
+
+		// 2013.02.12 bugfix 施設=0件か、表示設定方法に削除した施設を指定していた時は、表示方法変更「表示方法」を「日」にアップデート
+		} elseif ($actionName == "reservation_action_edit_location_delete") {
+
+			// 初期設定
+			$default = $this->_reservationView->getDefaultBlock();
+
+			// 施設件数
+			$location_count = $this->_reservationView->getCountLocation();
+
+			// 表示設定方法取得 by location_id
+			$block_by_location_id = $this->_reservationView->getBlockByLocationId();
+
+			// 施設=0件か、表示設定方法に削除した施設を指定していた
+			if ( $location_count == 0 || !empty($block_by_location_id) ) {
+				$params = array(
+					"display_type" => $default["display_type"],
+					"location_id" => $default["location_id"]
+				);
+				$where_params = array(
+					"block_id" => $this->_request->getParameter("block_id"),
+				);
+
+				// 更新
+				$result = $this->_db->updateExecute("reservation_block", $params, $where_params, true);
+				if ($result === false) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -557,7 +586,7 @@ class Reservation_Components_Action
 	}
 
 	/**
-	 * 施設を登録する
+	 * 施設を削除する
 	 *
 	 * @access  public
 	 */
@@ -601,6 +630,13 @@ class Reservation_Components_Action
 		if($result === false) {
 			return false;
 		}
+
+		// 2013.02.12 bugfix 施設=0件か、表示設定方法に削除した施設を指定していた時は、表示方法変更「表示方法」を「日」にアップデート
+		$result = $this->setBlock();
+		if($result === false) {
+			return false;
+		}
+
 		return true;
 	}
 
