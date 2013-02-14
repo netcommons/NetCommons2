@@ -20,7 +20,6 @@ class Reservation_View_Main_Reserve_Add extends Action
 	var $module_id = null;
 	var $entry_calendar = null;
 	var $notification_mail = null;
-	var $category_id = null;
 
 	// validatorから受け取るため
 	var $location = null;
