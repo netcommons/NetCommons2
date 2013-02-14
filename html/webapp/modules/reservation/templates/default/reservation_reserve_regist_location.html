@@ -12,7 +12,7 @@
 		</option>
 		<{foreach name="category" key="category_id" item="category_name" from=$action.category_list}>
 			<{if ($action.location_count_list.$category_id > 0 || $smarty.session._user_auth_id == _AUTH_ADMIN) }>
-				<option value="<{$category_id}>">
+				<option value="<{$category_id}>"<{if ($category_id == $action.category_id) }> selected="selected"<{/if}>>
 					<{if ($category_name == "") }>
 						<{$lang.reservation_no_category|smarty:nodefaults}>
 					<{else}>
