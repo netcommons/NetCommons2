@@ -2,12 +2,12 @@
 #- NetCommons2用 無視ファイル設定
 #-----------------------------------
 
-html/images
-html/js
-html/themes
+/html/images
+/html/js
+/html/themes
 
-html/webapp/templates_c
-html/webapp/uploads
+/html/webapp/templates_c/*
+/html/webapp/uploads/*
 
 # install.inc.php はサーバにコミットされているので、
 # この無視ファイルでは無視できない。（以下のファイル）
