@@ -1,4 +1,4 @@
-version = "2.1.0.0"
+version = "2.4.0.0"
 action_name="<?php print $skeleton->action_name; ?>"
 <?php 
 if($skeleton->moduletype == "normal" || $skeleton->moduletype == "full") {
