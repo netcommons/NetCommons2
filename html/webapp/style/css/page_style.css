@@ -144,7 +144,14 @@ table#footerbar {
 	width:100%;
 	/*border-top:1px #a9a9d1 solid;*/
 }
-table#footerbar .copyright {text-align:right; color:#a3a3a3; vertical-align:middle; font-size:90%; font-weight:bold;}
+table#footerbar .copyright {
+	text-align:right;
+	color:#a3a3a3;
+	vertical-align:middle;
+	font-size:90%;
+	font-weight:bold;
+	padding:0 0.5em;
+}
 
 /* センターカラム　情報メッセージ */
 div#centercolumn_inf_mes {
