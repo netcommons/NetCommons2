@@ -126,7 +126,7 @@ table.outer th {
 table#footerbar .copyright {
 	color:#404040;
 	font-size:120%;
-	padding:0 0.5em;
+	padding:0 8px;
 }
 
 td.grid_row, tr.grid_row td {
