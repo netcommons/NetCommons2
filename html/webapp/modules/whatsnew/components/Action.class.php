@@ -58,10 +58,11 @@ class Whatsnew_Components_Action
 		if (empty($whatsnew)) {
 			return false;
 		}
-		
+
 		$params = array(
 			"whatsnew_id"=>$whatsnew["whatsnew_id"], 
-			"user_id" => $_user_id
+			"user_id" => $_user_id,
+			'room_id' => $whatsnew['room_id']
 		);
 		$count = $this->_db->countExecute("whatsnew_user", $params);
 		if ($count > 0) {

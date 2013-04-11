@@ -355,61 +355,40 @@ class Uploads_Action {
 	}
 
 	/**
-	 * module_idによるUploads削除処理
-	 * @param int module_id
+	 * 条件に該当するアップロードデータを削除する。
+	 * 
+	 * @param string $whereClause where句文字列
+	 * @param array $bindValues バインド値配列
 	 * @return boolean true or false
 	 * @access	public
 	 */
-	function delUploadsByModuleid($module_id)
+	function deleteByWhereClause($whereClause, $bindValues)
 	{
-		$where_params = array(
-			"module_id" => $module_id
-		);
-		$uploads =& $this->_db->selectExecute("uploads", $where_params);
-		if($uploads === false) {
-			return false;
-		}
-		foreach($uploads as $upload) {
-			$this->_delUploadFile($upload["upload_id"], $upload);
-		}
-
-		$result = $this->_db->execute("DELETE FROM {uploads} WHERE module_id=?" .
-									" ",$where_params);
-
-		if($result === false) {
-			//エラーが発生した場合、エラーリストに追加
+		$sql = "SELECT upload_id, "
+					. "physical_file_name, "
+					. "file_path, "
+					. "extension "
+				. "FROM {uploads} "
+				. "WHERE " . $whereClause;
+		$uploads = $this->_db->execute($sql, $bindValues);
+		if ($uploads === false) {
 			$this->_db->addError();
 			return false;
 		}
 
-		return true;
-	}
-
-
-	/**
-	 * room_idによるUploads削除処理
-	 * @param int room_id
-	 * @return boolean true or false
-	 * @access	public
-	 */
-	function delUploadsByRoomid($room_id)
-	{
-		$where_params = array(
-			"room_id" => $room_id
-		);
-		$uploads =& $this->_db->selectExecute("uploads", $where_params);
-		if($uploads === false) {
-			return false;
-		}
+		$inValue = '';
 		foreach($uploads as $upload) {
-			$this->_delUploadFile($upload["upload_id"], $upload);
+			$this->_delUploadFile($upload['upload_id'], $upload);
+			$inValue .= $upload['upload_id'] . ',';
+		}
+		if (empty($inValue)) {
+			return true;
 		}
 
-		$result = $this->_db->execute("DELETE FROM {uploads} WHERE room_id=?" .
-									" ",$where_params);
-
-		if($result === false) {
-			//エラーが発生した場合、エラーリストに追加
+		$inValue = substr($inValue, 0, -1);
+		$sql = "DELETE FROM {uploads} "
+				. "WHERE upload_id IN (" . $inValue . ")";
+		if (!$this->_db->execute($sql)) {
 			$this->_db->addError();
 			return false;
 		}

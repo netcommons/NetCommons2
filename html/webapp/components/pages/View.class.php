@@ -598,5 +598,52 @@ class Pages_View
 
 		return $whereStatement;
 	}
+
+	/**
+	 * ルームで使用可能なモジュールデータ配列を取得する
+	 *
+	 * @param string $roomId ルームID
+	 * @return array ルームで使用可能なモジュールデータ配列
+	 * @access public
+	 */
+	function &getUsableModulesByRoom($roomId, $useIdAsKey = false)
+	{
+		$fetchFunction = null;
+		if ($useIdAsKey) {
+			$fetchFunction = array($this, '_fetchModule');
+		}
+		
+		$sql = "SELECT M.module_id, "
+					. "M.action_name, "
+					. "M.delete_action "
+				. "FROM {modules} M "
+				. "INNER JOIN {pages_modules_link} PM "
+					. "ON M.module_id = PM.module_id "
+				. "WHERE PM.room_id = ?";
+		$modules =& $this->_db->execute($sql, $roomId, null, null, true, $fetchFunction);
+		if ($modules === false) {
+			$this->_db->addError();
+		}
+
+		return $modules;
+	}
+
+	/**
+	 * モジュールIDをキーとしたモジュールデータ配列を作成する。
+	 * 
+	 * @param object $recordSet モジュールデータADORecordSetオブジェクト
+	 * @return string 指定文字区切りの文字列
+	 * @access private
+	 */
+	function &_fetchModule(&$recordSet)
+	{
+		$modules = array();
+		while ($module = $recordSet->fetchRow()) {
+			$moduleId = $module['module_id'];
+			$modules[$moduleId] = $module;
+		}
+
+		return $modules;
+	}
 }
 ?>

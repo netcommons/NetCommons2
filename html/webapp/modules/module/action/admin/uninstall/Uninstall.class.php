@@ -231,10 +231,10 @@ class Module_Action_Admin_Uninstall extends Action
 					}
 				}
 			}
-	        if($this->uploadsAction->delUploadsByModuleid($this->upd_module_id) && $del_flag) {
-	        	$this->_setMes(MODULE_MES_RESULT_UPLOADS_EN,1);
-	        }
-	        
+			if ($del_flag) {
+				$this->_setMes(MODULE_MES_RESULT_UPLOADS_EN,1);
+			}
+
 			// ----------------------------------------------
 			// --- モジュールテーブルのデータ削除		 ---
 			// ----------------------------------------------
@@ -266,8 +266,7 @@ class Module_Action_Admin_Uninstall extends Action
 			// --- ページモジュールリンクデータ削除                                 ---
 			// ----------------------------------------------------------------------
 			$this->_setMes(sprintf(MODULE_MES_RESULT_DELETE_ST,MODULE_PAGES_MODULES_LINK_TABLE_NAME),1);
-			if($this->pagesAction->delPagesModulesLink(array("module_id" => $this->upd_module_id))) {
-				//削除成功
+			if ($this->pagesAction->deleteRoomModule(null, array($this->upd_module_id))) {
 				$this->_setMes(sprintf(MODULE_MES_RESULT_DELETE_EN,MODULE_PAGES_MODULES_LINK_TABLE_NAME),1);
 			} else {
 				$this->_setMes(sprintf(MODULE_MES_RESULT_DELETE_ER,MODULE_PAGES_MODULES_LINK_TABLE_NAME),1);

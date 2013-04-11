@@ -277,6 +277,47 @@ class Whatsnew_Update extends Action
 			if($result === false) return false;
 		}
 
+		$sql = "SELECT WU.whatsnew_id, "
+					. "W.room_id "
+				. "FROM {whatsnew_user} WU "
+				. "LEFT JOIN {whatsnew} W "
+					. "ON WU.whatsnew_id = W.whatsnew_id "
+				. "WHERE WU.room_id IS NULL "
+				. "GROUP BY WU.whatsnew_id "
+				. "ORDER BY W.room_id";
+		$whatsnews = $this->db->execute($sql);
+		$roomId = null;
+		$targetIds = array();
+		foreach ($whatsnews as $whatsnew) {
+			if (!isset($whatsnew['room_id'])) {
+				$whatsnew['room_id'] = 'NULL';
+			}
+
+			$roomId = $whatsnew['room_id'];
+			$targetIds[$roomId][] = $whatsnew['whatsnew_id'];
+		}
+
+		foreach ($targetIds as $roomId => $whatsnewIds) {
+			$whereClause = 'WHERE whatsnew_id IN (' . implode(',', $whatsnewIds) . ')';
+			$bindValues = array();
+			if ($roomId === 'NULL') {
+				$sql = "DELETE FROM {whatsnew_user} "
+						. $whereClause;
+			} else {
+				$sql = "UPDATE {whatsnew_user} SET "
+						. "room_id = ? "
+						. $whereClause;
+				$bindValues = array(
+					$roomId
+				);
+			}
+
+			$result = $this->db->execute($sql, $bindValues);
+			if ($result === false) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 }

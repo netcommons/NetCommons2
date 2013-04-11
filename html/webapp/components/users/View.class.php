@@ -927,7 +927,7 @@ class Users_View
 
 		$othersSearchAuthority = false;
 		$actionName = $actionChain->getCurActionName();
-		if ($session->getParameter('_auth_id') == _AUTH_ADMIN
+		if ($session->getParameter('_user_auth_id') == _AUTH_ADMIN
 			|| $actionName == 'room_action_admin_search') {
 			$othersSearchAuthority = true;
 		}
@@ -1049,10 +1049,10 @@ class Users_View
 		$absence_users = array();	//不参加会員
 		$absence_rooms = array();	//不参加会員がいるルームID配列
 		while ($row = $result->fetchRow()) {
-			if($row['role_authority_id'] == _ROLE_AUTH_OTHER) {
+			if ($row['role_authority_id'] == _ROLE_AUTH_OTHER) {
 				//不参加会員
 				$absence_users[$row['user_id']] = $row['user_id'];
-				$absence_rooms[$row['room_id']] = $row['room_id'];
+				$absence_rooms[$row['room_id']][] = $row['user_id'];
 			} else {
 				$presence_users[$row['user_id']] = $row['user_id'];
 			}
@@ -1061,16 +1061,22 @@ class Users_View
 			return $presence_users;
 		}
 
-		// 不参加会員が誰もいないデフォルト参加ルームがある場合は全ての会員から検索する
-		foreach($default_entry_room_arr as $room_id) {
-			if(!isset($absence_rooms[$room_id])) {
+		$noParticipationRoomUsers = array();
+		foreach ($default_entry_room_arr as $room_id) {
+			// 不参加会員が誰もいないデフォルト参加ルームがある場合は全ての会員から検索する
+			if (!isset($absence_rooms[$room_id])) {
 				$absence_users = array();
 				return $absence_users;
 			}
+
+			if (empty($noParticipationRoomUsers)) {
+				$noParticipationRoomUsers = $absence_rooms[$room_id];
+			} 
+			$noParticipationRoomUsers = array_intersect($noParticipationRoomUsers, $absence_rooms[$room_id]);
 		}
 
 		// 参加会員配列にいない不参加会員を取得
-		$absence_users = array_diff($absence_users, $presence_users);
+		$absence_users = array_diff($noParticipationRoomUsers, $presence_users);
 
 		// 不参加者を返す
 		return $absence_users;

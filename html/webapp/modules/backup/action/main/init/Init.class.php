@@ -879,7 +879,6 @@ class Backup_Action_Main_Init extends Action
 					$pathList = explode("_",$module['action_name']);
 					$dirname =$pathList[0];
 					$tableList = $this->databaseSqlutility->getTableList($dirname, false);
-					if($tableList === false) continue;
 					foreach($tableList as $table) {
 						$metaColumns = $adodb->MetaColumns($this->db->getPrefix().$table);
 						if(isset($metaColumns["ROOM_ID"])) {
