@@ -416,7 +416,7 @@ class Whatsnew_Action
 	 */
 	function _deletePeriod($moduleId, $roomIds)
 	{
-		//if (rand(0, 10) != 0) { return true; }
+		if (rand(0, 10) != 0) { return true; }
 
 		$modulesView =& $this->_container->getComponent('modulesView');
 		$module = $modulesView->getModuleByDirname('whatsnew');
@@ -499,13 +499,14 @@ class Whatsnew_Action
 	}
 
 	/**
-	 * ルームIDで新着データを削除する
-	 *
-	 * @param string $roomId ルームID
+	 * 条件に該当する新着データを削除する。
+	 * 
+	 * @param string $whereClause where句文字列
+	 * @param array $bindValues バインド値配列
 	 * @return boolean true or false
-	 * @access public
+	 * @access	public
 	 */
-	function deleteByRoomId($roomId)
+	function deleteByWhereClause($whereClause, $bindValues)
 	{
 		$module =& $this->_modulesView->getModuleByDirname('whatsnew');
 		if (!$module) {
@@ -514,9 +515,9 @@ class Whatsnew_Action
 
 		$sql = "SELECT whatsnew_id "
 				. "FROM {whatsnew} "
-				. "WHERE room_id = ? ";
-		$inValue = $this->_db->execute($sql, $roomId, null, null, false, array($this, '_createDelimitedString'));
-		if ($inValue == false) {
+				. "WHERE " . $whereClause;
+		$inValue = $this->_db->execute($sql, $bindValues, null, null, false, array($this, '_createDelimitedString'));
+		if ($inValue === false) {
 			$this->_db->addError();
 			return false;
 		}
@@ -524,13 +525,11 @@ class Whatsnew_Action
 		if (!$this->_deleteByInOperator('whatsnew_user', $inValue)) {
 			return false;
 		}
-
-		$sql = "DELETE FROM {whatsnew} "
-				. "WHERE room_id = ? ";
-		if (!$this->_db->execute($sql, $roomId)) {
-			$this->_db->addError();
+		if (!$this->_deleteByInOperator('whatsnew', $inValue)) {
 			return false;
 		}
+
+		return true;
 	}
 
 	/**
@@ -541,13 +540,14 @@ class Whatsnew_Action
 	 * @return string 指定文字区切りの文字列
 	 * @access private
 	 */
-	function &_createDelimitedIdString(&$recordSet, $glue = ',')
+	function &_createDelimitedString(&$recordSet, $glue = ',')
 	{
 		$string = '';
 		while ($whatsnew = $recordSet->fetchRow()) {
 			$string .= $whatsnew[0]. $glue;
 		}
-		if (!strlen($glue)) {
+		if (strlen($string)
+				&& strlen($glue)) {
 			$string = substr($string, 0, strlen($glue) * -1);
 		}
 

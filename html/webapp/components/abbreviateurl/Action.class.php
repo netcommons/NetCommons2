@@ -263,6 +263,24 @@ class Abbreviateurl_Action
 		return true;
 	}
 
+	/**
+	 * 条件に該当する短縮URLデータを削除する。
+	 * 
+	 * @param string $whereClause where句文字列
+	 * @param array $bindValues バインド値配列
+	 * @return boolean true or false
+	 * @access	public
+	 */
+	function deleteByWhereClause($whereClause, $bindValues)
+	{
+		$sql = "DELETE FROM {abbreviate_url} "
+				. "WHERE " . $whereClause;
+		if (!$this->_db->execute($sql, $bindValues)) {
+			$this->_db->addError();
+			return false;
+		}
 
+		return true;
+	}
 }
 ?>

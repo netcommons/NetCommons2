@@ -440,77 +440,99 @@ class Pages_Action {
 
 	/**
 	 * 削除関数呼び出し
-	 * @param  int     $room_id		削除対象room_id
-	 * @param  array   $modules		削除対象モジュール配列
-	 * @param  string  delete_action
+	 * @param mix $roomId 削除対象ルームID
+	 * @param array $module 削除対象モジュール配列
+	 * @param string $deleteAction 削除アクション名称
 	 * @return boolean true or false
-	 * @access	public
+	 * @access public
 	 */
-	function delFuncExec($room_id, &$module, $delete_action = null)
+	function delFuncExec($roomId, $module, $deleteAction = null)
 	{
-		if($delete_action == "auto") {
-			$action_name = $module['action_name'];
-			$pathList = explode("_", $action_name);
+		if (empty($roomId)) {
+			return true;
+		}
+
+		if (!strlen($deleteAction)) {
+			return true;
+		}
+
+		$roomIds = $roomId;
+		if (!is_array($roomId)) {
+			$roomIds = array($roomId);
+		}
+
+		if ($deleteAction == 'auto') {
+			$inValue = '';
+			foreach ($roomIds as $roomId) {
+				$inValue .= intval($roomId) . ',';
+			}
+			$inValue = substr($inValue, 0, -1);
+
+			$actionName = $module['action_name'];
+			$pathList = explode('_', $actionName);
 			$dirname = $pathList[0];
-			//テーブルリスト取得
-			$table_list = $this->databaseSqlutility->getTableList($dirname);
-			if(!is_array($table_list)) {
-				// 配列でなければエラーとする
+			// 使用しているテーブル名配列を取得
+			$tables = $this->databaseSqlutility->getTableList($dirname);
+			if (!is_array($tables)) {
 				return false;
 			}
 
-			//自動的に削除
-			$where_params = array(
-				"room_id" => $room_id
-			);
-			$error = false;
+			$isError = false;
+			foreach ($tables as $table) {
+				$sql = "DESCRIBE " . $table . " room_id";
+				$result = $this->_db->execute($sql);
+				if ($result === false) {
+					$isError = true;
+				}
 
-			foreach ($table_list as $table_name) {
-				//ルームIDより削除処理。ルームIDがなければ、処理しない
-				$result = $this->_db->execute("DESCRIBE ".$table_name." room_id");
-				if(is_array($result) && isset($result[0])) {
-					$result = $this->_db->execute("DELETE FROM ".$table_name." WHERE room_id=?" .
-										" ",$where_params);
-					if(!$result) {
-						$error = true;
-					}
+				if (count($result) == 0) {
+					continue;
+				}
+
+				$sql = "DELETE FROM " . $table . " "
+						. "WHERE room_id IN (" . $inValue . ")";
+				if (!$this->_db->execute($sql)) {
+					$this->_db->addError();
+					$isError = true;
 				}
 			}
 
-			if($error) return false;
-		} elseif($delete_action == "" || $delete_action === null) {
-			//なにもしない
 		} else {
-			//
-			//削除関数呼び出し
-			//
-			$pathList   = explode("_", $delete_action);
-	        $ucPathList = array_map('ucfirst', $pathList);
+			$pathList   = explode('_', $deleteAction);
+			$ucPathList = array_map('ucfirst', $pathList);
+			$basename = ucfirst($pathList[count($pathList) - 1]);
 
-	        $basename = ucfirst($pathList[count($pathList) - 1]);
+			$actionPath = join('/', $pathList);
+			$className  = join('_', $ucPathList);
+			$filename   = MODULE_DIR . "/${actionPath}/${basename}.class.php";
+			if (!file_exists($filename)) {
+				return false;
+			}
 
-	        $actionPath = join("/", $pathList);
-	        $className  = join("_", $ucPathList);
-	        $filename   = MODULE_DIR . "/${actionPath}/${basename}.class.php";
-    		if (@file_exists($filename)) {
-    			$pagesView =& $this->_container->getComponent("pagesView");
-    			$page =& $pagesView->getPageById($room_id);
-				if($page === false || !isset($page['page_id'])) {
-					return false;
+			$isError = false;
+			$pagesView =& $this->_container->getComponent('pagesView');
+			foreach ($roomIds as $roomId) {
+				$page =& $pagesView->getPageById($roomId);
+				if (empty($page)) {
+					$isError = true;
 				}
 
-				//ブロック削除アクション
 				$params = array(
-					'action' => $delete_action,
-					'mode'   => "delete",
-		    		'page_id'=> $page['page_id'],
-		    		'room_id'=> $room_id
-		    	);
-				$result = $this->preexecuteMain->preExecute($delete_action, $params);
-				if($result === false || $result === "false") {
-					return false;
+					'action' => $deleteAction,
+					'mode'   => 'delete',
+					'page_id'=> $page['page_id'],
+					'room_id'=> $roomId
+				);
+				$result = $this->preexecuteMain->preExecute($deleteAction, $params);
+				if ($result === false
+						|| $result === "false") {
+					$isError = true;
 				}
-    		}
+			}
+		}
+
+		if ($isError) {
+			return false;
 		}
 		return true;
 	}
@@ -686,6 +708,285 @@ class Pages_Action {
 			}
 		}
 		return $ret;
+	}
+
+	/**
+	 * サブグループも含めたルームデータを削除する
+	 *
+	 * @param string $roomId ページID
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteRoom($roomId)
+	{
+		$roomId = intval($roomId);
+
+		$sql = "SELECT page_id "
+				. "FROM {pages} "
+				. "WHERE parent_id = ? "
+				. "AND page_id = room_id";
+		$subRooms =& $this->_db->execute($sql, $roomId);
+		if ($subRooms === false) {
+			$this->_db->addError();
+			return false;
+		}
+
+		foreach ($subRooms as $subRoom) {
+			$pageId = $subRoom['page_id'];
+			if (!$this->deleteRoom($pageId)) {
+				return false;
+			}
+		}
+
+		if (!$this->deleteLowestRoom($roomId)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * サブグループがないルームデータを削除する
+	 *
+	 * @param string $roomId ルームID
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteLowestRoom($roomId)
+	{
+		$pagesView =& $this->_container->getComponent('pagesView');
+		$modules =& $pagesView->getUsableModulesByRoom($roomId);
+		if ($modules === false) {
+			return false;
+		}
+
+		if (!$this->deleteEachModule($roomId, $modules)) {
+			return false;
+		}
+
+		if (!$this->deleteRoomModule($roomId, null)) {
+			return false;
+		}
+
+		$columnValues = array(
+			'room_id' => $roomId
+		);
+		if (!$this->_db->deleteExecute('pages_users_link', $columnValues)) {
+			return false;
+		}
+
+		$inValue = '';
+		$sql = "SELECT page_id, "
+					. "room_id, "
+					. "parent_id, "
+					. "display_sequence, "
+					. "lang_dirname, "
+					. "private_flag "
+				. "FROM {pages} "
+				. "WHERE room_id = ?";
+		$pages =& $this->_db->execute($sql, $roomId);
+		if ($pages === false) {
+			$this->_db->addError();
+			return false;
+		}
+		foreach ($pages as $page) {
+			$inValue .= $page['page_id'] . ',';
+
+			if ($page['page_id'] == $page['room_id']) {
+				$parentId = $page['parent_id'];
+				$sequence = $page['display_sequence'];
+				$language = $page['lang_dirname'];
+				$isPrivate = $page['private_flag'];
+			}
+		}
+
+		if (empty($inValue)) {
+			return false;
+		}
+		$inValue = substr($inValue, 0, -1);
+		if (!$this->deletePagesByInOperator($inValue)) {
+			return false;
+		}
+
+		if (!empty($parentId)
+				&& !$this->decrementDisplaySeq($parentId, $sequence, $language)) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	/**
+	 * 各モジュール削除処理を呼出す。
+	 *
+	 * @param mix $roomId ルームID
+	 * @param array $modules モジュールデータ配列
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteEachModule($roomId, $modules)
+	{
+		foreach ($modules as $module) {
+			$actionName = $module['delete_action'];
+			if (!strlen($actionName)) {
+				continue;
+			}
+
+			if (!$this->delFuncExec($roomId, $module, $actionName)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * ルームモジュールデータを削除する。
+	 *
+	 * @param string $roomId ルームID
+	 * @param array $moduleIds モジュールID配列
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteRoomModule($roomId, $moduleIds)
+	{
+		if (isset($roomId)
+				&& is_array($moduleIds)
+				&& empty($moduleIds)) {
+			return true;
+		}
+
+		$whereClause = '';
+		$bindValues = array();
+		if (!empty($roomId)) {
+			$whereClause .= "room_id = ? ";
+			$bindValues = array(
+				$roomId
+			);
+		}
+		if (!empty($roomId)
+				&& !empty($moduleIds)) {
+			$whereClause .= "AND ";
+		}
+		if (!empty($moduleIds)) {
+			$whereClause .= "module_id IN ('" . implode("','", $moduleIds) . "')";
+		}
+
+		$sql = "DELETE FROM {pages_modules_link} "
+				. "WHERE " . $whereClause;
+		if (!$this->_db->execute($sql, $bindValues)) {
+			$this->_db->addError();
+			return false;
+		}
+
+		$uploadsAction =& $this->_container->getComponent('uploadsAction');
+		if (!$uploadsAction->deleteByWhereClause($whereClause, $bindValues)) {
+			return false;
+		}
+
+		$whatsnewAction =& $this->_container->getComponent('whatsnewAction');
+		if (!$whatsnewAction->deleteByWhereClause($whereClause, $bindValues)) {
+			return false;
+		}
+
+		$abbreviateurlAction =& $this->_container->getComponent('abbreviateurlAction');
+		if (!$abbreviateurlAction->deleteByWhereClause($whereClause, $bindValues)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * IN演算子でページデータ、および、ページIDに関係するデータを削除する
+	 *
+	 * @param string $inValue IN演算子の値（カンマ区切り）
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deletePagesByInOperator($inValue)
+	{
+		if (empty($inValue)) {
+			return true;
+		}
+
+		$sql = "SELECT B.block_id, "
+					. "B.page_id, "
+					. "B.module_id, "
+					. "B.action_name, "
+					. "M.block_delete_action "
+				. "FROM {blocks} B "
+				. "LEFT JOIN {modules} M "
+					. "ON B.module_id = M.module_id "
+				. "WHERE B.page_id IN (" . $inValue . ")";
+		$blocks =& $this->_db->execute($sql);
+		if ($blocks === false) {
+			$this->_db->addError();
+			return false;
+		}
+
+		$blocksAction =& $this->_container->getComponent('blocksAction');
+		foreach ($blocks as $block) {
+			$blockId = $block['block_id'];
+			$actionName = $block['block_delete_action'];
+			if (!strlen($actionName)) {
+				continue;
+			}
+
+			if (!$blocksAction->delFuncExec($blockId, $block, $actionName)) {
+				return false;
+			}
+		}
+
+		if (!$this->deleteByInOperator('blocks', $inValue)) {
+			return false;
+		}
+
+		if (!$this->deleteByInOperator('menu_detail', $inValue)) {
+			return false;
+		}
+
+		if (!$this->deleteByInOperator('mobile_menu_detail', $inValue)) {
+			return false;
+		}
+
+		if (!$this->deleteByInOperator('pages_meta_inf', $inValue)) {
+			return false;
+		}
+
+		if (!$this->deleteByInOperator('pages_style', $inValue, 'set_page_id')) {
+			return false;
+		}
+
+		if (!$this->deleteByInOperator('pages', $inValue)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * IN演算子でデータを削除する。
+	 *
+	 * @param string $tableName 対象テーブル名称
+	 * @param string $inValue IN演算子の値（カンマ区切り文字列）
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteByInOperator($tableName, $inValue, $columnName = 'page_id')
+	{
+		if (empty($inValue)) {
+			return true;
+		}
+
+		$sql = "DELETE FROM {" . $tableName . "} "
+				. "WHERE " . $columnName . " IN (" . $inValue . ")";
+		if (!$this->_db->execute($sql)) {
+			$this->_db->addError();
+			return false;
+		}
+
+		return true;
 	}
 }
 ?>

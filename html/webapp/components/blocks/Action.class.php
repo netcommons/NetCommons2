@@ -631,13 +631,13 @@ class Blocks_Action {
 						// 配列でなければエラーとする
 						return false;	
 					}
-					
+
 					//自動的に削除
 					$where_params = array( 
 						"block_id" => $block_id
 					);
 					$error = false;
-							
+
 					foreach ($table_list as $table_name) {
 						//ブロックIDより削除処理。ブロックIDがなければ、処理しない
 						$result = $this->_db->execute("DESCRIBE ".$table_name." block_id");
@@ -658,28 +658,35 @@ class Blocks_Action {
 					//削除関数呼び出し
 					//
 					$pathList   = explode("_", $delete_action);
-			        $ucPathList = array_map('ucfirst', $pathList);
-			
-			        $basename = ucfirst($pathList[count($pathList) - 1]);
-			
-			        $actionPath = join("/", $pathList);
-			        $className  = join("_", $ucPathList);
-			        $filename   = MODULE_DIR . "/${actionPath}/${basename}.class.php";
-	        		if (@file_exists($filename)) {
+					$ucPathList = array_map('ucfirst', $pathList);
+
+					$basename = ucfirst($pathList[count($pathList) - 1]);
+
+					$actionPath = join("/", $pathList);
+					$className  = join("_", $ucPathList);
+					$filename   = MODULE_DIR . "/${actionPath}/${basename}.class.php";
+					if (@file_exists($filename)) {
 						//$params = array("action" =>$delete_action, "block_id" =>$block_id, "page_id" =>$block_obj['page_id'], "table_name" =>$table_list);
 						$pagesView =& $this->_container->getComponent("pagesView");
 						$page = $pagesView->getPageById($block_obj['page_id']);
-   						if($page === false) {
-   							return false;
-   						}
-   			
-						$params = array("action" =>$delete_action, "mode"=>"block_delete", "block_id" =>$block_id, "page_id" =>$block_obj['page_id'], "room_id" =>$page['room_id']);
+						if($page === false) {
+							return false;
+						}
+
+						$params = array(
+							'action' => $delete_action,
+							'mode' => 'block_delete',
+							'block_id' => $block_id,
+							'page_id' => $block_obj['page_id'],
+							'room_id' => $page['room_id'],
+							'module_id' => $block_obj['module_id']
+						);
 						$result = $this->preexecuteMain->preExecute($delete_action, $params);
 						if($result === false || $result === "false") {
 							//エラーが発生した場合、エラーリストに追加
 							$this->_db->addError("delFuncExec", sprintf(_INVALID_ACTION, $delete_action));
 						}
-	        		}
+					}
 				}
 			}
 		}

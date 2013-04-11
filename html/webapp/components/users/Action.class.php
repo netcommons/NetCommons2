@@ -65,7 +65,7 @@ class Users_Action
 			// Hash値で同じものがないか念のためチェック
 			$result = $this->_db->selectExecute("users", array("user_id" => $user_id));
 			if ($result === false) {
-		       	return false;
+				return false;
 			}
 			if(!isset($result[0]['user_id'])) {
 				break;
@@ -105,7 +105,7 @@ class Users_Action
 	function insItemDesc($item_id, $params=array()) {
 		$db_params = array("item_id"=>0);
 		$db_params = array_merge($db_params, $params);
-       	$db_params["item_id"] = $item_id;
+		$db_params["item_id"] = $item_id;
 
 		return $this->_db->insertExecute("items_desc", $db_params);
 	}
@@ -120,7 +120,7 @@ class Users_Action
 	function insItemOptions($item_id, $params=array()) {
 		$db_params = array("item_id"=>0);
 		$db_params = array_merge($db_params, $params);
-       	$db_params["item_id"] = $item_id;
+		$db_params["item_id"] = $item_id;
 
 		return $this->_db->insertExecute("items_options", $db_params);
 	}
@@ -308,8 +308,8 @@ class Users_Action
 		}
 		$result = $this->_db->deleteExecute("users_items_link", $params);
 		if ($result === false) {
-	       	$this->_db->addError();
-	       	return $result;
+			$this->_db->addError();
+			return $result;
 		}
 		return true;
 	}
@@ -328,8 +328,8 @@ class Users_Action
 		);
 		$result = $this->_db->deleteExecute("items_desc", $params);
 		if ($result === false) {
-	       	$this->_db->addError();
-	       	return $result;
+			$this->_db->addError();
+			return $result;
 		}
 		return true;
 	}
@@ -348,9 +348,164 @@ class Users_Action
 		);
 		$result = $this->_db->deleteExecute("items_options", $params);
 		if ($result === false) {
-	       	$this->_db->addError();
-	       	return $result;
+			$this->_db->addError();
+			return $result;
 		}
+		return true;
+	}
+	
+	/**
+	 * 会員データを削除する
+	 *
+	 * @param mix $roomId 削除対象ルームID
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteUser($userId)
+	{
+		if (empty($userId)) {
+			return true;
+		}
+
+		$userIds = $userId;
+		if (!is_array($userId)) {
+			$userIds = array($userId);
+		}
+		$inValue = "'" . implode("','", $userIds) . "'";
+
+		$sql = "SELECT P.room_id, "
+					. "U.role_authority_id "
+				. "FROM {pages} P "
+				. "INNER JOIN {users} U "
+					. "ON P.insert_user_id = U.user_id "
+				. "WHERE P.thread_num = ? "
+				. "AND P.private_flag = ? "
+				. "AND P.space_type = ? "
+				. "AND P.insert_user_id IN (" . $inValue . ")";
+		$bindValues = array(
+			0,
+			_ON,
+			_SPACE_TYPE_GROUP
+		);
+		$privateRoomsPerRole = $this->_db->execute($sql, $bindValues, null, null, true, array($this, '_fetchPrivateRoomPerRole'));
+		
+		$roles = array_keys($privateRoomsPerRole);
+		$sql = "SELECT M.action_name, "
+					. "M.delete_action, "
+					. "AM.role_authority_id "
+				. "FROM {modules} M "
+				. "INNER JOIN {authorities_modules_link} AM "
+					. "ON M.module_id = AM.module_id "
+				. "WHERE M.system_flag = ? "
+				. "AND AM.role_authority_id IN ('" . implode("','", $roles) . "')";
+		$bindValues = array(
+				_OFF
+		);
+		$modulesPerRole =& $this->_db->execute($sql, $bindValues, null, null, true, array($this, '_fetchModulePerRole'));
+		if ($modulesPerRole === false) {
+			return false;
+		}
+
+		$pagesAction =& $this->_container->getComponent('pagesAction');
+		foreach ($privateRoomsPerRole as $roleId => $privateRooms) {
+			if (!$pagesAction->deleteEachModule($privateRooms, $modulesPerRole[$roleId])) {
+				return false;
+			}
+
+			foreach ($privateRooms as $roomId) {
+				if (!$pagesAction->deleteRoom($roomId)) {
+					return false;
+				}
+			}
+		}
+		
+		if (!$this->deleteByInOperator('users', $inValue)) {
+			return false;
+		}
+		
+		if (!$this->deleteByInOperator('users_items_link', $inValue)) {
+			return false;
+		}
+		
+		if (!$this->deleteByInOperator('pages_users_link', $inValue)) {
+			return false;
+		}
+		
+		$sql = "UPDATE {uploads} "
+				. "SET "
+				. "garbage_flag = ? "
+				. "WHERE action_name = ? "
+				. "AND unique_id IN (" . $inValue . ") "
+				. "AND garbage_flag = ?";
+		$bindValues = array(
+			_ON,
+			'common_download_user',
+			_OFF
+		);
+		if (!$this->_db->execute($sql, $bindValues)) {
+			$this->_db->addError();
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * ロール毎のプライベートスペースデータ配列を作成する。
+	 *
+	 * @param object $recordSet プライベートスペースデータADORecordSet
+	 * @return array モジュールデータ配列
+	 * @access public
+	 */
+	function _fetchPrivateRoomPerRole($recordSet)
+	{
+		$privateRoomsPerRole = array();
+		while ($privateRoom = $recordSet->fetchRow()) {
+			$roleId = $privateRoom['role_authority_id'];
+			$privateRoomsPerRole[$roleId][] = $privateRoom['room_id'];
+		}
+
+		return $privateRoomsPerRole;
+	}
+
+	/**
+	 * ロール毎にモジュールデータ配列を作成する
+	 *
+	 * @param array $recordSet タスクADORecordSet
+	 * @return array モジュールデータ配列
+	 * @access	private
+	 */
+	function _fetchModulePerRole($recordSet) {
+		$modulesPerRole = array();
+		while ($module = $recordSet->fetchRow()) {
+			$roleId = $module['role_authority_id'];
+			$modulesPerRole[$roleId][] = $module;
+		}
+
+		return $modulesPerRole;
+	}
+
+	/**
+	 * IN演算子でデータを削除する。
+	 *
+	 * @param string $tableName 対象テーブル名称
+	 * @param string $inValue IN演算子の値（カンマ区切り文字列）
+	 * @return boolean true or false
+	 * @access public
+	 */
+	function deleteByInOperator($tableName, $inValue)
+	{
+		if (empty($inValue)) {
+			return true;
+		}
+	
+		$sql = "DELETE FROM {" . $tableName . "} "
+				. "WHERE user_id IN (" . $inValue . ")";
+		if (!$this->_db->execute($sql)) {
+			$this->_db->addError();
+			return false;
+		}
+	
 		return true;
 	}
 }
