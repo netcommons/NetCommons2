@@ -190,6 +190,33 @@ class Reservation_Update extends Action
 			$result = $this->db->execute($sql);
 			if($result === false) return false;
 		}
+
+		$sql = "SELECT RD.reserve_details_id, "
+					. "R.room_id "
+				. "FROM {reservation_reserve_details} RD "
+				. "LEFT JOIN {reservation_reserve} R "
+					. "ON RD.reserve_details_id = R.reserve_details_id "
+				. "WHERE R.room_id != RD.room_id "
+				. "OR R.room_id IS NULL "
+				. "GROUP BY RD.reserve_details_id";
+		$reserves = $this->db->execute($sql);
+		foreach ($reserves as $reserve) {
+			$whereArray = array(
+				'reserve_details_id' => $reserve['reserve_details_id']
+			);
+			if (isset($reserve['room_id'])) {
+				$updateColumns = array(
+					'room_id' => $reserve['room_id']
+				);
+				$result = $this->db->updateExecute('reservation_reserve_details', $updateColumns, $whereArray, false);
+			} else {
+				$result = $this->db->deleteExecute('reservation_reserve_details', $whereArray);  
+			}
+			if ($result === false) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 }
