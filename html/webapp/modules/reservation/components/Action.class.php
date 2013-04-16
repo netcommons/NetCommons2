@@ -1021,7 +1021,8 @@ class Reservation_Components_Action
 		$details_params = array(
 			"contact" => $this->_request->getParameter("contact"),
 			"description" => $description,
-			"rrule" => $rrule_str
+			"rrule" => $rrule_str,
+			'room_id' => $reserve_room_id
 		);
 
 		if ($edit_rrule == RESERVATION_RESERVE_EDIT_ALL) {
