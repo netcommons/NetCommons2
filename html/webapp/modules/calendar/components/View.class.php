@@ -1214,37 +1214,37 @@ class Calendar_Components_View
 	 */
 	function &getSelectRoomList()
 	{
-    	$calendarView =& $this->_container->getComponent("calendarView");
+		$calendarView =& $this->_container->getComponent("calendarView");
 
-    	$calendar_block = $calendarView->getBlock();
-    	if ($calendar_block === false) {
-    		return $calendar_block;
-    	}
+		$calendar_block = $calendarView->getBlock();
+		if ($calendar_block === false) {
+			return $calendar_block;
+		}
 
-    	$sess_myroom_flag = $this->_session->getParameter(array("calendar", "myroom_flag", $calendar_block["block_id"]));
+		$sess_myroom_flag = $this->_session->getParameter(array("calendar", "myroom_flag", $calendar_block["block_id"]));
 		if (isset($sess_myroom_flag)) {
 			$calendar_block["myroom_flag"] = intval($sess_myroom_flag);
 		}
 
-    	$user_id = $this->_session->getParameter("_user_id");
+		$user_id = $this->_session->getParameter("_user_id");
 
-    	$room_arr = $this->_request->getParameter("room_arr");
-    	if (!empty($user_id)) {
-	    	$room_arr[0][0][0] = array(
-	    		"page_id" => CALENDAR_ALL_MEMBERS_ID,
-	    		"parent_id" => 0,
-	    		"page_name" => CALENDAR_ALL_MEMBERS_LANG,
-	    		"thread_num" => 0,
-	    		"space_type" => _SPACE_TYPE_UNDEFINED,
-	    		"private_flag" => _OFF,
-	    		"authority_id" => $this->_session->getParameter("_user_auth_id")
-	    	);
-    	}
+		$room_arr = $this->_request->getParameter("room_arr");
+		if (!empty($user_id)) {
+			$room_arr[0][0][0] = array(
+				"page_id" => CALENDAR_ALL_MEMBERS_ID,
+				"parent_id" => 0,
+				"page_name" => CALENDAR_ALL_MEMBERS_LANG,
+				"thread_num" => 0,
+				"space_type" => _SPACE_TYPE_UNDEFINED,
+				"private_flag" => _OFF,
+				"authority_id" => $this->_session->getParameter("_user_auth_id")
+			);
+		}
 
 		$thread_num = 0;
 		$parent_id = 0;
 
-    	$getdata =& $this->_container->getComponent("GetData");
+		$getdata =& $this->_container->getComponent("GetData");
 		$pages = $getdata->getParameter("pages");
 
 		$actionChain =& $this->_container->getComponent("ActionChain");
@@ -1254,12 +1254,11 @@ class Calendar_Components_View
 			"not_enroll_room_arr" => array(),
 			"room_arr" => $room_arr,
 			"calendar_block" => $calendar_block,
-			"_page" => $pages[$this->_session->getParameter("_main_page_id")],
 			"private_room_id_arr" => array(),
 			"action_name" => $actionChain->getCurActionName()
 		);
 
-   		$sess_enroll_room = $this->_session->getParameter(array("calendar", "enroll_room", $calendar_block["block_id"]));
+		$sess_enroll_room = $this->_session->getParameter(array("calendar", "enroll_room", $calendar_block["block_id"]));
 		foreach ($result_params["room_arr"][$thread_num][$parent_id] as $disp => $room) {
 			if ($room["space_type"] == _SPACE_TYPE_GROUP && $room["private_flag"] == _ON) {
 				if ($result_params["calendar_block"]["myroom_flag"] == _ON) {
