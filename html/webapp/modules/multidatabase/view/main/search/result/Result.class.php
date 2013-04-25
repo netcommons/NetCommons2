@@ -199,6 +199,11 @@ class Multidatabase_View_Main_Search_Result extends Action
 			$order_params = array(
 				"{multidatabase_content}.insert_time" => "ASC"
 			);
+		}else if($this->sort_metadata == MULTIDATABASE_DEFAULT_VOTE_SORT) {
+			$order_params = array(
+				"{multidatabase_content}.vote_count" => "DESC",
+				"{multidatabase_content}.insert_time" => "DESC"
+			);
 		}else if(isset($this->sort_metadatas[$this->sort_metadata]) && ($this->sort_metadatas[$this->sort_metadata]["type"] == MULTIDATABASE_META_TYPE_FILE || $this->sort_metadatas[$this->sort_metadata]["type"] == MULTIDATABASE_META_TYPE_IMAGE)) {
 			$order_params = array(
 				"F".$this->sort_metadata.".file_name" => "ASC",
