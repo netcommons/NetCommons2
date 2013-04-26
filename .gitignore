@@ -18,3 +18,6 @@
 # C:\Github\NetCommons2 > git init .
 # C:\Github\NetCommons2 > git checkout -b develop
 # C:\Github\NetCommons2 [develop +0 ~1 -0]> git update-index --assume-unchanged html\webapp\config\install.inc.php
+
+# Eclipse開発用無視ファイル設定
+/.settings
