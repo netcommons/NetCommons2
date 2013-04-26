@@ -55,15 +55,14 @@ class Login_Validator_ItemsInputs extends Validator
 		if($show_items === false) {
 			return $errStr;
 		}
-		$autoregist_use_items = explode("|", $config['autoregist_use_items']['conf_value']);
-		foreach($autoregist_use_items as $autoregist_use_item) {
+		$configs = explode("|", $config['autoregist_use_items']['conf_value']);
+		foreach($configs as $autoregist_use_item) {
 			$buf_arr = explode(":", $autoregist_use_item);
 			if(isset($buf_arr[0]) && $buf_arr[0] != "") {
 				$autoregist_use_items[$buf_arr[0]] = $buf_arr[0];
 				$autoregist_use_items_req[$buf_arr[0]] = $buf_arr[1];
 			}
 		}
-
 		$files = $fileUpload->getOriginalName();
 		$files_key = array_keys($files);
 
