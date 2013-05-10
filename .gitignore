@@ -5,6 +5,9 @@
 /html/images
 /html/js
 /html/themes
+/html/htdocs/images
+/html/htdocs/js
+/html/htdocs/themes
 
 /html/webapp/templates_c/*
 /html/webapp/uploads/*
@@ -21,3 +24,5 @@
 
 # Eclipse開発用無視ファイル設定
 /.settings
+/.buildpath
+/.project
