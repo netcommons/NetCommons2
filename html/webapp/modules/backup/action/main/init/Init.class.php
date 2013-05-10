@@ -249,7 +249,7 @@ class Backup_Action_Main_Init extends Action
 		$archiveDir = (isset($startIndexDirs[0])) ? $archiveBaseDir . implode('/', $startIndexDirs) : substr($archiveBaseDir, 0, strlen($archiveBaseDir) - 1);
 		$this->_readStartFile($source, START_INDEX_DIR, $archiveDir);
 
-		if(file_exists(dirname(START_INDEX_DIR) . INDEX_FILE_NAME)) {
+		if (file_exists(dirname(START_INDEX_DIR) . INDEX_FILE_NAME)) {
 			$handle = fopen(dirname(START_INDEX_DIR) . INDEX_FILE_NAME, "r");
 			if ($handle) {
 				$contents = fread($handle, 94);
@@ -258,7 +258,7 @@ class Backup_Action_Main_Init extends Action
 					$source[] = File_Archive::read(dirname(START_INDEX_DIR) . INDEX_FILE_NAME, dirname($archiveDir) . INDEX_FILE_NAME);
 				}
 			}
-		} else {
+		} elseif (file_exists(START_INDEX_DIR . '/htdocs' . INDEX_FILE_NAME)) {
 			$source[] = File_Archive::read(START_INDEX_DIR . '/htdocs' . INDEX_FILE_NAME, $archiveDir . '/htdocs' . INDEX_FILE_NAME);
 		}
 
