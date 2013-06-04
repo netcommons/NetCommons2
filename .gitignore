@@ -26,3 +26,17 @@
 /.settings
 /.buildpath
 /.project
+
+# MacOSXシステムファイル無視設定
+.DS_Store
+__MACOSX
+thumbs.db
+._*
+.Spotlight-V100
+.Trashes
+
+# Windowsシステムファイル無視設定
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
