@@ -1,0 +1,11 @@
+<{strip}>
+<{assign var="now_thread_num" value=$action.thread_num}>
+<{assign var="now_parent_id" value=$action.parent_id}>
+<{assign var="menus" value=$action.menus.$now_thread_num.$now_parent_id}>
+
+<{assign var="pldwn_sub_class_name" value="menu_jq_gnavi_pldwn_gray_sub"}>
+<{assign var="pldwn_btn_class_name" value="menu_jq_gnavi_pldwn_gray_btn"}>
+<{assign var="pldwn_highlight_class_name" value="menu_jq_gnavi_pldwn_gray_highlight"}>
+
+<{include file="menu_view_main_list.html"}>
+<{/strip}>

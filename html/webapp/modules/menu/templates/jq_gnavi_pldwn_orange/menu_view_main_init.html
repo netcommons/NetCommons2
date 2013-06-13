@@ -1,0 +1,50 @@
+<{strip}>
+<{assign var="menus" value=$action.menus.0.0}>
+<{assign var="thread_nest" value=0}>
+
+<{assign var="pldwn_sub_class_name" value="menu_jq_gnavi_pldwn_orange_sub"}>
+<{assign var="pldwn_btn_class_name" value="menu_jq_gnavi_pldwn_orange_btn"}>
+<{assign var="pldwn_highlight_class_name" value="menu_jq_gnavi_pldwn_orange_highlight"}>
+
+<ul class="menu_jq_gnavi_pldwn_orange">
+<{include file="menu_view_main_list.html"}>
+</ul>
+<{include file="../menu_script.html"}>
+<script class="nc_script" type="text/javascript">
+jqcheckCls.jqload("jquery-1.6.4.min", "window.jQuery",
+	function() {
+		var zindex = 900;
+		if(browser.isIE && browser.version <= 7) {
+			jQuery("#<{$id}> ul.menu_jq_gnavi_pldwn_orange > li").each(function(index,el) {
+				jQuery(el).attr("style","z-index:"+zindex);
+				zindex--;
+			});
+		}
+		if(browser.isIE && browser.version < 7) {
+			jQuery("#<{$id}> ul.menu_jq_gnavi_pldwn_orange li").hover(
+				function() { jQuery(">a", this).addClass("menu_jq_gnavi_pldwn_orange_actives"); jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub:not(:animated)", this).show(); },
+				function() { jQuery(">a", this).removeClass("menu_jq_gnavi_pldwn_orange_actives"); jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub", this).hide(); }
+			);
+		}
+		else {
+			jQuery("#<{$id}> ul.menu_jq_gnavi_pldwn_orange li").hover(
+				function() { 
+					jQuery(">a", this).addClass("menu_jq_gnavi_pldwn_orange_actives");
+					if(jQuery(this).closest("ul").hasClass("menu_jq_gnavi_pldwn_orange_sub")) {
+						/*!browser.isIE && browser.version > 7 first view */
+						if(jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub", this).css("left")=="0px" || jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub", this).css("left") == "auto"){
+							jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub", this).css("left", jQuery(this).width());
+						}
+					}
+					jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub:not(:animated)", this).slideDown("fast"); 
+				},
+				function() { 
+					jQuery(">a", this).removeClass("menu_jq_gnavi_pldwn_orange_actives");
+					jQuery(">ul.menu_jq_gnavi_pldwn_orange_sub", this).slideUp("fast"); 
+				}
+			);
+		}
+	}
+);
+</script>
+<{/strip}>
