@@ -116,7 +116,7 @@ class Calendar_View_Main_Plan_Add extends Action
 
     	$this->calendar_obj = array(
     		"calendar_id" => 0,
-    		"room_id" => ($this->plan_room_id > 0 ? $this->plan_room_id : $this->room_id),
+    		"room_id" => ($this->plan_room_id > 0 ? $this->plan_room_id : $this->session->getParameter('_main_room_id')),
     		"title" => $this->title,
     		"title_icon" => $this->title_icon,
     		"allday_flag" => $this->allday_flag,
