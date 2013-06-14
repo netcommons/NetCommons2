@@ -1,0 +1,115 @@
+<{strip}>
+
+<div class="outerdiv">
+
+<form id="reservation_timeframe_entry_form<{$id}>" action="#" method="post" onsubmit="return false;">
+	<input type="hidden" name="timeframe_id" value="<{$action.timeframe_id}>" />
+	<{foreach name="week_list" key="wday" item="week" from=$action.week_list}>
+		<input type="hidden" name="rrule_byday[<{$smarty.foreach.week_list.index}>]" value="<{$wday}>" />
+	<{/foreach}>
+
+	<table class="reservation_timeframe_entry">
+		<tr>
+			<th scope="row" class="nowrap">
+				<label for="reservation_timeframe_name<{$id}>">
+					<{$lang.reservation_timeframe_name_label|smarty:nodefaults}>
+				</lable>
+			</th>
+			<td>
+				<input type="text" id="reservation_timeframe_name<{$id}>" name="timeframe_name" value="<{$action.timeframe.timeframe_name}>" />
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="nowrap">
+				<label for="reservation_timeframe_start_hour<{$id}>">
+					<{$lang.reservation_timeframe_range_label|smarty:nodefaults}>
+				</lable>
+			</th>
+			<td class="nowrap">
+				<select name="start_hour" id="reservation_timeframe_start_hour<{$id}>">
+					<{assign var=timeframe_hour value=$action.timeframe.start_time_original|substr:0:2|intval}>
+					<{section name=hour loop=24 start=0 step=1}>
+					<{assign var=hour value=$smarty.section.hour.index}>
+					<option value="<{"%02d"|sprintf:$hour}>"<{if ($hour == $timeframe_hour) }> selected="selected"<{/if}>>
+						<{$hour|string_format:$lang.reservation_hour_format|smarty:nodefaults}>
+					</option>
+					<{/section}>
+				</select>
+				&nbsp;
+				<select name="start_minute" id="reservation_timeframe_start_minute<{$id}>">
+					<{assign var=timeframe_minute value=$action.timeframe.start_time_original|substr:2:2|intval}>
+					<{section name=minute loop=60 start=0 step=5}>
+						<{assign var=minute value=$smarty.section.minute.index}>
+						<option value="<{"%02d"|sprintf:$minute}>"<{if ($minute == $timeframe_minute) }> selected="selected"<{/if}>>
+							<{$minute|string_format:$lang.reservation_minute_format|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+
+				<{$lang.reservation_time_pause|smarty:nodefaults}>
+
+				<select name="end_hour"  onchange='reservationCls["<{$id}>"].switchTimeframeTime24(this.form);'>
+					<{section name=hour loop=25 start=0 step=1}>
+						<{assign var=hour value=$smarty.section.hour.index}>
+						<{assign var=timeframe_hour value=$action.timeframe.end_time_original|substr:0:2|intval}>
+						<option value="<{"%02d"|sprintf:$hour}>"<{if ($hour == $timeframe_hour) }> selected="selected"<{/if}>>
+							<{$hour|string_format:$lang.reservation_hour_format|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+				&nbsp;
+				<select name="end_minute">
+					<{section name=minute loop=60 start=0 step=5}>
+						<{assign var=minute value=$smarty.section.minute.index}>
+						<{assign var=timeframe_minute value=$action.timeframe.end_time_original|substr:2:2|intval}>
+						<option value="<{"%02d"|sprintf:$minute}>"<{if ($minute == $timeframe_minute) }> selected="selected"<{/if}>>
+							<{$minute|string_format:$lang.reservation_minute_format|smarty:nodefaults}>
+						</option>
+					<{/section}>
+				</select>
+
+				<{if $action.timeframe_id != null && ($smarty.session._timezone_offset != $action.timeframe.timezone_offset) }>
+					<br />
+					<{include file="reservation_view_timezone.html" timezone_offset=$action.timeframe.timezone_constant_string}>
+				<{/if}>
+
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row" class="nowrap">
+				<label for="reservation_timeframe_color<{$id}>">
+					<{$lang.reservation_timeframe_color_label|smarty:nodefaults}>
+				</lable>
+			</th>
+			<td class="nowrap">
+				<select id="reservation_timeframe_color<{$id}>" name="timeframe_color" onchange='reservationCls["<{$id}>"].switchTimeframeColor(this, this.form);'>
+					<option value="" style="background-color:#ffffff;">
+						<{$lang.reservation_timeframe_color_select_message}>
+					</option>
+					<{foreach item=color from=$action.timeframe_colors}>
+						<option style="background-color:<{$color}>;" value="<{$color}>"  <{if $color==$action.timeframe.timeframe_color}> selected="selected"<{/if}>>
+							&nbsp;
+						</option>
+					<{/foreach}>
+				</select>
+			</td>
+		</tr>
+	</table>
+
+	<div class="btn-bottom">
+		<input class="btn-width" type="button" value="<{$lang._regist|smarty:nodefaults}>" onclick='reservationCls["<{$id}>"].setTimeframe(this.form, "<{$action.block_id}>"); return false;' />
+		&nbsp;
+		<input class="btn-width" type="button" value="<{$lang._cancel|smarty:nodefaults}>" onclick='commonCls.removeBlock("<{$id}>"); return false;' />
+	</div>
+
+</form>
+
+</div>
+
+<{include file="../reservation_script.html"}>
+<script class="nc_script" type="text/javascript">
+	reservationCls["<{$id}>"].switchTimeframeColor($('reservation_timeframe_color<{$id}>'), $('reservation_timeframe_entry_form<{$id}>'));
+</script>
+<{/strip}>

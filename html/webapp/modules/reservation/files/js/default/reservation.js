@@ -254,7 +254,7 @@ clsReservation.prototype = {
 	/*
 	 * Function of the reservation
 	 */
-	showEasyAddReserve: function(event, date, time, location_id) {
+	showEasyAddReserve: function(event, date, time, location_id, timeframe_id) {
 		var params = new Object();
 		params["prefix_id_name"] = "popup_regist_reservation";
 		params["action"] = "reservation_view_main_reserve_add";
@@ -267,6 +267,9 @@ clsReservation.prototype = {
 		}
 		if (time) {
 			params["time"] = time;
+		}
+		if (timeframe_id) {
+			params["timeframe_id"] = timeframe_id;
 		}
 		commonCls.sendPopupView(event, params, {"top_el":$(this.id),"modal_flag":true});
 	},
@@ -432,6 +435,9 @@ clsReservation.prototype = {
 	},
 
 	addReserve: function(id, form_el, details_flag) {
+
+		this._switchTimeframeDisable(form_el, false);
+
 		if (details_flag == "1") {
 			var description = this.textarea.getTextArea();
 			var params_str = "action=reservation_action_main_reserve_add&details_flag=1&" + Form.serialize(form_el) +
@@ -448,9 +454,16 @@ clsReservation.prototype = {
 			reservationCls[id].changeReservation();
 			commonCls.removeBlock(this.id);
 		}.bind(this);
+		params["callbackfunc_error"] = function(res) {
+			this._switchTimeframeDisable(form_el, true);
+			commonCls.alert(res);
+		}.bind(this);
 		commonCls.sendPost(this.id, params_str, params);
 	},
 	modifyReserve: function(id, form_el) {
+
+		this._switchTimeframeDisable(form_el, false);
+
 		var description = this.textarea.getTextArea();
 		var params_str = "action=reservation_action_main_reserve_modify&" + Form.serialize(form_el) +
 						"&description=" + encodeURIComponent(description);
@@ -462,6 +475,10 @@ clsReservation.prototype = {
 			}
 			reservationCls[id].changeReservation();
 			commonCls.removeBlock(this.id);
+		}.bind(this);
+		params["callbackfunc_error"] = function(res) {
+			this._switchTimeframeDisable(form_el, true);
+			commonCls.alert(res);
 		}.bind(this);
 		commonCls.sendPost(this.id, params_str, params);
 	},
@@ -476,6 +493,18 @@ clsReservation.prototype = {
 
 		commonCls.sendPost(this.id, "action=reservation_action_main_reserve_delete&reserve_id=" + reserve_id +
 									"&edit_rrule=" + edit_rrule, params);
+	},
+	_switchTimeframeDisable: function(form_el, opeflag) {
+		if(form_el.start_timeframe && form_el.end_timeframe) {
+			if($F(form_el.start_timeframe).length != 0) {
+				form_el.start_hour.disabled = opeflag;
+				form_el.start_minute.disabled = opeflag;
+			}
+			if($F(form_el.end_timeframe).length != 0) {
+				form_el.end_hour.disabled = opeflag;
+				form_el.end_minute.disabled = opeflag;
+			}
+		}
 	},
 	sendMail: function() {
 		commonCls.sendPost(this.id, "action=reservation_action_main_reserve_mail", {"loading_el":null});
@@ -639,11 +668,23 @@ clsReservation.prototype = {
 			form_el.start_minute.disabled = true;
 			form_el.end_hour.disabled = true;
 			form_el.end_minute.disabled = true;
+			if(form_el.start_timeframe) {
+				form_el.start_timeframe.disabled = true;
+			}
+			if(form_el.end_timeframe) {
+				form_el.end_timeframe.disabled = true;
+			}
 		} else {
 			form_el.start_hour.disabled = false;
 			form_el.start_minute.disabled = false;
 			form_el.end_hour.disabled = false;
 			form_el.end_minute.disabled = false;
+			if(form_el.start_timeframe) {
+				form_el.start_timeframe.disabled = false;
+			}
+			if(form_el.end_timeframe) {
+				form_el.end_timeframe.disabled = false;
+			}
 		}
 		this.switchTime24Reserve(form_el);
 	},
@@ -711,6 +752,31 @@ clsReservation.prototype = {
 			form_el.start_time_fixation.disabled = false;
 		} else {
 			form_el.start_time_fixation.disabled = true;
+		}
+	},
+	switchTimeframe: function(el, form_el, tgt_str) {
+		var times_str = $F(el);
+		var tgt_hour_el = $("reservation_" + tgt_str + "_hour" + this.id);
+		var tgt_minute_el = $("reservation_" + tgt_str + "_minute" + this.id);
+
+		if(times_str.length == 0) {
+			tgt_hour_el.disabled = false;
+			tgt_minute_el.disabled = false;
+		}
+		else {
+			var times = $F(el).split('|');
+			Form.Element.SetSerializers.select(tgt_hour_el, times[0]);
+			Form.Element.SetSerializers.select(tgt_minute_el, times[1]);
+			tgt_hour_el.disabled = true;
+			tgt_minute_el.disabled = true;
+/*
+			if(tgt_str=="start") {
+				if($F("reservation_end_timeframe"+this.id).length == 0) {
+					$("reservation_end_timeframe"+this.id).selectedIndex = el.selectedIndex;
+					this.switchTimeframe($("reservation_end_timeframe"+this.id), form_el, "end");
+				}
+			}
+*/
 		}
 	},
 	changeStyle: function(form_el) {
@@ -1030,6 +1096,34 @@ clsReservation.prototype = {
 		}.bind(this);
 
 		commonCls.sendPost(this.id, params_str, params);
+	},
+
+	/*
+	 * Timeframe functions
+	 */
+	switchTimeframeTime24: function(form_el) {
+		if (form_el.end_hour.value == "24") {
+			form_el.end_minute.disabled = true;
+			form_el.end_minute.value = "00";
+		} else {
+			form_el.end_minute.disabled = false;
+		}
+	},
+
+	switchTimeframeColor: function(el, form_el) {
+		var color = form_el.timeframe_color.value;
+		Element.setStyle(el, {"backgroundColor":color});
+	},
+
+	setTimeframe: function(form_el, block_id) {
+		var target_el = $("_"+block_id);
+		var params = new Object();
+		params["callbackfunc"] = function(res){
+			commonCls.sendView(target_el, "action=reservation_view_edit_timeframe" );
+			commonCls.removeBlock(this.id);
+		}.bind(this);
+		commonCls.sendPost(this.id, 'action=reservation_action_edit_timeframe_entry&' +
+									Form.serialize(form_el) , params);
 	},
 
 	/*

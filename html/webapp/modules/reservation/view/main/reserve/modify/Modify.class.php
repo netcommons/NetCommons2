@@ -22,10 +22,15 @@ class Reservation_View_Main_Reserve_Modify extends Action
 	var $location = null;
 	var $allow_add_rooms = null;
 	var $category_list = null;
+	var $reserve_block = null;
 	var $location_id = null;
 	var $location_list = null;
 	var $location_count = null;
 	var $location_count_list = null;
+	var $timeframe_list = null;
+	var $timeframe_list_count = null;
+	var $start_timeframe_id = null;
+	var $end_timeframe_id = null;
 
 	// Filterから受け取るため
 	var $room_arr = null;

@@ -19,7 +19,7 @@
 			<tr class="row">
 				<{include file="reservation_reserve_regist_location.html" reserve=$action.reserve|smarty:nodefaults}>
 			</tr>
-			
+
 			<{if ($action.details_flag == _ON) }>
 				<tr class="row">
 					<{include file="reservation_reserve_regist_contact.html" reserve=$action.reserve|smarty:nodefaults}>
@@ -36,7 +36,7 @@
 					</tr>
 				<{/if}>
 			<{/if}>
-			
+
 			<{if ($action.mail_send == _ON) }>
 				<tr class="row">
 					<{include file="reservation_reserve_regist_mail.html" reserve=$action.reserve|smarty:nodefaults}>
@@ -82,6 +82,10 @@
 		reservationCls["<{$id}>"].initRepeat();
 	<{/if}>
 	reservationCls["<{$id}>"].switchTime24Reserve($("reservation_form<{$id}>"));
+	if($("reservation_start_timeframe<{$id}>")) {
+		reservationCls["<{$id}>"].switchTimeframe($("reservation_start_timeframe<{$id}>"), $("reservation_form<{$id}>"), "start" );
+		reservationCls["<{$id}>"].switchTimeframe($("reservation_end_timeframe<{$id}>"), $("reservation_form<{$id}>"), "end" );
+	}
 	commonCls.focus("<{$id}>");
 </script>
 

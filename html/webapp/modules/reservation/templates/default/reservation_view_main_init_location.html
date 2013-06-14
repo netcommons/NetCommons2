@@ -12,11 +12,33 @@
 	<table id="reservation_location<{$id}>" class="reservation_reserve_body" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
 		<tr>
 			<td colspan="2" class="reservation_location_time_head">
+				<{if $action.reserve_block.display_timeframe == $smarty.const._ON}>
+					<div>&nbsp;</div>
+				<{/if}>
 				<div>&nbsp;</div>
 			</td>
 			<td rowspan="<{$action.rowspan}>">
 				<div id="reservation_time_frame<{$id}>" class="reservation_time_frame" style="width:<{$action.frame_width}>px;">
 					<table summary="">
+
+					<{if $action.reserve_block.display_timeframe == $smarty.const._ON}>
+					<tr>
+						<th colspan="24">
+							<div class="reservation_timeframe_wrapper" >
+								<{assign var=start_pos value=0}>
+								<{foreach from=$action.timeframe_list item=timeframe}>
+									<{assign var=spacer_width value=`$timeframe.left-$start_pos`}>
+									<div class="reservation_timeframe_spacer" style="width:<{$spacer_width}>px;"></div>
+									<div class="reservation_timeframe_label" style="width:<{$timeframe.width-2}>px;background-color:<{if $timeframe.timeframe_color==""}>transparent<{else}><{$timeframe.timeframe_color}><{/if}>" title="<{$timeframe.start_time|timezone_date:false:$lang._short_time_format}><{$lang.reservation_time_pause}><{$timeframe.end_time|timezone_date:false:$lang._short_time_format}>">
+										<{$timeframe.timeframe_name}>
+									</div>
+									<{assign var=start_pos value=$timeframe.left+$timeframe.width}>
+								<{/foreach}>
+							</div>
+						</th>
+					</tr>
+					<{/if}>
+
 						<tr>
 							<{section name=hour loop=24 start=0 step=1}>
 								<{assign var=hour value=$smarty.section.hour.index}>
@@ -31,7 +53,7 @@
 						<{foreach name="location_list" key="location_id" item="location" from=$action.location_list}>
 							<tr>
 								<td class="reservation_background" colspan="24">
-									
+
 									<{if ($action.reserve_data.$location_id.$view_date) }>
 										<{include file="reservation_view_main_list_location.html"}>
 									<{else}>

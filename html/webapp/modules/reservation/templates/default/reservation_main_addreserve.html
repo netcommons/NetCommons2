@@ -2,17 +2,29 @@
 
 <{if ($smarty.session._user_id && $smarty.session._user_id != "0") }>
 	<{if ($location_id != 0) }>
-		<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>",null,"<{$location_id}>"); return false;'>
-			<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" title="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" />
-		</a>
-	<{elseif ($hour === "") }>
-		<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>"); return false;'>
+		<{if ($hour === "" && $timeframe_id === "") }>
+			<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>",null,"<{$location_id}>"); return false;'>
+		<{elseif $timeframe_id === ""}>
+			<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>","<{"%02d00"|sprintf:$hour}>","<{$location_id}>"); return false;'>
+		<{else}>
+			<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>", null, "<{$location_id}>", "<{$timeframe_id}>"); return false;'>
+		<{/if}>
 			<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" title="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" />
 		</a>
 	<{else}>
-		<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>","<{"%02d00"|sprintf:$hour}>"); return false;'>
-			<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" title="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" />
-		</a>
+		<{if ($hour === "" && $timeframe_id === "") }>
+			<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>"); return false;'>
+				<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" title="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" />
+			</a>
+		<{elseif $timeframe_id === ""}>
+			<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>","<{"%02d00"|sprintf:$hour}>"); return false;'>
+				<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" title="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" />
+			</a>
+		<{else}>
+			<a class="icon hover_highlight" href="#" onclick='reservationCls["<{$id}>"].showEasyAddReserve(event,"<{$view_date}>", null, null, "<{$timeframe_id}>"); return false;'>
+				<img src="<{"edit_light.gif"|get_themes_image}>" class="icon" alt="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" title="<{$lang.reservation_easy_addreserve|smarty:nodefaults}>" />
+			</a>
+		<{/if}>
 	<{/if}>
 <{else}>
 	&nbsp;

@@ -217,6 +217,39 @@ class Reservation_Update extends Action
 			}
 		}
 
+		// reservation_blockにカラムを追加
+		$adodb = $this->db->getAdoDbObject();
+		$metaColumns = $adodb->MetaColumns($this->db->getPrefix().'reservation_block');
+		if(!isset($metaColumns['DISPLAY_TIMEFRAME'])) {
+			$sql = "ALTER TABLE `".$this->db->getPrefix()."reservation_block` ".
+					" ADD `display_timeframe` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `display_type` ;";
+			$result = $this->db->execute($sql);
+			if($result === false) return false;
+		}
+		// reservation_timeframeテーブルを追加
+		$metaTables = $adodb->MetaTables();
+		if (!in_array($this->db->getPrefix()."reservation_timeframe", $metaTables)) {
+			$sql = "CREATE TABLE `".$this->db->getPrefix()."reservation_timeframe` (" .
+					" `timeframe_id`        int(11) NOT NULL default '0'," .
+					" `timeframe_name`      varchar(255) default NULL," .
+					" `start_time`          varchar(14) NOT NULL default ''," .
+					" `end_time`            varchar(14) NOT NULL default ''," .
+					" `timezone_offset`     float(3,1) NOT NULL default '0.0'," .
+					" `timeframe_color`     varchar(16) NOT NULL default ''," .
+					" `insert_time`        varchar(14) NOT NULL default ''," .
+					" `insert_site_id`     varchar(40) NOT NULL default ''," .
+					" `insert_user_id`     varchar(40) NOT NULL default ''," .
+					" `insert_user_name`   varchar(255) NOT NULL default ''," .
+					" `update_time`        varchar(14) NOT NULL default ''," .
+					" `update_site_id`     varchar(40) NOT NULL default ''," .
+					" `update_user_id`     varchar(40) NOT NULL default ''," .
+					" `update_user_name`   varchar(255) NOT NULL default ''," .
+					" PRIMARY KEY  (`timeframe_id`)" .
+					") ENGINE=MyISAM;";
+			$result = $this->db->execute($sql);
+			if($result === false) return false;
+		}
+
 		return true;
 	}
 }

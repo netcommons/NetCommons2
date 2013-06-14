@@ -7,14 +7,33 @@
 </th>
 <td class="nowrap">
 	<input id="reserve_date<{$id}>" name="reserve_date" class="reservation_reserve_time" type="text" value="<{$reserve.input_start_date}>" size="13" maxlength="10" />
-	
+
 	<label for="allday_flag<{$id}>">
 		<input id="allday_flag<{$id}>" type="checkbox" name="allday_flag" value="<{$smarty.const._ON}>"<{if ($reserve.allday_flag == _ON) }> checked="checked"<{/if}> onclick='reservationCls["<{$id}>"].switchAllday(this.form);' />
 		<{$lang.reservation_allday_flag|smarty:nodefaults}>
 	</label>
-	
+
+	<{if $action.reserve_block.display_timeframe == $smarty.const._ON && $action.timeframe_list_count!=0}>
 	<br />
-	<select name="start_hour"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+	<select id="reservation_start_timeframe<{$id}>" name="start_timeframe" <{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}> onchange='reservationCls["<{$id}>"].switchTimeframe(this, this.form, "start");'>
+		<option value=""><{$lang.reservation_timeframe_start_frame}></option>
+		<{foreach from=$action.timeframe_list item=timeframe}>
+			<option value="<{$timeframe.start_time_view_hour}>|<{$timeframe.start_time_view_min}>" <{if $timeframe.timeframe_id==$action.start_timeframe_id}> selected="selected"<{/if}>><{$timeframe.timeframe_name}></option>
+		<{/foreach}>
+	</select>
+
+	<{$lang.reservation_time_pause|smarty:nodefaults}>
+
+	<select id="reservation_end_timeframe<{$id}>" name="end_timeframe" <{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}> onchange='reservationCls["<{$id}>"].switchTimeframe(this, this.form, "end");'>
+		<option value=""><{$lang.reservation_timeframe_end_frame}></option>
+		<{foreach from=$action.timeframe_list item=timeframe}>
+			<option value="<{$timeframe.end_time_view_hour}>|<{$timeframe.end_time_view_min}>"<{if $timeframe.timeframe_id==$action.end_timeframe_id}> selected="selected"<{/if}>><{$timeframe.timeframe_name}></option>
+		<{/foreach}>
+	</select>
+	<{/if}>
+
+	<br />
+	<select id="reservation_start_hour<{$id}>" name="start_hour"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}>>
 		<{section name=hour loop=24 start=0 step=1}>
 			<{assign var=hour value=$smarty.section.hour.index}>
 			<{assign var=reserve_hour value=$reserve.start_time_view|substr:0:2|intval}>
@@ -24,7 +43,7 @@
 		<{/section}>
 	</select>
 	&nbsp;
-	<select name="start_minute"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+	<select id="reservation_start_minute<{$id}>"  name="start_minute"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}>>
 		<{section name=minute loop=60 start=0 step=5}>
 			<{assign var=minute value=$smarty.section.minute.index}>
 			<{assign var=reserve_minute value=$reserve.start_time_view|substr:2:2|intval}>
@@ -33,10 +52,10 @@
 			</option>
 		<{/section}>
 	</select>
-	
+
 	<{$lang.reservation_time_pause|smarty:nodefaults}>
-	
-	<select name="end_hour"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}> onchange='reservationCls["<{$id}>"].switchTime24Reserve(this.form);'>
+
+	<select  id="reservation_end_hour<{$id}>"  name="end_hour"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}> onchange='reservationCls["<{$id}>"].switchTime24Reserve(this.form);'>
 		<{section name=hour loop=25 start=0 step=1}>
 			<{assign var=hour value=$smarty.section.hour.index}>
 			<{assign var=reserve_hour value=$reserve.end_time_view|substr:0:2|intval}>
@@ -46,7 +65,7 @@
 		<{/section}>
 	</select>
 	&nbsp;
-	<select name="end_minute"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}>>
+	<select id="reservation_end_minute<{$id}>"  name="end_minute"<{if ($reserve.allday_flag == _ON) }> disabled="disabled"<{/if}>>
 		<{section name=minute loop=60 start=0 step=5}>
 			<{assign var=minute value=$smarty.section.minute.index}>
 			<{assign var=reserve_minute value=$reserve.end_time_view|substr:2:2|intval}>

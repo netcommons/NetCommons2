@@ -1,0 +1,15 @@
+<{strip}>
+
+<th class="nowrap" scope="row">
+	<label for="reservation_timeframe_type<{$id}>" >
+		<{$lang.reservation_timeframe|smarty:nodefaults}>
+	</label>
+</th>
+<td class="nowrap">
+	<label for="display_timeframe<{$id}>" class="<{if $action.timeframe_list_count==0}>disable_lbl<{/if}>">
+	<input id="display_timeframe<{$id}>" type="checkbox" name="display_timeframe" value="<{$smarty.const._ON}>"<{if ($reserve_block.display_timeframe == $smarty.const._ON) }> checked="checked"<{/if}> <{if $action.timeframe_list_count == 0}>disabled="disabled"<{/if}> />
+		<{$lang.reservation_timeframe_on|smarty:nodefaults}>
+	</label>
+</td>
+
+<{/strip}>

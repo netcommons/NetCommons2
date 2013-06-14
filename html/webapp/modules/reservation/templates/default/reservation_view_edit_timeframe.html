@@ -1,0 +1,47 @@
+<div class="outerdiv">
+	<form id="reservation_timeframe_form<{$id}>" action="#" method="post" onsubmit="return false;">
+		<div class="top_description align-right">
+			<img class="icon" src="<{"add.gif"|get_themes_image}>" alt="" title="" />
+			<a href="#" class="syslink" title="<{$lang.reservation_timeframe_add_message}>" onclick="commonCls.sendPopupView(event,{'action':'reservation_view_edit_timeframe_entry','prefix_id_name':'popup_reservation_timeframe_add'}, {'top_el':$('<{$id}>'),'modal_flag':true}); return false;"><{$lang.reservation_timeframe_add_title}></a>
+		</div>
+
+		<div>
+
+		<{if $action.timeframe_list_count == 0}>
+			<{$lang.reservation_timeframe_no_exists|smarty:nodefaults}>
+		<{else}>
+
+			<{foreach item=timeframe from=$action.timeframe_list }>
+
+				<table cellspacing="0" cellpadding="0" summary="" id="reservation_timeframe_id_<{$timeframe.timeframe_id}>" class="reservation_timeframe">
+					<tbody>
+						<tr>
+							<td>
+								<div class="reservation_timeframe_name"><{$timeframe.timeframe_name}></div>
+							</td>
+							<td>
+								<div class="reservation_timeframe_time"><{$timeframe.start_time|timezone_date:false:$lang._short_time_format}><{$lang.reservation_time_pause}><{$timeframe.end_time|timezone_date:false:$lang._short_time_format}></div>
+								<{if ($smarty.session._timezone_offset != $timeframe.timezone_offset) }>
+									<div class="reservation_timeframe_time_original"><{$timeframe.timezone_string}>&nbsp;<{$timeframe.start_time_original_str}><{$lang.reservation_time_pause}><{$timeframe.end_time_original_str}></div>
+								<{/if}>
+							</td>
+							<td>
+								<div class="reservation_timeframe_color" style="background-color:<{$timeframe.timeframe_color}>;"></div>
+							</td>
+							<td class="align-right nowrap">
+								<a href="#" class="syslink" title="<{$lang._edit_title|sprintf:$timeframe.timeframe_name}>" onclick="commonCls.sendPopupView(event,{action:'reservation_view_edit_timeframe_entry','prefix_id_name':'popup_reservation_timeframe_entry',timeframe_id:<{$timeframe.timeframe_id}>}, {'top_el':$('<{$id}>'),'modal_flag':true}); return false;"><{$lang._edit}></a>
+								<{$lang._separator|smarty:nodefaults}>
+								<a class="syslink" href="#" title="<{$lang._del_title|sprintf:$timeframe.timeframe_name}>" onclick="if (commonCls.confirm('<{$lang.reservation_timeframe_delete_confirm_message|smarty:nodefaults|sprintf:$timeframe.timeframe_name}>')) {commonCls.sendPost('<{$id}>',{action:'reservation_action_edit_timeframe_delete',timeframe_id:<{$timeframe.timeframe_id}>},{target_el:$('<{$id}>')}); } return false;"><{$lang._delete}></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			<{foreachelse}>
+				<{$lang.reservation_timeframe_no_exists|smarty:nodefaults}>
+			<{/foreach}>
+		<{/if}>
+
+		</div>
+	</form>
+</div>

@@ -29,6 +29,11 @@ class Reservation_View_Main_Reserve_Add extends Action
 	var $location_list = null;
 	var $location_count = null;
 	var $location_count_list = null;
+	var $reserve_block = null;
+	var $timeframe_list = null;
+	var $timeframe_list_count = null;
+	var $start_timeframe_id = null;
+	var $end_timeframe_id = null;
 
 	// Filterから受け取るため
 	var $room_arr = null;

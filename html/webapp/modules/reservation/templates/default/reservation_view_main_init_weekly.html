@@ -1,7 +1,7 @@
 <{strip}>
 
 <{assign var="lang_year" value=$lang.reservation_monthly_year_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>
-<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>			
+<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$action.current_timestamp`"}>
 
 <div class="reservation_weekly">
 	<{include file="reservation_main_header_weekly.html"}>
@@ -12,6 +12,11 @@
 
 	<table id="reservation_weekly<{$id}>" class="reservation_body" summary="<{$lang.reservation_summary|smarty:nodefaults}>">
 		<tr>
+			<{if $action.reserve_block.display_timeframe == $smarty.const._ON}>
+			<td class="reservation_timeframe_head" >
+				<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
+			</td>
+			<{/if}>
 			<td class="reservation_time_head">
 				<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
 			</td>
@@ -24,7 +29,7 @@
 				<{/if}>
 				<{assign var="index" value=$smarty.section.timestamp.iteration-1}>
 				<{assign var="wday" value="w"|date:"`$timestamp`"}>
-	
+
 				<{assign var="wday_data" value=$action.week_list.$wday}>
 				<{assign var="lang_wday" value=$lang.reservation_wday_format|smarty:nodefaults|sprintf:"`$wday_data.name`"}>
 				<{assign var="lang_day" value=$lang.reservation_weekly_format|smarty:nodefaults|date:"`$timestamp`"}>
@@ -32,7 +37,7 @@
 				<{include file="reservation_main_set_day_class.html" assign="day_class" view_date=$action.view_date set_date=$date wday=$wday}>
 
 				<{assign var="lang_year" value=$lang.reservation_monthly_year_format|smarty:nodefaults|date:"`$timestamp`"}>
-				<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$timestamp`"}>			
+				<{assign var="lang_month" value=$lang.reservation_monthly_month_format|smarty:nodefaults|date:"`$timestamp`"}>
 
 				<th class="reservation_date_head" scope="row">
 					<div class="reservation_date">
@@ -60,7 +65,24 @@
 				<{assign var=hour value=$smarty.section.hour.index}>
 
 				<tr>
-					<th class="reservation_background reservation_time_height" scope="col">
+					<{if $action.reserve_block.display_timeframe == $smarty.const._ON && ($smarty.section.hour.first)}>
+						<th class="reservation_timeframe_wrapper" scope="col" rowspan=24>
+							<div class="reservation_timeframe_wrapper" >
+								<{assign var=start_pos value=0}>
+								<{foreach from=$action.timeframe_list item=timeframe}>
+									<{assign var=spacer_height value=`$timeframe.top-$start_pos`}>
+									<div class="reservation_timeframe_spacer" style="height:<{$spacer_height}>px;"></div>
+									<div class="reservation_timeframe_label" style="height:<{$timeframe.height-2}>px;background-color:<{if $timeframe.timeframe_color==""}>transparent<{else}><{$timeframe.timeframe_color}><{/if}>" title="<{$timeframe.start_time|timezone_date:false:$lang._short_time_format}><{$lang.reservation_time_pause}><{$timeframe.end_time|timezone_date:false:$lang._short_time_format}>">
+										<div class="float-right"><{include file="reservation_main_addreserve.html" view_date=$first_date timeframe_id=`$timeframe.timeframe_id`}></div>
+										<{$timeframe.timeframe_name}>
+									</div>
+									<{assign var=start_pos value=$timeframe.top+$timeframe.height}>
+								<{/foreach}>
+							</div>
+						</th>
+					<{/if}>
+
+					<th class="reservation_background reservation_time_height" scope="col" >
 						<div class="reservation_time">
 							<{$lang.reservation_time_format|smarty:nodefaults|sprintf:$hour}>
 							<{include file="reservation_main_addreserve.html" view_date=$first_date hour=$hour}>
@@ -71,8 +93,8 @@
 						<{section name=timestamp loop=$action.end_timestamp start=$action.start_timestamp step=86400}>
 							<{assign var="timestamp" value=$smarty.section.timestamp.index}>
 							<{assign var="date" value="Ymd"|date:$smarty.section.timestamp.index}>
-							
-							<td rowspan="24" class="reservation_background<{if ($smarty.section.timestamp.last) }> reservation_background_endline<{/if}>">
+
+							<td rowspan="24" class="reservation_background<{if ($smarty.section.timestamp.last) }> reservation_background_endline<{/if}>" style="width:94px;">
 								<div class="reservation_<{$date}>">
 									<{if ($action.reserve_data.$date) }>
 										<{include file="./reservation_view_main_list_weekly.html"}>
@@ -81,13 +103,18 @@
 									<{/if}>
 								</div>
 							</td>
-							
+
 						<{/section}>
 					<{/if}>
 				</tr>
 			<{/section}>
 
 			<tr>
+				<{if $action.reserve_block.display_timeframe == $smarty.const._ON}>
+				<th class="reservation_background reservation_timeframe_height">
+				</th>
+				<{/if}>
+
 				<td class="reservation_time_head">
 					<img class="reservation_blank" src="<{""|get_image_url}>/images/common/blank.gif" alt="" title="" />
 				</td>

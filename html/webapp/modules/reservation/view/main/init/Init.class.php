@@ -50,6 +50,9 @@ class Reservation_View_Main_Init extends Action
 	var $prev_day = null;
 	var $input_date = null;
 
+	var $timeframe_list = null;
+	var $timeframe_list_count = null;
+
     /**
      * execute実行
      *
@@ -64,7 +67,7 @@ class Reservation_View_Main_Init extends Action
 		if ($this->location_count == 0) {
 			return 'noLocation';
 		}
-		
+
 		switch ($this->reserve_block["display_type"]) {
 			case RESERVATION_DEF_MONTHLY:
 		        return 'successMonthly';

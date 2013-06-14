@@ -167,6 +167,7 @@ class Reservation_Components_View
 		}
 		if (isset($timezone_offset)) {
 			$timezone_minute_offset = 0;
+			$timezone_offset = floatval($timezone_offset);
 			if(round($timezone_offset) != intval($timezone_offset)) {
 				$timezone_offset = ($timezone_offset> 0) ? floor($timezone_offset) : ceil($timezone_offset);
 				$timezone_minute_offset = ($timezone_offset> 0) ? 30 : -30;			// 0.5minute
@@ -417,6 +418,7 @@ class Reservation_Components_View
 		$default = array(
 			"block_id" => 0,
 			"display_type" => $display_type,
+    		'display_timeframe'=>_OFF,
 			"display_start_time" => $display_start_time,
 			"start_time_hour" => $config['start_time_hour']["conf_value"],
 			"display_interval" => $display_interval,
@@ -782,6 +784,187 @@ class Reservation_Components_View
 			}
 			return intval($result[0][0]);
 		}
+	}
+
+	/**
+	 * 時間枠取得
+	 *
+	 * @access	public
+	 */
+	function getTimeframes($divided_flag=false)
+	{
+		$func_params = array($divided_flag);
+
+		$result = $this->_db->selectExecute('reservation_timeframe', null, null, 0, 0, array($this, '_getTimeframesCallback'), $func_params);
+
+		if ($result === false) {
+			$this->_db->addError();
+			return false;
+		}
+		return $result;
+	}
+
+	function _getTimeframesCallback($recordSet, $params = array(false))
+	{
+		$ret = array();
+
+		$divided_flag = $params[0];
+
+ 		$commonMain =& $this->_container->getComponent("commonMain");
+		$timezoneMain =& $commonMain->registerClass(WEBAPP_DIR.'/components/timezone/Main.class.php', "Timezone_Main", "timezoneMain");
+
+		while ($row = $recordSet->fetchRow()) {
+
+			$start_time = timezone_date($row['start_time'], false, 'His');
+			$end_time = timezone_date($row['end_time'], false, 'His');
+
+			// 日跨ぎ 分割希望時
+			if($divided_flag == true && $start_time>$end_time) {
+				$ret_row = $this->__getTimeframesCallback($timezoneMain, $row, $start_time, '240000');
+				$ret[$start_time] = $ret_row;
+				$ret_row = $this->__getTimeframesCallback($timezoneMain, $row, '000000', $end_time);
+				$ret['000000'] = $ret_row;
+			}
+			else {
+				$ret_row = $this->__getTimeframesCallback($timezoneMain, $row, $start_time, $end_time);
+				$ret[$start_time] = $ret_row;
+			}
+		}
+		ksort($ret);
+		return $ret;
+	}
+	function __getTimeframesCallback(&$timezoneMain, $row, $start_time, $end_time)
+	{
+		$ret = $row;
+
+		$ret['start_time_view'] = $start_time;
+		$ret['end_time_view'] = $end_time;
+
+		$ret['left'] = $this->TimeDiff('000000', $start_time) * RESERVATION_DEF_V_INTERVAL;
+		$ret['top'] = $this->TimeDiff('000000', $start_time) * RESERVATION_DEF_H_INTERVAL;
+
+		if($end_time == '000000') {
+			$ret['width'] = $this->TimeDiff($ret['start_time_view'], '240000') * RESERVATION_DEF_V_INTERVAL;
+			$ret['height'] = $this->TimeDiff($ret['start_time_view'], '240000') * RESERVATION_DEF_H_INTERVAL;
+		}
+		else {
+			$ret['width'] = $this->TimeDiff($ret['start_time_view'], $ret['end_time_view']) * RESERVATION_DEF_V_INTERVAL;
+			$ret['height'] = $this->TimeDiff($ret['start_time_view'], $ret['end_time_view']) * RESERVATION_DEF_H_INTERVAL;
+		}
+
+		$ret['start_time_view_hour'] = substr($ret['start_time_view'], 0, 2);
+		$ret['start_time_view_min'] =  substr($ret['start_time_view'], 2, 2);
+		$ret['end_time_view_hour'] = substr($ret['end_time_view'], 0, 2);
+		$ret['end_time_view_min'] = substr($ret['end_time_view'], 2, 2);
+
+
+		$ret["start_time_original_str"] = $this->dateFormat(date('Ymd').$ret["start_time"], $ret["timezone_offset"], false, _SHORT_TIME_FORMAT);
+		$ret["end_time_original_str"] = $this->dateFormat(date('Ymd').$ret["end_time"], $ret["timezone_offset"], false, _SHORT_TIME_FORMAT);
+		$ret["start_time_original"] = $this->dateFormat(date('Ymd').$ret["start_time"], $ret["timezone_offset"], false, "His");
+		$ret["end_time_original"] = $this->dateFormat(date('Ymd').$ret["end_time"], $ret["timezone_offset"], false, "His");
+
+		$ret["start_time_original_hour"] = substr($ret['start_time_original'], 0, 2);
+		$ret["start_time_original_min"] = substr($ret['start_time_original'], 2, 2);
+		$ret["end_time_original_hour"] = substr($ret['end_time_original'], 0, 2);
+		$ret["end_time_original_min"] = substr($ret['end_time_original'], 2, 2);
+
+		$ret['timezone_constant_string'] = $timezoneMain->getLangTimeZone($ret['timezone_offset'], false);
+		$ret['timezone_string'] = $timezoneMain->getLangTimeZone($ret['timezone_offset']);
+
+		return $ret;
+	}
+
+	/**
+	 * 時間枠数取得
+	 *
+	 * @access	public
+	 */
+	function getTimeframesCount()
+	{
+		$result = $this->_db->countExecute('reservation_timeframe');
+		if ($result === false) {
+			$this->_db->addError();
+			return false;
+		}
+		return $result;
+	}
+
+	/**
+	 * 時間枠取得
+	 *
+	 * @access	public
+	 */
+	function getTimeframe($timeframe_id)
+	{
+		$result = $this->_db->selectExecute('reservation_timeframe', array('timeframe_id'=>$timeframe_id), null, 0, 0, array($this, '_getTimeframesCallback'));
+		if ($result === false) {
+			$this->_db->addError();
+			return false;
+		}
+		$timeframe = array_shift($result);
+		return $timeframe;
+	}
+
+	/**
+	 * 開始時間による時間枠取得(GMT)
+	 *
+	 * @access	public
+	 */
+	function getTimeframeByStartTime($start_time_str)
+	{
+		$result = $this->_db->selectExecute('reservation_timeframe', array('start_time'=>$start_time_str), null, 0, 0, array($this, '_getTimeframesCallback'));
+		if ($result === false) {
+			$this->_db->addError();
+			return false;
+		}
+		$timeframe = array_shift($result);
+		return $timeframe;
+	}
+
+	/**
+	 * 終了時間による時間枠取得(GMT)
+	 *
+	 * @access	public
+	 */
+	function getTimeframeByEndTime($end_time_str)
+	{
+		$result = $this->_db->selectExecute('reservation_timeframe', array('end_time'=>$end_time_str), null, 0, 0, array($this, '_getTimeframesCallback'));
+		if ($result === false) {
+			$this->_db->addError();
+			return false;
+		}
+		$timeframe = array_shift($result);
+		return $timeframe;
+	}
+
+	/**
+	 * 時間枠重なりチェック(GMT)
+	 *
+	 * @access	public
+	 */
+	function getTimeframeDuplicate($timeframe_id, $start_time, $end_time)
+	{
+		$sql = 'SELECT count(*) AS timeframe_count FROM  {reservation_timeframe} WHERE '
+				. '( ? < start_time AND ? > start_time '
+				. ' OR '
+				. ' ? >= start_time AND CASE WHEN start_time < end_time THEN ?+240000 < end_time+240000 ELSE ? <= end_time END )';
+		if(!empty($timeframe_id)) {
+			$sql .= ' AND timeframe_id != ?';
+		}
+
+		$where_param = array($start_time, $end_time,$start_time, $start_time, $start_time);
+		if(!empty($timeframe_id)) {
+			$where_param[] = $timeframe_id;
+		}
+		$result = $this->_db->execute($sql, $where_param);
+		if($result && isset($result[0])) {
+			if($result[0]['timeframe_count']>0) {
+				return false;
+			}
+		}
+
+		//
+		return true;
 	}
 
 	/**

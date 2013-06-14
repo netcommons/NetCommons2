@@ -133,6 +133,31 @@ CREATE TABLE `reservation_location_details` (
 -- --------------------------------------------------------
 
 -- -
+-- Table Structure `reservation_timeframe`
+-- -
+
+CREATE TABLE `reservation_timeframe` (
+  `timeframe_id`        int(11) unsigned NOT NULL,
+  `timeframe_name`      varchar(255) NOT NULL default '',
+  `start_time`         varchar(14) NOT NULL default '',
+  `end_time`           varchar(14) NOT NULL default '',
+  `timezone_offset`    float(3,1) NOT NULL default '0.0',
+  `timeframe_color`    varchar(16) NOT NULL default '',
+  `insert_time`        varchar(14) NOT NULL default '',
+  `insert_site_id`     varchar(40) NOT NULL default '',
+  `insert_user_id`     varchar(40) NOT NULL default '',
+  `insert_user_name`   varchar(255) NOT NULL default '',
+  `update_time`        varchar(14) NOT NULL default '',
+  `update_site_id`     varchar(40) NOT NULL default '',
+  `update_user_id`     varchar(40) NOT NULL default '',
+  `update_user_name`   varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`timeframe_id`)
+) ENGINE=MyISAM;
+
+
+-- --------------------------------------------------------
+
+-- -
 -- Table Structure `reservation_location_rooms`
 -- -
 

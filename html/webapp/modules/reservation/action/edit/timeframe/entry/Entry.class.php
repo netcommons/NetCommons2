@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * 予約の詳細の表示
+ * 時間枠の追加・編集
  *
  * @package     NetCommons
  * @author      Noriko Arai,Ryuji Masukawa
@@ -12,23 +12,23 @@
  * @project     NetCommons Project, supported by National Institute of Informatics
  * @access      public
  */
-class Reservation_View_Main_Reserve_Details extends Action
+class Reservation_Action_Edit_Timeframe_Entry extends Action
 {
-	// validatorから受け取るため
-	var $reserve = null;
-	var $rrule_reserve_id = null;
-	var $reserve_block = null;
-	var $start_timeframe = null;
-	var $end_timeframe = null;
+    // 使用コンポーネントを受け取るため
+	var $reservationAction = null;
 
     /**
-     * execute実行
+     * execute処理
      *
      * @access  public
      */
     function execute()
     {
-        return 'success';
+    	$result = $this->reservationAction->setTimeframe();
+    	if (!$result) {
+    		return 'error';
+    	}
+    	return 'success';
     }
 }
 ?>

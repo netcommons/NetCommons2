@@ -278,6 +278,7 @@ class Reservation_Components_Action
 			$params = array(
 				"block_id" => $this->_request->getParameter("block_id"),
 				"display_type" => $default["display_type"],
+				'display_timeframe'=> $default['display_timeframe'],
 				"display_start_time" => $default["display_start_time"],
 				"display_interval" => $default["display_interval"],
 				"category_id" => $default["category_id"],
@@ -290,6 +291,7 @@ class Reservation_Components_Action
 		} elseif ($actionName == "reservation_action_edit_style") {
 			$params = array(
 				"display_type" => intval($this->_request->getParameter("display_type")),
+				'display_timeframe' => intval($this->_request->getParameter('display_timeframe')),
 				"display_start_time" => $this->_request->getParameter("display_start_time"),
 				"display_interval" => intval($this->_request->getParameter("display_interval")),
 				"category_id" => $this->_request->getParameter("category_id"),
@@ -737,6 +739,67 @@ class Reservation_Components_Action
 		}
 		return true;
 	}
+
+	/**
+	 * 時間枠を登録する
+	 *
+	 * @access  public
+	 */
+    function setTimeframe()
+    {
+		$timeframe_id = $this->_request->getParameter('timeframe_id');
+		$timezone_offset = $this->_request->getParameter('timezone_offset');
+		$start_time = $this->_request->getParameter('start_time');
+		$end_time = $this->_request->getParameter('end_time');
+
+		$commonMain =& $this->_container->getComponent("commonMain");
+		$timezoneMain =& $commonMain->registerClass(WEBAPP_DIR.'/components/timezone/Main.class.php', "Timezone_Main", "timezoneMain");
+
+		//$timezone_offset_float = $timezoneMain->getFloatTimeZone($timezone_offset);
+		$start_time = $this->_reservationView->dateFormat($start_time, $timezone_offset, true, 'His');
+		$end_time = $this->_reservationView->dateFormat($end_time, $timezone_offset, true, 'His');
+
+		$params = array(
+				'timeframe_name' => $this->_request->getParameter('timeframe_name'),
+				'start_time' => $start_time,
+				'end_time' => $end_time,
+				'timezone_offset' => $timezone_offset,
+				'timeframe_color' => $this->_request->getParameter('timeframe_color')
+		);
+
+		// 新規登録
+		if(empty($timeframe_id)) {
+			$timeframe_id = $this->_db->insertExecute('reservation_timeframe', $params, true, 'timeframe_id');
+			if ($timeframe_id === false) {
+				return false;
+			}
+		}
+		// 再編集
+		else {
+			$where_param = array('timeframe_id'=>$timeframe_id);
+			$ret = $this->_db->updateExecute('reservation_timeframe', $params, $where_param);
+			if ($ret === false) {
+				return false;
+			}
+		}
+		return true;
+    }
+
+    /**
+     * 時間枠を削除する
+     *
+     * @access  public
+     */
+    function deleteTimeframe()
+    {
+    	$timeframe_id = $this->_request->getParameter('timeframe_id');
+    	$where_param = array('timeframe_id'=>$timeframe_id);
+    	$ret = $this->_db->deleteExecute('reservation_timeframe', $where_param);
+    	if ($ret === false) {
+    		return false;
+    	}
+		return true;
+    }
 
 	/**
 	 * 予約を登録する
