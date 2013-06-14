@@ -1,0 +1,9 @@
+<{strip}>
+<{* キーフレーズ認証項目用テンプレート *}>
+<{if $action.questionnaire.keypass_use_flag == _ON}>
+	<{$lang.questionnaire_keypass_label}>
+	<br />
+	<input type="password" name="keypass_phrase" size=10>
+	<br />
+<{/if}>
+<{/strip}>

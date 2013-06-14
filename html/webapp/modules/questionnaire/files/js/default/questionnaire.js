@@ -164,6 +164,12 @@ clsQuestionnaire.prototype = {
 				element.disabled = false;
 				Element.removeClassName($("questionnaire_image_authentication_label" + this.id), "disable_lbl");
 			}
+			element = $("questionnaire_keypass_use_flag" + this.id);
+			if (element) {
+				element.disabled = false;
+				Element.removeClassName($("questionnaire_keypass_use_flag_label" + this.id), "disable_lbl");
+				this.changeKeypass(element.checked);
+			}
 		} else {
 			$("questionnaire_repeat" + this.id).disabled = false;
 			$("questionnaire_repeat" + this.id).checked = false;
@@ -175,6 +181,26 @@ clsQuestionnaire.prototype = {
 				element.checked = false;
 				element.disabled = true;
 				Element.addClassName($("questionnaire_image_authentication_label" + this.id), "disable_lbl");
+			}
+			element = $("questionnaire_keypass_use_flag" + this.id);
+			if (element) {
+				element.checked = false;
+				element.disabled = true;
+				Element.addClassName($("questionnaire_keypass_use_flag_label" + this.id), "disable_lbl");
+				this.changeKeypass(element.checked);
+			}
+		}
+	},
+
+	changeKeypass: function(keypass) {
+		if(keypass) {
+			if ($("questionnaire_keypass_phrase" + this.id)) {
+				$("questionnaire_keypass_phrase" + this.id).disabled = false;
+			}
+		}
+		else {
+			if ($("questionnaire_keypass_phrase" + this.id)) {
+				$("questionnaire_keypass_phrase" + this.id).disabled = true;
 			}
 		}
 	},

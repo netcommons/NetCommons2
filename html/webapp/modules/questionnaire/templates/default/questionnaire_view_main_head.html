@@ -15,9 +15,15 @@
 <{/if}>
 
 <{if $action.answerLinkShow}>
+	<{if $action.questionnaire.answer_show_flag==$smarty.const._OFF}>
 	<a class="syslink questionnaire_result_link" href="#" title="<{$lang.questionnaire_goto_answer_title|sprintf:$action.questionnaire.questionnaire_name}>" onclick="questionnaireCls['<{$id}>'].showSummaryList(event, <{$action.questionnaire.questionnaire_id}>, '<{$smarty.session._user_id}>');return false;">
 		<{$lang.questionnaire_goto_answer}>
 	</a>
+	<{else}>
+		<p>
+		<{$lang.questionnaire_has_finished|smarty:nodefaults}>
+		</p>
+	<{/if}>
 <{/if}>
 
 <{if $action.totalLinkShow}>

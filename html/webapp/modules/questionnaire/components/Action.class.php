@@ -78,7 +78,10 @@ class Questionnaire_Components_Action
 
 		$params = array(
 			"image_authentication" => intval($this->_request->getParameter("image_authentication")),
+			'keypass_use_flag' => intval($this->_request->getParameter('keypass_use_flag')),
+			'keypass_phrase' => $this->_request->getParameter('keypass_phrase'),
 			"total_flag" => intval($this->_request->getParameter("total_flag")),
+			"answer_show_flag" => intval($this->_request->getParameter("answer_show_flag")),
 			"mail_send" => intval($this->_request->getParameter("mail_send")),
 			"mail_subject" => $this->_request->getParameter("mail_subject"),
 			"mail_body" => $this->_request->getParameter("mail_body")

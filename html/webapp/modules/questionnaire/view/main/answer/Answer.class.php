@@ -41,6 +41,10 @@ class Questionnaire_View_Main_Answer extends Action
      */
     function execute()
     {
+
+        if($this->questionnaire['answer_show_flag']==_ON && $this->session->getParameter('_auth_id')<_AUTH_CHIEF) {
+            return 'error';
+        }
     	$this->questions = $this->questionnaireView->getAnswer($this->summary_id);
 
 		if (empty($this->questions)) {

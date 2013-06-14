@@ -9,7 +9,10 @@
 		<input type="hidden" name="block_id" value="<{$block_id}>">
 		
 		<br />
+		<{include file="questionnaire_mobile_keypass.html"}>
+		<br />
 		<{include file="questionnaire_mobile_image_authentication.html"}>
+		<br />
 		<input type="submit" value="<{$lang.questionnaire_answer_start}>">
 
 		<{$token_form|smarty:nodefaults}>

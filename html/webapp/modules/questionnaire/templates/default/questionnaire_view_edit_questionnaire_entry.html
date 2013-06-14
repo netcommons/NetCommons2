@@ -103,6 +103,22 @@
 			</tr>
 		<{/if}>
 
+		<{if ($smarty.session._space_type != _SPACE_TYPE_PUBLIC && ($smarty.session._main_room_page.private_flag == _OFF || $smarty.session._main_room_page.default_entry_flag == _OFF))}>
+			<input type="hidden" name="keypass_use_flag" value="<{$smarty.const._OFF}>" />
+		<{else}>
+			<tr class="row">
+				<th class="nowrap" scope="row">
+				</th>
+				<td>
+					<label id="questionnaire_keypass_use_flag_label<{$id}>" for="questionnaire_keypass_use_flag<{$id}>">
+						<input id="questionnaire_keypass_use_flag<{$id}>" type="checkbox" name="keypass_use_flag" value="<{$smarty.const._ON}>" onclick="questionnaireCls['<{$id}>'].changeKeypass(this.checked);" />
+	 					<{$lang.questionnaire_keypass}>
+	 				</label>
+					<input id="questionnaire_keypass_phrase<{$id}>" type="text" name="keypass_phrase" value="" />
+				</td>
+			</tr>
+		<{/if}>
+
 		<tr class="row">
 			<th class="nowrap" scope="row">
 			</th>
@@ -132,6 +148,17 @@
 				<label for="questionnaire_total<{$id}>">
 					<input id="questionnaire_total<{$id}>" type="checkbox" name="total_flag" value="<{$smarty.const._ON}>" />
 	 				<{$lang.questionnaire_total}>
+	 			</label>
+			</td>
+		</tr>
+
+		<tr class="row">
+			<th class="nowrap" scope="row">
+			</th>
+			<td>
+				<label for="questionnaire_answer_show<{$id}>">
+					<input id="questionnaire_answer_show<{$id}>" type="checkbox" name="answer_show_flag" value="<{$smarty.const._ON}>" />
+	 				<{$lang.questionnaire_answer_show}>
 	 			</label>
 			</td>
 		</tr>
@@ -230,12 +257,19 @@
 			$("questionnaire_image_authentication<{$id}>").checked = true;
 		<{/if}>
 
+		<{if $action.questionnaire.keypass_use_flag == _ON}>
+			$("questionnaire_keypass_use_flag<{$id}>").checked = true;
+		<{/if}>
+		$("questionnaire_keypass_phrase<{$id}>").value = "<{$action.questionnaire.keypass_phrase}>";
+
 		questionnaireCls["<{$id}>"].changeNonmember($("questionnaire_nonmember<{$id}>").checked);
+		questionnaireCls["<{$id}>"].changeKeypass($("questionnaire_keypass_use_flag<{$id}>").checked);
 	<{/if}>
 
 	<{if $action.questionnaire.anonymity_flag == _ON}>
 		$("questionnaire_anonymity<{$id}>").checked = true;
 	<{/if}>
+
 
 	<{if $action.questionnaire.repeat_flag == _ON}>
 		$("questionnaire_repeat<{$id}>").checked = true;
@@ -243,6 +277,10 @@
 
 	<{if $action.questionnaire.total_flag == _ON}>
 		$("questionnaire_total<{$id}>").checked = true;
+	<{/if}>
+
+	<{if $action.questionnaire.answer_show_flag == _ON}>
+		$("questionnaire_answer_show<{$id}>").checked = true;
 	<{/if}>
 
 	<{if $action.questionnaire.mail_send == _ON && $action.questionnaire.anonymity_flag != _ON}>

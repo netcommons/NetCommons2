@@ -1,0 +1,12 @@
+<{strip}>
+<{* キーパス項目用テンプレート *}>
+<{if $action.questionnaire.keypass_use_flag == _ON}>
+<div class="questionnaire_question">
+	<label for="questionnaire_keypass_phrase<{$id}>">
+		<span class="bold"><{$lang.questionnaire_keypass_label}></span>
+		&nbsp;
+		<input id="questionnaire_keypass_phrase<{$id}>" type="password" name="keypass_phrase" />
+	</label>
+</div>
+<{/if}>
+<{/strip}>

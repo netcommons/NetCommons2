@@ -19,6 +19,27 @@ class Questionnaire_Update extends Action
 
 	function execute()
 	{
+		// key pass phrase 関連フィールドを追加
+		$adoConnection = $this->dbObject->getAdoDbObject();
+		$metaColumns = $adoConnection->MetaColumns($this->dbObject->getPrefix() . 'questionnaire');
+		if (!isset($metaColumns['KEYPASS_USE_FLAG'])) {
+			$sql = "ALTER TABLE `" . $this->dbObject->getPrefix() . "questionnaire` "
+					. "ADD `keypass_use_flag` tinyint(1) NOT NULL default '0' AFTER `anonymity_flag`,"
+					. "ADD `keypass_phrase` varchar(128) NOT NULL default '' AFTER `keypass_use_flag`;";
+			if (!$this->dbObject->execute($sql)) {
+				return false;
+			}
+		}
+		//  「結果をみる」関連フィールドを追加
+		if (!isset($metaColumns['ANSWER_SHOW_FLAG'])) {
+			$sql = "ALTER TABLE `" . $this->dbObject->getPrefix() . "questionnaire` "
+					. "ADD `answer_show_flag` tinyint(1) NOT NULL default '0' AFTER `total_flag`;";
+			if (!$this->dbObject->execute($sql)) {
+				return false;
+			}
+		}
+
+
 
 		// questionnaireにindexを追加
 		$sql = "SHOW INDEX FROM `".$this->dbObject->getPrefix()."questionnaire` ;";

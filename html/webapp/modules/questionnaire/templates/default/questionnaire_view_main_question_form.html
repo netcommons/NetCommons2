@@ -17,6 +17,8 @@
 		<{assign var="question" value="`$action.question`"}>
 		<{include file="questionnaire_view_main_question_answer.html"}>
 	<{else}>
+		<{include file="questionnaire_view_main_keypass.html"}>
+
 		<{foreach from=$action.questions item=question name="question"}>
 			<{include file="questionnaire_view_main_question_answer.html"}>
 		<{/foreach}>

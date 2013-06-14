@@ -79,6 +79,7 @@ class Questionnaire_View_Main_Init extends Action
 		if ($this->questionnaire["questionnaire_type"] != QUESTIONNAIRE_TYPE_LIST_VALUE) {
 			$questionIDs = $this->session->getParameter("questionnaire_question_id_array". $this->block_id);
 			if (empty($questionIDs)) {
+				$this->_setKeyPassFlag();
 				return "start";
 			}
 
@@ -103,7 +104,16 @@ class Questionnaire_View_Main_Init extends Action
 			}
 		}
 
+		$this->_setKeyPassFlag();
 		return "list";
+	}
+	function _setKeyPassFlag() {
+		if ($this->questionnaire['keypass_use_flag'] == _ON) { 
+		    $this->session->setParameter('questionnaire_keypass_check_flag'. $this->block_id, _ON);
+        }
+        else {
+		    $this->session->removeParameter('questionnaire_keypass_check_flag'. $this->block_id);
+        }
 	}
 }
 ?>

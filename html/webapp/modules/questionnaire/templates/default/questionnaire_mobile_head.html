@@ -17,9 +17,13 @@
 
 <p>
 	<{if $action.answerLinkShow}>
-		<a data-role="button" href="?action=questionnaire_view_main_summary&amp;block_id=<{$block_id}>&amp;questionnaire_id=<{$action.questionnaire.questionnaire_id}>&amp;answer_user_id=<{$smarty.session._user_id}><{$session_param}>">
+		<{if $action.questionnaire.answer_show_flag == $smarty.const._OFF}>
+		  <a data-role="button" href="?action=questionnaire_view_main_summary&amp;block_id=<{$block_id}>&amp;questionnaire_id=<{$action.questionnaire.questionnaire_id}>&amp;answer_user_id=<{$smarty.session._user_id}><{$session_param}>">
 			<{$lang.questionnaire_goto_answer}>
-		</a>
+		  </a>
+		<{else}>
+		  <{$lang.questionnaire_has_finished|smarty:nodefaults}>
+		<{/if}>
 		<br />
 	<{/if}>
 

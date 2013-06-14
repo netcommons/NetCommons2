@@ -206,8 +206,11 @@ class Questionnaire_Components_View
 			"nonmember_flag" => constant($config["nonmember_flag"]["conf_value"]),
 			"image_authentication" => constant($config["image_authentication"]["conf_value"]),
 			"anonymity_flag" => constant($config["anonymity_flag"]["conf_value"]),
+			"keypass_use_flag" => constant($config["keypass_use_flag"]["conf_value"]),
+			"keypass_phrase" => $config["keypass_phrase"]["conf_value"],
 			"repeat_flag" => constant($config["repeat_flag"]["conf_value"]),
-			"total_flag" => constant($config["total_flag"]["conf_value"])
+			"total_flag" => constant($config["total_flag"]["conf_value"]),
+			"answer_show_flag" => constant($config["answer_show_flag"]["conf_value"])
 		);
 
 		return $questionnaire;
@@ -232,7 +235,8 @@ class Questionnaire_Components_View
 		$format = "";
 		if ($actionName == "questionnaire_view_edit_questionnaire_entry") {
 			$sql .= ", questionnaire_type, period, ".
-						"nonmember_flag, image_authentication, anonymity_flag, repeat_flag, total_flag, ".
+						"nonmember_flag, image_authentication, anonymity_flag, keypass_use_flag, keypass_phrase, ".
+                        "repeat_flag, total_flag, answer_show_flag, ".
 						"answer_count, mail_send, mail_subject, mail_body ";
 			$format = _INPUT_DATE_FORMAT;
 
@@ -249,7 +253,7 @@ class Questionnaire_Components_View
 
 		} elseif ($edit) {
 			$sql .= ", questionnaire_type, period, ".
-						"nonmember_flag, anonymity_flag, total_flag, ".
+						"nonmember_flag, anonymity_flag, total_flag, answer_show_flag, ".
 						"answer_count ";
 
 		}
@@ -303,7 +307,7 @@ class Questionnaire_Components_View
 		);
 
 		$sql = "SELECT Q.questionnaire_id, Q.questionnaire_name, Q.icon_name, Q.status, Q.questionnaire_type, Q.period, ".
-						"Q.nonmember_flag, Q.image_authentication, Q.anonymity_flag, Q.repeat_flag, Q.total_flag, ".
+						"Q.nonmember_flag, Q.image_authentication, Q.anonymity_flag, Q.keypass_use_flag, Q.keypass_phrase, Q.repeat_flag, Q.total_flag, Q.answer_show_flag, ".
 						"Q.answer_count, Q.mail_send ".
 				"FROM {questionnaire_block} B ".
 				"INNER JOIN {questionnaire} Q ".

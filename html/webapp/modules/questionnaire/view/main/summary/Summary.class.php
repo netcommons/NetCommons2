@@ -25,6 +25,7 @@ class Questionnaire_View_Main_Summary extends Action
     var $configView = null;
     var $request = null;
     var $filterChain = null;
+    var $session = null;
 
     // validatorから受け取るため
 	var $questionnaire = null;
@@ -42,6 +43,9 @@ class Questionnaire_View_Main_Summary extends Action
      */
     function execute()
     {
+        if($this->questionnaire['answer_show_flag']==_ON && $this->session->getParameter('_auth_id')<_AUTH_CHIEF) {
+            return 'error';
+        }
 		if ($this->scroll != _ON) {
 			$config = $this->configView->getConfigByConfname($this->module_id, "questionnaire_summary_list_row_count");
 			if ($config === false) {
