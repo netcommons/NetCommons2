@@ -92,7 +92,7 @@ clsLogin.prototype = {
 				commonCls.alert(alert_res);
 				commonCls.focus(focus_el);
 			} else {
-				commonCls.alert(res);
+				commonCls.alert(alert_res);
 			}
 		} else {
 			commonCls.alert(res);
