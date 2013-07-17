@@ -624,7 +624,7 @@ clsUser.prototype = {
 				focus_el.focus();
 				if(focus_el.type == "text") focus_el.select();
 			} else {
-				commonCls.alert(res);
+				commonCls.alert(alert_res);
 			}
 		} else {
 			commonCls.alert(res);
