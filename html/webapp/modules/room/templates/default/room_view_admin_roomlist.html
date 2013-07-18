@@ -92,6 +92,12 @@
 						<a class="syslink" href="#" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_regist_selectusers','parent_page_id':<{$room.parent_id}>,'edit_current_page_id':<{$room.page_id}>,'room_name':'<{$room.page_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>','display_flag':<{$room.display_flag}>,'space_type_common':<{$room.default_entry_flag}>}); return false;">
 							<{$lang.room_admin_edit}>
 						</a>
+							<{$lang._separator|smarty:nodefaults}>
+						<{* 参加者インポート *}>
+						<a class="syslink" href="#" onclick="commonCls.sendPopupView(event,{'action':'room_view_admin_import','parent_page_id':<{$room.parent_id}>,'edit_current_page_id':<{$room.page_id}>,'room_name':'<{$room.page_name|smarty:nodefaults|escape:"javascript"|escape:"html"}>','prefix_id_name':'room_popup_import'}, {'top_el':$('<{$id}>'),'center_flag':1,'modal_flag':1}); return false;">
+							<{$lang.room_admin_import}>
+						</a>
+
 						<{* 深さが0の編集する権限は、管理者のみ *}>
 						<{if $room.private_flag != _ON}>
 							<{$lang._separator|smarty:nodefaults}>

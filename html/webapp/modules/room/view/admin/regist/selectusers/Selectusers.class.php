@@ -39,6 +39,7 @@ class Room_View_Admin_Regist_Selectusers extends Action
 	var $users = null;
 	var $count = 0;
 	var $select_auth_flag = 0;
+	var $not_export_authorities_str = null;
 	
     /**
      * ルーム作成-編集　参加会員編集画面
@@ -84,7 +85,7 @@ class Room_View_Admin_Regist_Selectusers extends Action
     		$params = array();
 	    	$select_str = "SELECT {users}.*, ".
 								"{authorities}.user_authority_id,".
-								"{authorities}.role_authority_id,".
+								"{authorities}.role_authority_id AS au_role_authority_id,".
 								"{authorities}.role_authority_name,".
 								"{authorities}.public_createroom_flag,".
 								"{authorities}.group_createroom_flag,".
@@ -188,7 +189,19 @@ class Room_View_Admin_Regist_Selectusers extends Action
 		
 		$this->session->setParameter(array("room", $this->edit_current_page_id,"authorities"), $authorities);
 		$this->session->setParameter(array("room", $this->edit_current_page_id,"authorities_count"), $authorities_count);
-		
+
+
+		// エクスポートできない権限の一覧を文字列として取得
+		$not_export_where_params = array("user_authority_id" => _AUTH_ADMIN);
+		$not_export_order_params = array("hierarchy" => "DESC");
+		$not_export_authorities = $this->authoritiesView->getAuthorities($not_export_where_params, $not_export_order_params);
+		if($authorities === false) {
+			return 'error';
+		}
+		foreach($not_export_authorities as $authority) {
+			if($this->not_export_authorities_str != "") $this->not_export_authorities_str .= ",";
+				$this->not_export_authorities_str .= $authority['role_authority_name'];
+		}
     	return 'success';
     }
     

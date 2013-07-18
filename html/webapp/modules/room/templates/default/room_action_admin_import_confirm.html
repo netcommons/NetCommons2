@@ -1,0 +1,55 @@
+<{strip}>
+<div class="outerdiv" id="room_import_result<{$id}>">
+
+	<div class="top_description">
+		<{$lang.room_import_confirm_message1|smarty:nodefaults|sprintf:$action.page.page_name}>
+	</div>
+	<p class="room_import_result">
+		<{foreach item=num key=auth_name from=$action.added_auth_member_num}>
+			<{if $num!=0}>
+				<strong><{$lang.room_import_confirm_change_count|sprintf:$num:$auth_name}></strong>
+				<br />
+			<{/if}>
+		<{/foreach}>
+		<{if $action.deleted_auth_member_num > 0}>
+				<strong><{$lang.room_import_confirm_change_count|sprintf:$action.deleted_auth_member_num:$lang.room_not_entry}></strong>
+		<{/if}>
+	</p>
+
+	<div class="top_description">
+		<{$lang.room_import_confirm_message2|smarty:nodefaults}>
+	</div>
+	<div class="room_import_result">
+		<table>
+		<{foreach item=num key=auth_name from=$action.total_auth_member_num}>
+			<{if $num!=0}>
+				<tr>
+				<td><{$auth_name}></td>
+				<td><{$num}></td>
+				</tr>
+			<{/if}>
+		<{/foreach}>
+		</table>
+	</div>
+
+	<{if count($action.warnMsg)>0 && $action.warnMsg.0!=''}>
+		<div class="top_description warnstr">
+			<{$lang.room_import_confirm_warnMsg|smarty:nodefaults}>
+			<br />
+			<{foreach item=handle from=$action.warnMsg}>
+					<{$handle}><br />
+			<{/foreach}>
+		</div>
+	<{/if}>
+
+	<div class="btn-bottom">
+		<{* 閉じる *}>
+		<input class="btn-width lined_btn" type="reset" value="<{$lang._close_btn|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');return false;" />
+	</div>
+
+	</form>
+
+</div>
+<{include file="room_script.html"}>
+
+<{/strip}>

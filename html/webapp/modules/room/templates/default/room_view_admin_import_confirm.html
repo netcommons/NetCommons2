@@ -1,0 +1,68 @@
+<{strip}>
+<div class="outerdiv" id="room_import_confirm<{$id}>">
+
+	<form  class="room_import_form" action="#" id="room_import_confirm_frm<{$id}>">
+
+	<div class="top_description">
+		<{$lang.room_import_confirm_message1|smarty:nodefaults|sprintf:$action.page.page_name}>
+	</div>
+	<{if count($action.warnMsg)>0 }>
+		<div class="top_description warnstr">
+			<{foreach key=handle item=msg from=$action.warnMsg}>
+				<{if $msg!=""}>
+					<{$lang.room_import_confirm_warnMsg|sprintf:$handle|smarty:nodefaults}>
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<{$msg}>
+					<br />
+				<{/if}>
+			<{/foreach}>
+		</div>
+	<{/if}>
+
+	<p class="room_import_result">
+		<{foreach item=num key=auth_name from=$action.added_auth_member_num}>
+			<{if $num!=0}>
+				<strong><{$lang.room_import_confirm_change_count|sprintf:$num:$auth_name}></strong>
+				<br />
+			<{/if}>
+		<{/foreach}>
+		<{if $action.delete_num > 0}>
+				<strong><{$lang.room_import_confirm_change_count|sprintf:$action.delete_num:$lang.room_not_entry}></strong>
+		<{/if}>
+	</p>
+
+	<div class="top_description">
+		<{$lang.room_import_confirm_message2|smarty:nodefaults}>
+	</div>
+	<div class="room_import_result">
+		<table>
+		<{foreach item=num key=auth_name from=$action.total_auth_member_num}>
+			<{if $num!=0}>
+				<tr>
+				<td><{$auth_name}></td>
+				<td><{$num}></td>
+				</tr>
+			<{/if}>
+		<{/foreach}>
+		</table>
+	</div>
+
+	<{$lang.room_import_confirm_message3|smarty:nodefaults}>
+
+	<div class="btn-bottom">
+		<{* OK *}>
+ 		<input class="btn-width lined_btn" 
+			type="button" 
+			value="<{$lang._regist|smarty:nodefaults}>" 
+			onclick="roomCls['<{$id}>'].user_importdata(); return false;" />
+				&nbsp;
+			<{* 戻る *}>
+			<input class="btn-width lined_btn" type="reset" value="<{$lang._btn_prev_arrow_simple|smarty:nodefaults}>" onclick="commonCls.sendView('<{$id}>',{'action':'room_view_admin_import','parent_page_id':<{$action.parent_page_id}>,'edit_current_page_id':<{$action.edit_current_page_id}>,'room_name':'<{$action.page.page_name}>'});return false;" />
+	</div>
+
+	</form>
+
+</div>
+<{include file="room_script.html"}>
+
+<{/strip}>

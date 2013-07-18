@@ -1,0 +1,98 @@
+<{strip}>
+<div class="outerdiv" id="room_import<{$id}>">
+
+	<form  class="room_import_form" action="#" id="room_import_frm"  target="room_import_attachment<{$id}>" enctype="multipart/form-data" onsubmit="return false;">
+
+		<div class="top_description ">
+			<{$lang.room_import_title_description|sprintf:$action.room_name|smarty:nodefaults}>
+			<br />
+			<{$lang.room_import_select_file_description|smarty:nodefaults}>
+			<br />
+			<span class="warnstr"><{$lang.room_import_select_file_note|sprintf:$smarty.const.ROOM_IMPORT_LINE_LIMIT|smarty:nodefaults}></span>
+		</div>
+		<br />
+		<div>
+			<label id="room_import_label_file" for="room_import_file_select">
+				<{$lang.room_import_file}>
+			</label>
+			<input type="file" class="room_import_file_select" id="room_import_file_select" name="room_import_file_select" value="" />
+		</div>
+		<br />
+		<fieldset class="room_import_help_field">
+			<legend class="bold"> 
+				<{$lang.room_import_help_label}>
+			</legend>
+			<div class="top_description">
+				<{$lang.room_import_exp|smarty:nodefaults}>
+			</div>
+
+			<div class="top_description"><strong> <span id="room_import_help_title"><{$lang.room_import_help_title}></span></strong>
+				<div class="float-right">
+					<input id="room_import_help_open<{$id}>" type="button" onclick="commonCls.displayVisible($('room_import_help_<{$id}>')); this.form.room_import_help_open<{$id}>.disabled=true; this.form.room_import_help_close<{$id}>.disabled=false;" value="<{$lang.room_import_help_open}>" name="room_import_help_open<{$id}>">
+					<input id="room_import_help_close<{$id}>" type="button" disabled="" onclick="commonCls.displayNone($('room_import_help_<{$id}>')); this.form.room_import_help_close<{$id}>.disabled=true; this.form.room_import_help_open<{$id}>.disabled=false;" value="<{$lang.room_import_help_close}>" name="room_import_help_close<{$id}>"> 
+				</div>
+			</div>
+			<br class="float-clear" />
+			<div class="room_import_help_description display-none" id="room_import_help_<{$id}>">
+				<table class="room_import_help_description">
+					<tr class="room_grid_row">
+						<th class="room_grid_header"> <{$lang.room_import_item|smarty:nodefaults}> </th>
+						<th class="room_grid_header"> <{$lang.room_import_contents|smarty:nodefaults}> </th>
+					</tr>
+					<{foreach item=help from=$action.help}>
+						<tr class="room_grid_row">
+							<{* 項目 *}>
+							<td class="room_grid_col"> <{$help.name|smarty:nodefaults}> </td>
+			
+							<td class="room_grid_col">
+								<{* 必須入力項目 *}>
+								<{if $help.need == $smarty.const._ON}>
+									<span class="require">　
+										<{$lang.room_import_need_on|smarty:nodefaults}> <br />
+									</span>　
+								<{/if}>
+								
+								<{* 説明 *}>
+								<{$help.exp|smarty:nodefaults}> <br />
+								<{if $help.desc != null}>
+									（<{$help.desc|smarty:nodefaults}>） <br />
+								<{/if}>
+				
+								<{* ルーム参加者インポートにおいてデフォルト値はありません *}>
+<{*
+								<{if $help.need == $smarty.const._OFF}>
+									<{$lang.user_import_noset_exp|smarty:nodefaults|sprintf:$help.defaultset|smarty:nodefaults}> <br />
+								<{/if}>
+*}>				
+								<{* 選択肢 *}>
+								<{if $help.item != null}>
+									<{$lang.room_import_sel|smarty:nodefaults}> <br />
+									<{foreach item=sel from=$help.item}>
+										<span class="room_indent">
+											<span class="bold">	<{$sel.num}> </span> : <{$sel.name}> <br />
+										</span>
+									<{/foreach}>
+								<{/if}>
+							</td>
+						</tr>
+					<{/foreach}>
+				</table>
+
+			</div>
+		</fieldset>
+
+		</div>
+
+		<{* 各種ボタン *}>
+		<div class="btn-bottom">
+			<input id="room_selectroom_importbtn" class="btn-width lined_btn" type="button" value="<{$lang._regist|smarty:nodefaults}>" 
+				onclick="roomCls['<{$id}>'].doUserImport($('room_import_frm'),'<{$lang.room_import_check_message|smarty:nodefaults}>');" 
+				title="<{$lang.room_import_import_imp}>" />
+				&nbsp;
+			<{* キャンセル *}>
+			<input class="btn-width lined_btn" type="reset" value="<{$lang._close_btn|smarty:nodefaults}>" onclick="commonCls.removeBlock('<{$id}>');return false;" />
+		</div>
+	</form>
+</div>
+<{include file="room_script.html"}>
+<{/strip}>

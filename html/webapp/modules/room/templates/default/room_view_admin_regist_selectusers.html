@@ -21,6 +21,14 @@
 	<div class="align-center">
 		<input class="room_header_btn" type="button" value="<{$lang.room_selected_entry_users}>" onclick="commonCls.sendPopupView(event, {'action':'user_view_main_search','room_top_id_name':'<{$id}>','room_parent_id':<{$action.parent_page_id}><{if $action.edit_current_page_id}>,'room_current_id':<{$action.edit_current_page_id}><{/if}>,'prefix_id_name':'room_popup_search'},{'top_el':$('<{$id}>'),center_flag:1,'modal_flag':1});return false;" />
 	</div>
+
+	<{* CSVエクスポート *}>
+	<div class="room_csv_export">
+		<a class="syslink" href="#" onclick="roomCls['<{$id}>'].roomUsersExport(event, <{$action.parent_page_id}>, <{$action.edit_current_page_id}>, '<{$lang.room_export_confirm_exp|smarty:nodefaults|sprintf:$action.not_export_authorities_str|escape:"javascript"|escape:"html"}>'); return false;" title="<{$lang.room_export_exp|smarty:nodefaults|sprintf:$action.not_export_authorities_str|escape:"javascript"|escape:"html"}>">
+			<{$lang.room_csv_export|smarty:nodefaults}>
+		</a>
+	</div>
+
 	<{assign var="edit_current_page_id" value=$action.edit_current_page_id}>
 	<form action="" id="form<{$id}>" onsubmit="return false;">
 		<{*ヘッダー表示部分*}>

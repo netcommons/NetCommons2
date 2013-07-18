@@ -241,5 +241,90 @@ clsRoom.prototype = {
 			'lang':select_lang
 		}
 		commonCls.sendView(this.id, params);
+	},
+	roomUsersExport: function(event, parent_page_id, edit_current_page_id, confirm_mes) {
+
+        var top_el = $(this.id);
+
+		var params = {
+			'action':'room_action_admin_export',
+			'parent_page_id':parent_page_id,
+			'edit_current_page_id':edit_current_page_id
+		}
+		var parameter = new Object();
+		parameter["callbackfunc"] = function(res){
+			if(!commonCls.confirm(confirm_mes)) 
+			{
+				return false;
+			}
+			location.href= '.' + _nc_index_file_name + '?action=room_view_admin_export&_token='+ $('_token' +this.top_el_id).value;
+		}
+		parameter["callbackfunc_error"] = function(res) {
+			commonCls.alert(res);
+		}
+		commonCls.sendPost(this.id, params, parameter);
+	},
+	_isSelectFile: function(frm) {
+		if($F("room_import_file_select").length > 0) {
+			return(true);
+		}
+		return(false);
+	},
+	_alertImport: function(confirm_message, target) {
+		var keyword = $(target).textContent;
+		var newmsg = confirm_message.replace('%error_item%', keyword);
+		commonCls.alert(newmsg);
+		return;
+	},
+	doUserImport: function(frm, confirm_message) {
+		var keyword;
+		if(!this._isSelectFile(frm)) {
+			this._alertImport(confirm_message, 'room_import_label_file');
+			return false;
+		}
+
+		var this_el = $("room_import_frm");
+		var top_el = $(this.id);
+		var params = new Object();
+		params["method"] = "post";
+
+		params["top_el"] = top_el;
+		params["loading_el"] = top_el;
+		params["timeout_flag"] = 0;
+
+		params['form_prefix'] = "room_import_attachment";
+
+
+
+		params["param"] = new Object();
+		params["param"]["action"] = "room_view_admin_import_upload";
+
+		params["callbackfunc"] = function(res) {
+			this.user_checkdata(this_el);
+		}.bind(this);
+		params["callbackfunc_error"] = function(file_list, res){
+			commonCls.alert(res);
+		}.bind(this);
+		commonCls.sendAttachment(params);
+	},
+	user_checkdata: function(this_el) {
+		var top_el = $(this.id);
+		var chk_params = new Object();
+		chk_params["param"] = {"action":"room_view_admin_import_confirm"};
+		chk_params["top_el"] = top_el;
+		chk_params["loading_el"] = top_el;
+		chk_params["target_el"] = $(this.id);
+
+		commonCls.send(chk_params);
+	},
+	user_importdata: function() {
+		var top_el = $(this.id);
+		var action_params = new Object();
+		action_params['method'] = "post";
+		action_params["param"] = {"action":"room_action_admin_import_confirm"};
+		action_params["top_el"] = top_el;
+		action_params["loading_el"] = top_el;
+		action_params["target_el"] = $(this.id);
+		commonCls.send(action_params);
 	}
 }

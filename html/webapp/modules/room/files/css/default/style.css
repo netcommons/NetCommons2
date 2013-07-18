@@ -28,7 +28,7 @@ div.room_init_icon_title {
 	width:120px;
 }
 .room_admin{
-	width:340px;
+	width:460px;
 }
 img.room_prefix_icon {
 	height:15px;
@@ -112,6 +112,11 @@ img.room_prefix_icon {
 	margin:5px;
 	padding:0.4em;
 }
+div.room_csv_export {
+	float:right;
+	margin:-1.5em 20px 0.5em 0;
+	font-weight:bold;
+}
 /* 登録内容確認 */
 .room_confirm_default_entry {
 	font-weight:bold;
@@ -130,4 +135,51 @@ select.room_selectlist {
 }
 .room_inf td {
 	padding:6px;
+}
+/* 参加者インポート */
+.room_import_file_select {
+	width:32em;
+}
+.room_import_help_field {
+	width:42em;
+}
+div.room_import_help_description {
+	overflow: auto;
+	border: 1px solid;
+	padding: 5px;
+}
+table.room_import_help_description {
+	width:100%;
+}
+tr.room_grid_row {
+	margin : 1px;
+	border:1px solid #d5d5d5;
+	height : 22px;
+	overflow : hidden;
+	line-height: 18px;
+}
+th.room_grid_header {
+	padding : 3px 2px 2px 3px;
+	text-align:center;
+	background-color:#e0e0e0;
+	border:1px solid #d5d5d5;
+}
+td.room_grid_col {
+	padding : 3px 2px 2px 3px;
+	border:1px solid #d5d5d5;
+	padding-left:4px;
+}
+.room_indent {
+	margin-left:20px;
+}
+.room_import_form label {
+	margin:2px 8px;
+}
+.room_import_result {
+	margin: 5px 15px;
+	padding: 1em;
+	border: 1px solid #999;
+}
+.room_import_result table td {
+	padding: 2px 5px;
 }
