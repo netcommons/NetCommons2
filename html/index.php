@@ -15,7 +15,7 @@
  * @access      public
  */
 if (version_compare(phpversion(), '5.3.0', '>=')) {
-	error_reporting(E_ALL ^ E_DEPRECATED);
+	error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 } else {
 	error_reporting(E_ALL);
 }

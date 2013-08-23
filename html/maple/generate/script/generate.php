@@ -23,7 +23,7 @@
 define('BASE_DIR', dirname(dirname(dirname(dirname(__FILE__)))));
 
 
-error_reporting(E_ALL ^ E_DEPRECATED);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 //error_reporting(0);
 
 define('DEBUG_MODE', 0);
