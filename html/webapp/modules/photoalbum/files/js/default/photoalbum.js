@@ -283,7 +283,7 @@ clsPhotoalbum.prototype = {
 			}
 
 			photo.style.filter = slideType;
-			photo.filters[0].Apply();
+			if (browser.version < 10) photo.filters[0].Apply();
 		}
 
 		photo.src = this.photos[index]["src"].replace("&amp;","&");
@@ -302,7 +302,7 @@ clsPhotoalbum.prototype = {
 			}
 		}
 		if (browser.isIE) {
-			photo.filters[0].Play();
+			if (browser.version < 10) photo.filters[0].Play();
 		}
 
 		var oldPhotoIndex = this.currentPhotoIndex;
