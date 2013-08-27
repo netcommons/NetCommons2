@@ -117,7 +117,7 @@ class Menu_Components_View {
 					" AND {pages}.display_flag != ". _PAGES_DISPLAY_FLAG_DISABLED ." ";
 		}
 
-		if(preg_match("/(flat|header)/i", $temp_name) && $mode == "init") {
+		if(preg_match("/(flat|header|pldwn)/i", $temp_name) && $mode == "init") {
 			$sql .= " AND (({pages}.space_type = "._SPACE_TYPE_GROUP." AND {pages}.thread_num < 2) OR {pages}.space_type = "._SPACE_TYPE_PUBLIC." OR {pages}.parent_id = ". $page_id .  " OR {pages}.parent_id = ". $parent_id . " OR {pages}.room_id = ". $room_id . ") ";
 		} else if($thread_num == null) {
 			$sql .= " AND ({pages}.thread_num < 2  OR {pages}.parent_id = ". $page_id .  " OR {pages}.parent_id = ". $parent_id . " OR {pages}.room_id = ". $room_id . ") ";
