@@ -1,0 +1,32 @@
+<{strip}>
+<{* 携帯メニュー表示用テンプレート *}>
+
+<h3>
+	<{$lang.menu_page_select|smarty:nodefaults}>
+</h3>
+
+<div>
+	<{if !empty($action.pageTree|smarty:nodefaults)}>
+		<{assign var="pages" value=$action.topPage}>
+		<{assign var="minusIndentFirstCheckLevel" value=1}>
+		<{assign var="minusIndentFirst" value=0}>
+		<{include file="menu_mobile_recursive_page.html" page_counter_param=$page_counter_param}>
+	<{else}>
+		<{$lang.menu_no_page|smarty:nodefaults}>
+	<{/if}>
+</div>
+<br />
+
+<{if $action.each_room_flag == $smarty.const._ON }>
+	<h3>
+		<{$lang.menu_room_select|smarty:nodefaults}>
+	</h3>
+	<div>
+		<{assign var="menu_redirect_action" value=$conf.menu_redirect_action}>
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<{include file="menu_mobile_recursive_room.html"}>
+	</div>
+<{/if}>
+<{/strip}>

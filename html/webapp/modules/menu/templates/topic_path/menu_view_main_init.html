@@ -1,0 +1,23 @@
+<{strip}>
+<{*トップページ*}>
+
+<{* カレントがトップページの場合はリンクしない *}>
+<{if ( $action.main_page_id == $action.top_page_arr.page_id )}>
+	<{$action.top_page_arr.page_name}>&nbsp;
+<{else}>
+	<{* アンカーの後のスペース表現でメニューの半角・全角の高さの違いを吸収 *}>
+	<{if $action.top_page_arr.visibility_flag}>
+		<a class="topic_path_menu_top_page" href="<{$smarty.const.BASE_URL|smarty:nodefaults}>/<{if $action.top_page_arr.action_name != DEFAULT_ACTION}>?action=<{$action.top_page_arr.action_name}><{/if}><{if $action.top_page_arr.parameters}>&amp;<{$action.top_page_arr.parameters}><{/if}>">
+			<{$action.top_page_arr.page_name}>
+		</a>&nbsp;
+	<{/if}>
+<{/if}>
+<{assign var="menus" value=$action.menus.0.0}>
+<{* div のコメントアウト topic_path_menu_page *}>
+<{*	<div class="outerdiv">	*}>
+<{include file="menu_view_main_list.html"}>
+<{* div のコメントアウト topic_path_menu_page *}>
+<{*	</div>	*}>
+<{include file="../menu_script.html"}>
+
+<{/strip}>

@@ -1,0 +1,39 @@
+<{strip}>
+<{* ルームデータツリー表示用テンプレート *}>
+
+<{foreach name="room_`$next_parent_id`" item="room_obj" from=$room_list}>
+	<{assign var="indent" value=$room_obj.thread_num}>
+
+	<{if ( $room_obj.visible_flag==_ON ) }>
+		<{if ($room_obj.private_flag == _OFF && $room_obj.thread_num == 0) }>
+		<{else}>
+			<{"&nbsp;"|str_repeat:$indent}>
+		<{/if}>
+
+		<{if ($room_obj.space_type != _SPACE_TYPE_PUBLIC && $room_obj.private_flag == _OFF && $room_obj.thread_num == 0) }>
+			<{$lang._mobile_node|smarty:nodefaults}>
+			<{$room_obj.page_name}>
+			<br />
+		<{else}>
+			<{$lang._mobile_node|smarty:nodefaults}>
+			<{if ($room_obj.page_id == $action.room_id) }>
+				<{$room_obj.page_name}>
+			<{elseif ($room_obj.disable_flag == _ON) }>
+				<{$room_obj.page_name}>
+			<{else}>
+				<a href="?action=<{$menu_redirect_action}>&amp;page_id=<{$room_obj.page_id}>&amp;room_id=<{$room_obj.room_id}><{if ($room_obj.space_type!=_SPACE_TYPE_PUBLIC || $room_obj.thread_num!=0)}>&amp;t=<{$smarty.const._ON}><{/if}><{$session_param}>">
+					<{$room_obj.page_name}>
+				</a>
+			<{/if}>
+			<br />
+		<{/if}>
+	<{/if}>
+
+	<{assign var="next_thread_num" value=$room_obj.thread_num+1}>
+	<{assign var="next_parent_id" value=$room_obj.page_id}>
+	<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+	<{if ($room_list) }>
+		<{include file="menu_mobile_recursive_room.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

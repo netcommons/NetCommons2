@@ -1,0 +1,60 @@
+<{strip}>
+<{* 携帯詳細表示用テンプレート *}>
+
+<h3>
+	<{$action.page_name|smarty:nodefaults}>
+</h3>
+
+<{if ($action.count > 0) }>
+	<div>
+		<{assign var="blocks" value=$action.blocks.0}>
+		<{include file="menu_mobile_recursive_block.html"}>
+	</div>
+<{else}>
+	<div><{$lang.menu_no_page|smarty:nodefaults}></div>
+<{/if}>
+<br />
+
+<{if ( $action.page_id == $action.room_id && $action.each_room_flag == _ON ) }>
+	<div>
+		<{if !empty($action.pageTree|smarty:nodefaults)}>
+			<{ if $action.pageCount > 0 }>
+				<h3>
+					<{$lang.menu_in_room_select|smarty:nodefaults}>
+				</h3>
+				<{assign var="pages" value=$action.topPage}>
+				<{assign var="minusIndentFirstCheckLevel" value=1}>
+				<{assign var="minusIndentFirst" value=0}>
+				<{include file="menu_mobile_recursive_page.html"}>
+			<{/if}>
+		<{/if}>
+	</div>
+<{/if}>
+
+<br />
+<div style="text-align:right;">
+	<{if $action.each_room_flag==_ON && $action.room_id != $action.page_id }>
+		<a href="?action=menu_action_mobile_init<{$action.return_param}><{$session_param}>">
+	<{else}>
+		<a href="?action=menu_view_mobile_init&amp;page_id=1<{$session_param}>">
+	<{/if}>
+
+		<{$lang._btn_prev_arrow|smarty:nodefaults}>
+	</a>
+</div>
+<br />
+<br />
+
+<{if $action.each_room_flag == $smarty.const._ON }>
+	<h3>
+		<{$lang.menu_room_select|smarty:nodefaults}>
+	</h3>
+	<div>
+		<{assign var="menu_redirect_action" value=$conf.menu_redirect_action}>
+		<{assign var="next_thread_num" value=0}>
+		<{assign var="next_parent_id" value=0}>
+		<{assign var="room_list" value=$action.room_arr.$next_thread_num.$next_parent_id}>
+		<{include file="menu_mobile_recursive_room.html"}>
+	</div>
+<{/if}>
+<{/strip}>

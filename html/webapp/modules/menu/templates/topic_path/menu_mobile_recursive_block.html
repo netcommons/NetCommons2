@@ -1,0 +1,51 @@
+<{strip}>
+<{* ブロック一覧表示用テンプレート *}>
+<{foreach name="block" key="block_id" key=blockId item="block" from=$blocks}>
+	<{if $block.module_id != 0 }>
+		<{if ($block.block_name == "" )}>
+			<{if ( $block.content != "" ) }>
+				<{if ($action.html_flag == _ON) }>
+					<h6>
+						<a href="?action=menu_view_mobile_detail&amp;page_id=<{$page_id}>&amp;html_flag=<{$smarty.const._OFF}><{$session_param}>">
+							<{$lang._mobile_view_text|smarty:nodefaults}>
+						</a>
+					</h6>
+					<br />
+					<{$block.content|smarty:nodefaults|img_style_rgb_to_hex|wysiwig_convert_url}>
+				<{else}>
+					<h6>
+						<a href="?action=menu_view_mobile_detail&amp;page_id=<{$page_id}>&amp;html_flag=<{$smarty.const._ON}><{$session_param}>">
+							<{$lang._mobile_view_html|smarty:nodefaults}>
+						</a>
+					</h6>
+					<br />
+					<{$block.content|html_to_text|smarty:nodefaults|nl2br}>
+				<{/if}>
+
+				<{if ( $block.more_title != "" ) }>
+					<br />
+					<br />
+					<a href="?action=announcement_view_main_init&amp;block_id=<{$block.block_id}>&amp;more_flag=<{$smarty.const._ON}><{$session_param}>">
+						<{$block.more_title}>
+					</a>
+					<br />
+				<{/if}>
+			<{else}>
+				<a href="./?action=pages_view_mobile&amp;block_id=<{$block.block_id}><{$session_param}>">
+					<{$block.module_name}>
+				</a>
+			<{/if}>
+		<{else}>
+			<a href="./?action=pages_view_mobile&amp;block_id=<{$block.block_id}><{$session_param}>">
+				<{$block.block_name}>
+			</a>
+		<{/if}>
+		<br />
+	<{/if}>
+
+	<{if !empty($action.blocks.$blockId|smarty:nodefaults)}>
+		<{assign var="blocks" value=$action.blocks.$blockId}>
+		<{include file="menu_mobile_recursive_block.html"}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

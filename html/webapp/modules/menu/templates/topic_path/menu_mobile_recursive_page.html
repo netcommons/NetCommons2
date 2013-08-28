@@ -1,0 +1,74 @@
+<{strip}>
+<{* ページデータツリー表示用テンプレート *}>
+
+<{foreach name="pageLoop" from=$pages|smarty:nodefaults key=pageId item=page}>
+	<{if ( !empty($page.depth|smarty:nodefaults) ) }>
+		<{assign var="remake_depth" value=$page.depth-1}>
+	<{else}>
+		<{assign var="remake_depth" value=$page.depth}>
+	<{/if}>
+
+	<{if ( !empty($page.depth|smarty:nodefaults) ) || ($action.each_room_flag==$smarty.const._OFF && $page.disabled==false) }>
+		<{if empty($remake_depth|smarty:nodefaults) }>
+			<{assign var="minusIndent" value=-1}>
+		<{/if}>
+
+		<{if $page.mobileModule == true && $page.visible == true}>
+
+			<{if $page.disabled==false || $action.menu_display_type==$smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+				<div>
+				&nbsp;
+			<{/if}>
+
+			<{if $action.menu_display_type ==  $smarty.const.MOBILE_MENU_DISPLAY_TREE}>
+				<{if !empty($remake_depth|smarty:nodefaults)}>
+					<{textformat indent=$minusIndentFirst indent_char=$lang.menu_indent_space|smarty:nodefaults}>
+						<{textformat indent=$remake_depth-1-$minusIndent indent_char=$lang.menu_indent_mark1}>
+							<{if $page.lastChild == true}>
+								<{$lang.menu_indent_mark3|smarty:nodefaults|indent:$minusIndent-$minusIndentFirst:$lang.menu_indent_space|smarty:nodefaults}>
+							<{else}>
+								<{$lang.menu_indent_mark2|smarty:nodefaults|indent:$minusIndent-$minusIndentFirst:$lang.menu_indent_space|smarty:nodefaults}>
+							<{/if}>
+						<{/textformat}>
+					<{/textformat}>
+				<{/if}>
+			<{/if}>
+
+
+			<{if $page.disabled == true}>
+				<{if $action.menu_display_type == $smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+						<{$page.page_name}>
+				<{/if}>
+			<{elseif $page.blockCount > 1 }>
+				<a href="./?action=menu_view_mobile_detail&amp;page_id=<{$page.page_id}>&amp;t=<{$smarty.const._ON}><{$session_param}>">
+					<{$page.page_name}>
+				</a>
+			<{else}>
+				<a href="./?action=pages_view_mobile&amp;block_id=<{$page.block_id}><{$session_param}>">
+					<{$page.page_name}>
+				</a>
+			<{/if}>
+
+
+			<{if $page.disabled==false || $action.menu_display_type==$smarty.const.MOBILE_MENU_DISPLAY_TREE }>
+				</div>
+			<{/if}>
+		<{/if}>
+	<{/if}>
+
+	<{if !empty($action.pageTree.$pageId|smarty:nodefaults)}>
+		<{if ($action.menu_display_type==$smarty.const.MOBILE_MENU_DISPLAY_TREE && $page.visible==true)||$action.menu_display_type==$smarty.const.MOBILE_MENU_DISPLAY_FLAT}>
+			<{if $remake_depth==$minusIndentFirstCheckLevel && $page.lastChild == true}>
+				<{assign var="minusIndentFirst" value=$minusIndentFirst+1}>
+				<{assign var="minusIndentFirstCheckLevel" value=$minusIndentFirstCheckLevel+1}>
+			<{/if}>
+
+			<{if empty($remake_depth|smarty:nodefaults) || $page.lastChild == true}>
+				<{assign var="minusIndent" value=$minusIndent+1}>
+			<{/if}>
+			<{assign var="pages" value=$action.pageTree.$pageId}>
+			<{include file="menu_mobile_recursive_page.html"}>
+		<{/if}>
+	<{/if}>
+<{/foreach}>
+<{/strip}>

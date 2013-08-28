@@ -1,0 +1,124 @@
+<{strip}>
+<{foreach from=$menus item=menu}>
+	<{* ノードかどうかでクラス変更 *}>
+	<{assign var="now_page_id" value=$menu.page_id}>
+	<{assign var="next_thread_num" value=$menu.thread_num+1}>
+	<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+		<{assign var="thread_num" value=$menu.thread_num-1}>
+		<{if $thread_num <= 0}>
+			<{assign var="display_flag" value=$smarty.const._ON}>
+		<{/if}>
+	<{else}>
+		<{assign var="thread_num" value=$menu.thread_num}>
+	<{/if}>
+	<{if ($menu.thread_num != 0 && !($menu.space_type == _SPACE_TYPE_PUBLIC && $menu.thread_num == 1 && $menu.display_sequence == 1)) || 
+		($menu.space_type != _SPACE_TYPE_PUBLIC && !($menu.space_type == _SPACE_TYPE_GROUP && $menu.default_entry_flag == _ON) && !($menu.space_type == _SPACE_TYPE_GROUP && $menu.private_flag == _OFF && $menu.thread_num == 0 && !isset($action.menus.$next_thread_num.$now_page_id|smarty:nodefaults)))}>
+		<{assign var="display_flag" value=$action.main_active_node_arr.$now_page_id}>		
+		<{*アクティブかどうか*}>
+
+<{********** スタイルシートの設定部分は削除 by topic_path **********}>
+
+<{******************** 削除 by topic_path
+*		<{if $action.main_page_id == $menu.page_id}>
+*			<{assign var="class_name" value="nowrap highlight _menu_active"}>
+*		<{else}>
+*			<{assign var="class_name" value="nowrap"}>
+*		<{/if}>
+********************}>
+		<{* スペースタイプでクラス変更 *}>
+<{******************** 削除 by topic_path
+*		<{if $menu.space_type == _SPACE_TYPE_PUBLIC}>
+*			<{assign var="top_class_name" value="menu_top_public"}>
+*			<{assign var="space_type_class_name" value="menu_public"}>
+*		<{elseif $menu.space_type == _SPACE_TYPE_GROUP}>
+*			<{assign var="top_class_name" value="menu_top_group"}>
+*			<{assign var="space_type_class_name" value="menu_group"}>
+*		<{/if}>
+********************}>
+		<{*プライベートかいなか*}>
+<{******************** 削除 by topic_path
+*		<{if $menu.private_flag}>
+*			<{assign var="top_class_name" value="menu_top_private"}>
+*			<{assign var="space_type_class_name" value="menu_private"}>
+*		<{/if}>
+********************}>
+		<{*マージン*}>
+<{******************** 削除 by topic_path
+*		<{if $thread_num == 0}>
+*			<{assign var="now_margin" value=$thread_num*$conf.menu_top_left_margin}>
+*		<{else}>
+*			<{assign var="now_margin" value=$thread_num*$conf.menu_left_margin}>
+*		<{/if}>
+********************}>
+
+		<{*ノードで下にページ(ノード)がない場合、表示しない*}>
+		<{*if $menu.page_name != "" && ($menu.action_name!="" || $action.menus.$next_thread_num.$now_page_id)*}>
+		<{if $menu.page_name != "" &&  $menu.visibility_flag == _ON && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+
+			<{**********
+			    追加　：以下の2つの条件を満たしていれば、表示対象とする。 by topic_path
+			    条件 1：テンプレート内のdisplay_flag が_ON の場合、カレントページの上位階層である
+			    条件 2：$action.main_page_id == $menu.page_id でカレントページが判定できる
+			**********}>
+			<{if $display_flag == _ON || $action.main_page_id == $menu.page_id}>
+
+			  <{if $menu.thread_num == 0 && $menu.space_type == 2 && $menu.private_flag == 0}>
+				<{* "グループスペース"なので、表示しない *}>
+			  <{else}>
+
+				<{********** ここは元のまま by topic_path **********}>
+				<{if $menu.node_flag == 1 && $menu.action_name==""}>
+					<{assign var="onclick" value=" onclick=\"menuCls['`$id`'].menuNodeClick(event,'`$menu.page_id`');return false;\""}>
+				<{else}>
+					<{assign var="onclick" value=""}>
+				<{/if}>
+		
+				<{********** 追加：カレントページなら、リンクしない by topic_path **********}>
+				<{if $action.main_page_id == $menu.page_id}>
+				＞&nbsp;<{$menu.page_name}>&nbsp;
+				<{else}>
+				＞&nbsp;
+
+					<{********** 変更：元のリンクをコメント by topic_path **********}>
+					<{*	<a class="link menulink <{if $thread_num == 0}><{$top_class_name}><{else}><{$space_type_class_name}><{/if}> _menutop_<{$menu.page_id}> <{$class_name}> hover_highlight" href="<{include file="../menu_view_main_link_href.html"}>"<{$onclick|smarty:nodefaults}> style="margin-left:<{$now_margin}>px;">	*}>
+
+					<{********** 変更：CSS を取り、シンプルなリンクに変更 by topic_path **********}>
+					<a class="" href="<{include file="../menu_view_main_link_href.html"}>"<{$onclick|smarty:nodefaults}>>
+
+				 	<{* アイコン *}>
+<{********** アイコンをコメント by topic_path
+*				 	<{if $menu.node_flag == _ON}>
+*		 				<img class="icon" src="<{if $display_flag == _OFF}><{"right_arrow.gif"|get_themes_image}><{else}><{"down_arrow.gif"|get_themes_image}><{/if}>" alt="" />
+*				 	<{else}>
+*				 		<img class="icon" src="<{"dot.gif"|get_themes_image}>" alt="" />
+*		 			<{/if}>
+**********}>
+					<{$menu.page_name}>
+					<{* 準備中 *}>
+					<{if $menu.page_id == $menu.room_id && $menu.display_flag == _OFF}><span class="menu_prepared"><{$lang.menu_prepared|smarty:nodefaults}></span><{/if}>
+					</a>
+
+<{********** 追加した判定の閉じタグ：ここから by topic_path **********}>
+				<{/if}>
+			  <{/if}>
+			<{/if}>
+<{********** 追加した判定の閉じタグ：ここまで by topic_path **********}>
+
+		<{/if}>
+	<{/if}>
+	<{if $action.menus.$next_thread_num.$now_page_id && !($menu.page_id == $menu.room_id && $menu.display_flag == _OFF && $menu.authority_id < _AUTH_CHIEF)}>
+
+		<{********** div のコメントアウト topic_path_menu_page
+		<div id="_menu_<{$menu.page_id}><{$id}>" class="_menu_<{$menu.page_id}><{$id}><{if $display_flag == _OFF}> display-none<{else}><{/if}>">
+		**********}>
+
+		<{assign var="menus" value=$action.menus.$next_thread_num.$now_page_id}>
+		<{include file="menu_view_main_list.html"}>
+
+		<{********** div のコメントアウト topic_path_menu_page
+		</div>
+		**********}>
+
+	<{/if}>
+<{/foreach}>
+<{/strip}>
