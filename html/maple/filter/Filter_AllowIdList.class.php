@@ -285,7 +285,7 @@ class Filter_AllowIdList extends Filter
 
 		$params = array();
 		if($where_params) {
-			$where_str = $this->_db->getWhereSQL(&$params, &$where_params, false);
+			$where_str = $this->_db->getWhereSQL($params, $where_params, false);
 			$sql .= $where_str;
 			if(!empty($sql2))
 				$sql2 .= $where_str;

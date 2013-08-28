@@ -114,7 +114,7 @@ class FilterChain
 	        //
 	        // ファイルが存在していなければエラー
 	        //
-	        if (!(@include_once $filename) or !class_exists($className)) {
+	        if (!(include_once $filename) or !class_exists($className)) {
 	            $log->error("存在していないFilterが指定されています(${name}[alias:${alias}])", "FilterChain#add");
 	            return false;
 	        }
