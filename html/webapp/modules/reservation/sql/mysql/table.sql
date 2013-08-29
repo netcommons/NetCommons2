@@ -63,6 +63,7 @@ CREATE TABLE `reservation_reserve_details` (
 CREATE TABLE `reservation_block` (
   `block_id`           int(11) unsigned NOT NULL,
   `display_type`       tinyint unsigned NOT NULL default '0',
+  `display_timeframe`  tinyint(1) NOT NULL default '0',
   `display_start_time` varchar(64) NOT NULL default '',
   `display_interval`   tinyint unsigned NOT NULL default '0',
   `category_id`        int(11) unsigned NOT NULL default '0',
