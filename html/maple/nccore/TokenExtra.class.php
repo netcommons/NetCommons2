@@ -74,11 +74,17 @@ class TokenExtra extends Token
     	//_nameを付与することにより複雑にした
     	//多次元配列化
     	$token_value = $this->getName();
+
+		$tokenString = $this->_name;
+		if (is_array($tokenString)) {
+			$tokenString = '_token';
+		}
+
     	if(is_array($token_value)) {
     		$token_value = array_merge(array("_token"), $token_value);
-    		$this->_session->setParameter($token_value, md5($this->_name.uniqid(rand(),1)));
+    		$this->_session->setParameter($token_value, md5($tokenString . uniqid(rand(),1)));
     	} else {
-        	$this->_session->setParameter(array("_token",$this->getName()), md5($this->_name.uniqid(rand(),1)));
+        	$this->_session->setParameter(array("_token",$this->getName()), md5($tokenString . uniqid(rand(),1)));
     	}
     }
     
