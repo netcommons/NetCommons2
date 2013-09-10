@@ -49,7 +49,7 @@
 		<div class="reservation_import_indent">
 			<{* CSVファイル *}>
 			<label for="reservation_import<{$id}>">
-				<{$lang.researchmap_file_name|smarty:nodefaults}>
+				<{$lang.reservation_file_name|smarty:nodefaults}>
 			</label>
 			<input id="reservation_import<{$id}>" name="upload" type="file" />
 		</div>
@@ -57,13 +57,13 @@
 
 	<div class="cv_bottom_description align-right">
 		<{* フォーマットのダウンロード *}>
-		<a title="<{$lang.researchmap_download_format_title|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=reservation_view_edit_import_format&amp;block_id=<{$block_id}>" class="syslink">
-			<{$lang.researchmap_download_format|smarty:nodefaults}>
+		<a title="<{$lang.reservation_download_format_title|smarty:nodefaults}>" href="<{$smarty.const.BASE_URL}><{$smarty.const.INDEX_FILE_NAME}>?action=reservation_view_edit_import_format&amp;block_id=<{$block_id}>" class="syslink">
+			<{$lang.reservation_download_format|smarty:nodefaults}>
 		</a>
 		<{$lang._separator|smarty:nodefaults}>
 		<{* 各項目の説明 *}>
-		<a title="<{$lang.researchmap_download_desc_title|smarty:nodefaults}>" href="#" class="syslink" onclick="commonCls.displayChange($('reservation_import_help<{$id}>')); return false;">
-			<{$lang.researchmap_download_desc|smarty:nodefaults}>
+		<a title="<{$lang.reservation_download_desc_title|smarty:nodefaults}>" href="#" class="syslink" onclick="commonCls.displayChange($('reservation_import_help<{$id}>')); return false;">
+			<{$lang.reservation_download_desc|smarty:nodefaults}>
 		</a>
 	</div>
 
@@ -78,7 +78,7 @@
 <{* 各項目の説明 *}>
 <fieldset id="reservation_import_help<{$id}>" class="reservation_import_help display-none">
 	<legend class="bold">
-		<{$lang.researchmap_download_desc|smarty:nodefaults}>
+		<{$lang.reservation_download_desc|smarty:nodefaults}>
 	</legend>
 	<div class="reservation_top_description nowrap">
 		<{$lang.reservation_help_desc|smarty:nodefaults}>
