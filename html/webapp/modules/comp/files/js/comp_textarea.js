@@ -96,7 +96,9 @@ compTextarea.prototype = {
 
 		// addFocusの別名
 		focusEditor : function(now, callback) {
-			this.textarea.addFocus(now, callback);
+			if (this.textarea != null || this.textarea != undefined) {
+				this.textarea.addFocus(now, callback);
+			}
 		},
 
 		setOptions : function() {
