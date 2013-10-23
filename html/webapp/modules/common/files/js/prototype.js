@@ -2984,6 +2984,16 @@ function Browser() {
 		return;
 	}
 
+	// IE11
+	s = "Trident";
+	if ((i = ua.indexOf(s)) >= 0) {
+		s = "rv:";
+		i = ua.indexOf(s);
+		this.isIE = true;
+		this.version = parseFloat(ua.substr(i + s.length));
+		return;
+	}
+
 	s = "Netscape";
 	if ((i = ua.indexOf(s)) >= 0) {
 		this.isGecko = true;
