@@ -337,7 +337,7 @@ class Uploads_View {
 		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
 			//HTTP_USER_AGENTがない場合、
 			header("Content-disposition: inline; filename=\"".$filename."\"");
-		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "MSIE") || stristr($_SERVER['HTTP_USER_AGENT'], "Trident")) {
 			// IEの場合
 			header("Content-disposition: inline; filename=\"".mb_convert_encoding($filename, "SJIS", _CHARSET)."\"");
 		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "Opera")) {
