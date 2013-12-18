@@ -163,7 +163,8 @@ class Multidatabase_View_Main_Search_Result extends Action
 			$handles = explode(" ", trim(preg_replace("/[　\s]+/u", " ", $this->handle)));
 			if(is_array($handles)) {
 				foreach (array_keys($handles) as $i) {
-					$handlesql[] = " {multidatabase_content}.insert_user_name LIKE '%".$handles[$i]."%' ";
+					$handlesql[] = " {multidatabase_content}.insert_user_name LIKE ? ";
+					$keywordBindValues[] = '%' . $handles[$i] . '%';
 				}
 			}
 			$sqlwhere .= " AND (".join(" OR ", $handlesql).")";
