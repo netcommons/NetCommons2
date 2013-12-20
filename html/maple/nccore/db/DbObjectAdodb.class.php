@@ -55,7 +55,7 @@ class DbObjectAdodb
 
 	/**
 	 * DSNをセットする
-	 *　
+	 *
 	 * @param	string	$dsn	DSN　$driver://$username:$password@hostname/$database
 	 * @access	public
 	 */
@@ -65,7 +65,7 @@ class DbObjectAdodb
 
 	/**
 	 * DSNをゲットする
-	 *　
+	 *
 	 * @return	string	$dsn	DSN　$driver://$username:$password@hostname/$database
 	 * @access	public
 	 */
@@ -75,7 +75,7 @@ class DbObjectAdodb
 
 	/**
 	 * Prefixをセットする
-	 *　
+	 *
 	 * @param	string	$prefix
 	 * @access	public
 	 */
@@ -85,7 +85,7 @@ class DbObjectAdodb
 
 	/**
 	 * Prefixをゲットする
-	 *　
+	 *
 	 * @return	string	$prefix
 	 * @access	public
 	 */
@@ -106,7 +106,7 @@ class DbObjectAdodb
 
 	/**
 	 * 接続時のoptionをゲットする
-	 *　
+	 *
 	 * @return	array	$option
 	 * @access	public
 	 */
@@ -130,7 +130,7 @@ class DbObjectAdodb
 
 	/**
 	 * デバッグモードをゲットする
-	 *　
+	 *
 	 * @return	bool	$debugMode	デバッグモードをセットする
 	 * @access	public
 	 */
@@ -236,7 +236,7 @@ class DbObjectAdodb
 
 	/**
 	 * デバッグモードをゲットする
-	 *　
+	 *
 	 * @return		string	$sql	実行するSQL文
 	 * @access	public
 	 */
@@ -620,7 +620,7 @@ class DbObjectAdodb
 
 	/**
 	 * テーブルInsert
-	 *　
+	 *
 	 * @param	string	$tableName       対象テーブル名称
 	 * @param	array   $params          キー名称配列、パラメータ配列
 	 * @param	boolean true or false   insert_time-update_user_nameを自動的に付与する
@@ -647,7 +647,7 @@ class DbObjectAdodb
 
 	/**
 	 * テーブルUpdate
-	 *　
+	 *
 	 * @param	string	$tableName       対象テーブル名称
 	 * @param	array   $params          キー名称配列、更新カラム配列
 	 * @param	array   $where_params    キー名称配列、whereデータ配列
@@ -667,7 +667,7 @@ class DbObjectAdodb
 
 	/**
 	 * テーブルDelete
-	 *　
+	 *
 	 * @param	string	$tableName       対象テーブル名称
 	 * @param	array   $where_params    キー名称配列、whereデータ配列
 	 * @return boolean true or false
@@ -900,7 +900,7 @@ class DbObjectAdodb
 			if(isset($session) && $session->getParameter("_php_debug") == _ON) {
 				$errorList->add($this->ErrorNo(), $this->ErrorMsg(). ":\n". $this->_bck_sql);
 			} else {
-				$errorList->add($this->ErrorNo(), "SQL Error!");
+				$errorList->add($this->ErrorNo(), _INVALID_INPUT);
 			}
 		} else {
 			$errorList->add($error_no, $error_mes);
@@ -909,7 +909,7 @@ class DbObjectAdodb
 
 	/**
 	 * MATCH AGAINST用の文字列に変換する
-	 *　
+	 *
 	 * @return	bool	$debugMode	デバッグモードをセットする
 	 * @access	public
 	 */
