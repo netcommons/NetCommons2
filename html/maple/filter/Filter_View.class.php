@@ -917,7 +917,6 @@ class Filter_View extends Filter {
 		}
 		if($header) {
 			//header表示--------------------------------------------------
-			print "\n";
 			print $result_header;
 			//flush();
 
@@ -929,7 +928,6 @@ class Filter_View extends Filter {
 			print $result_footer;
 			//flush();
 		} else {
-			print "\n";
 			print $result;
 
 		}
