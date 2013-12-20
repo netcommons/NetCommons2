@@ -243,7 +243,7 @@ class Filter_SetConfig extends Filter {
 		}
 
 		// 言語セット
-		$_lang = $this->_request->getParameter('lang');
+		$_lang = trim($this->_request->getParameter('lang'));
 		if(!empty($_lang)) {
 			$languages = $this->_languagesView->getLanguages(array("lang_dirname"=>$_lang));
 			if (!isset($languages[0])) {
