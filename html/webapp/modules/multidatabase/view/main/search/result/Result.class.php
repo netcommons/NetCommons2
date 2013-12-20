@@ -187,12 +187,7 @@ class Multidatabase_View_Main_Search_Result extends Action
 			}
 		}
 
-		if(empty($this->sort_metadata) || $this->sort_metadata == MULTIDATABASE_DEFAULT_SEQUENCE_SORT) {
-			$order_params = array(
-				"{multidatabase_content}.display_sequence" => "ASC",
-				"{multidatabase_content}.insert_time" => "DESC"
-			);
-		}else if($this->sort_metadata == MULTIDATABASE_DEFAULT_DATE_SORT) {
+		if($this->sort_metadata == MULTIDATABASE_DEFAULT_DATE_SORT) {
 			$order_params = array(
 				"{multidatabase_content}.insert_time" => "DESC"
 			);
@@ -218,9 +213,14 @@ class Multidatabase_View_Main_Search_Result extends Action
 			$order_params = array(
 				"{multidatabase_content}.update_time" => "ASC"
 			);
-		}else {
+		}elseif (isset($this->sort_metadatas[$this->sort_metadata]))  {
 			$order_params = array(
 				"m_content".$this->sort_metadata.".content" => "ASC",
+				"{multidatabase_content}.insert_time" => "DESC"
+			);
+		}else {
+			$order_params = array(
+				"{multidatabase_content}.display_sequence" => "ASC",
 				"{multidatabase_content}.insert_time" => "DESC"
 			);
 		}
