@@ -172,7 +172,7 @@ class Multidatabase_View_Main_Search_Result extends Action
 
 		if($this->status != "") {
 			if($this->status != MULTIDATABASE_STATUS_ALL) {
-				$sqlwhere .= " AND {multidatabase_content}.agree_flag=".$this->status." ";
+				$sqlwhere .= " AND {multidatabase_content}.agree_flag=".intval($this->status)." ";
 			}
 		}
 
