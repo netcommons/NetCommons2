@@ -234,9 +234,9 @@ class Escape_Text {
 							continue;
 						}
 					} else {
-						// ./ と ../　の許可
-						if($attribute_split[2] != "#" && !preg_match("/^\.\//", $attribute_split[2]) && !preg_match("/^\.\.\//", $attribute_split[2])) {
-							$attribute_split[2] = "./".$attribute_split[2];
+						// ./ と ../ とvideo　の許可
+						if($attribute_split[2] != "#" && !preg_match("/^\.\//", $attribute_split[2]) && !preg_match("/^\.\.\//", $attribute_split[2]) && !$this->_checkVideoURL($attribute_split[2], $allowable_video)) {
+ 							$attribute_split[2] = "./".$attribute_split[2];
 						}
 					}
 				}

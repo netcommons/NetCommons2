@@ -493,11 +493,11 @@ class Module_Update extends Action
 			}
 		}
 
-		// WYSIWYGの許可するVideoURLに「http://www.youtube-nocookie.com/」を追加
-		$textarea_video_url = $this->db->selectExecute("textarea_video_url", array("url"=> 'http://www.youtube-nocookie.com/'));
+		// WYSIWYGの許可するVideoURLに「//www.youtube.com/」を追加
+		$textarea_video_url = $this->db->selectExecute("textarea_video_url", array("url"=> '//www.youtube.com/'));
 		if($textarea_video_url !== false && count($textarea_video_url) == 0) {
 			$sql = "INSERT INTO `".$this->db->getPrefix()."textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES
-					('http://www.youtube-nocookie.com/', '', '', '', '0', '', '', '', '0', '')";
+					('//www.youtube.com/', '', '', '', '0', '', '', '', '0', '')";
 			$result = $this->db->execute($sql);
 			if ($result === false) {
 				return false;
