@@ -767,7 +767,7 @@ function smartyTemplateCacheHandler($action, &$smarty_obj, &$cache_content, $tpl
             		$time = date("YmdHis",timezone_date(null, true, "U") - $renderer->cache_lifetime);
 
             		$result = $db->execute("DELETE FROM {smarty_cache} " .
-						$where_str." OR update_time <'".$time."' ",$params);
+						$where_str." OR expire_time <'".$time."' ",$params);
             	} else {
                 	$result = $db->execute("DELETE FROM {smarty_cache} " .
 						$where_str,$params);
