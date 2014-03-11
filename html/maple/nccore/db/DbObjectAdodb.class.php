@@ -186,7 +186,11 @@ class DbObjectAdodb
 			// http://php.net/manual/ja/function.mysql-set-charset.php
 			if (version_compare(phpversion(), '5.2.3', '>=')
 				&& $server_info['version'] >= '5.0.7') {
-				mysql_set_charset(DATABASE_CHARSET);
+				if (strpos($this->_dsn, 'mysqli') === 0) {
+					$this->_conn->SetCharSet(DATABASE_CHARSET);
+				} else {
+					mysql_set_charset(DATABASE_CHARSET);
+				}
 			}
 		}
 
