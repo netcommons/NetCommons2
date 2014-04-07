@@ -102,7 +102,7 @@ class RequestExtra extends Request
     			}
 
     			if(is_array($value)) {
-    				$this->_rawurlDecode($params[$key]);
+    				$this->_rawurlDecode($params[$key], $security_chk_flag);
     			} else {
     				if($security_chk_flag) {
 	    				// ヌル文字列をスペースに変更する
