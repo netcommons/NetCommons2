@@ -488,33 +488,37 @@ compTextareamain.prototype = {
 						value : {
 							insertOrderedList    : { visible : true, tags : ['ol'],
 														exec : function(e) {
-															if(!browser.isIE)
-				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
-				            				  				else {
-				            				  					var n = this.applyInlineStyle('div');
-				            				  					this.rangeSelect(n);
-				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
-				            				  					if(n && n.parentNode) {
-												   					this.insertBefore(n, n.innerHTML)
-																	n.parentNode.removeChild(n);
-																}
-				            				  				}
+															// IE10以下で全角入力をすると、先頭の文字が2行目にも表示されるため修正
+//															if(!browser.isIE)
+//				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
+//				            				  				else {
+//				            				  					var n = this.applyInlineStyle('div');
+//				            				  					this.rangeSelect(n);
+//				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
+//				            				  					if(n && n.parentNode) {
+//												   					this.insertBefore(n, n.innerHTML)
+//																	n.parentNode.removeChild(n);
+//																}
+//				            				  				}
+															this.editorDoc.execCommand("insertOrderedList", false, []);
 				            				  				this.checkTargets();
 			            					  			}
 			            					   		},
 			            	insertUnorderedList  : { visible : true, tags : ['ul'],
 														exec : function(e) {
-															if(!browser.isIE)
-				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
-				            				  				else {
-				            				  					var n = this.applyInlineStyle('div');
-				            				  					this.rangeSelect(n);
-				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
-				            				  					if(n && n.parentNode) {
-												   					this.insertBefore(n, n.innerHTML)
-																	n.parentNode.removeChild(n);
-																}
-				            				  				}
+															// IE10以下で全角入力をすると、先頭の文字が2行目にも表示されるため修正
+//															if(!browser.isIE)
+//				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
+//				            				  				else {
+//				            				  					var n = this.applyInlineStyle('div');
+//				            				  					this.rangeSelect(n);
+//				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
+//				            				  					if(n && n.parentNode) {
+//												   					this.insertBefore(n, n.innerHTML)
+//																	n.parentNode.removeChild(n);
+//																}
+//				            				  				}
+															this.editorDoc.execCommand("insertUnorderedList", false, []);
 				            				  				this.checkTargets();
 			            					  			}
 			            					   		}
