@@ -499,7 +499,7 @@ clsPagestyle.prototype = {
 				theme_params["top_el"] = $(this.id);
 				theme_params["param"] = {"action":"dialog_pagestyle_action_edit_init","page_id":this.page_id,"page_name":form.page_name.value,"permalink":permalink,"titletag":titletag,"meta_description":form.meta_description.value,"meta_keywords":form.meta_keywords.value,"_pagestyle_flag":1,"all_apply":all_apply,"prefix_id_name":"dialog_pagestyle"};
 				theme_params["callbackfunc"] =  function(res){
-													if(form.permalink_url && form.permalink.value != undefined && form.permalink.value != '') {
+													if(form.permalink_url && form.permalink.type != "hidden" && form.permalink.value != '') {
 														location.href = form.permalink_url.value + form.permalink.value + '/';
 													} else {
 														location.href = _nc_base_url + _nc_index_file_name + "?action=" + this.pages_action + "&page_id="+this.page_id;
