@@ -45,7 +45,7 @@ class Journal_Action_Main_Trackback extends Action
 		
     	$params = array("post_id" => $this->post_id);
 		$post = $this->db->selectExecute("journal_post", $params);
-		if($post === false || !isset($post[0])) {
+		if($post === false || !isset($post[0]) || intval($post[0]['root_id']) != 0) {
 			exit(Net_TrackBack::getPingXML(false , "Invalid trackback ID")); 
 		}
 
