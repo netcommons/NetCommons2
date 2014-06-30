@@ -147,7 +147,9 @@ class Logger_ViewDisplay {
 		
 		$write_flag = false;
 		if($errNo != LEVEL_SQL)	{
-			if (defined("PHP_DEBUG")) {
+			if ((version_compare(phpversion(), '5.2.7', '>=') && PHP_DEBUG==true)
+				||
+				(version_compare(phpversion(), '5.2.7', '<') && defined("PHP_DEBUG"))) {
 				if(PHP_DEBUG)
 					$php_debug = 1;
 				else
