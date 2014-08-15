@@ -214,7 +214,11 @@ class Backup_Components_Restore
 		//$options = array ('parseAttributes' => true);	属性値を含める
 		//$unserializer =& new XML_Unserializer($options);
 
-		$result = $unserializer->unserialize($xml);
+		// XML を読み込んだ変数から処理すると、環境によってはメモリを使いすぎてエラーになるケースがあった。
+		// そのため、XML は再度、ファイルから取得するように修正し、メモリの消費を抑えた。
+		// 2014-08-15 by nagahara@opensource-workshop.jp
+		// $result = $unserializer->unserialize($xml);
+		$result = $unserializer->unserialize($temporary_file_path.BACKUP_ROOM_XML_FILE_NAME, true);
 		if($result !== true) {
 			$this->_fileAction->delDir($temporary_file_path);
 			$errorList->add("backup", BACKUP_FAILURE_UNSERIALIZE);
