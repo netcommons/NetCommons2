@@ -61,7 +61,13 @@ class Registration_Action_Main_Mail extends Action
 		$users = array();
 		if ($mail['regist_user_send']
 			&& !empty($mail['regist_user_email'])) {
-			$users[]['email'] = $mail['regist_user_email'];
+
+			// メールアドレス欄が複数ある場合の対応 by nagahara@opensource-workshop.jp
+			// $users[]['email'] = $mail['regist_user_email'];
+			foreach( $mail['regist_user_email'] as $mail_item ) {
+				$users[]['email'] = $mail_item;
+			}
+
 			$this->mailMain->setToUsers($users);
 			$this->mailMain->send();
 		}
