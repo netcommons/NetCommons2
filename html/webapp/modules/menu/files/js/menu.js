@@ -860,5 +860,84 @@ clsMenu.prototype = {
 			}
 		}.bind(this);
 		commonCls.send(chg_params);
+	},
+	// 未ログインのとき
+	// ログインinputのフォーカス＆フォーカス外しの初期処理で
+	// onfocus & onblurのイベントが走る
+	// このイベント処理とJQロードのタイミングがちょうどかち合うとJSエラーが発生する
+	// このため、IE & < 9 & 未ログインのときに限り、JSロードを400MS待たせ、かつロード中はページ切り替え動作をキャンセルするよう
+	menuJqLoad: function(block_id, color) {
+		var jqload_func = this._menuJqLoad;
+		var cancel_func = this._menuCancelForJqload;
+
+		// IEかつ未ログインだったら
+		if($('login_id_0') && browser.isIE && browser.version < 9) {
+			var els = Element.getElementsByClassName(this.id, "menu_jq_gnavi_pldwn_" + color + "_btn");
+			els.each(
+				function(el){ 
+					el.observe("click", cancel_func);
+				}
+			);
+			
+			setTimeout(function(){
+				jqload_func(block_id, color);
+			}, 400);
+		}
+		else {
+			jqload_func(block_id, color);
+		}
+	},
+	_menuCancelForJqload : function(e) {
+		jcheck = new Function('return !(typeof jQuery !== "undefined" && window.$ === jQuery)');
+		commonCls.wait(jcheck);
+		return false;
+	},
+	_menuJqLoad : function(block_id, color) {
+
+		var cancel_func = this._menuCancelForJqload;
+
+		jqcheckCls.jqload("jquery-1.6.4.min", "window.jQuery",
+			function() {
+				var zindex = 900;
+				if(browser.isIE && browser.version <= 7) {
+					jQuery("#" + block_id + " ul.menu_jq_gnavi_pldwn_" + color + " > li").each(function(index,el) {
+						jQuery(el).attr("style","z-index:"+zindex);
+						zindex--;
+					});
+				}
+				if(browser.isIE && browser.version < 7) {
+					jQuery("#" + block_id + " ul.menu_jq_gnavi_pldwn_" + color + " li").hover(
+						function() { jQuery(">a", this).addClass("menu_jq_gnavi_pldwn_" + color + "_actives"); jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub:not(:animated)", this).show(); },
+						function() { jQuery(">a", this).removeClass("menu_jq_gnavi_pldwn_" + color + "_actives"); jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub", this).hide(); }
+					);
+				}
+				else {
+					jQuery("#" + block_id + " ul.menu_jq_gnavi_pldwn_" + color + " li").hover(
+						function() { 
+							jQuery(">a", this).addClass("menu_jq_gnavi_pldwn_" + color + "_actives");
+							if(jQuery(this).closest("ul").hasClass("menu_jq_gnavi_pldwn_" + color + "_sub")) {
+								/*!browser.isIE && browser.version > 7 first view */
+								if(jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub", this).css("left")=="0px" || jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub", this).css("left") == "auto"){
+									jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub", this).css("left", jQuery(this).width());
+								}
+							}
+							jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub:not(:animated)", this).slideDown("fast"); 
+						},
+						function() { 
+							jQuery(">a", this).removeClass("menu_jq_gnavi_pldwn_" + color + "_actives");
+							jQuery(">ul.menu_jq_gnavi_pldwn_" + color + "_sub", this).slideUp("fast"); 
+						}
+					);
+				}
+				if($('login_id_0') && browser.isIE && browser.version < 9) {
+					Element.getElementsByClassName(this.id, "menu_jq_gnavi_pldwn_" + color + "_btn").each(
+						function(el){
+							el.stopObserving("click", cancel_func);
+						}
+					);
+				}
+
+			}
+		);
 	}
 }
