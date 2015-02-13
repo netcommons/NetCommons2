@@ -213,23 +213,23 @@ class Dialog_Pagestyle_View_Edit_Init extends Action
 						} else {
 							$this->background_color[$key] = "";
 						}
-						
-						foreach($border_array as $border => $border_value) {
-							if(isset($theme_list[$key][$border])) {
-								if($key == "general") {
-									$this->headercolumn[$border_value] = explode(",",$theme_list[$key][$border]);
-									$this->leftcolumn[$border_value] = explode(",",$theme_list[$key][$border]);
-									$this->rightcolumn[$border_value] = explode(",",$theme_list[$key][$border]);
-									$this->centercolumn[$border_value] = explode(",",$theme_list[$key][$border]);
-									$this->footercolumn[$border_value] = explode(",",$theme_list[$key][$border]);
-								} else {
-									$this->$key[$border_value] = explode(",",$theme_list[$key][$border]);
-								}
+
+						foreach ($border_array as $border => $border_value) {
+							if (!isset($theme_list[$key][$border])) {
+								// 未定義の場合はセットせず、generalの値を使用する
+								continue;
+							}
+							if ($key == "general") {
+								$this->headercolumn[$border_value] = explode(",", $theme_list[$key][$border]);
+								$this->leftcolumn[$border_value] = explode(",", $theme_list[$key][$border]);
+								$this->rightcolumn[$border_value] = explode(",", $theme_list[$key][$border]);
+								$this->centercolumn[$border_value] = explode(",", $theme_list[$key][$border]);
+								$this->footercolumn[$border_value] = explode(",", $theme_list[$key][$border]);
 							} else {
-								$this->$key[$border_value] = "";
+								// 定義されている場合は定義内容をセットする
+								$this->{$key}[$border_value] = explode(",", $theme_list[$key][$border]);
 							}
 						}
-						
 					}
 				}
 			}
