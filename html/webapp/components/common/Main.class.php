@@ -187,7 +187,7 @@ class Common_Main {
 			$renderer->assign('module_id',$modules[$pathList[0]]['module_id']);
 		} else {
 			$module_id = 0;
-			$renderer->assign('module_obj',"");
+			$renderer->assign('module_obj', array());
 			$renderer->assign('module_id',0);
 		}
 
