@@ -76,30 +76,31 @@ class Room_Action_Admin_Selmodules extends Action
 			$isError = true;
 		}
 
-		$sql = "SELECT B.block_id, "
-					. "B.page_id "
-				. "FROM {blocks} B "
-				. "INNER JOIN {pages} P "
-					. "ON B.page_id = P.page_id "
-				. "WHERE P.room_id = ? "
-				. "AND B.module_id IN ('" . implode("','", $unusableModuleIds) . "')";
-		$blocks =& $this->db->execute($sql, $roomId);
-		if ($blocks === false) {
-			$this->db->addError();
-		}
+		if(count($unusableModuleIds) > 0) {
+			$sql = "SELECT B.block_id, "
+						. "B.page_id "
+					. "FROM {blocks} B "
+					. "INNER JOIN {pages} P "
+						. "ON B.page_id = P.page_id "
+					. "WHERE P.room_id = ? "
+					. "AND B.module_id IN ('" . implode("','", $unusableModuleIds) . "')";
+			$blocks =& $this->db->execute($sql, $roomId);
+			if ($blocks === false) {
+				$this->db->addError();
+			}
 
-		foreach($blocks as $block) {
-			$request = array(
-				'block_id' => $block['block_id'],
-				'page_id' => $block['page_id']
-			);
-			$result = $this->preexecuteMain->preExecute('pages_actionblock_deleteblock', $request);
-			if ($result === false
-					|| $result === 'false') {
-				$isError = true;
+			foreach($blocks as $block) {
+				$request = array(
+					'block_id' => $block['block_id'],
+					'page_id' => $block['page_id']
+				);
+				$result = $this->preexecuteMain->preExecute('pages_actionblock_deleteblock', $request);
+				if ($result === false
+						|| $result === 'false') {
+					$isError = true;
+				}
 			}
 		}
-
 		if($isError) {
 			return 'error';
 		}
