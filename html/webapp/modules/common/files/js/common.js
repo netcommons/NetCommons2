@@ -1175,7 +1175,7 @@ clsCommon.prototype = {
 					//}
 
 					if(this['callbackfunc']){
-						if (transport.getResponseHeader("Content-Type") == "text/xml" && transport.responseXML) {
+						if (transport.getResponseHeader("Content-Type").substring(0, 8) === "text/xml" && transport.responseXML) {
 							res = transport.responseXML;
 						}
 
