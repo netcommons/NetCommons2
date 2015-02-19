@@ -45,6 +45,9 @@ class Module_Components_Compmain {
 	 * @access	public
 	 */
 	function clearCacheByDirname($dirname) {
+		$currentErrorReporting = error_reporting();
+		error_reporting($currentErrorReporting & ~E_WARNING);
+
 		// ----------------------------------------------
 		// --- キャッシュクリア		 ---
 		// ----------------------------------------------
@@ -76,10 +79,13 @@ class Module_Components_Compmain {
 				//キャッシュクリア
 				$renderer->clear_cache();
 				$cache->setClearCache($clear_cache);	//元に戻す
-				
+
+				error_reporting($currentErrorReporting);
 				return true;
 			}
 		}
+
+		error_reporting($currentErrorReporting);
 		return false;
 	}
 	
