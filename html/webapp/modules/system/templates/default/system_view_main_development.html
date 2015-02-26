@@ -3,9 +3,9 @@
 			<fieldset>
 				<legend><{$lang.system_debug_title|smarty:nodefaults}></legend>
 				<div>
-					<input type="radio" name="session_only" value="1" id="session_only_1"<{if !$smarty.session._use_db_debug.conf_value}> checked="checked"<{/if}> />
+					<input type="radio" name="session_only" value="1" id="session_only_1"<{if !$smarty.session._use_db_debug}> checked="checked"<{/if}> />
 					<label for="session_only_1"><{$lang.system_debug_only_session|smarty:nodefaults}></label>
-					<input type="radio" name="session_only" value="0" id="session_only_0"<{if $smarty.session._use_db_debug.conf_value}> checked="checked"<{/if}> />
+					<input type="radio" name="session_only" value="0" id="session_only_0"<{if $smarty.session._use_db_debug}> checked="checked"<{/if}> />
 					<label for="session_only_0"><{$lang.system_debug_use_db|smarty:nodefaults}></label>
 				</div>
 				<hr />
