@@ -213,7 +213,7 @@ class Multidatabase_Action_Main_Addcontent extends Action
 								if ($result === false) {
 									return 'error';
 								}
-							}else {
+							} elseif (is_array($datas[$metadata_id])) {
 								$params = array(
 									"upload_id" => $datas[$metadata_id]['upload_id'],
 									"file_name" => $datas[$metadata_id]['file_name'],
