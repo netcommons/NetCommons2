@@ -26,7 +26,7 @@ class Circular_View_Main_Create extends Action
 	var $circularView = null;
 
 	// 値をセットするため
-	var $circular_info = null;
+	var $circular_info = array();
 	var $circular_user_list = null;
 	var $room_list_array = null;
 	var $group_member_list = null;
