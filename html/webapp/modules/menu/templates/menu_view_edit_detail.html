@@ -3,5 +3,7 @@
 <{assign var="now_parent_id" value=$action.parent_id}>
 <{assign var="visibility_flag" value=$action.visibility_flag}>
 <{assign var="menus" value=$action.menus.$now_thread_num.$now_parent_id}>
-<{include file="menu_view_edit_list.html"}>
+<{if $menus}>
+	<{include file="menu_view_edit_list.html"}>
+<{/if}>
 <{/strip}>
