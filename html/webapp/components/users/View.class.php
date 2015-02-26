@@ -540,8 +540,12 @@ class Users_View
 			$sql .= ")";
 			$func = array($this, '_fetchcallbackSendMail');
 			$authoritiesView =& $this->_container->getComponent("authoritiesView");
-			$authorities = $authoritiesView->getAuthorities(null, null, null, null, true);
-			$func_params = array($more_than_authority_id, $authorities, $items);
+			$authorities = $authoritiesView->getAuthorities(null, null);
+			$authoritiesById = array();
+			foreach ((array)$authorities as $authority) {
+				$authoritiesById[$authority['role_authority_id']] = $authority;
+			}
+			$func_params = array($more_than_authority_id, $authoritiesById, $items);
 		} else {
 			// ルームID指定なし
 			// 会員の user_authority_idのみでメールを送信
