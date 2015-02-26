@@ -35,8 +35,8 @@ class User_View_Admin_Import_Download extends Action
     	} else {
 			return 'error';
     	}
-    	
-		return 'success';
+
+		exit;
     }
 }
 ?>
