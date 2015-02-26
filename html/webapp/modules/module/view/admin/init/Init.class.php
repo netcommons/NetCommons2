@@ -19,7 +19,7 @@ class Module_View_Admin_Init extends Action
 	// 値をセットするため
 	var $sysmodules_obj = null;
 	var $modules_obj = null;
-	var $installs_obj = null;
+	var $installs_obj = array();
 		
 	var $maxNum = 0;
 	var $sysMaxNum = 0;
