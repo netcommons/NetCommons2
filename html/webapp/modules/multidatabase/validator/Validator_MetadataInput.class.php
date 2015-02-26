@@ -154,9 +154,11 @@ class Multidatabase_Validator_MetadataInput extends Validator
 						if($pathinfo === false) {
 							$errors['mdb_metadatas_'. $metadata_id] = _FILE_UPLOAD_ERR_IMAGETYPE;
 						}
-						$size = $mdbView->getImageBlockSize($datas[$metadata_id]['physical_file_name']);
-						$input_datas[$metadata_id]['block_img_width'] = $size[0];
-						$input_datas[$metadata_id]['block_img_height'] = $size[1];
+						if (!isset($errors['mdb_metadatas_'. $metadata_id])) {
+							$size = $mdbView->getImageBlockSize($datas[$metadata_id]['physical_file_name']);
+							$input_datas[$metadata_id]['block_img_width'] = $size[0];
+							$input_datas[$metadata_id]['block_img_height'] = $size[1];
+						}
 					}
 
 					if($metadata['type'] == MULTIDATABASE_META_TYPE_FILE ) {
