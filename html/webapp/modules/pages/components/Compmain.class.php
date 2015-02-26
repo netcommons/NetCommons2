@@ -127,7 +127,7 @@ class Pages_Components_Compmain {
 							$this->_renderer->assign('url',$block['full_path']);
 							$this->_renderer->assign('encode_url',rawurlencode($block['full_path']));
 							$this->_renderer->assign('id',"_".$block['block_id']);
-							$this->_renderer->assign('module_obj',"");
+							$this->_renderer->assign('module_obj', array());
 							$this->_renderer->assign('headermenu',"");
 
 							//最小広さ設定
