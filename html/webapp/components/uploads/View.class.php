@@ -350,17 +350,8 @@ class Uploads_View {
 			} else {
 				header("Content-disposition: attachment; filename=\"".$filename."\"");
 			}
-		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "Chrome")) {
-			// GoogleChromeの場合
-			if (stristr($_SERVER['HTTP_USER_AGENT'], "Windows")) {
-				// Windows版
-				header("Content-disposition: inline; filename=\"".mb_convert_encoding($filename, "SJIS", _CHARSET)."\"");
-			} else {
-				// それ以外
-				header("Content-disposition: inline; filename=\"".$filename."\"");
-			}
 		} else {
-			// 上記以外(Mozilla, Firefox, NetScape)
+			// 上記以外(Mozilla, NetScape, GoogleChrome)
 			header("Content-disposition: inline; filename=\"".$filename."\"");
 		}
 		if(!empty($pathname)) {
