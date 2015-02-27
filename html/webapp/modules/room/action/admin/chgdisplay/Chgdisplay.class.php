@@ -53,9 +53,9 @@ class Room_Action_Admin_Chgdisplay extends Action
     	// ---  準備中->公開中に変更した場合、そのサブグループも公開中にする
     	// ----------------------------------------------------------------------
     	if($this->page['display_flag'] != $display_flag) {
-    		$where_params = array (
-									"room_id"=>intval($this->edit_current_page_id)
-								);
+			$where_params = array(
+				"parent_id" => intval($this->edit_current_page_id)
+			);
     		$subgroup_pages_id_arr =& $this->pagesView->getPages($where_params, null, null, null, array($this, "_subpagesFetchcallback"));
     		if(count($subgroup_pages_id_arr) > 0) {
 	    		$params = array(
