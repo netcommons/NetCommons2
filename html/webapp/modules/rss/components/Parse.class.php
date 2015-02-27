@@ -55,7 +55,7 @@ class Rss_Components_Parse
 		$unserializer->unserialize($xml);
 		$xmlArray = $unserializer->getUnserializedData();
 		if (empty($xmlArray)) return $xmlArray;
-		if (strtolower(get_class($xmlArray)) == "pear_error") {
+		if (gettype($xmlArray) === 'object' && strtolower(get_class($xmlArray)) == "pear_error") {
 			$container =& DIContainerFactory::getContainer();
 	    	$actionChain =& $container->getComponent("ActionChain");
 			$errorList =& $actionChain->getCurErrorList();
