@@ -76,7 +76,6 @@ class Rss_Components_Parse
 				"link" => !empty($xmlArray["link"]["href"]) ? $xmlArray["link"]["href"] : (!empty($xmlArray["link"][0]["href"]) ? $xmlArray["link"][0]["href"] : ""),
 				"lastbuilddate" => !empty($xmlArray["updated"]) ? $xmlArray["updated"] : $xmlArray["modified"],
 				"id" => !empty($xmlArray["id"]) ? $xmlArray["id"] : "",
-				"webmaster" => $xmlArray["author"]["name"],
 				"generator" => !empty($xmlArray["generator"]) ? $xmlArray["generator"] : "",
 			);
 			if (isset($xmlArray["entry"]["title"])) {
