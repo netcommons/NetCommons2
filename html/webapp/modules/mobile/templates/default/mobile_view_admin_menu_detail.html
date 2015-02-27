@@ -6,5 +6,7 @@
 <{assign var="alert_mess_disabled_menu" value=$lang.mobile_error_message_2|smarty:nodefaults|escape:"javascript"|escape:"html"}>
 <{assign var="alert_mess_disabled_node" value=$lang.mobile_error_message_3|smarty:nodefaults|escape:"javascript"|escape:"html"}>
 <{assign var="visibility_flag" value=$action.space_visibility_flag}>
-<{include file="mobile_view_admin_menu_list.html"}>
+<{if $menus}>
+	<{include file="mobile_view_admin_menu_list.html"}>
+<{/if}>
 <{/strip}>
