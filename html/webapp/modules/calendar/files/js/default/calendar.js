@@ -633,21 +633,23 @@ clsCalendar.prototype = {
 		if (!el) {
 			switch (type) {
 				case this.CALENDAR_YEARLY:
-					var el = $("calendar_yearly"+this.id);
+					el = $("calendar_yearly"+this.id);
 					break;
 				case this.CALENDAR_S_MONTHLY:
-					var el = $("calendar_s_monthly"+this.id);
+					el = $("calendar_s_monthly"+this.id);
 					break;
 				case this.CALENDAR_L_MONTHLY:
-					var el = $("calendar_l_monthly"+this.id);
+					el = $("calendar_l_monthly"+this.id);
 					break;
 				case this.CALENDAR_WEEKLY:
-					var el = $("calendar_weekly"+this.id);
+					el = $("calendar_weekly"+this.id);
 					break;
 				case this.CALENDAR_DAILY:
-					var el = $("calendar_daily"+this.id);
+					el = $("calendar_daily"+this.id);
 					break;
 				default:
+					// スケジュール表示の場合は処理終了
+					return;
 			}
 		}
 		if (!Element.hasClassName(el, "display-none")) {
