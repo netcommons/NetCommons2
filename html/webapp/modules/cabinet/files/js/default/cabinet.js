@@ -105,6 +105,11 @@ clsCabinet.prototype = {
 	},
 	
 	sortBy: function(sort_col) {
+		var fileListEl = $("cabinet_file_list" + this.id);
+		if (!fileListEl) {
+			return;
+		}
+
 		if(this.sortCol == null) {
 			this.sortDir = "DESC";
 		}else {
@@ -121,8 +126,6 @@ clsCabinet.prototype = {
 		}
 		this.sortCol = sort_col;
 
-		$("cabinet_file_list" + this.id).innerHTML = "";
-
 		var top_el = $(this.id);
 		var params = new Object();
 		params["param"] = {
@@ -134,7 +137,7 @@ clsCabinet.prototype = {
 			"success":"html"
 		};
 		params["top_el"] = top_el;
-		params["target_el"] = $("cabinet_file_list" + this.id);
+		params["target_el"] = fileListEl;
 		params["callbackfunc"] = function(res) {
 			var imgObj = $("cabinet_sort_img" + this.id + "_" + this.sortCol);
 			if(this.sortDir == "ASC") {
@@ -149,7 +152,7 @@ clsCabinet.prototype = {
 				this.oldSortCol = null;
 			}
 		}.bind(this);
-																	
+
 		commonCls.send(params);
 	},
 	
