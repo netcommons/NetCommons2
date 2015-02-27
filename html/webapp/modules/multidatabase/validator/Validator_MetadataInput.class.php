@@ -94,6 +94,8 @@ class Multidatabase_Validator_MetadataInput extends Validator
 			$metadata_id = $metadata['metadata_id'];
 
 			$input_datas[$metadata_id] = "";
+
+			// ファイル・画像項目のアップロード情報 または エラー情報をセット
 			if(isset($datas[$metadata_id])) {
 				$input_datas[$metadata_id] = $datas[$metadata_id];
 			}
@@ -207,9 +209,11 @@ class Multidatabase_Validator_MetadataInput extends Validator
 					$errors['mdb_metadatas_'. $metadata_id] = $metadata['name'].$datas[$metadata_id]['error_mes'];
 					continue;
 
-				}else {
-					$input_datas[$metadata_id] = $session->getParameter(array("multidatabase_content", $attributes['block_id'], $metadata_id));
-					if($metadata['type'] == MULTIDATABASE_META_TYPE_FILE && !empty($input_datas[$metadata_id])) {
+				} else {
+					if (!is_array($input_datas[$metadata_id]) || !isset($input_datas[$metadata_id]['upload_id'])) {
+						$input_datas[$metadata_id] = '';
+					}
+					if($metadata['type'] === MULTIDATABASE_META_TYPE_FILE) {
 						$this->_CheckDownloadPassword($metadata_id, $attributes, $objectName, $errorMsg, $errors);
 					}
 				}
