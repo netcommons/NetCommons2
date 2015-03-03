@@ -75,9 +75,10 @@ class Cleanup_Action_Main_Init extends Action
 		$error_flag = false;
 		$sum_data_count = 0;
 		$file_exists_name_arr = array();
+		$delayTime = _CLEANUP_DEL_DAY * 24 * 60 * 60;
 		if(count($uploads) > 0) {
 			foreach($uploads as $upload) {
-				if($upload['update_time'] >= date("YmdHis",timezone_date(null, true, "U") - _CLEANUP_DEL_DAY*60*60)) {
+				if($upload['update_time'] >= date("YmdHis",timezone_date(null, true, "U") - $delayTime)) {
 					// ファイルが使用されていたものを配列に格納
 					$file_exists_name_arr[FILEUPLOADS_DIR.$upload['file_path'] . $upload['physical_file_name']] =  true;
 					$file_exists_name_arr[FILEUPLOADS_DIR.$upload['file_path'] .$upload['upload_id']."_thumbnail.".$upload['extension']] = true;
