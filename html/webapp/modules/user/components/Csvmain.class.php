@@ -25,7 +25,7 @@ class User_Components_Csvmain extends Csv_Main
 	 */
 	function User_Components_Csvmain() {
 		$this->_LE = "\n";
-		$this->charSet = "SJIS";
+		$this->charSet = _CLIENT_OS_CHARSET;
 		$this->mimeType = "document/unknown";
 		$this->division = ",";
 		$this->extension = ".csv";

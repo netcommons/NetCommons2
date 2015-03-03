@@ -61,7 +61,7 @@ class Reservation_Validator_Import extends Validator
 		}
 		$header_format = explode("|", RESERVATION_IMPORT_FORMAT);
 		foreach ($header_format as $i=>$val) {
-			if (mb_convert_encoding($row_csv_header[$i], "UTF-8", "SJIS") != $val) {
+			if (mb_convert_encoding($row_csv_header[$i], "UTF-8", _CLIENT_OS_CHARSET) != $val) {
 				$uploadsAction->delUploadsById($filelist[0]["upload_id"]);
 				return RESERVATION_ERR_FILE_FORMAT;
 			}
@@ -72,9 +72,8 @@ class Reservation_Validator_Import extends Validator
 		$import = array();
 		$duplication_time = array();
 		while (($data = $csvMain->fgets($handle)) !== FALSE) {
-			//SJISからUTF-8に変換
 			for ($c=0; $c<count($header_format); $c++) {
-				$data[$c] = mb_convert_encoding($data[$c], "UTF-8", "SJIS");
+				$data[$c] = mb_convert_encoding($data[$c], "UTF-8", _CLIENT_OS_CHARSET);
 			}
 			$total++;
 

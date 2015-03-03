@@ -32,16 +32,8 @@ class Cabinet_Action_Main_Decompress extends Action
      */
     function execute()
     {
-		if (stristr($_SERVER['HTTP_USER_AGENT'], "Mac")) {
-			// Macの場合
-			$this->cabinetAction->encode = "UTF-8";
-		} else if (stristr($_SERVER['HTTP_USER_AGENT'], "Windows")) {
-			// Windowsの場合
-			$this->cabinetAction->encode = "SJIS";
-		} else {
-			$this->cabinetAction->encode = _CHARSET;
-		}
-		
+		$this->cabinetAction->encode = _CLIENT_OS_CHARSET;
+
 		$decompress_new_folder = $this->cabinetView->getDecompressNewFolder();
 		
 		if ($decompress_new_folder == _ON) {

@@ -258,7 +258,7 @@ class Room_View_Admin_Import_Upload extends Action
 	function convertCsv($row) {
 		$ret = array();
 		foreach($row as $index=>$value) {
-			$ret[$index] = mb_convert_encoding($value, _CHARSET, 'SJIS');
+			$ret[$index] = mb_convert_encoding($value, _CHARSET, _CLIENT_OS_CHARSET);
 		}
 		return $ret;
 	}

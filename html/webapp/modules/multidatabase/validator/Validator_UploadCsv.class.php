@@ -64,7 +64,7 @@ class Multidatabase_Validator_UploadCsv extends Validator
     	while (($data = $mdbAction->fgetcsv_reg($handle)) !== FALSE) {
 		    $num = count($data);
 		    for ($c=0; $c < $num; $c++) {
-		    	$data[$c] = mb_convert_encoding($data[$c], "UTF-8", "SJIS");
+		    	$data[$c] = mb_convert_encoding($data[$c], "UTF-8", _CLIENT_OS_CHARSET);
 		    }
 		    $row_data[] = $data;
 		}

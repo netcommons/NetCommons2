@@ -86,7 +86,7 @@ class User_View_Admin_Import_Upload extends Action
 		// データ取得
 		// ヘッダチェック
 		$row_data_headers = fgets($handle);
-		$row_data_headers = mb_convert_encoding($row_data_headers, "UTF-8", "SJIS");
+		$row_data_headers = mb_convert_encoding($row_data_headers, "UTF-8", _CLIENT_OS_CHARSET);
 		if (empty($row_data_headers)) {
 			$errorList->add(get_class($this), sprintf(USER_IMPORT_UPLOAD_NODATA."(%s)", $filelist[0]['file_name']));
 			$this->_delImportFile($file);
@@ -161,7 +161,7 @@ class User_View_Admin_Import_Upload extends Action
 			$items = null; $items_public = null; $items_reception = null;
 			$row_data_user_str = fgets($handle);
 			if (empty($row_data_user_str)) continue;
-			$row_data_user_str = mb_convert_encoding($row_data_user_str, "UTF-8", "SJIS");
+			$row_data_user_str = mb_convert_encoding($row_data_user_str, "UTF-8", _CLIENT_OS_CHARSET);
 			$row_data_user_str_len = strlen($row_data_user_str);
 			$row_data_user = null;
 			$row_data_user_str_idx = 0;
@@ -183,7 +183,7 @@ class User_View_Admin_Import_Upload extends Action
 							while (!feof($handle) && empty($row_data_user_str)) {
 								$row_data_user_str = fgets($handle);
 							}
-							$row_data_user_str = mb_convert_encoding($row_data_user_str, "UTF-8", "SJIS");
+							$row_data_user_str = mb_convert_encoding($row_data_user_str, "UTF-8", _CLIENT_OS_CHARSET);
 							$row_data_user_str_len = strlen($row_data_user_str);
 							$row_data_user_str_idx = 0;
 						} else {

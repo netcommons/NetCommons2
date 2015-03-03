@@ -3,6 +3,16 @@ define("_ON",1);
 define("_OFF",0);
 
 define('_CHARSET', 'UTF-8');
+if (stristr($_SERVER['HTTP_USER_AGENT'], 'Mac')) {
+	// Macの場合
+	$encode = 'UTF-8';
+} else if (stristr($_SERVER['HTTP_USER_AGENT'], 'Windows')) {
+	// Windowsの場合
+	$encode = 'SJIS-win';
+} else {
+	$encode = _CHARSET;
+}
+define('_CLIENT_OS_CHARSET', $encode);
 
 define("_SPACE_TYPE_UNDEFINED",0);	//未定義
 define("_SPACE_TYPE_PUBLIC",1);		//パブリックスペース

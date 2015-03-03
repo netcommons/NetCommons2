@@ -550,16 +550,7 @@ class Uploads_Action {
 	}
 
 	function getEncode() {
-		if (stristr($_SERVER['HTTP_USER_AGENT'], "Mac")) {
-			// Macの場合
-			$encode = "UTF-8";
-		} else if (stristr($_SERVER['HTTP_USER_AGENT'], "Windows")) {
-			// Windowsの場合
-			$encode = "SJIS";
-		} else {
-			$encode = _CHARSET;
-		}
-		return $encode;
+		return _CLIENT_OS_CHARSET;
 	}
 
 	function setFileTemporaryPath($file_path) {

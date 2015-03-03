@@ -60,7 +60,7 @@ class Csv_Main
 	 */
 	function Csv_Main() {
 		$this->_LE = "\n";
-		$this->charSet = "SJIS";
+		$this->charSet = _CLIENT_OS_CHARSET;
 		$this->mimeType = "document/unknown";
 		$this->division = ",";
 		$this->extension = ".csv";

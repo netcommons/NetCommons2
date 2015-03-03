@@ -339,7 +339,7 @@ class Uploads_View {
 			header("Content-disposition: inline; filename=\"".$filename."\"");
 		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "MSIE") || stristr($_SERVER['HTTP_USER_AGENT'], "Trident")) {
 			// IEの場合
-			header("Content-disposition: inline; filename=\"".mb_convert_encoding($filename, "SJIS", _CHARSET)."\"");
+			header("Content-disposition: inline; filename=\"".mb_convert_encoding($filename, _CLIENT_OS_CHARSET, _CHARSET)."\"");
 		} elseif (stristr($_SERVER['HTTP_USER_AGENT'], "Opera")) {
 			// Operaの場合
 			header("Content-disposition: attachment; filename=\"".$filename."\"");

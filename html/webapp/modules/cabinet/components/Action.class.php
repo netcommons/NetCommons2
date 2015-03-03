@@ -522,15 +522,7 @@ class Cabinet_Components_Action
 		$archive_file_name = $upload_id;
 		$this->archive_full_path = FILEUPLOADS_DIR."/".$file_path."/".$archive_file_name.".".$extension;
 
-		if (stristr($_SERVER['HTTP_USER_AGENT'], "Mac")) {
-			// Macの場合
-			$this->encode = "UTF-8";
-		} else if (stristr($_SERVER['HTTP_USER_AGENT'], "Windows")) {
-			// Windowsの場合
-			$this->encode = "SJIS";
-		} else {
-			$this->encode = _CHARSET;
-		}
+		$this->encode = _CLIENT_OS_CHARSET;
 
 		if ($file["file_type"] == CABINET_FILETYPE_FOLDER) {
 			$result = $this->_compressFile($file["file_id"], mb_convert_encoding($file["org_file_name"], $this->encode, "auto")."/");
