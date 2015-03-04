@@ -741,7 +741,9 @@ class Registration_Components_View
 				}
 
 				if ($item['item_type'] == REGISTRATION_TYPE_EMAIL) {
-					$mail['regist_user_email'] = $row[$key];
+					// メールアドレス欄が複数ある場合の対応 by nagahara@opensource-workshop.jp
+					// $mail['regist_user_email'] = $row[$key];
+					$mail['regist_user_email'][] = $row[$key];
 				}
 
 				$mail["data"] .= sprintf($dataFormat,  htmlspecialchars($item["item_name"]), $value);
