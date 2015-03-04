@@ -992,6 +992,7 @@ INSERT INTO `holiday` (`holiday_id`, `rrule_id`, `lang_dirname`, `holiday`, `sum
 INSERT INTO `holiday` (`holiday_id`, `rrule_id`, `lang_dirname`, `holiday`, `summary`, `holiday_type`) VALUES (988, 172, 'japanese', '20310720150000', '海の日', 0);
 INSERT INTO `holiday` (`holiday_id`, `rrule_id`, `lang_dirname`, `holiday`, `summary`, `holiday_type`) VALUES (989, 172, 'japanese', '20320718150000', '海の日', 0);
 INSERT INTO `holiday` (`holiday_id`, `rrule_id`, `lang_dirname`, `holiday`, `summary`, `holiday_type`) VALUES (990, 172, 'japanese', '20330717150000', '海の日', 0);
+INSERT INTO `holiday` (`holiday_id`, `rrule_id`, `lang_dirname`, `holiday`, `summary`, `holiday_type`) VALUES (991, 173, 'japanese', '20150921150000', '国民の休日', 0);
 
 -- 
 -- テーブルのダンプデータ `holiday_rrule`
@@ -1169,6 +1170,7 @@ INSERT INTO `holiday_rrule` (`rrule_id`, `varidable_flag`, `substitute_flag`, `s
 INSERT INTO `holiday_rrule` (`rrule_id`, `varidable_flag`, `substitute_flag`, `start_time`, `end_time`, `rrule`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES (170, 0, 0, '20060503150000', '20060503150000', '', '', 0, 0, '', '', 0, 0, '');
 INSERT INTO `holiday_rrule` (`rrule_id`, `varidable_flag`, `substitute_flag`, `start_time`, `end_time`, `rrule`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES (171, 0, 1, '19960719150000', '20020719150000', 'FREQ=YEARLY;INTERVAL=1;BYMONTH=7;UNTIL=20020719T150000', '', 0, 0, '', '', 0, 0, '');
 INSERT INTO `holiday_rrule` (`rrule_id`, `varidable_flag`, `substitute_flag`, `start_time`, `end_time`, `rrule`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES (172, 1, 0, '20030720150000', '20330717150000', 'FREQ=YEARLY;INTERVAL=1;BYMONTH=7;BYDAY=3MO;UNTIL=20330717T150000', '', 0, 0, '', '', 0, 0, '');
+INSERT INTO `holiday_rrule` (`rrule_id`, `varidable_flag`, `substitute_flag`, `start_time`, `end_time`, `rrule`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES (173, 0, 0, '20150921150000', '20150921150000', '', '', 0, 0, '', '', 0, 0, '');
 
 -- 
 -- テーブルのダンプデータ `holiday_seq_id`
