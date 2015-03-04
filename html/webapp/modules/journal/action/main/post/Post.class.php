@@ -41,7 +41,6 @@ class Journal_Action_Main_Post extends Action
     var $journalView = null;
     var $journalAction = null;
     var $db = null;
- 	var $whatsnewAction = null;
  	var $request = null;
  	var $session = null;
  	var $configView = null;

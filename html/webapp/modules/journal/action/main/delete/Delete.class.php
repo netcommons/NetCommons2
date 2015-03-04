@@ -24,6 +24,7 @@ class Journal_Action_Main_Delete extends Action
  	var $session = null;
 	var $whatsnewAction = null;
 	var $request = null;
+	var $journalAction = null;
 
     // 値をセットするため
     var $comment_flag = null;
@@ -79,22 +80,9 @@ class Journal_Action_Main_Delete extends Action
 			}
 		} else {
 			// コメント削除
-			$count = $this->db->countExecute("journal_post", array("parent_id"=>$this->post_id));
-			if ($count === false) {
+			$result = $this->journalAction->setWhatsnew($this->post_id);
+			if($result === false) {
 				return 'error';
-			}
-			if($count == 0) {
-				$result = $this->whatsnewAction->delete($this->post_id, _ON);
-			} else {
-				$whatsnew = array(
-					"unique_id" => $this->post_id,
-					"count_num" => $count,
-					"child_flag" => _ON
-				);
-				$result = $this->whatsnewAction->auto($whatsnew);
-				if($result === false) {
-					return 'error';
-				}
 			}
 		}
 		//--新着情報関連 End--

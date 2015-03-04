@@ -234,41 +234,13 @@ class Journal_Components_Action
 	    		return false;
 	    	}
 	    	$block_id = isset($journal_block[0]) ? $journal_block[0]['block_id'] : 0;
-	    	$count = $this->_db->countExecute("journal_post", array("parent_id"=>$trackback['post_id'], "direction_flag != " . JOURNAL_TRACKBACK_TRANSMIT => null));
-			if ($count === false) {
+			$commonMain =& $this->_container->getComponent("commonMain");
+			$parameters = "post_id=". $trackback['post_id'] . "&trackback_flag=1&block_id=".$block_id."#".$commonMain->getTopId($block_id);
+
+			$result = $this->setWhatsnew($trackback['post_id'], $parameters);
+			if ($result === false) {
 				return false;
 			}
-			if($agree_flag == JOURNAL_STATUS_AGREE_VALUE) {
-				$commonMain =& $this->_container->getComponent("commonMain");
-				$time = timezone_date();
-				if(intval($time) < intval($post[0]['journal_date'])) {
-					// 未来ならば、日誌の記事の時間をセット
-					$time = $post[0]['journal_date'];
-				}
-				$whatsnew = array(
-					"unique_id" => $trackback['post_id'],
-					"title" => $post[0]['title'],
-					"description" => $post[0]['content'],
-					"action_name" => "journal_view_main_detail",
-					"parameters" => "post_id=". $trackback['post_id'] . "&trackback_flag=1&block_id=".$block_id."#".$commonMain->getTopId($block_id),
-					"count_num" => $count,
-					"child_flag" => _ON,
-					"room_id" => $post[0]['room_id'],
-					"insert_time" => $time,
-					"insert_user_id" => $post[0]['insert_user_id'],
-					"insert_user_name" => $post[0]['insert_user_name']
-				);
-				$whatsnewAction =& $this->_container->getComponent("whatsnewAction");
-				$result = $whatsnewAction->auto($whatsnew, _ON);
-				if($result === false) {
-					return false;
-				}
-			}else {
-				if($count == 0) {
-					$result = $whatsnewAction->delete($trackback['post_id'], _ON);
-				}
-			}
-
 			//--新着情報関連 End--
 
     	}else {
@@ -481,7 +453,7 @@ class Journal_Components_Action
      * @return bool
 	 * @access	public
 	 */
-	function setWhatsnew($post_id) {
+	function setWhatsnew($post_id, $parameters="") {
 		$params = array("post_id" => $post_id);
     	$posts = $this->_db->selectExecute("journal_post", $params);
 
@@ -492,45 +464,46 @@ class Journal_Components_Action
 		$whatsnewAction =& $this->_container->getComponent("whatsnewAction");
 
 		if ($posts[0]["status"] == JOURNAL_POST_STATUS_REREASED_VALUE && $posts[0]["agree_flag"] == JOURNAL_STATUS_AGREE_VALUE) {
+			$commentParams = array(
+				"parent_id" => $post_id,
+				"direction_flag != " . JOURNAL_TRACKBACK_TRANSMIT => null,
+				"agree_flag" => JOURNAL_STATUS_AGREE_VALUE
+			);
+			$count = $this->_db->countExecute("journal_post", $commentParams);
+			if ($count === false) {
+				return false;
+			}
+
+			$time = timezone_date();
+			if ($time < $posts[0]['journal_date'] || $count == 0) {
+				// 未来記事もしくは子記事が無いならば、日誌の記事の時間をセット
+				$child_update_time = $posts[0]['journal_date'];
+			} else {
+				//過去(現在)ならば、コメントのMAX日時と日誌の記事の日時の大きい方をセット
+				$child_update_time = $this->_db->maxExecute("journal_post", "insert_time", $commentParams);
+				if ($child_update_time < $posts[0]['journal_date']) {
+					$child_update_time = $posts[0]['journal_date'];
+				}
+			}
+			if ($parameters == "") {
+				$parameters = "post_id=". $post_id . "&comment_flag=1";
+			}
 			$whatsnew = array(
 				"unique_id" => $post_id,
 				"title" => $posts[0]["title"],
 				"description" => $posts[0]["content"]."<br /><br />".$posts[0]["more_content"],
 				"action_name" => "journal_view_main_detail",
-				"parameters" => "post_id=". $post_id . "&comment_flag=1",
+				"parameters" => $parameters,
 				"insert_time" => $posts[0]["journal_date"],
 				"insert_user_id" => $posts[0]["insert_user_id"],
 				"insert_user_name" => $posts[0]["insert_user_name"],
-				"update_time" => $posts[0]["journal_date"],
-				"child_update_time" => $posts[0]["journal_date"]
+				"count_num" => $count,
+				"child_update_time" => $child_update_time,
+				"room_id" => $posts[0]['room_id'],
 			);
 			$result = $whatsnewAction->auto($whatsnew);
 			if ($result === false) {
 				return false;
-			}
-
-			// journal_dateが、未来かどうかを判断し、
-			// 未来ならば、コメントの新着も未来に書き換え
-			// 未来でなければ、コメントのデータのMAXをとり、
-			// その日付に更新
-			$where_params = array(
-				"root_id" => $post_id
-			);
-			$insert_time = $this->_db->maxExecute("journal_post", "insert_time", $where_params);
-			if(isset($insert_time)) {
-				// コメントあり
-				$time = timezone_date();
-				$journal_date = $posts[0]["journal_date"];
-				$whatsnew['child_flag'] = _ON;
-				if(intval($journal_date) < intval($time)) {
-					// 過去
-					$whatsnew['insert_time'] = $journal_date;
-					$whatsnew['child_update_time'] = $insert_time;
-				}
-				$result = $whatsnewAction->auto($whatsnew, _OFF);
-				if ($result === false) {
-					return false;
-				}
 			}
 		} else {
 			$result = $whatsnewAction->delete($post_id);
@@ -538,61 +511,6 @@ class Journal_Components_Action
 				return false;
 			}
 		}
-		return true;
-	}
-
-	/**
-	 * 新着情報にセットする(コメント)
-	 *
-     * @return bool
-	 * @access	public
-	 */
-	function setCommentWhatsnew($comment_id) {
-		$params = array("post_id" => $comment_id);
-    	$comment = $this->_db->selectExecute("journal_post", $params);
-		if (empty($comment)) {
-			return false;
-		}
-		$whatsnewAction =& $this->_container->getComponent("whatsnewAction");
-		$count = $this->_db->countExecute("journal_post", array("parent_id"=>$comment[0]['parent_id'], "direction_flag != " . JOURNAL_TRACKBACK_TRANSMIT => null));
-		if ($count === false) {
-			return false;
-		}
-
-		if ($comment[0]["agree_flag"] == JOURNAL_STATUS_AGREE_VALUE) {
-			$journal_post = $this->_db->selectExecute("journal_post", array("post_id"=>$comment[0]['parent_id']));
-			if ($journal_post === false && !isset($journal_post[0])) {
-				return false;
-			}
-			$time = timezone_date();
-			if(intval($time) < intval($journal_post[0]['journal_date'])) {
-				// 未来ならば、日誌の記事の時間をセット
-				$time = $journal_post[0]['journal_date'];
-			}
-
-			$whatsnew = array(
-				"unique_id" => $comment[0]['parent_id'],
-				"title" => $journal_post[0]['title'],
-				"description" => $journal_post[0]['content'],
-				"action_name" => "journal_view_main_detail",
-				"parameters" => "post_id=". $comment[0]['parent_id'] . "&comment_flag=1",
-				"count_num" => $count,
-				"child_flag" => _ON,
-				"child_update_time" => $time,
-				"insert_time" => $journal_post[0]['journal_date'],
-				"insert_user_id" => $journal_post[0]['insert_user_id'],
-				"insert_user_name" => $journal_post[0]['insert_user_name']
-			);
-			$result = $whatsnewAction->auto($whatsnew);
-			if($result === false) {
-				return false;
-			}
-		}else {
-			if($count == 0) {
-				$result = $whatsnewAction->delete($comment[0]['parent_id'], _ON);
-			}
-		}
-
 		return true;
 	}
 

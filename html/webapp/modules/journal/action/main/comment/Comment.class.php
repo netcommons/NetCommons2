@@ -47,7 +47,7 @@ class Journal_Action_Main_Comment extends Action
 		}else {
 			$agree_flag = JOURNAL_STATUS_AGREE_VALUE;
 		}
-		
+
     	if(empty($this->comment_id)) {
 	    	$params = array(
 				"journal_id" => $this->journal_obj['journal_id'],
@@ -75,8 +75,8 @@ class Journal_Action_Main_Comment extends Action
     		if($result === false) {
 				return 'error';
 			}
-			
-    		if($comment_before_update[0]['agree_flag'] == JOURNAL_STATUS_WAIT_AGREE_VALUE && 
+
+    		if($comment_before_update[0]['agree_flag'] == JOURNAL_STATUS_WAIT_AGREE_VALUE &&
     			$agree_flag == JOURNAL_STATUS_AGREE_VALUE &&
     			$this->journal_obj['comment_agree_mail_flag'] == _ON) {
 				$this->session->setParameter("journal_confirm_mail_post_id", $this->comment_id);
@@ -87,7 +87,7 @@ class Journal_Action_Main_Comment extends Action
 			$this->session->setParameter("journal_mail_post_id", array("post_id" => $this->comment_id, "agree_flag" => JOURNAL_STATUS_WAIT_AGREE_VALUE));
     	}
 		//--新着情報関連 Start--
-    	$result = $this->journalAction->setCommentWhatsnew($this->comment_id);
+    	$result = $this->journalAction->setWhatsnew($this->post_id);
 		if($result === false) {
 			return 'error';
 		}

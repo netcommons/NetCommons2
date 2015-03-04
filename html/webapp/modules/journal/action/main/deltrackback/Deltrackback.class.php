@@ -23,7 +23,7 @@ class Journal_Action_Main_Deltrackback extends Action
 
     // 使用コンポーネントを受け取るため
     var $db = null;
-	var $whatsnewAction = null;
+	var $journalAction = null;
 
     // 値をセットするため
 
@@ -44,26 +44,10 @@ class Journal_Action_Main_Deltrackback extends Action
 		}
 
 		//--新着情報関連 Start--
-		$count = $this->db->countExecute("journal_post", array("parent_id"=>$this->post_id, "direction_flag != " . JOURNAL_TRACKBACK_TRANSMIT => null));
-		if ($count === false) {
+		$result = $this->journalAction->setWhatsnew($this->post_id);
+		if($result === false) {
 			return 'error';
 		}
-		if($this->post['agree_flag'] != JOURNAL_STATUS_AGREE_VALUE) {
-			$whatsnew = array(
-				"unique_id" => $this->post_id,
-				"count_num" => $count,
-				"child_flag" => _ON
-			);
-			$result = $this->whatsnewAction->auto($whatsnew);
-			if($result === false) {
-				return 'error';
-			}
-		}else {
-			if($count == 0) {
-				$result = $this->whatsnewAction->delete($this->post_id, _ON);
-			}
-		}
-		
 		//--新着情報関連 End--
 
 		return 'success';
