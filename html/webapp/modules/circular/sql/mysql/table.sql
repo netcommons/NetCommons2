@@ -87,7 +87,7 @@ CREATE TABLE `circular_config` (
   `room_id`				int(11) NOT NULL default '0',
   `create_authority`	tinyint(1) NOT NULL default '0',
   `mail_subject`		varchar(255) default '',
-  `mail_body`			text NOT NULL default '',
+  `mail_body`			text NOT NULL,
   `insert_time`			varchar(14) NOT NULL default '',
   `insert_site_id`		varchar(40) NOT NULL default '',
   `insert_user_id`		varchar(40) NOT NULL default '',
