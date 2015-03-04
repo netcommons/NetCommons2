@@ -349,7 +349,7 @@ class Authcheck_Main {
 		$isMobileAction = ($pathList[0] == 'common'
 							&& $pathList[1] == 'mobile');
 		$isMobileAction = ($isMobileAction
-							|| $pathList[2] == 'mobile');
+							|| isset($pathList[2]) && $pathList[2] == 'mobile');
 		if ($isMobileAction
 			&& empty($mobile_flag)) {
 			return false;
