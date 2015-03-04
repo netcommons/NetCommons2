@@ -8,7 +8,7 @@
 	</dt>
 <{/if}>
 
-<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXT || $metadata.type == MULTIDATABASE_META_TYPE_MAIL || $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
+<{if $metadata.type == $smarty.const.MULTIDATABASE_META_TYPE_TEXT || $metadata.type == MULTIDATABASE_META_TYPE_MAIL}>
 	<{* テキスト *}>
 	<input name="datas[<{$metadata.metadata_id}>]" type="text" value="<{$content}>">
 	<br />
