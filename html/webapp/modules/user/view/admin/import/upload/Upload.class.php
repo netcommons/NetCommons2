@@ -79,7 +79,7 @@ class User_View_Admin_Import_Upload extends Action
 		}
 		if (!isset($showitems) || !is_array($showitems)) {
 			$errorList->add(get_class($this), sprintf("show items error"));
-			$this->_delImportFile($file);
+			$this->_delImportFile($file, $handle);
 			return 'error';
 		}
 
@@ -89,7 +89,7 @@ class User_View_Admin_Import_Upload extends Action
 		$row_data_headers = mb_convert_encoding($row_data_headers, "UTF-8", _CLIENT_OS_CHARSET);
 		if (empty($row_data_headers)) {
 			$errorList->add(get_class($this), sprintf(USER_IMPORT_UPLOAD_NODATA."(%s)", $filelist[0]['file_name']));
-			$this->_delImportFile($file);
+			$this->_delImportFile($file, $handle);
 			return 'error';
 		}
 		$row_data_headers = explode(",", $row_data_headers);
@@ -703,8 +703,18 @@ class User_View_Admin_Import_Upload extends Action
 		return $errlist;
 	}
 
-	function _delImportFile($file_path) {
+	/**
+	 * インポートファイルの削除
+	 * @param string $file_path
+	 * @param resource $handle ファイルハンドラ
+	 * @return void
+	 * @access	private
+	 */
+	function _delImportFile($file_path, $handle = null) {
 		if(file_exists($file_path)) {
+			if (!is_null($handle)) {
+				fclose($handle);
+			}
 			@chmod($file_path, 0777);
 			unlink($file_path);
 		}

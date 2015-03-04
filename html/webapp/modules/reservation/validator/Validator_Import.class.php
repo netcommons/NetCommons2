@@ -50,6 +50,7 @@ class Reservation_Validator_Import extends Validator
 		//利用できるグループのチェック
 		$attributes["reserve_room_id"] = intval($attributes["reserve_room_id"]);
 		if ($attributes["reserve_room_id"] != 0 && !in_array($attributes["reserve_room_id"], $attributes["allow_add_rooms"])) {
+			fclose($handle);
     		return _INVALID_INPUT;
 		}
 
@@ -57,12 +58,14 @@ class Reservation_Validator_Import extends Validator
 		$row_csv_header = $csvMain->fgets($handle);
 		if (empty($row_csv_header)) {
 			$uploadsAction->delUploadsById($filelist[0]["upload_id"]);
+			fclose($handle);
 			return RESERVATION_ERR_FILE_FORMAT;
 		}
 		$header_format = explode("|", RESERVATION_IMPORT_FORMAT);
 		foreach ($header_format as $i=>$val) {
 			if (mb_convert_encoding($row_csv_header[$i], "UTF-8", _CLIENT_OS_CHARSET) != $val) {
 				$uploadsAction->delUploadsById($filelist[0]["upload_id"]);
+				fclose($handle);
 				return RESERVATION_ERR_FILE_FORMAT;
 			}
 		}
@@ -180,6 +183,7 @@ class Reservation_Validator_Import extends Validator
 			}
 
 			if ($attributes["location"]["duplication_flag"] == _ON) {
+				fclose($handle);
 				return true;
 			}
 
@@ -258,9 +262,11 @@ class Reservation_Validator_Import extends Validator
 				continue;
 			} else {
 				$dbObject->addError();
+				fclose($handle);
 				return false;
 			}
 		}
+		fclose($handle);
 
 		//エラーがあれば出力する
 		if (!empty($error)) {

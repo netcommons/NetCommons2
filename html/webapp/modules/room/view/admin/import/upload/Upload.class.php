@@ -112,24 +112,23 @@ class Room_View_Admin_Import_Upload extends Action
 		// その後のファイルの内容を展開し
 		// １行ずつチェックしていく
 		// 成功した行はセッション変数に覚えさせる
-		// エラーがあったら速攻リターン
 		$chg_num = 0;
 		$delete_num = 0;
 		$line = -1;
+		$errorMessage = '';
 		while( ($row=$this->csvMain->fgets($handle)) != false ) {
 			if($line>=ROOM_IMPORT_LINE_LIMIT) {
-				$errorList->add(get_class($this), sprintf(ROOM_IMPORT_UPLOAD_LINE_OVER_ERR."(%s)", ROOM_IMPORT_LINE_LIMIT, $filename));
-				$this->cleanup($file);
-				return 'error';
+				$errorMessage = sprintf(ROOM_IMPORT_UPLOAD_LINE_OVER_ERR."(%s)", ROOM_IMPORT_LINE_LIMIT, $filename);
+				break;
 			}
 
-			// SJISで来るので文字コード変換
+			// 文字コード変換
 			$row = $this->convertCsv($row);
 			// CSVのカラム数チェック おかしな行が１行でもあれば処理を中断
 			if(count($row) != ROOM_IMPORT_ITEM_COLUMN) {
-				$errorList->add(get_class($this), sprintf(ROOM_IMPORT_UPLOAD_COLUMN_ERR."(%s)", $line+1, $filename));
-				$this->cleanup($file);
-				return 'error';
+				// FIXME おかしな行が１行でもあれば、1回目のループで条件に入ってくるため、どこがおかしいかがメッセージからわからない
+				$errorMessage = sprintf(ROOM_IMPORT_UPLOAD_COLUMN_ERR."(%s)", $line+1, $filename);
+				break;
 			}
 
 			$line++;
@@ -139,9 +138,8 @@ class Room_View_Admin_Import_Upload extends Action
 			else {
 				// その人は会員情報に存在するのか？
 				if(!isset($room_users[$row[0]])) {
-					$errorList->add(get_class($this), sprintf(ROOM_IMPORT_UPLOAD_NOUSER_ERR, $line+1, $row[0]));
-					$this->cleanup($file);
-					return 'error';
+					$errorMessage = sprintf(ROOM_IMPORT_UPLOAD_NOUSER_ERR, $line+1, $row[0]);
+					break;
 				}
 				else {
 					$target_user = $room_users[$row[0]];
@@ -186,15 +184,13 @@ class Room_View_Admin_Import_Upload extends Action
 				else {
 					// それは存在する権限IDか
 					if(!isset($target_user['permitted_auth'][$row[1]])) {
-						$errorList->add(get_class($this), sprintf(ROOM_IMPORT_UPLOAD_NOAUTH_ERR, $line+1, $row[1]));
-						$this->cleanup($file);
-						return 'error';
+						$errorMessage = sprintf(ROOM_IMPORT_UPLOAD_NOAUTH_ERR, $line+1, $row[1]);
+						break;
 					}
 					// このユーザーに許可された権限か
 					if(!($target_user['permitted_auth'][$row[1]])) {
-						$errorList->add(get_class($this), sprintf(ROOM_IMPORT_UPLOAD_NOT_PERMIT_AUTH, $line+1, $row[0], $row[1]));
-						$this->cleanup($file);
-						return 'error';
+						$errorMessage = sprintf(ROOM_IMPORT_UPLOAD_NOT_PERMIT_AUTH, $line+1, $row[0], $row[1]);
+						break;
 					}
 					// それは現在設定されている権限IDと一緒？それとも異なる？
 					if($now_auth != $row[1]) {
@@ -211,6 +207,12 @@ class Room_View_Admin_Import_Upload extends Action
 		// ファイルクローズ＆削除
 		fclose($handle);
 		$this->_delImportFile($file);
+
+		if ($errorMessage !== '') {
+			$errorList->add(get_class($this), $errorMessage);
+			$this->cleanup($file);
+			return 'error';
+		}
 
 		// ファイルの中身が空エラー
 		if($line<1) {
