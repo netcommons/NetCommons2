@@ -21,6 +21,7 @@ class Multidatabase_Action_Main_Delcomment extends Action
 	// 使用コンポーネントを受け取るため
 	var $db = null;
 	var $whatsnewAction = null;
+	var $mdbAction = null;
 
 	// バリデートによりセットするため
 
@@ -45,8 +46,28 @@ class Multidatabase_Action_Main_Delcomment extends Action
 		if($count == 0) {
 			$result = $this->whatsnewAction->delete($this->content_id, _ON);
 		} else {
+			$params = array();
+			$whereParams = array('content_id' => $this->content_id);
+			$sql = "SELECT M.multidatabase_id, M.title_metadata_id "
+					. "FROM {multidatabase_content} MC "
+					. "INNER JOIN {multidatabase} M "
+					. "ON MC.multidatabase_id = M.multidatabase_id"
+					. $this->db->getWhereSQL($params, $whereParams);
+			$multidatabase = $this->db->execute($sql, $params);
+			if (empty($multidatabase)) {
+				return 'error';
+			}
+
+			$whatsnewTitle = $this->mdbAction->getWhatsnewTitle($this->content_id, $multidatabase[0]['title_metadata_id']);
+			if ($whatsnewTitle === false) {
+				return 'error';
+			}
 			$whatsnew = array(
 				"unique_id" => $this->content_id,
+				"title" => $whatsnewTitle["title"],
+				"description" => $whatsnewTitle["description"],
+				"action_name" => "multidatabase_view_main_detail",
+				"parameters" => "content_id=". $this->content_id . "&multidatabase_id=" . $multidatabase[0]["multidatabase_id"],
 				"count_num" => $count,
 				"child_flag" => _ON
 			);
