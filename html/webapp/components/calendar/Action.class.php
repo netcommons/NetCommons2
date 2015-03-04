@@ -713,6 +713,7 @@ class Calendar_Action
 			$bymonthday = intval(substr($start_date,6,2));
 		}
 
+		$result = true;
 		$current_month = intval(substr($start_date,4,2));
 		foreach ($rrule["BYMONTH"] as $i=>$month) {
 			if ($first && $current_month > $month) { continue; }
@@ -724,7 +725,8 @@ class Calendar_Action
 			} else {
 				$params["start_date"] = substr($start_date,0,4).sprintf("%02d",$month)."01";
 				$params["start_time"] = $start_time;
-				$params["end_date"] = substr($end_date,0,4).sprintf("%02d",$month).sprintf("%02d", 1 + $diff_num);
+				// end_dateにはstart_date + $diff_numの日付をセット(12/31の場合に翌年がセットされるため)
+				$params["end_date"] = substr($start_date,0,4) . sprintf("%02d", $month) . sprintf("%02d", 1 + $diff_num);
 				$params["end_time"] = $end_time;
 			}
 			if (!empty($rrule["BYDAY"]) && count($rrule["BYDAY"]) > 0) {
@@ -736,10 +738,16 @@ class Calendar_Action
 				return false;
 			}
 		}
-		$params["start_date"] = timezone_date($start_date.$start_time, true, "Ymd");
-		$params["start_time"] = timezone_date($start_date.$start_time, true, "His");
-		$params["end_date"] = timezone_date($end_date.$end_time, true, "Ymd");
-		$params["end_time"] = timezone_date($end_date.$end_time, true, "His");
+		$startDate = $start_date.$start_time;
+		$endDate = $end_date.$end_time;
+		if (is_array($result)) {
+			list($startDate, $endDate) = $result;
+		}
+
+		$params["start_date"] = timezone_date($startDate, true, "Ymd");
+		$params["start_time"] = timezone_date($startDate, true, "His");
+		$params["end_date"] = timezone_date($endDate, true, "Ymd");
+		$params["end_time"] = timezone_date($endDate, true, "His");
 
 		if (!empty($rrule["BYDAY"]) && count($rrule["BYDAY"]) > 0) {
 			return $this->_insertYearly($params, $rrule);
@@ -749,8 +757,10 @@ class Calendar_Action
 	}
 
 	/**
-	 * 登録処理
+	 * 登録処理(年単位－開始日と同日)
 	 *
+	 * @return	mixed boolean true:登録せず終了 false:失敗
+	 *                array 登録成功: array(登録した開始年月日時分秒, 登録した終了年月日時分秒)
 	 * @access	private
 	 */
 	function __insertYearlyByMonthday($params, &$rrule, $bymonthday, $first)
@@ -798,13 +808,15 @@ class Calendar_Action
     	if ($calendar_id === false) {
     		return false;
     	} else {
-    		return true;
+    		return array($start_date.$start_time, $end_date.$end_time);
     	}
 	}
 
 	/**
-	 * 登録処理
+	 * 登録処理(年単位－第○週○曜日)
 	 *
+	 * @return	mixed boolean true:登録せず終了 false:失敗
+	 *                array 登録成功: array(登録した開始年月日時分秒, 登録した終了年月日時分秒)
 	 * @access	private
 	 */
 	function __insertYearlyByday($params, &$rrule, $first=false)
@@ -862,7 +874,7 @@ class Calendar_Action
     	if ($calendar_id === false) {
     		return false;
     	} else {
-    		return true;
+    		return array($start_date.$start_time, $end_date.$end_time);
     	}
 	}
 
