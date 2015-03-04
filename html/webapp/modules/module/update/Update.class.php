@@ -504,6 +504,18 @@ class Module_Update extends Action
 			}
 		}
 
+		// WYSIWYGの許可するVideoURLに「https://www.youtube.com/」「https://www.youtube-nocookie.com/」を追加
+		$textarea_video_url = $this->db->selectExecute("textarea_video_url", array("url"=> 'https://www.youtube.com/'));
+		if($textarea_video_url !== false && count($textarea_video_url) == 0) {
+			$sql = "INSERT INTO `".$this->db->getPrefix()."textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES
+					('https://www.youtube.com/', '', '', '', '0', '', '', '', '0', ''),
+					('https://www.youtube-nocookie.com/', '', '', '', '0', '', '', '', '0', '')";
+			$result = $this->db->execute($sql);
+			if ($result === false) {
+				return false;
+			}
+		}
+
 		// WYSIWYGの許可するタグに「em」,「i」,「strike」,「s」を追加
 		$textarea_tag = $this->db->selectExecute("textarea_tag", array("tag"=> 'em'));
 		if($textarea_tag !== false && count($textarea_tag) == 0) {

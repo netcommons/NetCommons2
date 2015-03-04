@@ -560,6 +560,8 @@ INSERT INTO `textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_s
 INSERT INTO `textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES ('', 'multimedia_view_main_play', '', '', '0', '', '', '', '0', '');
 INSERT INTO `textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES ('http://www.youtube-nocookie.com/', '', '', '', '0', '', '', '', '0', '');
 INSERT INTO `textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES ('//www.youtube.com/', '', '', '', '0', '', '', '', '0', '');
+INSERT INTO `textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES ('https://www.youtube.com/', '', '', '', '0', '', '', '', '0', '');
+INSERT INTO `textarea_video_url` (`url`, `action_name`, `insert_time`, `insert_site_id`, `insert_user_id`, `insert_user_name`, `update_time`, `update_site_id`, `update_user_id`, `update_user_name`) VALUES ('https://www.youtube-nocookie.com/', '', '', '', '0', '', '', '', '0', '');
 
 ";
 ?>
