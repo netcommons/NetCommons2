@@ -40,15 +40,14 @@ class Circular_View_Admin_Search extends Action
 	 */
 	function execute()
 	{
-		if ($this->block_id_arr) {
-			$sqlwhere = ' WHERE block.block_id IN ('.implode(',', $this->block_id_arr).')';
-		} else {
+		$user_id = $this->session->getParameter('_user_id');
+		if ($user_id === '0' || $user_id === null || !$this->block_id_arr) {
 			return 'success';
 		}
 
+		$sqlwhere = ' WHERE block.block_id IN ('.implode(',', $this->block_id_arr).')';
 		$sqlwhere .= $this->sqlwhere;
 		$sqlwhere .= ' AND (circular.post_user_id = ? OR user.receive_user_id = ?)';
-		$user_id = $this->session->getParameter('_user_id');
 		$this->params[] = $user_id;
 		$this->params[] = $user_id;
 

@@ -24,16 +24,15 @@ class Circular_Validator_UserAuthCheck extends Validator
 	function validate($attributes, $errStr, $params)
 	{
 		$container =& DIContainerFactory::getContainer();
-		$session =& $container->getComponent('Session');
-
-		if (!$session->getParameter('_user_id')) {
-			return $errStr;
-		}
-
 		$actionChain =& $container->getComponent('ActionChain');
 		$actionName = $actionChain->getCurActionName();
 		if ($actionName == "circular_view_admin_search") {
 			return;
+		}
+
+		$session =& $container->getComponent('Session');
+		if (!$session->getParameter('_user_id')) {
+			return $errStr;
 		}
 
 		if ($session->getParameter('_auth_id') < _AUTH_GENERAL) {
