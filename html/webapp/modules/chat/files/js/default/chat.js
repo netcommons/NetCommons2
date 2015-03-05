@@ -50,6 +50,9 @@ clsChat.prototype = {
 		var top_el = $("chat_form" + this.id);
 		var val_el = Element.getChildElementByClassName(top_el, "chat_text");
 		var chat_text = val_el ? val_el.value : null;
+		if (chat_text === '' || chat_text === null) {
+			return;
+		}
 		var params = new Object();
 		params["method"] = "post";
 		params["top_el"] = top_el;
