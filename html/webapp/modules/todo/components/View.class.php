@@ -271,7 +271,7 @@ class Todo_Components_View
 		$sql = "SELECT todo_id, todo_name, insert_time, insert_user_id, insert_user_name ".
 				"FROM {todo} ".
 				"WHERE room_id = ? ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('todo_id', 'todo_name', 'insert_user_name', 'insert_time'));
 		$todos = $this->_db->execute($sql, $params);
 		if ($todos === false) {
 			$this->_db->addError();
@@ -508,7 +508,10 @@ class Todo_Components_View
 				$sortColumn = "task_value";
 			}
 		}
-		if (empty($sortDirection)) {
+		if (!in_array($sortColumn, array('task_sequence', 'priority', 'state', 'period', 'progress', 'task_value'))) {
+			$sortColumn = "task_sequence";
+		}
+		if (empty($sortDirection) || $sortDirection != 'DESC') {
 			$sortDirection = "ASC";
 		}
 		$orderParams[$sortColumn] = $sortDirection;

@@ -351,7 +351,7 @@ class Multidatabase_Components_View
 		$sql = "SELECT multidatabase_id, multidatabase_name, active_flag, insert_time, insert_user_id, insert_user_name ".
 				"FROM {multidatabase} ".
 				"WHERE room_id = ? ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('multidatabase_id', 'multidatabase_name', 'insert_user_name', 'insert_time'));
 		$result = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($result === false) {
 			$this->_db->addError();

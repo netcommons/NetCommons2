@@ -160,7 +160,7 @@ class Bbs_Components_View
 		$sql = "SELECT bbs_id, bbs_name, activity, insert_time, insert_user_id, insert_user_name ".
 				"FROM {bbs} ".
 				"WHERE room_id = ? ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('bbs_name', 'activity', 'insert_user_name', 'insert_time'));
 		$bbses = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($bbses === false) {
 			$this->_db->addError();

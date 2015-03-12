@@ -175,7 +175,7 @@ class Quiz_Components_View
 				"WHERE Q.room_id = ? ".
 				"GROUP BY Q.quiz_id, Q.quiz_name, Q.icon_name, Q.status, ".
 							"Q.insert_time, Q.insert_user_id, Q.insert_user_name ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('quiz_id', 'quiz_name', 'status', 'insert_user_name', 'insert_time'));
 		$quizzes = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($quizzes === false) {
 			$this->_db->addError();
@@ -872,7 +872,7 @@ class Quiz_Components_View
 		$offset = $this->_request->getParameter("offset");
 
 		$sortColumn = $this->_request->getParameter("sort_col");
-		if (empty($sortColumn)) {
+		if (empty($sortColumn) || !in_array($sortColumn, array('answer_number', 'answer_time', 'summary_score'))) {
 			$sortColumn = "summary_id";
 		}
 		$sortDirection = $this->_request->getParameter("sort_dir");

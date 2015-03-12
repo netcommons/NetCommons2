@@ -172,7 +172,7 @@ class Assignment_Components_View
 					" ON (Assign.assignment_id = Submitter.assignment_id)".
 				" WHERE Assign.room_id = ?" .
 				" GROUP BY Assign.assignment_id".
-				" ".$this->_db->getOrderSQL($order);
+				" ".$this->_db->getOrderSQL($order, array('Assign.assignment_id', 'assignment_name', 'activity', 'insert_user_name', 'insert_time'));
 
 		$assignments = $this->_db->execute($sql, $params, $limit, $offset, true);
 		if ($assignments === false) {

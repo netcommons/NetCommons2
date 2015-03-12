@@ -151,7 +151,7 @@ class Linklist_Components_View
 		$sql = "SELECT linklist_id, linklist_name, insert_time, insert_user_id, insert_user_name ".
 				"FROM {linklist} ".
 				"WHERE room_id = ? ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('linklist_id', 'linklist_name', 'insert_user_name', 'insert_time'));
 		$linklists = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($linklists === false) {
 			$this->_db->addError();

@@ -174,7 +174,7 @@ class Photoalbum_Components_View
 		$sql = "SELECT photoalbum_id, photoalbum_name, insert_time, insert_user_id, insert_user_name ".
 				"FROM {photoalbum} ".
 				"WHERE room_id = ? ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('photoalbum_id', 'photoalbum_name', 'insert_user_name', 'insert_time'));
 		$photoalbums = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($photoalbums === false) {
 			$this->_db->addError();
