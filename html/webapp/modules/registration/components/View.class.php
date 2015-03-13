@@ -159,7 +159,7 @@ class Registration_Components_View
 				"ON R.registration_id = D.registration_id ".
 				"WHERE R.room_id = ? ".
 				"GROUP BY R.registration_id, R.registration_name, R.active_flag, R.insert_time, R.insert_user_id, R.insert_user_name ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('R.registration_id', 'R.registration_name', 'data_count', 'R.active_flag', 'R.insert_user_name', 'R.insert_time'));
 		$registrations = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($registrations === false) {
 			$this->_db->addError();

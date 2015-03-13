@@ -201,7 +201,7 @@ class Cabinet_Components_View
 			$sort_col = "insert_time";
 		}
 		$sort_dir = $this->_request->getParameter("sort_dir");
-		if (empty($sort_dir)) {
+		if ((empty($sort_dir) || ($sort_dir != 'ASC' && $sort_dir != 'asc'))) {
 			$sort_dir = "DESC";
 		}
 
@@ -215,6 +215,9 @@ class Cabinet_Components_View
     	if ($sort_col == "total_size") {
 			$sql .= " ORDER BY ".$sort_col." ".$sort_dir;
     	} else {
+			if(!in_array($sort_col, array('cabinet_name', 'total_size', 'insert_user_name', 'insert_time'))) {
+				$sort_col = "insert_time";
+			}
 			$sql .= " ORDER BY manage.".$sort_col." ".$sort_dir;
     	}
     	$sql .= ", manage.cabinet_id DESC";
@@ -672,6 +675,10 @@ class Cabinet_Components_View
 		$sort_dir = $this->_request->getParameter("sort_dir");
 		
     	if (isset($sort_col)) {
+			if(!in_array($sort_col, array('file_name', 'size', 'insert_user_name', 'insert_time', 'update_user_name', 'update_time', 'comment'))) {
+				$sort_col = 'file_name';
+			}
+			$sort_dir = (empty($sort_dir) || ($sort_dir != 'DESC' && $sort_dir != 'desc')) ? 'ASC' : 'DESC';
     		if ($sort_col == "comment") {
 		    	$order_params = array(
 		    		"F.file_type" => ($sort_dir == "ASC" ? "DESC" : "ASC"),

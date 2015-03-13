@@ -176,7 +176,7 @@ class Questionnaire_Components_View
 				"WHERE Q.room_id = ? ".
 				"GROUP BY Q.questionnaire_id, Q.questionnaire_name, Q.icon_name, Q.status, ".
 							"Q.insert_time, Q.insert_user_id, Q.insert_user_name ".
-				$this->_db->getOrderSQL($orderParams);
+				$this->_db->getOrderSQL($orderParams, array('questionnaire_id', 'questionnaire_name', 'status', 'insert_user_name', 'insert_time'));
 		$questionnaires = $this->_db->execute($sql, $params, $limit, $offset);
 		if ($questionnaires === false) {
 			$this->_db->addError();

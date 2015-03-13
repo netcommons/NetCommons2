@@ -299,6 +299,15 @@ class DbObjectAdodb
 		else
 			$this->_conn->SetFetchMode(ADODB_FETCH_NUM);
 
+		// paramsのvalueに配列の入力パラメータがはいった場合、adodb内で複数のSQLを実行しようとするため、ここで対処。
+		if (is_array($params)) {
+			foreach($params as $param) {
+				if (is_array($param)) {
+					return false;
+				}
+			}
+		}
+
 		if ($limit || $offset) {
 			$result =& $this->_conn->SelectLimit($sql, $limit, $offset, $params);
 		} else {
@@ -556,7 +565,7 @@ class DbObjectAdodb
 	 * パラメータよりwhere文を生成し返す
 	 * @param	array	$params		                WHERE句のデータ配列
 	 * @param	array   $where_params		        キー名称配列、whereデータ配列
-	 * @param	array   $where_prefix_flag		    接頭語句をANDでなくwhereにして返す場合、true defaut：true
+	 * @param	array   $where_prefix_flag		    接頭語句をANDでなくwhereにして返す場合、true default：true
      * @return string	where文
 	 * @access	public
 	 */
@@ -583,15 +592,19 @@ class DbObjectAdodb
 	/**
 	 * パラメータよりorder文を生成し返す
 	 * @param	array   $order_params		        キー名称配列、orderデータ配列
+	 * @param	array   $allow_keys 		        キー名称で設定できるカラムの配列
      * @return string	order文
 	 * @access	public
 	 */
-	function &getOrderSQL(&$order_params)
+	function &getOrderSQL(&$order_params, $allow_keys = array())
 	{
         $sql_order = "";
         if (!empty($order_params)) {
 	        foreach ($order_params as $key=>$item) {
-	        	$sql_order .= ",".$key." ".(empty($item) ? "ASC" : $item);
+				if (!empty($allow_keys) && !in_array($key, $allow_keys)) {
+					$key = $allow_keys[0];
+				}
+	        	$sql_order .= ",".$key." ".((empty($item) || ($item != 'DESC' && $item != 'desc')) ? "ASC" : $item);
 	        }
         }
         $sql_order = ($sql_order ? " ORDER BY ".substr($sql_order,1) : "");
