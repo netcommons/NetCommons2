@@ -749,7 +749,7 @@ class Assignment_Components_View
 			$sort_col = "submit_time";
 		}
 		$sort_dir = $this->_request->getParameter("sort_dir");
-		if (empty($sort_dir)) {
+		if (empty($sort_dir) || $sort_dir != 'ASC') {
 			$sort_dir = "DESC";
 		}
 
