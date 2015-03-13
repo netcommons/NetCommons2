@@ -632,8 +632,14 @@ class Registration_Components_View
 			$sortColumn = "file_name". $sortItemID;
 			$sortDirection = "ASC";
 		} else {
-			$sortColumn = "item_data_value". $sortItemID;
-			$sortDirection = "ASC";
+			$items = $this->_request->getParameter("items");
+			if (isset($items[$sortItemID])) {
+				$sortColumn = "item_data_value". $sortItemID;
+				$sortDirection = "ASC";
+			} else {
+				$sortColumn = "D.insert_time";
+				$sortDirection = "DESC";
+			}
 		}
 		$orderParams[$sortColumn] = $sortDirection;
 

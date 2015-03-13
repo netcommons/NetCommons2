@@ -116,6 +116,12 @@ class Holiday_View
 			$session =& $this->_container->getComponent("Session");
 			$lang = $session->getParameter("_lang");
     	}
+		if (!in_array($sort_col, array('holiday', 'summary'))) {
+			$sort_col = 'holiday';
+		}
+		if ($sort_dir != 'DESC') {
+			$sort_dir = 'ASC';
+		}
 		$sql = "SELECT * FROM {holiday} ";
 		$sql .= "WHERE lang_dirname = ? ";
 		$sql .= "AND holiday >= ? ";

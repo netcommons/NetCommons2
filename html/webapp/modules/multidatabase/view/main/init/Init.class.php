@@ -104,6 +104,9 @@ class Multidatabase_View_Main_Init extends Action
 		$where_params = array();
 		if(!empty($this->sort_section)) {
 			foreach($this->sort_section as $key => $val) {
+				if (!isset($this->section_metadatas[$key])) {
+					return 'error';
+				}
 				$where_params["m_content".$key.".content"] = $val;
 			}
 		}

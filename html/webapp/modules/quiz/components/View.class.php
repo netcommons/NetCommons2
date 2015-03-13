@@ -872,7 +872,7 @@ class Quiz_Components_View
 		$offset = $this->_request->getParameter("offset");
 
 		$sortColumn = $this->_request->getParameter("sort_col");
-		if (empty($sortColumn)) {
+		if (empty($sortColumn) || !in_array($sortColumn, array('answer_number', 'answer_time', 'summary_score'))) {
 			$sortColumn = "summary_id";
 		}
 		$sortDirection = $this->_request->getParameter("sort_dir");

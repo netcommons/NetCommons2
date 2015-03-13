@@ -831,12 +831,12 @@ class Questionnaire_Components_View
 		$offset = $this->_request->getParameter("offset");
 
 		$sortColumn = $this->_request->getParameter("sort_col");
-		if (empty($sortColumn)) {
+		if (empty($sortColumn) || !in_array($sortColumn, array('answer_number', 'answer_time'))) {
 			$sortColumn = "summary_id";
 		}
 		$sortDirection = $this->_request->getParameter("sort_dir");
-		if (empty($sortDirection)) {
-			$sortDirection = ($mobile_flag==_ON ? "DESC" : "ASC");
+		if (empty($sortDirection) || $sortDirection != 'DESC') {
+			$sortDirection = "ASC";
 		}
 		$orderParams[$sortColumn] = $sortDirection;
 
