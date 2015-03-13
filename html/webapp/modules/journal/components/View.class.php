@@ -448,7 +448,7 @@ class Journal_Components_View
 		$params[] = "";
 
 		$request =& $this->_container->getComponent("Request");
-		$module_id = $request->getParameter("module_id");
+		$module_id = (int)$request->getParameter("module_id");
 
 		$sql = "SELECT P.*, C.category_name, URL.short_url ".
 				"FROM {journal_post} P".
@@ -484,7 +484,7 @@ class Journal_Components_View
 		$params[] = $post_id;
 
 		$request =& $this->_container->getComponent("Request");
-		$module_id = $request->getParameter("module_id");
+		$module_id = (int)$request->getParameter("module_id");
 
 		$sql = "SELECT P.*, C.category_name, URL.short_url ".
 				"FROM {journal_post} P".
@@ -564,7 +564,7 @@ class Journal_Components_View
 			$post_id
 		);
 
-		$module_id = $request->getParameter("module_id");
+		$module_id = (int)$request->getParameter("module_id");
 
 		$sql = "SELECT P.*, C.category_name, URL.short_url ".
 				"FROM {journal_post} P".

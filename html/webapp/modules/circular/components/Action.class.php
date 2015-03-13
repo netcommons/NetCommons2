@@ -149,7 +149,6 @@ class Circular_Components_Action
 		$circularId = intval($circularId);
 
 		$receiveUserIds = $this->_request->getParameter('receive_user_ids');
-		$receiveUserIds = explode(",", $receiveUserIds);
 		foreach ($receiveUserIds as $userID) {
 			$insertParams = array(
 				'room_id' => $roomId,

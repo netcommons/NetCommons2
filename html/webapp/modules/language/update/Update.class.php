@@ -42,7 +42,7 @@ class Language_Update extends Action
 			}
 		}
 		
-		$sql = "SELECT {blocks}.*, {pages}.room_id FROM {blocks}, {pages} WHERE {blocks}.page_id={pages}.page_id AND {blocks}.module_id=".$this->module_id;
+		$sql = "SELECT {blocks}.*, {pages}.room_id FROM {blocks}, {pages} WHERE {blocks}.page_id={pages}.page_id AND {blocks}.module_id=".(int)$this->module_id;
 		$blocks = $this->db->execute($sql);
 		if($blocks === false) return false;
 		if(!empty($blocks)) {

@@ -102,10 +102,10 @@ class Pm_Components_View
 		$sortColumn = $this->_request->getParameter("sort_col");
 		$sortDirection = $this->_request->getParameter("sort_dir");
 
-		if (empty($sortColumn)) {
+		if (!in_array($sortColumn, array('r.insert_user_name', 'm.receivers_list', 'm.subject', 'm.sent_time'))) {
 			$sortColumn = "m.sent_time";
 		}
-		if (empty($sortDirection)) {
+		if ((empty($sortDirection) || ($sortDirection != 'ASC' && $sortDirection != 'asc'))) {
 			$sortDirection = "DESC";
 		}
 		$orderParams[$sortColumn] = $sortDirection;
@@ -819,7 +819,7 @@ class Pm_Components_View
 			if (sizeof($tagFilter) == 2) {
 				if ($tagFilter[0] == PM_FILTER_TAG) {
 					$tag_id = $tagFilter[1];
-					$filterSql = " AND receiver_id IN (SELECT receiver_id FROM {pm_message_tag_link} WHERE tag_id = " . $tag_id . ")";
+					$filterSql = " AND receiver_id IN (SELECT receiver_id FROM {pm_message_tag_link} WHERE tag_id = " . (int)$tag_id . ")";
 				}
 			}
 		 }
