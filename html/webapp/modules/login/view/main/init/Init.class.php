@@ -52,7 +52,7 @@ class Login_View_Main_Init extends Action
 		$this->redirect_url = $this->request->getParameter('_redirect_url');
 		$this->redirect_url =  str_replace("#", "@@", $this->redirect_url);
 		$this->redirect_url =  str_replace("&", "@", $this->redirect_url);
-		$this->redirect_url =  htmlspecialchars(str_replace("?action=", "?_sub_action=", $this->redirect_url), ENT_QUOTES);
+		$this->redirect_url =  str_replace("?action=", "?_sub_action=", $this->redirect_url);
 
 		//if(!isset($_SERVER['HTTPS']) && $this->session->getParameter("_user_id")) {
 		if($this->session->getParameter("_user_id")

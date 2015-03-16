@@ -465,13 +465,11 @@ class Common_Main {
 		if($url == "") {
 			$url = BASE_URL.INDEX_FILE_NAME."?".ACTION_KEY."=".DEFAULT_ACTION;
 		}
-		//$url = htmlspecialchars(str_replace("?action=","?_sub_action=",str_replace("&","@",BASE_URL.INDEX_FILE_NAME.$this->_request->getStrParameters(false))), ENT_QUOTES);
 
 		$renderer =& SmartyTemplate::getInstance();
 		$renderer->assign('header_field',$meta);
 		$renderer->assign('time', $time);
-		$renderer->assign('url',$url);
-		$renderer->assign('lang_ifnotreload', sprintf(_IFNOTRELOAD,$url));
+		$renderer->assign('redirect_url', $url);
 		if($message != "") {
 			$renderer->assign('redirect_message', $message);
 		} else {
