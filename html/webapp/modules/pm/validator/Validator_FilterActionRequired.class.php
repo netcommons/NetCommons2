@@ -14,25 +14,26 @@
  */
 class Pm_Validator_FilterActionRequired extends Validator
 {
-    /**
-     * フィルタ処理内容必須チェックバリデータ
-     *
-     * @param   mixed   $attributes チェックする値
-     * @param   string  $errStr     エラー文字列
-     * @param   array   $params     オプション引数
-     * @return  string  エラー文字列(エラーの場合)
-     * @access  public
-     */
-    function validate($attributes, $errStr, $params)
-    {	
-		
-		$filter_actions = $attributes["0"];
-				
-		if ($filter_actions == null) {
+	/**
+	 * フィルタ処理内容必須チェックバリデータ
+	 *
+	 * @param   mixed   $attributes チェックする値
+	 * @param   string  $errStr     エラー文字列
+	 * @param   array   $params     オプション引数
+	 * @return  string  エラー文字列(エラーの場合)
+	 * @access  public
+	 */
+	function validate($attributes, $errStr, $params)
+	{
+		if (empty($attributes)) {
 			return $errStr;
 		}
-
-        return;
-    }
+		foreach ($attributes as $filterActionId) {
+			if (!is_numeric($filterActionId)) {
+				return _INVALID_INPUT;
+			}
+		}
+		return;
+	}
 }
 ?>

@@ -25,13 +25,21 @@ class Quiz_Validator_AnswerFlag extends Validator
      */
     function validate($attributes, $errStr, $params)
     {
-		foreach (array_keys($attributes["answer_flag"]) as $index) {
-			if ($attributes["answer_flag"][$index] != QUIZ_ANSWER_NOT_MARK_VALUE &&
-					$attributes["answer_flag"][$index] != QUIZ_ANSWER_CORRECT_VALUE &&
-					$attributes["answer_flag"][$index] != QUIZ_ANSWER_WRONG_VALUE) {
+		$answerFlagArr = array();
+		foreach ($attributes["answer_flag"] as $answerId => $answerValue) {
+			if (!is_numeric($answerId) ||
+				($answerValue !== QUIZ_ANSWER_NOT_MARK_VALUE &&
+				$answerValue !== QUIZ_ANSWER_CORRECT_VALUE &&
+				$answerValue !== QUIZ_ANSWER_WRONG_VALUE)
+			) {
 				return $errStr;
 			}
-		}	
+			$answerFlagArr[(int)$answerId] = $answerValue;
+		}
+
+		$container =& DIContainerFactory::getContainer();
+		$request =& $container->getComponent('Request');
+		$request->setParameter('answer_flag', $answerFlagArr);
 
 		return;
     }

@@ -498,7 +498,7 @@ class Reservation_Components_View
 			$sql .= "WHERE 1=1 ";
 		}
 		if (isset($category_id)) {
-			$sql .= "AND location.category_id = ".$category_id." ";
+			$sql .= "AND location.category_id = ".(int)$category_id." ";
 		}
 		$sql .= "ORDER BY category.display_sequence, location.display_sequence";
 

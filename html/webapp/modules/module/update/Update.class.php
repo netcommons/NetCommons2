@@ -166,9 +166,14 @@ class Module_Update extends Action
 			//lang_dirname項目の更新
 			//
 			$config_lang =& $this->configView->getConfigByConfname(_SYS_CONF_MODID, 'language');
-			$defualt_lang = empty($config_lang['conf_value'])?'japanese':$config_lang['conf_value'];
-			$result = $this->db->execute("UPDATE {pages} SET {pages}.lang_dirname='".$defualt_lang.
-										"' WHERE {pages}.space_type="._SPACE_TYPE_PUBLIC." AND {pages}.display_position="._DISPLAY_POSITION_CENTER." AND {pages}.thread_num!=0");
+			$default_lang = empty($config_lang['conf_value']) ? 'japanese' : $config_lang['conf_value'];
+			$params = array('lang_dirname' => $default_lang);
+			$where_params = array(
+				'space_type' => _SPACE_TYPE_PUBLIC,
+				'display_position' => _DISPLAY_POSITION_CENTER,
+				'thread_num!' => 0,
+			);
+			$result = $this->db->updateExecute('pages', $params, $where_params);
 			if($result === false) return false;
 		}
 

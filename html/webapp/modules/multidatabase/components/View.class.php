@@ -1360,7 +1360,7 @@ class Multidatabase_Components_View
 	 */
 	function &_getAbbreviateUrlJoinStatement() {
 		$request =& $this->_container->getComponent('Request');
-		$moduleId = $request->getParameter('module_id');
+		$moduleId = (int)$request->getParameter('module_id');
 
 		$joinStatement = 'LEFT JOIN {abbreviate_url} URL '
 							. "ON URL.module_id = '" . $moduleId . "' "

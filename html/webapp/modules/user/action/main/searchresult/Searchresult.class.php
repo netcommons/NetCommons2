@@ -51,6 +51,14 @@ class User_Action_Main_Searchresult extends Action
 		//初期化
 		$this->sort_col = ($this->sort_col == null) ? $this->sort_col ="user_authority_id" : $this->sort_col;
 		$this->sort_dir = ($this->sort_dir == null) ? $this->sort_dir ="DESC" : $this->sort_dir;
+		if (!in_array($this->sort_col, array(
+			'handle', 'login_id', 'user_name', 'user_authority_id', 'active_flag', 'insert_time', 'last_login_time')
+		)) {
+			$this->sort_col = "user_authority_id";
+		}
+		if ((empty($this->sort_dir) || ($this->sort_dir != 'ASC' && $this->sort_dir != 'asc'))) {
+			$this->sort_dir = "DESC";
+		}
 		$this->user_id = $this->session->getParameter("_user_id");
 		//$module_link_where_params = array(
 		//	"role_authority_id" => $this->session->getParameter("_role_auth_id"),

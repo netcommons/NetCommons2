@@ -880,9 +880,14 @@ class Pm_Components_Action
 					$filter_id,
 					$user_id,
 				);
+				$actionIdArr = array();
+				foreach ($actions as $actionId) {
+					$actionIdArr[] = (int)$actionId;
+				}
+
 				$sql = "DELETE FROM {pm_filter_action_link} ".
 					   "WHERE filter_id = ? AND insert_user_id = ? AND ".
-					   "action_id NOT IN (" . join(",", $actions) . ")";
+					   "action_id NOT IN (" . join(",", $actionIdArr) . ")";
 
 				if (!$this->_db->execute($sql, $params)) {
 					return false;

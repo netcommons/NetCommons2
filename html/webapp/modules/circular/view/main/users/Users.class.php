@@ -31,7 +31,7 @@ class Circular_View_Main_Users extends Action
 	 */
 	function execute()
 	{
-		$users = explode(',', $this->receive_user_ids);
+		$users = (array)$this->receive_user_ids;
 		if (intval($this->selected_room_id) == 0) {
 			$result = $this->circularView->getGroupInfo($this->selected_group_id, $users);
 			if ($result === false) {
