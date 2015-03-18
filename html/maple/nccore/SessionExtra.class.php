@@ -230,7 +230,16 @@ class SessionExtra extends Session {
 				// smarty_cacheのセッションIDも同時に更新
 				// Cacheフィルターがうまく動作しなくなるため
 				$adodb =& $this->_db->getAdoDbObject();
-				if(is_object($adodb)) {
+				$container =& DIContainerFactory::getContainer();
+				$actionChain =& $container->getComponent("ActionChain");
+				if($actionChain->getCurActionName() == "login_action_main_init") {
+					$params = array(
+						"base_sess_id" => $_base_sess_id,
+						"sess_id"  => $this->new_session_id,
+					);
+					$result = $this->_db->execute("DELETE FROM {session} " .
+						" WHERE base_sess_id = ? AND sess_id != ? ",$params);
+				} else if(is_object($adodb)) {
 					$this->_db->updateExecute("smarty_cache", array("session_id" => $this->new_session_id), array("session_id" => $this->old_session_id));
 					if(rand(0, $this->regenerate_session_num) == 0) {
 						// regenerate_session_num分の1の確立で、regenerate前のセッションデータ削除
