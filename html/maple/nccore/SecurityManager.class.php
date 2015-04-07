@@ -126,7 +126,7 @@ class SecurityManager
     {
     	// Variables contamination
     	if( $this->_config[_SECURITY_CONF_CATID]['contami_action']['conf_value'] &&
-				in_array($key, $this->bad_globals) ) {
+				in_array($key, $this->bad_globals, true) ) {
 			$this->message = sprintf(_SECURITY_CONTAMI_ACTION_ERROR, $key);
 			$user_id = $this->_session->getParameter("_user_id");
 			$this->outputLog( 'CONTAMI', $user_id) ;
