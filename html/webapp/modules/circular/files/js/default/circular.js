@@ -199,7 +199,7 @@ clsCircular.prototype = {
 
 		// 選択リストのユーザが多い場合に "Request-URI Too Large" エラーが発生するため、POST でリクエストするように修正。
 		// 2015-07-27 nagahara@opensource-workshop.jp
-		var message = "action=circular_view_main_users&receive_user_ids=" + userIds + "&selected_room_id=" + element.options[element.selectedIndex].value + "&selected_group_id" + element.options[element.selectedIndex].value.replace("group_", "");
+		var message = "action=circular_view_main_users&receive_user_ids=" + userIds + "&selected_room_id=" + element.options[element.selectedIndex].value + "&selected_group_id=" + element.options[element.selectedIndex].value.replace("group_", "");
 		commonCls.sendPost(this.id, message, parameter);
 
 	},
