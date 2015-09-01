@@ -343,7 +343,7 @@ var Enumerable = {
     } catch (e) {
       /* add Code 2011/04/21  Windows7 64bitOS IE9でWYSIWYGにカーソルを移動し、画面遷移し、再度、WYSIWYGを表示する際にエラーとなるため
        * こちらでエラーを表示しないようにして対応 */
-      if(!(browser.isIE && browser.version >= 9)) {
+      if(!(browser.isIE && browser.version >= 9) && !browser.isEdge) {
     	  if (e != $break) throw e;
       }
     }
@@ -2966,7 +2966,9 @@ function Browser() {
 	this.isFirefox    = false;  // FireFox
 	this.isOpera = false;
 	this.isSafari = false;
-	this.version = null;
+    this.isEdge = false;
+
+    this.version = null;
 
 	ua = navigator.userAgent;
 
@@ -2983,6 +2985,15 @@ function Browser() {
 		this.version = parseFloat(ua.substr(i + s.length));
 		return;
 	}
+
+    s = "Edge";
+    if ((i = ua.indexOf(s)) >= 0) {
+      this.isEdge = true;
+      this.isGecko = true;
+      this.isSafari = true;
+      //this.version = parseFloat(ua.substr(i + s.length));
+      return;
+    }
 
 	// IE11
 	s = "Trident";

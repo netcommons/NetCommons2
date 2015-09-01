@@ -364,7 +364,7 @@ compPopup.prototype = {
 			}
 			if((browser.isIE && browser.version < 9)) iframe.style.display = "none";	//safariの場合、再描画する時に描画処理がはしってしまうためコメント
 			iframe.style.visibility = "hidden";
-			if(browser.isOpera) {
+			if(browser.isOpera || browser.isEdge) {
 				$(this.popupElement).remove();
 				this.src = null;
 				this.popupElement = null;

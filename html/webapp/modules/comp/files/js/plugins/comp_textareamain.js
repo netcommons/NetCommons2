@@ -338,7 +338,7 @@ compTextareamain.prototype = {
 				                exec    : function()
 				                {
 				                	var self = this;
-				                	if(browser.isIE) {
+				                	if(browser.isIE || browser.isEdge) {
 				                		var spans, font, loop_flag = true;
 				                		var f = self.currentNode ? self.currentNode : self.getSelectNode();
 				                    	// 選択NodeTopをselect
@@ -358,7 +358,7 @@ compTextareamain.prototype = {
 			                    				return;
 			                    			}
 			                    			f = self.applyInlineStyle('font');
-			                    		} else if(f.style.color != '' || f.style.backgroundColor != '' || f.style.fonSize != '' || f.style.fontFamily != '') {
+			                    		} else if(f.style.color || f.style.backgroundColor || f.style.fonSize || f.style.fontFamily) {
 			                    			font = this.editorDoc.createElement('font');
 					                    	f = self.replace(font, f, true);
 			                    		}
@@ -395,7 +395,7 @@ compTextareamain.prototype = {
 				                    	}
 				                    }
 				                    this.editorDoc.execCommand('removeFormat', false, []);
-				                    if(browser.isSafari && f.nodeName.toLowerCase() != "body") {
+				                    if(browser.isSafari && f.nodeName.toLowerCase() != "body" && !browser.isEdge) {
 				                    	// Class Apple-style-spanを検索し、削除
 				                    	var remove_el_arr = [];
 				                    	var buf_f = f;
@@ -460,7 +460,35 @@ compTextareamain.prototype = {
 														}
 					            				  	} else {
 					            				  		var sel_n = null;
-														this.editorDoc.execCommand(name, false, []);
+														if(!browser.isEdge)
+															this.editorDoc.execCommand(name, false, []);
+														else {
+															var n = this.currentNode ? this.currentNode : this.getSelectNode();
+															var r = this.getRange();
+															if(n && n.nodeName.toLowerCase() != 'div') {
+																if(r.startContainer && r.endContainer &&
+																	r.startContainer == r.endContainer) {
+
+																	var br = r.startContainer.nextSibling;
+																	if(!br) {
+																		br = this.editorDoc.createTextNode("");
+																		r.insertNode(br);
+																		br = br.nextSibling;
+																		r.setStartBefore(br);
+																	} else {
+																		r.setStartBefore(r.startContainer);
+																	}
+																	r.setEndAfter(br);
+																	this.setRange(r);
+																}
+																n = this.applyInlineStyle('div');
+																if(n) {
+																	this.rangeSelect(n, 1);
+																}
+															}
+															this.editorDoc.execCommand(name, false, []);
+														}
+
 					            					    var r = this.getRange();
 					            					    if(r.endContainer && r.endContainer.parentNode) {
 															sel_n = r.endContainer.parentNode;
@@ -488,37 +516,33 @@ compTextareamain.prototype = {
 						value : {
 							insertOrderedList    : { visible : true, tags : ['ol'],
 														exec : function(e) {
-															// IE10以下で全角入力をすると、先頭の文字が2行目にも表示されるため修正
-//															if(!browser.isIE)
-//				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
-//				            				  				else {
-//				            				  					var n = this.applyInlineStyle('div');
-//				            				  					this.rangeSelect(n);
-//				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
-//				            				  					if(n && n.parentNode) {
-//												   					this.insertBefore(n, n.innerHTML)
-//																	n.parentNode.removeChild(n);
-//																}
-//				            				  				}
-															this.editorDoc.execCommand("insertOrderedList", false, []);
+															if(!browser.isIE && !browser.isEdge)
+				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
+				            				  				else {
+				            				  					var n = this.applyInlineStyle('div');
+				            				  					this.rangeSelect(n);
+				            				  					this.editorDoc.execCommand("insertOrderedList", false, []);
+				            				  					if(n && n.parentNode) {
+												   					this.insertBefore(n, n.innerHTML)
+																	n.parentNode.removeChild(n);
+																}
+				            				  				}
 				            				  				this.checkTargets();
 			            					  			}
 			            					   		},
 			            	insertUnorderedList  : { visible : true, tags : ['ul'],
 														exec : function(e) {
-															// IE10以下で全角入力をすると、先頭の文字が2行目にも表示されるため修正
-//															if(!browser.isIE)
-//				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
-//				            				  				else {
-//				            				  					var n = this.applyInlineStyle('div');
-//				            				  					this.rangeSelect(n);
-//				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
-//				            				  					if(n && n.parentNode) {
-//												   					this.insertBefore(n, n.innerHTML)
-//																	n.parentNode.removeChild(n);
-//																}
-//				            				  				}
-															this.editorDoc.execCommand("insertUnorderedList", false, []);
+															if(!browser.isIE && !browser.isEdge)
+				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
+				            				  				else {
+				            				  					var n = this.applyInlineStyle('div');
+				            				  					this.rangeSelect(n);
+				            				  					this.editorDoc.execCommand("insertUnorderedList", false, []);
+				            				  					if(n && n.parentNode) {
+												   					this.insertBefore(n, n.innerHTML)
+																	n.parentNode.removeChild(n);
+																}
+				            				  				}
 				            				  				this.checkTargets();
 			            					  			}
 			            					   		}
@@ -781,7 +805,6 @@ compTextareamain.prototype = {
 											        		callback : function(args) {
 											        			var a, bm, v;
 											        			// リンク挿入
-											        			self.removeDialog(self.dialog_id);
 											        			self.addFocus(true);
 											        			if(n && n.nodeName.toLowerCase() != 'a') {
 											        				bm = self.bookmark;
@@ -812,6 +835,7 @@ compTextareamain.prototype = {
 												        				n.setAttribute(key,args[key],0);
 												        			a = n;
 											        			}
+																self.removeDialog(self.dialog_id);
 											        			self.rangeSelect(a);
 											        			self.addUndo();
 
@@ -1151,7 +1175,8 @@ compTextareamain.prototype = {
 
 			Event.observe(this.editorDoc,"mouseup", function(e) {
                 self.bookmark = self.getBookmark();	// IEはbookmarkを保持しないため
-            	self.currentNode = self.getSelectNode();
+				if (!browser.isEdge)
+	            	self.currentNode = self.getSelectNode();
                 self.checkTargets(Event.element(e));
                 self.addUndo();
                 self.closeDialogs();
@@ -1163,7 +1188,7 @@ compTextareamain.prototype = {
             }, false, this.id);
 
 			Event.observe(this.editorDoc,"keydown", function(e) {
-				if(browser.isSafari && (e.keyCode == 46 || e.keyCode == 8)) {
+				if(browser.isSafari && (e.keyCode == 46 || e.keyCode == 8) && !browser.isEdge) {
             		// １行選択してdelete(backspace)ボタン、
             		// または、1行にわたるNodeを選択してdelete(backspace)
             		// ボタンを押すと、そのelementが削除されないため対処
@@ -1278,7 +1303,8 @@ compTextareamain.prototype = {
 			Event.observe(this.editorDoc,"keyup", function(e) {
 				var k = e.keyCode;
 				self.bookmark = self.getBookmark();	// IEはbookmarkを保持しないため
-				self.currentNode = self.getSelectNode();
+				if (!browser.isEdge)
+					self.currentNode = self.getSelectNode();
                 if ((k >= 33 && k <= 36) || (k >= 37 && k <= 40) || k == 13 || k == 45 || k == 46 || k == 8  ||
                 		(e.ctrlKey && (k == 86 || k == 88)) || k.ctrlKey || (this.is_mac && (k == 91 || k == 93))) {
             		// enter、上下左右、baskspace, Delキー,カット＆ペーストならば、checkTargetsを呼び出す
@@ -1963,11 +1989,14 @@ compTextareamain.prototype = {
 			var path = document.getElementById('path_'+ this.top_id);
 			path.innerHTML = '';
 			path.appendChild(spn);
-			var n_el = el, buf_n;
+			var n_el = el, buf_n,currentNode;
 			do {
 				nodeN = el.nodeName.toLowerCase();
-			    if ( el.nodeType != 1 || nodeN == 'body' ||  nodeN == 'html')
+				if ( el.nodeType != 1 || nodeN == 'body' ||  nodeN == 'html')
 			        break;
+				if(!currentNode) {
+					currentNode = el;
+				}
 			    if(nodeN == "b")
 			    	nodeN = "strong";
 
@@ -2009,6 +2038,8 @@ compTextareamain.prototype = {
 	            pa = a;
 			    t++;
 			} while ( el = el.parentNode );
+			if (browser.isEdge)
+				self.currentNode = currentNode;
 		},
 
         checkTargets : function( element )
@@ -3647,14 +3678,18 @@ compTextareamain.prototype = {
 
 			function replaceFonts() {
 				var bm, c_el, r_el;
-				var tags = new Array('span', 'font', 'img');
+				if (!browser.isEdge) {
+					var tags = new Array('span', 'font', 'img');
+				} else {
+					var tags = new Array('span', 'font', 'img', 'a');
+				}
 				var tags_length = tags.length;
 				for (var k = tags_length; k > 0; ) {
 					var target_ar = t.editorDoc.getElementsByTagName(tags[--k]);
 					var target_ar_length = target_ar.length;
 					for (var i = target_ar_length; i > 0; i--) {
 						var el = target_ar[i - 1];
-						if (el.style.fontFamily == 'nc_wysiwygfont' || (el.face && el.face == 'nc_wysiwygfont') || (el.src && el.src.match(/nc_wysiwygurl$/))) {
+						if (el.style.fontFamily == 'nc_wysiwygfont' || (el.face && el.face == 'nc_wysiwygfont') || (el.src && el.src.match(/nc_wysiwygurl$/)) || (el.href && el.href.match(/nc_wysiwygurl$/))) {
 							if (!bm)
 								bm = t.getBookmark();
 
@@ -3665,8 +3700,9 @@ compTextareamain.prototype = {
 								spn.innerHTML = na;
 
 								c_el = spn.childNodes[0];
-							} else
+							} else {
 								c_el = t.editorDoc.createElement(na);
+							}
 							if (!r_el)
 								r_el = c_el;
 							t.replace(t.attrs(c_el, at), el, 1);
@@ -3762,10 +3798,17 @@ compTextareamain.prototype = {
 
 			// Create inline elements
 			t.addFocus();
-			if(collapsed)
+
+			var r = t.getRange();
+			if (r.collapsed && browser.isEdge) {
+				t.editorDoc.execCommand('inserthtml', false, '<img src="nc_wysiwygurl">');
+			} else if (collapsed) {
 				t.editorDoc.execCommand('insertImage', false, 'nc_wysiwygurl');
-			else
+			} else if (browser.isEdge) {
+				t.editorDoc.execCommand('createLink', false, 'nc_wysiwygurl');
+			} else {
 				t.editorDoc.execCommand('fontName', false, 'nc_wysiwygfont');
+			}
 			r_el = replaceFonts();
 			if(t._keyhandler) {
 				Event.stopObserving(this.editorDoc,"keyup",t._keyhandler);
