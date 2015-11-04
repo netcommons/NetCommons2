@@ -1786,6 +1786,11 @@ compTextareamain.prototype = {
 	                self.resize.parentNode.removeChild(self.resize);
 	                Event.stopObserving(document,"mousemove", resizeMouseMove,false);
             		Event.stopObserving(document,"mouseup", resizeMouseUp,false);
+					if (browser.isIE && document.removeEventListener) {
+						// 画像アップロードのポップアップを２度表示すると、イベントが止まらなくなるため、原因不明だが手動で停止
+						document.removeEventListener("mousemove", resizeMouseMove,false);
+						document.removeEventListener("mouseup", resizeMouseUp,false);
+					}
 
             		(mode != "html") ? Element.setStyle(self.editor, {display:'block'}) : Element.setStyle(self.original, {display:'block'});
             		self._setStyleWithCSS();
