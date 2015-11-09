@@ -143,12 +143,16 @@ class Monthlynumber_View {
 				return null;
 			}
 
+			$time = timezone_date();
+			$year = intval(substr($time, 0, 4));
+
 			//$_user_auth_id = $session->getParameter("_user_auth_id");
     		if($room_id != null) {
     			//ルーム管理：ルーム毎のSUM
     			$params = array(
     							//"user_id"=>$user_id,
-    							"room_id"=>$room_id
+								"year"=> $year,
+    							"room_id"=>$room_id,
     							//"sub_room_id"=>$room_id
 							);
     			$sql = "SELECT {pages}.page_id,{pages}.root_id, {pages}.parent_id,{pages}.thread_num, {pages}.display_sequence, {pages}.page_name, {pages}.private_flag, {pages}.space_type, {monthly_number}.name, {monthly_number}.year, {monthly_number}.month, SUM({monthly_number}.number) AS number " .
@@ -156,12 +160,13 @@ class Monthlynumber_View {
 				$sql .= " LEFT JOIN {monthly_number} ON {pages}.room_id = {monthly_number}.room_id ";
 				//$sql .= " LEFT JOIN {pages_users_link} ON {pages}.room_id = {pages_users_link}.room_id AND {pages_users_link}.room_id = ? ";
 
-    			$sql .= " WHERE 1=1 ";
+    			$sql .= " WHERE 1=1 AND {monthly_number}.year=? ";
 
     		} else {
     			$params = array(
 								"user_id"=>$user_id,
-								"user_id_monthly"=>$user_id
+								"user_id_monthly"=>$user_id,
+								"year"=> $year,
 							);
 				$sql = "SELECT {pages}.page_id, {pages}.root_id, {pages}.parent_id, {pages}.thread_num, {pages}.display_sequence, {pages}.page_name, {pages}.private_flag, {pages}.space_type, {monthly_number}.name, {monthly_number}.year, {monthly_number}.month, {monthly_number}.number " .
 						" FROM {pages} ";
@@ -169,7 +174,8 @@ class Monthlynumber_View {
     			$sql .= " LEFT JOIN {pages_users_link} ON {pages}.room_id = {pages_users_link}.room_id AND {pages_users_link}.user_id = ? ";
 
     			$sql .= " WHERE (({pages}.private_flag = "._ON." " .
-						"AND {pages_users_link}.user_id IS NOT NULL) OR ({pages}.private_flag = "._OFF." AND ({pages}.space_type = "._SPACE_TYPE_GROUP." OR {pages}.space_type ="._SPACE_TYPE_PUBLIC."))) ";
+						"AND {pages_users_link}.user_id IS NOT NULL) OR ({pages}.private_flag = "._OFF." AND ({pages}.space_type = "._SPACE_TYPE_GROUP." OR {pages}.space_type ="._SPACE_TYPE_PUBLIC."))) " .
+						"AND {monthly_number}.year=? ";
     		}
 
 			//ルームのみ
