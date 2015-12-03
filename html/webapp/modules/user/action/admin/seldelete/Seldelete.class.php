@@ -83,7 +83,9 @@ class User_Action_Admin_Seldelete extends Action
 					continue;
 				}
 			}
-
+			if (!empty($this->select_user) && isset($this->delete_users[$user_id]) && $this->delete_users[$user_id] == _OFF) {
+				continue;
+			}
 			if (!empty($this->delete_users[$user_id])
 					|| !empty($this->select_user)) {
 				$targetUsers[] = $user_id;
