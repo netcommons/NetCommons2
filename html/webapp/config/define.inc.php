@@ -9,6 +9,9 @@ if (stristr($_SERVER['HTTP_USER_AGENT'], 'Mac')) {
 } else if (stristr($_SERVER['HTTP_USER_AGENT'], 'Windows')) {
 	// Windowsの場合
 	$encode = 'SJIS-win';
+	if (!extension_loaded('mbstring') && !function_exists("mb_convert_encoding")) {
+		$encode = 'SJIS';
+	}
 } else {
 	$encode = _CHARSET;
 }
