@@ -131,6 +131,9 @@ class User_Validator_ItemsInputs extends Validator
 				//システム管理者の場合、変更不可
 				if($attributes['user_id'] == $_system_user_id && $content != _SYSTEM_ROLE_AUTH_ID) {
 					return $err_prefix._INVALID_INPUT;
+				} else if ($content == _SYSTEM_ROLE_AUTH_ID && $session->getParameter("_user_auth_id") != _AUTH_ADMIN) {
+					// システム管理者へ権限を変更できるのは、管理者だけ
+					return $err_prefix._INVALID_INPUT;
 				}
 			}
 			if($items['type'] == "email" || $items['type'] == "mobile_email") {
