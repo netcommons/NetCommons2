@@ -36,6 +36,7 @@ class User_Validator_ItemsInputs extends Validator
 		$container =& DIContainerFactory::getContainer();
 		$session =& $container->getComponent("Session");
 		$usersView =& $container->getComponent("usersView");
+		$authoritiesView =& $container->getComponent("authoritiesView");
 		$_system_user_id = $session->getParameter("_system_user_id");
 		
 		if(!isset($attributes['user_id'])) $attributes['user_id'] = "0";
@@ -134,6 +135,16 @@ class User_Validator_ItemsInputs extends Validator
 				} else if ($content == _SYSTEM_ROLE_AUTH_ID && $session->getParameter("_user_auth_id") != _AUTH_ADMIN) {
 					// システム管理者へ権限を変更できるのは、管理者だけ
 					return $err_prefix._INVALID_INPUT;
+				}
+				$_user_auth_id = $session->getParameter("_user_auth_id");
+				$_role_auth_id = $session->getParameter("_role_auth_id");
+				$authority = $authoritiesView->getAuthorityByID($content);
+				if ($_user_auth_id == _AUTH_CHIEF && $authority["user_authority_id"] >= _AUTH_CHIEF) {
+					// 事務局が、主担、事務局以上
+					return  $err_prefix._INVALID_INPUT;
+				} else if ($_user_auth_id == _AUTH_ADMIN && $_role_auth_id != _ROLE_AUTH_ADMIN && $authority["role_authority_id"] == _ROLE_AUTH_ADMIN) {
+					// 管理者がシステム管理者へ
+					return  $err_prefix._INVALID_INPUT;
 				}
 			}
 			if($items['type'] == "email" || $items['type'] == "mobile_email") {
