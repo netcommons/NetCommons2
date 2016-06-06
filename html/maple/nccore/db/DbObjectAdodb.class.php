@@ -916,8 +916,10 @@ class DbObjectAdodb
 			$session =& $container->getComponent("Session");
 			if(isset($session) && $session->getParameter("_php_debug") == _ON) {
 				$errorList->add($this->ErrorNo(), $this->ErrorMsg(). ":\n". $this->_bck_sql);
-			} else {
+			} else if (defined('_INVALID_INPUT')) {
 				$errorList->add($this->ErrorNo(), _INVALID_INPUT);
+			} else {
+				$errorList->add($this->ErrorNo(), "Security Error!  Unauthorized input.");
 			}
 		} else {
 			$errorList->add($error_no, $error_mes);
