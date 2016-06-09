@@ -104,7 +104,7 @@ class Csv_Main
 				$data[$index] = preg_replace("/\"/s", "\"\"", $data[$index]);
 			}
 			//Excelの場合、IDという文字列はエラーとなってしまうため、小文字にする
-			if ($data[$index] == "ID") {
+			if ($data[$index] === "ID") {
 				$data[$index] = "id";
 			}
 			$data[$index] = '"'. $data[$index]. '"';
