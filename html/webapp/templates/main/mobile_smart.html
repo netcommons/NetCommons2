@@ -7,6 +7,11 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/comp/extension/jquery.mobile-1.0.1.min.css&amp;header=0&amp;vs=<{$smarty.const._CSS_VERSION}>" />
 	<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/comp/extension/jquery.mobile_addition.css&amp;header=0&amp;vs=<{$smarty.const._CSS_VERSION}>" />
 	<script type="text/javascript" src="<{''|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=jquery-1.6.4.min&amp;smapho_flag=1&amp;vs=&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
+	<script type="text/javascript">
+		$(document).bind("mobileinit", function(){
+			$.mobile.hashListeningEnabled = false;
+		});
+	</script>
 	<script type="text/javascript" src="<{''|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=jquery.mobile-1.0.1.min&amp;smapho_flag=1&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
 	<script type="text/javascript" src="<{''|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_js&amp;dir_name=jquery.mobile_addition&amp;smapho_flag=1&amp;vs=<{$smarty.const._JS_VERSION}>"></script>
 </head>
