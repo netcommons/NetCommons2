@@ -53,10 +53,15 @@ class Room_Action_Admin_Chgdisplay extends Action
     	// ---  準備中->公開中に変更した場合、そのサブグループも公開中にする
     	// ----------------------------------------------------------------------
     	if($this->page['display_flag'] != $display_flag) {
-			$where_params = array(
-				"parent_id" => intval($this->edit_current_page_id)
+			$rooms_where_params = array(
+				"room_id = ".intval($this->edit_current_page_id)." OR parent_id = ".intval($this->edit_current_page_id) => null
 			);
-    		$subgroup_pages_id_arr =& $this->pagesView->getPages($where_params, null, null, null, array($this, "_subpagesFetchcallback"));
+			$rooms_id_arr =& $this->pagesView->getPages($rooms_where_params, null, null, null, array($this, "_roomsFetchcallback"));
+			$pages_where_params = array(
+				" room_id IN (". implode(",", $rooms_id_arr). ") " => null
+			);
+			$subgroup_pages_id_arr =& $this->pagesView->getPages($pages_where_params, null, null, null, array($this, "_subpagesFetchcallback"));
+
     		if(count($subgroup_pages_id_arr) > 0) {
 	    		$params = array(
 						"display_flag" => $display_flag
@@ -71,7 +76,22 @@ class Room_Action_Admin_Chgdisplay extends Action
     		}
     	}
     }
-    
+
+	// add by mutaguchi@opensource-workshop.jp
+	/**
+	 * fetch時コールバックメソッド
+	 * @param result adodb object
+	 * @return array items
+	 * @access	private
+	 */
+	function &_roomsFetchcallback($result) {
+		$ret = array();
+		while ($row = $result->fetchRow()) {
+			$ret[$row['room_id']] = $row['room_id'];
+		}
+		return $ret;
+	}
+
     /**
 	 * fetch時コールバックメソッド
 	 * @param result adodb object
