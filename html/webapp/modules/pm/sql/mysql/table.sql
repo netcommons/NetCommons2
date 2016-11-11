@@ -172,3 +172,11 @@ CREATE TABLE `pm_forward` (
   PRIMARY KEY  (`forward_id`),
   INDEX pm_forward_insert_user_id (insert_user_id)
 ) ENGINE=MyISAM;
+
+-- -
+-- テーブルの構造 `pm_message_uploads`
+-- -
+CREATE TABLE `pm_message_uploads` (
+  `message_id`            int(11) unsigned NOT NULL,
+  `upload_id`             int(11) unsigned NOT NULL
+) ENGINE=MyISAM;
