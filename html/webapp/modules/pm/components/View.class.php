@@ -1293,11 +1293,17 @@ class Pm_Components_View
 			$upload_id,
 			$upload_id
 		);
-		$sql = "SELECT r.receiver_user_id ".
-			   "FROM {pm_message_receiver} r ".
-			   "LEFT JOIN {uploads} u ON u.unique_id = r.message_id ".
-			   "LEFT JOIN {pm_message_uploads} mu ON mu.message_id = r.message_id ".
-			   "WHERE (u.upload_id = ? OR mu.upload_id = ?)";
+		$sql = "( ".
+					"SELECT r.receiver_user_id ".
+					"FROM {pm_message_receiver} r ".
+					"LEFT JOIN {uploads} u ON u.unique_id = r.message_id ".
+					"WHERE u.upload_id = ? ".
+				") UNION ( ".
+					"SELECT r.receiver_user_id ".
+					"FROM {pm_message_receiver} r ". 
+					"LEFT JOIN {pm_message_uploads} mu ON mu.message_id = r.message_id ".
+					"WHERE mu.upload_id = ? ".
+				") ";
 
 		$records = $this->_db->execute($sql, $params, null, null, true, null);
 		if ($records === false) {
