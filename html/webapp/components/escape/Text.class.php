@@ -445,16 +445,17 @@ class Escape_Text {
 		$script_flag = false;
 		foreach ($parts as $part) {
 			// script-/scriptまではそのまま連結
+			if(preg_match("/<\/script>$/u", $part)) {
+				$script_flag = false;
+				$string .= $part;
+				continue;
+			}
 			if(preg_match("/^<script.*>/u", $part) || $script_flag == true) {
 				$script_flag = true;
 				if (preg_match("/<\!\-\-comment\-\->/u", $part)) {
 					$part = preg_replace("/<\!\-\-comment\-\->/u", $comment[$comment_count], $part);
 					$comment_count++;
 				}
-				$string .= $part;
-				continue;
-			} else if(preg_match("/<\/script>$/u", $part)) {
-				$script_flag = false;
 				$string .= $part;
 				continue;
 			}
