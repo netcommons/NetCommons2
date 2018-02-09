@@ -1,6 +1,12 @@
 <{strip}>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+	<meta name="robots" content="<{$header_field.meta_robots}>" />
+	<meta name="keywords" content="<{$header_field.meta_keywords|strip}>" />
+	<meta name="description" content="<{$header_field.meta_description|strip}>" />
+	<meta name="rating" content="<{$header_field.meta_rating}>" />
+	<meta name="author" content="<{$header_field.meta_author}>" />
+	<meta name="copyright" content="<{$header_field.meta_copyright}>" />
 	<title><{$smarty.session._meta.sitename}>-<{$smarty.session._page_title}></title>
 	<meta name="viewport" content="width=device-width,  initial-scale=1">
 	<link rel="stylesheet" type="text/css" media="all" href="<{""|get_image_url}><{$smarty.const.INDEX_FILE_NAME}>?action=common_download_css&amp;dir_name=/comp/extension/nc_theme_classic.css&amp;header=0&amp;vs=<{$smarty.const._CSS_VERSION}>" />
