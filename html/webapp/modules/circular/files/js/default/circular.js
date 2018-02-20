@@ -181,15 +181,26 @@ clsCircular.prototype = {
 		}
 
 		var element = $("selected_room_id"+this.id);
-		var params = new Object();
-		params['action'] = "circular_view_main_users";
-		params['receive_user_ids'] = userIds;
-		params['selected_room_id'] = element.options[element.selectedIndex].value;
-		params['selected_group_id'] = element.options[element.selectedIndex].value.replace("group_", "");
+
+		// 選択リストのユーザが多い場合に "Request-URI Too Large" エラーが発生するため、POST でリクエストするように修正。
+		// 2015-07-27 nagahara@opensource-workshop.jp
+		//var params = new Object();
+		//params['action'] = "circular_view_main_users";
+		//params['receive_user_ids'] = userIds;
+		//params['selected_room_id'] = element.options[element.selectedIndex].value;
+		//params['selected_group_id'] = element.options[element.selectedIndex].value.replace("group_", "");
 
 		var parameter = new Object();
 		parameter['target_el'] = $("room_users" + this.id);
-		commonCls.sendView(this.id, params, parameter);
+
+		// 選択リストのユーザが多い場合に "Request-URI Too Large" エラーが発生するため、POST でリクエストするように修正。
+		// 2015-07-27 nagahara@opensource-workshop.jp
+		//commonCls.sendView(this.id, params, parameter);
+
+		// 選択リストのユーザが多い場合に "Request-URI Too Large" エラーが発生するため、POST でリクエストするように修正。
+		// 2015-07-27 nagahara@opensource-workshop.jp
+		var message = "action=circular_view_main_users&receive_user_ids=" + userIds + "&selected_room_id=" + element.options[element.selectedIndex].value + "&selected_group_id=" + element.options[element.selectedIndex].value.replace("group_", "");
+		commonCls.sendPost(this.id, message, parameter);
 
 	},
 
