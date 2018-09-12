@@ -58,7 +58,7 @@ class User_Components_Csvmain extends Csv_Main
 			if (strpos($data[$index], "\"") === FALSE) {
 				if ($data[$index] != USER_IMPORT_SPACE) {
 					//Excelの場合、IDという文字列はエラーとなってしまうため、小文字にする
-					if ($data[$index] == "ID") {
+					if ($data[$index] === "ID") {
 						$data[$index] = "id";
 					}
 				} else {
