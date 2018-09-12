@@ -276,6 +276,14 @@ class Pm_Components_Action
 				if(!$this->_db->updateExecute("uploads", $params, "upload_id", true)) {
 					return false;
 				}
+				//アップロードファイルの参照を複数のメッセージ間で共有可能にする add by horiguchi@horitada.info
+				$messageUploadsParams = array(
+					"message_id" => $message_id,
+					"upload_id" => $upload_id
+				);
+				if(!$this->_db->insertExecute("pm_message_uploads", $messageUploadsParams, true)) {
+					return false;
+				}
 			}
 		}
 

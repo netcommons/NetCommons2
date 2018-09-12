@@ -1288,14 +1288,22 @@ class Pm_Components_View
 	 function &getUploadReaders($upload_id = 0){
 		$readers = array();
 
+		//アップロードファイルの参照を複数のメッセージ間で共有可能にする add by horiguchi@horitada.info
 		$params = array(
+			$upload_id,
 			$upload_id
 		);
-
-		$sql = "SELECT r.receiver_user_id ".
-			   "FROM {pm_message_receiver} as r, {uploads} as u ".
-			   "WHERE u.unique_id = r.message_id ".
-			   "AND u.upload_id = ?";
+		$sql = "( ".
+					"SELECT r.receiver_user_id ".
+					"FROM {pm_message_receiver} r ".
+					"LEFT JOIN {uploads} u ON u.unique_id = r.message_id ".
+					"WHERE u.upload_id = ? ".
+				") UNION ( ".
+					"SELECT r.receiver_user_id ".
+					"FROM {pm_message_receiver} r ". 
+					"LEFT JOIN {pm_message_uploads} mu ON mu.message_id = r.message_id ".
+					"WHERE mu.upload_id = ? ".
+				") ";
 
 		$records = $this->_db->execute($sql, $params, null, null, true, null);
 		if ($records === false) {

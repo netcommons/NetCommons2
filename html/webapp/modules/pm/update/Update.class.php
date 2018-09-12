@@ -77,6 +77,21 @@ class Pm_Update extends Action
 			$result = $this->db->execute($sql);
 			if($result === false) return false;
 		}
+
+		//アップロードファイルの参照を複数のメッセージ間で共有可能にする add by horiguchi@horitada.info
+		$adodb = $this->db->getAdoDbObject();
+		$metaTables = $adodb->MetaTables();
+		if (!in_array($this->db->getPrefix()."pm_message_uploads", $metaTables)) {
+			$sql = "CREATE TABLE `".$this->db->getPrefix()."pm_message_uploads` (" .
+					"`message_id` int(11) UNSIGNED NOT NULL,".
+					"`upload_id`  int(11) UNSIGNED NOT NULL ".
+					") TYPE=MyISAM;";
+			$result = $this->db->execute($sql);
+			if ($result === false) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 }
