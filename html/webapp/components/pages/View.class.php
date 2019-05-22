@@ -588,12 +588,17 @@ class Pages_View
 	{
 		$whereStatement = '({pages}.space_type = ' . _SPACE_TYPE_GROUP . ' '
 						. 'AND {pages}.private_flag = ' . _OFF . ' '
-						. 'AND ({pages}.default_entry_flag = ' . _ON . ' '
+						// 2019.05.22 mod by mutaguchi@opensource-workshop.jp
+						// DB indexが使われるように条件見直し
+						//. 'AND ({pages}.default_entry_flag = ' . _ON . ' '
+						. 'AND (({pages}.default_entry_flag = ' . _ON . ' '
 								. 'AND ({pages_users_link}.role_authority_id != ' . _ROLE_AUTH_OTHER . ' '
 									. 'OR {pages_users_link}.role_authority_id IS NULL)) '
 							. 'OR ({pages}.default_entry_flag = ' . _OFF . ' '
 								. 'AND {pages_users_link}.role_authority_id IS NOT NULL '
-								. 'AND {pages_users_link}.role_authority_id != ' . _ROLE_AUTH_OTHER . ')'
+								// 2019.05.22 mod by mutaguchi@opensource-workshop.jp
+								//. 'AND {pages_users_link}.role_authority_id != ' . _ROLE_AUTH_OTHER . ')'
+								. 'AND {pages_users_link}.role_authority_id != ' . _ROLE_AUTH_OTHER . '))'
 						. ')';
 
 		return $whereStatement;
