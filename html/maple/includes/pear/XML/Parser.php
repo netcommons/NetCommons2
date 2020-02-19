@@ -476,6 +476,20 @@ class XML_Parser extends PEAR
         if (is_resource($this->fp)) {
 
             while ($data = fread($this->fp, 4096)) {
+
+                // bugfix by mutaguchi@opensource-workshop.jp
+                // [Unicode文字番号] ''←U+0008(BackSpace), ''←U+001D(制御文字) がどういう訳かウィジウィグに含まれる事がある。
+                // 見た目は空白文字だが、XMLに含まれると、parseでエラーになる。
+                // また、NetCommons2のバックアップはデータをXML保存していて、リストア時に"XMLのアンシリアライズに失敗しました<br />リストアするXMLをご確認ください"エラーになる。
+                // そのため、制御文字は取り除く。
+                //
+                // 参考URL
+                // https://qiita.com/khsk/items/3c98174bc6cb9b596e61
+                //
+                // 実装は以下と等価です。文字コード0x0～0x1fまでの制御文字を取り除きます。
+                // $data = urlencode(preg_replace('/[\x0-\x1f]/', '', $data));
+                $data = filter_var($data, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
+
                 if (!$this->_parseString($data, feof($this->fp))) {
                     $error = &$this->raiseError();
                     $this->free();
